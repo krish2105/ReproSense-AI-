@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { CycleArc } from "@/components/charts/Arc";
 import { Recommendations } from "@/components/home/Recommendations";
@@ -232,6 +233,9 @@ export default async function Landing() {
             <h3>{t("landing.clinicTitle")}</h3>
             <p>{t("landing.clinicBody")}</p>
             <p className="price">{t("landing.clinicPrice")}</p>
+            <Link className="link s" href="/pricing">
+              {t("landing.pricingLink")}
+            </Link>
           </div>
         </div>
       </section>

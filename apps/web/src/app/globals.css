@@ -565,6 +565,15 @@ a.prow{text-decoration:none;color:inherit}
   .top-site .nav{order:3;flex-basis:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
 }
 @media (min-width:981px){.hero-vis.has-phone{min-height:760px}}
+.cite-target{display:inline-flex;align-items:center;justify-content:center;min-width:28px;min-height:28px;margin-inline-end:6px;font-weight:700;text-decoration:none}
+/* Pricing tiers: four cards on a wide screen, two on a tablet, one on a phone; the price leads each card */
+.tiers{list-style:none;padding:0;margin:22px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.tier{padding:20px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.tier-price{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;margin:0}
+.tier-price .big{font-size:26px}
+.tier-list{margin:4px 0 0;padding-inline-start:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--ink-2)}
+@media (max-width:980px){.tiers{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:540px){.tiers{grid-template-columns:1fr}}
 /* Join (start your own record) and the clinic's patient invite */
 .join{display:grid;place-items:start center;padding-block:8px 24px}
 .join-card{width:min(560px,100%);padding:24px;display:flex;flex-direction:column;gap:14px}
