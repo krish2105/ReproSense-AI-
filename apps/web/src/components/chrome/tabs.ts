@@ -15,7 +15,7 @@ export const TABS: readonly Tab[] = [
   { key: "timeline", href: "/app/timeline", icon: "analytics", ready: true },
   { key: "insights", href: "/app/insights", icon: "patterns", ready: true },
   { key: "assistant", href: "/app/assistant", icon: "chat", ready: true },
-  { key: "report", href: "/app/report", icon: "report", ready: false },
+  { key: "report", href: "/app/report", icon: "report", ready: true },
 ];
 
 export const isTabReady = (key: TabKey) => TABS.some((t) => t.key === key && t.ready);
