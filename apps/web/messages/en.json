@@ -31,7 +31,10 @@
     },
     "switchPerson": "Switch person",
     "footer": "ReproSense gives information, not a diagnosis. In an emergency call 998. Demo data is fictional. Built with AI tools.",
-    "tabsLabel": "Sections of her app"
+    "tabsLabel": "Sections of her app",
+    "footerTrust": "Trust centre",
+    "footerPricing": "Pricing",
+    "footerLinks": "More about ReproSense"
   },
   "tabs": {
     "home": "Home",
@@ -239,7 +242,14 @@
     "pc008Detail": "{pct}% done · {booked} booked · {open} open",
     "pc008Hidden": "Fewer than 10 women: hidden.",
     "pc008Note": "Synthetic cohort plus the live demo. A real PC008 rate comes from the clinic's own claims and records.",
-    "pc008Source": "DoH Jawda primary-care quality indicators, version 7 (PDF)"
+    "pc008Source": "DoH Jawda primary-care quality indicators, version 7 (PDF)",
+    "clinicsTitle": "By clinic",
+    "clinicsIntro": "Each clinic sees only the patients who share with it. The network sees each clinic's totals, hidden below 10 women.",
+    "colClinic": "Clinic",
+    "colConsented": "Agreed to share",
+    "colGaps": "Follow-ups",
+    "auditExport": "Download the audit log (CSV)",
+    "auditExportHint": "For a compliance review: who did what to which record, and when, without health details. The download is logged too."
   },
   "tokens": {
     "metaTitle": "Design tokens",
@@ -981,7 +991,13 @@
     "no": "No",
     "rubricTitle": "How the jury scores (HealthX Ajyal)",
     "rubric": "Venture 30 · Health impact 20 · Innovation and evidence 20 · Working prototype 20 · Team and pitch 10",
-    "unavailable": "The quality numbers didn't load. Start the API with make api, then reload."
+    "unavailable": "The quality numbers didn't load. Start the API with make api, then reload.",
+    "supportTitle": "Support and service levels",
+    "supportIntro": "The terms we offer pilot clinics. This demo runs on free hosting and has no service level.",
+    "support1": "A named contact for each pilot clinic, Monday to Friday, 9:00 to 18:00 Gulf time, with a first reply within one working day.",
+    "support2": "A suspected data breach is reported to the clinic and to the Department of Health within 24 hours, as the DoH privacy standard requires.",
+    "support3": "Target availability of 99.5% a month on UAE hosting, checked every minute against the public health check.",
+    "support4": "Every change passes the automated tests on this page before it reaches a clinic."
   },
   "join": {
     "metaTitle": "Start your own record",
@@ -1083,5 +1099,116 @@
     "sourcesTitle": "Sources",
     "note": "Prices are hypotheses until clinic interviews and a letter of intent back them (docs/12). Market figures come from the Department of Health via the Abu Dhabi Media Office.",
     "pilotAction": "Open the demo"
+  },
+  "trust": {
+    "metaTitle": "Trust centre",
+    "title": "Trust centre",
+    "intro": "How ReproSense answers the Department of Health's Responsible AI Standard, clause by clause, and what it does not claim. Each clause is summarised in our own words.",
+    "tableTitle": "DoH Responsible AI Standard (V1, October 2025)",
+    "colClause": "Clause",
+    "colAsks": "What it asks",
+    "colOurs": "What ReproSense does",
+    "colStatus": "Status",
+    "status": {
+      "built": "Built",
+      "partly": "Partly built",
+      "planned": "Planned before a pilot"
+    },
+    "rows": {
+      "r1": {
+        "clause": "3.1.1.1",
+        "asks": "Design with clinicians and patients, and fit the clinic's workflow.",
+        "ours": "The clinician view follows a visit: a one-minute summary, the evidence for each line and a visit-note draft she edits. A clinical advisor and pilot clinicians will review it.",
+        "status": "partly"
+      },
+      "r2": {
+        "clause": "3.1.1.2",
+        "asks": "Keep a human in or on the loop, with escalation by risk.",
+        "ours": "Clinicians decide. The care navigator only drafts, and she approves every message; nothing is sent on its own. Red flags come first with 998, and a self-harm answer in the mood check opens the crisis path.",
+        "status": "built"
+      },
+      "r3": {
+        "clause": "3.1.2.1",
+        "asks": "Fail safely, with a fallback, and monitor after launch.",
+        "ours": "Without a language model, every card keeps fixed template wording and the assistant quotes the knowledge base. 3D views fall back to static pictures. Monitoring after launch comes with the pilot.",
+        "status": "partly"
+      },
+      "r4": {
+        "clause": "3.1.3.1",
+        "asks": "Validate against benchmarks and keep the results.",
+        "ours": "A fixed test set runs on every change: grounded answers, refused diagnosis questions, red-flag recall and banned phrases. The latest results are on the team scorecard.",
+        "status": "built"
+      },
+      "r5": {
+        "clause": "3.1.4.2",
+        "asks": "Role-based access, least privilege, and every access logged.",
+        "ours": "Patient, clinician and network-admin roles are separate, and the database enforces them with row-level security. Every view of her record goes into a tamper-evident audit log that she can read. Multi-factor sign-in is planned.",
+        "status": "partly"
+      },
+      "r6": {
+        "clause": "3.1.4.4",
+        "asks": "Privacy by design: minimum data, encryption, no training on patient data.",
+        "ours": "Records use a nickname, not a name. Notes and documents are encrypted (AES-256-GCM). Model calls receive de-identified text only, and no model is trained on her data.",
+        "status": "built"
+      },
+      "r7": {
+        "clause": "3.1.4.5.1",
+        "asks": "Compute and storage, disaster recovery included, inside the UAE.",
+        "ours": "This demo holds fictional data only. Production will run on UAE-region cloud with disaster recovery in the UAE, a UAE-hosted model or no model, and support access from inside the UAE.",
+        "status": "planned"
+      },
+      "r8": {
+        "clause": "3.1.5",
+        "asks": "Data that reflects the population, with gaps between groups checked.",
+        "ours": "The network dashboard compares flagged and sharing rates by nationality group and age band, marks gaps over 5 points and hides groups under 10 women. A data card for the synthetic data is planned.",
+        "status": "partly"
+      },
+      "r9": {
+        "clause": "3.1.6.1",
+        "asks": "Tell people when AI is used, and let patients opt out.",
+        "ours": "The footer says AI tools are used, and every card says how it was written. Her Privacy switch turns AI off: the assistant closes and no text of hers reaches a model. New records start with AI off.",
+        "status": "built"
+      },
+      "r10": {
+        "clause": "3.1.6.2",
+        "asks": "Document sources, logic and decision criteria; log inputs, outputs and versions.",
+        "ours": "Observation rules live in one versioned file, each with its guideline source. Every card shows the entries and the rule behind it, with a step-by-step trace of how it was produced.",
+        "status": "built"
+      },
+      "r11": {
+        "clause": "3.1.6.3",
+        "asks": "Explain in a way that fits each role.",
+        "ours": "She reads plain language and questions for her doctor. Her clinician reads a short handover with the evidence for each line. No card shows a probability.",
+        "status": "built"
+      },
+      "r12": {
+        "clause": "3.1.7",
+        "asks": "Named owners, and clinicians keep final authority, with an audit trail.",
+        "ours": "Clinicians edit the visit note and book or close each follow-up, and each action is logged. Named owners will be set in the pilot agreement.",
+        "status": "partly"
+      },
+      "r13": {
+        "clause": "3.3.1.2",
+        "asks": "Keep a risk register; high-risk systems need a DoH conformity assessment.",
+        "ours": "ReproSense is designed to inform, never to diagnose, which supports a lower risk tier. A risk register will be written before the pilot.",
+        "status": "planned"
+      }
+    },
+    "notTitle": "What we do not claim",
+    "not": {
+      "n1": "ReproSense does not diagnose. It points out patterns worth discussing with a doctor.",
+      "n2": "It is checked against a fixed test set, not clinically validated. We quote no accuracy figure.",
+      "n3": "Whether it is a medical device is for the regulator to decide. We will ask the Emirates Drug Establishment before any pilot.",
+      "n4": "Every record in this demo is fictional.",
+      "n5": "UAE hosting, the ADHICS assessment and a clinician's sign-off on the rules are next steps, not done."
+    },
+    "dataTitle": "Her data, her choices",
+    "data1": "She decides who sees her record: sharing with a clinic is a separate choice she can stop at any time, and the clinic loses access at once.",
+    "data2": "She can read who viewed her record, download everything (including a FHIR R4 export for her clinic's system) and delete her entries.",
+    "data3": "We never sell health data or show ads.",
+    "sourcesTitle": "Source",
+    "sourceDoh": "Department of Health Abu Dhabi, Responsible AI Standard, version 1 (October 2025)",
+    "seeScorecard": "See the test results",
+    "seePrivacy": "Try the privacy centre as Noura"
   }
 }

@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends
+import csv
+import io
+
+from fastapi import APIRouter, Depends, Response
 
 from app.db import Actor, session
 from app.security import audit
@@ -37,6 +40,14 @@ def metrics(actor: Actor = Depends(admin)):
             " FROM cohort_members GROUP BY region ORDER BY n DESC"
         )
         regions = cur.fetchall()
+        # Per clinic (SaaS: usage and outcome metrics per tenant), same k-min rule as every other group
+        cur.execute(
+            "SELECT m.clinic_id, c.name, count(*) n, count(*) FILTER (WHERE m.consented_care_share) consented,"
+            " count(*) FILTER (WHERE m.report_shared) shared, count(*) FILTER (WHERE m.care_gap_type IS NOT NULL) gaps,"
+            " count(*) FILTER (WHERE m.care_gap_status='closed') closed"
+            " FROM cohort_members m LEFT JOIN clinics c ON c.id = m.clinic_id GROUP BY m.clinic_id, c.name ORDER BY n DESC"
+        )
+        clinics = cur.fetchall()
         fair = {}
         for dim in ("nationality_group", "age_band"):
             cur.execute(
@@ -90,6 +101,20 @@ def metrics(actor: Actor = Depends(admin)):
             {"stage": "Completed", "n": closed},
         ],
         "regions": [{**r, "n": _k(r["n"])} for r in regions],
+        "clinics": [
+            {**r, "n": _k(r["n"])}
+            if r["n"] >= K_MIN
+            else {
+                "clinic_id": r["clinic_id"],
+                "name": r["name"],
+                "n": None,
+                "consented": None,
+                "shared": None,
+                "gaps": None,
+                "closed": None,
+            }
+            for r in clinics
+        ],
         "fairness": {"overall": {"pct_obs": overall_obs, "pct_shared": overall_shared}, **fair},
         "roi_inputs": {
             "postpartum_gaps": c["pp_gaps"] + (1 if live else 0),
@@ -128,3 +153,26 @@ def verify_audit(actor: Actor = Depends(admin)):
         rows = cur.fetchall()
     ok, bad = verify_chain(rows)
     return {"entries": len(rows), "chain_ok": ok, "first_bad_id": bad}
+
+
+AUDIT_COLUMNS = ("id", "at", "actor_role", "actor_id", "action", "subject_id", "target", "prev_hash", "hash")
+
+
+@router.get("/audit/export.csv")
+def export_audit(actor: Actor = Depends(admin)):
+    """The hash-chained audit log as CSV for a compliance review (SaaS scorecard; DoH privacy standard: access logs).
+    Who did what to which pseudonymous record, and when; the free-text detail column is left out. The export is logged."""
+    with session(actor) as cur:
+        audit.record(cur, actor, "export_audit_log", None, "admin")
+        cur.execute(f"SELECT {', '.join(AUDIT_COLUMNS)} FROM audit_log ORDER BY id")  # noqa: S608 (fixed column list)
+        rows = cur.fetchall()
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(AUDIT_COLUMNS)
+    for r in rows:
+        w.writerow([r["at"].isoformat() if k == "at" else r[k] for k in AUDIT_COLUMNS])
+    return Response(
+        buf.getvalue(),
+        media_type="text/csv; charset=utf-8",
+        headers={"Content-Disposition": 'attachment; filename="reprosense-audit-log.csv"', "Cache-Control": "no-store"},
+    )

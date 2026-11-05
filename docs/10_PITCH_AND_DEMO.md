@@ -5,7 +5,7 @@
 | --- | --- | --- |
 | 0:00 | Landing | "Up to 70% of women with PCOS don't know they have it. In the UAE, women with endometriosis waited eleven years on average for a diagnosis. And at one Al Ain hospital, only one in four women who had diabetes in pregnancy came back for the glucose test after birth. The story exists. It just arrives in pieces." (WHO 2026; Mousa 2021; Agarwal 2022: research/2026-11-06/02 §2, keep the qualifiers ready) |
 | 0:20 | /demo → Noura | "Noura, 24, Al Ain. Fictional, like all our data." |
-| 0:30 | Dashboard + Timeline | "Twelve months in one view: cycles from 36 to 62 days, acne and hair-growth days." |
+| 0:30 | Dashboard + Timeline | "Twelve months in one view: seven cycles from 42 to 56 days, every one past the usual 35, with acne and hair-growth days." (checked against data/synthetic/output/personas/noura.json, 6 Nov) |
 | 0:50 | Insights | "ReproSense doesn't diagnose. It shows the pattern, the exact entries behind it, and the 2023 international guideline that defines it." |
 | 1:10 | Assistant (Arabic) | Ask "What is PCOS?" → answer with citations. |
 | 1:30 | Report → PDF | "Ten seconds: a two-page report her gynaecologist can read in a minute." |
