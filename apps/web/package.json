@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.7",
+    "@formatjs/icu-messageformat-parser": "^3.5.22",
     "@tailwindcss/postcss": "^4.3.4",
     "@types/node": "^22.20.5",
     "@types/react": "^19.3.0",

@@ -65,6 +65,7 @@ export interface ClinicPatientsResponse {
 /** GET /v1/admin/metrics (the parts used so far; Phase 5 extends this) */
 export interface AdminMetrics {
   cohort: { n: number; is_synthetic: boolean; note: string };
+  // live_demo_gaps is refined in AdminMetricsFull
   kpis: {
     reports_shared: number;
     consented: number;
@@ -74,7 +75,7 @@ export interface AdminMetrics {
     care_gaps_closed: number;
     close_rate_pct: number;
   };
-  live_demo_gaps: { open: number };
+  live_demo_gaps: Partial<Record<"open" | "in_progress" | "closed", number>>;
 }
 
 // ---------------- Phase 2: her app (home, logging, analytics) ----------------
@@ -436,4 +437,75 @@ export interface SharedView {
   payload: ReportPayload;
   expires_at: string;
   report_id: number;
+}
+
+// ---------------- Phase 5: clinician and network admin ----------------
+
+export interface ClinicGap {
+  id: number;
+  type: string; // postpartum_glucose_test | pregnancy_glucose_screen | …
+  status: "open" | "in_progress" | "closed";
+  due_date: string | null;
+  updated_at: string;
+}
+/** GET /v1/clinic/patients/{id} (consented patients only; 404 otherwise) */
+export interface ClinicRecord {
+  profile: { id: string; alias: string; age: number; region: string; life_stage: LifeStage; pregnancy_weeks: number; language: string; ttc_months: number };
+  sbar: { situation: string; background: string; assessment: string[]; recommendation: string[] };
+  cards: Card[];
+  crisis: boolean;
+  trace: TraceStep[];
+  labs: LabResult[];
+  care_gaps: ClinicGap[];
+  review: { reviewed_at: string | null; visit_note: string | null } | null;
+  latest_report: { id: number; created_at: string } | null;
+  analytics: AnalyticsResponse;
+  timeline: TimelineResponse;
+  her_questions: string[];
+  visit_note_draft: string;
+}
+/** POST /v1/clinic/patients/{id}/ask — answers only from her entries */
+export interface RecordAnswer {
+  answer: string;
+  evidence: { entry_id: string | null; date: string; text: string }[];
+  from_entries_only: boolean;
+}
+/** GET /v1/clinic/care-gaps */
+export interface ClinicGapRow extends ClinicGap {
+  profile_id: string;
+  clinic_id: string;
+  rule_id: string;
+  updated_by: string | null;
+  alias: string;
+  language: string;
+}
+/** POST /v1/clinic/care-gaps/{id}/reminder — a draft; nothing is sent */
+export interface ReminderDraft {
+  en: string;
+  ar: string;
+  sent: false;
+  note: string;
+}
+export interface AdminMetricsFull extends AdminMetrics {
+  funnel: { stage: string; n: number }[];
+  regions: { region: string; n: number | null; open: number; in_progress: number; closed: number }[];
+  fairness: {
+    overall: { pct_obs: number; pct_shared: number };
+    nationality_group: FairnessRow[];
+    age_band: FairnessRow[];
+  };
+  roi_inputs: { postpartum_gaps: number; reports_shared: number; assumptions: string };
+  live_demo_gaps: Partial<Record<"open" | "in_progress" | "closed", number>>;
+}
+export interface FairnessRow {
+  g: string;
+  n: number | null;
+  pct_obs: number | null;
+  pct_shared: number | null;
+  flag: string;
+}
+export interface AuditVerify {
+  entries: number;
+  chain_ok: boolean;
+  first_bad_id: number | null;
 }
