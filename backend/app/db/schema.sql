@@ -9,6 +9,14 @@ DO $$ BEGIN
     CREATE ROLE reprosense_app NOLOGIN;
   END IF;
 END $$;
+-- The connecting user must be able to SET ROLE to it. A superuser (local Postgres) can anyway; a managed database
+-- owner such as Supabase's "postgres" is not a superuser, so grant the membership explicitly. On a fresh managed
+-- project the owner created the role and may grant it; if it may not, say why instead of failing the whole schema.
+DO $$ BEGIN
+  EXECUTE format('GRANT reprosense_app TO %I', current_user);
+EXCEPTION WHEN insufficient_privilege THEN
+  RAISE NOTICE 'reprosense_app was not granted to %: it must already be allowed to SET ROLE reprosense_app', current_user;
+END $$;
 
 DROP TABLE IF EXISTS audit_log, kb_chunks, cohort_members, navigator_drafts, clinic_reviews, care_gaps, shares, reports,
   observations, documents, lab_results, events, daily_logs, cycles, consents, profiles, clinics CASCADE;
@@ -203,3 +211,13 @@ CREATE OR REPLACE FUNCTION care_gap_counts() RETURNS TABLE(status text, n bigint
   SELECT status, count(*) FROM care_gaps WHERE app_role() IN ('admin', 'system') GROUP BY status
 $$;
 GRANT EXECUTE ON FUNCTION care_gap_counts() TO reprosense_app;
+
+-- The three SECURITY DEFINER helpers above read consents, audit_log and care_gaps as the table owner and rely on the
+-- owner bypassing RLS. A superuser (local Postgres) always does; a managed database owner such as Supabase's
+-- "postgres" does not when RLS is FORCED, which made clinician_can_see() recurse through the consents policy
+-- ("stack depth limit exceeded"), chained a clinician's audit entry onto GENESIS, and showed the admin zero gaps.
+-- So these three keep RLS ENABLED but not forced: every API request still runs as reprosense_app and is filtered by
+-- the policies; only owner connections (migrations, seed, these helpers) bypass. tests/test_rls.py covers both.
+ALTER TABLE consents NO FORCE ROW LEVEL SECURITY;
+ALTER TABLE care_gaps NO FORCE ROW LEVEL SECURITY;
+ALTER TABLE audit_log NO FORCE ROW LEVEL SECURITY;

@@ -107,7 +107,7 @@ Stack is decided (CLAUDE.md): Next.js 15 App Router + TypeScript strict + Tailwi
 Done when each `BUILD_STATUS` "Done when" passes at 390px and 1280px, light and dark, EN and AR, with no console errors.
 
 ## 6. Krishna — what is left on the backend / ops side
-- Deploy: Supabase project (run `schema.sql`; RLS works the same), Render (Docker with Pango for WeasyPrint), Vercel (web). Add `/healthz` uptime ping. Replit backup.
+- Deploy: ready to run, see **docs/16_DEPLOY_NOW.md** (Supabase → Render blueprint `render.yaml` with `backend/Dockerfile` → Vercel `apps/web`). The API seeds an empty database on first boot and never reseeds; the schema now works under a non-superuser owner like Supabase's (tested in `tests/test_rls.py`). Still to do: create the three accounts and deploy, uptime ping, Replit backup.
 - Playwright e2e of the full demo path (with Atharva, once the UI exists), wired into CI.
 - Get an `ANTHROPIC_API_KEY` (or decide to stay deterministic). Run the eval in LLM mode and warm the cache for all 8 personas.
 - Clinician sign-off: QUESTIONS #17, #26, #27, #28, #35 and the `clinical_rules.yaml` header. Verify NG257 wording (#29).

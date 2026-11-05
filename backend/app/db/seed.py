@@ -194,5 +194,23 @@ def seed(url: str | None = None, with_kb: bool = True) -> dict:
     return {"personas": len(ids), "cohort": n, "ref_date": str(get_settings().demo_ref_date or date.today())}
 
 
+def seed_if_empty(url: str | None = None) -> dict | None:
+    """First boot on a fresh hosted database (Render free tier has no shell): seed only when the schema is missing
+    or holds no personas, so a restart never wipes a demo in progress. Returns what seed() loaded, or None."""
+    with psycopg.connect(url or get_settings().database_url, autocommit=True) as conn:
+        exists = conn.execute("SELECT to_regclass('public.profiles') IS NOT NULL").fetchone()[0]
+    people = 0
+    if exists:
+        # Count through the app's system session: profiles has FORCED RLS, so a non-superuser owner sees no rows.
+        if url:
+            from app.db import reset_pool
+
+            reset_pool(url)
+        with session(SYSTEM) as cur:
+            cur.execute("SELECT count(*) AS n FROM profiles WHERE role = 'patient'")
+            people = cur.fetchone()["n"]
+    return None if people else seed(url)
+
+
 if __name__ == "__main__":
     print(seed())

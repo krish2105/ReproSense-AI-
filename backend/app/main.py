@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import base64
+import binascii
+import logging
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -12,10 +17,35 @@ from app.db import SYSTEM, session
 from app.security.middleware import RateLimit, SecurityHeaders
 
 s = get_settings()
+log = logging.getLogger("reprosense")
+
+
+def check_notes_key() -> None:
+    """Fail at boot, not in the middle of a demo, when the field-encryption key is missing or the wrong size."""
+    try:
+        ok = len(base64.b64decode(s.notes_key, validate=True)) == 32
+    except (binascii.Error, ValueError):
+        ok = False
+    if not ok:
+        raise RuntimeError("NOTES_KEY must be 32 random bytes, base64-encoded (see docs/16_DEPLOY_NOW.md)")
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    check_notes_key()
+    if s.demo_mode and s.seed_if_empty:
+        from app.db.seed import seed_if_empty
+
+        loaded = seed_if_empty()
+        log.warning("first boot: %s", f"seeded {loaded}" if loaded else "demo data already present")
+    yield
+
+
 app = FastAPI(
     title="ReproSense API",
     version="0.4.0",
     description="Non-diagnostic reproductive health record. Synthetic demo data only.",
+    lifespan=lifespan,
 )
 app.add_middleware(RateLimit)
 app.add_middleware(SecurityHeaders)
