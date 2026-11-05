@@ -22,9 +22,9 @@ Want to show the team first? Open **mockup/reprosense-mockup.html** in any brows
 | data/synthetic/ | Tested generator + generated demo data (8 personas across 5 life stages, 1,200-woman cohort, lab reports, PBAC scores, fairness table) |
 | .claude/agents/ | 9 role agents: CEO, CTO, CMO, Chief Healthcare Officer, Women Care Lead, Agentic AI Architect, RAG Specialist, AI Engineer, Senior Judge |
 | IMAGE_PROMPTS_CHATGPT.md | 37 ChatGPT image prompts (brand, website, life stages, body map, icons, clinic, pitch) with file names |
-| public/images/ | Folders for the generated images (names in IMAGE_PROMPTS_CHATGPT.md) |
+| apps/web/ | Next.js web app (patient, clinician and clinic-network screens); generated images in apps/web/public/images/ |
 | mockup/ | Interactive HTML mockup (design E · Mauve Pro: 5 life stages, body map, care navigator, visit mode, 3D) + team scorecard |
-| .claude/skills/ | 5 skills: no-ai-slop-ui, clinical-copy-guard, add-explainable-observation, synthetic-data-realism, demo-readiness |
+| .claude/skills/ | 8 skills: no-ai-slop-ui, clinical-copy-guard, add-explainable-observation, synthetic-data-realism, demo-readiness, web-screen, mauve-charts, mauve-3d |
 | docs/15_WIN_PLAN.md | Score path 74 → 81 → 94 (v4 estimate), winning confidence, LOI and disclosure templates |
 | research/ | Where the Kaggle PCOS evidence notebook goes |
 

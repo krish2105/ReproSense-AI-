@@ -17,6 +17,23 @@ Blockers / questions:
 
 ---
 
+## 2026-11-05 — Phase 0 (web) — Krishna with Claude Code
+Done:
+- `apps/web`: Next.js 15.5 App Router, React 19, TypeScript 5.9 strict, Tailwind v4 (no preflight, default palette off), next-intl 4 without i18n routing (cookie `NEXT_LOCALE`, EN + AR, `dir="rtl"`), pnpm 12.
+- Tokens and component CSS copied from `mockup/template.html` by script (lines 11–330); four documented deviations (badge always visible, fixed tab bar, native `<dialog>`, next/font variables).
+- `/api/v1/*` → API rewrite (same-origin `rs_token`), `apiServer` (forwards only the cookie), `apiClient`, `requireRole`; separate `/app`, `/clinic`, `/admin` layouts; `/` → `/demo` until the landing page exists.
+- UI kit: Button, Tag, Box/Panel, Dialog (native), Toast, Pills/Seg, Skeleton, Empty/Error states, UrgentCard (action first, tel:998), one stroke icon set; header, demo badge, language and theme toggles (cookie `rs_theme`, no flash), footer, skip link, tab bar with ready flags.
+- `/demo` roster (login per persona, clinician, admin, reset), `/tokens` gallery, 404/error/loading states. Images moved to `apps/web/public/images`.
+- CI: new `web` job (lint, typecheck, unit tests, build). New project skills: `web-screen`, `mauve-charts`, `mauve-3d`. Research kept in `research/2026-11-05-web-build-notes.md`.
+Tests: web 16/16 unit (lint, typecheck and build pass) · backend 104/104
+Browser check (in-app browser): /demo at 1280 and 390, light and dark, EN and AR (RTL); login → /app; role redirects; dialog Esc + focus return; no horizontal scroll at 390; zero console errors. Fixed during the check: English names/stories reversing inside Arabic (now isolated), roster button squeezed between 541–980px, underlined header link.
+UI slop check: pass (mockup classes only, no gradient text/buttons, no default palette, one icon set, specific labels).
+Senior-judge score: not run for the scaffold (agents paused by the user); run once the demo path exists.
+Next:
+- Phase 2: Home (stage switch, day pills, cycle/pregnancy/after-birth arcs, recommendations, mood), Hessa's navigator card + dialog, Calendar/log + body map, Analytics.
+Blockers / questions:
+- QUESTIONS #38 (palette fails the colour-blind test; encodings added, colours unchanged).
+
 ## 2026-11-05 — Phases 0, 1, 3, 4, 5, 6 (backend) and 8 (partial) — Krishna with Claude Code
 Done:
 - Repo initialised and pushed to github.com/krish2105/ReproSense-AI- (branch `main`). CI: backend lint + tests on Postgres/pgvector, generator check, gitleaks.

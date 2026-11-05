@@ -2,7 +2,7 @@
 
 Legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 
-Last updated: 2026-11-05 (backend built and tested; web app not started). Repo: https://github.com/krish2105/ReproSense-AI-
+Last updated: 2026-11-05 (backend built and tested; web Phase 0 done: apps/web scaffold). Repo: https://github.com/krish2105/ReproSense-AI-
 
 **Owners.** Krishna (`krish2105`): backend, AI, data, security, deploy. Atharva (`mercydeez`): web app (design + frontend).
 Yash (`Yashpetkar7`, invite pending): not assigned yet.
@@ -10,14 +10,14 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 
 | Phase | Name | Status | Owner | Done when | Where it stands |
 | --- | --- | --- | --- | --- | --- |
-| 0 | Setup (repo, CI, tokens, data generated) | 🟨 | Krishna (API) · Atharva (web) | web + API run locally, tokens page renders light/dark | API, Postgres schema, `.env`, Makefile and CI are done. The Next.js app and tokens page are not started. |
+| 0 | Setup (repo, CI, tokens, data generated) | ✅ | Krishna (API + web scaffold) · Atharva (web) | web + API run locally, tokens page renders light/dark | Done 5 Nov: `apps/web` (Next 15.5, TS strict, Tailwind v4 without preflight, next-intl EN/AR + RTL), mockup tokens + component CSS copied by script, `/api/v1` proxy, role-guarded `/app` `/clinic` `/admin` layouts, UI kit, `/demo` roster with login + reset, `/tokens` gallery (light/dark verified in the browser), web CI job, 16 unit tests. |
 | 1 | Data + rules engine | ✅ | Krishna | 8 personas → expected observations, 30+ rule tests pass (incl. 6 red flags) | 8/8 personas; 63 rule and guard tests; parity test against the generator |
 | 2 | Patient core (onboarding, dashboard, log, timeline) | 🟨 | Atharva | persona navigable at 390px width | APIs ready: `/v1/me/home`, `/v1/logs`, `/v1/logs/parse`, `/v1/timeline`, `/v1/analytics`, `/v1/mood`. UI not started. |
 | 3 | AI insights + RAG assistant | 🟨 | Krishna (API ✅) · Atharva (UI) | every answer cites a source; banned-phrase test passes | LangGraph pipeline with 7 agents, 28 summaries, hybrid retrieval and the 60-question eval are done. Patterns and AI Chat screens not started. |
 | 4 | Doctor-ready report (preview + PDF + share) | 🟨 | Krishna (API ✅) · Atharva (UI) | PDF matches persona; share link expires | PDF, 7-day share links, revoke and the share view are done and tested. Report screen not started. |
 | 5 | Clinician + admin dashboards | 🟨 | Krishna (API ✅) · Atharva (UI) | care gap closes live in the demo | Clinic list, record view, handover summary, Ask the record, care gaps and admin metrics are done and tested. UI not started. |
 | 6 | Life stages + agents v4 | 🟨 | Krishna (API ✅) · Atharva (UI) | every life stage opens from the stage switch; navigator draft needs approval; FHIR bundle validates | Done in the API: navigator (draft → approve, never sends), EPDS crisis path, FHIR export, lab upload → confirm, pregnancy and after-birth arcs. Not started: wearables, discreet-mode UI, Ramadan mode (needs a source). |
-| 7 | Polish (R3F, dark, Arabic RTL, states, a11y, images) | ⬜ | Atharva | Lighthouse ≥ 90, zero console errors, 3D fallback works | All 37 images are in `public/images`, and the body-map tap points are calibrated (`ASSET_INTEGRATION_REPORT.md`). |
+| 7 | Polish (R3F, dark, Arabic RTL, states, a11y, images) | ⬜ | Atharva | Lighthouse ≥ 90, zero console errors, 3D fallback works | All 37 images are in `apps/web/public/images`, and the body-map tap points are calibrated (`ASSET_INTEGRATION_REPORT.md`). |
 | 8 | Security pass | 🟨 | Krishna | docs/07 checklist fully ticked | Done: forced RLS with tests, append-only hash-chained audit log, AES-GCM notes and documents, headers, rate limits, CORS, input validation, PII redaction, injection stripping, gitleaks in CI. Not yet: passkeys (stretch), web CSP, dependency scanning. |
 | 9 | Ship (deploy, reset, video, pitch) | ⬜ | Krishna + Atharva | senior-judge ≥ 90/100 | Demo reset endpoint is done. Not done: deploy, Playwright e2e, backup video. |
 
