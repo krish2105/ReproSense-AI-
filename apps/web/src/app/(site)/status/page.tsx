@@ -119,6 +119,20 @@ export default async function StatusPage() {
         </section>
       )}
 
+      <section className="panel" aria-labelledby="support-title" style={{ padding: 22, marginTop: 20 }}>
+        <h2 id="support-title" style={{ fontSize: 19 }}>
+          {t("supportTitle")}
+        </h2>
+        <p className="s dim" style={{ marginTop: 6 }}>
+          {t("supportIntro")}
+        </p>
+        <ul className="tier-list" style={{ marginTop: 10 }}>
+          {(["support1", "support2", "support3", "support4"] as const).map((k) => (
+            <li key={k}>{t(k)}</li>
+          ))}
+        </ul>
+      </section>
+
       <section className="panel" aria-labelledby="rubric-title" style={{ padding: 22, marginTop: 20 }}>
         <h2 id="rubric-title" style={{ fontSize: 19 }}>
           {t("rubricTitle")}

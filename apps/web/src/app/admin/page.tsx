@@ -229,6 +229,43 @@ export default async function AdminPage() {
         </section>
       </div>
 
+      <section className="panel" aria-labelledby="clinics-title" style={{ padding: 20, marginTop: 20 }}>
+        <h2 id="clinics-title" style={{ fontSize: 18 }}>
+          {t("admin.clinicsTitle")}
+        </h2>
+        <p className="s dim" style={{ marginTop: 4 }}>
+          {t("admin.clinicsIntro")}
+        </p>
+        <TableScroll label={t("admin.clinicsTitle")} style={{ marginTop: 12 }}>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">{t("admin.colClinic")}</th>
+                <th scope="col">{t("admin.colWomen")}</th>
+                <th scope="col">{t("admin.colConsented")}</th>
+                <th scope="col">{t("admin.colShared")}</th>
+                <th scope="col">{t("admin.colGaps")}</th>
+                <th scope="col">{t("admin.colDone")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {m.clinics.map((c) => (
+                <tr key={c.clinic_id}>
+                  <th scope="row" style={{ fontWeight: 600 }}>
+                    {t.has(`clinics.${c.clinic_id}`) ? t(`clinics.${c.clinic_id}`) : (c.name ?? c.clinic_id)}
+                  </th>
+                  {[c.n, c.consented, c.shared, c.gaps, c.closed].map((v, i) => (
+                    <td key={i} className="mono">
+                      {v === null ? "—" : n(v)}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </TableScroll>
+      </section>
+
       <section className="panel" aria-labelledby="fair-title" style={{ padding: 20, marginTop: 20 }}>
         <h2 id="fair-title" style={{ fontSize: 18 }}>
           {t("admin.fairnessTitle")}
@@ -265,6 +302,14 @@ export default async function AdminPage() {
             ) : (
               <Tag tone="urgent">{t("admin.auditBad", { id: audit.first_bad_id ?? 0 })}</Tag>
             )}
+          </p>
+          <div style={{ marginTop: 12 }}>
+            <a className="btn btn-o btn-sm" href="/api/v1/admin/audit/export.csv" download="reprosense-audit-log.csv">
+              {t("admin.auditExport")}
+            </a>
+          </div>
+          <p className="xs dim" style={{ marginTop: 8 }}>
+            {t("admin.auditExportHint")}
           </p>
           <p className="xs faint" lang="en" dir="auto" style={{ marginTop: 10 }}>
             {m.cohort.note}

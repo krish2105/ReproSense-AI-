@@ -492,6 +492,7 @@ export interface ReminderDraft {
   note: string;
 }
 export interface AdminMetricsFull extends AdminMetrics {
+  clinics: { clinic_id: string; name: string | null; n: number | null; consented: number | null; shared: number | null; gaps: number | null; closed: number | null }[];
   // The glucose-test part of DoH Jawda KPI PC008; null when fewer than 10 women (k-min).
   pc008_glucose: { due: number | null; done: number | null; booked: number | null; open: number | null; done_pct: number | null };
   funnel: { stage: string; n: number }[];
