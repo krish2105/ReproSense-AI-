@@ -64,6 +64,10 @@ test("the demo path runs end to end in under three minutes", async ({ page }) =>
     await page.keyboard.press("Escape");
     await expect(trace).toBeHidden();
     await expectAccessible(page, "patterns");
+    // An evidence chip opens the day it came from (demo-readiness: "evidence chip jumps to the day").
+    await card.getByRole("link", { name: /^\d{1,2} [A-Z][a-z]{2} ·/ }).first().click();
+    await expect(page).toHaveURL(/\/app\/log\?date=\d{4}-\d{2}-\d{2}$/);
+    await expect(page.getByRole("group", { name: en.log.bodyTitle })).toBeVisible();
   });
 
   await test.step("assistant: an answer with numbered sources, then Arabic", async () => {
