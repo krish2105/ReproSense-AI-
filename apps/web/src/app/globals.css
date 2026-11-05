@@ -36,7 +36,7 @@
   --f-display:var(--font-jakarta),"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;
   --f-body:var(--font-jakarta),"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;
   --f-mono:var(--font-jakarta),"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;
-  --f-ar:var(--font-plex-arabic),"IBM Plex Sans Arabic",system-ui,sans-serif;
+  --f-ar:var(--font-plex-arabic),var(--font-plex-arabic-latin),"IBM Plex Sans Arabic",system-ui,sans-serif;
   --r1:12px; --r2:24px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
@@ -438,7 +438,8 @@ dialog.dlg .dlg-head h2{font-size:20px}
    1. .fict is no longer hidden under 760px (CLAUDE.md rule 4: the demo badge shows on every screen).
    2. .tabbar.is-app is fixed to the viewport; tab links use aria-current; labels shrink at <=360px (they overlapped at 320px).
    3. Native <dialog class="dlg"> replaces the .dialog div overlay (same look).
-   4. Font variables point at next/font (--font-jakarta, --font-plex-arabic) with the family names as fallbacks. */
+   4. Font variables point at next/font (--font-jakarta, --font-plex-arabic, --font-plex-arabic-latin: the Latin letters
+      inside Arabic text) with the family names as fallbacks. Fonts are self-hosted from src/app/fonts. */
 
 @layer components {
 /* Theme toggle labels: CSS picks the label for the CURRENT theme, so server HTML never guesses the system theme. */
