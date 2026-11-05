@@ -47,13 +47,16 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const raw = await getLocale();
   const locale = isLocale(raw) ? raw : defaultLocale;
-  const theme = (await cookies()).get("rs_theme")?.value;
+  const jar = await cookies();
+  const theme = jar.get("rs_theme")?.value;
+  const discreet = jar.get("rs_discreet")?.value === "1";
   return (
     <html
       lang={locale}
       dir={dirOf(locale)}
       data-theme={theme === "dark" || theme === "light" ? theme : undefined}
       data-scroll-behavior="smooth"
+      data-discreet={discreet ? "" : undefined}
       className={`${jakarta.variable} ${plexArabic.variable}`}
     >
       <body>

@@ -512,3 +512,13 @@ a.prow{text-decoration:none;color:inherit}
 .detail .two > figure{min-width:0}
 .ask .askbar button[type=submit]{width:auto;padding:0 14px;border-radius:999px}
 }
+
+@layer components {
+/* Radio pills (EPDS): native radios, styled like .seg buttons. */
+.radio-pill{position:relative;display:inline-flex}
+.radio-pill input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.radio-pill span{border:1px solid var(--rule-2);background:var(--sheet);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600}
+.radio-pill input:checked + span{background:var(--plum);color:var(--plum-ink);border-color:var(--plum)}
+.radio-pill input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
+.links-list{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:6px}
+}

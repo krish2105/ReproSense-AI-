@@ -13,6 +13,7 @@ import { PregnancyWarning } from "@/components/safety/PregnancyWarning";
 import { RedFlagCard } from "@/components/safety/RedFlagCard";
 import { Box } from "@/components/ui/Box";
 import { ButtonLink } from "@/components/ui/Button";
+import Link from "next/link";
 import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
 import type { HomeResponse } from "@/lib/api/types";
@@ -71,6 +72,18 @@ export default async function Home() {
           {t("home.logButton")}
         </ButtonLink>
 
+        {(h.status.mode === "after_birth" || h.status.mode === "pregnancy") && !h.crisis && (
+          <Box>
+            <p className="label">{t("checkin.cardTitle")}</p>
+            <p className="s" style={{ margin: "4px 0 10px" }}>
+              {t("checkin.cardBody")}
+            </p>
+            <ButtonLink href="/app/checkin" variant="outline" size="sm">
+              {t("checkin.cardAction")}
+            </ButtonLink>
+          </Box>
+        )}
+
         {soon && <NavigatorCard key={`${h.profile.id}-${soon.observation_id}`} card={soon} dueDate={gap?.due_date} latest={latestDraft} />}
       </div>
 
@@ -101,6 +114,22 @@ export default async function Home() {
             strength: t.has(`home.strength.${h.record_strength}`) ? t(`home.strength.${h.record_strength}`) : h.record_strength,
           })}
         </p>
+        <nav className="box" aria-labelledby="more-title">
+          <h2 id="more-title" style={{ fontSize: 15 }}>
+            {t("more.title")}
+          </h2>
+          <ul className="links-list">
+            <li>
+              <Link href="/app/documents">{t("more.documents")}</Link>
+            </li>
+            <li>
+              <Link href="/app/privacy">{t("more.privacy")}</Link>
+            </li>
+            <li>
+              <Link href="/app/checkin">{t("more.checkin")}</Link>
+            </li>
+          </ul>
+        </nav>
         {isTabReady("report") && (
           <ButtonLink href="/app/report" variant="outline" size="wide">
             {t("home.reportButton")}
