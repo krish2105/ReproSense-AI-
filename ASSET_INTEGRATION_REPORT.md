@@ -1,5 +1,7 @@
 # Asset integration report: Mauve Pro images S1 + A–F
 
+> **Moved in Phase 0 (web):** every image now lives in `apps/web/public/images/` (served as `/images/...`). The `public/images/` paths below are the old locations.
+
 Date: 5 Nov 2026 · Source: `ReproSense_Claude_Integration_Kit/ReproSense_Mauve_Pro_COMPLETE_S1_A_to_F.zip`
 
 ## 1. What exists in this repository (baseline)
