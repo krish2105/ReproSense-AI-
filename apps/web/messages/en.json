@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "title": "ReproSense",
+    "description": "A private record of cycles, pain scores and lab results that her gynaecologist can read in a minute. It shows the entries behind every pattern and never diagnoses. Demo with fictional data.",
+    "ogAlt": "ReproSense, a woman's cycle record prepared for her doctor"
+  },
+  "chrome": {
+    "brand": "ReproSense",
+    "brandDiscreet": "My notes",
+    "brandHome": "ReproSense, demo people",
+    "skip": "Skip to content",
+    "badge": "Demo data — fictional",
+    "navLabel": "Main",
+    "nav": {
+      "demo": "Demo people",
+      "app": "Her app",
+      "clinic": "Clinician",
+      "admin": "Clinic network"
+    },
+    "lang": {
+      "toggle": "عربي",
+      "label": "Show the app in Arabic"
+    },
+    "theme": {
+      "toDark": "Dark",
+      "toLight": "Light",
+      "labelToDark": "Switch to the dark theme",
+      "labelToLight": "Switch to the light theme"
+    },
+    "switchPerson": "Switch person",
+    "footer": "ReproSense gives information, not a diagnosis. In an emergency call 998. Demo data is fictional. Built with AI tools.",
+    "tabsLabel": "Sections of her app"
+  },
+  "tabs": {
+    "home": "Home",
+    "log": "Calendar",
+    "timeline": "Analytics",
+    "insights": "Patterns",
+    "assistant": "AI Chat",
+    "report": "Report"
+  },
+  "stages": {
+    "periods": "Periods",
+    "trying_to_conceive": "Trying",
+    "pregnancy": "Pregnancy",
+    "after_birth": "After birth",
+    "perimenopause": "Perimenopause"
+  },
+  "tags": {
+    "urgent": "Urgent",
+    "soon": "Due now",
+    "discuss": "Worth discussing",
+    "ok": "Nothing flagged"
+  },
+  "demo": {
+    "metaTitle": "Demo people",
+    "title": "Eight fictional women, five life stages, one clinic network.",
+    "intro": "Each woman has twelve months of generated daily logs, lab reports and events. Every number in this demo comes from the build kit's synthetic data generator.",
+    "rosterLabel": "Fictional women in the demo",
+    "open": "Open {name}'s record",
+    "ageRegion": "{age} · {region}",
+    "noShare": "Doesn't share with the clinic",
+    "staffTitle": "The clinic side",
+    "staffIntro": "The clinician sees only women who shared a report. The network admin sees follow-ups across clinics, without names.",
+    "openClinic": "Open clinician view",
+    "openAdmin": "Open clinic network",
+    "reset": "Reset demo data",
+    "resetDone": "Demo data reset. You're now signed in as the clinic network admin.",
+    "need": {
+      "patient": "Pick a woman below to open her app.",
+      "clinician": "Open the clinician view to see the clinic's patients.",
+      "admin": "Open the clinic network to see follow-ups across clinics."
+    },
+    "failed": "That didn't open: {detail}",
+    "apiDownTitle": "The demo server isn't answering",
+    "apiDownBody": "Start the API with make api in the repository folder, then try again."
+  },
+  "app": {
+    "metaTitle": "Her app",
+    "signedIn": "Signed in as {name}",
+    "stage": "Life stage: {stage}",
+    "ageRegion": "{age} · {region}"
+  },
+  "clinic": {
+    "metaTitle": "Clinician",
+    "title": "Corniche Women's Clinic (fictional)",
+    "intro": "Patients who shared a report, most urgent first. Only consented records appear.",
+    "listLabel": "Patients who shared a report",
+    "redFlags": "{count, plural, =0 {No red flags} one {# red flag} other {# red flags}}",
+    "openGaps": "{count, plural, =0 {No open follow-ups} one {# open follow-up} other {# open follow-ups}}",
+    "emptyTitle": "No shared reports yet",
+    "emptyBody": "When a woman shares her report with this clinic, she appears here with her red flags first."
+  },
+  "admin": {
+    "metaTitle": "Clinic network",
+    "title": "Follow-ups across four Abu Dhabi clinics",
+    "intro": "A synthetic network of 1,200 women. Proportions are plausible for a demo and are not prevalence estimates.",
+    "kpiLabel": "Network figures",
+    "cohort": "Women in the synthetic network",
+    "shared": "Reports shared with a clinic",
+    "open": "Follow-ups still open",
+    "closeRate": "Follow-ups closed",
+    "closeRateValue": "{pct}%",
+    "liveGaps": "Open follow-ups among the demo women"
+  },
+  "tokens": {
+    "metaTitle": "Design tokens",
+    "title": "Design tokens",
+    "intro": "E · Mauve Pro, from docs/06 and the team mockup. Switch the theme in the header to check dark mode.",
+    "colours": "Colours",
+    "surfaces": "Surfaces",
+    "text": "Text",
+    "actions": "Actions",
+    "phases": "Cycle phases",
+    "states": "States",
+    "type": "Type",
+    "shape": "Radius and shadow",
+    "components": "Components",
+    "liveValue": "Now: {value}",
+    "openDialog": "Open a dialog",
+    "dialogTitle": "Dialog",
+    "dialogBody": "Esc, the close button or a click outside closes it. Focus returns to the button that opened it.",
+    "showToast": "Show a toast",
+    "toastText": "Saved. A toast closes by itself after a few seconds.",
+    "specimenNote": "Specimens below are pictures of components and don't respond to clicks."
+  },
+  "urgent": {
+    "action": "Call 998 or go to the nearest emergency department if this is happening now.",
+    "call": "Call 998"
+  },
+  "states": {
+    "loading": "Loading",
+    "errorTitle": "This screen didn't load",
+    "errorBody": "The app couldn't get this screen from the demo server. Check that the API is running, then try again.",
+    "retry": "Try again",
+    "notFoundTitle": "This page doesn't exist",
+    "notFoundBody": "The link may be out of date. Pick a person on the demo page to continue.",
+    "notFoundAction": "Open the demo people",
+    "close": "Close"
+  },
+  "regions": {
+    "abu_dhabi_city": "Abu Dhabi City",
+    "al_ain": "Al Ain",
+    "al_dhafra": "Al Dhafra"
+  }
+}

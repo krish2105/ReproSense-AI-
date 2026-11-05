@@ -1,0 +1,5 @@
+# Standalone pnpm project (apps/web). Build scripts of these optional native helpers are not needed:
+# both ship prebuilt platform binaries (used by next-intl's message extraction, which we don't run).
+allowBuilds:
+  '@parcel/watcher': false
+  '@swc/core': false
