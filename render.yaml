@@ -1,0 +1,29 @@
+# Render blueprint for the ReproSense API (docs/16_DEPLOY_NOW.md). The web app goes on Vercel and the database on
+# Supabase (pgvector), as decided in CLAUDE.md. Synthetic demo data only.
+services:
+  - type: web
+    name: reprosense-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: DEMO_MODE
+        value: "true"
+      - key: DATABASE_URL # Supabase session pooler or direct connection string (not the transaction pooler)
+        sync: false
+      - key: ALLOWED_ORIGINS # the Vercel URL, e.g. https://reprosense.vercel.app
+        sync: false
+      - key: DEMO_TOKEN_SECRET
+        generateValue: true
+      - key: NOTES_KEY # 32 random bytes, base64 (Render generates a 256-bit base64 value; the API checks it at boot)
+        generateValue: true
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: SEED_IF_EMPTY # loads the synthetic demo data on the first boot only
+        value: "true"
+      - key: LLM_PROVIDER # "none" keeps answers extractive and repeatable; "auto" uses ANTHROPIC_API_KEY if set
+        value: none
+      - key: ANTHROPIC_API_KEY
+        sync: false

@@ -1,9 +1,11 @@
 # 08 · Deploy rules
 
 ## Environments
+Step-by-step setup for the demo deploy (Supabase → Render → Vercel, about 20 minutes): **docs/16_DEPLOY_NOW.md**.
+
 | Env | Web | API | DB | Data |
 | --- | --- | --- | --- | --- |
-| local | `pnpm dev` :3000 | `uvicorn` :8000 | Supabase local (Docker) or cloud dev project | synthetic |
+| local | `pnpm dev` :3000 | `uvicorn` :8010 | local Postgres with pgvector (`make db seed`) | synthetic |
 | preview | Vercel preview per PR | Render preview | Supabase dev | synthetic |
 | demo (judges) | Vercel prod `reprosense.vercel.app` | Render `reprosense-api` | Supabase demo project | synthetic, reset button |
 | backup | Replit deployment (tech partner) | same repo | same DB | synthetic |

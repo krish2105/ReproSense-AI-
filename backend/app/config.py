@@ -26,6 +26,8 @@ class Settings(BaseSettings):
     anthropic_api_key: str = ""
     llm_model: str = "claude-opus-5-5"
     embeddings_provider: str = "hashing"  # hashing (built in) — see QUESTIONS #14
+    cookie_secure: bool = False  # true when served over HTTPS (Render/Vercel); local http stays false
+    seed_if_empty: bool = False  # first boot on a fresh hosted database: load the synthetic demo data (DEMO_MODE only)
     rate_limit_per_min: int = 120
     rate_limit_sensitive_per_min: int = 20  # assistant + uploads
     red_flag_window_days: int = 14  # QUESTIONS #17 default (needs clinician sign-off)
