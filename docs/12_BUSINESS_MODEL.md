@@ -28,5 +28,7 @@ can produce the follow-up metrics clinics need.
 6. (Women) What stops you telling your doctor everything? Would you share a report if you control it?
 
 ## Moat
-Clinician-reviewed rule library + bilingual guideline knowledge base + clinic workflow data (consented, de-identified)
-+ Malaffi-ready FHIR integration. Hard to copy for a consumer tracker.
+A rule library that shows its sources (clinician-reviewed once the advisor signs the rules header) + bilingual guideline
+knowledge base + clinic workflow data (consented, de-identified) + FHIR R4 export into the clinic's EMR, which feeds
+Malaffi + DoH's own quality indicator (Jawda PC008) on the dashboard. Hard to copy for a consumer tracker. Note: Flo
+and Clue already sell doctor PDFs, so the report alone is not the moat (research/2026-11-06/04 §0.3).

@@ -24,7 +24,8 @@ sharing data with advertisers (e.g. the US FTC's 2021 case against Flo). Our pro
 - [ ] Security headers: CSP (no inline scripts except nonce), HSTS, X-Frame-Options DENY, Referrer-Policy strict-origin
 - [ ] Rate limits: 60 req/min per user, 10/min on assistant and uploads
 - [ ] Input validation: Zod (web) + Pydantic (API); upload type/size limits (10 MB, PDF/PNG/JPG/TXT)
-- [ ] LLM safety: PII redaction before calls; uploaded document text wrapped as data; instruction-like text stripped; output guard
+- [ ] LLM safety: PII redaction before calls; uploaded document text wrapped as data; instruction-like text stripped; output guard. Redaction is enough for synthetic data only: real data needs a UAE-hosted model or no LLM
+- [x] AI opt-out: Privacy → "Use AI features" off closes the assistant (API 403 `ai_off`) and keeps template wording; tested in `test_ai_choice.py` and `e2e/ai-choice.spec.ts`
 - [ ] Secrets only in env vars; `.env` git-ignored; gitleaks in CI
 - [ ] Dependency scanning (npm audit, pip-audit, Dependabot)
 - [ ] No analytics on health screens; privacy-friendly page analytics only on the landing page
@@ -32,8 +33,10 @@ sharing data with advertisers (e.g. the US FTC's 2021 case against Flo). Our pro
 ## UAE compliance map (for the pitch)
 | Requirement | Our answer |
 | --- | --- |
-| Federal Law No. 2 of 2019 (health data stays in UAE) | Production on UAE region cloud + UAE-hosted model; hackathon uses synthetic data only |
+| Federal Law No. 2 of 2019 (health data stays in UAE, Art. 13; kept at least 25 years, Art. 20) | Production on UAE-region cloud, disaster recovery included, with a UAE-hosted model or no LLM; hackathon uses synthetic data only. Open clash: 25-year retention vs. our one-step delete (decide with DoH: delete = remove from her app, archive held per law) |
 | ADHICS (Abu Dhabi health cybersecurity) | Controls above mapped to ADHICS domains before the first pilot; formal assessment = milestone |
-| DoH Responsible AI Standard | Human in the loop, explainability, bias checks across age and nationality groups, audit logs |
+| DoH Responsible AI Standard V1 (Oct 2025) | Clause-by-clause map on the `/trust` page: human in the loop (navigator only drafts), fallbacks (template wording, demo-safe mode), role-specific explanations, **patient AI opt-out (Privacy switch, enforced)**, fairness checks by age and nationality, hash-chained audit log. Still to do before a pilot: risk register, data card, UAE-only support access |
 | UAE PDPL | Consent, purpose limitation, access/export/delete rights |
-| Medical device question | Non-diagnostic information tool; confirm classification with DoH before pilot |
+| Medical device question | The Emirates Drug Establishment (federal), not DoH, decides device status (Federal Decree-Law 38 of 2024). Our wording keeps cards informing, not driving, care; ask EDE for a written classification before any pilot. DoH is the route for HTA, app registration and ADHICS |
+| DoH Patient Healthcare Data Privacy Standard (2020) | Applies to vendors: purpose-by-purpose written consent (we have it), selective sharing (care_share), privacy impact assessment before a pilot, breach notice to DoH within 24 hours |
+| Malaffi (ADHIE) | Only licensed facilities connect; DoH policy forbids copying Malaffi data elsewhere. Our route: FHIR R4 export into the clinic's EMR |
