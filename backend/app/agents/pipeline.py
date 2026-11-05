@@ -162,11 +162,13 @@ def writer(state: State) -> dict:
     ev: Evaluation = state["evaluation"]
     lang = state.get("lang", "en")
     llm = get_llm()
+    ai_on = state["bundle"].get("ai_ok", True)  # her Privacy choice; bundles built outside the database default to on
+    use_llm = llm.name != "none" and ai_on
     cards, rejected = [], 0
     names = [state["bundle"]["profile"].get("alias", "")]
     for h in state["hits"]:
         card = _template_card(h, ev, lang, state["bundle"])
-        if llm.name != "none" and h.kind != "red_flag" and lang == "en":  # urgent copy is never reworded
+        if use_llm and h.kind != "red_flag" and lang == "en":  # urgent copy is never reworded
             facts = {
                 "pattern": h.title,
                 "numbers": cp.detail(h.rule_id, h.values, ev.features.values),
@@ -195,7 +197,8 @@ def writer(state: State) -> dict:
         "trace": _step(
             state,
             "writer",
-            f"{len(cards)} cards ({llm.name if llm.name != 'none' else 'template'}); guard rejections: {rejected}",
+            f"{len(cards)} cards ({llm.name if use_llm else 'template' if ai_on else 'template: she turned AI off'});"
+            f" guard rejections: {rejected}",
             t0,
         ),
     }

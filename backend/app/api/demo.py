@@ -105,6 +105,7 @@ class SignupIn(BaseModel):
     gdm: bool = False  # after birth: she had diabetes in this pregnancy (gestational diabetes)
     clinic_id: str | None = Field(None, max_length=40)
     share_with_clinic: bool = False
+    use_ai: bool = False  # the assistant and AI wording of her cards; off unless she ticks it (DoH RAI 3.1.6.1)
     lang: Literal["en", "ar"] = "en"
 
 
@@ -157,6 +158,11 @@ def signup(body: SignupIn, response: Response):
                 "INSERT INTO consents (profile_id, purpose, clinic_id, granted) VALUES (%s,'care_share',%s,true)",
                 (pid, body.clinic_id),
             )
+        if body.use_ai:
+            cur.execute(
+                "INSERT INTO consents (profile_id, purpose, clinic_id, granted) VALUES (%s,'assistant',NULL,true)",
+                (pid,),
+            )
         if body.last_period_start and stage in ("periods", "trying_to_conceive", "perimenopause"):
             apply_period_log(cur, pid, body.last_period_start)
         if stage == "after_birth":
@@ -170,7 +176,14 @@ def signup(body: SignupIn, response: Response):
                     "INSERT INTO events (id, profile_id, type, date, details) VALUES (%s,%s,'gdm_diagnosis',%s,'{\"source\": \"signup\"}')",
                     (f"{pid}-gdm", pid, born),
                 )
-        audit.record(cur, Actor("patient", pid), "signup", pid, pid, {"shared_with": body.clinic_id if body.share_with_clinic else None})
+        audit.record(
+            cur,
+            Actor("patient", pid),
+            "signup",
+            pid,
+            pid,
+            {"shared_with": body.clinic_id if body.share_with_clinic else None},
+        )
     from app.agents.pipeline import refresh
 
     refresh(pid, body.lang)

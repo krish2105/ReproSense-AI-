@@ -211,6 +211,11 @@ CREATE OR REPLACE FUNCTION care_gap_counts() RETURNS TABLE(status text, n bigint
   SELECT status, count(*) FROM care_gaps WHERE app_role() IN ('admin', 'system') GROUP BY status
 $$;
 GRANT EXECUTE ON FUNCTION care_gap_counts() TO reprosense_app;
+-- The same counts by follow-up type (the after-birth glucose test is one part of DoH Jawda KPI PC008).
+CREATE OR REPLACE FUNCTION care_gap_counts_by_type() RETURNS TABLE(type text, status text, n bigint) LANGUAGE sql STABLE SECURITY DEFINER AS $$
+  SELECT type, status, count(*) FROM care_gaps WHERE app_role() IN ('admin', 'system') GROUP BY type, status
+$$;
+GRANT EXECUTE ON FUNCTION care_gap_counts_by_type() TO reprosense_app;
 
 -- The three SECURITY DEFINER helpers above read consents, audit_log and care_gaps as the table owner and rely on the
 -- owner bypassing RLS. A superuser (local Postgres) always does; a managed database owner such as Supabase's
