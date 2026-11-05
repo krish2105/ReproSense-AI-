@@ -167,7 +167,7 @@ export function Chat({ suggested, persona, initialQuestion }: { suggested: strin
         </div>
       </div>
 
-      <form className="askbar" onSubmit={submit}>
+      <form method="post" className="askbar" onSubmit={submit}>
         <label htmlFor={`${uid}-q`} className="sr-only">
           {t("inputLabel")}
         </label>

@@ -111,7 +111,7 @@ export function LogForm({ date, isToday, dateLabel, yearCounts, locale }: { date
   };
 
   return (
-    <form className="box form-card" onSubmit={submit} aria-labelledby="log-form-title">
+    <form method="post" className="box form-card" onSubmit={submit} aria-labelledby="log-form-title">
       <h2 id="log-form-title" style={{ fontSize: 18 }}>
         {isToday ? t("log.formToday", { date: dateLabel }) : t("log.formDay", { date: dateLabel })}
       </h2>
