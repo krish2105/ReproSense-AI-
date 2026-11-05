@@ -503,3 +503,12 @@ a.dp.now{color:var(--plum-ink)}
 .askbar button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent)}
 a.ev:hover{border-color:var(--accent)}
 }
+
+@layer components {
+/* Clinician view: list beside the record on wide screens; on phones the record route hides the list. */
+a.prow{text-decoration:none;color:inherit}
+.clinic-back{display:none;align-items:center;gap:6px}
+@media (max-width:980px){.clinic-side{display:none}.clinic-back{display:inline-flex}}
+.detail .two > figure{min-width:0}
+.ask .askbar button[type=submit]{width:auto;padding:0 14px;border-radius:999px}
+}
