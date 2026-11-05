@@ -17,6 +17,18 @@ Blockers / questions:
 
 ---
 
+## 2026-11-05 — Phase 6 (web) — Krishna with Claude Code
+Done:
+- EPDS check-in `/app/checkin`: the 10 standard items (scores stored per option, reverse items handled) with the citation RCPsych requires; mood-check card on Home for pregnancy and after birth. Crisis (item 10 > 0) → support card only, no score, and Home then leads with it and hides patterns. In Arabic the items stay in English with a note (validated Arabic pending, QUESTIONS #40).
+- Lab reports `/app/documents`: choose a file or (for Fatima) the demo OGTT report, read → every value editable with a keep checkbox → Confirm and save; reports list with status. Confirming Fatima's demo report closed her after-birth follow-up (navigator card gone from Home).
+- Privacy centre `/app/privacy`: promises, three choices (allow/stop), who saw my data (audit trail in plain words), stored counts, JSON export, FHIR check (9 resources, no validation errors) + download, discreet mode ("My notes", name and initial hidden; server-rendered from a cookie, saved to the profile), delete my entries with a confirmation dialog.
+- Home: "Your record" links (lab reports, privacy, mood check).
+- Safety fix: forms post only by fetch. A click before hydration had put EPDS answers into the URL in dev; the EPDS button no longer submits natively and every form is method="post".
+Tests: web 37/37 unit (EPDS scoring added) · lint, typecheck pass · backend 104/104
+Browser check (Fatima): demo report → 3 results saved → follow-up closed; EPDS normal (total 9 of 30, no URL leak) and crisis (support only, no score; Home leads with it); privacy: FHIR check, discreet on/off, delete with confirmation → all counts 0. Zero console errors. Demo data reset afterwards.
+Next:
+- Phase 7: landing page with Noura's real data, 3D (data-driven, lazy, with fallbacks), dark/RTL/states polish, accessibility, Lighthouse.
+
 ## 2026-11-05 — Phase 5 (web) — Krishna with Claude Code
 Done:
 - `/clinic`: "Seaside Women's Clinic (fictional)", consented patients most urgent first (red flags, then due care, then patterns) with open counts and reviewed/new, and the follow-ups due across the clinic.
