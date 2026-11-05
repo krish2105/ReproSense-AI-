@@ -17,6 +17,25 @@ Blockers / questions:
 
 ---
 
+## 2026-11-05 — Phases 0, 1, 3, 4, 5, 6 (backend) and 8 (partial) — Krishna with Claude Code
+Done:
+- Repo initialised and pushed to github.com/krish2105/ReproSense-AI- (branch `main`). CI: backend lint + tests on Postgres/pgvector, generator check, gitleaks.
+- Postgres schema with **forced row-level security**. The API runs every query as the restricted role `reprosense_app` with app.role/user_id/clinic_id. The database rejects any non-synthetic person.
+- Rules engine reads only `rules/clinical_rules.yaml` (safe parser, no eval). Red flags run first with a 14-day window; EPDS item 10 opens the crisis path and hides the mood card.
+- LangGraph pipeline: intake → signal → safety → (crisis: end) → evidence → writer → verifier → care_gap, traced per step. Claude provider (`claude-opus-5-5`, refusal fallbacks on) is used when a key is set; otherwise deterministic templates.
+- Knowledge base: 28 summaries in our own words (EN + AR, AR-REVIEW), a guideline graph and Arabic rule copy. Hybrid retrieval (full-text + pgvector + RRF + IDF re-rank) with an Arabic↔English glossary and light stemming.
+- Assistant: citations on every answer, polite refusal of diagnosis or probability questions, 998 guidance first, crisis message only for self-harm.
+- APIs: home/timeline/analytics/logs (PBAC, natural-language capture), insights, EPDS, lab upload → confirm (injection lines stripped), privacy (consents, audit timeline, export, delete), FHIR R4 bundle, care navigator (draft → approve, never sends), report PDF (WeasyPrint), 7-day revocable share links, clinic list and record (handover summary, Ask the record, visit note, care gaps, reminder drafts), admin metrics (k ≥ 10, fairness), quality panel, demo login/reset.
+- Security: AES-256-GCM notes and documents, hash-chained append-only audit log, headers, rate limits, CORS, PII redaction before any LLM call.
+- Fictional demo upload `data/synthetic/demo_uploads/fatima_postnatal_ogtt.txt`: confirming it closes Fatima's after-birth gap automatically.
+Tests: web — (not started) · backend **104/104 pass** · AI eval grounded 96.7% · refusals 15/15 · red-flag recall 100% · banned 0
+Senior-judge score: not run yet (run it after the web demo path exists; scoring the prototype now would only measure the missing UI)
+Next:
+- Atharva: Next.js app, Phases 2→7 UI against the ready APIs (HANDOFF.md §5).
+- Krishna: deploy, Playwright e2e, LLM key + cache warm-up, clinician sign-off items, disclosure note.
+Blockers / questions:
+- QUESTIONS #34 (code before selection must be disclosed) and #35 (NG88 ferritin wording) are new.
+
 ## 2026-11-05 — Pre-build — image integration (no product code)
 Done:
 - Verified the Mauve Pro archive: CRC ok; 38/38 PNGs match manifest hash, size and alpha. Placed all of them at their manifest paths in public/images (+ mockup/images).

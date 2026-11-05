@@ -59,12 +59,17 @@ Images: `IMAGE_PROMPTS_CHATGPT.md` → save into `public/images/`. Version 4 sco
 
 ## Commands
 ```
+make env db seed                                  # .env with random keys, databases, schema+RLS+data+RAG index
+make api                                          # API on :8010 (8000 is used by another local project)
+make test                                         # ruff + backend tests (104)
 python3 data/synthetic/generate_synthetic.py      # demo data
-cd apps/web && pnpm install && pnpm dev           # web on :3000
-cd backend && uv sync && uv run uvicorn app.main:app --reload   # API on :8000
-cd backend && uv run python -m app.rag.ingest     # build RAG index
-cd backend && uv run pytest
+cd apps/web && pnpm install && pnpm dev           # web on :3000 (not built yet — see HANDOFF.md §5)
 ```
+Status and next steps for a new session: `HANDOFF.md`.
+
+## Git
+Commit as the human team member. Never add Claude / AI co-author lines or "Generated with Claude Code" to commits or PRs.
+(AI use is still disclosed in the app footer and the pitch credits, as the hackathon requires.)
 
 ## Definition of done (demo)
 Judge opens the URL → picks a demo persona → sees dashboard + timeline → opens AI insights with evidence

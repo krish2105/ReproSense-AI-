@@ -1,0 +1,55 @@
+name: ci
+on:
+  push:
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: reprosense_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/reprosense_test
+      DEMO_MODE: "true"
+      LLM_PROVIDER: none
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: System libraries for WeasyPrint
+        run: sudo apt-get update && sudo apt-get install -y libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b
+      - name: Random demo keys (never committed)
+        run: |
+          echo "NOTES_KEY=$(python3 -c 'import os,base64;print(base64.b64encode(os.urandom(32)).decode())')" >> "$GITHUB_ENV"
+          echo "DEMO_TOKEN_SECRET=$(python3 -c 'import secrets;print(secrets.token_urlsafe(48))')" >> "$GITHUB_ENV"
+      - name: Lint
+        working-directory: backend
+        run: uv sync --python 3.12 && uv run ruff check app tests
+      - name: Tests (rules, API, RLS, security, 60-question AI eval)
+        working-directory: backend
+        run: uv run pytest -q
+
+  generator-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic data generator validates all personas and is byte-identical
+        run: |
+          python3 data/synthetic/generate_synthetic.py
+          git diff --exit-code data/synthetic/output
+
+  gitleaks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

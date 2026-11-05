@@ -1,0 +1,127 @@
+# HANDOFF — ReproSense AI (read this before anything else)
+
+Written 5 Nov 2026 for the next person or Claude Code session picking this up.
+Repo: https://github.com/krish2105/ReproSense-AI- (public). Branch `main`.
+Hackathon: HealthX Ajyal (DoH Abu Dhabi). Apply by **Sat 14 Nov 23:59 GST** · selection Mon 16 Nov · build 17–21 Nov ·
+code freeze Sat 21 Nov 18:00 · showcase Sun 22 Nov, DOH Incubator, Masdar City.
+
+---
+
+## 1. Where things stand in one minute
+- **Backend: built and tested (104/104).** It runs on FastAPI, local Postgres 17 + pgvector, a LangGraph pipeline, RAG and WeasyPrint. Every endpoint the demo needs exists.
+- **Web app: not started.** `apps/web` does not exist yet. This is the critical path, and it is **Atharva's** (Phases 2–7 UI).
+- **Design reference:** `mockup/reprosense-mockup.html` (rebuilt from `mockup/template.html`). Copy its tokens and components exactly (docs/06, design E · Mauve Pro).
+- **Images:** all 37 (+1 duplicate) are in `public/images/`, hash-checked, with derived icons and app icons. See `ASSET_INTEGRATION_REPORT.md`, which also has the calibrated body-map tap points.
+- **Not deployed.** No Supabase, Vercel or Render accounts or keys exist yet. Everything runs locally.
+- **No LLM key.** Cards and the assistant run in deterministic mode (templates + extractive answers with citations). Add `ANTHROPIC_API_KEY` to `.env` and the Claude provider switches on by itself (`claude-opus-5-5`, refusal fallbacks on, outputs cached for demo-safe mode).
+
+## 2. Rules for whoever continues (non-negotiable)
+1. Read `CLAUDE.md` (11 product rules), then this file, `BUILD_STATUS.md`, `QUESTIONS.md`.
+2. **Git: no Claude / AI co-author lines** in commits or PRs (no `Co-Authored-By: Claude`, no "Generated with Claude Code"). Commit as yourself.
+3. Never diagnose; no probabilities; every answer cites `knowledge_base/sources.yaml`. The guard lives in `backend/app/ai/guards.py`.
+4. Observation logic lives **only** in `rules/clinical_rules.yaml`. Changing it needs clinician (CHO) sign-off. Wording-only Arabic copy is in `rules/translations_ar.yaml` (AR-REVIEW).
+5. Synthetic data only. The database itself rejects non-synthetic people (`CHECK (is_synthetic)`).
+6. The care navigator **only drafts**. Status values are `draft | approved | discarded`; there is no "sent".
+7. Small commits; after each phase run `make test`, update `BUILD_STATUS.md` + `PROGRESS.md`, and run the senior-judge agent with `docs/09_SCORECARDS.md`.
+8. Load the skills before matching work: `no-ai-slop-ui` (any UI), `clinical-copy-guard` (any health text), `demo-readiness` (build-week evenings).
+
+## 3. Run it locally (macOS)
+Prerequisites: Homebrew Postgres 17 with pgvector listening on `/tmp:5432`, `pango` (for PDFs), `uv`, Python 3.12, Node 20+ and pnpm.
+```bash
+make env      # writes .env with random DEMO_TOKEN_SECRET + NOTES_KEY (git-ignored). Never commit it.
+make db       # creates databases reprosense + reprosense_test
+make seed     # schema + RLS + 8 personas + 1,200 cohort + RAG index (93 chunks)
+make api      # http://127.0.0.1:8010  (docs at /docs). Port 8000 is taken by another local project.
+make test     # ruff + 104 tests against reprosense_test
+```
+Gotchas:
+- **WeasyPrint on macOS** needs `DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib`. The Makefile sets it inline because macOS strips `DYLD_*` when it launches `/bin/sh`. Without it, PDFs return 503 and everything else still works.
+- **"Today" is pinned** to `DEMO_REF_DATE=2026-11-22`. Hessa's week-24 rule and Sara's red flag depend on it.
+- Tests reseed `reprosense_test` many times. The demo DB `reprosense` is reset with `POST /v1/demo/reset` (admin token) or `make seed`.
+- `mockup/` can be previewed over HTTP with the "mockup" entry in `.claude/launch.json` (python http.server on 8765).
+
+## 4. Architecture map (what is where)
+| Area | Files |
+| --- | --- |
+| Settings / secrets | `backend/app/config.py` (env only), `.env.example` |
+| DB + RLS | `backend/app/db/schema.sql`. Forced RLS on every health table; the API does `SET LOCAL ROLE reprosense_app` + `app.role/app.user_id/app.clinic_id` per request (`backend/app/db/__init__.py`) |
+| Seed | `backend/app/db/seed.py`. Fictional clinics; clinician `clin-01` at `clinic_corniche`; admin `admin-01`. Amina does **not** share with the clinic (shows the consent gate) |
+| Rules | `backend/app/rules/expr.py` (safe parser), `features.py` (features + supporting entry ids), `engine.py` (red flags first, 14-day window, crisis suppression) |
+| Pipeline | `backend/app/agents/pipeline.py`. LangGraph: intake → signal → safety → (crisis: end) → evidence → writer → verifier → care_gap; `persist()` writes observations and opens/closes care gaps |
+| Card copy | `backend/app/agents/copy.py` (numbers → sentences, questions for the doctor, EN/AR) |
+| RAG | `knowledge_base/summaries/*.md` (28, EN + AR), `knowledge_base/graph.yaml`, `backend/app/rag/{kb,embed,ingest,retrieve}.py` |
+| Assistant | `backend/app/agents/assistant.py`: crisis → urgent (998) → refusal → extractive cited answer; LLM optional with sentence verifier |
+| Navigator / copilot | `backend/app/agents/navigator.py`, `copilot.py` (SBAR, Ask the record, visit-note draft) |
+| Reports | `backend/app/reports/pdf.py` (2-page A4, inline SVG cycle chart) |
+| FHIR / documents | `backend/app/services/fhir.py`, `documents.py` (lab extraction; injection lines stripped; confirm before save) |
+| Security | `backend/app/security/{auth,crypto,audit,middleware}.py` |
+| API routers | `backend/app/api/{demo,patient,assistant,reports,clinic,admin,quality}.py`, `backend/app/main.py` |
+| Tests | `backend/tests/` (+ `rag_eval.jsonl`, 60 questions). Eval results go to `backend/app/ai/eval_results.json` |
+| CI | `.github/workflows/ci.yml` (backend on pgvector, generator check, gitleaks) |
+
+## 5. Atharva — the web app (Phases 0 web → 7). This is the critical path.
+Stack is decided (CLAUDE.md): Next.js 15 App Router + TypeScript strict + Tailwind (tokens from the mockup `:root`, light + dark) + next-intl (EN/AR, RTL) + hand-built SVG charts + React Three Fiber (lazy, with a still fallback). Restyle any shadcn component; never ship defaults.
+
+**Setup (Phase 0 web)**
+- `apps/web` with pnpm. Move or copy `public/images` → `apps/web/public/images` (QUESTIONS #24) and update the CLAUDE.md folder map.
+- Rewrite `/api/v1/*` → `http://127.0.0.1:8010/v1/*` in `next.config` so the `rs_token` cookie is same-origin.
+- Server components call the API directly and forward the cookie.
+- Copy `:root` + both dark blocks and the component CSS from `mockup/template.html` (lines 9–240): tokens, `.box`, `.dp`, `.tabbar`, `.obs`, `.chips`, `.msg`, `.seg`, and so on.
+- Fonts: Plus Jakarta Sans + IBM Plex Sans Arabic.
+- Footer on every screen: "ReproSense gives information, not a diagnosis. In an emergency call 998. Demo data is fictional. Built with AI tools." Plus the "Demo data — fictional" badge.
+
+**Login model.** `/demo` → `POST /v1/demo/login {persona}` or `{role:"clinician"|"admin"}` sets the httpOnly cookie `rs_token`. The stage switch on Home = log in as that stage's persona: Periods→noura, Trying→mariam, Pregnancy→hessa, After birth→fatima, Perimenopause→layla. Reset button: log in as admin → `POST /v1/demo/reset`.
+
+**Route → API → mockup reference**
+| Route | API | Mockup section |
+| --- | --- | --- |
+| `/` landing | `GET /v1/demo/personas` (hero uses Noura's real cycles) | view `home` |
+| `/demo` | `GET /v1/demo/personas`, `POST /v1/demo/login`, `POST /v1/demo/reset` | view `people` |
+| `/app` Home | `GET /v1/me/home?lang=` → `status` (mode cycle / pregnancy / after_birth, day/week, phases, `estimate`), `day_pills`, `red_flags`, `crisis`, `observations` (≤3 cards), `recommendations`, `care_gaps`, `navigator_drafts`, `last_log`, `today_mood`; `POST /v1/mood` | `tToday`, `arcSVG`, `recs` |
+| `/app/log` Calendar | `POST /v1/logs` (flow, pain 0–10, pain_sites, symptoms, impact, pbac_items, note) → returns `red_flags`/`crisis`: **show urgent guidance immediately**; `POST /v1/logs/parse` (NL capture, confirm before save); body map uses `ASSET_INTEGRATION_REPORT.md` §5 coordinates (front/back, her left/right) | `calBox`, `bodyMap`, `tLog` |
+| `/app/timeline` Analytics | `GET /v1/analytics?months=3\|6\|12`, `GET /v1/timeline?months=` | `lineChart`, `barChart`, `tChart` |
+| `/app/insights` Patterns | `GET /v1/insights?lang=` → `cards[]` (title, summary, explains, why_we_noticed[{entry_id,date,text}], values, what_to_consider, questions_for_doctor, sources, urgency, crisis_path), `trace[]`, `record_strength`, `change_point` | `tInsights`, `obsBlock`, `traceDialog` |
+| `/app/assistant` AI Chat | `POST /v1/assistant/ask {question, lang}` → `answer`, `sentences[{text,cite}]`, `citations[{n,title,url}]`, `urgent`, `crisis`, `refused`; `GET /v1/assistant/suggested?lang=` | `tAsk`, `msg` |
+| `/app/report` | `POST /v1/reports` (preview payload) → `GET /v1/reports/{id}.pdf`; `POST /v1/shares {report_id, consent:true}` → `{token, path:/shared/<token>, expires_at}`; `GET /v1/shares`, `DELETE /v1/shares/{id}`; visit mode = SBAR + QR of `/shared/<token>` | `tReport`, `visitDialog` |
+| `/shared/[token]` | `GET /v1/shared/{token}` (+ `.pdf`): 404 revoked, 410 expired | — |
+| `/app/documents` | `POST /v1/documents` (multipart .txt/.pdf) → extracted rows → user edits → `POST /v1/documents/{id}/confirm {rows}`. Demo file: `data/synthetic/demo_uploads/fatima_postnatal_ogtt.txt` (closes Fatima's gap) | — |
+| `/app/privacy` | `GET /v1/privacy` (consents, "who saw my data" audit), `PATCH /v1/consents`, `GET /v1/export`, `GET /v1/fhir`, `DELETE /v1/me/data`, `PATCH /v1/me {discreet, language}` | — |
+| navigator dialog | `GET /v1/navigator`, `POST /v1/navigator/drafts {rule_id}`, `POST /v1/navigator/drafts/{id}/approve\|discard` (show "Nothing was sent") | `navDialog` |
+| EPDS check-in | `POST /v1/questionnaires/epds {answers[10]}` → if `crisis`: crisis screen, **no score** | — |
+| `/clinic` | `GET /v1/clinic/patients` (consented only, red flags first) | view `clinic` |
+| `/clinic/patients/[id]` | `GET /v1/clinic/patients/{id}` (sbar, cards, labs, care_gaps, analytics, timeline, her_questions, visit_note_draft); `POST …/ask`, `POST …/review`, `PUT …/visit-note`; `GET /v1/clinic/care-gaps`, `PATCH /v1/clinic/care-gaps/{id} {status}`, `POST …/reminder` (draft only) | `renderClinic`, `recordQA` |
+| `/admin` | `GET /v1/admin/metrics` (kpis, funnel, regions with k≥10, fairness, roi_inputs, live_demo_gaps), `GET /v1/admin/audit/verify` | `renderAdmin`, `initMap3D` |
+| `/status` team scorecard | `GET /v1/quality` (rule accuracy 8/8 + AI eval numbers) | view `score` |
+
+**Order (demo path first, QUESTIONS #11):**
+1. `/demo` → Home → Patterns for **Noura**.
+2. Hessa: pregnancy arc + navigator.
+3. Report + share.
+4. Clinic list → Fatima → close the gap → admin KPI moves.
+5. Assistant (EN + AR).
+6. Calendar/log + body map.
+7. Documents, privacy, EPDS.
+8. Landing.
+9. 3D, dark mode, RTL, states, Lighthouse.
+
+Done when each `BUILD_STATUS` "Done when" passes at 390px and 1280px, light and dark, EN and AR, with no console errors.
+
+## 6. Krishna — what is left on the backend / ops side
+- Deploy: Supabase project (run `schema.sql`; RLS works the same), Render (Docker with Pango for WeasyPrint), Vercel (web). Add `/healthz` uptime ping. Replit backup.
+- Playwright e2e of the full demo path (with Atharva, once the UI exists), wired into CI.
+- Get an `ANTHROPIC_API_KEY` (or decide to stay deterministic). Run the eval in LLM mode and warm the cache for all 8 personas.
+- Clinician sign-off: QUESTIONS #17, #26, #27, #28, #35 and the `clinical_rules.yaml` header. Verify NG257 wording (#29).
+- Disclosure note (#34) and applications by 14 Nov. Interviews + LOI (docs/12, docs/15).
+- Nice-to-have: passkeys via Supabase Auth, web CSP with nonces, dependency scanning (pip-audit / npm audit), ar04 eval miss.
+
+## 7. Decisions already made (do not re-open without asking Krishna)
+Scope = demo path first (#11) · builders Krishna + Atharva (#12) · demo role tokens + real RLS, passkeys stretch (#13) · `hashing` embeddings + FTS hybrid (#14) · ref date pinned (#16) · 14-day red-flag window (#17) · web only, no native apps (#23) · body-map coordinates (#25) · build before selection with disclosure (#34) · phase owners (#37).
+
+## 8. Prompt to start a new Claude Code session
+```
+You are continuing ReproSense AI. Read HANDOFF.md first, then CLAUDE.md, BUILD_STATUS.md, QUESTIONS.md.
+Do not add any Claude or AI co-author lines to commits or PRs.
+Run `make env db seed test` to confirm the backend (expect 104 passed).
+Then continue the next unfinished item in HANDOFF.md §5 (web app) or §6 (ops), phase by phase,
+updating BUILD_STATUS.md and PROGRESS.md after each phase. Ask me before changing rules/clinical_rules.yaml.
+```
