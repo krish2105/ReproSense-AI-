@@ -14,11 +14,19 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   retries: process.env.CI ? 1 : 0,
-  reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : [["list"]],
+  // CI: a line per test (so a hang shows where), annotations, and the HTML report; stop early when it is broken.
+  reporter: process.env.CI ? [["list"], ["github"], ["html", { open: "never" }]] : [["list"]],
+  maxFailures: process.env.CI ? 8 : undefined,
+  globalTimeout: process.env.CI ? 15 * 60_000 : undefined,
   globalSetup: "./e2e/global-setup.ts",
   use: {
     baseURL: WEB,
     channel: process.env.PW_CHANNEL || undefined,
+    // Extra browser flags for debugging, e.g. PW_ARGS="--disable-gpu --use-angle=swiftshader" (CI's software GL).
+    launchOptions: { args: process.env.PW_ARGS ? process.env.PW_ARGS.split(" ") : [] },
+    // Reduced motion by default: CI has no GPU, and the always-on 3D (hero ring, spiral, region columns) would compete
+    // with the tests for the runner's CPU. The WebGL path itself is tested with motion allowed in fallbacks.spec.ts.
+    reducedMotion: "reduce",
     locale: "en-GB",
     timezoneId: "Asia/Dubai",
     trace: "retain-on-failure",
