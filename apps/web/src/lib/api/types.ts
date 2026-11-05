@@ -117,12 +117,17 @@ export interface Card {
 
 export interface CycleStatus {
   mode: "cycle";
-  day: number;
-  length: number;
+  day: number | null; // null until her first period is logged (a new record)
+  length: number | null;
   estimate: boolean;
   phase: PhaseKey;
   phases: { key: PhaseKey; from: number; to: number }[];
   next_period_from: string | null;
+}
+/** A cycle with a known day: a new record has none until her first period is logged. */
+export type KnownCycle = CycleStatus & { day: number; length: number };
+export function isKnownCycle(s: CycleStatus): s is KnownCycle {
+  return s.day !== null && s.length !== null;
 }
 export interface WeekWindow {
   label: string;

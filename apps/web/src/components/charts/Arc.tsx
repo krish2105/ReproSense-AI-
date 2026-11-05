@@ -1,6 +1,7 @@
 import { useId } from "react";
 import { getTranslations } from "next-intl/server";
-import type { AfterBirthStatus, CycleStatus, PregnancyStatus } from "@/lib/api/types";
+import { isKnownCycle, type AfterBirthStatus, type CycleStatus, type PregnancyStatus } from "@/lib/api/types";
+import { ButtonLink } from "@/components/ui/Button";
 import type { Locale } from "@/i18n/config";
 import { afterBirthSegments, ARC, arcPath, cycleSegments, markerAt, pregnancySegments, trimesterOf, type Segment } from "@/lib/arc";
 import { formatDayMonth } from "@/lib/format";
@@ -85,6 +86,20 @@ function Legend({ items }: { items: { label: string; swatch: string; hatch?: boo
 
 export async function CycleArc({ status, locale, peri = false }: { status: CycleStatus; locale: Locale; peri?: boolean }) {
   const t = await getTranslations("arc");
+  if (!isKnownCycle(status)) {
+    // A new record: nothing to estimate yet, so say what will appear and how to start (web-screen §6 empty states).
+    return (
+      <section className="box" aria-labelledby="arc-empty" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <h2 id="arc-empty" style={{ fontSize: 17 }}>
+          {t("noCycleTitle")}
+        </h2>
+        <p className="s dim">{t("noCycleBody")}</p>
+        <ButtonLink href="/app/log" size="sm" className="self-start">
+          {t("noCycleAction")}
+        </ButtonLink>
+      </section>
+    );
+  }
   const max = Math.max(status.length, status.day);
   const phaseName = t(`phases.${status.phase}`);
   const longer = status.day > status.length;

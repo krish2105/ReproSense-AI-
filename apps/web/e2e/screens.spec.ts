@@ -7,6 +7,8 @@ const SCREENS: { path: string; who: Who }[] = [
   { path: "/", who: null },
   { path: "/demo", who: null },
   { path: "/status", who: null },
+  { path: "/join", who: null },
+  { path: "/join?clinic=clinic_corniche", who: null },
   { path: "/app", who: { persona: "noura" } },
   { path: "/app/log", who: { persona: "noura" } },
   { path: "/app/insights", who: { persona: "noura" } },

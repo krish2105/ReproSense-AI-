@@ -12,6 +12,7 @@ import { spiralCycles } from "@/components/landing/spiral";
 import { ButtonLink } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
 import { isLocale } from "@/i18n/config";
+import { isKnownCycle } from "@/lib/api/types";
 import { displayName, firstName, formatDate, isolate } from "@/lib/format";
 import { getShowcase } from "@/lib/showcase";
 
@@ -71,7 +72,7 @@ export default async function Landing() {
           </div>
           <p className="who">{t("landing.who")}</p>
         </div>
-        {show?.status ? (
+        {show?.status && isKnownCycle(show.status) ? (
           <HeroStage beads={ringBeads(show.status)} label={t("landing.phoneLabel")}>
             {/* Noura's home screen as she sees it today (mockup #heroPhone), from the same API and components. */}
             <div className="device mini" style={{ height: 680 }}>
@@ -246,7 +247,12 @@ export default async function Landing() {
           ))}
         </dl>
         <div style={{ marginTop: 28 }}>
-          <ButtonLink href="/demo">{t("landing.finalCta")}</ButtonLink>
+          <div className="acts" style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <ButtonLink href="/demo">{t("landing.finalCta")}</ButtonLink>
+            <ButtonLink href="/join" variant="outline">
+              {t("join.tryAction")}
+            </ButtonLink>
+          </div>
         </div>
       </section>
     </>

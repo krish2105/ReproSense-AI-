@@ -162,7 +162,13 @@
     "noShareTitle": "No shared record",
     "noShareBody": "She hasn't shared her record with this clinic. It appears here only after she shares a report.",
     "careGapsTitle": "Follow-ups due across the clinic",
-    "careGapsNone": "No open follow-ups."
+    "careGapsNone": "No open follow-ups.",
+    "inviteTitle": "Invite patients",
+    "inviteBody": "Patients scan this code to start their own record. Each one decides whether to share it with your clinic; nothing is shared by default.",
+    "inviteCopy": "Copy invite link",
+    "inviteCopied": "Invite link copied.",
+    "inviteOpen": "Open the invite page",
+    "inviteQrLabel": "QR code of the patient invite link"
   },
   "admin": {
     "metaTitle": "Clinic network",
@@ -332,7 +338,10 @@
     "afterBirth": "after birth",
     "recovery": "Recovery, weeks 0–{to}",
     "window": "Glucose test window, weeks {from}–{to}",
-    "summaryAfter": "Week {week} after birth. The glucose test window is weeks {from} to {to}."
+    "summaryAfter": "Week {week} after birth. The glucose test window is weeks {from} to {to}.",
+    "noCycleTitle": "Your cycle day appears here",
+    "noCycleBody": "Log the day your period starts and ReproSense estimates where you are in your cycle. Everything stays in your record.",
+    "noCycleAction": "Log your period"
   },
   "safety": {
     "pregTitle": "Call 998 or go to your maternity unit now if you notice",
@@ -959,5 +968,42 @@
     "rubricTitle": "How the jury scores (HealthX Ajyal)",
     "rubric": "Venture 30 · Health impact 20 · Innovation and evidence 20 · Working prototype 20 · Team and pitch 10",
     "unavailable": "The quality numbers didn't load. Start the API with make api, then reload."
+  },
+  "join": {
+    "metaTitle": "Start your own record",
+    "step": "Step {n} of 3",
+    "invitedBy": "Invited by {clinic}",
+    "h1": "Start your own record",
+    "lede": "Two minutes, a few questions. Your entries stay yours: you decide what a clinic sees.",
+    "promise1": "Only you see your entries.",
+    "promise2": "A clinic sees your report only if you share it, and you can stop at any time.",
+    "promise3": "You can download or delete everything from the privacy page.",
+    "demoNote": "This is a demo. Use a nickname and made-up details, not your real health information. Demo records are deleted at the next reset.",
+    "continue": "Continue",
+    "back": "Back",
+    "aboutTitle": "About you",
+    "name": "First name or nickname",
+    "age": "Age",
+    "ageHint": "18 or older",
+    "region": "Where you live",
+    "stage": "What fits you best right now?",
+    "detailsTitle": "One more question",
+    "lastPeriod": "When did your last period start?",
+    "lastPeriodHint": "Leave it empty if you don't remember. You can log it later.",
+    "weeksPregnant": "How many weeks pregnant are you?",
+    "weeksSinceBirth": "How many weeks ago was your baby born?",
+    "gdm": "Was diabetes found during this pregnancy (gestational diabetes)?",
+    "gdmYes": "Yes",
+    "gdmNo": "No",
+    "gdmUnsure": "Not sure",
+    "gdmHint": "If yes, ReproSense checks whether your follow-up glucose test is recorded and reminds you when it is due.",
+    "share": "Share my report with {clinic}. I can stop sharing at any time.",
+    "create": "Create my record",
+    "creating": "Creating your record",
+    "failed": "Your record wasn't created: {detail}",
+    "required": "Fill in every question on this step to continue.",
+    "tryTitle": "Try it as yourself",
+    "tryBody": "Start a new record in two minutes, with made-up details. A clinic's QR code opens the same page.",
+    "tryAction": "Start your own record"
   }
 }

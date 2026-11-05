@@ -16,6 +16,7 @@ const NEEDS = ["patient", "clinician", "admin"] as const;
 
 export default async function DemoPage({ searchParams }: { searchParams: Promise<{ need?: string }> }) {
   const t = await getTranslations("demo");
+  const tj = await getTranslations("join");
   const ts = await getTranslations("states");
   const locale = await getLocale();
   const { need } = await searchParams;
@@ -43,6 +44,15 @@ export default async function DemoPage({ searchParams }: { searchParams: Promise
           <ErrorState title={t("apiDownTitle")} body={t("apiDownBody")} action={<ButtonLink variant="outline" size="sm" href="/demo">{ts("retry")}</ButtonLink>} />
         </div>
       )}
+      <section aria-labelledby="try-title" className="box" style={{ marginTop: 28, display: "flex", flexDirection: "column", gap: 8, maxWidth: 640 }}>
+        <h2 id="try-title" style={{ fontSize: 20 }}>
+          {tj("tryTitle")}
+        </h2>
+        <p className="s dim">{tj("tryBody")}</p>
+        <ButtonLink href="/join" variant="outline" size="sm" className="self-start">
+          {tj("tryAction")}
+        </ButtonLink>
+      </section>
       <section aria-labelledby="staff-title" style={{ marginTop: 36 }}>
         <h2 id="staff-title" style={{ fontSize: 22 }}>
           {t("staffTitle")}
