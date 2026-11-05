@@ -17,6 +17,18 @@ Blockers / questions:
 
 ---
 
+## 2026-11-05 — Phase 5 (web) — Krishna with Claude Code
+Done:
+- `/clinic`: "Seaside Women's Clinic (fictional)", consented patients most urgent first (red flags, then due care, then patterns) with open counts and reviewed/new, and the follow-ups due across the clinic.
+- `/clinic/patients/[id]`: pre-visit summary (SBAR from the API), red flags, follow-ups (Mark booked, Mark done, Reopen, Draft reminder in EN + AR that is never sent), Ask the record (suggested questions + free text; answers only from her entries with dated evidence), cycle-length and pain charts, patterns with evidence chips and "How this was produced", labs with printed ranges, her questions, editable visit note (saved), Mark reviewed. Amina (no consent) gets "No shared record". On phones the list hides and a back link appears.
+- `/admin`: KPIs (women, reports shared, follow-ups closed, share closed), live demo follow-ups box, funnel, regions with status bars, fairness tables by nationality group and age band (gap flags, suppression under 10), clinician-time calculator with the API's stated assumptions (cost only if the viewer enters one), audit hash-chain check, refresh every 10 seconds.
+- Language toggle now writes its cookie in the browser (a server action id from an older build failed after a redeploy); `data-scroll-behavior="smooth"` set on <html>.
+Tests: web 34/34 unit (message parity now uses the real ICU parser) · lint, typecheck pass · backend 104/104
+Browser check: clinic list and Fatima at 1280; Hessa: Ask the record (cycle lengths with dates), reminder draft, Mark reviewed, visit note saved; Amina consent gate and the record layout at 390. **Demo moment verified:** Mark done on Fatima's glucose-test follow-up → admin: closed 101 → 102, share closed 40.4% → 40.8%, still open 88 → 87, live box Open 1 · Done 1. Zero console errors after the fixes. Demo data reset afterwards.
+Found (backend copy, QUESTIONS #41): clinician SBAR in patient voice; Ask-the-record ranges without years.
+Next:
+- Phase 6: EPDS check-in (pending wording, QUESTIONS #40), documents upload → confirm (Fatima's OGTT closes her gap), privacy centre (consents, who saw my data, export, FHIR, delete), discreet mode.
+
 ## 2026-11-05 — Phase 4 (web) — Krishna with Claude Code
 Done:
 - Report `/app/report`: "Prepare my report" (POST /v1/reports) then a preview built from the same payload as the PDF: identity, entries and bleeding days, cycle lengths, bleeding score per period (100+ highlighted), red flags, patterns (not a diagnosis) with entry counts, labs as printed with ranges and flags, questions for the doctor, sources. Dates use the report's pinned date.

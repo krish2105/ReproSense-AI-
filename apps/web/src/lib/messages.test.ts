@@ -1,3 +1,4 @@
+import { parse, TYPE, type MessageFormatElement } from "@formatjs/icu-messageformat-parser";
 import { describe, expect, it } from "vitest";
 import ar from "../../messages/ar.json";
 import en from "../../messages/en.json";
@@ -15,9 +16,21 @@ function flatten(tree: Tree, prefix = ""): Record<string, string> {
   return out;
 }
 
-/** ICU argument names such as {name} or {count, plural, ...}; plural branches may differ by language. */
+/** ICU argument names, found with the real ICU parser (plural/select branches may differ by language). */
 function args(s: string): string[] {
-  return [...s.matchAll(/\{\s*([a-zA-Z_][\w]*)\s*(?:[,}])/g)].map((m) => m[1]!).filter((v, i, a) => a.indexOf(v) === i).sort();
+  const names = new Set<string>();
+  const walk = (els: MessageFormatElement[]) => {
+    for (const el of els) {
+      if (el.type === TYPE.argument || el.type === TYPE.number || el.type === TYPE.date || el.type === TYPE.time) names.add(el.value);
+      if (el.type === TYPE.plural || el.type === TYPE.select) {
+        names.add(el.value);
+        for (const opt of Object.values(el.options)) walk(opt.value);
+      }
+      if (el.type === TYPE.tag) walk(el.children);
+    }
+  };
+  walk(parse(s));
+  return [...names].sort();
 }
 
 const EN = flatten(en as Tree);

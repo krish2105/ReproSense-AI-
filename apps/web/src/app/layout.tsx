@@ -53,6 +53,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       lang={locale}
       dir={dirOf(locale)}
       data-theme={theme === "dark" || theme === "light" ? theme : undefined}
+      data-scroll-behavior="smooth"
       className={`${jakarta.variable} ${plexArabic.variable}`}
     >
       <body>

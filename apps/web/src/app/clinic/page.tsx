@@ -1,56 +1,60 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import Link from "next/link";
+import { getLocale, getTranslations } from "next-intl/server";
+import { PatientList } from "@/components/clinic/PatientList";
 import { EmptyState } from "@/components/ui/States";
 import { Tag } from "@/components/ui/Tag";
+import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
-import type { ClinicPatientsResponse } from "@/lib/api/types";
-import { displayName, regionKey } from "@/lib/format";
-import { tonesOf } from "@/lib/rules";
+import type { ClinicGapRow, ClinicPatientsResponse } from "@/lib/api/types";
+import { displayName, formatDayMonth } from "@/lib/format";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("clinic");
   return { title: t("metaTitle") };
 }
 
-// Phase 0 stand-in for the clinic list (consented patients only, red flags first). Phase 5 builds the full view.
+// Clinician home (HANDOFF §5 /clinic; mockup renderClinic): consented patients, most urgent first,
+// and the follow-ups due across the clinic.
 export default async function ClinicPage() {
-  const t = await getTranslations();
-  const { patients } = await apiServer<ClinicPatientsResponse>("/clinic/patients");
+  const raw = await getLocale();
+  const locale = isLocale(raw) ? raw : "en";
+  const t = await getTranslations("clinic");
+  const [{ patients }, gaps] = await Promise.all([apiServer<ClinicPatientsResponse>("/clinic/patients"), apiServer<ClinicGapRow[]>("/clinic/care-gaps")]);
+  const open = gaps.filter((g) => g.status !== "closed");
   return (
     <>
-      <h1 className="page-title">{t("clinic.title")}</h1>
-      <p className="page-intro">{t("clinic.intro")}</p>
-      <div className="panel plist" style={{ marginTop: 22, maxWidth: 640 }}>
-        {patients.length === 0 ? (
-          <EmptyState title={t("clinic.emptyTitle")} body={t("clinic.emptyBody")} />
-        ) : (
-          <ul aria-label={t("clinic.listLabel")} style={{ listStyle: "none", margin: 0, padding: 0 }}>
-            {patients.map((p) => {
-              const tone = tonesOf(p.rules)[0];
-              return (
-                <li key={p.id} className="prow" style={{ cursor: "default" }}>
-                  <span className="ini" aria-hidden="true" style={{ width: 36, height: 36, fontSize: 15 }}>
-                    {displayName(p.alias)[0]}
-                  </span>
-                  <span>
-                    <b>
-                      <bdi>{displayName(p.alias)}</bdi>
-                    </b>
-                    <br />
+      <h1 className="page-title">{t("title")}</h1>
+      <p className="page-intro">{t("intro")}</p>
+      <div className="clinic" style={{ marginTop: 22 }}>
+        <div className="panel plist">
+          <PatientList patients={patients} />
+        </div>
+        <div className="detail panel" style={{ background: "var(--sheet)" }}>
+          <EmptyState title={t("detailEmptyTitle")} body={t("detailEmpty")} headingLevel={2} />
+          <section aria-labelledby="clinic-gaps">
+            <p className="label" id="clinic-gaps" style={{ marginBottom: 8 }}>
+              {t("careGapsTitle")}
+            </p>
+            {open.length === 0 ? (
+              <p className="s dim">{t("careGapsNone")}</p>
+            ) : (
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+                {open.map((g) => (
+                  <li key={g.id} className="kv" style={{ flexWrap: "wrap" }}>
+                    <Link href={`/clinic/patients/${g.profile_id}`}>
+                      <bdi>{displayName(g.alias)}</bdi>: {t.has(`gapType.${g.type}`) ? t(`gapType.${g.type}`) : t("gapType.other")}
+                    </Link>
                     <span className="xs dim">
-                      {t("demo.ageRegion", { age: p.age, region: t.has(`regions.${regionKey(p.region)}`) ? t(`regions.${regionKey(p.region)}`) : p.region })}
-                      {" · "}
-                      {t("clinic.redFlags", { count: p.red_flags })}
-                      {" · "}
-                      {t("clinic.openGaps", { count: p.open_gaps })}
+                      <Tag tone={g.status === "in_progress" ? "info" : "soon"}>{t(`gapStatus.${g.status}`)}</Tag>{" "}
+                      {g.due_date ? t("gapDue", { date: formatDayMonth(g.due_date, locale) }) : ""}
                     </span>
-                  </span>
-                  {tone ? <Tag tone={tone}>{t(`tags.${tone}`)}</Tag> : <Tag tone="ok">{t("tags.ok")}</Tag>}
-                </li>
-              );
-            })}
-          </ul>
-        )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        </div>
       </div>
     </>
   );
