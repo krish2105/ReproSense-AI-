@@ -17,6 +17,19 @@ Blockers / questions:
 
 ---
 
+## 2026-11-05 — Phase 2 (web) — Krishna with Claude Code
+Done:
+- Home `/app`: red flags first (RF card with the action line, date, evidence, source, Call 998), crisis card (RF4 wording, no score), greeting, stage switch (logs in as Noura, Mariam, Hessa, Fatima or Layla), day pills (link to that day), the signature arc for cycle, pregnancy (weeks 0–40 + glucose window ring) and after birth (weeks 0–12 + test window), RF5 pregnancy warning box with sources, recommendations, mood row (POST /v1/mood), up to three pattern cards, record strength.
+- Care navigator (pulled forward from #6 for the demo path, HANDOFF §5 order): card for "due now" care rules; the dialog drafts (or reuses) the request, shows message, questions, what to bring and sources; Approve → "Approved. Nothing was sent", Copy message; Discard.
+- Calendar `/app/log`: month grid with bleeding and logged days (links to each day), day detail tiles with the E9 icons, log form (flow, PBAC counters matching the backend weights, pain slider, calibrated body map front/back with yearly glow, symptoms, daily life, sleep, sentence capture via /v1/logs/parse with confirmation), red flags shown immediately and focused after saving.
+- Analytics `/app/timeline`: 3/6/12-month links, summary built from the numbers (EN/AR plurals), cycle-length line with the 21–35 band, pain and bleeding-score bars with thresholds, change noticed, top symptoms, day-by-day year dots, table view. Charts follow mauve-charts (hatch, gaps, outlines, LTR time, summaries).
+Tests: web 31/31 unit (arc geometry incl. overlapping phases, vocabulary checked against the API code, PBAC weights, sources checked against sources.yaml) · lint, typecheck, build pass · backend 104/104
+Browser check: Noura, Hessa, Fatima and Sara at 1280; Noura at 390 (Home, Calendar, Analytics) in EN light and AR dark; navigator approve flow; mood save; stage switch; red-flag log (heavy flow + flooding + dizziness → RF1 card at once); no horizontal scroll; zero console errors. Demo data reset afterwards.
+Fixed during the check: header overflow at 390 (duplicate "Switch person" removed), pain-chart threshold label collision, Arabic month agreement ("12 شهراً"), state kept across persona switch.
+UI slop check: pass (mockup classes, data-only decoration, specific labels, no gradient text, one icon set).
+Next:
+- Phase 3: Patterns (full cards, evidence chips → /app/log?date=, trace drawer, record strength) and AI Chat (citations, suggested pills, EN/AR, urgent/crisis).
+
 ## 2026-11-05 — Phase 0 (web) — Krishna with Claude Code
 Done:
 - `apps/web`: Next.js 15.5 App Router, React 19, TypeScript 5.9 strict, Tailwind v4 (no preflight, default palette off), next-intl 4 without i18n routing (cookie `NEXT_LOCALE`, EN + AR, `dir="rtl"`), pnpm 12.
