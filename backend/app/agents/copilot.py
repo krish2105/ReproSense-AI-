@@ -79,7 +79,8 @@ def ask_record(bundle: dict, question: str) -> dict:
     first, last = hits[0]["date"], hits[-1]["date"]
     ev = [{"entry_id": e["id"], "date": str(e["date"]), "text": cp.entry_text(e)} for e in hits[-10:]]
     return {
-        "answer": f"{len(hits)} matching entries between {cp._fmt_day(str(first))} and {cp._fmt_day(str(last))}."
+        "answer": f"{len(hits)} matching entries between {cp._fmt_day(str(first), year=True)} and"
+        f" {cp._fmt_day(str(last), year=True)}."
         f" The most recent are listed below with their dates.",
         "evidence": ev,
         "from_entries_only": True,
@@ -91,20 +92,22 @@ def sbar(bundle: dict, ev: Evaluation, ref: date) -> dict:
     f = ev.features.values
     stage = (p.get("life_stage") or "periods").replace("_", " ")
     lens = f.get("cycle_lengths_last6") or []
-    s = f"{p.get('age')}-year-old ({p.get('alias')}), life stage: {stage}. "
+    # Clinician voice (QUESTIONS #41): about her, never to her.
+    s = f"{p.get('alias')}, {p.get('age')}, life stage: {stage}. "
+    s += ("; ".join(cp.clinician_title(h.rule_id, h.rule_id) for h in ev.red_flags) + ". ") if ev.red_flags else ""
     s += (
-        ("Red flag logged: " + "; ".join(cp.title(h.rule_id) or h.rule_id for h in ev.red_flags) + ". ")
-        if ev.red_flags
-        else ""
-    )
-    s += (
-        ("Shared record shows " + ", ".join(h.title.lower() for h in ev.observations) + ".")
+        ("Patterns in the shared record: " + "; ".join(cp.clinician_title(h.rule_id, h.title) for h in ev.observations))
+        + "."
         if ev.observations
         else "No patterns flagged."
     )
     b_parts = []
     if lens:
-        b_parts.append(f"Last {len(lens)} cycle lengths: {', '.join(map(str, lens))} days")
+        b_parts.append(
+            f"Last {len(lens)} cycle lengths: {', '.join(map(str, lens))} days"
+            if len(lens) > 1
+            else f"Last cycle length: {lens[0]} days"
+        )
     if f.get("pbac_max_6"):
         b_parts.append(f"highest PBAC {f['pbac_max_6']}")
     if f.get("gdm_history"):
@@ -119,13 +122,13 @@ def sbar(bundle: dict, ev: Evaluation, ref: date) -> dict:
             "flagged labs: "
             + ", ".join(f"{lab['test']} {lab['value']} {lab['unit']} ({lab['flag']})" for lab in flagged)
         )
-    a = [f"{h.title} — {cp.detail(h.rule_id, h.values, f)}" for h in ev.observations]
-    r = [step for h in ev.observations for step in h.next_steps[:2]]
+    a = [f"{cp.clinician_title(h.rule_id, h.title)}: {cp.clinician_detail(h.rule_id, f)}" for h in ev.observations]
+    r = [step for h in ev.observations for step in cp.clinician_steps(h.rule_id)]
     return {
         "situation": s.strip(),
         "background": "; ".join(b_parts) + "." if b_parts else "No background entries.",
         "assessment": a or ["No rule-based patterns in the shared record."],
-        "recommendation": list(dict.fromkeys(r)) or ["Routine care; encourage continued logging."],
+        "recommendation": list(dict.fromkeys(r)) or ["Routine care; she can keep logging."],
         "note": "Rule-based summary of her own entries. Patterns are worth discussing, not diagnoses.",
         "ref_date": ref.isoformat(),
     }
@@ -134,7 +137,7 @@ def sbar(bundle: dict, ev: Evaluation, ref: date) -> dict:
 def visit_note_draft(bundle: dict, ev: Evaluation, ref: date) -> str:
     sb = sbar(bundle, ev, ref)
     lines = [
-        "VISIT NOTE (draft for clinician editing — rule-based summary, not a diagnosis)",
+        "VISIT NOTE (draft for the clinician to edit; a rule-based summary, not a diagnosis)",
         f"S: {sb['situation']}",
         f"B: {sb['background']}",
         "A: " + " | ".join(sb["assessment"]),
