@@ -17,6 +17,19 @@ Blockers / questions:
 
 ---
 
+## 2026-11-05 — Phase 4 (web) — Krishna with Claude Code
+Done:
+- Report `/app/report`: "Prepare my report" (POST /v1/reports) then a preview built from the same payload as the PDF: identity, entries and bleeding days, cycle lengths, bleeding score per period (100+ highlighted), red flags, patterns (not a diagnosis) with entry counts, labs as printed with ranges and flags, questions for the doctor, sources. Dates use the report's pinned date.
+- Download PDF and Open PDF (the PDF renders inline in Chrome through the proxy despite the API's CSP); Update report.
+- Share with my clinic: consent dialog (checkbox required) → 7-day link, copy link; sharing list with status and Stop sharing. The token is shown once by the API, so this browser session keeps it for the QR.
+- Visit mode: handover rows (situation, background, what the record shows, next step from the guideline) built from the payload, a real QR code of the share link, expiry caption, Exit visit mode; asks for consent first when nothing is shared.
+- `/shared/[token]`: public, noindex, no referrer; preview + PDF download; revoked/unknown and expired links each get their own message.
+- Fixed: the clinic is "Seaside Women's Clinic (fictional)" everywhere, as in the database (the mockup's "Corniche" name is a real Abu Dhabi hospital's).
+Tests: web 34/34 unit · lint, typecheck pass · backend 104/104
+Browser check: Noura's report at 1280 and 390 (Arabic), share with consent → link → visit mode QR → shared page opens → Stop sharing → link "doesn't open"; expired path checked by back-dating a share in the demo DB (API 410 → "This link has expired"). Zero console errors. Demo data reset afterwards.
+Next:
+- Phase 5: clinic list + patient record (SBAR, Ask the record, review, visit note, care gaps + reminder draft) and the admin dashboard (KPIs move live when Fatima's gap closes).
+
 ## 2026-11-05 — Phase 3 (web) — Krishna with Claude Code
 Done:
 - Patterns `/app/insights`: red flags pinned first; full cards with summary, the rule's explanation, "Why we noticed" chips that open that day in the calendar, record-strength meter, what to consider next, questions for the doctor, draft request (navigator), ask the assistant, how it was written (template or model, sentences matched to a source) and sources. "How this was produced" shows the rule id, rules version, the numbers the rule used and the 7 pipeline steps with timings. Crisis replaces everything with support. Amina gets an empty state that says what will appear.
