@@ -382,3 +382,58 @@ export interface AskResponse {
 export interface SuggestedResponse {
   questions: string[];
 }
+
+// ---------------- Phase 4: report and sharing ----------------
+
+export interface ReportPayload {
+  generated: string;
+  alias: string;
+  age: number;
+  region: string;
+  life_stage: LifeStage;
+  pregnancy_weeks: number;
+  cycles: { start: string; length: number | null; bleed: number }[];
+  stats: {
+    logs: number;
+    period_days: number;
+    severe_pain_days: number;
+    pbac_by_cycle: number[];
+    record_strength: string;
+    cycle_change: { index: number; before: number; after: number } | null;
+  };
+  red_flags: Card[];
+  patterns: Card[];
+  labs: LabResult[];
+  questions: string[];
+  sources: string[];
+  is_synthetic: boolean;
+}
+/** POST /v1/reports and GET /v1/reports/latest (null when none exists) */
+export interface ReportRow {
+  id: number;
+  created_at: string;
+  payload: ReportPayload;
+}
+/** POST /v1/shares — the token is returned once and stored hashed */
+export interface ShareCreated {
+  id: number;
+  token: string;
+  expires_at: string;
+  path: string;
+  note: string;
+}
+/** GET /v1/shares */
+export interface ShareRow {
+  id: number;
+  report_id: number;
+  clinic_id: string;
+  expires_at: string;
+  revoked_at: string | null;
+  created_at: string;
+}
+/** GET /v1/shared/{token} (public; 404 revoked or unknown, 410 expired) */
+export interface SharedView {
+  payload: ReportPayload;
+  expires_at: string;
+  report_id: number;
+}
