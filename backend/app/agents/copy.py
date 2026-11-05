@@ -16,7 +16,7 @@ def ar_rules() -> dict:
     return yaml.safe_load((ROOT / "rules" / "translations_ar.yaml").read_text(encoding="utf-8")) or {}
 
 
-def _fmt_day(s: str, lang: str = "en") -> str:
+def _fmt_day(s: str, lang: str = "en", year: bool = False) -> str:
     d = date.fromisoformat(s)
     if lang == "ar":
         months = [
@@ -33,8 +33,8 @@ def _fmt_day(s: str, lang: str = "en") -> str:
             "نوفمبر",
             "ديسمبر",
         ]
-        return f"{d.day} {months[d.month - 1]}"
-    return d.strftime("%-d %b")
+        return f"{d.day} {months[d.month - 1]}" + (f" {d.year}" if year else "")
+    return d.strftime("%-d %b %Y" if year else "%-d %b")
 
 
 RF_TITLES = {  # short urgent titles; the full message comes from the rules file
@@ -186,3 +186,86 @@ def entry_text(e: dict, lang: str = "en") -> str:
     if e.get("impact") and e["impact"] != "none":
         bits.append(e["impact"])
     return f"{day} · " + ", ".join(bits) if bits else day
+
+
+# ---------- clinician voice (QUESTIONS #41) ----------
+# The same rules, said to the clinician about her: third person, no "you", no advice to "ask your doctor". Each line
+# restates the rule's own next steps in rules/clinical_rules.yaml; nothing here adds a threshold or a new step.
+CLINICIAN = {
+    "RF1_heavy_bleeding_with_dizziness": ("Red flag: heavy bleeding with dizziness or fainting", []),
+    "RF2_severe_sudden_pain_possible_pregnancy": ("Red flag: sudden severe pelvic pain with a possible pregnancy", []),
+    "RF3_postmenopausal_or_pregnancy_bleeding": ("Red flag: bleeding in pregnancy or after menopause", []),
+    "RF4_SELF_HARM_THOUGHTS": ("Red flag: self-harm thoughts reported (EPDS item 10)", []),
+    "RF5_PREGNANCY_WARNING_SIGNS": ("Red flag: pregnancy warning signs", []),
+    "RF6_POSTPARTUM_WARNING_SIGNS": ("Red flag: after-birth warning signs", []),
+    "OBS_IRREGULAR_CYCLES": (
+        "Irregular cycle lengths",
+        ["Review the cycle history; causes include stress, thyroid changes, weight change and PCOS."],
+    ),
+    "OBS_IRREGULAR_PLUS_ANDROGEN": (
+        "Irregular cycles with acne or excess hair growth",
+        ["Consider whether a PCOS assessment is appropriate (2023 International PCOS Guideline)."],
+    ),
+    "OBS_SEVERE_CYCLICAL_PAIN": (
+        "Severe cyclical pain affecting daily life",
+        ["Review her pain timeline and the pain relief she has tried."],
+    ),
+    "OBS_CYCLICAL_BOWEL_BLADDER_PAIN": (
+        "Pain on bowel movements or passing urine during periods",
+        ["Ask about bowel and bladder symptoms during periods."],
+    ),
+    "OBS_HEAVY_OR_LONG_PERIODS": ("Heavy or prolonged periods", ["Consider an iron blood test."]),
+    "OBS_NO_PERIOD_90_DAYS": ("No period logged for 90 days or more", ["Consider a pregnancy test and a review."]),
+    "CARE_POSTPARTUM_GLUCOSE_TEST": (
+        "After-birth glucose test due after gestational diabetes",
+        ["Consider booking a glucose tolerance test."],
+    ),
+    "OBS_TTC_FERTILITY_ASSESSMENT": (
+        "Trying to conceive beyond the usual interval for her age",
+        ["Consider a fertility assessment; both partners can be assessed."],
+    ),
+    "OBS_HEAVY_WITH_FATIGUE": (
+        "Heavy periods with tiredness",
+        ["Consider an iron blood test (full blood count, ferritin)."],
+    ),
+    "CARE_PREGNANCY_GLUCOSE_SCREEN": (
+        "Pregnancy glucose test not yet recorded",
+        ["Consider booking the glucose test before week 28."],
+    ),
+    "OBS_POSTPARTUM_MOOD": (
+        "Raised EPDS score after birth",
+        ["Consider a mood review; the EPDS is a screen, not a diagnosis."],
+    ),
+    "OBS_PERIMENOPAUSE_SYMPTOMS": (
+        "Symptoms that often come with perimenopause",
+        ["Consider discussing symptoms and treatment options; her symptom calendar is in the record."],
+    ),
+}
+
+
+def clinician_title(rule_id: str, fallback: str) -> str:
+    return CLINICIAN.get(rule_id, (fallback, []))[0]
+
+
+def clinician_steps(rule_id: str) -> list[str]:
+    return CLINICIAN.get(rule_id, ("", []))[1]
+
+
+def clinician_detail(rule_id: str, f: dict) -> str:
+    """The numbers behind the pattern, about her (third person)."""
+    lens = f.get("cycle_lengths_last6") or []
+    rng = f"{min(lens)}–{max(lens)}" if lens else ""
+    return {
+        "OBS_IRREGULAR_CYCLES": f"{f.get('irregular_cycle_count_6')} of her last {len(lens)} cycles were shorter than 21 or longer than 35 days (range {rng} days).",
+        "OBS_IRREGULAR_PLUS_ANDROGEN": f"Acne or excess hair growth logged on {f.get('androgen_symptom_days_90')} of the last 90 days, alongside irregular cycles.",
+        "OBS_SEVERE_CYCLICAL_PAIN": f"Period pain 7/10 or more in {f.get('severe_pain_cycles_6')} of her last 6 periods; missed work or study on {f.get('pain_impact_days_90')} of the last 90 days.",
+        "OBS_CYCLICAL_BOWEL_BLADDER_PAIN": "Pain on bowel movements or passing urine during periods, logged in at least 2 cycles.",
+        "OBS_HEAVY_OR_LONG_PERIODS": f"Highest PBAC {f.get('pbac_max_6')} in the last 6 periods; longest period {f.get('period_duration_max')} days.",
+        "OBS_HEAVY_WITH_FATIGUE": f"Tiredness logged on {f.get('fatigue_days_90')} of the last 90 days, alongside heavy periods.",
+        "OBS_NO_PERIOD_90_DAYS": f"Last logged period started {f.get('days_since_last_period')} days ago.",
+        "CARE_POSTPARTUM_GLUCOSE_TEST": f"Gestational diabetes in her last pregnancy; delivered {f.get('weeks_since_delivery')} weeks ago; no glucose test after birth recorded.",
+        "OBS_TTC_FERTILITY_ASSESSMENT": f"Trying to conceive for {f.get('ttc_months')} months; age {f.get('age')}.",
+        "CARE_PREGNANCY_GLUCOSE_SCREEN": f"{f.get('pregnancy_weeks')} weeks pregnant; no glucose test in this pregnancy recorded.",
+        "OBS_POSTPARTUM_MOOD": f"Latest EPDS total {f.get('epds_latest_total')}, {f.get('weeks_since_delivery')} weeks after birth.",
+        "OBS_PERIMENOPAUSE_SYMPTOMS": f"Hot flushes or night sweats logged on {f.get('vasomotor_days_90')} of the last 90 days.",
+    }.get(rule_id, "")

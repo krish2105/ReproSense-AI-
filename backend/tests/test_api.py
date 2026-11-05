@@ -1,5 +1,6 @@
 """API integration tests over the seeded synthetic data (the demo path, end to end)."""
 
+import re
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
@@ -195,6 +196,12 @@ def test_clinician_view_sbar_and_ask_the_record(client):
     h = login(client, role="clinician")
     v = client.get("/v1/clinic/patients/priya", headers=h).json()
     assert v["sbar"]["situation"] and v["sbar"]["assessment"] and "VISIT NOTE" in v["visit_note_draft"]
+    # Clinician voice (QUESTIONS #41): about her, never to her, and no advice to "ask your doctor"
+    for pid in ("priya", "noura", "fatima", "sara", "hessa", "layla", "mariam"):
+        sb = client.get(f"/v1/clinic/patients/{pid}", headers=h).json()["sbar"]
+        text = " ".join([sb["situation"], sb["background"], *sb["assessment"], *sb["recommendation"]]).lower()
+        assert not re.search(r"\byou(r|rs)?\b", text), (pid, text)
+        assert "ask your doctor" not in text, (pid, text)
     a = client.post(
         "/v1/clinic/patients/priya/ask", headers=h, json={"question": "How often did pain stop her working?"}
     ).json()
