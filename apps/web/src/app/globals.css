@@ -491,3 +491,15 @@ a.dp.now{color:var(--plum-ink)}
 .form-card{display:flex;flex-direction:column;gap:14px}
 .num{width:100px;border:1px solid var(--rule-2);background:var(--sheet);border-radius:16px;padding:10px 12px}
 }
+
+@layer components {
+/* AI Chat additions: the thread is a list; answers keep the mockup bubble look. */
+.chat ol.chat > li{list-style:none}
+.msg p + p{margin-top:6px}
+.msg sup{font-size:.75em;margin-inline-start:2px}
+.cop img{border-radius:50%}
+.sugg button:disabled{opacity:.6;cursor:default}
+.askbar button:disabled{opacity:.5;cursor:default}
+.askbar button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent)}
+a.ev:hover{border-color:var(--accent)}
+}

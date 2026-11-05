@@ -48,7 +48,7 @@ export function NavigatorCard({ card, dueDate, latest }: { card: Card; dueDate?:
   );
 }
 
-function NavigatorDialog({ open, onClose, card }: { open: boolean; onClose: () => void; card: Card }) {
+export function NavigatorDialog({ open, onClose, card }: { open: boolean; onClose: () => void; card: Card }) {
   const t = useTranslations("navigator");
   const locale = useLocale() === "ar" ? "ar" : "en";
   const router = useRouter();

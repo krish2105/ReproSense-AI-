@@ -13,8 +13,8 @@ export const TABS: readonly Tab[] = [
   { key: "home", href: "/app", icon: "home", ready: true },
   { key: "log", href: "/app/log", icon: "calendar", ready: true },
   { key: "timeline", href: "/app/timeline", icon: "analytics", ready: true },
-  { key: "insights", href: "/app/insights", icon: "patterns", ready: false },
-  { key: "assistant", href: "/app/assistant", icon: "chat", ready: false },
+  { key: "insights", href: "/app/insights", icon: "patterns", ready: true },
+  { key: "assistant", href: "/app/assistant", icon: "chat", ready: true },
   { key: "report", href: "/app/report", icon: "report", ready: false },
 ];
 

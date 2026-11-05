@@ -337,3 +337,48 @@ export interface TimelineResponse {
   events: TimelineEvent[];
   labs: LabResult[];
 }
+
+// ---------------- Phase 3: patterns and the assistant ----------------
+
+export interface TraceStep {
+  agent: string; // intake | signal | safety | evidence | writer | verifier | care_gap
+  detail: string;
+  ms?: number;
+  rules?: string[];
+  dropped?: number;
+}
+
+/** GET /v1/insights?lang= */
+export interface InsightsResponse {
+  cards: Card[]; // red flags first
+  crisis: boolean;
+  trace: TraceStep[];
+  record_strength: "strong" | "building" | "early";
+  cycles_logged: number;
+  change_point: { index: number; before: number; after: number } | null;
+  entries_count: number;
+  rules_version: string;
+}
+
+export interface Citation {
+  n: number;
+  source_id: string;
+  title: string;
+  url: string;
+}
+/** POST /v1/assistant/ask */
+export interface AskResponse {
+  question: string;
+  lang: "en" | "ar";
+  answer: string; // includes [n] markers that point at citations
+  sentences: { text: string; cite: number }[];
+  citations: Citation[];
+  urgent: { kind: string; message: string; number: string } | null; // kind: "crisis", "bleed", …
+  crisis: boolean;
+  refused: boolean;
+  grounded: boolean;
+  trace?: TraceStep[];
+}
+export interface SuggestedResponse {
+  questions: string[];
+}
