@@ -26,7 +26,7 @@ export function SiteHeader({ variant, extra }: { variant: HeaderVariant; extra?:
     admin: [all.demo!, all.admin!],
   };
   return (
-    <header className="top">
+    <header className={variant === "site" ? "top top-site" : "top"}>
       <div className="wrap">
         <BrandMark />
         <nav className="nav" aria-label={t("navLabel")}>

@@ -1,6 +1,6 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
-import type { Card, HomeResponse, TimelineResponse } from "./api/types";
+import type { Card, CycleStatus, HomeResponse, Recommendation, TimelineResponse } from "./api/types";
 
 const API_URL = process.env.API_URL ?? "http://127.0.0.1:8010";
 
@@ -9,6 +9,9 @@ export interface Showcase {
   daysLogged: number;
   observation: Card | null;
   refDate: string;
+  alias: string;
+  status: CycleStatus | null; // her cycle today, for the phone and the ring in the hero
+  recommendations: Recommendation[];
 }
 
 // The landing page shows Noura's real (fictional) record without touching the visitor's session: the server signs
@@ -28,10 +31,18 @@ async function load(locale: string): Promise<Showcase> {
     fetch(`${API_URL}/v1/me/home?lang=${locale}`, { headers, cache: "no-store" }).then((r) => (r.ok ? (r.json() as Promise<HomeResponse>) : Promise.reject(new Error(`home ${r.status}`)))),
   ]);
   const obs = home.observations.find((o) => o.observation_id === "OBS_IRREGULAR_PLUS_ANDROGEN") ?? home.observations[0] ?? null;
-  return { cycles: tl.cycles, daysLogged: tl.days.length, observation: obs, refDate: tl.to };
+  return {
+    cycles: tl.cycles,
+    daysLogged: tl.days.length,
+    observation: obs,
+    refDate: tl.to,
+    alias: home.profile.alias,
+    status: home.status.mode === "cycle" ? home.status : null,
+    recommendations: home.recommendations,
+  };
 }
 
-const cached = unstable_cache(load, ["showcase-noura-v1"], { revalidate: 600 });
+const cached = unstable_cache(load, ["showcase-noura-v2"], { revalidate: 600 });
 
 export async function getShowcase(locale: string): Promise<Showcase | null> {
   try {

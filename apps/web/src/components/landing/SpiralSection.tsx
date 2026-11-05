@@ -5,18 +5,11 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { formatDayMonth } from "@/lib/format";
 import { beadsOf, type SpiralCycle } from "./spiral";
+import { webglAvailable } from "./webgl";
 
 // The canvas code is split out and fetched only when needed (never in the first-load JS).
 const YearSpiral3D = dynamic(() => import("./YearSpiral3D"), { ssr: false });
 
-function webglAvailable() {
-  try {
-    const c = document.createElement("canvas");
-    return Boolean(c.getContext("webgl2") || c.getContext("webgl"));
-  } catch {
-    return false;
-  }
-}
 
 /** Flat poster: the same beads as concentric rings, one ring per cycle (shown before 3D, and instead of it). */
 function SpiralPoster({ cycles, label }: { cycles: SpiralCycle[]; label: string }) {
@@ -42,18 +35,29 @@ export function SpiralSection({ cycles }: { cycles: SpiralCycle[] }) {
   const t = useTranslations("landing");
   const locale = useLocale() === "ar" ? "ar" : "en";
   const box = useRef<HTMLDivElement>(null);
-  const [can3d, setCan3d] = useState(false);
+  const [can3d, setCan3d] = useState<boolean | null>(null); // null until the probe has run
   const [visible, setVisible] = useState(false);
   const [reduced, setReduced] = useState(false);
   const [table, setTable] = useState(false);
 
   useEffect(() => {
-    setCan3d(webglAvailable());
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReduced(mq.matches);
     const onChange = () => setReduced(mq.matches);
     mq.addEventListener("change", onChange);
-    const io = new IntersectionObserver((es) => setVisible(Boolean(es[0]?.isIntersecting)), { rootMargin: "200px" });
+    // The WebGL probe creates a context, which is slow on software GL: run it once, when the panel nears the screen.
+    let probed = false;
+    const io = new IntersectionObserver(
+      (es) => {
+        const on = Boolean(es[0]?.isIntersecting);
+        if (on && !probed) {
+          probed = true;
+          setCan3d(webglAvailable());
+        }
+        setVisible(on);
+      },
+      { rootMargin: "200px" },
+    );
     if (box.current) io.observe(box.current);
     return () => {
       mq.removeEventListener("change", onChange);
@@ -63,11 +67,11 @@ export function SpiralSection({ cycles }: { cycles: SpiralCycle[] }) {
 
   const summary = cycles.map((c) => (c.running ? `${c.length}+` : String(c.length))).join(", ");
   const label = t("spiralLabel", { summary });
-  const show3d = can3d && !reduced && !table;
+  const show3d = can3d === true && !reduced && !table;
 
   return (
     <div>
-      <div ref={box} className="panel y3d" style={{ marginTop: 22 }}>
+      <div ref={box} className="panel y3d">
         {table ? (
           <div className="tbl" style={{ padding: 16, height: "100%", overflow: "auto" }}>
             <table>
@@ -104,7 +108,7 @@ export function SpiralSection({ cycles }: { cycles: SpiralCycle[] }) {
         )}
       </div>
       <div className="kv" style={{ marginTop: 10, flexWrap: "wrap" }}>
-        <span className="xs faint">{!table && (!can3d || reduced) ? t("spiralFlat") : " "}</span>
+        <span className="xs faint">{!table && (can3d === false || reduced) ? t("spiralFlat") : " "}</span>
         <button type="button" className="link xs" aria-pressed={table} onClick={() => setTable((x) => !x)}>
           {table ? t("spiralView") : t("spiralTable")}
         </button>

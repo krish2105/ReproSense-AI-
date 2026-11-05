@@ -5,11 +5,13 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { SkipLink } from "@/components/chrome/SkipLink";
 import { ToastProvider } from "@/components/ui/Toast";
+import { clientMessages } from "@/i18n/client-messages";
 import { dirOf, isLocale, defaultLocale } from "@/i18n/config";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-jakarta", display: "swap" });
-const plexArabic = IBM_Plex_Sans_Arabic({ subsets: ["arabic"], weight: ["400", "500", "600", "700"], variable: "--font-plex-arabic", display: "swap" });
+// Not preloaded: the Arabic face is fetched only when Arabic text renders (saves ~140 kB on English pages).
+const plexArabic = IBM_Plex_Sans_Arabic({ subsets: ["arabic"], weight: ["400", "500", "600", "700"], variable: "--font-plex-arabic", display: "swap", preload: false });
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta");
@@ -60,7 +62,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       className={`${jakarta.variable} ${plexArabic.variable}`}
     >
       <body>
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={await clientMessages()}>
           <ToastProvider>
             <SkipLink />
             {children}

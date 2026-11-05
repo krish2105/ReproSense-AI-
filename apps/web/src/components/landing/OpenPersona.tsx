@@ -7,8 +7,8 @@ import { useToast } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
 
-/** Signs in as a fictional woman and opens her app (landing CTAs and stage cards). */
-export function OpenPersona({ persona, className, children }: { persona: string; className: string; children: ReactNode }) {
+/** Signs in as a fictional woman and opens her app (landing CTAs and stage cards), or one screen of it. */
+export function OpenPersona({ persona, className, children, to = "/app" }: { persona: string; className: string; children: ReactNode; to?: string }) {
   const t = useTranslations("landing");
   const router = useRouter();
   const toast = useToast();
@@ -23,7 +23,7 @@ export function OpenPersona({ persona, className, children }: { persona: string;
         start(async () => {
           try {
             await apiClient("/demo/login", { body: { persona } });
-            router.push("/app");
+            router.push(to);
           } catch (e) {
             toast(t("openFailed", { detail: e instanceof ApiError ? e.detail : String(e) }));
           }

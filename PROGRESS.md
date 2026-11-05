@@ -17,6 +17,24 @@ Blockers / questions:
 
 ---
 
+## 2026-11-06 — Phase 7 (web) — Krishna with Claude Code
+Done:
+- Landing `/` on Noura's live record (the server reads it with a demo token, cached 10 minutes). Hero: her phone as she sees it today (the real arc "Day 19 · follicular phase · estimate", "Log your symptoms" opens her log, her two recommendations) tilting towards the mouse, over a React Three Fiber ring with one bead per day of her cycle (API phases, today in plum, days ahead lighter because they are estimates). Observation card with its entry count; assistant example with its sources.
+- Year in 3D: the spiral (one loop per cycle) beside the cycle ledger drawn to scale with the 21–35 day band; table toggle. Then the five stage cards, evidence with numbered sources, the four-step trace, the two-sided model and the promises.
+- `/admin`: follow-ups by region in 3D (one slab per region, one column per status, live counts, drag to turn), with a flat grouped-column chart of the same numbers and a link to the table.
+- 3D rules (skill `mauve-3d`): canvases load only on the client and never in first-load JS (landing 129 kB); each poster is the same data in the scene's resting pose; the WebGL probe runs only near the screen; the hero ring starts after the first sign of use or 8 s; reduced motion or no WebGL keep the posters and an upright phone; colours come from the theme tokens.
+- Found and fixed while checking: grey-brown phase colours (R3F tone mapping + physical light units → `flat`, lights × π); a THREE.Clock deprecation warning from every canvas (only that notice dropped); sideways overflow at 1024 and 800 px; RTL cards covering the greeting (logical insets); the six-link header wrapping inside the pill at 761–1140 px; footer layout shift while streaming (skeleton one screen tall); the WebGL probe costing ~1 s of mobile TBT.
+- Smaller pages: each area sends only its own message namespaces (landing HTML 146 → 115 kB before the phone was added, 135 kB now); the Arabic font is no longer preloaded; metadata is always in `<head>`; robots.txt keeps crawlers out of `/app`, `/clinic`, `/admin`, `/api` and the token links.
+Tests: web 49/49 unit (ring projection and fit, regions) · lint, typecheck, build pass · backend 104/104
+Lighthouse (landing, local `next start`, two runs each): mobile 100/100/100/100 (LCP 1.1 s, TBT 0 ms, CLS 0) · desktop 100/100/100/100 (LCP 0.6 s, TBT 0 ms, CLS 0).
+Browser check: landing at 390, 600, 800, 1024 and 1280 px, EN and AR, light and dark: no horizontal scroll, tilt follows the mouse, poster hands over to WebGL; `/admin` region columns. Chrome runs: normal, `prefers-reduced-motion` and `--disable-webgl`, zero console errors in each.
+UI slop check: pass. Every 3D object is data (beads are days, columns are follow-ups); the mockup's decorative blobs are left out (QUESTIONS C7); buttons name their action.
+Deviations from the mockup: on phones the two hero cards stack under the phone instead of being hidden, so the observation stays on screen; the hero still image is an SVG of the same ring, not image B1 (C7 allows either, and B1 has particles); the cards sit a little lower because our phone has no stage pills.
+Next:
+- Step 3: Playwright e2e of the 3-minute path (axe, console errors, 390 and 1280) wired into CI; demo-readiness; scorecard.
+Blockers / questions:
+- None new. Arabic strings still need the native review before the pitch.
+
 ## 2026-11-05 — Phase 6 (web) — Krishna with Claude Code
 Done:
 - EPDS check-in `/app/checkin`: the 10 standard items (scores stored per option, reverse items handled) with the citation RCPsych requires; mood-check card on Home for pregnancy and after birth. Crisis (item 10 > 0) → support card only, no score, and Home then leads with it and hides patterns. In Arabic the items stay in English with a note (validated Arabic pending, QUESTIONS #40).

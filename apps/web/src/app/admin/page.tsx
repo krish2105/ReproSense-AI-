@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AutoRefresh } from "@/components/admin/AutoRefresh";
+import { RegionSection } from "@/components/admin/RegionSection";
 import { RoiCalculator } from "@/components/admin/RoiCalculator";
 import { Tag } from "@/components/ui/Tag";
 import { isLocale } from "@/i18n/config";
@@ -115,6 +116,8 @@ export default async function AdminPage() {
           ))}
         </ul>
       </section>
+
+      <RegionSection regions={m.regions} names={Object.fromEntries(m.regions.map((r) => [r.region, region(r.region)]))} />
 
       <div className="two" style={{ marginTop: 20 }}>
         <section className="panel" aria-labelledby="funnel-title" style={{ padding: 20 }}>

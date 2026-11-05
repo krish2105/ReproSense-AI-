@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
+import { CycleArc } from "@/components/charts/Arc";
+import { Recommendations } from "@/components/home/Recommendations";
 import { CycleLedger } from "@/components/landing/CycleLedger";
+import { HeroStage } from "@/components/landing/HeroStage";
 import { OpenPersona } from "@/components/landing/OpenPersona";
+import { ringBeads } from "@/components/landing/ring";
 import { SpiralSection } from "@/components/landing/SpiralSection";
 import { spiralCycles } from "@/components/landing/spiral";
 import { ButtonLink } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
 import { isLocale } from "@/i18n/config";
+import { displayName, firstName, formatDate, isolate } from "@/lib/format";
 import { getShowcase } from "@/lib/showcase";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -66,33 +71,53 @@ export default async function Landing() {
           </div>
           <p className="who">{t("landing.who")}</p>
         </div>
-        <div className="hero-vis landing-vis">
-          <div className="panel chart-panel" style={{ width: "100%" }}>
-            <div className="cap">
-              <h2 style={{ fontSize: 17 }}>{t("landing.chartTitle")}</h2>
-              {show && <span className="xs faint">{t("landing.chartMeta", { cycles: complete.length, days: show.daysLogged })}</span>}
+        {show?.status ? (
+          <HeroStage beads={ringBeads(show.status)} label={t("landing.phoneLabel")}>
+            {/* Noura's home screen as she sees it today (mockup #heroPhone), from the same API and components. */}
+            <div className="device mini" style={{ height: 680 }}>
+              <div className="status" aria-hidden="true">
+                <span>9:41</span>
+                <span className="xs">●●●</span>
+              </div>
+              <div className="dev-body" style={{ paddingBottom: 20, overflow: "hidden" }}>
+                <div className="kv" style={{ alignItems: "center" }}>
+                  <div className="hello">
+                    <p>{t("home.hello", { name: isolate(firstName(show.alias)) })}</p>
+                    <p className="h">{t("home.sub", { date: formatDate(show.refDate, locale) })}</p>
+                  </div>
+                  <span className="ava" aria-hidden="true">
+                    {displayName(show.alias)[0]}
+                  </span>
+                </div>
+                <CycleArc status={show.status} locale={locale} />
+                <OpenPersona persona="noura" to="/app/log" className="btn btn-a btn-wide">
+                  {t("home.logButton")}
+                </OpenPersona>
+                <Recommendations items={show.recommendations} heading={false} />
+              </div>
             </div>
-            <div style={{ marginTop: 10 }}>{show ? <CycleLedger cycles={show.cycles} locale={locale} /> : <p className="s dim">{t("landing.noData")}</p>}</div>
-          </div>
-          <div className="landing-cards">
-          {show?.observation && (
-            <div className="floatc a">
-              <Tag tone="discuss" className="self-start">
-                {t("tags.discuss")}
-              </Tag>
-              <b dir="auto">{show.observation.title}</b>
-              <span className="xs dim">{t("landing.floatFrom", { count: show.observation.why_we_noticed.length })}</span>
+            {show.observation && (
+              <div className="floatc a">
+                <Tag tone="discuss" className="self-start">
+                  {t("tags.discuss")}
+                </Tag>
+                <b dir="auto">{show.observation.title}</b>
+                <span className="xs dim">{t("landing.floatFrom", { count: show.observation.why_we_noticed.length })}</span>
+              </div>
+            )}
+            <div className="floatc b">
+              <span className="xs faint">{t("landing.floatCopilot")}</span>
+              <span>{t("landing.floatQuestion")}</span>
+              <span className="xs" style={{ color: "var(--accent)", fontWeight: 700 }} dir="ltr">
+                {t("landing.floatCites")}
+              </span>
             </div>
-          )}
-          <div className="floatc b">
-            <span className="xs faint">{t("landing.floatCopilot")}</span>
-            <span>{t("landing.floatQuestion")}</span>
-            <span className="xs" style={{ color: "var(--accent)", fontWeight: 700 }} dir="ltr">
-              {t("landing.floatCites")}
-            </span>
+          </HeroStage>
+        ) : (
+          <div className="hero-vis">
+            <p className="s dim">{t("landing.noData")}</p>
           </div>
-          </div>
-        </div>
+        )}
       </section>
 
       {spiral.length > 0 && (
@@ -102,7 +127,18 @@ export default async function Landing() {
             {t("landing.spiralTitle")}
           </h2>
           <p className="intro">{t("landing.spiralIntro")}</p>
-          <SpiralSection cycles={spiral} />
+          <div className="spiral-grid">
+            <SpiralSection cycles={spiral} />
+            <div className="panel chart-panel">
+              <div className="cap">
+                <h3 style={{ fontSize: 16 }}>{t("landing.chartTitle")}</h3>
+                <span className="xs faint">{t("landing.chartMeta", { cycles: complete.length, days: show?.daysLogged ?? 0 })}</span>
+              </div>
+              <div style={{ marginTop: 10 }}>
+                <CycleLedger cycles={show?.cycles ?? []} locale={locale} />
+              </div>
+            </div>
+          </div>
         </section>
       )}
 
