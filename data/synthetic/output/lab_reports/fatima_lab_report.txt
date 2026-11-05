@@ -1,0 +1,17 @@
+================================================================
+  EXAMPLE DIAGNOSTICS LAB — ABU DHABI (FICTIONAL)
+  SYNTHETIC — fictional demo data, not a real person
+================================================================
+Patient alias : Fatima K. (fictional)
+Age           : 33
+Sample date   : 2026-06-22
+Referring dr. : Dr. Example (fictional)
+----------------------------------------------------------------
+TEST                                          RESULT  UNIT    REF RANGE     FLAG
+Haemoglobin                                     12.5  g/dL    12.0-15.5     
+TSH                                             2.21  mIU/L   0.4-4.0       
+75 g OGTT — 2 hour glucose (pregnancy, 26 weeks)     9.1  mmol/L  < 8.5         H
+HbA1c (pregnancy)                                5.6  %       < 5.7         
+----------------------------------------------------------------
+Reference ranges are illustrative for this demo and vary by laboratory.
+End of report.

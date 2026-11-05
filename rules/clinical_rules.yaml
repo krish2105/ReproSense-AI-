@@ -1,0 +1,176 @@
+# ReproSense clinical rules — the ONLY place observation logic lives.
+# Non-diagnostic. Each rule produces an observation "worth discussing", never a diagnosis.
+# Thresholds follow cited guidance; a clinician must review this file before any real-world use.
+# version: 0.2 (hackathon draft, 2026-11-05: pregnancy, after-birth mood, perimenopause, iron check) — reviewer: ________ (clinician name/date)
+
+version: 0.2
+emergency_number_uae: "998"
+
+red_flags:   # evaluated FIRST by the safety guardian; any hit shows an urgent card at the top
+  - id: RF1_heavy_bleeding_with_dizziness
+    when: "heavy_flow_today and (dizziness_today or fainting_today)"
+    urgency: urgent
+    message_en: "Very heavy bleeding with dizziness or fainting needs urgent care. Call 998 or go to the nearest emergency department."
+    source_ids: [nhs_heavy_periods]
+  - id: RF2_severe_sudden_pain_possible_pregnancy
+    when: "sudden_severe_pelvic_pain_today and (possible_pregnancy or fever_today)"
+    urgency: urgent
+    message_en: "Sudden severe pelvic pain, especially with fever or a possible pregnancy, needs urgent care. Call 998."
+    source_ids: [nhs_pelvic_pain]
+  - id: RF3_postmenopausal_or_pregnancy_bleeding
+    when: "bleeding_today and (pregnant or postmenopausal)"
+    urgency: urgent
+    message_en: "Bleeding during pregnancy or after menopause should be checked by a doctor today."
+    source_ids: [nhs_bleeding_pregnancy]
+  - id: RF4_SELF_HARM_THOUGHTS
+    when: "epds_item10 > 0"
+    urgency: urgent
+    message_en: "You told us you have had thoughts of harming yourself. You deserve support right now. Please call 998 or speak to your doctor today. You are not alone."
+    crisis_path: true   # app shows support contacts and a one-tap call; never a score or a pattern card
+    source_ids: [nice_cg192, epds_cox_1987]
+  - id: RF5_PREGNANCY_WARNING_SIGNS
+    when: "pregnant and (bleeding_today or severe_abdominal_pain_today or reduced_fetal_movements_today or (severe_headache_today and vision_change_today))"
+    urgency: urgent
+    message_en: "These signs in pregnancy need checking today. Call 998 or go to your maternity unit now."
+    source_ids: [nhs_pregnancy_urgent, nice_ng201]
+  - id: RF6_POSTPARTUM_WARNING_SIGNS
+    when: "weeks_since_delivery <= 6 and (severe_headache_today and vision_change_today or heavy_flow_today or fever_today)"
+    urgency: urgent
+    message_en: "After birth, a severe headache with vision changes, very heavy bleeding or fever needs urgent care. Call 998."
+    source_ids: [nice_ng194]
+
+observations:
+  - id: OBS_IRREGULAR_CYCLES
+    title_en: "Your cycle lengths have been irregular"
+    when: "age < 45 and not pregnant and years_since_menarche >= 3 and cycles_logged >= 4 and (irregular_cycle_count_6 >= 2 or cycles_per_year < 8)"
+    explains: "Cycles shorter than 21 or longer than 35 days, or fewer than 8 cycles a year, are described as irregular in the 2023 International PCOS Guideline for adults more than 3 years after first period."
+    supporting_entries: "period start logs of the irregular cycles"
+    next_steps_en:
+      - "Keep logging period start dates — the pattern is clearer with 6 or more cycles."
+      - "Consider discussing this pattern with a gynaecologist or family doctor."
+      - "Irregular cycles have many possible causes, including stress, thyroid changes, weight change and PCOS."
+    urgency: discuss
+    source_ids: [pcos_guideline_2023]
+
+  - id: OBS_IRREGULAR_PLUS_ANDROGEN
+    title_en: "Irregular cycles together with skin and hair changes"
+    when: "OBS_IRREGULAR_CYCLES and androgen_symptom_days_90 >= 10"
+    explains: "The guideline lists irregular cycles and signs of higher androgens (such as acne or excess hair growth) as two of the features doctors look at when considering PCOS. Only a doctor can assess this."
+    next_steps_en:
+      - "Ask your doctor whether a PCOS assessment is appropriate for you."
+      - "Bring this report — it lists the dates of irregular cycles and symptom days."
+      - "Your doctor may suggest blood tests or an ultrasound; ReproSense cannot replace these."
+    urgency: discuss
+    source_ids: [pcos_guideline_2023, nhs_pcos]
+
+  - id: OBS_SEVERE_CYCLICAL_PAIN
+    title_en: "Period pain has been severe and is affecting daily life"
+    when: "severe_pain_cycles_6 >= 3 and pain_impact_days_90 >= 2"
+    explains: "Period pain that is severe, keeps coming back and stops you doing normal activities is worth checking. Endometriosis is one possible cause, and it often takes years to be recognised."
+    next_steps_en:
+      - "Consider booking a gynaecology appointment and bring your pain timeline."
+      - "Note which pain relief you tried and whether it helped."
+    urgency: discuss
+    source_ids: [eshre_endometriosis_2022, nice_endometriosis_ng73]
+
+  - id: OBS_CYCLICAL_BOWEL_BLADDER_PAIN
+    title_en: "Pain with bowel movements or passing urine during periods"
+    when: "cyclical_bowel_bladder_pain"
+    explains: "Pain with bowel movements or urination that happens around periods is a symptom doctors ask about when considering endometriosis."
+    next_steps_en: ["Mention this specifically to your doctor — it is easy to forget in an appointment."]
+    urgency: discuss
+    source_ids: [nice_endometriosis_ng73]
+
+  - id: OBS_HEAVY_OR_LONG_PERIODS
+    title_en: "Periods have been heavy or long"
+    when: "period_duration_max > 7 or heavy_flow_days_cycle >= 2 or pbac_max_6 >= 100"
+    explains: "Bleeding for more than 7 days, flooding, large clots, or a pictorial blood loss score (PBAC) of 100 or more in a period are signs of heavy menstrual bleeding, which can cause tiredness and low iron."
+    pbac_scoring: "Higham 1990: pad lightly stained 1, moderately 5, fully soaked 20; tampon 1/5/10; clot small 1, large 5. Sum per period; >= 100 suggests > 80 mL loss."
+    next_steps_en:
+      - "Consider discussing heavy bleeding with your doctor; a blood test for iron levels is common."
+    urgency: discuss
+    source_ids: [nhs_heavy_periods, nice_hmb_ng88, pbac_higham_1990]
+
+  - id: OBS_NO_PERIOD_90_DAYS
+    title_en: "No period logged for 90 days or more"
+    when: "days_since_last_period >= 90 and not pregnant and not breastfeeding and not on_hormonal_contraception"
+    explains: "Missing periods for 3 months or more is worth checking with a doctor. A pregnancy test is a sensible first step."
+    next_steps_en: ["Consider a home pregnancy test.", "Consider booking a doctor's appointment."]
+    urgency: soon
+    source_ids: [nhs_absent_periods]
+
+  - id: CARE_POSTPARTUM_GLUCOSE_TEST
+    title_en: "Your after-birth glucose test may be due"
+    when: "gdm_history and weeks_since_delivery >= 4 and not postpartum_glucose_test_done"
+    explains: "After gestational diabetes, guidelines recommend a glucose test 4–12 weeks after birth, then regular checks, because the risk of type 2 diabetes is higher."
+    next_steps_en:
+      - "Ask your clinic to book a glucose tolerance test."
+      - "If you plan another pregnancy, ask about checks before conceiving."
+    urgency: soon
+    creates_care_gap: postpartum_glucose_test
+    source_ids: [ada_standards_pregnancy]
+
+  - id: OBS_TTC_FERTILITY_ASSESSMENT
+    title_en: "It may be time to ask about a fertility check"
+    when: "trying_to_conceive and (ttc_months >= 12 or (age >= 35 and ttc_months >= 6))"
+    explains: "Guidance suggests a fertility assessment after 12 months of trying, or sooner from age 35 (after 6 months, ASRM) or from 36 at first visit (NICE NG257, 2026). Irregular periods, known endometriosis or past pelvic infection are reasons to ask even earlier."
+    next_steps_en:
+      - "Consider booking a fertility assessment; both partners can be assessed."
+      - "Bring your cycle record — regular cycles are useful information for the doctor."
+      - "Keep taking folic acid (400 micrograms a day) while trying, as usually advised before pregnancy."
+    urgency: discuss
+    preconception_checklist:   # shown as information, not a rule hit
+      - "Folic acid 400 micrograms daily before and in early pregnancy"
+      - "Review regular medicines with a doctor"
+      - "If you had gestational diabetes before: glucose test before trying again"
+    source_ids: [asrm_2021_infertile_eval, nice_ng257, nhs_folic_acid]
+
+  - id: OBS_HEAVY_WITH_FATIGUE
+    title_en: "Heavy periods together with tiredness"
+    when: "OBS_HEAVY_OR_LONG_PERIODS and fatigue_days_90 >= 3"
+    explains: "Heavy menstrual bleeding is a common cause of low iron. NICE NG88 advises a full blood count for women with heavy bleeding. Tiredness alone has many causes."
+    next_steps_en:
+      - "Ask your doctor whether an iron blood test (full blood count, ferritin) is right for you."
+    urgency: discuss
+    source_ids: [nice_hmb_ng88, nhs_heavy_periods]
+
+  - id: CARE_PREGNANCY_GLUCOSE_SCREEN
+    title_en: "Your pregnancy glucose test window is open"
+    when: "pregnant and 24 <= pregnancy_weeks <= 28 and not ogtt_in_pregnancy_done"
+    explains: "Guidelines recommend screening for gestational diabetes at 24–28 weeks of pregnancy, usually with an oral glucose tolerance test."
+    next_steps_en:
+      - "Ask your antenatal team to book the glucose test before week 28."
+      - "The care navigator can draft the request and your questions; nothing is sent until you approve."
+    urgency: soon
+    creates_care_gap: pregnancy_glucose_screen
+    source_ids: [ada_standards_pregnancy, nice_ng3]
+
+  - id: OBS_POSTPARTUM_MOOD
+    title_en: "Your mood check suggests talking to someone"
+    when: "epds_latest_total >= 10 and weeks_since_delivery <= 52"
+    explains: "On the Edinburgh Postnatal Depression Scale, a score of 10 or more suggests it is worth a conversation with a doctor or midwife. Low mood after birth is common and treatable. A score is not a diagnosis."
+    next_steps_en:
+      - "Consider telling your doctor, midwife or a trusted person how you have been feeling."
+      - "If you ever have thoughts of harming yourself, call 998 or speak to a doctor today."
+    urgency: discuss
+    source_ids: [nice_cg192, epds_cox_1987]
+
+  - id: OBS_PERIMENOPAUSE_SYMPTOMS
+    title_en: "Symptoms that often come with perimenopause"
+    when: "age >= 45 and vasomotor_days_90 >= 10"
+    explains: "Hot flushes, night sweats and changing periods after 45 are common in perimenopause. NICE NG23 says this can usually be recognised from symptoms, without blood tests, and that effective treatments exist."
+    next_steps_en:
+      - "Consider discussing your symptoms and treatment options with a doctor."
+      - "Bring your symptom calendar and Menopause Rating Scale scores."
+      - "Any bleeding after periods have stopped for 12 months should be checked."
+    urgency: discuss
+    source_ids: [nice_ng23, mrs_heinemann_2004]
+
+validated_questionnaires:   # shown as check-ins; scores feed rules, never shown as a diagnosis
+  - {tool: PBAC, use: "bleeding amount per period", threshold: ">= 100 suggests heavy bleeding", source: pbac_higham_1990}
+  - {tool: EHP-5, use: "endometriosis quality of life, monthly", threshold: "trend only", source: ehp5_oxford}
+  - {tool: EPDS, use: "mood after birth, 2-8 weeks and as needed", threshold: ">= 10 discuss; item 10 > 0 crisis path", source: epds_cox_1987}
+  - {tool: MRS, use: "menopause symptoms, monthly", threshold: "trend only", source: mrs_heinemann_2004}
+
+template:   # deterministic fallback if the LLM fails the guard twice
+  summary: "We noticed {title_lower}. This is not a diagnosis. It may be worth discussing with a doctor."

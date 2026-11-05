@@ -1,0 +1,17 @@
+================================================================
+  EXAMPLE DIAGNOSTICS LAB — ABU DHABI (FICTIONAL)
+  SYNTHETIC — fictional demo data, not a real person
+================================================================
+Patient alias : Hessa S. (fictional)
+Age           : 29
+Sample date   : 2026-09-24
+Referring dr. : Dr. Example (fictional)
+----------------------------------------------------------------
+TEST                                          RESULT  UNIT    REF RANGE     FLAG
+Haemoglobin                                     13.5  g/dL    12.0-15.5     
+TSH                                             1.22  mIU/L   0.4-4.0       
+Blood group                                 O positive          —             
+Fasting glucose (booking, week 10)               4.6  mmol/L  < 5.1         
+----------------------------------------------------------------
+Reference ranges are illustrative for this demo and vary by laboratory.
+End of report.

@@ -1,0 +1,1201 @@
+patient_id,is_synthetic,age,age_band,region,clinic_id,nationality_group,obs_irregular_cycles,obs_irregular_plus_androgen,obs_severe_cyclical_pain,obs_heavy_periods,recent_delivery,gdm_history,trying_to_conceive,ttc_months,obs_ttc_fertility_assessment,postpartum_glucose_test_done,consented_care_share,report_shared,care_gap_type,care_gap_status,days_overdue,last_log_date
+SYN-00001,True,21,20-24,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-22
+SYN-00002,True,42,40-44,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-09
+SYN-00003,True,30,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00004,True,22,20-24,Al Dhafra,clinic_dhafra,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-21
+SYN-00005,True,43,40-44,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-21
+SYN-00006,True,34,30-34,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-13
+SYN-00007,True,33,30-34,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-11
+SYN-00008,True,27,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,True,5,False,False,True,False,,,0,2026-10-24
+SYN-00009,True,43,40-44,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-22
+SYN-00010,True,43,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-21
+SYN-00011,True,26,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00012,True,22,20-24,Abu Dhabi City,clinic_north,Other Arab,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-05
+SYN-00013,True,39,35-39,Al Ain,clinic_alain,South Asian,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-15
+SYN-00014,True,40,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-10
+SYN-00015,True,30,30-34,Abu Dhabi City,clinic_north,Other Arab,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-10-10
+SYN-00016,True,27,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00017,True,37,35-39,Abu Dhabi City,clinic_north,Other,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-10-12
+SYN-00018,True,24,20-24,Abu Dhabi City,clinic_north,Other Arab,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-00019,True,35,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-11
+SYN-00020,True,28,25-29,Abu Dhabi City,clinic_corniche,Other,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-12
+SYN-00021,True,28,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-08
+SYN-00022,True,26,25-29,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00023,True,39,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-02
+SYN-00024,True,23,20-24,Abu Dhabi City,clinic_north,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-16
+SYN-00025,True,39,35-39,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,True,13,True,False,True,True,,,0,2026-10-10
+SYN-00026,True,21,20-24,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-21
+SYN-00027,True,27,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00028,True,24,20-24,Al Ain,clinic_alain,Other Arab,True,True,True,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-11-14
+SYN-00029,True,29,25-29,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00030,True,35,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-10-13
+SYN-00031,True,36,35-39,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-02
+SYN-00032,True,19,15-19,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-28
+SYN-00033,True,40,40-44,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00034,True,36,35-39,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-20
+SYN-00035,True,38,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-16
+SYN-00036,True,27,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-29
+SYN-00037,True,28,25-29,Abu Dhabi City,clinic_corniche,Emirati,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00038,True,18,15-19,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-19
+SYN-00039,True,23,20-24,Al Ain,clinic_alain,South Asian,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-22
+SYN-00040,True,44,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-02
+SYN-00041,True,33,30-34,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-31
+SYN-00042,True,39,35-39,Al Ain,clinic_alain,Emirati,True,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-11
+SYN-00043,True,45,45-49,Abu Dhabi City,clinic_corniche,Other Arab,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-16
+SYN-00044,True,30,30-34,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-13
+SYN-00045,True,35,35-39,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-00046,True,40,40-44,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-19
+SYN-00047,True,34,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-23
+SYN-00048,True,45,45-49,Al Dhafra,clinic_dhafra,Emirati,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-09
+SYN-00049,True,43,40-44,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00050,True,22,20-24,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00051,True,39,35-39,Al Ain,clinic_alain,South Asian,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,open,43,2026-11-01
+SYN-00052,True,29,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-06
+SYN-00053,True,44,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00054,True,45,45-49,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-22
+SYN-00055,True,28,25-29,Al Ain,clinic_alain,Other Arab,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-29
+SYN-00056,True,38,35-39,Abu Dhabi City,clinic_north,South Asian,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,open,17,2026-10-18
+SYN-00057,True,39,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-13
+SYN-00058,True,41,40-44,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00059,True,29,25-29,Abu Dhabi City,clinic_north,Other Arab,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-19
+SYN-00060,True,20,20-24,Abu Dhabi City,clinic_corniche,South Asian,True,True,False,True,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-06
+SYN-00061,True,28,25-29,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-10-11
+SYN-00062,True,33,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-25
+SYN-00063,True,35,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-15
+SYN-00064,True,23,20-24,Abu Dhabi City,clinic_corniche,South Asian,True,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-04
+SYN-00065,True,41,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-00066,True,29,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00067,True,44,40-44,Abu Dhabi City,clinic_north,Other Arab,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-16
+SYN-00068,True,30,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,True,13,True,False,True,True,,,0,2026-11-20
+SYN-00069,True,41,40-44,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00070,True,40,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-16
+SYN-00071,True,33,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00072,True,28,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-09
+SYN-00073,True,36,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-19
+SYN-00074,True,26,25-29,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-00075,True,21,20-24,Al Dhafra,clinic_dhafra,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00076,True,19,15-19,Al Dhafra,clinic_dhafra,Emirati,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-22
+SYN-00077,True,27,25-29,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-07
+SYN-00078,True,33,30-34,Al Ain,clinic_alain,South Asian,False,False,False,True,True,False,False,0,False,False,True,True,,,0,2026-11-12
+SYN-00079,True,25,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-14
+SYN-00080,True,36,35-39,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-22
+SYN-00081,True,44,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-10
+SYN-00082,True,36,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00083,True,41,40-44,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-15
+SYN-00084,True,34,30-34,Al Dhafra,clinic_dhafra,South Asian,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-22
+SYN-00085,True,32,30-34,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00086,True,26,25-29,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-04
+SYN-00087,True,40,40-44,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-19
+SYN-00088,True,30,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00089,True,19,15-19,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00090,True,33,30-34,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-19
+SYN-00091,True,44,40-44,Al Dhafra,clinic_dhafra,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-29
+SYN-00092,True,34,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-31
+SYN-00093,True,45,45-49,Al Ain,clinic_alain,Other Arab,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-10-30
+SYN-00094,True,18,15-19,Abu Dhabi City,clinic_north,Emirati,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-11-03
+SYN-00095,True,18,15-19,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-00096,True,45,45-49,Al Ain,clinic_alain,Other,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-16
+SYN-00097,True,35,35-39,Al Ain,clinic_alain,Other Arab,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-31
+SYN-00098,True,41,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-13
+SYN-00099,True,37,35-39,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00100,True,20,20-24,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-15
+SYN-00101,True,34,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-08
+SYN-00102,True,42,40-44,Al Ain,clinic_alain,South Asian,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-09
+SYN-00103,True,28,25-29,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-00104,True,42,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-30
+SYN-00105,True,31,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00106,True,45,45-49,Al Dhafra,clinic_dhafra,Other Arab,True,True,True,False,False,False,False,0,False,False,True,False,gyn_review,open,13,2026-10-10
+SYN-00107,True,37,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,open,75,2026-10-29
+SYN-00108,True,19,15-19,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-25
+SYN-00109,True,24,20-24,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-18
+SYN-00110,True,32,30-34,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-00111,True,24,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00112,True,24,20-24,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-00113,True,28,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-18
+SYN-00114,True,26,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00115,True,37,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-20
+SYN-00116,True,27,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00117,True,20,20-24,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-04
+SYN-00118,True,42,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-20
+SYN-00119,True,44,40-44,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-10-22
+SYN-00120,True,39,35-39,Abu Dhabi City,clinic_corniche,Other Arab,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-00121,True,38,35-39,Al Ain,clinic_alain,Other Arab,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-11-15
+SYN-00122,True,40,40-44,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-10
+SYN-00123,True,18,15-19,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00124,True,37,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-09
+SYN-00125,True,37,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-17
+SYN-00126,True,45,45-49,Abu Dhabi City,clinic_corniche,Other Arab,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,open,58,2026-11-20
+SYN-00127,True,26,25-29,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-29
+SYN-00128,True,34,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,True,False,False,False,True,5,False,False,True,True,gyn_review,in_progress,0,2026-11-08
+SYN-00129,True,26,25-29,Al Ain,clinic_alain,Other,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,open,9,2026-10-18
+SYN-00130,True,22,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-22
+SYN-00131,True,41,40-44,Al Ain,clinic_alain,Other Arab,True,True,False,False,False,False,True,16,True,False,True,True,gyn_review,open,6,2026-11-10
+SYN-00132,True,42,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00133,True,34,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,True,True,False,0,False,False,True,True,postpartum_glucose_test,in_progress,0,2026-11-07
+SYN-00134,True,19,15-19,Abu Dhabi City,clinic_corniche,Other,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,open,63,2026-11-16
+SYN-00135,True,28,25-29,Al Dhafra,clinic_dhafra,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-13
+SYN-00136,True,42,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-15
+SYN-00137,True,45,45-49,Abu Dhabi City,clinic_north,Emirati,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,in_progress,0,2026-10-18
+SYN-00138,True,45,45-49,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00139,True,28,25-29,Abu Dhabi City,clinic_corniche,South Asian,True,True,False,False,True,False,False,0,False,False,True,True,gyn_review,open,74,2026-10-24
+SYN-00140,True,24,20-24,Abu Dhabi City,clinic_north,Other,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-27
+SYN-00141,True,30,30-34,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-14
+SYN-00142,True,40,40-44,Al Ain,clinic_alain,Emirati,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,open,112,2026-10-10
+SYN-00143,True,43,40-44,Al Ain,clinic_alain,South Asian,True,True,False,True,False,False,False,0,False,False,False,False,gyn_review,in_progress,0,2026-11-22
+SYN-00144,True,27,25-29,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-29
+SYN-00145,True,36,35-39,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00146,True,19,15-19,Al Ain,clinic_alain,Emirati,True,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-19
+SYN-00147,True,32,30-34,Abu Dhabi City,clinic_north,Other Arab,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-28
+SYN-00148,True,45,45-49,Abu Dhabi City,clinic_corniche,Other Arab,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,open,112,2026-10-22
+SYN-00149,True,20,20-24,Al Ain,clinic_alain,Other Arab,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-27
+SYN-00150,True,28,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-29
+SYN-00151,True,20,20-24,Abu Dhabi City,clinic_north,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,68,2026-11-14
+SYN-00152,True,37,35-39,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-21
+SYN-00153,True,30,30-34,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00154,True,39,35-39,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00155,True,23,20-24,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-18
+SYN-00156,True,38,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-17
+SYN-00157,True,25,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-27
+SYN-00158,True,19,15-19,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-15
+SYN-00159,True,23,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,104,2026-11-20
+SYN-00160,True,25,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-22
+SYN-00161,True,33,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-07
+SYN-00162,True,36,35-39,Abu Dhabi City,clinic_north,South Asian,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-17
+SYN-00163,True,21,20-24,Abu Dhabi City,clinic_corniche,Other,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,2,2026-11-17
+SYN-00164,True,38,35-39,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00165,True,30,30-34,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-00166,True,38,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-09
+SYN-00167,True,45,45-49,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00168,True,29,25-29,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-27
+SYN-00169,True,36,35-39,Abu Dhabi City,clinic_north,Other,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-11-17
+SYN-00170,True,29,25-29,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,True,10,False,False,True,False,,,0,2026-11-02
+SYN-00171,True,33,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-26
+SYN-00172,True,41,40-44,Abu Dhabi City,clinic_north,Other,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,in_progress,0,2026-10-13
+SYN-00173,True,35,35-39,Abu Dhabi City,clinic_north,Emirati,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-07
+SYN-00174,True,20,20-24,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00175,True,34,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-19
+SYN-00176,True,21,20-24,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00177,True,29,25-29,Al Dhafra,clinic_dhafra,Other,False,False,False,False,False,False,True,22,True,False,True,True,,,0,2026-11-20
+SYN-00178,True,45,45-49,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-19
+SYN-00179,True,27,25-29,Al Ain,clinic_alain,Other Arab,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-02
+SYN-00180,True,45,45-49,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-21
+SYN-00181,True,18,15-19,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-31
+SYN-00182,True,31,30-34,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-27
+SYN-00183,True,40,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-00184,True,31,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00185,True,18,15-19,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-28
+SYN-00186,True,38,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00187,True,38,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-30
+SYN-00188,True,26,25-29,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00189,True,26,25-29,Al Ain,clinic_alain,Other Arab,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-14
+SYN-00190,True,39,35-39,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-22
+SYN-00191,True,30,30-34,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00192,True,29,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,open,86,2026-10-08
+SYN-00193,True,41,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00194,True,34,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-18
+SYN-00195,True,36,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-22
+SYN-00196,True,32,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,True,False,False,0,False,False,False,False,,,0,2026-10-17
+SYN-00197,True,23,20-24,Al Dhafra,clinic_dhafra,Other,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-05
+SYN-00198,True,28,25-29,Al Ain,clinic_alain,Other Arab,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-09
+SYN-00199,True,27,25-29,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-00200,True,33,30-34,Abu Dhabi City,clinic_north,Other Arab,True,True,False,False,True,False,False,0,False,False,True,False,gyn_review,closed,0,2026-11-03
+SYN-00201,True,44,40-44,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-21
+SYN-00202,True,42,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-02
+SYN-00203,True,35,35-39,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00204,True,38,35-39,Abu Dhabi City,clinic_corniche,Other,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,open,69,2026-11-07
+SYN-00205,True,29,25-29,Al Dhafra,clinic_dhafra,Emirati,True,False,True,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-31
+SYN-00206,True,20,20-24,Al Dhafra,clinic_dhafra,Other,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-01
+SYN-00207,True,32,30-34,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,True,6,False,False,True,False,,,0,2026-11-06
+SYN-00208,True,37,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,True,False,False,0,False,False,False,False,,,0,2026-11-22
+SYN-00209,True,40,40-44,Abu Dhabi City,clinic_north,South Asian,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-17
+SYN-00210,True,37,35-39,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-19
+SYN-00211,True,20,20-24,Abu Dhabi City,clinic_north,Other Arab,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,18,2026-10-27
+SYN-00212,True,34,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-11
+SYN-00213,True,33,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-07
+SYN-00214,True,32,30-34,Abu Dhabi City,clinic_corniche,South Asian,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-02
+SYN-00215,True,23,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-00216,True,30,30-34,Abu Dhabi City,clinic_north,South Asian,True,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-11
+SYN-00217,True,43,40-44,Abu Dhabi City,clinic_corniche,South Asian,True,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-10-19
+SYN-00218,True,42,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00219,True,25,25-29,Al Dhafra,clinic_dhafra,Emirati,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,open,34,2026-10-25
+SYN-00220,True,37,35-39,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-19
+SYN-00221,True,24,20-24,Al Dhafra,clinic_dhafra,Other,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-01
+SYN-00222,True,26,25-29,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-11
+SYN-00223,True,30,30-34,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,True,17,True,False,True,True,,,0,2026-10-19
+SYN-00224,True,23,20-24,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00225,True,31,30-34,Al Ain,clinic_alain,Other Arab,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00226,True,42,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00227,True,31,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,True,3,False,False,True,False,,,0,2026-11-11
+SYN-00228,True,30,30-34,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-29
+SYN-00229,True,36,35-39,Al Ain,clinic_alain,South Asian,True,True,False,True,False,False,False,0,False,False,False,False,gyn_review,in_progress,0,2026-10-23
+SYN-00230,True,36,35-39,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-25
+SYN-00231,True,21,20-24,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00232,True,43,40-44,Al Dhafra,clinic_dhafra,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-06
+SYN-00233,True,27,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-15
+SYN-00234,True,19,15-19,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-23
+SYN-00235,True,28,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-17
+SYN-00236,True,23,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-14
+SYN-00237,True,35,35-39,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-02
+SYN-00238,True,20,20-24,Al Dhafra,clinic_dhafra,South Asian,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-28
+SYN-00239,True,35,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-15
+SYN-00240,True,19,15-19,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-31
+SYN-00241,True,19,15-19,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-03
+SYN-00242,True,34,30-34,Abu Dhabi City,clinic_north,Other Arab,True,True,False,True,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-11-05
+SYN-00243,True,33,30-34,Al Dhafra,clinic_dhafra,Other,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-11
+SYN-00244,True,19,15-19,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-00245,True,21,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-17
+SYN-00246,True,23,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00247,True,36,35-39,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-06
+SYN-00248,True,31,30-34,Abu Dhabi City,clinic_corniche,Emirati,True,False,False,False,False,False,True,22,True,False,True,True,,,0,2026-10-08
+SYN-00249,True,30,30-34,Al Ain,clinic_alain,Other,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-10
+SYN-00250,True,24,20-24,Al Dhafra,clinic_dhafra,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,15,2026-11-05
+SYN-00251,True,25,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-08
+SYN-00252,True,43,40-44,Abu Dhabi City,clinic_corniche,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-15
+SYN-00253,True,38,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-02
+SYN-00254,True,31,30-34,Abu Dhabi City,clinic_north,South Asian,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-10-28
+SYN-00255,True,35,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,True,11,True,False,True,True,,,0,2026-11-21
+SYN-00256,True,37,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-22
+SYN-00257,True,18,15-19,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-04
+SYN-00258,True,45,45-49,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-00259,True,28,25-29,Al Dhafra,clinic_dhafra,Other,True,True,False,False,False,False,True,21,True,False,True,True,gyn_review,closed,0,2026-11-03
+SYN-00260,True,19,15-19,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00261,True,25,25-29,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,True,True,False,0,False,True,True,True,postpartum_glucose_test,closed,0,2026-11-20
+SYN-00262,True,33,30-34,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-16
+SYN-00263,True,32,30-34,Abu Dhabi City,clinic_corniche,Other Arab,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-17
+SYN-00264,True,40,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,True,False,True,False,False,0,False,False,True,True,gyn_review,open,71,2026-11-15
+SYN-00265,True,34,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-05
+SYN-00266,True,37,35-39,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00267,True,32,30-34,Al Ain,clinic_alain,Emirati,False,False,False,True,True,False,False,0,False,False,False,False,,,0,2026-11-02
+SYN-00268,True,44,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,True,True,False,False,False,0,False,False,False,False,gyn_review,in_progress,0,2026-11-09
+SYN-00269,True,27,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,True,15,True,False,True,False,,,0,2026-11-21
+SYN-00270,True,29,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-20
+SYN-00271,True,33,30-34,Abu Dhabi City,clinic_north,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-29
+SYN-00272,True,45,45-49,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-11
+SYN-00273,True,40,40-44,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00274,True,18,15-19,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00275,True,31,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-19
+SYN-00276,True,41,40-44,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-06
+SYN-00277,True,36,35-39,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-18
+SYN-00278,True,25,25-29,Abu Dhabi City,clinic_corniche,Other Arab,False,False,True,True,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-12
+SYN-00279,True,23,20-24,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-10
+SYN-00280,True,40,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-14
+SYN-00281,True,32,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,True,9,False,False,True,False,,,0,2026-11-05
+SYN-00282,True,44,40-44,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-20
+SYN-00283,True,29,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-00284,True,30,30-34,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00285,True,42,40-44,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00286,True,40,40-44,Al Dhafra,clinic_dhafra,Other Arab,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,86,2026-10-21
+SYN-00287,True,35,35-39,Al Ain,clinic_alain,South Asian,True,True,False,False,True,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-17
+SYN-00288,True,18,15-19,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-17
+SYN-00289,True,23,20-24,Al Dhafra,clinic_dhafra,Emirati,True,True,True,False,False,False,False,0,False,False,True,False,gyn_review,in_progress,0,2026-11-17
+SYN-00290,True,36,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00291,True,21,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00292,True,33,30-34,Al Ain,clinic_alain,Other,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-13
+SYN-00293,True,18,15-19,Abu Dhabi City,clinic_north,South Asian,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,open,110,2026-10-17
+SYN-00294,True,39,35-39,Abu Dhabi City,clinic_corniche,Other,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-13
+SYN-00295,True,31,30-34,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-00296,True,37,35-39,Abu Dhabi City,clinic_corniche,Other,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-09
+SYN-00297,True,30,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-15
+SYN-00298,True,44,40-44,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-05
+SYN-00299,True,19,15-19,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-17
+SYN-00300,True,39,35-39,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-09
+SYN-00301,True,23,20-24,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-00302,True,36,35-39,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-09
+SYN-00303,True,37,35-39,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-02
+SYN-00304,True,28,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-13
+SYN-00305,True,25,25-29,Al Ain,clinic_alain,South Asian,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-11-06
+SYN-00306,True,44,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00307,True,35,35-39,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00308,True,40,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,True,True,False,0,False,True,True,True,postpartum_glucose_test,closed,0,2026-11-11
+SYN-00309,True,33,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00310,True,23,20-24,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-21
+SYN-00311,True,26,25-29,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,True,18,True,False,True,False,,,0,2026-11-13
+SYN-00312,True,41,40-44,Abu Dhabi City,clinic_north,Emirati,True,False,False,False,False,False,True,9,True,False,True,True,,,0,2026-11-07
+SYN-00313,True,21,20-24,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-09
+SYN-00314,True,20,20-24,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00315,True,22,20-24,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-19
+SYN-00316,True,44,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00317,True,43,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-00318,True,28,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00319,True,25,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-09
+SYN-00320,True,23,20-24,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-00321,True,33,30-34,Al Ain,clinic_alain,Other Arab,True,False,False,False,False,False,True,14,True,False,True,True,,,0,2026-10-08
+SYN-00322,True,33,30-34,Abu Dhabi City,clinic_north,Emirati,True,True,True,False,False,False,False,0,False,False,False,False,gyn_review,open,97,2026-10-26
+SYN-00323,True,18,15-19,Abu Dhabi City,clinic_north,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-17
+SYN-00324,True,42,40-44,Al Ain,clinic_alain,South Asian,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-21
+SYN-00325,True,27,25-29,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,True,13,True,False,True,False,,,0,2026-11-09
+SYN-00326,True,36,35-39,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-23
+SYN-00327,True,34,30-34,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-18
+SYN-00328,True,44,40-44,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-28
+SYN-00329,True,41,40-44,Al Dhafra,clinic_dhafra,Other,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-11-06
+SYN-00330,True,21,20-24,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00331,True,31,30-34,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-17
+SYN-00332,True,43,40-44,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-04
+SYN-00333,True,31,30-34,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,True,2,False,False,True,False,,,0,2026-11-03
+SYN-00334,True,45,45-49,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-22
+SYN-00335,True,33,30-34,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,True,7,False,False,True,False,,,0,2026-11-03
+SYN-00336,True,30,30-34,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-00337,True,41,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-28
+SYN-00338,True,23,20-24,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00339,True,30,30-34,Al Dhafra,clinic_dhafra,Other Arab,True,True,False,True,False,False,False,0,False,False,True,False,gyn_review,in_progress,0,2026-10-17
+SYN-00340,True,45,45-49,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-06
+SYN-00341,True,45,45-49,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00342,True,39,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00343,True,42,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,True,17,True,False,False,False,,,0,2026-11-17
+SYN-00344,True,41,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-08
+SYN-00345,True,39,35-39,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00346,True,23,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-00347,True,19,15-19,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-02
+SYN-00348,True,24,20-24,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-17
+SYN-00349,True,27,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-12
+SYN-00350,True,22,20-24,Al Ain,clinic_alain,Emirati,True,True,False,False,True,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-22
+SYN-00351,True,44,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00352,True,20,20-24,Al Dhafra,clinic_dhafra,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-27
+SYN-00353,True,34,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,True,17,True,False,True,True,,,0,2026-10-27
+SYN-00354,True,40,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-17
+SYN-00355,True,34,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-00356,True,22,20-24,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-08
+SYN-00357,True,24,20-24,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00358,True,38,35-39,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-13
+SYN-00359,True,32,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-21
+SYN-00360,True,39,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-22
+SYN-00361,True,22,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-16
+SYN-00362,True,33,30-34,Al Dhafra,clinic_dhafra,Other Arab,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,90,2026-10-11
+SYN-00363,True,36,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00364,True,37,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-00365,True,27,25-29,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00366,True,27,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00367,True,21,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,119,2026-10-22
+SYN-00368,True,32,30-34,Al Dhafra,clinic_dhafra,South Asian,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,119,2026-11-08
+SYN-00369,True,22,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00370,True,33,30-34,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-00371,True,27,25-29,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,True,5,False,False,True,False,,,0,2026-10-22
+SYN-00372,True,39,35-39,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-31
+SYN-00373,True,31,30-34,Al Ain,clinic_alain,Other,True,True,False,False,True,False,False,0,False,False,False,False,gyn_review,open,108,2026-10-16
+SYN-00374,True,36,35-39,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00375,True,44,40-44,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-15
+SYN-00376,True,36,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-20
+SYN-00377,True,29,25-29,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-11
+SYN-00378,True,41,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-23
+SYN-00379,True,19,15-19,Abu Dhabi City,clinic_corniche,Other Arab,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,in_progress,0,2026-10-18
+SYN-00380,True,43,40-44,Abu Dhabi City,clinic_corniche,Emirati,True,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-10
+SYN-00381,True,26,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-23
+SYN-00382,True,32,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-17
+SYN-00383,True,32,30-34,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-08
+SYN-00384,True,32,30-34,Al Dhafra,clinic_dhafra,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-18
+SYN-00385,True,31,30-34,Abu Dhabi City,clinic_north,Other,True,True,False,False,False,False,True,19,True,False,False,False,gyn_review,in_progress,0,2026-11-13
+SYN-00386,True,26,25-29,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-12
+SYN-00387,True,33,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00388,True,28,25-29,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-18
+SYN-00389,True,38,35-39,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-14
+SYN-00390,True,35,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-02
+SYN-00391,True,44,40-44,Abu Dhabi City,clinic_north,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-05
+SYN-00392,True,22,20-24,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-20
+SYN-00393,True,31,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,open,14,2026-10-30
+SYN-00394,True,29,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00395,True,33,30-34,Al Dhafra,clinic_dhafra,Emirati,True,False,True,False,False,False,False,0,False,False,False,False,gyn_review,in_progress,0,2026-11-19
+SYN-00396,True,30,30-34,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,True,21,True,False,True,True,,,0,2026-10-29
+SYN-00397,True,18,15-19,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00398,True,19,15-19,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-20
+SYN-00399,True,33,30-34,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00400,True,37,35-39,Al Ain,clinic_alain,Other,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-15
+SYN-00401,True,34,30-34,Al Ain,clinic_alain,Other Arab,False,False,False,True,True,False,False,0,False,False,True,True,,,0,2026-10-09
+SYN-00402,True,22,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-01
+SYN-00403,True,44,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-18
+SYN-00404,True,35,35-39,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-22
+SYN-00405,True,21,20-24,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-00406,True,37,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,True,21,True,False,True,True,,,0,2026-10-20
+SYN-00407,True,22,20-24,Abu Dhabi City,clinic_corniche,Other,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-10-14
+SYN-00408,True,27,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00409,True,19,15-19,Al Ain,clinic_alain,Emirati,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,open,3,2026-10-13
+SYN-00410,True,44,40-44,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-08
+SYN-00411,True,31,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,True,False,False,0,False,False,False,False,,,0,2026-10-10
+SYN-00412,True,40,40-44,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00413,True,26,25-29,Al Dhafra,clinic_dhafra,Other Arab,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-10
+SYN-00414,True,30,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-31
+SYN-00415,True,22,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-16
+SYN-00416,True,26,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00417,True,31,30-34,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,True,4,False,False,True,False,,,0,2026-11-15
+SYN-00418,True,23,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,True,False,True,False,False,0,False,False,True,False,gyn_review,open,116,2026-10-28
+SYN-00419,True,40,40-44,Abu Dhabi City,clinic_corniche,Other Arab,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-26
+SYN-00420,True,40,40-44,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,True,22,True,False,True,False,,,0,2026-10-27
+SYN-00421,True,20,20-24,Abu Dhabi City,clinic_corniche,South Asian,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-12
+SYN-00422,True,40,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-14
+SYN-00423,True,19,15-19,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-02
+SYN-00424,True,20,20-24,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-22
+SYN-00425,True,43,40-44,Al Dhafra,clinic_dhafra,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-14
+SYN-00426,True,41,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-11
+SYN-00427,True,43,40-44,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-04
+SYN-00428,True,29,25-29,Abu Dhabi City,clinic_north,South Asian,True,False,False,False,False,False,True,2,False,False,True,True,,,0,2026-10-16
+SYN-00429,True,34,30-34,Abu Dhabi City,clinic_north,South Asian,True,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-09
+SYN-00430,True,42,40-44,Al Ain,clinic_alain,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,46,2026-11-19
+SYN-00431,True,20,20-24,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-14
+SYN-00432,True,40,40-44,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00433,True,28,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-08
+SYN-00434,True,24,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-31
+SYN-00435,True,30,30-34,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-06
+SYN-00436,True,24,20-24,Abu Dhabi City,clinic_corniche,Emirati,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-23
+SYN-00437,True,25,25-29,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-19
+SYN-00438,True,22,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00439,True,26,25-29,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-13
+SYN-00440,True,33,30-34,Al Dhafra,clinic_dhafra,Other,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,open,95,2026-10-25
+SYN-00441,True,40,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,True,1,False,False,True,False,,,0,2026-10-23
+SYN-00442,True,39,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-27
+SYN-00443,True,25,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,3,2026-10-28
+SYN-00444,True,44,40-44,Abu Dhabi City,clinic_north,Other Arab,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-10-09
+SYN-00445,True,19,15-19,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-18
+SYN-00446,True,19,15-19,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-00447,True,39,35-39,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00448,True,24,20-24,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-29
+SYN-00449,True,24,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-18
+SYN-00450,True,21,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-04
+SYN-00451,True,35,35-39,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-30
+SYN-00452,True,23,20-24,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-25
+SYN-00453,True,20,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-06
+SYN-00454,True,38,35-39,Abu Dhabi City,clinic_corniche,Other,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-08
+SYN-00455,True,26,25-29,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-00456,True,44,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-19
+SYN-00457,True,43,40-44,Al Dhafra,clinic_dhafra,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-05
+SYN-00458,True,41,40-44,Abu Dhabi City,clinic_corniche,South Asian,True,False,False,False,True,True,False,0,False,False,True,False,postpartum_glucose_test,open,18,2026-11-17
+SYN-00459,True,35,35-39,Al Ain,clinic_alain,South Asian,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-18
+SYN-00460,True,42,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-11
+SYN-00461,True,27,25-29,Al Ain,clinic_alain,Emirati,True,True,False,True,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-11-05
+SYN-00462,True,22,20-24,Al Dhafra,clinic_dhafra,South Asian,True,False,True,False,False,False,False,0,False,False,True,False,gyn_review,open,41,2026-11-11
+SYN-00463,True,34,30-34,Al Dhafra,clinic_dhafra,South Asian,True,False,False,False,True,False,False,0,False,False,True,True,,,0,2026-11-08
+SYN-00464,True,45,45-49,Abu Dhabi City,clinic_north,Emirati,False,False,True,True,False,False,False,0,False,False,True,True,gyn_review,open,11,2026-10-08
+SYN-00465,True,24,20-24,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-15
+SYN-00466,True,43,40-44,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00467,True,31,30-34,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-20
+SYN-00468,True,45,45-49,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-05
+SYN-00469,True,36,35-39,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-11
+SYN-00470,True,24,20-24,Abu Dhabi City,clinic_corniche,Emirati,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-11-07
+SYN-00471,True,45,45-49,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00472,True,36,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,True,21,True,False,True,False,,,0,2026-10-23
+SYN-00473,True,19,15-19,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-15
+SYN-00474,True,28,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00475,True,19,15-19,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-28
+SYN-00476,True,26,25-29,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,True,10,False,False,False,False,,,0,2026-11-14
+SYN-00477,True,22,20-24,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-21
+SYN-00478,True,24,20-24,Abu Dhabi City,clinic_north,Other Arab,True,False,True,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-19
+SYN-00479,True,25,25-29,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-10
+SYN-00480,True,31,30-34,Al Dhafra,clinic_dhafra,Other Arab,True,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-14
+SYN-00481,True,19,15-19,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-19
+SYN-00482,True,28,25-29,Al Dhafra,clinic_dhafra,Other Arab,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-11-19
+SYN-00483,True,20,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-28
+SYN-00484,True,30,30-34,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,True,11,False,False,True,False,,,0,2026-10-10
+SYN-00485,True,23,20-24,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-17
+SYN-00486,True,25,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-00487,True,27,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-24
+SYN-00488,True,27,25-29,Al Dhafra,clinic_dhafra,Other,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-11
+SYN-00489,True,19,15-19,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-29
+SYN-00490,True,31,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-09
+SYN-00491,True,19,15-19,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-30
+SYN-00492,True,18,15-19,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00493,True,40,40-44,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-12
+SYN-00494,True,44,40-44,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-14
+SYN-00495,True,37,35-39,Abu Dhabi City,clinic_corniche,Other,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-10
+SYN-00496,True,39,35-39,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-21
+SYN-00497,True,27,25-29,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,True,10,False,False,False,False,,,0,2026-10-25
+SYN-00498,True,25,25-29,Abu Dhabi City,clinic_corniche,Emirati,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,in_progress,0,2026-10-20
+SYN-00499,True,30,30-34,Al Ain,clinic_alain,Other,False,False,False,False,False,False,True,16,True,False,True,False,,,0,2026-11-17
+SYN-00500,True,37,35-39,Al Ain,clinic_alain,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-01
+SYN-00501,True,18,15-19,Abu Dhabi City,clinic_corniche,South Asian,True,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-19
+SYN-00502,True,37,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-08
+SYN-00503,True,28,25-29,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-08
+SYN-00504,True,21,20-24,Abu Dhabi City,clinic_north,Other,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-10-31
+SYN-00505,True,37,35-39,Al Ain,clinic_alain,Other,False,False,False,False,False,False,True,3,False,False,True,False,,,0,2026-10-25
+SYN-00506,True,44,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00507,True,32,30-34,Al Dhafra,clinic_dhafra,Emirati,False,False,True,True,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-19
+SYN-00508,True,29,25-29,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-25
+SYN-00509,True,23,20-24,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00510,True,26,25-29,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-19
+SYN-00511,True,38,35-39,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00512,True,42,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-18
+SYN-00513,True,41,40-44,Abu Dhabi City,clinic_corniche,South Asian,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,open,25,2026-11-13
+SYN-00514,True,32,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-24
+SYN-00515,True,21,20-24,Al Dhafra,clinic_dhafra,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-21
+SYN-00516,True,28,25-29,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-11
+SYN-00517,True,23,20-24,Al Dhafra,clinic_dhafra,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-11
+SYN-00518,True,23,20-24,Al Ain,clinic_alain,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,30,2026-10-21
+SYN-00519,True,32,30-34,Al Ain,clinic_alain,Other Arab,True,True,True,False,False,False,False,0,False,False,False,False,gyn_review,open,29,2026-11-15
+SYN-00520,True,29,25-29,Al Ain,clinic_alain,Other Arab,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-14
+SYN-00521,True,18,15-19,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-22
+SYN-00522,True,34,30-34,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00523,True,45,45-49,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00524,True,30,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-24
+SYN-00525,True,43,40-44,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-00526,True,40,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00527,True,34,30-34,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-02
+SYN-00528,True,41,40-44,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00529,True,39,35-39,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00530,True,40,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-08
+SYN-00531,True,22,20-24,Abu Dhabi City,clinic_corniche,Emirati,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-11
+SYN-00532,True,26,25-29,Al Ain,clinic_alain,Other Arab,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-20
+SYN-00533,True,29,25-29,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-23
+SYN-00534,True,31,30-34,Abu Dhabi City,clinic_north,South Asian,False,False,False,True,False,False,True,20,True,False,True,True,,,0,2026-11-21
+SYN-00535,True,33,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00536,True,24,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-00537,True,36,35-39,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-04
+SYN-00538,True,24,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-28
+SYN-00539,True,44,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-27
+SYN-00540,True,21,20-24,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00541,True,21,20-24,Abu Dhabi City,clinic_north,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-13
+SYN-00542,True,21,20-24,Abu Dhabi City,clinic_north,Other,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,43,2026-10-31
+SYN-00543,True,21,20-24,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00544,True,33,30-34,Al Dhafra,clinic_dhafra,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-08
+SYN-00545,True,42,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00546,True,30,30-34,Abu Dhabi City,clinic_north,South Asian,True,True,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-05
+SYN-00547,True,29,25-29,Abu Dhabi City,clinic_north,Emirati,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,open,99,2026-11-16
+SYN-00548,True,38,35-39,Abu Dhabi City,clinic_north,Other Arab,True,False,False,False,True,False,False,0,False,False,True,True,,,0,2026-10-31
+SYN-00549,True,34,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-10
+SYN-00550,True,31,30-34,Al Ain,clinic_alain,Other Arab,False,False,False,True,True,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-00551,True,32,30-34,Al Dhafra,clinic_dhafra,South Asian,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-14
+SYN-00552,True,40,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-00553,True,45,45-49,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-04
+SYN-00554,True,45,45-49,Abu Dhabi City,clinic_corniche,Other,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-21
+SYN-00555,True,25,25-29,Abu Dhabi City,clinic_corniche,Other,False,False,True,True,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-22
+SYN-00556,True,33,30-34,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,True,15,True,False,True,True,,,0,2026-11-19
+SYN-00557,True,23,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-00558,True,39,35-39,Al Ain,clinic_alain,South Asian,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-02
+SYN-00559,True,39,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-19
+SYN-00560,True,26,25-29,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00561,True,40,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,True,False,False,True,4,False,False,False,False,,,0,2026-10-13
+SYN-00562,True,42,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,True,True,False,False,False,0,False,False,True,False,gyn_review,open,47,2026-11-13
+SYN-00563,True,21,20-24,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-22
+SYN-00564,True,27,25-29,Al Dhafra,clinic_dhafra,Other,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-02
+SYN-00565,True,38,35-39,Abu Dhabi City,clinic_north,Other Arab,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,18,2026-10-27
+SYN-00566,True,22,20-24,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-15
+SYN-00567,True,29,25-29,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-11-06
+SYN-00568,True,18,15-19,Al Dhafra,clinic_dhafra,South Asian,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-18
+SYN-00569,True,32,30-34,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-31
+SYN-00570,True,22,20-24,Al Dhafra,clinic_dhafra,Other,False,False,False,False,True,True,False,0,False,True,True,True,postpartum_glucose_test,closed,0,2026-10-11
+SYN-00571,True,33,30-34,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-23
+SYN-00572,True,29,25-29,Al Dhafra,clinic_dhafra,South Asian,True,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-17
+SYN-00573,True,19,15-19,Al Dhafra,clinic_dhafra,Emirati,True,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-28
+SYN-00574,True,28,25-29,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00575,True,27,25-29,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-16
+SYN-00576,True,27,25-29,Abu Dhabi City,clinic_corniche,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-11
+SYN-00577,True,18,15-19,Abu Dhabi City,clinic_corniche,Other Arab,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-04
+SYN-00578,True,42,40-44,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-23
+SYN-00579,True,32,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-07
+SYN-00580,True,27,25-29,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-23
+SYN-00581,True,41,40-44,Abu Dhabi City,clinic_corniche,South Asian,True,True,False,True,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-29
+SYN-00582,True,22,20-24,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00583,True,41,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-19
+SYN-00584,True,23,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-25
+SYN-00585,True,41,40-44,Al Dhafra,clinic_dhafra,Other Arab,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,0,2026-11-11
+SYN-00586,True,27,25-29,Al Ain,clinic_alain,Other,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,103,2026-10-11
+SYN-00587,True,19,15-19,Abu Dhabi City,clinic_corniche,Emirati,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,open,57,2026-11-17
+SYN-00588,True,37,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-09
+SYN-00589,True,45,45-49,Abu Dhabi City,clinic_corniche,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-18
+SYN-00590,True,32,30-34,Al Dhafra,clinic_dhafra,Emirati,False,False,True,False,False,False,True,11,False,False,True,True,gyn_review,closed,0,2026-10-17
+SYN-00591,True,33,30-34,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-13
+SYN-00592,True,45,45-49,Al Ain,clinic_alain,Emirati,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-11-22
+SYN-00593,True,28,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-17
+SYN-00594,True,18,15-19,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00595,True,26,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-21
+SYN-00596,True,38,35-39,Abu Dhabi City,clinic_north,South Asian,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-09
+SYN-00597,True,44,40-44,Abu Dhabi City,clinic_north,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-18
+SYN-00598,True,27,25-29,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-05
+SYN-00599,True,33,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-28
+SYN-00600,True,27,25-29,Abu Dhabi City,clinic_corniche,South Asian,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-19
+SYN-00601,True,43,40-44,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-18
+SYN-00602,True,44,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-10
+SYN-00603,True,31,30-34,Al Ain,clinic_alain,Other,False,False,False,False,False,False,True,9,False,False,True,False,,,0,2026-10-24
+SYN-00604,True,39,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-04
+SYN-00605,True,29,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-21
+SYN-00606,True,42,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,True,9,True,False,True,False,,,0,2026-11-06
+SYN-00607,True,34,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00608,True,23,20-24,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-02
+SYN-00609,True,35,35-39,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-00610,True,32,30-34,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-15
+SYN-00611,True,33,30-34,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00612,True,24,20-24,Abu Dhabi City,clinic_corniche,Emirati,True,False,False,False,True,False,False,0,False,False,True,True,,,0,2026-11-20
+SYN-00613,True,35,35-39,Al Ain,clinic_alain,Other Arab,True,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-10-20
+SYN-00614,True,35,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-11-05
+SYN-00615,True,40,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-14
+SYN-00616,True,41,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,True,True,False,False,True,6,True,False,True,True,gyn_review,open,28,2026-10-10
+SYN-00617,True,41,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-25
+SYN-00618,True,33,30-34,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-00619,True,25,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00620,True,33,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,True,True,False,False,False,0,False,False,True,True,gyn_review,open,69,2026-10-23
+SYN-00621,True,23,20-24,Al Ain,clinic_alain,South Asian,True,True,False,True,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-11-15
+SYN-00622,True,35,35-39,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-30
+SYN-00623,True,40,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-13
+SYN-00624,True,18,15-19,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-30
+SYN-00625,True,38,35-39,Abu Dhabi City,clinic_corniche,Other,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,77,2026-11-19
+SYN-00626,True,18,15-19,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00627,True,33,30-34,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,True,7,False,False,True,False,,,0,2026-11-15
+SYN-00628,True,24,20-24,Al Ain,clinic_alain,Emirati,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,open,85,2026-10-19
+SYN-00629,True,36,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,True,3,False,False,True,False,,,0,2026-10-26
+SYN-00630,True,43,40-44,Abu Dhabi City,clinic_north,Other Arab,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,open,90,2026-11-15
+SYN-00631,True,25,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-00632,True,28,25-29,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-11-05
+SYN-00633,True,29,25-29,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-31
+SYN-00634,True,32,30-34,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00635,True,26,25-29,Al Dhafra,clinic_dhafra,Emirati,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,open,62,2026-10-11
+SYN-00636,True,20,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-31
+SYN-00637,True,40,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,True,4,False,False,True,False,,,0,2026-11-01
+SYN-00638,True,23,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-20
+SYN-00639,True,30,30-34,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-25
+SYN-00640,True,41,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00641,True,25,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-15
+SYN-00642,True,40,40-44,Abu Dhabi City,clinic_corniche,Other,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-23
+SYN-00643,True,33,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-12
+SYN-00644,True,44,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,True,True,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-08
+SYN-00645,True,19,15-19,Abu Dhabi City,clinic_corniche,South Asian,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-17
+SYN-00646,True,37,35-39,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-10
+SYN-00647,True,36,35-39,Al Dhafra,clinic_dhafra,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-28
+SYN-00648,True,44,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00649,True,24,20-24,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-00650,True,24,20-24,Abu Dhabi City,clinic_north,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,111,2026-11-09
+SYN-00651,True,26,25-29,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-27
+SYN-00652,True,41,40-44,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,True,10,True,False,True,True,,,0,2026-10-25
+SYN-00653,True,35,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-08
+SYN-00654,True,26,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-11
+SYN-00655,True,41,40-44,Abu Dhabi City,clinic_north,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,57,2026-11-07
+SYN-00656,True,41,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-22
+SYN-00657,True,28,25-29,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-29
+SYN-00658,True,29,25-29,Al Ain,clinic_alain,Other Arab,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-28
+SYN-00659,True,41,40-44,Abu Dhabi City,clinic_north,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-16
+SYN-00660,True,39,35-39,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-00661,True,20,20-24,Abu Dhabi City,clinic_corniche,Emirati,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-15
+SYN-00662,True,45,45-49,Abu Dhabi City,clinic_north,Other Arab,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-08
+SYN-00663,True,32,30-34,Abu Dhabi City,clinic_corniche,Emirati,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-10-23
+SYN-00664,True,25,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-18
+SYN-00665,True,19,15-19,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-00666,True,42,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-09
+SYN-00667,True,38,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-31
+SYN-00668,True,44,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-14
+SYN-00669,True,21,20-24,Al Dhafra,clinic_dhafra,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-25
+SYN-00670,True,45,45-49,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-16
+SYN-00671,True,35,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00672,True,32,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,in_progress,0,2026-10-23
+SYN-00673,True,37,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00674,True,26,25-29,Abu Dhabi City,clinic_north,Other Arab,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,open,6,2026-11-05
+SYN-00675,True,29,25-29,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-12
+SYN-00676,True,39,35-39,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-16
+SYN-00677,True,23,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00678,True,22,20-24,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00679,True,29,25-29,Abu Dhabi City,clinic_north,Emirati,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,open,43,2026-10-09
+SYN-00680,True,21,20-24,Abu Dhabi City,clinic_north,South Asian,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-10-31
+SYN-00681,True,28,25-29,Al Ain,clinic_alain,South Asian,True,True,False,False,False,False,True,9,False,False,True,True,gyn_review,in_progress,0,2026-10-12
+SYN-00682,True,42,40-44,Al Dhafra,clinic_dhafra,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,67,2026-10-30
+SYN-00683,True,38,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,True,False,True,False,False,0,False,False,False,False,gyn_review,in_progress,0,2026-10-26
+SYN-00684,True,20,20-24,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-09
+SYN-00685,True,38,35-39,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-19
+SYN-00686,True,20,20-24,Al Ain,clinic_alain,Other Arab,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-19
+SYN-00687,True,19,15-19,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-25
+SYN-00688,True,32,30-34,Al Ain,clinic_alain,Other,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-17
+SYN-00689,True,30,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-12
+SYN-00690,True,29,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-02
+SYN-00691,True,31,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-14
+SYN-00692,True,36,35-39,Al Ain,clinic_alain,Emirati,True,True,False,False,False,False,True,23,True,False,False,False,gyn_review,in_progress,0,2026-11-03
+SYN-00693,True,34,30-34,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00694,True,28,25-29,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-28
+SYN-00695,True,43,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00696,True,37,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-13
+SYN-00697,True,44,40-44,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-11
+SYN-00698,True,27,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-04
+SYN-00699,True,21,20-24,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-00700,True,37,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-07
+SYN-00701,True,31,30-34,Abu Dhabi City,clinic_north,South Asian,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-06
+SYN-00702,True,38,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-22
+SYN-00703,True,45,45-49,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00704,True,35,35-39,Al Ain,clinic_alain,Emirati,False,False,False,True,True,False,False,0,False,False,True,False,,,0,2026-10-14
+SYN-00705,True,36,35-39,Al Ain,clinic_alain,South Asian,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00706,True,33,30-34,Abu Dhabi City,clinic_corniche,Other Arab,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,open,14,2026-10-30
+SYN-00707,True,31,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-11
+SYN-00708,True,33,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-06
+SYN-00709,True,41,40-44,Al Ain,clinic_alain,Emirati,True,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-09
+SYN-00710,True,41,40-44,Abu Dhabi City,clinic_north,South Asian,True,True,False,False,True,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-20
+SYN-00711,True,40,40-44,Al Dhafra,clinic_dhafra,South Asian,True,True,True,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-11-01
+SYN-00712,True,26,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,True,False,True,False,False,0,False,False,True,False,gyn_review,in_progress,0,2026-11-08
+SYN-00713,True,28,25-29,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00714,True,26,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-21
+SYN-00715,True,32,30-34,Abu Dhabi City,clinic_corniche,Other Arab,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-10-24
+SYN-00716,True,35,35-39,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-00717,True,38,35-39,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-14
+SYN-00718,True,21,20-24,Abu Dhabi City,clinic_corniche,Emirati,True,True,False,True,False,False,False,0,False,False,True,True,gyn_review,open,80,2026-10-25
+SYN-00719,True,22,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-00720,True,39,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-31
+SYN-00721,True,39,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-00722,True,33,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-11-22
+SYN-00723,True,30,30-34,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,True,22,True,False,True,True,,,0,2026-10-16
+SYN-00724,True,24,20-24,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-21
+SYN-00725,True,31,30-34,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-17
+SYN-00726,True,37,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-00727,True,27,25-29,Abu Dhabi City,clinic_north,Emirati,True,True,True,True,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-20
+SYN-00728,True,22,20-24,Al Dhafra,clinic_dhafra,Emirati,True,True,True,True,False,False,False,0,False,False,True,False,gyn_review,in_progress,0,2026-11-01
+SYN-00729,True,25,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,True,9,False,False,True,False,,,0,2026-11-09
+SYN-00730,True,40,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00731,True,20,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-17
+SYN-00732,True,31,30-34,Al Ain,clinic_alain,South Asian,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,in_progress,0,2026-10-23
+SYN-00733,True,18,15-19,Al Ain,clinic_alain,South Asian,True,True,False,True,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-09
+SYN-00734,True,20,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-24
+SYN-00735,True,44,40-44,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00736,True,34,30-34,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-15
+SYN-00737,True,20,20-24,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00738,True,40,40-44,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-09
+SYN-00739,True,43,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-19
+SYN-00740,True,30,30-34,Abu Dhabi City,clinic_north,Other,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-00741,True,34,30-34,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00742,True,33,30-34,Abu Dhabi City,clinic_north,Emirati,True,True,False,True,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-11-18
+SYN-00743,True,35,35-39,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-28
+SYN-00744,True,37,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-13
+SYN-00745,True,42,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-00746,True,31,30-34,Abu Dhabi City,clinic_north,South Asian,True,False,False,False,True,False,False,0,False,False,True,True,,,0,2026-10-31
+SYN-00747,True,21,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-06
+SYN-00748,True,32,30-34,Al Dhafra,clinic_dhafra,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-17
+SYN-00749,True,24,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,43,2026-11-04
+SYN-00750,True,19,15-19,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-08
+SYN-00751,True,43,40-44,Abu Dhabi City,clinic_north,Other Arab,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-20
+SYN-00752,True,41,40-44,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00753,True,20,20-24,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-31
+SYN-00754,True,37,35-39,Al Ain,clinic_alain,Other,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-13
+SYN-00755,True,25,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-23
+SYN-00756,True,26,25-29,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00757,True,43,40-44,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-23
+SYN-00758,True,19,15-19,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-26
+SYN-00759,True,43,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00760,True,33,30-34,Al Ain,clinic_alain,Other,False,False,False,True,True,False,False,0,False,False,True,False,,,0,2026-10-31
+SYN-00761,True,32,30-34,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-18
+SYN-00762,True,42,40-44,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-00763,True,44,40-44,Abu Dhabi City,clinic_north,South Asian,True,True,False,True,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-10-12
+SYN-00764,True,44,40-44,Al Ain,clinic_alain,Emirati,True,False,True,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-10-29
+SYN-00765,True,43,40-44,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-19
+SYN-00766,True,29,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-00767,True,21,20-24,Al Ain,clinic_alain,Other,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,open,111,2026-10-29
+SYN-00768,True,20,20-24,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00769,True,21,20-24,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00770,True,27,25-29,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-01
+SYN-00771,True,29,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-22
+SYN-00772,True,39,35-39,Al Ain,clinic_alain,South Asian,True,False,False,True,True,False,False,0,False,False,True,True,,,0,2026-11-21
+SYN-00773,True,29,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-00774,True,21,20-24,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00775,True,18,15-19,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-00776,True,26,25-29,Al Ain,clinic_alain,South Asian,True,True,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-26
+SYN-00777,True,41,40-44,Abu Dhabi City,clinic_north,Emirati,True,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-09
+SYN-00778,True,44,40-44,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-06
+SYN-00779,True,33,30-34,Al Ain,clinic_alain,South Asian,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-30
+SYN-00780,True,43,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-25
+SYN-00781,True,19,15-19,Al Dhafra,clinic_dhafra,Emirati,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-10-31
+SYN-00782,True,26,25-29,Abu Dhabi City,clinic_north,Emirati,True,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-07
+SYN-00783,True,38,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-21
+SYN-00784,True,28,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-00785,True,40,40-44,Abu Dhabi City,clinic_corniche,Other Arab,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-28
+SYN-00786,True,18,15-19,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-21
+SYN-00787,True,45,45-49,Abu Dhabi City,clinic_north,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-01
+SYN-00788,True,21,20-24,Abu Dhabi City,clinic_corniche,Other,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-21
+SYN-00789,True,32,30-34,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,True,2,False,False,True,False,,,0,2026-11-01
+SYN-00790,True,27,25-29,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-23
+SYN-00791,True,38,35-39,Al Dhafra,clinic_dhafra,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00792,True,34,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-27
+SYN-00793,True,25,25-29,Al Ain,clinic_alain,South Asian,False,False,True,False,False,False,True,18,True,False,True,False,gyn_review,open,44,2026-10-09
+SYN-00794,True,44,40-44,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00795,True,26,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-11-13
+SYN-00796,True,26,25-29,Al Ain,clinic_alain,Other Arab,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-17
+SYN-00797,True,22,20-24,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-31
+SYN-00798,True,21,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00799,True,35,35-39,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-11
+SYN-00800,True,26,25-29,Abu Dhabi City,clinic_north,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-08
+SYN-00801,True,38,35-39,Al Dhafra,clinic_dhafra,Other Arab,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,88,2026-10-15
+SYN-00802,True,37,35-39,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-06
+SYN-00803,True,34,30-34,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-06
+SYN-00804,True,22,20-24,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-17
+SYN-00805,True,23,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-02
+SYN-00806,True,35,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-19
+SYN-00807,True,28,25-29,Al Ain,clinic_alain,Emirati,True,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-28
+SYN-00808,True,38,35-39,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00809,True,36,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-13
+SYN-00810,True,34,30-34,Abu Dhabi City,clinic_north,Other Arab,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,in_progress,0,2026-11-17
+SYN-00811,True,31,30-34,Al Dhafra,clinic_dhafra,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-10
+SYN-00812,True,36,35-39,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-14
+SYN-00813,True,20,20-24,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-09
+SYN-00814,True,19,15-19,Abu Dhabi City,clinic_corniche,South Asian,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,17,2026-11-04
+SYN-00815,True,32,30-34,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-04
+SYN-00816,True,31,30-34,Al Ain,clinic_alain,South Asian,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-17
+SYN-00817,True,42,40-44,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-22
+SYN-00818,True,44,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-19
+SYN-00819,True,42,40-44,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-09
+SYN-00820,True,34,30-34,Abu Dhabi City,clinic_corniche,South Asian,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-11
+SYN-00821,True,33,30-34,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-06
+SYN-00822,True,30,30-34,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-13
+SYN-00823,True,19,15-19,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-29
+SYN-00824,True,45,45-49,Abu Dhabi City,clinic_north,South Asian,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-10
+SYN-00825,True,40,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-30
+SYN-00826,True,36,35-39,Al Ain,clinic_alain,South Asian,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-23
+SYN-00827,True,28,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-00828,True,18,15-19,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-19
+SYN-00829,True,40,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-00830,True,40,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-05
+SYN-00831,True,43,40-44,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00832,True,41,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,True,19,True,False,True,False,,,0,2026-10-15
+SYN-00833,True,30,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-17
+SYN-00834,True,27,25-29,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-11-20
+SYN-00835,True,31,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-21
+SYN-00836,True,44,40-44,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-10-08
+SYN-00837,True,20,20-24,Al Ain,clinic_alain,Emirati,True,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-15
+SYN-00838,True,28,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-00839,True,41,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-19
+SYN-00840,True,34,30-34,Al Ain,clinic_alain,Emirati,True,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-09
+SYN-00841,True,18,15-19,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-15
+SYN-00842,True,35,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-22
+SYN-00843,True,21,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00844,True,24,20-24,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-21
+SYN-00845,True,24,20-24,Al Ain,clinic_alain,Other,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-23
+SYN-00846,True,28,25-29,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-10-26
+SYN-00847,True,36,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-17
+SYN-00848,True,19,15-19,Al Ain,clinic_alain,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-20
+SYN-00849,True,45,45-49,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-12
+SYN-00850,True,21,20-24,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00851,True,19,15-19,Al Dhafra,clinic_dhafra,Other,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-09
+SYN-00852,True,41,40-44,Al Dhafra,clinic_dhafra,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00853,True,24,20-24,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00854,True,31,30-34,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-00855,True,18,15-19,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00856,True,44,40-44,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-19
+SYN-00857,True,37,35-39,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-19
+SYN-00858,True,30,30-34,Al Ain,clinic_alain,Other,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-04
+SYN-00859,True,33,30-34,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00860,True,34,30-34,Abu Dhabi City,clinic_corniche,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,111,2026-11-12
+SYN-00861,True,45,45-49,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-31
+SYN-00862,True,41,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-14
+SYN-00863,True,31,30-34,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-13
+SYN-00864,True,23,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-13
+SYN-00865,True,44,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-21
+SYN-00866,True,36,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-14
+SYN-00867,True,29,25-29,Al Ain,clinic_alain,Emirati,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-10-12
+SYN-00868,True,40,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-08
+SYN-00869,True,30,30-34,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-08
+SYN-00870,True,37,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-22
+SYN-00871,True,24,20-24,Al Dhafra,clinic_dhafra,South Asian,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-15
+SYN-00872,True,37,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-22
+SYN-00873,True,28,25-29,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-00874,True,39,35-39,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-21
+SYN-00875,True,28,25-29,Al Ain,clinic_alain,South Asian,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-28
+SYN-00876,True,44,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-00877,True,40,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00878,True,20,20-24,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-13
+SYN-00879,True,38,35-39,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-22
+SYN-00880,True,19,15-19,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00881,True,33,30-34,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-11
+SYN-00882,True,34,30-34,Al Ain,clinic_alain,Other Arab,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,open,5,2026-11-08
+SYN-00883,True,44,40-44,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-29
+SYN-00884,True,32,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-06
+SYN-00885,True,44,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,open,31,2026-11-02
+SYN-00886,True,26,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-00887,True,31,30-34,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,True,16,True,False,False,False,,,0,2026-10-26
+SYN-00888,True,27,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00889,True,21,20-24,Al Ain,clinic_alain,South Asian,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-25
+SYN-00890,True,45,45-49,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-00891,True,44,40-44,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00892,True,26,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-00893,True,24,20-24,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-00894,True,44,40-44,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-00895,True,40,40-44,Abu Dhabi City,clinic_corniche,South Asian,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,in_progress,0,2026-11-21
+SYN-00896,True,20,20-24,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-07
+SYN-00897,True,36,35-39,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-07
+SYN-00898,True,37,35-39,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00899,True,24,20-24,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-00900,True,21,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-11
+SYN-00901,True,39,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-16
+SYN-00902,True,18,15-19,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-14
+SYN-00903,True,18,15-19,Abu Dhabi City,clinic_north,South Asian,True,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,61,2026-11-05
+SYN-00904,True,19,15-19,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-23
+SYN-00905,True,34,30-34,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-04
+SYN-00906,True,33,30-34,Al Ain,clinic_alain,Other Arab,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-13
+SYN-00907,True,27,25-29,Al Ain,clinic_alain,South Asian,False,False,True,False,False,False,True,9,False,False,True,True,gyn_review,closed,0,2026-11-15
+SYN-00908,True,25,25-29,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00909,True,45,45-49,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-21
+SYN-00910,True,45,45-49,Al Dhafra,clinic_dhafra,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-27
+SYN-00911,True,24,20-24,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-14
+SYN-00912,True,37,35-39,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,True,10,True,False,False,False,,,0,2026-11-14
+SYN-00913,True,20,20-24,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00914,True,38,35-39,Al Ain,clinic_alain,Emirati,True,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-01
+SYN-00915,True,30,30-34,Abu Dhabi City,clinic_north,Other,False,False,True,False,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-10-27
+SYN-00916,True,39,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00917,True,18,15-19,Abu Dhabi City,clinic_north,Emirati,True,True,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-06
+SYN-00918,True,34,30-34,Abu Dhabi City,clinic_corniche,Emirati,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,open,113,2026-10-25
+SYN-00919,True,40,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00920,True,26,25-29,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-21
+SYN-00921,True,30,30-34,Abu Dhabi City,clinic_north,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-17
+SYN-00922,True,35,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-20
+SYN-00923,True,43,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-04
+SYN-00924,True,38,35-39,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00925,True,34,30-34,Al Ain,clinic_alain,South Asian,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-18
+SYN-00926,True,28,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-23
+SYN-00927,True,34,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-00928,True,35,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,True,True,False,False,False,0,False,False,True,True,gyn_review,open,96,2026-10-30
+SYN-00929,True,41,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-15
+SYN-00930,True,27,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-00931,True,31,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-00932,True,45,45-49,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00933,True,25,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,True,11,False,False,True,False,,,0,2026-10-10
+SYN-00934,True,29,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-14
+SYN-00935,True,39,35-39,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-00936,True,41,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-29
+SYN-00937,True,27,25-29,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-14
+SYN-00938,True,20,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-10
+SYN-00939,True,21,20-24,Abu Dhabi City,clinic_corniche,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-06
+SYN-00940,True,24,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-13
+SYN-00941,True,22,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,True,False,False,0,False,False,False,False,,,0,2026-10-11
+SYN-00942,True,42,40-44,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-31
+SYN-00943,True,18,15-19,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-04
+SYN-00944,True,28,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00945,True,30,30-34,Al Ain,clinic_alain,Emirati,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-16
+SYN-00946,True,34,30-34,Al Ain,clinic_alain,Other Arab,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-12
+SYN-00947,True,22,20-24,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,True,False,False,0,False,False,False,False,,,0,2026-11-01
+SYN-00948,True,28,25-29,Abu Dhabi City,clinic_corniche,Other Arab,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,70,2026-11-06
+SYN-00949,True,39,35-39,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-00950,True,20,20-24,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-17
+SYN-00951,True,29,25-29,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,True,10,False,False,True,False,,,0,2026-11-21
+SYN-00952,True,38,35-39,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-00953,True,40,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-00954,True,24,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-24
+SYN-00955,True,32,30-34,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00956,True,28,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-00957,True,26,25-29,Abu Dhabi City,clinic_north,Other,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-05
+SYN-00958,True,29,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,True,True,False,0,False,False,True,True,postpartum_glucose_test,in_progress,0,2026-10-31
+SYN-00959,True,44,40-44,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-00960,True,40,40-44,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-25
+SYN-00961,True,40,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-14
+SYN-00962,True,30,30-34,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-00963,True,23,20-24,Al Ain,clinic_alain,Emirati,True,True,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-13
+SYN-00964,True,29,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-13
+SYN-00965,True,21,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-19
+SYN-00966,True,19,15-19,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-12
+SYN-00967,True,26,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-16
+SYN-00968,True,32,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-15
+SYN-00969,True,33,30-34,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,True,12,True,False,True,True,,,0,2026-10-12
+SYN-00970,True,42,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-17
+SYN-00971,True,26,25-29,Abu Dhabi City,clinic_corniche,South Asian,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,113,2026-10-09
+SYN-00972,True,29,25-29,Abu Dhabi City,clinic_corniche,South Asian,True,True,False,False,False,False,False,0,False,False,False,False,gyn_review,in_progress,0,2026-11-01
+SYN-00973,True,29,25-29,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-15
+SYN-00974,True,34,30-34,Abu Dhabi City,clinic_north,Other Arab,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-01
+SYN-00975,True,44,40-44,Abu Dhabi City,clinic_north,South Asian,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-27
+SYN-00976,True,38,35-39,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-00977,True,22,20-24,Al Ain,clinic_alain,Emirati,False,False,False,False,True,True,False,0,False,False,True,True,postpartum_glucose_test,open,33,2026-10-31
+SYN-00978,True,45,45-49,Al Dhafra,clinic_dhafra,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-27
+SYN-00979,True,28,25-29,Abu Dhabi City,clinic_corniche,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-11
+SYN-00980,True,42,40-44,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-31
+SYN-00981,True,35,35-39,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-00982,True,35,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-13
+SYN-00983,True,26,25-29,Al Ain,clinic_alain,Other,True,True,False,False,False,False,True,15,True,False,True,False,gyn_review,open,98,2026-11-07
+SYN-00984,True,37,35-39,Abu Dhabi City,clinic_north,South Asian,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,27,2026-10-11
+SYN-00985,True,27,25-29,Al Dhafra,clinic_dhafra,South Asian,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,99,2026-11-16
+SYN-00986,True,30,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-01
+SYN-00987,True,43,40-44,Abu Dhabi City,clinic_corniche,Other,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-27
+SYN-00988,True,33,30-34,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,True,4,False,False,False,False,,,0,2026-11-04
+SYN-00989,True,25,25-29,Abu Dhabi City,clinic_north,South Asian,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-10
+SYN-00990,True,38,35-39,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-14
+SYN-00991,True,35,35-39,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-28
+SYN-00992,True,29,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-11
+SYN-00993,True,20,20-24,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-26
+SYN-00994,True,43,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-17
+SYN-00995,True,28,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,True,17,True,False,True,True,,,0,2026-10-24
+SYN-00996,True,33,30-34,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,True,18,True,False,True,True,,,0,2026-10-16
+SYN-00997,True,27,25-29,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-17
+SYN-00998,True,45,45-49,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-22
+SYN-00999,True,24,20-24,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-30
+SYN-01000,True,44,40-44,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-28
+SYN-01001,True,30,30-34,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-07
+SYN-01002,True,28,25-29,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-19
+SYN-01003,True,27,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-14
+SYN-01004,True,44,40-44,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-01005,True,38,35-39,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-01006,True,24,20-24,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-01007,True,45,45-49,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-28
+SYN-01008,True,28,25-29,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-01009,True,41,40-44,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-05
+SYN-01010,True,31,30-34,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-24
+SYN-01011,True,41,40-44,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-01012,True,24,20-24,Al Dhafra,clinic_dhafra,South Asian,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,open,97,2026-11-19
+SYN-01013,True,26,25-29,Abu Dhabi City,clinic_corniche,Other,False,False,False,True,False,False,True,6,False,False,True,True,,,0,2026-10-22
+SYN-01014,True,45,45-49,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-01015,True,23,20-24,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-01016,True,29,25-29,Abu Dhabi City,clinic_corniche,Other Arab,True,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-05
+SYN-01017,True,34,30-34,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-19
+SYN-01018,True,43,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-22
+SYN-01019,True,25,25-29,Abu Dhabi City,clinic_north,Other Arab,True,False,False,False,True,False,False,0,False,False,False,False,,,0,2026-11-07
+SYN-01020,True,41,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-28
+SYN-01021,True,33,30-34,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-21
+SYN-01022,True,21,20-24,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-11
+SYN-01023,True,27,25-29,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-01024,True,43,40-44,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-16
+SYN-01025,True,26,25-29,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-01026,True,43,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-08
+SYN-01027,True,38,35-39,Abu Dhabi City,clinic_corniche,South Asian,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,open,19,2026-11-02
+SYN-01028,True,26,25-29,Al Dhafra,clinic_dhafra,South Asian,True,True,False,True,False,False,True,13,True,False,True,False,gyn_review,closed,0,2026-11-07
+SYN-01029,True,38,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,True,19,True,False,False,False,,,0,2026-10-11
+SYN-01030,True,20,20-24,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-05
+SYN-01031,True,36,35-39,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,True,17,True,False,True,False,,,0,2026-10-12
+SYN-01032,True,20,20-24,Al Ain,clinic_alain,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-20
+SYN-01033,True,35,35-39,Al Ain,clinic_alain,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,51,2026-11-07
+SYN-01034,True,31,30-34,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-11
+SYN-01035,True,29,25-29,Abu Dhabi City,clinic_corniche,Other,False,False,True,True,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-11-15
+SYN-01036,True,41,40-44,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-15
+SYN-01037,True,20,20-24,Abu Dhabi City,clinic_corniche,South Asian,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-22
+SYN-01038,True,36,35-39,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-07
+SYN-01039,True,30,30-34,Abu Dhabi City,clinic_north,Other,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-20
+SYN-01040,True,38,35-39,Al Ain,clinic_alain,Emirati,True,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-16
+SYN-01041,True,19,15-19,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-09
+SYN-01042,True,39,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-29
+SYN-01043,True,36,35-39,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-03
+SYN-01044,True,30,30-34,Al Ain,clinic_alain,Other,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,96,2026-10-14
+SYN-01045,True,36,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,True,11,True,False,True,True,,,0,2026-10-18
+SYN-01046,True,38,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-23
+SYN-01047,True,44,40-44,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-25
+SYN-01048,True,20,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-07
+SYN-01049,True,35,35-39,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-21
+SYN-01050,True,19,15-19,Al Ain,clinic_alain,Emirati,False,False,True,True,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-10-26
+SYN-01051,True,27,25-29,Al Ain,clinic_alain,South Asian,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-01052,True,25,25-29,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-01053,True,21,20-24,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-22
+SYN-01054,True,28,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-21
+SYN-01055,True,23,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-01056,True,21,20-24,Al Dhafra,clinic_dhafra,Other Arab,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-01057,True,38,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,True,5,False,False,True,False,,,0,2026-11-03
+SYN-01058,True,40,40-44,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-01059,True,23,20-24,Abu Dhabi City,clinic_north,South Asian,True,True,False,False,True,False,False,0,False,False,True,False,gyn_review,open,105,2026-10-18
+SYN-01060,True,35,35-39,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-01061,True,44,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-25
+SYN-01062,True,18,15-19,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-22
+SYN-01063,True,36,35-39,Al Ain,clinic_alain,South Asian,True,False,True,False,True,False,False,0,False,False,False,False,gyn_review,open,74,2026-11-15
+SYN-01064,True,34,30-34,Al Dhafra,clinic_dhafra,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-01065,True,26,25-29,Abu Dhabi City,clinic_corniche,Other,True,True,False,True,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-11-11
+SYN-01066,True,28,25-29,Al Dhafra,clinic_dhafra,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-12
+SYN-01067,True,38,35-39,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-16
+SYN-01068,True,41,40-44,Al Dhafra,clinic_dhafra,Other,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-18
+SYN-01069,True,21,20-24,Abu Dhabi City,clinic_north,Emirati,True,True,True,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-21
+SYN-01070,True,32,30-34,Al Ain,clinic_alain,Emirati,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-14
+SYN-01071,True,18,15-19,Abu Dhabi City,clinic_corniche,Other,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-26
+SYN-01072,True,39,35-39,Abu Dhabi City,clinic_north,Other Arab,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-13
+SYN-01073,True,23,20-24,Al Dhafra,clinic_dhafra,Emirati,True,True,False,True,True,True,False,0,False,False,True,True,postpartum_glucose_test,open,80,2026-11-19
+SYN-01074,True,20,20-24,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-17
+SYN-01075,True,39,35-39,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,True,5,False,False,True,False,,,0,2026-10-16
+SYN-01076,True,37,35-39,Abu Dhabi City,clinic_north,Other Arab,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-17
+SYN-01077,True,35,35-39,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-19
+SYN-01078,True,24,20-24,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-08
+SYN-01079,True,28,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-11
+SYN-01080,True,36,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-11
+SYN-01081,True,24,20-24,Al Dhafra,clinic_dhafra,Emirati,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-22
+SYN-01082,True,27,25-29,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-04
+SYN-01083,True,35,35-39,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-29
+SYN-01084,True,26,25-29,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-14
+SYN-01085,True,41,40-44,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-01086,True,42,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,True,1,False,False,False,False,,,0,2026-11-05
+SYN-01087,True,25,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-08
+SYN-01088,True,29,25-29,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-27
+SYN-01089,True,44,40-44,Al Ain,clinic_alain,Emirati,True,True,False,True,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-11-01
+SYN-01090,True,18,15-19,Al Ain,clinic_alain,Other Arab,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-06
+SYN-01091,True,24,20-24,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-15
+SYN-01092,True,38,35-39,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-13
+SYN-01093,True,19,15-19,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-12
+SYN-01094,True,44,40-44,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-01095,True,33,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-19
+SYN-01096,True,28,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,True,True,False,False,False,0,False,False,False,False,gyn_review,closed,0,2026-11-19
+SYN-01097,True,38,35-39,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-01098,True,36,35-39,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-15
+SYN-01099,True,30,30-34,Al Ain,clinic_alain,South Asian,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-15
+SYN-01100,True,37,35-39,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,True,24,True,False,True,False,,,0,2026-10-19
+SYN-01101,True,35,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-01102,True,28,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-14
+SYN-01103,True,21,20-24,Al Ain,clinic_alain,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-01104,True,39,35-39,Abu Dhabi City,clinic_corniche,Other Arab,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-21
+SYN-01105,True,25,25-29,Al Ain,clinic_alain,South Asian,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-17
+SYN-01106,True,27,25-29,Al Ain,clinic_alain,Other Arab,True,True,True,False,False,False,False,0,False,False,False,False,gyn_review,in_progress,0,2026-10-27
+SYN-01107,True,30,30-34,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-15
+SYN-01108,True,20,20-24,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-21
+SYN-01109,True,44,40-44,Al Dhafra,clinic_dhafra,South Asian,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-11-15
+SYN-01110,True,30,30-34,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-01111,True,35,35-39,Al Ain,clinic_alain,South Asian,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-14
+SYN-01112,True,35,35-39,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-09
+SYN-01113,True,41,40-44,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-14
+SYN-01114,True,31,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-01115,True,37,35-39,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-01116,True,38,35-39,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-30
+SYN-01117,True,26,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-19
+SYN-01118,True,28,25-29,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-01119,True,26,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-01120,True,20,20-24,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-11-02
+SYN-01121,True,24,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-30
+SYN-01122,True,39,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-01
+SYN-01123,True,41,40-44,Abu Dhabi City,clinic_corniche,Emirati,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,open,79,2026-10-30
+SYN-01124,True,40,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-05
+SYN-01125,True,28,25-29,Al Dhafra,clinic_dhafra,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-01126,True,25,25-29,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-16
+SYN-01127,True,26,25-29,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-01128,True,24,20-24,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-21
+SYN-01129,True,24,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-15
+SYN-01130,True,22,20-24,Al Dhafra,clinic_dhafra,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-20
+SYN-01131,True,24,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-01132,True,30,30-34,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-22
+SYN-01133,True,21,20-24,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-01134,True,33,30-34,Al Dhafra,clinic_dhafra,South Asian,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-24
+SYN-01135,True,35,35-39,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-01136,True,34,30-34,Abu Dhabi City,clinic_north,Other,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-17
+SYN-01137,True,22,20-24,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-01138,True,22,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-21
+SYN-01139,True,45,45-49,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-11
+SYN-01140,True,35,35-39,Abu Dhabi City,clinic_north,Other Arab,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,open,60,2026-11-19
+SYN-01141,True,18,15-19,Al Dhafra,clinic_dhafra,Other Arab,True,True,False,True,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-14
+SYN-01142,True,18,15-19,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-20
+SYN-01143,True,22,20-24,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-17
+SYN-01144,True,37,35-39,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,True,1,False,False,True,False,,,0,2026-10-09
+SYN-01145,True,41,40-44,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-15
+SYN-01146,True,30,30-34,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-18
+SYN-01147,True,36,35-39,Abu Dhabi City,clinic_corniche,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-04
+SYN-01148,True,26,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-27
+SYN-01149,True,22,20-24,Abu Dhabi City,clinic_north,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-01150,True,24,20-24,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-12
+SYN-01151,True,39,35-39,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-11-16
+SYN-01152,True,31,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-08
+SYN-01153,True,43,40-44,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-16
+SYN-01154,True,21,20-24,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-30
+SYN-01155,True,32,30-34,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-13
+SYN-01156,True,31,30-34,Abu Dhabi City,clinic_north,Other,False,False,False,False,False,False,True,22,True,False,True,True,,,0,2026-10-24
+SYN-01157,True,26,25-29,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-26
+SYN-01158,True,28,25-29,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-09
+SYN-01159,True,39,35-39,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-22
+SYN-01160,True,44,40-44,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-29
+SYN-01161,True,30,30-34,Al Ain,clinic_alain,Emirati,False,False,True,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-11-02
+SYN-01162,True,33,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-21
+SYN-01163,True,38,35-39,Abu Dhabi City,clinic_corniche,Other,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-20
+SYN-01164,True,34,30-34,Abu Dhabi City,clinic_corniche,Emirati,True,True,False,False,False,False,False,0,False,False,True,True,gyn_review,in_progress,0,2026-10-26
+SYN-01165,True,27,25-29,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,False,0,False,False,True,True,,,0,2026-10-27
+SYN-01166,True,28,25-29,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-11-05
+SYN-01167,True,23,20-24,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-05
+SYN-01168,True,39,35-39,Abu Dhabi City,clinic_north,South Asian,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-10-19
+SYN-01169,True,21,20-24,Al Ain,clinic_alain,Emirati,False,False,True,True,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-15
+SYN-01170,True,35,35-39,Al Ain,clinic_alain,South Asian,False,False,False,False,False,False,True,3,False,False,True,False,,,0,2026-10-20
+SYN-01171,True,27,25-29,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-12
+SYN-01172,True,35,35-39,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-08
+SYN-01173,True,30,30-34,Abu Dhabi City,clinic_corniche,Other,False,False,True,False,False,False,False,0,False,False,True,True,gyn_review,closed,0,2026-11-20
+SYN-01174,True,20,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-11-06
+SYN-01175,True,31,30-34,Abu Dhabi City,clinic_north,Other Arab,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-18
+SYN-01176,True,20,20-24,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-30
+SYN-01177,True,40,40-44,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-11-08
+SYN-01178,True,20,20-24,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-19
+SYN-01179,True,34,30-34,Al Ain,clinic_alain,South Asian,False,False,False,False,True,True,False,0,False,False,True,False,postpartum_glucose_test,open,45,2026-11-22
+SYN-01180,True,45,45-49,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-13
+SYN-01181,True,31,30-34,Al Ain,clinic_alain,South Asian,False,False,False,True,False,False,True,5,False,False,True,True,,,0,2026-11-14
+SYN-01182,True,20,20-24,Al Dhafra,clinic_dhafra,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-30
+SYN-01183,True,28,25-29,Al Ain,clinic_alain,Emirati,True,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-08
+SYN-01184,True,30,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-17
+SYN-01185,True,23,20-24,Al Ain,clinic_alain,Emirati,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-11-16
+SYN-01186,True,27,25-29,Al Dhafra,clinic_dhafra,Emirati,False,False,False,True,False,False,False,0,False,False,False,False,,,0,2026-11-07
+SYN-01187,True,43,40-44,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-11
+SYN-01188,True,29,25-29,Al Ain,clinic_alain,Other,False,False,False,False,True,False,False,0,False,False,True,False,,,0,2026-10-12
+SYN-01189,True,32,30-34,Abu Dhabi City,clinic_corniche,Emirati,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-02
+SYN-01190,True,35,35-39,Abu Dhabi City,clinic_corniche,Other,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-10-30
+SYN-01191,True,31,30-34,Abu Dhabi City,clinic_corniche,Other Arab,True,True,False,False,False,False,False,0,False,False,True,False,gyn_review,closed,0,2026-10-23
+SYN-01192,True,27,25-29,Abu Dhabi City,clinic_north,South Asian,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-20
+SYN-01193,True,30,30-34,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-20
+SYN-01194,True,36,35-39,Abu Dhabi City,clinic_corniche,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-11-13
+SYN-01195,True,30,30-34,Abu Dhabi City,clinic_north,Emirati,False,False,False,True,False,False,False,0,False,False,True,False,,,0,2026-10-13
+SYN-01196,True,36,35-39,Al Ain,clinic_alain,Emirati,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-10
+SYN-01197,True,25,25-29,Al Ain,clinic_alain,Emirati,False,False,False,True,False,False,False,0,False,False,True,True,,,0,2026-10-21
+SYN-01198,True,44,40-44,Al Ain,clinic_alain,Other Arab,False,False,False,False,False,False,False,0,False,False,True,False,,,0,2026-11-15
+SYN-01199,True,31,30-34,Abu Dhabi City,clinic_corniche,Other Arab,False,False,False,False,False,False,True,3,False,False,True,False,,,0,2026-11-12
+SYN-01200,True,30,30-34,Abu Dhabi City,clinic_north,South Asian,False,False,False,False,False,False,False,0,False,False,False,False,,,0,2026-10-28

@@ -1,0 +1,2022 @@
+{
+  "profile": {
+    "id": "hessa",
+    "alias": "Hessa S. (fictional)",
+    "age": 29,
+    "region": "Abu Dhabi City",
+    "language": "ar",
+    "menarche_age": 13,
+    "story": "24 weeks pregnant with her first baby; the glucose screening window (24-28 weeks) is open and not yet booked.",
+    "is_synthetic": true,
+    "tag": "SYNTHETIC — fictional demo data, not a real person",
+    "pregnant": true,
+    "pregnancy_weeks": 24,
+    "life_stage": "pregnancy",
+    "breastfeeding": false,
+    "on_hormonal_contraception": false,
+    "trying_to_conceive": false,
+    "ttc_months": 0
+  },
+  "cycles": [
+    {
+      "start": "2025-11-26",
+      "bleed_days": 6,
+      "length_days": 29
+    },
+    {
+      "start": "2025-12-25",
+      "bleed_days": 5,
+      "length_days": 27
+    },
+    {
+      "start": "2026-01-21",
+      "bleed_days": 5,
+      "length_days": 27
+    },
+    {
+      "start": "2026-02-17",
+      "bleed_days": 6,
+      "length_days": 30
+    },
+    {
+      "start": "2026-03-19",
+      "bleed_days": 6,
+      "length_days": 29
+    },
+    {
+      "start": "2026-04-17",
+      "bleed_days": 4,
+      "length_days": 28
+    },
+    {
+      "start": "2026-05-15",
+      "bleed_days": 5,
+      "length_days": null
+    }
+  ],
+  "daily_logs": [
+    {
+      "id": "hessa-e0060",
+      "date": "2025-11-26",
+      "flow": "medium",
+      "pain": 4,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "low mood",
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.6,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0061",
+      "date": "2025-11-27",
+      "flow": "medium",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "fatigue",
+        "low mood"
+      ],
+      "impact": "none",
+      "sleep_h": 6.0,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0062",
+      "date": "2025-11-28",
+      "flow": "medium",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.1,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0063",
+      "date": "2025-11-29",
+      "flow": "light",
+      "pain": 2,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 6.4,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "hessa-e0064",
+      "date": "2025-11-30",
+      "flow": "light",
+      "pain": 2,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "breast tenderness"
+      ],
+      "impact": "none",
+      "sleep_h": 7.0,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "hessa-e0065",
+      "date": "2025-12-01",
+      "flow": "light",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 6.0,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "hessa-e0066",
+      "date": "2025-12-10",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "headache"
+      ],
+      "impact": "none",
+      "sleep_h": 5.5,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0067",
+      "date": "2025-12-17",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "bloating"
+      ],
+      "impact": "none",
+      "sleep_h": 6.4,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0068",
+      "date": "2025-12-21",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "cravings"
+      ],
+      "impact": "none",
+      "sleep_h": 7.3,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0069",
+      "date": "2025-12-25",
+      "flow": "medium",
+      "pain": 3,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "low mood",
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 6.2,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0070",
+      "date": "2025-12-26",
+      "flow": "medium",
+      "pain": 3,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 7.3,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0071",
+      "date": "2025-12-27",
+      "flow": "medium",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 5.9,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0072",
+      "date": "2025-12-28",
+      "flow": "light",
+      "pain": 1,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 7.9,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "hessa-e0073",
+      "date": "2025-12-29",
+      "flow": "light",
+      "pain": 2,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "fatigue",
+        "bloating"
+      ],
+      "impact": "none",
+      "sleep_h": 7.5,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 1
+    },
+    {
+      "id": "hessa-e0074",
+      "date": "2026-01-11",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "bloating"
+      ],
+      "impact": "none",
+      "sleep_h": 7.8,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0075",
+      "date": "2026-01-21",
+      "flow": "medium",
+      "pain": 2,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 6.3,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0076",
+      "date": "2026-01-22",
+      "flow": "medium",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "cravings",
+        "headache"
+      ],
+      "impact": "none",
+      "sleep_h": 7.5,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0077",
+      "date": "2026-01-23",
+      "flow": "medium",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "low mood"
+      ],
+      "impact": "none",
+      "sleep_h": 5.7,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0078",
+      "date": "2026-01-24",
+      "flow": "light",
+      "pain": 2,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 5.5,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "hessa-e0079",
+      "date": "2026-01-25",
+      "flow": "light",
+      "pain": 1,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 6.9,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 1
+    },
+    {
+      "id": "hessa-e0080",
+      "date": "2026-01-28",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "low mood"
+      ],
+      "impact": "none",
+      "sleep_h": 6.4,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0081",
+      "date": "2026-02-05",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "low mood"
+      ],
+      "impact": "none",
+      "sleep_h": 7.4,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0082",
+      "date": "2026-02-16",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "bloating"
+      ],
+      "impact": "none",
+      "sleep_h": 7.2,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0083",
+      "date": "2026-02-17",
+      "flow": "medium",
+      "pain": 1,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 7.7,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0084",
+      "date": "2026-02-18",
+      "flow": "medium",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "bloating",
+        "low mood"
+      ],
+      "impact": "none",
+      "sleep_h": 6.1,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0085",
+      "date": "2026-02-19",
+      "flow": "medium",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "headache"
+      ],
+      "impact": "none",
+      "sleep_h": 7.7,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0086",
+      "date": "2026-02-20",
+      "flow": "light",
+      "pain": 2,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 6.3,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 1
+    },
+    {
+      "id": "hessa-e0087",
+      "date": "2026-02-21",
+      "flow": "light",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.4,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "hessa-e0088",
+      "date": "2026-02-22",
+      "flow": "light",
+      "pain": 1,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "bloating",
+        "cravings"
+      ],
+      "impact": "none",
+      "sleep_h": 5.5,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "hessa-e0089",
+      "date": "2026-03-05",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "acne"
+      ],
+      "impact": "none",
+      "sleep_h": 6.9,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0090",
+      "date": "2026-03-07",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.6,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0091",
+      "date": "2026-03-12",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "bloating"
+      ],
+      "impact": "none",
+      "sleep_h": 8.0,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0092",
+      "date": "2026-03-19",
+      "flow": "medium",
+      "pain": 4,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "bloating",
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 5.9,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0093",
+      "date": "2026-03-20",
+      "flow": "medium",
+      "pain": 1,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 7.8,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0094",
+      "date": "2026-03-21",
+      "flow": "medium",
+      "pain": 1,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "back pain",
+        "headache"
+      ],
+      "impact": "none",
+      "sleep_h": 6.4,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0095",
+      "date": "2026-03-22",
+      "flow": "light",
+      "pain": 1,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 7.4,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "hessa-e0096",
+      "date": "2026-03-23",
+      "flow": "light",
+      "pain": 1,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 6.3,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 1
+    },
+    {
+      "id": "hessa-e0097",
+      "date": "2026-03-24",
+      "flow": "light",
+      "pain": 2,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "bloating"
+      ],
+      "impact": "none",
+      "sleep_h": 6.6,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "hessa-e0098",
+      "date": "2026-03-25",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "bloating"
+      ],
+      "impact": "none",
+      "sleep_h": 5.6,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0099",
+      "date": "2026-04-04",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.4,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0100",
+      "date": "2026-04-11",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "bloating"
+      ],
+      "impact": "none",
+      "sleep_h": 6.5,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0101",
+      "date": "2026-04-17",
+      "flow": "medium",
+      "pain": 2,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 8.0,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0102",
+      "date": "2026-04-18",
+      "flow": "medium",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "breast tenderness"
+      ],
+      "impact": "none",
+      "sleep_h": 5.6,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0103",
+      "date": "2026-04-19",
+      "flow": "medium",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 7.9,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0104",
+      "date": "2026-04-20",
+      "flow": "light",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 7.0,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "hessa-e0105",
+      "date": "2026-04-22",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "breast tenderness"
+      ],
+      "impact": "none",
+      "sleep_h": 7.5,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0106",
+      "date": "2026-05-08",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 6.3,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0107",
+      "date": "2026-05-15",
+      "flow": "medium",
+      "pain": 3,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 6.1,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0108",
+      "date": "2026-05-16",
+      "flow": "medium",
+      "pain": 1,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "fatigue",
+        "headache"
+      ],
+      "impact": "none",
+      "sleep_h": 5.8,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0109",
+      "date": "2026-05-17",
+      "flow": "medium",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "headache"
+      ],
+      "impact": "none",
+      "sleep_h": 7.0,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "hessa-e0110",
+      "date": "2026-05-18",
+      "flow": "light",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "bloating",
+        "low mood"
+      ],
+      "impact": "none",
+      "sleep_h": 6.0,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "hessa-e0111",
+      "date": "2026-05-19",
+      "flow": "light",
+      "pain": 2,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "cravings",
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.7,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "hessa-e0112",
+      "date": "2026-05-31",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.4,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0113",
+      "date": "2026-06-03",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "cravings"
+      ],
+      "impact": "none",
+      "sleep_h": 6.4,
+      "note": ""
+    },
+    {
+      "id": "hessa-e0006",
+      "date": "2026-07-12",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 8.0,
+      "note": "",
+      "pregnancy_week": 5
+    },
+    {
+      "id": "hessa-e0007",
+      "date": "2026-07-16",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 8.0,
+      "note": "",
+      "pregnancy_week": 5
+    },
+    {
+      "id": "hessa-e0008",
+      "date": "2026-07-19",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.3,
+      "note": "",
+      "pregnancy_week": 6
+    },
+    {
+      "id": "hessa-e0009",
+      "date": "2026-07-20",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 7.4,
+      "note": "",
+      "pregnancy_week": 6
+    },
+    {
+      "id": "hessa-e0010",
+      "date": "2026-07-21",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 7.9,
+      "note": "",
+      "pregnancy_week": 6
+    },
+    {
+      "id": "hessa-e0011",
+      "date": "2026-07-23",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 6.6,
+      "note": "",
+      "pregnancy_week": 6
+    },
+    {
+      "id": "hessa-e0012",
+      "date": "2026-07-27",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 6.2,
+      "note": "",
+      "pregnancy_week": 7
+    },
+    {
+      "id": "hessa-e0013",
+      "date": "2026-07-29",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 7.4,
+      "note": "",
+      "pregnancy_week": 7
+    },
+    {
+      "id": "hessa-e0014",
+      "date": "2026-08-04",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 7.0,
+      "note": "",
+      "pregnancy_week": 8
+    },
+    {
+      "id": "hessa-e0015",
+      "date": "2026-08-08",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.0,
+      "note": "",
+      "pregnancy_week": 8
+    },
+    {
+      "id": "hessa-e0016",
+      "date": "2026-08-09",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 7.2,
+      "note": "",
+      "pregnancy_week": 9
+    },
+    {
+      "id": "hessa-e0017",
+      "date": "2026-08-10",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.3,
+      "note": "",
+      "pregnancy_week": 9
+    },
+    {
+      "id": "hessa-e0018",
+      "date": "2026-08-11",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 6.6,
+      "note": "",
+      "pregnancy_week": 9
+    },
+    {
+      "id": "hessa-e0019",
+      "date": "2026-08-12",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 7.9,
+      "note": "",
+      "pregnancy_week": 9
+    },
+    {
+      "id": "hessa-e0020",
+      "date": "2026-08-21",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 6.5,
+      "note": "",
+      "pregnancy_week": 10
+    },
+    {
+      "id": "hessa-e0021",
+      "date": "2026-08-22",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.1,
+      "note": "",
+      "pregnancy_week": 10
+    },
+    {
+      "id": "hessa-e0022",
+      "date": "2026-08-23",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 6.6,
+      "note": "",
+      "pregnancy_week": 11
+    },
+    {
+      "id": "hessa-e0023",
+      "date": "2026-08-24",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 7.2,
+      "note": "",
+      "pregnancy_week": 11
+    },
+    {
+      "id": "hessa-e0024",
+      "date": "2026-09-02",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.3,
+      "note": "",
+      "pregnancy_week": 12
+    },
+    {
+      "id": "hessa-e0025",
+      "date": "2026-09-06",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "nausea"
+      ],
+      "impact": "none",
+      "sleep_h": 6.2,
+      "note": "",
+      "pregnancy_week": 13
+    },
+    {
+      "id": "hessa-e0026",
+      "date": "2026-09-09",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.2,
+      "note": "",
+      "pregnancy_week": 13
+    },
+    {
+      "id": "hessa-e0027",
+      "date": "2026-09-10",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.0,
+      "note": "",
+      "pregnancy_week": 13
+    },
+    {
+      "id": "hessa-e0028",
+      "date": "2026-09-11",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.1,
+      "note": "",
+      "pregnancy_week": 13
+    },
+    {
+      "id": "hessa-e0029",
+      "date": "2026-09-12",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.9,
+      "note": "",
+      "pregnancy_week": 13
+    },
+    {
+      "id": "hessa-e0030",
+      "date": "2026-09-14",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "heartburn"
+      ],
+      "impact": "none",
+      "sleep_h": 7.4,
+      "note": "",
+      "pregnancy_week": 14
+    },
+    {
+      "id": "hessa-e0031",
+      "date": "2026-09-17",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "heartburn"
+      ],
+      "impact": "none",
+      "sleep_h": 6.4,
+      "note": "",
+      "pregnancy_week": 14
+    },
+    {
+      "id": "hessa-e0032",
+      "date": "2026-09-20",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.9,
+      "note": "",
+      "pregnancy_week": 15
+    },
+    {
+      "id": "hessa-e0033",
+      "date": "2026-09-21",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 7.5,
+      "note": "",
+      "pregnancy_week": 15
+    },
+    {
+      "id": "hessa-e0034",
+      "date": "2026-09-22",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.2,
+      "note": "",
+      "pregnancy_week": 15
+    },
+    {
+      "id": "hessa-e0035",
+      "date": "2026-09-25",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 7.0,
+      "note": "",
+      "pregnancy_week": 15
+    },
+    {
+      "id": "hessa-e0036",
+      "date": "2026-09-27",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "heartburn"
+      ],
+      "impact": "none",
+      "sleep_h": 7.2,
+      "note": "",
+      "pregnancy_week": 16
+    },
+    {
+      "id": "hessa-e0037",
+      "date": "2026-09-28",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.1,
+      "note": "",
+      "pregnancy_week": 16
+    },
+    {
+      "id": "hessa-e0038",
+      "date": "2026-09-29",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.9,
+      "note": "",
+      "pregnancy_week": 16
+    },
+    {
+      "id": "hessa-e0039",
+      "date": "2026-10-01",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.9,
+      "note": "",
+      "pregnancy_week": 16
+    },
+    {
+      "id": "hessa-e0040",
+      "date": "2026-10-02",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 6.1,
+      "note": "",
+      "pregnancy_week": 16
+    },
+    {
+      "id": "hessa-e0041",
+      "date": "2026-10-04",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.1,
+      "note": "",
+      "pregnancy_week": 17
+    },
+    {
+      "id": "hessa-e0042",
+      "date": "2026-10-06",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.0,
+      "note": "",
+      "pregnancy_week": 17
+    },
+    {
+      "id": "hessa-e0043",
+      "date": "2026-10-11",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "heartburn"
+      ],
+      "impact": "none",
+      "sleep_h": 6.8,
+      "note": "",
+      "pregnancy_week": 18
+    },
+    {
+      "id": "hessa-e0044",
+      "date": "2026-10-13",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 7.7,
+      "note": "",
+      "pregnancy_week": 18
+    },
+    {
+      "id": "hessa-e0045",
+      "date": "2026-10-14",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "heartburn"
+      ],
+      "impact": "none",
+      "sleep_h": 7.0,
+      "note": "",
+      "pregnancy_week": 18
+    },
+    {
+      "id": "hessa-e0046",
+      "date": "2026-10-16",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.6,
+      "note": "",
+      "pregnancy_week": 18
+    },
+    {
+      "id": "hessa-e0047",
+      "date": "2026-10-17",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "heartburn"
+      ],
+      "impact": "none",
+      "sleep_h": 6.3,
+      "note": "",
+      "pregnancy_week": 18
+    },
+    {
+      "id": "hessa-e0048",
+      "date": "2026-10-18",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 6.7,
+      "note": "",
+      "pregnancy_week": 19
+    },
+    {
+      "id": "hessa-e0049",
+      "date": "2026-10-22",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "heartburn"
+      ],
+      "impact": "none",
+      "sleep_h": 7.9,
+      "note": "",
+      "pregnancy_week": 19
+    },
+    {
+      "id": "hessa-e0050",
+      "date": "2026-10-23",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 6.6,
+      "note": "",
+      "pregnancy_week": 19
+    },
+    {
+      "id": "hessa-e0051",
+      "date": "2026-10-24",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "heartburn"
+      ],
+      "impact": "none",
+      "sleep_h": 6.9,
+      "note": "",
+      "pregnancy_week": 19
+    },
+    {
+      "id": "hessa-e0052",
+      "date": "2026-10-26",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.4,
+      "note": "",
+      "pregnancy_week": 20
+    },
+    {
+      "id": "hessa-e0053",
+      "date": "2026-11-04",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.7,
+      "note": "",
+      "pregnancy_week": 21
+    },
+    {
+      "id": "hessa-e0054",
+      "date": "2026-11-07",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 7.2,
+      "note": "",
+      "pregnancy_week": 21
+    },
+    {
+      "id": "hessa-e0055",
+      "date": "2026-11-09",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 6.8,
+      "note": "",
+      "pregnancy_week": 22
+    },
+    {
+      "id": "hessa-e0056",
+      "date": "2026-11-16",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "heartburn"
+      ],
+      "impact": "none",
+      "sleep_h": 6.8,
+      "note": "",
+      "pregnancy_week": 23
+    },
+    {
+      "id": "hessa-e0057",
+      "date": "2026-11-17",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "heartburn"
+      ],
+      "impact": "none",
+      "sleep_h": 6.7,
+      "note": "",
+      "pregnancy_week": 23
+    },
+    {
+      "id": "hessa-e0058",
+      "date": "2026-11-19",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "heartburn"
+      ],
+      "impact": "none",
+      "sleep_h": 6.3,
+      "note": "",
+      "pregnancy_week": 23
+    },
+    {
+      "id": "hessa-e0059",
+      "date": "2026-11-22",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 6.1,
+      "note": "",
+      "pregnancy_week": 24
+    }
+  ],
+  "events": [
+    {
+      "id": "hessa-e0001",
+      "type": "pregnancy_confirmed",
+      "date": "2026-07-15"
+    },
+    {
+      "id": "hessa-e0002",
+      "type": "antenatal_visit",
+      "date": "2026-08-16",
+      "details": {
+        "visit": "booking visit, week 10"
+      }
+    },
+    {
+      "id": "hessa-e0003",
+      "type": "antenatal_visit",
+      "date": "2026-09-02",
+      "details": {
+        "visit": "dating scan, week 12"
+      }
+    },
+    {
+      "id": "hessa-e0114",
+      "type": "lab_test",
+      "date": "2026-09-24",
+      "details": {
+        "test": "Haemoglobin"
+      }
+    },
+    {
+      "id": "hessa-e0115",
+      "type": "lab_test",
+      "date": "2026-09-24",
+      "details": {
+        "test": "TSH"
+      }
+    },
+    {
+      "id": "hessa-e0116",
+      "type": "lab_test",
+      "date": "2026-09-24",
+      "details": {
+        "test": "Blood group"
+      }
+    },
+    {
+      "id": "hessa-e0117",
+      "type": "lab_test",
+      "date": "2026-09-24",
+      "details": {
+        "test": "Fasting glucose (booking, week 10)"
+      }
+    },
+    {
+      "id": "hessa-e0004",
+      "type": "antenatal_visit",
+      "date": "2026-10-27",
+      "details": {
+        "visit": "anomaly scan, week 20"
+      }
+    },
+    {
+      "id": "hessa-e0005",
+      "type": "appointment_planned",
+      "date": "2026-11-26",
+      "details": {
+        "visit": "antenatal check, week 24"
+      }
+    }
+  ],
+  "labs": [
+    {
+      "test": "Haemoglobin",
+      "code": "HGB",
+      "value": 13.5,
+      "unit": "g/dL",
+      "ref_low": 12.0,
+      "ref_high": 15.5,
+      "date": "2026-09-24",
+      "flag": ""
+    },
+    {
+      "test": "TSH",
+      "code": "TSH",
+      "value": 1.22,
+      "unit": "mIU/L",
+      "ref_low": 0.4,
+      "ref_high": 4.0,
+      "date": "2026-09-24",
+      "flag": ""
+    },
+    {
+      "test": "Blood group",
+      "code": "ABO",
+      "value": "O positive",
+      "unit": "",
+      "ref_low": null,
+      "ref_high": null,
+      "date": "2026-09-24",
+      "flag": ""
+    },
+    {
+      "test": "Fasting glucose (booking, week 10)",
+      "code": "FPG",
+      "value": 4.6,
+      "unit": "mmol/L",
+      "ref_low": null,
+      "ref_high": 5.1,
+      "date": "2026-09-24",
+      "flag": ""
+    }
+  ],
+  "features": {
+    "years_since_menarche": 16,
+    "cycles_logged": 6,
+    "cycle_lengths_last6": [
+      29,
+      27,
+      27,
+      30,
+      29,
+      28
+    ],
+    "irregular_cycle_count_6": 0,
+    "cycles_per_year": 7,
+    "cycle_length_sd": 1.1,
+    "days_since_last_period": 191,
+    "androgen_symptom_days_90": 0,
+    "severe_pain_cycles_6": 0,
+    "pain_impact_days_90": 0,
+    "cyclical_bowel_bladder_pain": false,
+    "period_duration_max": 6,
+    "heavy_flow_days_cycle": 0,
+    "pbac_by_cycle_6": [
+      36,
+      36,
+      38,
+      38,
+      35,
+      37
+    ],
+    "pbac_max_6": 38,
+    "age": 29,
+    "ttc_months": 0,
+    "red_flag_heavy_with_dizziness": false,
+    "gdm_history": false,
+    "weeks_since_delivery": null,
+    "postpartum_glucose_test_done": false,
+    "pregnant": true,
+    "breastfeeding": false,
+    "pregnancy_weeks": 24,
+    "ogtt_in_pregnancy_done": false,
+    "vasomotor_days_90": 0,
+    "fatigue_days_90": 17,
+    "epds_latest_total": null,
+    "epds_item10": 0,
+    "mrs_latest_total": null,
+    "on_hormonal_contraception": false
+  },
+  "expected_observations": [
+    "CARE_PREGNANCY_GLUCOSE_SCREEN"
+  ],
+  "generation": {
+    "seed": 2026,
+    "attempt": 0
+  }
+}

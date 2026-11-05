@@ -1,0 +1,116 @@
+# Curated RAG sources. Store OUR OWN summaries in knowledge_base/summaries/<id>.md plus the link.
+# Do not paste copyrighted text. Check each link is live during build week and record the access date.
+
+- id: pcos_guideline_2023
+  title: "International Evidence-based Guideline for the Assessment and Management of PCOS (2023)"
+  publisher: "Monash University / CRE-WHiRL, NHMRC-approved"
+  url: "https://www.monash.edu/medicine/mchri/pcos/guideline"
+  topics: [pcos, irregular cycles, diagnosis criteria, lifestyle, mental health]
+- id: nhs_pcos
+  title: "Polycystic ovary syndrome — NHS"
+  url: "https://www.nhs.uk/conditions/polycystic-ovary-syndrome-pcos/"
+  topics: [pcos, symptoms]
+- id: eshre_endometriosis_2022
+  title: "ESHRE Guideline: Endometriosis (2022)"
+  url: "https://www.eshre.eu/Guideline/Endometriosis"
+  topics: [endometriosis, symptoms, diagnosis pathway]
+- id: nice_endometriosis_ng73
+  title: "NICE NG73 Endometriosis: diagnosis and management"
+  url: "https://www.nice.org.uk/guidance/ng73"
+  topics: [endometriosis, referral, symptoms]
+- id: nice_hmb_ng88
+  title: "NICE NG88 Heavy menstrual bleeding: assessment and management"
+  url: "https://www.nice.org.uk/guidance/ng88"
+  topics: [heavy bleeding]
+- id: nhs_heavy_periods
+  title: "Heavy periods — NHS"
+  url: "https://www.nhs.uk/conditions/heavy-periods/"
+  topics: [heavy bleeding, urgent signs]
+- id: nhs_absent_periods
+  title: "Stopped or missed periods — NHS"
+  url: "https://www.nhs.uk/conditions/stopped-or-missed-periods/"
+  topics: [amenorrhoea]
+- id: nhs_pelvic_pain
+  title: "Pelvic pain — NHS"
+  url: "https://www.nhs.uk/conditions/pelvic-pain/"
+  topics: [pelvic pain, urgent signs]
+- id: nhs_bleeding_pregnancy
+  title: "Vaginal bleeding in pregnancy — NHS"
+  url: "https://www.nhs.uk/pregnancy/related-conditions/common-symptoms/vaginal-bleeding/"
+  topics: [pregnancy, urgent signs]
+- id: ada_standards_pregnancy
+  title: "ADA Standards of Care in Diabetes — Management of Diabetes in Pregnancy (current year)"
+  url: "https://diabetesjournals.org/care"
+  topics: [gestational diabetes, postpartum screening]
+- id: who_infertility
+  title: "Infertility — WHO fact sheet"
+  url: "https://www.who.int/news-room/fact-sheets/detail/infertility"
+  topics: [infertility, fertility]
+- id: acog_dysmenorrhea
+  title: "ACOG — Dysmenorrhea and Endometriosis in the Adolescent"
+  url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/12/dysmenorrhea-and-endometriosis-in-the-adolescent"
+  topics: [period pain]
+- id: pbac_higham_1990
+  title: "Higham JM et al. Assessment of menstrual blood loss using a pictorial chart. BJOG 1990;97:734-9"
+  url: "https://elearning.wfh.org/?p=887"
+  topics: [heavy bleeding, PBAC scoring]
+- id: nice_ng257
+  title: "NICE NG257 Fertility problems: assessment and treatment (2026, replaces CG156)"
+  url: "https://www.nice.org.uk/guidance/NG257"
+  topics: [fertility, when to seek help]
+- id: asrm_2021_infertile_eval
+  title: "ASRM Practice Committee — Fertility evaluation of infertile women: a committee opinion (2021)"
+  url: "https://www.asrm.org/practice-guidance/practice-committee-documents/fertility-evaluation-of-infertile-women-a-committee-opinion-2021/"
+  topics: [fertility, age 35, 6 months]
+- id: nhs_folic_acid
+  title: "NHS — Vitamins, supplements and nutrition in pregnancy"
+  url: "https://www.nhs.uk/pregnancy/keeping-well/vitamins-supplements-and-nutrition/"
+  topics: [preconception, folic acid]
+- id: doh_reproductive_programme_2026
+  title: "Abu Dhabi Programme for the Future of Reproductive Health (DoH, Sept 2026)"
+  url: "https://www.mediaoffice.abudhabi/en/health/abu-dhabi-programme-for-the-future-of-reproductive-health-an-integrated-ecosystem-shaping-standards-research-and-innovation/"
+  topics: [abu dhabi, policy]
+- id: nice_ng23
+  title: "NICE NG23 Menopause: identification and management"
+  url: "https://www.nice.org.uk/guidance/ng23"
+  topics: [menopause, perimenopause, hot flushes, treatment]
+- id: mrs_heinemann_2004
+  title: "Heinemann et al. 2004: The Menopause Rating Scale (MRS) — a methodological review"
+  url: "https://hqlo.biomedcentral.com/articles/10.1186/1477-7525-2-45"
+  topics: [menopause, questionnaire]
+- id: nice_cg192
+  title: "NICE CG192 Antenatal and postnatal mental health"
+  url: "https://www.nice.org.uk/guidance/cg192"
+  topics: [postnatal depression, mental health, pregnancy]
+- id: epds_cox_1987
+  title: "Cox, Holden & Sagovsky 1987: Edinburgh Postnatal Depression Scale"
+  url: "https://doi.org/10.1192/bjp.150.6.782"
+  topics: [postnatal depression, questionnaire]
+- id: nice_ng201
+  title: "NICE NG201 Antenatal care"
+  url: "https://www.nice.org.uk/guidance/ng201"
+  topics: [pregnancy, appointments, warning signs]
+- id: nice_ng194
+  title: "NICE NG194 Postnatal care"
+  url: "https://www.nice.org.uk/guidance/ng194"
+  topics: [after birth, warning signs]
+- id: nice_ng3
+  title: "NICE NG3 Diabetes in pregnancy"
+  url: "https://www.nice.org.uk/guidance/ng3"
+  topics: [gestational diabetes, screening]
+- id: nhs_pregnancy_urgent
+  title: "NHS: Signs and symptoms in pregnancy you should not ignore"
+  url: "https://www.nhs.uk/pregnancy/related-conditions/common-symptoms/"
+  topics: [pregnancy, urgent signs]
+- id: ehp5_oxford
+  title: "Endometriosis Health Profile (EHP-30 / EHP-5) — Oxford University Innovation"
+  url: "https://innovation.ox.ac.uk/outcome-measures/endometriosis-health-profile-ehp/"
+  topics: [endometriosis, questionnaire]
+- id: doh_oura_womens_health_2026
+  title: "DoH Abu Dhabi and ŌURA wearable research partnership, women's health first (May 2026)"
+  url: "https://scenenow.com/News/Abu-Dhabi-Begins-Wearable-Women-s-Health-Study-With-URA-Ring-Maker"
+  topics: [abu dhabi, wearables, policy]
+- id: malaffi_2025
+  title: "Malaffi reaches 3.5 billion clinical records (Aug 2025)"
+  url: "https://www.intelligentcio.com/me/2025/08/19/malaffi-reaches-3-5-billion-clinical-records-setting-a-new-standard-for-healthcare-innovation-in-abu-dhabi/"
+  topics: [abu dhabi, health information exchange]

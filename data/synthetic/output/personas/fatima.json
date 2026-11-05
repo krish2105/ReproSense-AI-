@@ -1,0 +1,576 @@
+{
+  "profile": {
+    "id": "fatima",
+    "alias": "Fatima K. (fictional)",
+    "age": 33,
+    "region": "Al Dhafra",
+    "language": "ar",
+    "menarche_age": 13,
+    "story": "Gave birth 9 weeks ago after gestational diabetes; no glucose test logged since.",
+    "is_synthetic": true,
+    "tag": "SYNTHETIC — fictional demo data, not a real person",
+    "pregnant": false,
+    "pregnancy_weeks": 0,
+    "life_stage": "after_birth",
+    "breastfeeding": true,
+    "on_hormonal_contraception": false,
+    "trying_to_conceive": false,
+    "ttc_months": 0
+  },
+  "cycles": [
+    {
+      "start": "2025-11-22",
+      "bleed_days": 5,
+      "length_days": 29
+    },
+    {
+      "start": "2025-12-21",
+      "bleed_days": 5,
+      "length_days": null
+    }
+  ],
+  "daily_logs": [
+    {
+      "id": "fatima-e0016",
+      "date": "2025-11-22",
+      "flow": "medium",
+      "pain": 5,
+      "pain_sites": [
+        "lower abdomen",
+        "lower back"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 6.0,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "fatima-e0017",
+      "date": "2025-11-23",
+      "flow": "medium",
+      "pain": 2,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 7.5,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "fatima-e0018",
+      "date": "2025-11-24",
+      "flow": "medium",
+      "pain": 2,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "breast tenderness"
+      ],
+      "impact": "none",
+      "sleep_h": 5.6,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "fatima-e0019",
+      "date": "2025-11-25",
+      "flow": "light",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "headache",
+        "cravings"
+      ],
+      "impact": "none",
+      "sleep_h": 5.6,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "fatima-e0020",
+      "date": "2025-11-26",
+      "flow": "light",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 6.5,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 2
+        },
+        "clots": {}
+      },
+      "pbac": 2
+    },
+    {
+      "id": "fatima-e0021",
+      "date": "2025-12-14",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "breast tenderness"
+      ],
+      "impact": "none",
+      "sleep_h": 5.9,
+      "note": ""
+    },
+    {
+      "id": "fatima-e0022",
+      "date": "2025-12-21",
+      "flow": "medium",
+      "pain": 4,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "bloating"
+      ],
+      "impact": "none",
+      "sleep_h": 5.6,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "fatima-e0023",
+      "date": "2025-12-22",
+      "flow": "medium",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 6.6,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "fatima-e0024",
+      "date": "2025-12-23",
+      "flow": "medium",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [],
+      "impact": "none",
+      "sleep_h": 7.6,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "moderate": 2,
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 11
+    },
+    {
+      "id": "fatima-e0025",
+      "date": "2025-12-24",
+      "flow": "light",
+      "pain": 0,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "cravings",
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 6.0,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 1
+    },
+    {
+      "id": "fatima-e0026",
+      "date": "2025-12-25",
+      "flow": "light",
+      "pain": 2,
+      "pain_sites": [
+        "lower abdomen"
+      ],
+      "symptoms": [
+        "headache",
+        "breast tenderness"
+      ],
+      "impact": "none",
+      "sleep_h": 6.7,
+      "note": "",
+      "pbac_items": {
+        "pads": {
+          "light": 1
+        },
+        "clots": {}
+      },
+      "pbac": 1
+    },
+    {
+      "id": "fatima-e0005",
+      "date": "2026-10-04",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "low mood"
+      ],
+      "impact": "none",
+      "sleep_h": 4.8,
+      "note": "Feeling okay today"
+    },
+    {
+      "id": "fatima-e0006",
+      "date": "2026-10-07",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "low mood"
+      ],
+      "impact": "none",
+      "sleep_h": 4.7,
+      "note": ""
+    },
+    {
+      "id": "fatima-e0007",
+      "date": "2026-10-12",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "low mood"
+      ],
+      "impact": "none",
+      "sleep_h": 4.7,
+      "note": "Tired, baby waking at night"
+    },
+    {
+      "id": "fatima-e0008",
+      "date": "2026-10-16",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 5.7,
+      "note": "Feeling okay today"
+    },
+    {
+      "id": "fatima-e0009",
+      "date": "2026-10-23",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 5.8,
+      "note": "Tired, baby waking at night"
+    },
+    {
+      "id": "fatima-e0010",
+      "date": "2026-10-30",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 5.3,
+      "note": ""
+    },
+    {
+      "id": "fatima-e0011",
+      "date": "2026-10-31",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 4.4,
+      "note": ""
+    },
+    {
+      "id": "fatima-e0012",
+      "date": "2026-11-05",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 6.2,
+      "note": "Tired, baby waking at night"
+    },
+    {
+      "id": "fatima-e0013",
+      "date": "2026-11-06",
+      "flow": "none",
+      "pain": 1,
+      "pain_sites": [],
+      "symptoms": [
+        "fatigue"
+      ],
+      "impact": "none",
+      "sleep_h": 4.9,
+      "note": ""
+    },
+    {
+      "id": "fatima-e0014",
+      "date": "2026-11-13",
+      "flow": "none",
+      "pain": 0,
+      "pain_sites": [],
+      "symptoms": [
+        "back pain"
+      ],
+      "impact": "none",
+      "sleep_h": 5.8,
+      "note": "Feeling okay today"
+    },
+    {
+      "id": "fatima-e0015",
+      "date": "2026-11-18",
+      "flow": "none",
+      "pain": 2,
+      "pain_sites": [],
+      "symptoms": [
+        "low mood"
+      ],
+      "impact": "none",
+      "sleep_h": 6.3,
+      "note": "Tired, baby waking at night"
+    }
+  ],
+  "events": [
+    {
+      "id": "fatima-e0001",
+      "type": "pregnancy_confirmed",
+      "date": "2026-02-01"
+    },
+    {
+      "id": "fatima-e0027",
+      "type": "lab_test",
+      "date": "2026-06-22",
+      "details": {
+        "test": "Haemoglobin"
+      }
+    },
+    {
+      "id": "fatima-e0028",
+      "type": "lab_test",
+      "date": "2026-06-22",
+      "details": {
+        "test": "TSH"
+      }
+    },
+    {
+      "id": "fatima-e0029",
+      "type": "lab_test",
+      "date": "2026-06-22",
+      "details": {
+        "test": "75 g OGTT — 2 hour glucose (pregnancy, 26 weeks)"
+      }
+    },
+    {
+      "id": "fatima-e0030",
+      "type": "lab_test",
+      "date": "2026-06-22",
+      "details": {
+        "test": "HbA1c (pregnancy)"
+      }
+    },
+    {
+      "id": "fatima-e0002",
+      "type": "gdm_diagnosis",
+      "date": "2026-06-28",
+      "details": {
+        "test": "75 g OGTT at 26 weeks",
+        "note": "managed with diet; synthetic"
+      }
+    },
+    {
+      "id": "fatima-e0003",
+      "type": "delivery",
+      "date": "2026-09-20",
+      "details": {
+        "mode": "vaginal",
+        "baby": "healthy"
+      }
+    },
+    {
+      "id": "fatima-e0004",
+      "type": "breastfeeding",
+      "date": "2026-09-20",
+      "details": {
+        "status": "ongoing"
+      }
+    },
+    {
+      "id": "fatima-e0031",
+      "type": "questionnaire",
+      "date": "2026-11-15",
+      "details": {
+        "tool": "EPDS",
+        "total": 11,
+        "item10": 0,
+        "note": "self-completed in app; synthetic"
+      }
+    }
+  ],
+  "labs": [
+    {
+      "test": "Haemoglobin",
+      "code": "HGB",
+      "value": 12.5,
+      "unit": "g/dL",
+      "ref_low": 12.0,
+      "ref_high": 15.5,
+      "date": "2026-06-22",
+      "flag": ""
+    },
+    {
+      "test": "TSH",
+      "code": "TSH",
+      "value": 2.21,
+      "unit": "mIU/L",
+      "ref_low": 0.4,
+      "ref_high": 4.0,
+      "date": "2026-06-22",
+      "flag": ""
+    },
+    {
+      "test": "75 g OGTT — 2 hour glucose (pregnancy, 26 weeks)",
+      "code": "OGTT2H",
+      "value": 9.1,
+      "unit": "mmol/L",
+      "ref_low": null,
+      "ref_high": 8.5,
+      "date": "2026-06-22",
+      "flag": "H"
+    },
+    {
+      "test": "HbA1c (pregnancy)",
+      "code": "HBA1C",
+      "value": 5.6,
+      "unit": "%",
+      "ref_low": null,
+      "ref_high": 5.7,
+      "date": "2026-06-22",
+      "flag": ""
+    }
+  ],
+  "features": {
+    "years_since_menarche": 20,
+    "cycles_logged": 1,
+    "cycle_lengths_last6": [
+      29
+    ],
+    "irregular_cycle_count_6": 0,
+    "cycles_per_year": 2,
+    "cycle_length_sd": null,
+    "days_since_last_period": 336,
+    "androgen_symptom_days_90": 0,
+    "severe_pain_cycles_6": 0,
+    "pain_impact_days_90": 0,
+    "cyclical_bowel_bladder_pain": false,
+    "period_duration_max": 5,
+    "heavy_flow_days_cycle": 0,
+    "pbac_by_cycle_6": [
+      37,
+      35
+    ],
+    "pbac_max_6": 37,
+    "age": 33,
+    "ttc_months": 0,
+    "red_flag_heavy_with_dizziness": false,
+    "gdm_history": true,
+    "weeks_since_delivery": 9,
+    "postpartum_glucose_test_done": false,
+    "pregnant": false,
+    "breastfeeding": true,
+    "pregnancy_weeks": 0,
+    "ogtt_in_pregnancy_done": false,
+    "vasomotor_days_90": 0,
+    "fatigue_days_90": 3,
+    "epds_latest_total": 11,
+    "epds_item10": 0,
+    "mrs_latest_total": null,
+    "on_hormonal_contraception": false
+  },
+  "expected_observations": [
+    "CARE_POSTPARTUM_GLUCOSE_TEST",
+    "OBS_POSTPARTUM_MOOD"
+  ],
+  "generation": {
+    "seed": 2026,
+    "attempt": 2
+  }
+}

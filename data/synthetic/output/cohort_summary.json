@@ -1,0 +1,84 @@
+{
+  "tag": "SYNTHETIC \u2014 fictional demo data, not a real person",
+  "n": 1200,
+  "reference_date": "2026-11-22",
+  "pct_irregular_cycle_pattern": 19.7,
+  "pct_irregular_plus_androgen_pattern": 10.6,
+  "pct_severe_pain_pattern": 10.6,
+  "pct_heavy_period_pattern": 15.2,
+  "recent_deliveries": 66,
+  "gdm_history": 9,
+  "reports_shared": 282,
+  "care_gaps_total": 248,
+  "care_gaps_open": 86,
+  "care_gaps_in_progress": 61,
+  "care_gaps_closed": 101,
+  "by_region": {
+    "Abu Dhabi City": 657,
+    "Al Ain": 382,
+    "Al Dhafra": 161
+  },
+  "pct_ttc_assessment_pattern": 3.5,
+  "equity": {
+    "nationality_group": {
+      "Emirati": {
+        "n": 453,
+        "pct_any_observation": 44.8,
+        "pct_report_shared": 26.3
+      },
+      "Other": {
+        "n": 155,
+        "pct_any_observation": 41.3,
+        "pct_report_shared": 25.2
+      },
+      "Other Arab": {
+        "n": 233,
+        "pct_any_observation": 40.8,
+        "pct_report_shared": 20.2
+      },
+      "South Asian": {
+        "n": 359,
+        "pct_any_observation": 39.3,
+        "pct_report_shared": 21.4
+      }
+    },
+    "age_band": {
+      "15-19": {
+        "n": 78,
+        "pct_any_observation": 35.9,
+        "pct_report_shared": 20.5
+      },
+      "20-24": {
+        "n": 204,
+        "pct_any_observation": 41.7,
+        "pct_report_shared": 25.0
+      },
+      "25-29": {
+        "n": 225,
+        "pct_any_observation": 45.8,
+        "pct_report_shared": 24.0
+      },
+      "30-34": {
+        "n": 227,
+        "pct_any_observation": 48.0,
+        "pct_report_shared": 28.6
+      },
+      "35-39": {
+        "n": 212,
+        "pct_any_observation": 36.3,
+        "pct_report_shared": 19.8
+      },
+      "40-44": {
+        "n": 211,
+        "pct_any_observation": 37.4,
+        "pct_report_shared": 19.9
+      },
+      "45-49": {
+        "n": 43,
+        "pct_any_observation": 51.2,
+        "pct_report_shared": 27.9
+      }
+    }
+  },
+  "note": "Synthetic proportions chosen to look plausible for a demo; they are not epidemiological estimates."
+}

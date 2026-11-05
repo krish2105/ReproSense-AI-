@@ -1,0 +1,15 @@
+================================================================
+  EXAMPLE DIAGNOSTICS LAB — ABU DHABI (FICTIONAL)
+  SYNTHETIC — fictional demo data, not a real person
+================================================================
+Patient alias : Mariam H. (fictional)
+Age           : 36
+Sample date   : 2026-10-04
+Referring dr. : Dr. Example (fictional)
+----------------------------------------------------------------
+TEST                                          RESULT  UNIT    REF RANGE     FLAG
+Haemoglobin                                     13.3  g/dL    12.0-15.5     
+TSH                                             1.45  mIU/L   0.4-4.0       
+----------------------------------------------------------------
+Reference ranges are illustrative for this demo and vary by laboratory.
+End of report.

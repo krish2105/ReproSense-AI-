@@ -1,0 +1,16 @@
+================================================================
+  EXAMPLE DIAGNOSTICS LAB — ABU DHABI (FICTIONAL)
+  SYNTHETIC — fictional demo data, not a real person
+================================================================
+Patient alias : Priya S. (fictional)
+Age           : 31
+Sample date   : 2026-09-25
+Referring dr. : Dr. Example (fictional)
+----------------------------------------------------------------
+TEST                                          RESULT  UNIT    REF RANGE     FLAG
+Haemoglobin                                     13.4  g/dL    12.0-15.5     
+TSH                                             1.27  mIU/L   0.4-4.0       
+Pelvic ultrasound (report text)             No abnormality seen          —             
+----------------------------------------------------------------
+Reference ranges are illustrative for this demo and vary by laboratory.
+End of report.

@@ -1,0 +1,1127 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ReproSense AI</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<style>
+/* Identity v3 "Soft mauve": a calm, warm women's-health app. Dusty plum for actions, four phase colours
+   (period magenta, follicular peach, fertile pink, luteal lavender), soft lilac washes, very round cards. */
+:root{
+  --paper:#F6F1F4; --sheet:#FFFFFF; --tint:#F4EDF4; --ink:#2E2233; --ink-2:#6E5D73; --ink-3:#A08FA5; --rule:#EEE5EF; --rule-2:#DFD2E2;
+  --plum:#4B3653; --plum-ink:#FFFFFF; --accent:#C9559F; --accent-ink:#FFFFFF; --accent-soft:#F9E4F1;
+  --ph-m:#D35FA8; --ph-f:#EAB09D; --ph-o:#EFB5D3; --ph-l:#B88BE3;
+  --ok:#3A9886; --ok-soft:#E2F3EF; --warn:#A5680F; --warn-soft:#FBEEDB; --urgent:#C0352B; --urgent-soft:#FCE6E3;
+  --wash1:rgba(233,176,214,.55); --wash2:rgba(196,168,236,.45); --wash3:rgba(250,214,200,.45);
+  --glass:rgba(255,255,255,.72); --shadow:0 18px 50px rgba(75,54,83,.12); --shadow-s:0 6px 18px rgba(75,54,83,.08);
+  --f-display:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;
+  --f-mono:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;
+  --f-ar:"IBM Plex Sans Arabic",system-ui,sans-serif;
+  --r1:12px; --r2:24px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#17111A; --sheet:#221A27; --tint:#2B2131; --ink:#F6EFF7; --ink-2:#C9BACD; --ink-3:#917F97; --rule:#33283A; --rule-2:#46384E;
+  --plum:#EBD7F0; --plum-ink:#2A1D30; --accent:#EC8BCB; --accent-ink:#2A1020; --accent-soft:#3D2236;
+  --ph-m:#E879BE; --ph-f:#F0BBA9; --ph-o:#F3C2DC; --ph-l:#C7A1EE;
+  --ok:#66C9B5; --ok-soft:#173330; --warn:#EDB45E; --warn-soft:#382A14; --urgent:#FF8F80; --urgent-soft:#3C1D1A;
+  --wash1:rgba(160,70,130,.28); --wash2:rgba(110,80,170,.28); --wash3:rgba(150,90,80,.18);
+  --glass:rgba(34,26,39,.72); --shadow:0 18px 50px rgba(0,0,0,.45); --shadow-s:0 6px 18px rgba(0,0,0,.3); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#17111A; --sheet:#221A27; --tint:#2B2131; --ink:#F6EFF7; --ink-2:#C9BACD; --ink-3:#917F97; --rule:#33283A; --rule-2:#46384E;
+  --plum:#EBD7F0; --plum-ink:#2A1D30; --accent:#EC8BCB; --accent-ink:#2A1020; --accent-soft:#3D2236;
+  --ph-m:#E879BE; --ph-f:#F0BBA9; --ph-o:#F3C2DC; --ph-l:#C7A1EE;
+  --ok:#66C9B5; --ok-soft:#173330; --warn:#EDB45E; --warn-soft:#382A14; --urgent:#FF8F80; --urgent-soft:#3C1D1A;
+  --wash1:rgba(160,70,130,.28); --wash2:rgba(110,80,170,.28); --wash3:rgba(150,90,80,.18);
+  --glass:rgba(34,26,39,.72); --shadow:0 18px 50px rgba(0,0,0,.45); --shadow-s:0 6px 18px rgba(0,0,0,.3); color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;font-variant-numeric:tabular-nums;
+  background-image:radial-gradient(900px 600px at 8% -5%,var(--wash1),transparent 60%),radial-gradient(800px 600px at 95% 10%,var(--wash2),transparent 60%),radial-gradient(700px 500px at 50% 105%,var(--wash3),transparent 60%);background-attachment:fixed;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+[dir="rtl"] body{font-family:var(--f-ar)}
+h1,h2,h3,h4{font-family:var(--f-display);font-weight:700;line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.02em}
+[dir="rtl"] :is(h1,h2,h3,h4){font-family:var(--f-ar);letter-spacing:0}
+p{margin:0} a{color:var(--ink);text-underline-offset:3px}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto}
+.mono{font-variant-numeric:tabular-nums;font-weight:600}
+.dim{color:var(--ink-2)} .faint{color:var(--ink-3)}
+.s{font-size:14px} .xs{font-size:12.5px}
+.label{font-size:13px;font-weight:600;color:var(--ink-2)}
+
+/* header */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;padding-top:12px}
+.top .wrap{display:flex;align-items:center;gap:20px;padding:10px 14px 10px 18px;flex-wrap:wrap;background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--rule);border-radius:999px;box-shadow:var(--shadow-s)}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-size:18px;text-decoration:none;letter-spacing:-.02em}
+.nav{display:flex;gap:4px;flex:1;min-width:0;flex-wrap:wrap}
+.nav a{text-decoration:none;color:var(--ink-2);font-weight:600;font-size:14px;padding:7px 10px;border-radius:999px;white-space:nowrap}
+.nav a:hover{color:var(--ink);background:var(--tint)}
+.nav a[aria-current="page"]{color:var(--plum-ink);background:var(--plum)}
+.util{display:flex;gap:8px;align-items:center}
+.tb{border:1px solid var(--rule-2);background:var(--sheet);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:13.5px;font-weight:600}
+.tb:hover{border-color:var(--ink-3)}
+.fict{font-size:12.5px;color:var(--accent);font-weight:700}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:12px 22px;font-weight:700;cursor:pointer;text-decoration:none;font-size:15px;border:1px solid transparent;transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-a,.btn-i{background:var(--plum);color:var(--plum-ink);box-shadow:0 8px 20px rgba(75,54,83,.22)}
+.btn-o{background:var(--sheet);border-color:var(--rule-2);color:var(--ink)} .btn-o:hover{border-color:var(--ink-3)}
+.btn-sm{padding:8px 15px;font-size:13.5px}
+.btn-wide{width:100%;padding:15px 22px;font-size:16px}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.link{background:none;border:0;padding:0;color:var(--accent);font-weight:600;text-decoration:none;cursor:pointer;font-size:14px}
+
+/* state tags */
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.t-urgent{background:var(--urgent-soft);color:var(--urgent)} .t-discuss{background:var(--warn-soft);color:var(--warn)}
+.t-soon{background:var(--accent-soft);color:var(--accent)} .t-ok{background:var(--ok-soft);color:var(--ok)} .t-info{background:var(--tint);color:var(--ink-2)}
+
+.view{padding-block:40px 72px}
+.panel{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--rule);border-radius:var(--r2);box-shadow:var(--shadow-s)}
+
+/* landing */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center;padding-top:20px}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:6px 12px;border-radius:999px}
+.hero h1{font-size:clamp(38px,5.2vw,64px);letter-spacing:-.035em;line-height:1.04;margin-top:18px}
+.hero .lede{font-size:18.5px;color:var(--ink-2);margin-top:20px;max-width:30em}
+.hero .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.hero .who{margin-top:28px;font-size:14px;color:var(--ink-2);max-width:32em}
+.hero-vis{position:relative;min-height:600px;display:flex;justify-content:center;align-items:center}
+.hero-vis .mini{width:360px;max-width:100%;transform:rotate(-3deg)}
+.floatc{position:absolute;padding:14px 16px;border-radius:20px;background:var(--sheet);box-shadow:var(--shadow);border:1px solid var(--rule);font-size:13.5px;max-width:250px;display:flex;flex-direction:column;gap:6px}
+.floatc.a{right:-10px;top:40px;transform:rotate(3deg);z-index:2} .floatc.b{left:-10px;bottom:50px;transform:rotate(-2deg);z-index:2}
+.chart-panel{padding:20px;min-width:0}
+.chart-panel .cap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.chart-panel h3{font-size:17px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--ink-2);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:6px;vertical-align:-1px}
+.svgbox{overflow-x:auto}
+.sec{margin-top:96px}
+.sec h2{font-size:clamp(28px,3.3vw,42px);letter-spacing:-.03em;max-width:20em}
+.sec .intro{font-size:17.5px;color:var(--ink-2);margin-top:12px;max-width:40em}
+.evid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:40px;margin-top:28px;align-items:start}
+.evid .prose p{margin-top:14px;font-size:16.5px}
+.evid .prose p:first-child{margin-top:0}
+.fig{padding:22px;display:flex;flex-direction:column;gap:26px;min-width:0}
+.fig .row h4{font-size:15px;font-weight:700}
+.fig .src{font-size:12.5px;color:var(--ink-3);margin-top:6px}
+.trace{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:28px}
+.trace > div{padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0;background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);box-shadow:var(--shadow-s)}
+.trace h4{font-size:15px}
+.trace .verb{font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.code{font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.6;background:var(--tint);border-radius:14px;padding:12px;white-space:pre-wrap;word-break:break-word}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:28px}
+.split > div{background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);padding:26px;box-shadow:var(--shadow-s)}
+.split h3{font-size:22px}
+.split p{margin-top:10px;color:var(--ink-2)}
+.split .price{margin-top:14px;font-size:14px;font-weight:600;color:var(--accent)}
+dl.commit{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:28px 0 0}
+dl.commit > div{background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);padding:20px}
+dl.commit dt,dl.commit dd{margin:0}
+dl.commit dt{font-weight:700}
+dl.commit dd{color:var(--ink-2);margin-top:6px;font-size:14.5px}
+footer{margin-top:88px;border-top:1px solid var(--rule);padding-block:20px 8px;font-size:13.5px;color:var(--ink-2)}
+
+/* roster */
+.roster{margin-top:24px;display:flex;flex-direction:column;gap:12px}
+.rrow{display:grid;grid-template-columns:48px minmax(150px,.8fr) minmax(0,1.6fr) minmax(170px,.9fr) auto;gap:16px;align-items:center;padding:16px 18px;background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);box-shadow:var(--shadow-s)}
+.ini{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,var(--ph-o),var(--ph-l));color:#3A2442}
+
+/* app */
+.app{display:grid;grid-template-columns:minmax(0,410px) minmax(0,1fr);gap:36px;align-items:start}
+.device{position:relative;background:linear-gradient(180deg,var(--tint) 0%,var(--paper) 38%,var(--sheet) 100%);border:8px solid var(--sheet);outline:1px solid var(--rule-2);border-radius:48px;overflow:hidden;display:flex;flex-direction:column;height:820px;box-shadow:var(--shadow)}
+.device::before{content:"";position:absolute;inset:-80px -60px auto;height:300px;background:radial-gradient(closest-side,var(--wash1),transparent),radial-gradient(closest-side at 80% 50%,var(--wash2),transparent);pointer-events:none}
+.status{position:relative;display:flex;justify-content:space-between;align-items:center;padding:12px 22px 2px;font-weight:700;font-size:14px}
+.status svg{display:block}
+.dev-top{position:relative;padding:4px 18px 0;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.dev-top select{width:auto;border-radius:999px;padding:5px 10px;font-size:12.5px;background:var(--glass)}
+.dev-body{position:relative;padding:8px 16px 110px;flex:1;display:flex;flex-direction:column;gap:14px;min-width:0;overflow-y:auto;scrollbar-width:none}
+.dev-body::-webkit-scrollbar{display:none}
+.dev-body > *{flex:none}
+.tabbar{position:absolute;left:12px;right:12px;bottom:14px;display:flex;justify-content:space-between;padding:8px;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--rule);border-radius:26px;box-shadow:var(--shadow-s);z-index:3}
+.tabbar button{flex:1;border:0;background:none;padding:6px 2px;font-size:10.5px;font-weight:600;color:var(--ink-3);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.tabbar button svg{width:22px;height:22px}
+.tabbar button span{padding:1px 8px;border-radius:999px;white-space:nowrap}
+.tabbar button[aria-selected="true"]{color:var(--ink)}
+.tabbar button[aria-selected="true"] span{background:var(--plum);color:var(--plum-ink)}
+.box{background:var(--sheet);border:1px solid var(--rule);border-radius:22px;padding:14px;min-width:0;box-shadow:var(--shadow-s)}
+.kv{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.big{font-family:var(--f-display);font-weight:800;font-size:30px;letter-spacing:-.03em;line-height:1}
+.hello p{font-size:14px;color:var(--ink-2)} .hello h3{font-size:22px;margin-top:2px}
+.ava{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:18px;color:#3A2442;background:linear-gradient(135deg,#FAD3C4,var(--ph-o) 50%,var(--ph-l));box-shadow:0 0 0 3px var(--sheet),var(--shadow-s);flex:none}
+.days{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.days::-webkit-scrollbar{display:none}
+.dp{flex:none;width:58px;padding:10px 0 12px;border-radius:999px;background:var(--glass);border:1px solid var(--rule);display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--ink-2)}
+.dp i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--sheet);font-style:normal;color:var(--plum);box-shadow:var(--shadow-s)}
+.dp.fut{opacity:.55} .dp.fut i{background:transparent;box-shadow:none;color:var(--ink-3)}
+.dp.now{background:var(--plum);color:var(--plum-ink);border-color:var(--plum)}
+.dp.now i{background:transparent;border:2px dashed var(--plum-ink);box-shadow:none}
+.dp.now i::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--plum-ink)}
+.gauge{position:relative;text-align:center}
+.gauge .ctr{position:absolute;left:0;right:0;top:44%;transform:translateY(-50%)}
+.gauge .ctr b{display:block;font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.gauge .ctr span{font-size:13.5px;color:var(--ink-2)}
+.leg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--ink-2)}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:6px;vertical-align:-1px}
+.recs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rec{background:var(--sheet);border:1px solid var(--rule);border-radius:20px;padding:12px;display:flex;flex-direction:column;gap:6px;min-width:0;box-shadow:var(--shadow-s)}
+.rec b{display:flex;gap:8px;align-items:center;font-size:14.5px}
+.rec p{font-size:12.5px;color:var(--ink-2);line-height:1.45}
+.blob{width:28px;height:28px;border-radius:10px;display:grid;place-items:center;flex:none}
+.moods{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.moods button{flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;border:1px solid var(--rule);background:var(--sheet);border-radius:18px;padding:8px 10px;font-size:12px;font-weight:600;cursor:pointer;color:var(--ink-2)}
+.moods button em{font-style:normal;font-size:20px;line-height:1}
+.moods button[aria-pressed="true"]{border-color:var(--plum);color:var(--ink);box-shadow:0 0 0 2px var(--plum) inset}
+.pills{display:flex;gap:6px;padding:4px;background:var(--glass);border:1px solid var(--rule);border-radius:999px}
+.pills button{flex:1;border:0;background:none;border-radius:999px;padding:7px 6px;font-size:12.5px;font-weight:600;color:var(--ink-3);cursor:pointer}
+.pills button[aria-pressed="true"]{background:var(--plum);color:var(--plum-ink)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:13px;font-weight:600}
+.cal .h{font-size:11px;color:var(--ink-3);padding-bottom:4px}
+.cal span{aspect-ratio:1;display:grid;place-items:center;border-radius:50%;max-width:100%}
+.cal .o{color:var(--ink-3);opacity:.5} .cal .bl{background:var(--ph-m);color:#fff} .cal .fw{color:var(--ok)} .cal .td{box-shadow:0 0 0 2px var(--plum) inset}
+.ldata{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ldata > div{background:var(--tint);border-radius:18px;padding:12px;display:flex;gap:10px;align-items:flex-start;min-width:0}
+.ldata b{display:block;font-size:14px} .ldata small{font-size:12px;color:var(--ink-2);line-height:1.35;display:block}
+.obs{background:var(--sheet);border:1px solid var(--rule);border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:8px;margin-top:10px;box-shadow:var(--shadow-s)}
+.obs:first-child{margin-top:0}
+.obs h4{font-size:16px}
+.obs.urgent{background:var(--urgent-soft);border-color:var(--urgent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button,.ev{border:1px solid var(--rule-2);background:var(--tint);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer}
+.chips button:hover{border-color:var(--accent)}
+.meter{display:inline-flex;gap:3px;align-items:center;vertical-align:middle;margin-inline:4px}
+.meter i{width:14px;height:6px;border-radius:3px;background:var(--rule-2)}
+.meter i.on{background:var(--accent)}
+details summary{cursor:pointer;font-weight:700;font-size:14px}
+details[open] summary{margin-bottom:6px}
+ul.plain{margin:0;padding-inline-start:18px;font-size:14px;color:var(--ink-2)}
+.field{display:flex;flex-direction:column;gap:6px}
+.field > label,.field > .label{font-size:13px;font-weight:600;color:var(--ink-2)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid var(--rule-2);background:var(--sheet);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--plum);color:var(--plum-ink);border-color:var(--plum)}
+input[type=range]{accent-color:var(--accent);width:100%}
+textarea,input[type=text],select{border:1px solid var(--rule-2);background:var(--sheet);border-radius:16px;padding:10px 12px;width:100%}
+.pbac{display:grid;grid-template-columns:1fr auto;gap:8px 10px;align-items:center;font-size:14px}
+.step{display:inline-flex;align-items:center;gap:2px;background:var(--tint);border-radius:999px;padding:2px}
+.step button{border:0;background:var(--sheet);width:28px;height:28px;border-radius:50%;cursor:pointer;font-weight:700}
+.step span{min-width:24px;text-align:center;font-weight:700}
+.extract{background:var(--accent-soft);border-radius:18px;padding:12px;font-size:13.5px}
+.cop{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+.cop div{display:flex;gap:10px;align-items:center}
+.cop b{font-size:16px} .cop small{display:block;font-size:11.5px;color:var(--ink-3)}
+.chat{display:flex;flex-direction:column;gap:10px}
+.msg{padding:11px 14px;border-radius:20px;font-size:14px;max-width:88%;line-height:1.5}
+.msg.me{align-self:flex-end;background:var(--plum);color:var(--plum-ink);border-bottom-right-radius:6px}
+.msg.ai{align-self:flex-start;background:var(--tint);border-bottom-left-radius:6px}
+.msg.ai.urg{background:var(--urgent-soft)}
+.cites{margin-top:8px;display:flex;flex-direction:column;gap:2px;font-size:11.5px}
+.sugg{display:flex;flex-wrap:wrap;gap:6px}
+.sugg button{border:0;background:var(--plum);color:var(--plum-ink);border-radius:999px;padding:8px 13px;font-size:12.5px;font-weight:600;cursor:pointer;text-align:start}
+.sugg button:hover{filter:brightness(1.1)}
+.askbar{display:flex;gap:6px;align-items:center;border:1.5px solid var(--rule-2);background:var(--sheet);border-radius:999px;padding:4px 4px 4px 14px}
+.askbar input{border:0;background:none;padding:8px 0;border-radius:0}
+.askbar input:focus{outline:none}
+.askbar button{border:0;background:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--ink-2)}
+.askbar button[type=submit]{background:var(--plum);color:var(--plum-ink)}
+.doc{border:1px solid var(--rule);border-radius:22px;padding:18px;background:var(--sheet);font-size:13.5px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow-s)}
+.doc h4{font-size:13px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.05em}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:start;padding:8px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12.5px;color:var(--ink-3);font-weight:700}
+.tbl{overflow-x:auto}
+.hi{color:var(--urgent);font-weight:800}
+.side{display:flex;flex-direction:column;gap:16px;position:sticky;top:100px}
+.side .note{padding:20px}
+.side h3{font-size:18px;margin-top:4px}
+
+/* clinic */
+.clinic{display:grid;grid-template-columns:290px minmax(0,1fr);gap:24px;align-items:start}
+.plist{display:flex;flex-direction:column;overflow:hidden;padding:6px}
+.prow{display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;padding:11px;border:0;border-radius:18px;background:none;text-align:start;cursor:pointer;width:100%}
+.prow:hover{background:var(--tint)}
+.prow[aria-current="true"]{background:var(--accent-soft)}
+.detail{padding:26px;display:flex;flex-direction:column;gap:22px;min-width:0}
+.sbar{display:grid;grid-template-columns:34px 1fr;gap:8px 12px;font-size:14.5px}
+.sbar b{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);font-size:13px}
+.ask{border:1px solid var(--rule-2);border-radius:var(--r2);padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--sheet)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+/* admin */
+.figs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.figs > div{padding:20px;background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);box-shadow:var(--shadow-s)}
+.figs .big{font-size:36px;margin-top:6px}
+.bar{height:10px;background:var(--tint);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:999px}
+
+/* score */
+.scorehead{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.scorehead > div{padding:24px;background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);box-shadow:var(--shadow-s)}
+.scorehead .big{font-size:58px;margin-block:8px}
+.crit{display:grid;grid-template-columns:minmax(150px,1.3fr) 56px 56px minmax(120px,2fr) 50px;gap:10px 14px;align-items:center;font-size:14.5px}
+.crit .bar{height:12px;position:relative}
+.crit .bar .p{position:absolute;inset-block:0;inset-inline-start:0;background:var(--ok-soft);border:1px dashed var(--ok);border-radius:999px}
+.crit .bar .t{position:absolute;inset-block:0;inset-inline-start:0;background:linear-gradient(90deg,var(--ph-m),var(--ph-l));border-radius:999px}
+.scorehead.three{grid-template-columns:repeat(3,1fr)}
+.conf{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.conf > div{padding:18px;background:var(--tint);border-radius:20px}
+.conf .big{font-size:34px;margin-block:6px}
+.check{display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:14.5px;padding:8px 0;border-bottom:1px solid var(--rule)}
+
+.toast{position:fixed;inset-inline-start:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--plum);color:var(--plum-ink);padding:12px 18px;border-radius:999px;font-weight:700;font-size:14px;z-index:50;max-width:calc(100% - 32px);box-shadow:var(--shadow)}
+[dir="rtl"] .toast{transform:translateX(50%)}
+.dialog{position:fixed;inset:0;background:rgba(40,24,46,.45);backdrop-filter:blur(4px);display:grid;place-items:center;z-index:60;padding:16px}
+.dialog .panel{max-width:540px;width:100%;padding:24px;display:flex;flex-direction:column;gap:12px;background:var(--sheet);box-shadow:var(--shadow);max-height:88vh;overflow:auto}
+
+@media (max-width:980px){
+  .hero,.evid,.split,.app,.clinic,.two,.scorehead{grid-template-columns:1fr}
+  .trace{grid-template-columns:1fr 1fr}
+  .figs{grid-template-columns:1fr 1fr}
+  .side{position:static}
+  .scorehead.three,.conf{grid-template-columns:1fr}
+  .rrow{grid-template-columns:48px 1fr auto}
+  .rrow .story,.rrow .obsl{grid-column:2 / -1}
+  .hero-vis{min-height:560px}
+}
+@media (max-width:760px){
+  .top .wrap{border-radius:26px}
+  .util{margin-inline-start:auto}
+  .nav{order:3;flex-basis:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .nav a{white-space:nowrap}
+  .fict{display:none}
+}
+@media (max-width:540px){
+  .trace,.figs{grid-template-columns:1fr}
+  .device{border-width:0;outline:0;border-radius:30px;height:780px}
+  .crit{grid-template-columns:1fr 46px 46px} .crit .bar,.crit .mx{display:none}
+  .rrow{grid-template-columns:48px 1fr} .rrow > button{grid-column:2}
+  .floatc{display:none}
+  .hero-vis{min-height:0}
+  .hero-vis .mini{transform:none}
+}
+
+.hero-vis{perspective:1200px}
+#hero3d{position:absolute;inset:-40px;width:calc(100% + 80px);height:calc(100% + 80px);z-index:0;pointer-events:none}
+.hero-vis .mini,.hero-vis .floatc{z-index:1}
+.hero-vis .mini{transition:transform .25s ease-out;transform-style:preserve-3d}
+.y3d{position:relative;height:480px;border-radius:var(--r2);overflow:hidden;cursor:grab;touch-action:pan-y}
+.y3d:active{cursor:grabbing}
+.y3d canvas{width:100%;height:100%;display:block}
+.y3d .hint{position:absolute;left:16px;bottom:14px;font-size:12.5px;color:var(--ink-2);background:var(--glass);padding:6px 12px;border-radius:999px}
+@media (max-width:540px){.y3d{height:380px}}
+.bd{display:none}
+:root[data-discreet] .bn{display:none} :root[data-discreet] .bd{display:inline}
+:root[data-discreet] .ava{color:transparent} :root[data-discreet] .hello p,:root[data-discreet] #pSub{visibility:hidden}
+.stages{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:28px}
+.stage{background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);padding:18px;display:flex;flex-direction:column;gap:8px;cursor:pointer;text-align:start;box-shadow:var(--shadow-s);transition:transform .15s}
+.stage:hover{transform:translateY(-3px)}
+.stage .orb{width:46px;height:46px;border-radius:50%;box-shadow:inset -6px -8px 14px rgba(0,0,0,.12),0 10px 20px rgba(75,54,83,.18)}
+.stage b{font-size:17px} .stage span{font-size:13.5px;color:var(--ink-2)}
+@media (max-width:980px){.stages{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+.in{animation:in .3s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="ReproSense AI, home">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="24" height="24" rx="4" fill="none" stroke="var(--ink)" stroke-width="1.6"/><rect x="5" y="6" width="5" height="3" fill="var(--accent)"/><rect x="5" y="11.5" width="7" height="3" fill="var(--accent)"/><rect x="5" y="17" width="4" height="3" fill="var(--accent)"/><path d="M17 5v16" stroke="var(--ink-3)" stroke-width="1.2" stroke-dasharray="2 2"/></svg><span class="bn">ReproSense</span><span class="bd">My notes</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#home" data-i18n="n1">Product</a>
+      <a href="#people" data-i18n="n2">Demo people</a>
+      <a href="#patient" data-i18n="n3">Her app</a>
+      <a href="#clinic" data-i18n="n4">Clinician</a>
+      <a href="#admin" data-i18n="n5">Clinic network</a>
+      <a href="#score" data-i18n="n6">Team scorecard</a>
+    </nav>
+    <div class="util">
+      <span class="fict" data-i18n="fict">All data fictional</span>
+      <button class="tb" id="langBtn" type="button">عربي</button>
+      <button class="tb" id="themeBtn" type="button">Dark</button>
+      <button class="tb" id="discBtn" type="button" aria-pressed="false">Discreet</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- LANDING -->
+<section class="view" data-view="home">
+  <div class="hero">
+    <div>
+      <span class="eyebrow">For women in Abu Dhabi · private · free</span>
+      <h1 data-i18n="h1">Bring your doctor a year of cycles, not a memory.</h1>
+      <p class="lede" data-i18n="lede">ReproSense turns a woman's period logs, pain scores and lab reports into a record her gynaecologist can read in a minute. It points out patterns worth checking, shows the entries behind each one, and never diagnoses.</p>
+      <div class="acts">
+        <a class="btn btn-a" href="#patient" id="openNoura" data-i18n="cta1">Open Noura's record</a>
+        <a class="btn btn-o" href="#evidence" data-i18n="cta2">Read the evidence</a>
+      </div>
+      <p class="who" data-i18n="who">For women in Abu Dhabi, free. For women's health and IVF clinics, a subscription that closes missed follow-ups. Built for the HealthX Ajyal Hackathon, Department of Health – Abu Dhabi.</p>
+    </div>
+    <div class="hero-vis" aria-label="Preview of Noura's app">
+      <canvas id="hero3d" aria-hidden="true"></canvas>
+      <div class="device mini" id="heroPhone" style="height:600px"></div>
+      <div class="floatc a"><span class="tag t-discuss" style="align-self:flex-start">Worth discussing</span><b>Irregular cycles with skin and hair changes</b><span class="xs dim" id="heroLine"></span></div>
+      <div class="floatc b"><span class="xs faint">AI Copilot · cites guidelines</span><span>“How do I know if my bleeding is heavy?”</span><span class="xs" style="color:var(--accent);font-weight:700">[1] NHS · [2] PBAC chart</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="eyebrow">3D · drag to turn</span>
+    <h2 style="margin-top:14px">Her year in 3D: one loop per cycle.</h2>
+    <p class="intro">Each bead is a day Noura logged. Magenta beads are bleeding days, lavender beads are days past day 35, and peach beads are the rest. A regular year makes short, tidy loops. Hers stretches.</p>
+    <div class="panel y3d" style="margin-top:22px"><canvas id="year3d" aria-label="3D spiral of Noura's cycles"></canvas><span class="hint" id="y3hint">Drag to rotate</span></div>
+  </div>
+
+  <div class="sec">
+    <div class="panel chart-panel">
+      <div class="cap"><h3>Noura's last cycles, row by row</h3><span class="xs faint" id="heroMeta"></span></div>
+      <div class="svgbox" id="heroChart" style="margin-top:10px"></div>
+      <div class="legend"><span><i style="background:var(--accent)"></i>Bleeding day</span><span><i style="background:var(--ok-soft);border:1px solid var(--ok)"></i>21–35 day range</span><span><i style="background:var(--ink)"></i>Next period started</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="eyebrow">Five life stages</span>
+    <h2 style="margin-top:14px">One record that grows with her.</h2>
+    <p class="intro">Pick a stage to open a fictional woman's record at that point in life. The home screen, patterns and questions change with her stage.</p>
+    <div class="stages" id="stages"></div>
+  </div>
+
+  <div class="sec" id="evidence">
+    <h2>The history exists. It arrives at the appointment in pieces.</h2>
+    <div class="evid">
+      <div class="prose">
+        <p>In the UAE Healthy Future Study, a quarter of Emirati women reported PCOS. In a large Dubai hospital record review, it was coded for fewer than 2 in 100 women. The gap is recognition, not prevalence.</p>
+        <p>Endometriosis takes years to name. Across 22 studies the average was 6.6 years from first symptoms, and women often describe not being believed.</p>
+        <p>Gestational diabetes is common in the UAE. After the birth, the glucose test that catches type 2 diabetes early is often skipped, because it falls between the maternity team and primary care.</p>
+        <p>Abu Dhabi is already moving: the Department of Health launched its Programme for the Future of Reproductive Health in September 2026, built on prevention and early screening.</p>
+      </div>
+      <div class="panel fig" id="figures"></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>Follow one observation from her phone to the clinic.</h2>
+    <p class="intro">Rules decide, published guidelines ground, and the language model only explains. This is Noura's path through the system, using her synthetic data.</p>
+    <div class="trace" id="landingTrace"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Two people use it. One pays.</h2>
+    <div class="split">
+      <div><h3>She keeps the record</h3><p>Logging takes about twenty seconds: flow, pain from 0 to 10, a bleeding score using the same pictorial chart gynaecologists use, or a sentence in Arabic or English. She sees her year on one screen, gets questions to ask, and decides who sees her report and for how long.</p><p class="price">Free for women. No advertising. Health data is never sold.</p></div>
+      <div><h3>The clinic acts on it</h3><p>Before the visit the clinician receives a structured history in a standard handover format, the evidence behind each pattern, and extracted lab values. The clinic dashboard lists follow-ups that are due, such as glucose tests after gestational diabetes, and shows them closing.</p><p class="price">Subscription per clinician seat (price to validate in clinic interviews).</p></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>What we promise about her data.</h2>
+    <dl class="commit">
+      <div><dt>No name needed</dt><dd>She signs in with a passkey (Face ID or fingerprint) under an alias.</dd></div>
+      <div><dt>She controls sharing</dt><dd>Each share is for one clinic, expires after 7 days and can be stopped at any time.</dd></div>
+      <div><dt>Every view is logged</dt><dd>A tamper-evident audit log powers a "who saw my record" timeline in her app.</dd></div>
+      <div><dt>Stays in the UAE</dt><dd>Production runs in a UAE cloud region with a UAE-hosted model, in line with federal health-data law and Abu Dhabi's ADHICS standard.</dd></div>
+      <div><dt>AI never decides</dt><dd>Observations come from written rules with sources. The model writes explanations and is blocked from diagnostic language.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- PEOPLE -->
+<section class="view" data-view="people" hidden>
+  <h2 style="font-size:clamp(28px,3.3vw,40px)">Eight fictional women, five life stages, one clinic network.</h2>
+  <p class="dim" style="margin-top:10px;max-width:42em;font-size:17px">Each woman has twelve months of generated daily logs, lab reports and events. Every number in this demo comes from the build kit's synthetic data generator.</p>
+  <div class="roster" id="roster"></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
+    <a class="btn btn-o" href="#clinic">Open clinician view</a><a class="btn btn-o" href="#admin">Open clinic network</a>
+    <button class="btn btn-o" id="resetBtn" type="button">Reset demo data</button>
+  </div>
+</section>
+
+<!-- PATIENT APP -->
+<section class="view" data-view="patient" hidden>
+  <div class="app">
+    <div class="device" aria-label="Her app">
+      <div class="status"><span>9:41</span><svg width="62" height="12" viewBox="0 0 62 12" aria-hidden="true" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="6" width="3" height="6" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/><path d="M27 4.5a8 8 0 0 1 11 0l-1.4 1.4a6 6 0 0 0-8.2 0zM29.8 7.3a4 4 0 0 1 5.4 0L32.5 10z"/><rect x="42" y="1" width="18" height="10" rx="3" fill="none" stroke="currentColor"/><rect x="44" y="3" width="13" height="6" rx="1.5"/></svg></div>
+      <div class="dev-top"><span class="xs faint" id="pSub"></span><select id="pSel" aria-label="Choose a demo person"></select></div>
+      <span id="pName" hidden></span>
+      <div class="dev-body" id="pBody"></div>
+      <div class="tabbar" role="tablist" id="tabs">
+        <button role="tab" data-tab="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-5h-6v5H5a1 1 0 0 1-1-1z"/></svg><span data-i18n="t1">Home</span></button>
+        <button role="tab" data-tab="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span data-i18n="t2">Calendar</span></button>
+        <button role="tab" data-tab="chart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 20V11M10 20V6M14 20v-7M18 20V9"/></svg><span data-i18n="t3">Analytics</span></button>
+        <button role="tab" data-tab="insights"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M18 16l.8 2.2L21 19l-2.2.8L18 22l-.8-2.2L15 19l2.2-.8z"/></svg><span data-i18n="t4">Patterns</span></button>
+        <button role="tab" data-tab="ask"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 5h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-8l-5 4v-4H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01" stroke-linecap="round" stroke-width="2.4"/></svg><span data-i18n="t5">AI Chat</span></button>
+        <button role="tab" data-tab="report"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg><span data-i18n="t6">Report</span></button>
+      </div>
+    </div>
+    <aside class="side" id="side"></aside>
+  </div>
+</section>
+
+<!-- CLINICIAN -->
+<section class="view" data-view="clinic" hidden>
+  <h2 style="font-size:clamp(26px,3vw,36px)">Corniche Women's Clinic <span class="faint" style="font-weight:500">(fictional)</span></h2>
+  <p class="dim" style="margin-top:8px;max-width:44em">Patients who shared a report, most urgent first. Only consented records appear.</p>
+  <div class="clinic" style="margin-top:22px">
+    <div class="panel plist" id="plist"></div>
+    <div class="panel detail" id="detail"></div>
+  </div>
+</section>
+
+<!-- ADMIN -->
+<section class="view" data-view="admin" hidden>
+  <h2 style="font-size:clamp(26px,3vw,36px)">Follow-ups across four Abu Dhabi clinics</h2>
+  <p class="dim" style="margin-top:8px;max-width:46em">A synthetic network of 1,200 women. Proportions are plausible for a demo and are not prevalence estimates.</p>
+  <div class="figs" id="figs" style="margin-top:22px"></div>
+  <div class="panel" style="padding:20px;margin-top:20px"><h3 style="font-size:18px">Follow-ups by region, in 3D</h3><p class="s dim" style="margin-top:4px">Al Dhafra, Abu Dhabi and Al Ain. Column height is the number of follow-ups: magenta open, amber in progress, teal closed. Schematic layout, not a geographic map.</p>
+    <div class="y3d" style="height:400px;margin-top:12px"><canvas id="map3d" aria-label="3D chart of follow-ups by region"></canvas><span class="hint" id="m3hint">Drag to rotate</span></div></div>
+  <div class="two" style="margin-top:20px">
+    <div class="panel" style="padding:20px"><h3 style="font-size:18px">Follow-ups by status</h3><p class="s dim" style="margin-top:4px">A follow-up is a recommended next step: a gynaecology review, a fertility check, or a glucose test after gestational diabetes.</p><div id="gaps" style="margin-top:16px;display:flex;flex-direction:column;gap:14px"></div></div>
+    <div class="panel" style="padding:20px"><h3 style="font-size:18px">Fairness check</h3><p class="s dim" style="margin-top:4px">For the Department of Health's Responsible AI Standard: are patterns flagged and reports shared at similar rates across groups?</p><div class="tbl" id="equity" style="margin-top:10px"></div></div>
+  </div>
+  <div class="two" style="margin-top:20px">
+    <div class="panel" style="padding:20px"><h3 style="font-size:18px">Women by region</h3><div id="region" style="margin-top:10px"></div></div>
+    <div class="panel" style="padding:20px"><h3 style="font-size:18px">Clinician time</h3><p class="s dim" style="margin-top:4px">Uses an assumption you set. We replace it with interview numbers.</p>
+      <div class="field" style="margin-top:14px"><label for="mins">Minutes saved per shared report: <b class="mono" id="minsV">5</b></label><input id="mins" type="range" min="0" max="15" value="5"></div>
+      <p style="margin-top:12px"><span class="mono" id="repN"></span> reports × <span class="mono" id="minsV2">5</span> min = <b class="big" id="hrs" style="font-size:28px"></b> clinician hours</p></div>
+  </div>
+</section>
+
+<!-- SCORE -->
+<section class="view" data-view="score" hidden>
+  <h2 style="font-size:clamp(26px,3vw,38px)">Where our points are, and where they aren't yet.</h2>
+  <p class="dim" style="margin-top:8px;max-width:46em">Our own estimate against the official HealthX Ajyal rubric, updated 5 Nov 2026 (version 4: five life stages, eight agents, trust pack). The jury decides; this tells the team what to do next.</p>
+  <div class="scorehead three" style="margin-top:22px">
+    <div><p class="label">Today, 5 Nov</p><p class="big mono" id="sc0"></p><p class="s dim">Mockup, research, data and build kit. No product code yet, as the rules require.</p></div>
+    <div><p class="label">By selection, 16 Nov</p><p class="big mono" id="sc1"></p><p class="s dim">Clinician joined, 5 interviews, a letter of intent, Arabic reviewed.</p></div>
+    <div><p class="label">Showcase, 22 Nov</p><p class="big mono" style="color:var(--ok)" id="sc2"></p><p class="s dim">Full demo path built and rehearsed. 95+ is the target, not a promise.</p></div>
+  </div>
+  <div class="panel" style="padding:22px;margin-top:20px"><h3 style="font-size:19px;margin-bottom:6px">By criterion</h3><p class="xs faint" style="margin-bottom:14px">Solid bar: today. Dashed: showcase target.</p><div class="crit" id="crit"></div></div>
+  <div class="panel" style="padding:22px;margin-top:20px"><h3 style="font-size:19px">AI test results (trust pack)</h3>
+    <p class="s dim" style="margin-top:6px;max-width:52em">The build runs these tests on every change. Numbers here are the targets; the live panel shows measured results from build week.</p>
+    <div class="tbl" style="margin-top:12px"><table><thead><tr><th>Test</th><th>What it checks</th><th>Target</th><th>Status</th></tr></thead><tbody>
+    <tr><td>Grounded answers</td><td>Share of answer sentences the verifier matched to a source (60-question set, EN + AR)</td><td class="mono">≥ 95%</td><td><span class="tag t-info">Build week</span></td></tr>
+    <tr><td>Refusals</td><td>"Do I have PCOS?" and 14 other diagnosis questions are declined</td><td class="mono">15 / 15</td><td><span class="tag t-info">Build week</span></td></tr>
+    <tr><td>Red-flag recall</td><td>All 6 red-flag rules fire on their test entries, before any other card</td><td class="mono">100%</td><td><span class="tag t-ok">Rules ready</span></td></tr>
+    <tr><td>Rule accuracy</td><td>8 fictional women produce exactly their expected patterns</td><td class="mono">8 / 8</td><td><span class="tag t-ok">Passing</span></td></tr>
+    <tr><td>Banned words</td><td>No diagnostic phrases or probabilities in any generated card</td><td class="mono">0</td><td><span class="tag t-info">Build week</span></td></tr>
+    <tr><td>Demo-safe mode</td><td>Full demo path works with the network off (saved answers)</td><td class="mono">Pass</td><td><span class="tag t-info">Build week</span></td></tr>
+    </tbody></table></div></div>
+  <div class="panel" style="padding:22px;margin-top:20px">
+    <h3 style="font-size:19px">Winning confidence</h3>
+    <p class="s dim" style="margin-top:6px;max-width:52em">Our judgement, not a measurement. We don't know how many teams are selected or what they build. These numbers assume the showcase target above is reached.</p>
+    <div class="conf" id="conf" style="margin-top:16px"></div>
+    <div class="two" style="margin-top:18px">
+      <div><p class="label">Why we're confident</p><ul class="plain" style="margin-top:6px" id="whyUp"></ul></div>
+      <div><p class="label">What would lower it</p><ul class="plain" style="margin-top:6px" id="whyDown"></ul></div>
+    </div>
+  </div>
+  <div class="two" style="margin-top:20px">
+    <div class="panel" style="padding:22px"><h3 style="font-size:19px">Five actions that move the score</h3><ol class="plain" style="margin-top:10px;display:flex;flex-direction:column;gap:8px;font-size:14.5px" id="actions"></ol></div>
+    <div class="panel" style="padding:22px"><h3 style="font-size:19px">What changed since the first mockup</h3><div id="changes" style="margin-top:8px"></div></div>
+  </div>
+  <div class="two" style="margin-top:20px">
+    <div class="panel" style="padding:22px"><h3 style="font-size:19px">Real MVP checklist</h3><div id="mvp" style="margin-top:8px"></div></div>
+    <div class="panel" style="padding:22px"><h3 style="font-size:19px">Real SaaS checklist</h3><div id="saas" style="margin-top:8px"></div></div>
+  </div>
+  <div class="panel" style="padding:22px;margin-top:20px"><h3 style="font-size:19px">Which idea we chose</h3>
+    <div class="tbl" style="margin-top:10px"><table><thead><tr><th>Idea</th><th>Estimate</th><th>Decision</th></tr></thead><tbody>
+      <tr><td><b>ReproSense with fertility, after-birth follow-up and clinic subscription</b></td><td class="mono"><b>95+</b> possible</td><td><span class="tag t-ok">Build</span></td></tr>
+      <tr><td>ReproSense as first written (no paying customer)</td><td class="mono">~78</td><td><span class="tag t-discuss">Merged in</span></td></tr>
+      <tr><td>Alzheimer's EarlySignal</td><td class="mono">~70</td><td><span class="tag t-info">Roadmap</span></td></tr>
+      <tr><td>BioAge Intelligence (overlaps the ADPHC–Ultrahuman model)</td><td class="mono">~56</td><td><span class="tag t-urgent">Dropped</span></td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<footer>
+  <p data-i18n="foot">ReproSense gives information, not a diagnosis. In an emergency call 998. All data in this demo is fictional. Built with AI tools, disclosed under the hackathon rules.</p>
+</footer>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<div id="dialog" class="dialog" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const DATA = /*__DATA__*/null;
+const REF = new Date(DATA.cohort.reference_date+"T00:00:00");
+const $=(s,e=document)=>e.querySelector(s), $$=(s,e=document)=>[...e.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const dd=(a,b)=>Math.round((b-a)/864e5);
+const D=iso=>new Date(iso+"T00:00:00");
+const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let lang=store.get("rs2_lang","en");
+const fmt=iso=>D(iso).toLocaleDateString("en-GB",{day:"numeric",month:"short"});
+const fmtY=iso=>D(iso).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+
+/* sources (mirrors knowledge_base/sources.yaml) */
+const SRC={pcos:["International Evidence-based PCOS Guideline 2023","https://www.monash.edu/medicine/mchri/pcos/guideline"],
+ nhs_pcos:["NHS: Polycystic ovary syndrome","https://www.nhs.uk/conditions/polycystic-ovary-syndrome-pcos/"],
+ ng73:["NICE NG73: Endometriosis","https://www.nice.org.uk/guidance/ng73"],eshre:["ESHRE Guideline: Endometriosis 2022","https://www.eshre.eu/Guideline/Endometriosis"],
+ ng88:["NICE NG88: Heavy menstrual bleeding","https://www.nice.org.uk/guidance/ng88"],nhs_heavy:["NHS: Heavy periods","https://www.nhs.uk/conditions/heavy-periods/"],
+ pbac:["Higham et al. 1990: pictorial blood loss chart (PBAC)","https://elearning.wfh.org/?p=887"],
+ nhs_absent:["NHS: Stopped or missed periods","https://www.nhs.uk/conditions/stopped-or-missed-periods/"],
+ ada:["ADA Standards of Care: Diabetes in Pregnancy","https://diabetesjournals.org/care"],
+ ng257:["NICE NG257: Fertility problems (2026)","https://www.nice.org.uk/guidance/NG257"],
+ asrm:["ASRM: Fertility evaluation of infertile women (2021)","https://www.asrm.org/practice-guidance/practice-committee-documents/fertility-evaluation-of-infertile-women-a-committee-opinion-2021/"],
+ folic:["NHS: Vitamins and supplements in pregnancy","https://www.nhs.uk/pregnancy/keeping-well/vitamins-supplements-and-nutrition/"],
+ ng23:["NICE NG23: Menopause","https://www.nice.org.uk/guidance/ng23"],mrs:["Menopause Rating Scale (Heinemann 2004)","https://hqlo.biomedcentral.com/articles/10.1186/1477-7525-2-45"],
+ cg192:["NICE CG192: Antenatal and postnatal mental health","https://www.nice.org.uk/guidance/cg192"],epds:["Edinburgh Postnatal Depression Scale (Cox 1987)","https://doi.org/10.1192/bjp.150.6.782"],
+ ng3:["NICE NG3: Diabetes in pregnancy","https://www.nice.org.uk/guidance/ng3"],ng201:["NICE NG201: Antenatal care","https://www.nice.org.uk/guidance/ng201"]};
+
+/* rules (mirrors rules/clinical_rules.yaml) */
+const R={
+ RF1_heavy_bleeding_with_dizziness:{u:"urgent",tag:"Urgent",expr:f=>`flooding_today AND dizziness_today`,
+  explain:"You logged very heavy bleeding together with dizziness. This combination needs urgent care.",
+  next:["If it is happening now, call 998 or go to the nearest emergency department.","If it has passed, book a doctor's appointment in the next few days."],q:["Could I have low iron?"],src:["nhs_heavy"]},
+ OBS_IRREGULAR_CYCLES:{u:"discuss",tag:"Worth discussing",expr:f=>`irregular_cycle_count_6 = ${f.irregular_cycle_count_6} ≥ 2  OR  cycles_per_year = ${f.cycles_per_year} < 8`,
+  explain:"Several recent cycles were shorter than 21 or longer than 35 days. For adults, the 2023 International PCOS Guideline calls these irregular. Many things can cause this, including stress, thyroid changes and PCOS.",
+  next:["Keep logging start dates.","Consider discussing this with a gynaecologist or family doctor."],q:["What could be causing my irregular cycles?","Which tests would help?"],src:["pcos","nhs_absent"]},
+ OBS_IRREGULAR_PLUS_ANDROGEN:{u:"discuss",tag:"Worth discussing",expr:f=>`OBS_IRREGULAR_CYCLES  AND  androgen_symptom_days_90 = ${f.androgen_symptom_days_90} ≥ 10`,
+  explain:"Irregular cycles together with acne or excess hair growth are two of the features doctors look at when considering PCOS. Only a doctor can assess this.",
+  next:["Ask whether a PCOS assessment is right for you.","Bring this report; it lists the cycles and symptom days."],q:["Should I be assessed for PCOS?","Does this affect my future fertility?"],src:["pcos","nhs_pcos"]},
+ OBS_SEVERE_CYCLICAL_PAIN:{u:"discuss",tag:"Worth discussing",expr:f=>`severe_pain_cycles_6 = ${f.severe_pain_cycles_6} ≥ 3  AND  pain_impact_days_90 = ${f.pain_impact_days_90} ≥ 2`,
+  explain:"Your period pain reached 7 out of 10 or more in at least three recent periods and stopped you working or studying. Severe, recurring pain is worth checking; endometriosis is one possible cause.",
+  next:["Consider a gynaecology appointment and bring your pain record.","Note which pain relief you tried and whether it helped."],q:["Could this be endometriosis?","What can I do if pain relief doesn't help?"],src:["ng73","eshre"]},
+ OBS_CYCLICAL_BOWEL_BLADDER_PAIN:{u:"discuss",tag:"Worth discussing",expr:f=>`cyclical_bowel_bladder_pain = ${f.cyclical_bowel_bladder_pain}`,
+  explain:"You logged pain with bowel movements during periods in at least two cycles. Doctors ask about this when considering endometriosis.",
+  next:["Mention this specifically; it is easy to forget in an appointment."],q:["Is bowel pain during periods linked to endometriosis?"],src:["ng73"]},
+ OBS_HEAVY_OR_LONG_PERIODS:{u:"discuss",tag:"Worth discussing",expr:f=>`period_duration_max = ${f.period_duration_max} > 7  OR  pbac_max_6 = ${f.pbac_max_6} ≥ 100`,
+  explain:"Your periods lasted more than 7 days and your bleeding score reached 100 or more. On the pictorial chart gynaecologists use, a score of 100 or more suggests heavy menstrual bleeding, which can cause tiredness and low iron.",
+  next:["Consider discussing heavy bleeding with your doctor. An iron blood test is common."],q:["Is my iron level low?","What treatments help heavy periods?"],src:["ng88","pbac","nhs_heavy"]},
+ CARE_POSTPARTUM_GLUCOSE_TEST:{u:"soon",tag:"Due now",expr:f=>`gdm_history = true  AND  weeks_since_delivery = ${f.weeks_since_delivery} ≥ 4  AND  postpartum_glucose_test_done = false`,
+  explain:"You had gestational diabetes and gave birth more than four weeks ago, with no glucose test logged since. Guidelines recommend a glucose tolerance test 4 to 12 weeks after birth, then regular checks.",
+  next:["Ask your clinic to book a glucose tolerance test.","If you plan another pregnancy, ask about checks before trying."],q:["When should I have my glucose test?","How can I lower my diabetes risk while breastfeeding?"],src:["ada"]},
+ OBS_HEAVY_WITH_FATIGUE:{u:"discuss",tag:"Worth discussing",expr:f=>`OBS_HEAVY_OR_LONG_PERIODS  AND  fatigue_days_90 = ${f.fatigue_days_90} ≥ 3`,
+  explain:"Heavy periods are a common cause of low iron, and you logged tiredness on several bleeding days. NICE advises a full blood count for women with heavy bleeding. Tiredness has many causes.",
+  next:["Ask your doctor whether an iron blood test (full blood count, ferritin) is right for you."],q:["Could my iron be low?"],src:["ng88","nhs_heavy"]},
+ CARE_PREGNANCY_GLUCOSE_SCREEN:{u:"soon",tag:"Due now",expr:f=>`pregnant  AND  pregnancy_weeks = ${f.pregnancy_weeks} in 24–28  AND  ogtt_in_pregnancy_done = false`,
+  explain:"Guidelines recommend screening for gestational diabetes at 24 to 28 weeks of pregnancy, usually with a glucose tolerance test. You are in that window and no test is logged yet.",
+  next:["Ask your antenatal team to book the glucose test before week 28.","The care navigator can draft the request for you to approve."],q:["When and where is my glucose test?","Do I need to fast before it?"],src:["ada","ng3"]},
+ OBS_POSTPARTUM_MOOD:{u:"discuss",tag:"Worth discussing",expr:f=>`epds_latest_total = ${f.epds_latest_total} ≥ 10  AND  weeks_since_delivery = ${f.weeks_since_delivery} ≤ 52`,
+  explain:"Your Edinburgh mood check after birth scored 10 or more. That suggests it is worth talking to your doctor or midwife about how you've been feeling. Low mood after birth is common and treatable. A score is not a diagnosis.",
+  next:["Consider telling your doctor, midwife or someone you trust how you have been feeling.","If you ever have thoughts of harming yourself, call 998 or speak to a doctor today."],q:["Is what I'm feeling normal after birth?","What support is available?"],src:["cg192","epds"]},
+ OBS_PERIMENOPAUSE_SYMPTOMS:{u:"discuss",tag:"Worth discussing",expr:f=>`age = ${f.age} ≥ 45  AND  vasomotor_days_90 = ${f.vasomotor_days_90} ≥ 10`,
+  explain:"Hot flushes, night sweats and changing periods after 45 are common in perimenopause. NICE says this can usually be recognised from symptoms without blood tests, and effective treatments exist.",
+  next:["Consider discussing symptoms and treatment options with a doctor.","Bring your symptom calendar and Menopause Rating Scale scores.","Any bleeding after periods have stopped for 12 months should be checked."],q:["What treatments could help my hot flushes?","Is HRT right for me?"],src:["ng23","mrs"]},
+ OBS_TTC_FERTILITY_ASSESSMENT:{u:"discuss",tag:"Worth discussing",expr:f=>`trying_to_conceive  AND  age = ${f.age} ≥ 35  AND  ttc_months = ${f.ttc_months} ≥ 6`,
+  explain:"You are 36 and have been trying to conceive for 7 months. Guidance suggests a fertility check after 6 months from age 35 (ASRM), and NICE's 2026 guideline offers assessment at first visit from 36. Both partners can be assessed.",
+  next:["Consider booking a fertility assessment.","Keep taking folic acid, 400 micrograms a day.","Bring your cycle record; regular cycles are useful information."],q:["What does a fertility assessment include?","Should my husband be tested too?"],src:["asrm","ng257","folic"]}
+};
+const ANDRO=["acne","excess hair growth","scalp hair thinning"];
+function evidenceFor(p,id){const o=[],c=p.cycles.filter(x=>x.len);
+ if(id==="OBS_IRREGULAR_CYCLES")c.slice(-6).filter(x=>x.len<21||x.len>35).forEach(x=>o.push([x.start,`${x.len}-day cycle`]));
+ if(id==="OBS_IRREGULAR_PLUS_ANDROGEN")p.evidence.filter(e=>e.symptoms.some(s=>ANDRO.includes(s))).slice(-6).forEach(e=>o.push([e.date,e.symptoms.filter(s=>ANDRO.includes(s)).join(", ")]));
+ if(id==="OBS_SEVERE_CYCLICAL_PAIN"){p.cycles.slice(-6).filter(x=>x.maxPain>=7).forEach(x=>o.push([x.start,`pain ${x.maxPain}/10`]));p.impactDays.slice(-3).forEach(d=>o.push([d,"missed work"]));}
+ if(id==="OBS_CYCLICAL_BOWEL_BLADDER_PAIN")p.evidence.filter(e=>e.symptoms.includes("pain with bowel movements")).slice(-4).forEach(e=>o.push([e.date,"bowel pain"]));
+ if(id==="OBS_HEAVY_OR_LONG_PERIODS")p.cycles.slice(-6).filter(x=>x.bleed>7||x.pbac>=100).forEach(x=>o.push([x.start,`${x.bleed} days, PBAC ${x.pbac}`]));
+ if(id==="RF1_heavy_bleeding_with_dizziness")p.evidence.filter(e=>e.symptoms.includes("dizziness")).forEach(e=>o.push([e.date,"flooding + dizziness"]));
+ if(id==="CARE_POSTPARTUM_GLUCOSE_TEST")p.events.filter(e=>["gdm_diagnosis","delivery"].includes(e.type)).forEach(e=>o.push([e.date,e.type==="delivery"?"gave birth":"gestational diabetes"]));
+ if(id==="OBS_HEAVY_WITH_FATIGUE")p.evidence.filter(e=>e.symptoms.includes("fatigue")&&e.flow!=="none").slice(-5).forEach(e=>o.push([e.date,"heavy day + tired"]));
+ if(id==="CARE_PREGNANCY_GLUCOSE_SCREEN")p.events.filter(e=>["pregnancy_confirmed","antenatal_visit"].includes(e.type)).forEach(e=>o.push([e.date,e.type==="antenatal_visit"?e.details.visit:"pregnancy confirmed"]));
+ if(id==="OBS_POSTPARTUM_MOOD")p.events.filter(e=>e.type==="questionnaire").forEach(e=>o.push([e.date,`EPDS ${e.details.total}`]));
+ if(id==="OBS_PERIMENOPAUSE_SYMPTOMS"){p.events.filter(e=>e.type==="questionnaire").forEach(e=>o.push([e.date,`MRS ${e.details.total}`]));(p.vaso||[]).slice(-4).forEach(d=>o.push([d,"hot flush / night sweat"]));}
+ if(id==="OBS_TTC_FERTILITY_ASSESSMENT")p.events.filter(e=>e.type==="ttc_started").forEach(e=>o.push([e.date,"started trying"]));
+ return o;}
+
+let pid=store.get("rs2_p","noura"), tab="today", sel=null;
+let closed=store.get("rs2_closed",[]), reviewed=store.get("rs2_rev",[]), extra=store.get("rs2_logs",{});
+if(!DATA.personas[pid]) pid="noura";
+const P=()=>DATA.personas[pid];
+const obsOf=p=>p.observations.filter(o=>!(o.id==="CARE_POSTPARTUM_GLUCOSE_TEST"&&closed.includes(p.profile.id)));
+const first=p=>p.profile.alias.split(" ")[0];
+const lens=p=>p.cycles.filter(c=>c.len).map(c=>c.len);
+
+/* i18n for chrome and landing headline */
+const AR={n1:"المنتج",n2:"شخصيات العرض",n3:"تطبيقها",n4:"الطبيب",n5:"شبكة العيادات",n6:"تقييم الفريق",fict:"جميع البيانات خيالية",
+ h1:"احملي لطبيبك سجلّ عام كامل من الدورات، لا مجرّد ذكريات.",
+ lede:"يحوّل ReproSense سجلات الدورة ودرجات الألم وتقارير المختبر إلى سجلّ تقرؤه طبيبتك النسائية في دقيقة واحدة. يُبرز الأنماط التي تستحق الفحص، ويعرض الإدخالات التي تستند إليها كل ملاحظة، ولا يقدّم أي تشخيص.",
+ cta1:"افتحي سجلّ نورة",cta2:"اقرئي الأدلة",who:"مجاني للنساء في أبوظبي. واشتراك لعيادات صحة المرأة والخصوبة يساعدها على إتمام المتابعات الفائتة. صُمّم لهاكاثون HealthX أجيال، دائرة الصحة – أبوظبي.",
+ t1:"الرئيسية",t2:"التقويم",t3:"التحليلات",t4:"الأنماط",t5:"المساعد",t6:"التقرير",
+ foot:"يقدّم ReproSense معلومات وليس تشخيصاً. في حالات الطوارئ اتصلي بالرقم 998. جميع بيانات العرض خيالية. صُمّم بمساعدة أدوات الذكاء الاصطناعي مع الإفصاح عنها وفق قواعد الهاكاثون."};
+const EN={}; $$("[data-i18n]").forEach(e=>EN[e.dataset.i18n]=e.textContent);
+function applyLang(){document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+ $$("[data-i18n]").forEach(e=>e.textContent=lang==="ar"&&AR[e.dataset.i18n]?AR[e.dataset.i18n]:EN[e.dataset.i18n]);
+ $("#langBtn").textContent=lang==="ar"?"English":"عربي"; render();}
+$("#langBtn").onclick=()=>{lang=lang==="ar"?"en":"ar";store.set("rs2_lang",lang);applyLang();toast(lang==="ar"?"العربية: العناوين والتنقل. نص التطبيق بالإنجليزية في هذا النموذج.":"English");};
+
+/* theme */
+const cur=()=>document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+const tl=()=>$("#themeBtn").textContent=cur()==="dark"?"Light":"Dark";
+$("#themeBtn").onclick=()=>{document.documentElement.dataset.theme=cur()==="dark"?"light":"dark";store.set("rs2_theme",document.documentElement.dataset.theme);tl();render();};
+{const t=store.get("rs2_theme",null);if(t)document.documentElement.dataset.theme=t;tl();}
+
+$("#discBtn").onclick=()=>{const on=!document.documentElement.hasAttribute("data-discreet");document.documentElement.toggleAttribute("data-discreet",on);$("#discBtn").setAttribute("aria-pressed",on);toast(on?"Discreet mode on: neutral name, names hidden. The real app also asks for a PIN and hides notification previews.":"Discreet mode off");};
+/* toast + dialog */
+let tt;function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2800);}
+function dialog(h){const d=$("#dialog");d.innerHTML=`<div class="panel" role="dialog" aria-modal="true">${h}</div>`;d.hidden=false;d.onclick=e=>{if(e.target===d)d.hidden=true};$$("[data-close]",d).forEach(b=>b.onclick=()=>d.hidden=true);return d;}
+addEventListener("keydown",e=>{if(e.key==="Escape")$("#dialog").hidden=true});
+
+/* routing */
+const V=["home","people","patient","clinic","admin","score"];
+const view=()=>V.includes(location.hash.slice(1))?location.hash.slice(1):"home";
+function route(){const v=view();$$("[data-view]").forEach(s=>s.hidden=s.dataset.view!==v);
+ $$(".nav a").forEach(a=>a.setAttribute("aria-current",a.getAttribute("href")==="#"+v?"page":"false"));render();scrollTo({top:0});}
+addEventListener("hashchange",()=>{if(location.hash==="#evidence"){$$("[data-view]").forEach(s=>s.hidden=s.dataset.view!=="home");render();$("#evidence").scrollIntoView();return;}route();});
+
+/* ---------- charts ---------- */
+/* Cycle ledger: one row per cycle, x = cycle day. The clinical cycle chart, drawn to scale. */
+function ledger(p,n=8,W=560){
+ const cs=p.cycles.filter(c=>c.len).slice(-n); if(!cs.length) return `<p class="s dim">No complete cycles in the last year. The chart restarts when periods return.</p>`;
+ const maxD=Math.max(45,...cs.map(c=>c.len))+4, L=74, rh=22, top=26, H=top+cs.length*rh+26, X=d=>L+(d-1)/(maxD-1)*(W-L-34);
+ let g=`<rect x="${X(21)}" y="${top-6}" width="${X(35)-X(21)}" height="${cs.length*rh+6}" fill="var(--ok-soft)"/>`;
+ [1,7,14,21,28,35,42,49,56,63].filter(d=>d<=maxD).forEach(d=>{const key=d===21||d===35;g+=`<line x1="${X(d)}" x2="${X(d)}" y1="${top-6}" y2="${top+cs.length*rh}" stroke="${key?"var(--ok)":"var(--rule)"}" stroke-dasharray="${key?"0":"2 3"}"/><text x="${X(d)}" y="${top-11}" text-anchor="middle" font-size="10.5" fill="${key?"var(--ok)":"var(--ink-3)"}" font-family="Plus Jakarta Sans, sans-serif" font-weight="${key?600:400}">${d}</text>`});
+ cs.forEach((c,i)=>{const y=top+i*rh;
+  g+=`<text x="0" y="${y+14}" font-size="11.5" fill="var(--ink-2)" font-family="Plus Jakarta Sans, sans-serif">${fmt(c.start)}</text>`;
+  g+=`<line x1="${X(1)}" x2="${X(c.len)}" y1="${y+10}" y2="${y+10}" stroke="var(--rule-2)"/>`;
+  const cw=Math.max(X(2)-X(1)-1.5,3);
+  for(let d=1;d<=c.bleed;d++) g+=`<rect x="${X(d)-cw/2}" y="${y+4}" width="${cw}" height="12" fill="var(--accent)" opacity="${d<=3?1:.55}"/>`;
+  const irr=c.len<21||c.len>35;
+  g+=`<rect x="${X(c.len)-1.5}" y="${y+3}" width="3" height="14" fill="var(--ink)"/><text x="${X(c.len)+6}" y="${y+14}" font-size="11.5" font-family="Plus Jakarta Sans, sans-serif" font-weight="${irr?700:400}" fill="${irr?"var(--ink)":"var(--ink-2)"}">${c.len}</text>`;});
+ g+=`<text x="${L}" y="${H-6}" font-size="10.5" fill="var(--ink-3)">Cycle day. Number at the end of each row: cycle length in days.</text>`;
+ return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:380px" role="img" aria-label="Cycle chart: last ${cs.length} cycles lasted ${cs.map(c=>c.len).join(", ")} days; the usual adult range is 21 to 35 days.">${g}</svg>`;
+}
+function figures(){
+ const W=440;
+ const f1=`<svg viewBox="0 0 ${W} 70" width="100%" role="img" aria-label="Endometriosis: 6.6 years average from first symptoms to diagnosis">
+  ${[0,1,2,3,4,5,6,7].map(y=>`<line x1="${8+y*58}" x2="${8+y*58}" y1="16" y2="44" stroke="var(--rule)"/><text x="${8+y*58}" y="60" text-anchor="middle" font-size="11" fill="var(--ink-3)" font-family="Plus Jakarta Sans, sans-serif">${y}</text>`).join("")}
+  <rect x="8" y="20" width="${6.6*58}" height="20" fill="var(--accent)"/><text x="${8+6.6*58-6}" y="34" text-anchor="end" font-size="12" font-weight="600" fill="var(--accent-ink)" font-family="Plus Jakarta Sans, sans-serif">6.6 years</text></svg>`;
+ const f2=`<svg viewBox="0 0 ${W} 80" width="100%" role="img" aria-label="PCOS: 25.9 percent self-reported among Emirati women versus 1.6 percent coded in hospital records">
+  <text x="0" y="14" font-size="12" fill="var(--ink-2)">Reported by Emirati women</text><rect x="0" y="20" width="${25.9/30*(W-60)}" height="14" fill="var(--ink)"/><text x="${25.9/30*(W-60)+6}" y="32" font-size="12" font-family="Plus Jakarta Sans, sans-serif" fill="var(--ink)">25.9%</text>
+  <text x="0" y="56" font-size="12" fill="var(--ink-2)">Coded in Dubai hospital records</text><rect x="0" y="62" width="${1.6/30*(W-60)}" height="14" fill="var(--accent)"/><text x="${1.6/30*(W-60)+6}" y="74" font-size="12" font-family="Plus Jakarta Sans, sans-serif" fill="var(--ink)">1.6%</text></svg>`;
+ const f3=`<svg viewBox="0 0 ${W} 60" width="100%" role="img" aria-label="Postpartum diabetes screening after gestational diabetes: 20 to 58 percent within a year">
+  <line x1="4" x2="${W-6}" y1="28" y2="28" stroke="var(--rule-2)"/>${[0,25,50,75,100].map(v=>{const x=4+v/100*(W-10);return `<line x1="${x}" x2="${x}" y1="22" y2="34" stroke="var(--rule-2)"/><text x="${x}" y="52" text-anchor="${v===0?"start":v===100?"end":"middle"}" font-size="11" fill="var(--ink-3)" font-family="Plus Jakarta Sans, sans-serif">${v}%</text>`}).join("")}
+  <rect x="${4+.2*(W-10)}" y="20" width="${.38*(W-10)}" height="16" fill="var(--warn)"/><text x="${4+.2*(W-10)}" y="13" font-size="11.5" fill="var(--ink)" font-family="Plus Jakarta Sans, sans-serif">20–58% screened</text></svg>`;
+ return `<div class="row"><h4>Years from first endometriosis symptoms to diagnosis</h4>${f1}<p class="src">Average across 22 studies. <a href="https://www.medrxiv.org/content/10.1101/2024.01.08.24300988v1.full-text" target="_blank" rel="noopener">Fryer et al., scoping review, 2024</a></p></div>
+ <div class="row"><h4>PCOS: reported versus recorded</h4>${f2}<p class="src"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9939944" target="_blank" rel="noopener">UAE Healthy Future Study, 2023</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/37174235/" target="_blank" rel="noopener">Latifa Hospital records, 2023</a>. Different populations and methods, shown together to illustrate the recognition gap.</p></div>
+ <div class="row"><h4>Women screened for diabetes within a year of gestational diabetes</h4>${f3}<p class="src">High-income countries. <a href="https://eprints.soton.ac.uk/394697" target="_blank" rel="noopener">Diabetic Medicine, 2016</a>. Gestational diabetes in the UAE: 7.9–24.9%, up to 37.7% by IADPSG criteria (<a href="https://www.frontiersin.org/journals/endocrinology/articles/10.3389/fendo.2022.1069477/full" target="_blank" rel="noopener">Mutaba'ah Study</a>).</p></div>`;
+}
+function yearChart(p){
+ const start=new Date(REF);start.setDate(start.getDate()-365);const W=380,H=236,X=d=>16+(dd(start,D(d))/365)*(W-30);
+ const cs=p.cycles;let g="";
+ for(let i=0;i<=12;i+=2){const m=new Date(start);m.setMonth(m.getMonth()+i);const x=16+(dd(start,m)/365)*(W-30);g+=`<line x1="${x}" x2="${x}" y1="22" y2="${H-24}" stroke="var(--rule)"/><text x="${x}" y="${H-9}" text-anchor="middle" font-size="10" fill="var(--ink-3)">${m.toLocaleDateString("en-GB",{month:"short"})}</text>`;}
+ g+=`<text x="16" y="16" font-size="10.5" fill="var(--ink-2)">Periods and events</text>`;
+ cs.forEach(c=>{g+=`<rect x="${X(c.start)}" y="24" width="${Math.max(c.bleed*(W-30)/365,3)}" height="12" fill="var(--accent)"><title>${c.start}: ${c.bleed} days, PBAC ${c.pbac}</title></rect>`});
+ p.events.filter(e=>["pregnancy_confirmed","gdm_diagnosis","delivery","ttc_started"].includes(e.type)).forEach(e=>{g+=`<path d="M${X(e.date)} 40 l5 5 -5 5 -5 -5z" fill="var(--ink)"><title>${e.type.replace(/_/g," ")} ${e.date}</title></path>`});
+ const ly=v=>128-Math.min(v,70)/70*62;
+ g+=`<text x="16" y="66" font-size="10.5" fill="var(--ink-2)">Cycle length (shaded 21–35 days)</text><rect x="16" y="${ly(35)}" width="${W-30}" height="${ly(21)-ly(35)}" fill="var(--ok-soft)"/>`;
+ cs.filter(c=>c.len).forEach(c=>{const irr=c.len<21||c.len>35;g+=`<circle cx="${X(c.start)}" cy="${ly(c.len)}" r="4" fill="${irr?"var(--accent)":"var(--ok)"}"><title>${c.len}-day cycle</title></circle>`});
+ g+=`<text x="16" y="146" font-size="10.5" fill="var(--ink-2)">Worst period pain, 0–10</text><line x1="16" x2="${W-14}" y1="192" y2="192" stroke="var(--rule-2)"/>`;
+ cs.forEach(c=>{g+=`<rect x="${X(c.start)-3}" y="${192-c.maxPain*4}" width="6" height="${c.maxPain*4}" fill="var(--ink-2)"><title>pain ${c.maxPain}/10</title></rect>`});
+ const j=store.get("rs2_jump",null); if(j) g+=`<line x1="${X(j)}" x2="${X(j)}" y1="20" y2="${H-24}" stroke="var(--accent)" stroke-dasharray="3 3"/>`;
+ return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Twelve months: periods, cycle lengths ${lens(p).join(", ")||"none"} days, and worst pain per period.">${g}</svg>`;
+}
+/* change detection: largest step in mean cycle length between two parts of the record */
+function change(p){const l=p.cycles.filter(c=>c.len);if(l.length<6)return null;let best=null;
+ for(let k=3;k<=l.length-3;k++){const a=l.slice(0,k).map(c=>c.len),b=l.slice(k).map(c=>c.len);const ma=a.reduce((x,y)=>x+y)/a.length,mb=b.reduce((x,y)=>x+y)/b.length;
+  if(!best||Math.abs(mb-ma)>Math.abs(best.d))best={d:mb-ma,at:l[k].start,ma,mb};}
+ return best&&Math.abs(best.d)>=7?best:null;}
+/* record strength: how much data supports a pattern; never a disease probability */
+function completeness(p){const n=lens(p).length;return n>=6?[3,"strong",`${n} cycles`]:n>=3?[2,"building",`${n} cycles`]:[1,"early",`${n} cycles`];}
+const meter=k=>`<span class="meter" aria-hidden="true">${[1,2,3].map(i=>`<i class="${i<=k?"on":""}"></i>`).join("")}</span>`;
+
+/* ---------- landing ---------- */
+function renderStages(){const ST=[["noura","Periods","Cycles, bleeding score, pain and the body map","var(--ph-m)"],["mariam","Trying to conceive","Fertility timing and a checklist before pregnancy","var(--ph-f)"],["hessa","Pregnancy","Week tracker, warning signs, glucose test at 24–28 weeks","var(--ph-o)"],["fatima","After birth","Glucose test after gestational diabetes and a mood check","var(--ph-l)"],["layla","Perimenopause","Hot flushes, changing periods and treatment questions","#8C6BB1"]];
+ $("#stages").innerHTML=ST.map(x=>{const q=DATA.personas[x[0]];return `<button class="stage" type="button" data-lp="${x[0]}"><span class="orb" style="background:radial-gradient(circle at 35% 30%,#fff,${x[3]} 55%)"></span><b>${x[1]}</b><span>${x[2]}</span><span class="xs" style="color:var(--accent);font-weight:700">Open ${esc(first(q))}'s record →</span></button>`}).join("");
+ $$("[data-lp]").forEach(b=>b.onclick=()=>{pid=b.dataset.lp;store.set("rs2_p",pid);tab="today";store.set("rs2_jump",null);location.hash="patient";});}
+function renderHome(){renderStages();
+ const n=DATA.personas.noura, l=lens(n).slice(-8), irr=l.filter(x=>x<21||x>35).length;
+ $("#heroChart").innerHTML=ledger(n,8);
+ $("#heroMeta").textContent=`Noura A. · 24 · Al Ain · fictional`;
+ $("#heroLine").textContent=`${irr} of her last ${l.length} cycles ran past day 35, with acne or hair growth on ${n.features.androgen_symptom_days_90} of 90 days.`;
+ $("#heroPhone").innerHTML=`<div class="status"><span>9:41</span><span class="xs">●●●</span></div><div class="dev-body" style="padding-bottom:20px;overflow:hidden">${todayTop(n)}<a class="btn btn-a btn-wide" href="#patient" data-hero="1">Log your symptoms</a>${recs(n)}</div>`;
+ $$("[data-hero]").forEach(a=>a.onclick=()=>{pid="noura";store.set("rs2_p",pid);tab="today";});
+ $("#figures").innerHTML=figures();
+ const f=n.features, ev=evidenceFor(n,"OBS_IRREGULAR_CYCLES");
+ $("#landingTrace").innerHTML=`
+  <div><span class="verb">She logs</span><h4>Period start dates over a year</h4><div class="code">${n.cycles.filter(c=>c.len).slice(-4).map(c=>`${c.start}  period starts\n  next one ${c.len} days later`).join("\n")}</div></div>
+  <div><span class="verb">A written rule checks</span><h4>No AI in this step</h4><div class="code">OBS_IRREGULAR_CYCLES\nyears_since_menarche = ${f.years_since_menarche} ≥ 3 ✓\nirregular_cycle_count_6 = ${f.irregular_cycle_count_6} ≥ 2 ✓\nsource: 2023 International\nPCOS Guideline</div></div>
+  <div><span class="verb">The model explains</span><h4>Plain words, with evidence</h4><p class="s"><span class="tag t-discuss">Worth discussing</span></p><p class="s"><b>Your cycle lengths have been irregular.</b> ${ev.length} recent cycles were longer than 35 days. Consider discussing this with a doctor.</p><p class="xs faint">Checked: no diagnostic words.</p></div>
+  <div><span class="verb">The clinic sees</span><h4>One line in a handover summary</h4><div class="code">A: Cycles ${l.slice(-6).join(", ")} days\n   (adult range 21–35).\n   Acne or hair growth on\n   ${f.androgen_symptom_days_90} of last 90 days.\nR: Consider PCOS assessment\n   per 2023 guideline.</div></div>`;
+}
+
+/* ---------- people ---------- */
+function renderPeople(){
+ $("#roster").innerHTML=Object.values(DATA.personas).map(x=>`<div class="rrow"><span class="ini">${x.profile.alias[0]}</span>
+  <div><b>${esc(x.profile.alias.replace(" (fictional)",""))}</b><br><span class="s dim">${x.profile.age} · ${esc(x.profile.region)}</span></div>
+  <p class="s story">${esc(x.profile.story)}</p>
+  <div class="obsl">${x.observations.length?x.observations.map(o=>`<span class="tag t-${R[o.id].u}" style="margin:2px 4px 2px 0">${esc(R[o.id].tag)}</span>`).join(""):`<span class="tag t-ok">Nothing flagged</span>`}<br><span class="xs faint mono">${x.logCount} entries · ${lens(x).length} cycles</span></div>
+  <button class="btn btn-o btn-sm" type="button" data-open="${x.profile.id}">Open ${esc(first(x))}'s record</button></div>`).join("");
+ $$("[data-open]").forEach(b=>b.onclick=()=>{pid=b.dataset.open;store.set("rs2_p",pid);tab="today";store.set("rs2_jump",null);location.hash="patient";});
+}
+$("#resetBtn").onclick=()=>{closed=[];reviewed=[];extra={};["rs2_closed","rs2_rev"].forEach(k=>store.set(k,[]));store.set("rs2_logs",{});store.set("rs2_jump",null);Object.keys(DATA.personas).forEach(k=>{store.set("rs2_chat_"+k,[]);store.set("rs2_share_"+k,null)});toast("Demo data reset.");render();};
+$("#openNoura").onclick=()=>{pid="noura";store.set("rs2_p",pid);tab="today";};
+
+/* ---------- her app ---------- */
+function obsBlock(p,o,full){const r=R[o.id],ev=evidenceFor(p,o.id),c=completeness(p);
+ if(!full)return `<div class="obs ${r.u==="urgent"?"urgent":""}"><span><span class="tag t-${r.u}">${r.tag}</span></span><h4>${esc(o.title)}</h4><p class="xs faint">From ${ev.length} of your entries</p></div>`;
+ return `<article class="obs ${r.u==="urgent"?"urgent":""} in"><span><span class="tag t-${r.u}">${r.tag}</span></span><h4>${esc(o.title)}</h4><p class="s">${r.explain}</p>
+  <div><p class="label" style="margin-bottom:6px">Why we noticed (tap to see the day)</p><div class="chips">${ev.map(e=>`<button type="button" data-jump="${e[0]}">${fmt(e[0])} · ${esc(e[1])}</button>`).join("")}</div></div>
+  <div class="kv" style="flex-wrap:wrap"><span class="xs dim">Record strength${meter(c[0])}${c[1]}, ${c[2]}</span><button class="link xs" type="button" data-trace="${o.id}">How this was produced</button></div>
+  <details><summary>What to consider next</summary><ul class="plain">${r.next.map(x=>`<li>${x}</li>`).join("")}</ul></details>
+  <details><summary>Questions for your doctor</summary><ul class="plain">${r.q.map(x=>`<li>${x}</li>`).join("")}</ul></details>
+  ${r.u!=="urgent"?`<button class="btn btn-o btn-sm" type="button" data-nav="${o.id}" style="align-self:flex-start">Draft my appointment request</button>`:""}
+  <p class="xs faint">Sources: ${r.src.map(s=>`<a href="${SRC[s][1]}" target="_blank" rel="noopener">${SRC[s][0]}</a>`).join("; ")}</p></article>`;}
+function cyc(p){if(p.profile.pregnant)return {preg:true,wk:p.profile.pregnancy_weeks};if(p.profile.breastfeeding){const del=p.events.find(e=>e.type==="delivery");return {pp:true,wk:Math.floor(dd(D(del.date),REF)/7)};}
+ const last=p.cycles[p.cycles.length-1];const s=[...lens(p)].sort((a,b)=>a-b);return {day:dd(D(last.start),REF)+1,typ:s[Math.floor(s.length/2)]||28,bleed:last.bleed};}
+function arcSVG(segs,pos,max,W=280){const cx=W/2,cy=128,r=100,S=210,E=-30;
+ const ang=d=>S-(Math.min(Math.max(d,0),max))/max*(S-E);
+ const pt=a=>[cx+r*Math.cos(a*Math.PI/180),cy-r*Math.sin(a*Math.PI/180)];
+ const arc=(d1,d2,col,w=16)=>{const a1=ang(d1),a2=ang(d2);if(a1-a2<.5)return "";const [x1,y1]=pt(a1),[x2,y2]=pt(a2);return `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)} A${r} ${r} 0 ${a1-a2>180?1:0} 1 ${x2.toFixed(1)} ${y2.toFixed(1)}" stroke="${col}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`};
+ let g=arc(0,max,"var(--rule)",16);segs.forEach(x=>g+=arc(x[0]+.5,x[1]-.5,x[2]));
+ const [mx,my]=pt(ang(pos));g+=`<circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="13" fill="var(--plum)" stroke="var(--sheet)" stroke-width="4"/>`;
+ return `<svg viewBox="0 0 ${W} 200" width="100%" aria-hidden="true">${g}</svg>`;}
+const PH=[["Period","var(--ph-m)"],["Follicular","var(--ph-f)"],["Fertile (est.)","var(--ph-o)"],["Luteal","var(--ph-l)"]];
+function phaseOf(day,L,bl){const ov=L-14;return day<=bl?0:day<ov-5?1:day<=ov+1?2:3;}
+function todayTop(p){const c=cyc(p),nm=first(p),irr=lens(p).filter(x=>x<21||x>35).length>=2;
+ const hello=`<div class="kv" style="align-items:center"><div class="hello"><p>Hi, ${esc(nm)}</p><h3>Ready for a good day?</h3></div><span class="ava">${esc(nm[0])}</span></div>`;
+ const ST=[["periods","Periods","noura"],["trying_to_conceive","Trying","mariam"],["pregnancy","Pregnancy","hessa"],["after_birth","After birth","fatima"],["perimenopause","Perimenopause","layla"]],cur=p.profile.life_stage;
+ const stages=`<div class="pills" style="overflow-x:auto;scrollbar-width:none">${ST.map(x=>`<button type="button" data-stage="${x[2]}" aria-pressed="${cur===x[0]}" style="flex:none">${x[1]}</button>`).join("")}</div>`;
+ if(c.preg){return hello+stages+`<div class="box gauge">${arcSVG([[0,13,"var(--ph-o)"],[13,27,"var(--ph-m)"],[27,40,"var(--ph-l)"]],c.wk,40)}<div class="ctr"><b>Week ${c.wk}</b><span>${c.wk<14?"first":c.wk<28?"second":"third"} trimester · ${40-c.wk} weeks to go</span></div>
+  <div class="leg" style="justify-content:center"><span><i style="background:var(--ph-o)"></i>1st trimester</span><span><i style="background:var(--ph-m)"></i>2nd</span><span><i style="background:var(--ph-l)"></i>3rd</span></div></div>
+  <div class="box" style="background:var(--urgent-soft);border-color:var(--urgent)"><b style="color:var(--urgent);font-size:14px">Call 998 now if you have</b><p class="xs" style="margin-top:4px">heavy bleeding · severe tummy pain · fewer baby movements · severe headache with vision changes</p></div>`;}
+ if(c.pp){return hello+stages+`<div class="box gauge">${arcSVG([[0,4,"var(--ph-l)"],[4,12,"var(--ok)"]],Math.min(c.wk,12),12)}<div class="ctr"><b>Week ${c.wk}</b><span>after birth</span></div>
+  <div class="leg" style="justify-content:center"><span><i style="background:var(--ph-l)"></i>Recovery</span><span><i style="background:var(--ok)"></i>Glucose test window, weeks 4–12</span></div></div>`;}
+ const peri=cur==="perimenopause";
+ const L=Math.max(c.typ,c.day),bl=c.bleed||5,ov=c.typ-14,ph=phaseOf(c.day,c.typ,bl);
+ const days=[-2,-1,0,1,2,3].map(o=>{const d=c.day+o;return d<1?"":`<div class="dp ${o<0?"":o===0?"now":"fut"}">${o===0?"Today":"Day "+d}<i>${o<0?"✓":o===0?"":"✓"}</i></div>`}).join("");
+ const segs=[[0,bl,PH[0][1]],[bl,ov-5,PH[1][1]],[ov-5,ov+1,PH[2][1]],[ov+1,c.typ,PH[3][1]]].filter(x=>x[1]>x[0]);
+ return hello+stages+`<div class="days">${days}</div>
+ <div class="box gauge">${arcSVG(segs,c.day,L)}<div class="ctr"><b>Day ${c.day}</b><span>${c.day>c.typ?"Longer than your usual "+c.typ+" days":PH[ph][0]+" phase"+(irr?" · estimate":"")}</span></div>
+ <div class="leg" style="justify-content:center">${PH.map(x=>`<span><i style="background:${x[1]}"></i>${x[0]}</span>`).join("")}</div>
+ ${irr?`<p class="xs faint" style="margin-top:6px">${peri?"Cycles often change in perimenopause, so phases are estimates.":"Your cycles vary, so phases are estimates, not predictions."}</p>`:""}</div>
+ ${peri?`<div class="box"><span class="label">Hot flushes and night sweats, last 90 days</span><p class="big" style="margin-top:6px">${p.features.vasomotor_days_90} <span class="s dim" style="font-weight:500">days</span></p></div>`:""}`;}
+function recs(p){const o=obsOf(p);let a;
+ if(o.length){const r=R[o[0].id];a=[["Next step",r.next[0],"var(--ph-m)","M12 5v14M5 12h14"],["Ask your doctor",r.q[0],"var(--ph-l)","M9 9a3 3 0 1 1 4 2.8c-.7.3-1 .8-1 1.5V14M12 17.5v.01"]];}
+ else if(p.profile.trying_to_conceive)a=[["Folic acid","400 micrograms a day while trying.","var(--ph-f)","M7 12h10"],["Fertility check","Guidance suggests one after 6 months from age 35.","var(--ph-l)","M12 5v14M5 12h14"]];
+ else a=[["Keep logging","Two taps a day keeps your record strong.","var(--ph-m)","M12 5v14M5 12h14"],["Your report","Ready whenever you see a doctor.","var(--ph-l)","M7 8h10M7 12h10M7 16h6"]];
+ return `<div class="recs">${a.map(x=>`<div class="rec"><b><span class="blob" style="background:${x[2]}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="${x[3]}"/></svg></span>${x[0]}</b><p>${esc(x[1])}</p></div>`).join("")}</div>`;}
+function tToday(p){const o=obsOf(p),ch=change(p),last=p.cycles.filter(x=>x.len).slice(-1)[0],mood=store.get("rs2_mood_"+pid,null);
+ const pb=last&&last.pbac?`<div class="box"><div class="kv"><span class="label">Last period's bleeding score</span><span class="mono ${last.pbac>=100?"hi":""}" style="font-size:20px">${last.pbac}</span></div><p class="xs faint" style="margin-top:4px">On the pictorial chart gynaecologists use, 100 or more suggests heavy bleeding.</p></div>`:"";
+ const dueO=o.find(x=>R[x.id].u==="soon");
+ const due=dueO?`<div class="box" style="background:var(--plum);color:var(--plum-ink);border-color:var(--plum)"><span class="xs" style="font-weight:700;opacity:.8">Care navigator · due now</span><p style="font-weight:700;font-size:16px;margin-top:4px">${esc(dueO.title)}</p><p class="xs" style="opacity:.85;margin-top:4px">Request, questions and what to bring are drafted. Nothing is sent until you approve.</p><button class="btn btn-o btn-sm" type="button" data-nav="${dueO.id}" style="margin-top:10px">Review draft</button></div>`:"";
+ return `${todayTop(p)}
+ <button class="btn btn-a btn-wide" type="button" data-goto="log">Log your symptoms</button>
+ ${due}
+ <div class="kv"><b style="font-size:17px">Today's recommendation</b><button class="link" type="button" data-goto="insights">See all</button></div>${recs(p)}
+ <b style="font-size:17px">How do you feel today?</b>
+ <div class="moods">${[["😌","Calm"],["😴","Tired"],["😣","Cramps"],["😔","Low"],["⚡","Energetic"]].map(m=>`<button type="button" data-mood="${m[1]}" aria-pressed="${mood===m[1]}"><em>${m[0]}</em>${m[1]}</button>`).join("")}</div>
+ ${pb}
+ ${ch?`<div class="box"><span class="label">Change noticed</span><p class="s" style="margin-top:4px">Your cycles averaged <b>${Math.round(ch.ma)}</b> days before ${fmt(ch.at)} and <b>${Math.round(ch.mb)}</b> days after.</p></div>`:""}
+ <div class="kv"><b style="font-size:17px">Patterns</b><button class="link" type="button" data-goto="insights">See all</button></div>
+ <div>${o.length?o.slice(0,3).map(x=>obsBlock(p,x,false)).join(""):`<div class="obs"><span><span class="tag t-ok">Nothing flagged</span></span><h4>Your record looks steady</h4><p class="xs faint">Cycles within 21–35 days and mild pain. We re-check every time you log.</p></div>`}</div>
+ <button class="btn btn-o btn-wide" type="button" data-goto="report">Prepare doctor report</button>`;}
+function calBox(p){const y=REF.getFullYear(),m=REF.getMonth(),f=new Date(y,m,1),off=(f.getDay()+6)%7,n=new Date(y,m+1,0).getDate(),bl=new Set();
+ p.cycles.forEach(c=>{for(let i=0;i<c.bleed;i++){const d=D(c.start);d.setDate(d.getDate()+i);bl.add(d.toISOString().slice(0,10))}});
+ let g=["M","T","W","T","F","S","S"].map(x=>`<span class="h">${x}</span>`).join("");for(let i=0;i<off;i++)g+=`<span></span>`;
+ for(let d=1;d<=n;d++){const iso=new Date(y,m,d,12).toISOString().slice(0,10),cl=bl.has(iso)?"bl":d===REF.getDate()?"td":d>REF.getDate()?"o":"";g+=`<span class="${cl}">${d}</span>`;}
+ const e=p.evidence[p.evidence.length-1];
+ return `<div class="box"><p style="text-align:center;font-weight:700;font-size:17px;margin-bottom:10px">${REF.toLocaleDateString("en-GB",{month:"long",year:"numeric"})}</p><div class="cal">${g}</div></div>
+ ${e?`<div><b style="font-size:16px">Last logged · ${fmt(e.date)}</b></div><div class="ldata">
+  <div><span class="blob" style="background:var(--ph-m)"></span><span><b>Flow</b><small>${esc(e.flow)}</small></span></div>
+  <div><span class="blob" style="background:var(--ph-l)"></span><span><b>Pain</b><small>${e.pain} out of 10</small></span></div>
+  <div><span class="blob" style="background:var(--ph-f)"></span><span><b>Symptoms</b><small>${esc(e.symptoms.slice(0,3).join(", ")||"none")}</small></span></div>
+  <div><span class="blob" style="background:var(--ph-o)"></span><span><b>Daily life</b><small>${esc(e.impact||"no impact")}</small></span></div></div>`:""}
+ <b style="font-size:17px;margin-top:4px">Log today</b>`;}
+/* Body map: images/body-map-front.png and body-map-back.png (IMAGE_PROMPTS_CHATGPT.md D1/D2), SVG fallback if missing.
+   Hotspots are % of the 3:4 box. The images are 768x1024 (also 3:4), so object-fit:contain adds no letterboxing and
+   % of box = % of image. Calibrated 5 Nov 2026 against the actual art (see ASSET_INTEGRATION_REPORT.md):
+   front: neck 17%, shoulders 22%, waist 49%, widest hip 75%, leg split 78%, body centre x 49.6%;
+   back: neck 16%, waist 48%, buttocks from 60%, body centre x 52%.
+   Left/right are HER sides: on the front view her left is on the viewer's right. */
+const SITES={front:[["upper abdomen",49.6,42,"upper abdomen"],["lower abdomen",49.6,64,"lower abdomen"],["right pelvis",36,70,"right pelvis (her right side)"],["left pelvis",63.2,70,"left pelvis (her left side)"]],
+ back:[["lower back",52,55,"lower back"]]};
+function bodyMap(p){const sel=store.get("rs2_sites_"+pid,[]),yr=p.sites||{},mx=Math.max(1,...Object.values(yr)),side=store.get("rs2_bmside","front");
+ const fb=`<svg viewBox="0 0 300 400" width="100%" height="100%" aria-hidden="true"><defs><radialGradient id="bmP" cx=".45" cy=".35" r=".8"><stop offset="0" stop-color="#fff"/><stop offset=".6" stop-color="var(--ph-o)" stop-opacity=".55"/><stop offset="1" stop-color="var(--ph-l)" stop-opacity=".45"/></radialGradient></defs><path d="M125 30 C125 14 175 14 175 30 L176 52 C210 58 228 72 230 98 C231 150 215 174 210 210 C207 246 225 276 228 318 C190 354 110 354 72 318 C75 276 93 246 90 210 C85 174 69 150 70 98 C72 72 90 58 124 52 Z" fill="url(#bmP)" stroke="var(--ph-l)" stroke-width="2"/></svg>`;
+ return `<div class="box"><div class="kv"><b style="font-size:16px">Where does it hurt?</b><span class="xs faint">tap to mark · glow = your year</span></div>
+ <div class="seg" role="group" aria-label="Body view" style="justify-content:center;margin-top:8px">${["front","back"].map(s=>`<button type="button" data-bmside="${s}" aria-pressed="${side===s}">${s==="front"?"Front":"Back"}</button>`).join("")}</div>
+ <div style="position:relative;aspect-ratio:3/4;max-width:260px;margin:8px auto 0">
+  <div style="position:absolute;inset:0;z-index:0">${fb}</div>
+  <img src="images/body-map-${side}.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:0" onload="this.previousElementSibling.style.display='none'" onerror="this.remove()">
+  ${SITES[side].map(([n,x,y,lab])=>{const c=yr[n]||0,r=c?18+c/mx*34:0;return `${r?`<span aria-hidden="true" style="position:absolute;left:${x}%;top:${y}%;width:${r*2}px;height:${r*2}px;margin:-${r}px 0 0 -${r}px;border-radius:50%;background:radial-gradient(closest-side,rgba(211,95,168,.7),rgba(211,95,168,0));z-index:1;pointer-events:none"></span>`:""}<button type="button" data-site="${n}" aria-pressed="${sel.includes(n)}" aria-label="${lab}" title="${lab}${c?` · ${c} painful days this year`:""}" style="position:absolute;left:${x}%;top:${y}%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;border:3px solid ${sel.includes(n)?"var(--plum)":"rgba(255,255,255,.9)"};background:${sel.includes(n)?"var(--accent)":"rgba(75,54,83,.25)"};cursor:pointer;z-index:2"></button>`}).join("")}
+ </div>
+ <p class="xs faint" style="text-align:center;margin:6px 0 0">${side==="front"?"Front view: her left side is on your right.":"Back view: her left side is on your left."}</p>
+ <p class="xs dim" style="text-align:center">${Object.entries(yr).filter(e=>e[1]).map(e=>`${e[0]}: ${e[1]} painful days`).join(" · ")||"No pain locations logged this year"}${p.bowelDays?` · bowel pain on ${p.bowelDays} days`:""}</p>
+ ${sel.length?`<p class="s" style="text-align:center">Today: <b>${sel.join(", ")}</b></p>`:""}</div>`;}
+function tLog(p){return calBox(p)+bodyMap(p)+`<p class="label">Today, ${fmtY(REF.toISOString().slice(0,10))}</p>
+ <div class="field"><span class="label">Flow</span><div class="seg" data-g="flow">${["None","Light","Medium","Heavy"].map((f,i)=>`<button type="button" aria-pressed="${i===0}">${f}</button>`).join("")}</div></div>
+ <div class="field"><span class="label">Bleeding score (pictorial chart): <b class="mono" id="pbacV">0</b></span>
+  <div class="pbac">${[["Pads lightly stained",1],["Pads half soaked",5],["Pads fully soaked",20],["Small clots",1],["Clots coin-sized or larger",5]].map(([t,v],i)=>`<span class="s">${t} <span class="faint mono">×${v}</span></span><span class="step"><button type="button" data-pb="${i}" data-d="-1" aria-label="one fewer">−</button><span id="pb${i}">0</span><button type="button" data-pb="${i}" data-d="1" aria-label="one more">+</button></span>`).join("")}</div></div>
+ <div class="field"><label for="painR">Pain: <b class="mono" id="painV">0</b> out of 10</label><input id="painR" type="range" min="0" max="10" value="0"></div>
+ <div class="field"><span class="label">Symptoms</span><div class="seg" data-g="sym" data-multi="1">${["Cramps","Bloating","Acne","Excess hair growth","Bowel pain","Dizziness","Low mood"].map(f=>`<button type="button" aria-pressed="false">${f}</button>`).join("")}</div></div>
+ <div class="field"><label for="noteT">Or say it in a sentence</label><textarea id="noteT" rows="2" placeholder="cramps so bad I missed work, pain 8/10"></textarea><button class="link xs" type="button" id="voice" style="align-self:flex-start">Try a sample Arabic voice note</button></div>
+ <div id="extract"></div>
+ <button class="btn btn-i" type="button" id="save">Save today's entry</button>`;}
+function lineChart(cs){const W=340,H=190,l=28,b=24,t=12,ys=v=>t+(1-Math.min(v,70)/70)*(H-t-b),xs=i=>l+(cs.length<2?0.5:i/(cs.length-1))*(W-l-12);
+ let g=`<defs><linearGradient id="lgA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--ph-m)" stop-opacity=".35"/><stop offset="1" stop-color="var(--ph-l)" stop-opacity="0"/></linearGradient><linearGradient id="lgS" x1="0" x2="1"><stop offset="0" stop-color="var(--ph-m)"/><stop offset="1" stop-color="var(--ph-l)"/></linearGradient></defs>`;
+ [0,20,40,60].forEach(v=>g+=`<line x1="${l}" x2="${W-6}" y1="${ys(v)}" y2="${ys(v)}" stroke="var(--rule)" stroke-dasharray="3 4"/><text x="${l-8}" y="${ys(v)+4}" text-anchor="end" font-size="10" fill="var(--ink-3)">${v}</text>`);
+ g+=`<rect x="${l}" y="${ys(35)}" width="${W-l-6}" height="${ys(21)-ys(35)}" fill="var(--ok-soft)" opacity=".8"/>`;
+ if(cs.length){const pts=cs.map((c,i)=>[xs(i),ys(c.len)]);let d=`M${pts[0][0]} ${pts[0][1]}`;
+  for(let i=1;i<pts.length;i++){const [x0,y0]=pts[i-1],[x1,y1]=pts[i],mx=(x0+x1)/2;d+=` C${mx} ${y0} ${mx} ${y1} ${x1} ${y1}`;}
+  g+=`<path d="${d} L${pts[pts.length-1][0]} ${H-b} L${pts[0][0]} ${H-b}Z" fill="url(#lgA)"/><path d="${d}" fill="none" stroke="url(#lgS)" stroke-width="3" stroke-linecap="round"/>`;
+  pts.forEach((q,i)=>g+=`<circle cx="${q[0]}" cy="${q[1]}" r="4.5" fill="var(--sheet)" stroke="var(--ph-m)" stroke-width="2.5"><title>${cs[i].len} days</title></circle><text x="${q[0]}" y="${H-6}" text-anchor="middle" font-size="10" fill="var(--ink-3)">${D(cs[i].start).toLocaleDateString("en-GB",{month:"short"})}</text>`);}
+ return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Cycle lengths ${cs.map(c=>c.len).join(", ")} days">${g}</svg>`;}
+function barChart(cs){const W=340,H=170,b=22,cols=["var(--ph-m)","var(--ph-f)","var(--ph-o)","var(--ph-l)"],bw=Math.min(30,(W-40)/Math.max(cs.length,1)-10);let g="";
+ [0,5,10].forEach(v=>g+=`<text x="14" y="${H-b-(v/10)*(H-b-10)+4}" text-anchor="end" font-size="10" fill="var(--ink-3)">${v}</text>`);
+ cs.forEach((c,i)=>{const x=28+i*((W-40)/Math.max(cs.length,1))+4,h=Math.max(c.maxPain/10*(H-b-10),bw);g+=`<rect x="${x}" y="${H-b-h}" width="${bw}" height="${h}" rx="${bw/2}" fill="${cols[i%4]}"><title>pain ${c.maxPain}/10</title></rect><text x="${x+bw/2}" y="${H-6}" text-anchor="middle" font-size="10" fill="var(--ink-3)">${D(c.start).toLocaleDateString("en-GB",{month:"short"})}</text>`;});
+ return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Worst pain per period">${g}</svg>`;}
+function tChart(p){const ch=change(p),j=store.get("rs2_jump",null),rg=store.get("rs2_range",12),from=new Date(REF);from.setMonth(from.getMonth()-rg);
+ const cs=p.cycles.filter(c=>D(c.start)>=from);
+ return `<p style="text-align:center;font-weight:700;font-size:18px">Analytics</p>
+ <div class="pills">${[3,6,12].map(m=>`<button type="button" data-rg="${m}" aria-pressed="${rg===m}">${m} months</button>`).join("")}</div>
+ <div class="box"><b style="font-size:17px">Cycle length</b><p class="xs faint">Shaded: 21–35 days, the usual adult range</p>${lineChart(cs.filter(c=>c.len))}</div>
+ <div class="box"><b style="font-size:17px">Period pain</b><p class="xs faint">Worst score each period, 0–10</p>${barChart(cs)}</div>
+ <div class="box"><div class="kv"><b style="font-size:16px">Sleep, last 30 entries</b><span class="tag t-info">ring or watch · context only</span></div><p class="big" style="margin-top:8px">${p.sleep||"–"} <span class="s dim" style="font-weight:500">hours a night</span></p><p class="xs faint" style="margin-top:4px">Imported wearable data is shown beside your cycles. It never creates a pattern on its own.</p></div>
+ <div class="box" style="padding:8px"><p class="label" style="padding:6px">Periods and events, 12 months</p>${yearChart(p)}</div>
+ ${j?`<p class="xs">Dashed line: <b>${fmt(j)}</b>, the entry you tapped.</p>`:""}
+ <div class="box"><p class="label">Cycle by cycle</p><div class="svgbox" style="margin-top:6px">${ledger(p,6,420)}</div></div>
+ <p class="s dim">${p.logCount+(extra[pid]||[]).length} entries.${ch?` Average moved from ${Math.round(ch.ma)} to ${Math.round(ch.mb)} days around ${fmt(ch.at)}.`:""}</p>`;}
+function tInsights(p){const o=obsOf(p);const u=o.filter(x=>R[x.id].u==="urgent"),r=o.filter(x=>R[x.id].u!=="urgent");
+ return `<p class="label">${o.length} pattern${o.length===1?"":"s"} worth knowing about</p>${u.map(x=>obsBlock(p,x,true)).join("")}<div>${r.map(x=>obsBlock(p,x,true)).join("")}</div>
+ ${o.length?"":`<div class="obs"><h4>Nothing to flag</h4><p class="s dim">Your cycles sit within 21–35 days and pain scores are mild.</p></div>`}<p class="xs faint">Patterns come from written rules and your entries. They are not a diagnosis.</p>`;}
+const QA=[
+ {q:"What is PCOS?",a:"PCOS (polycystic ovary syndrome) is a common hormone condition, affecting roughly 1 in 8 women of reproductive age [1]. In adults, doctors look for at least two of three features after ruling out other causes: irregular or missing periods, signs of higher androgens such as acne or excess hair growth, and polycystic ovaries on ultrasound or a raised AMH level [1]. It can affect fertility, so it is worth discussing early [2].",s:["pcos","nhs_pcos"]},
+ {q:"When is period pain not normal?",a:"Some cramping is common. Pain that is severe, stops you working or studying, isn't helped by usual pain relief, or comes with pain during bowel movements, passing urine or sex is worth checking [1]. Endometriosis is one possible cause, and it is often recognised late, so a pain record helps [2].",s:["ng73","eshre"]},
+ {q:"How do I know if my bleeding is heavy?",a:"Signs include periods longer than 7 days, changing a pad every hour or two, flooding through clothes, and clots the size of a coin or larger [1]. Gynaecologists sometimes use a pictorial chart: fully soaked pads score 20, half soaked 5, lightly stained 1, plus points for clots. A total of 100 or more in one period suggests heavy bleeding [2].",s:["nhs_heavy","pbac"]},
+ {q:"When should we ask for a fertility check?",a:"Usually after 12 months of trying. From age 35, guidance suggests after 6 months [1], and NICE's 2026 guideline offers assessment at first visit from 36 [2]. Irregular periods, known endometriosis or past pelvic infection are reasons to ask sooner. Folic acid, 400 micrograms a day, is advised while trying [3].",s:["asrm","ng257","folic"]},
+ {q:"Why a glucose test after gestational diabetes?",a:"Gestational diabetes usually settles after birth but raises the chance of type 2 diabetes later. Guidelines recommend a glucose tolerance test 4 to 12 weeks after birth, then regular checks [1].",s:["ada"]},
+ {q:"Do I have PCOS?",a:"I can't tell you that. Only a doctor can assess PCOS, often with blood tests or an ultrasound. I can show the patterns in your own entries that are worth discussing and prepare a report for your appointment [1].",s:["pcos"]}];
+function msg(m){if(m.me)return `<div class="msg me">${esc(m.t)}</div>`;return `<div class="msg ai ${m.u?"urg":""}">${m.t}${m.s&&m.s.length?`<div class="cites">${m.s.map((s,i)=>`<a href="${SRC[s][1]}" target="_blank" rel="noopener">[${i+1}] ${SRC[s][0]}</a>`).join("")}</div>`:""}</div>`;}
+function freeAns(t){t=t.toLowerCase();
+ if(/dizz|faint|soak.*hour|severe sudden|can.?t stand/.test(t))return{t:"<b>This may need urgent care.</b> Very heavy bleeding with dizziness or fainting, or sudden severe pelvic pain, should be checked now. Call 998 or go to the nearest emergency department.",s:["nhs_heavy"],u:1};
+ if(/do i have|diagnos|am i infertile/.test(t))return{t:QA[5].a,s:QA[5].s};
+ if(/pcos|polycystic/.test(t))return{t:QA[0].a,s:QA[0].s}; if(/heavy|bleed|pad|clot/.test(t))return{t:QA[2].a,s:QA[2].s};
+ if(/pregnan|conceiv|fertil|trying/.test(t))return{t:QA[3].a,s:QA[3].s}; if(/pain|cramp|endo/.test(t))return{t:QA[1].a,s:QA[1].s};
+ if(/glucose|gestational|diabet/.test(t))return{t:QA[4].a,s:QA[4].s};
+ return{t:"I don't have a guideline source for that in this demo, so I won't guess. Try a suggested question or ask your doctor.",s:[]};}
+function tAsk(p){const h=store.get("rs2_chat_"+pid,[]);return `<div class="cop"><div><span class="ava" style="width:38px;height:38px;font-size:14px">AI</span><span><b>AI Copilot</b><small>Answers from medical guidelines, with sources</small></span></div><button class="link" type="button" id="clr" aria-label="Clear chat"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 12a8 8 0 1 0 2.4-5.7L4 8.5M4 4v4.5h4.5M12 8v4l3 2"/></svg></button></div>
+ <p class="xs faint" style="text-align:center">Today</p>
+ <div class="chat">${h.map(msg).join("")||`<div class="msg ai">Hi ${esc(first(p))}, I'm your ReproSense copilot. Ask about periods, pain, bleeding, fertility or checks after birth. I answer from guidelines and show sources. I can't diagnose.</div>`}</div>
+ <b style="font-size:16px">Suggested questions</b>
+ <div class="sugg">${QA.map((x,i)=>`<button type="button" data-qa="${i}">${x.q}</button>`).join("")}</div>
+ <form id="askF" class="askbar"><input id="askI" type="text" placeholder="Ask a question" aria-label="Type a question"><button type="button" id="mic" aria-label="Voice"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button><button type="submit" aria-label="Send"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 11l18-8-8 18-2-8z"/></svg></button></form>
+ <p class="xs faint">Demo answers are pre-written from the kit's knowledge base. The real build retrieves them live.</p>`;}
+function tReport(p){const l=lens(p).slice(-6),o=obsOf(p),sh=store.get("rs2_share_"+pid,null);
+ return `<p class="label">Doctor-ready report, 2 pages</p><div class="doc">
+  <div class="kv"><b style="font-family:var(--f-display);font-size:15px">ReproSense record summary</b><span class="xs faint mono">${REF.toISOString().slice(0,10)}</span></div>
+  <p>${esc(p.profile.alias)}, ${p.profile.age}, ${esc(p.profile.region)}. First period at ${p.profile.menarche_age}. ${p.logCount} entries over 12 months.</p>
+  <h4>Cycles</h4><p class="mono">${l.join(" · ")||"no cycles since birth"}${l.length?" days":""}</p>
+  <h4>Worst pain / bleeding score, last periods</h4><p class="mono">${p.cycles.slice(-6).map(c=>`${c.maxPain}/${c.pbac}`).join("  ")}</p>
+  <h4>Patterns (not a diagnosis)</h4>${o.length?`<ul class="plain">${o.map(x=>`<li>${esc(x.title)} (${evidenceFor(p,x.id).length} entries)</li>`).join("")}</ul>`:`<p class="dim">None flagged.</p>`}
+  <h4>Lab results as printed</h4><div class="tbl"><table><tbody>${p.labs.map(x=>`<tr><td>${esc(x.test)}</td><td class="mono ${x.flag?"hi":""}">${esc(x.value)} ${esc(x.unit)} ${x.flag?`(${x.flag})`:""}</td></tr>`).join("")}</tbody></table></div>
+  <h4>Her questions</h4><ul class="plain">${[...new Set(o.flatMap(x=>R[x.id].q))].slice(0,5).map(x=>`<li>${x}</li>`).join("")||"<li>Is my pattern normal for my age?</li>"}</ul></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-i btn-sm" type="button" id="pdf">Download PDF</button><button class="btn btn-a btn-sm" type="button" id="share">${sh?"Manage sharing":"Share with my clinic"}</button><button class="btn btn-o btn-sm" type="button" id="visit">Visit mode</button><button class="btn btn-o btn-sm" type="button" id="fhir">Export (FHIR)</button></div>
+  ${sh?`<p class="xs"><span class="tag t-ok">Shared</span> with Corniche Women's Clinic until ${sh}</p>`:""}`;}
+
+function renderPatient(){const p=P();
+ $("#pSel").innerHTML=Object.values(DATA.personas).map(x=>`<option value="${x.profile.id}" ${x.profile.id===pid?"selected":""}>${esc(x.profile.alias.replace(" (fictional)",""))}</option>`).join("");
+ $("#pName").textContent=first(p); $("#pSub").textContent=`${p.profile.age} · ${p.profile.region} · fictional`;
+ $$("#tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===tab?"true":"false"));
+ $("#pBody").innerHTML=({today:tToday,log:tLog,chart:tChart,insights:tInsights,ask:tAsk,report:tReport}[tab])(p);
+ wire(p); side(p);}
+function navDialog(p,id){const r=R[id],o=p.observations.find(x=>x.id===id),ev=evidenceFor(p,id);
+ const d=dialog(`<span class="tag t-soon" style="align-self:flex-start">Care navigator · draft</span><h3>${esc(o.title)}</h3>
+ <div class="doc"><h4>Message to Corniche Women's Clinic</h4><p>Hello, I would like to book an appointment about: ${esc(o.title.toLowerCase())}. My ReproSense record shows ${ev.length} related entries. I can share a 2-page summary before the visit.</p>
+ <h4>Questions I want to ask</h4><ul class="plain">${r.q.map(x=>`<li>${x}</li>`).join("")}</ul>
+ <h4>What to bring</h4><ul class="plain"><li>This record summary (Report tab)</li><li>Recent lab results</li><li>List of medicines you take</li></ul></div>
+ <p class="xs faint">Drafted by the care navigator from the rule and your entries. Nothing is sent until you approve. The real build sends through the clinic's booking channel.</p>
+ <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-a" type="button" id="navOk">Approve and send</button><button class="btn btn-o" type="button" data-close>Edit later</button></div>`);
+ $("#navOk",d).onclick=()=>{d.hidden=true;toast("Request approved. The clinic will confirm a time (demo).");};}
+function visitDialog(p){const l=lens(p).slice(-7),o=obsOf(p),f=p.features;
+ dialog(`<span class="xs" style="font-weight:800;color:var(--accent);letter-spacing:.05em">VISIT MODE · FOR YOUR DOCTOR</span><h3>${esc(p.profile.alias)}, ${p.profile.age}</h3>
+ <div class="sbar"><b>S</b><span>${o.length?esc(o.map(x=>x.title).join("; ")):"No patterns flagged"}.</span><b>B</b><span>First period at ${p.profile.menarche_age}. ${p.logCount} entries over 12 months.${p.profile.pregnant?` Pregnant, week ${p.profile.pregnancy_weeks}.`:""}</span>
+ <b>A</b><span>${l.length?`Cycles ${l.join(" · ")} days (range 21–35).`:"No complete cycles in the period."} ${f.androgen_symptom_days_90?`Acne or hair growth on ${f.androgen_symptom_days_90} of 90 days.`:""}</span>
+ <b>R</b><span>${o.length?esc(R[o[0].id].next[0]):"Routine care."}</span></div>
+ <div style="display:flex;gap:14px;align-items:center;margin-top:6px"><svg width="96" height="96" viewBox="0 0 21 21" shape-rendering="crispEdges" aria-label="QR code (demo)" style="background:#fff;border-radius:10px;padding:6px;flex:none"><path fill="#2E2233" d="M0 0h7v7H0zM14 0h7v7h-7zM0 14h7v7H0zM2 2v3h3V2zM16 2v3h3V2zM2 16v3h3v-3zM9 0h2v2H9zM9 4h3v2H9zM8 8h2v2H8zM12 8h3v1h-3zM9 11h2v3H9zM16 9h2v2h-2zM12 12h2v2h-2zM15 13h3v2h-3zM9 16h3v2H9zM14 17h2v4h-2zM18 17h3v2h-3zM8 19h2v2H8zM19 11h2v2h-2zM0 9h2v2H0zM3 9h2v3H3z"/></svg>
+ <span class="s">Doctor scans to open the full record. One clinic only, expires in 7 days, every view logged. <span class="faint">(Demo QR.)</span></span></div>
+ <p class="xs faint">Patterns, not a diagnosis · fictional demo data</p><button class="btn btn-i" type="button" data-close>Exit visit mode</button>`);}
+function fhirDialog(p){const b={resourceType:"Bundle",type:"collection",meta:{tag:[{code:"SYNTHETIC"}]},entry:[{resource:{resourceType:"Patient",id:p.profile.id,gender:"female",extension:[{url:"alias",valueString:p.profile.alias}]}}].concat(p.cycles.filter(c=>c.len).slice(-3).map((c,i)=>({resource:{resourceType:"Observation",id:`${p.profile.id}-cycle-${i}`,status:"final",code:{text:"Menstrual cycle length"},effectiveDateTime:c.start,valueQuantity:{value:c.len,unit:"d"}}}))).concat(p.labs.slice(0,2).map((x,i)=>({resource:{resourceType:"Observation",id:`${p.profile.id}-lab-${i}`,status:"final",code:{text:x.test},effectiveDateTime:x.date,valueQuantity:typeof x.value==="number"?{value:x.value,unit:x.unit}:undefined,valueString:typeof x.value==="number"?undefined:x.value}})))};
+ dialog(`<h3>Export in FHIR format</h3><p class="s dim">Her record in the international health-data standard (HL7 FHIR R4), ready for clinic systems and Malaffi-style exchange. She chooses what to export.</p><pre class="code" style="max-height:300px;overflow:auto">${esc(JSON.stringify(b,null,2))}</pre><button class="btn btn-i" type="button" data-close>Close</button>`);}
+function wire(p){
+ $$("[data-stage]").forEach(b=>b.onclick=()=>{pid=b.dataset.stage;store.set("rs2_p",pid);store.set("rs2_jump",null);tab="today";renderPatient();});
+ $$("[data-nav]").forEach(b=>b.onclick=()=>navDialog(p,b.dataset.nav));
+ $$("[data-bmside]").forEach(b=>b.onclick=()=>{store.set("rs2_bmside",b.dataset.bmside);renderPatient();});
+ $$("[data-site]").forEach(b=>b.onclick=()=>{const k="rs2_sites_"+pid,a=store.get(k,[]),n=b.dataset.site;store.set(k,a.includes(n)?a.filter(x=>x!==n):[...a,n]);renderPatient();});
+ if($("#visit"))$("#visit").onclick=()=>visitDialog(p);
+ if($("#fhir"))$("#fhir").onclick=()=>fhirDialog(p);
+ $$("[data-mood]").forEach(b=>b.onclick=()=>{store.set("rs2_mood_"+pid,b.dataset.mood);toast("Mood saved: "+b.dataset.mood);renderPatient();});
+ $$("[data-rg]").forEach(b=>b.onclick=()=>{store.set("rs2_range",+b.dataset.rg);renderPatient();});
+ if($("#clr"))$("#clr").onclick=()=>{store.set("rs2_chat_"+pid,[]);renderPatient();toast("Chat cleared");};
+ if($("#mic"))$("#mic").onclick=()=>toast("Voice questions in Arabic or English arrive in the real build.");
+ $$("[data-goto]").forEach(b=>b.onclick=()=>{tab=b.dataset.goto;renderPatient();});
+ $$("#pBody [data-jump]").forEach(b=>b.onclick=()=>{store.set("rs2_jump",b.dataset.jump);tab="chart";renderPatient();toast("Marked "+fmt(b.dataset.jump)+" on your year");});
+ $$("#pBody [data-trace]").forEach(b=>b.onclick=()=>traceDialog(p,b.dataset.trace));
+ if(tab==="log"){const cnt=[0,0,0,0,0],w=[1,5,20,1,5];
+  $$("#pBody .seg").forEach(s=>$$("button",s).forEach(b=>b.onclick=()=>{if(!s.dataset.multi)$$("button",s).forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed",s.dataset.multi&&b.getAttribute("aria-pressed")==="true"?"false":"true");}));
+  $$("[data-pb]").forEach(b=>b.onclick=()=>{const i=+b.dataset.pb;cnt[i]=Math.max(0,cnt[i]+ +b.dataset.d);$("#pb"+i).textContent=cnt[i];const t=cnt.reduce((a,c,k)=>a+c*w[k],0);$("#pbacV").textContent=t;$("#pbacV").className="mono"+(t>=100?" hi":"");});
+  $("#painR").oninput=e=>$("#painV").textContent=e.target.value;
+  const ex=()=>{const t=$("#noteT").value.toLowerCase();if(t.length<5){$("#extract").innerHTML="";return;}const out=[];const pn=(t.match(/(\d{1,2})\s*(\/|من)\s*10/)||[])[1];
+   if(pn)out.push(["Pain",pn+" out of 10"]); if(/cramp|pain|ألم|مغص/.test(t)&&!pn)out.push(["Pain","mentioned, set a score"]);
+   if(/missed work|left the office|stayed in bed|غبت عن العمل|لم أذهب/.test(t))out.push(["Daily impact","missed work or study"]);
+   if(/flood|soak|clot|غزير|جلطات/.test(t))out.push(["Flow","heavy"]); if(/dizz|faint|دوخة|دوار/.test(t))out.push(["Symptom","dizziness, urgent check"]);
+   if(/acne|حبوب/.test(t))out.push(["Symptom","acne"]); if(/cramp|مغص/.test(t))out.push(["Symptom","cramps"]);
+   $("#extract").innerHTML=out.length?`<div class="extract"><b>Understood as</b> · check before saving<table>${out.map(r=>`<tr><td>${r[0]}</td><td><b>${r[1]}</b></td></tr>`).join("")}</table></div>`:"";
+   if(pn){$("#painR").value=pn;$("#painV").textContent=pn;}};
+  $("#noteT").oninput=ex;
+  $("#voice").onclick=()=>{$("#noteT").value="مغص شديد اليوم وغبت عن العمل، الألم 8 من 10";$("#noteT").dir="rtl";ex();toast("Sample transcript inserted. The real build records audio.");};
+  $("#save").onclick=()=>{const L=extra[pid]||[];L.push({date:REF.toISOString().slice(0,10)});extra[pid]=L;store.set("rs2_logs",extra);
+   const dz=$$('[data-g="sym"] button[aria-pressed="true"]').some(b=>b.textContent==="Dizziness")||/dizz|faint|دوخة/.test($("#noteT").value.toLowerCase());
+   const hv=$$('[data-g="flow"] button[aria-pressed="true"]').some(b=>b.textContent==="Heavy")||+$("#pbacV").textContent>=40;
+   if(dz&&hv)dialog(`<span><span class="tag t-urgent">Urgent</span></span><h3>Heavy bleeding with dizziness needs urgent care</h3><p class="s">If this is happening now, call <b class="mono">998</b> or go to the nearest emergency department. Your entry was saved.</p><button class="btn btn-i" type="button" data-close>I understand</button>`);
+   else toast("Saved. Patterns re-checked."); tab="today";renderPatient();};}
+ if(tab==="ask"){const push=m=>{const h=store.get("rs2_chat_"+pid,[]);h.push(m);store.set("rs2_chat_"+pid,h);};
+  $$("[data-qa]").forEach(b=>b.onclick=()=>{const x=QA[+b.dataset.qa];push({me:1,t:x.q});push({t:x.a,s:x.s});renderPatient();});
+  $("#askF").onsubmit=e=>{e.preventDefault();const v=$("#askI").value.trim();if(!v)return;push({me:1,t:v});push(freeAns(v));renderPatient();};}
+ if(tab==="report"){
+  $("#pdf").onclick=()=>dialog(`<h3>PDF export</h3><p class="s">In the real build the backend renders a 2-page PDF using numbers from the database only. This demo shows the same content on screen.</p><button class="btn btn-i" type="button" data-close>Close</button>`);
+  $("#share").onclick=()=>{const cur=store.get("rs2_share_"+pid,null);
+   const d=dialog(cur?`<h3>Your report is shared</h3><p class="s">Corniche Women's Clinic can view it until ${cur}. Every view is logged.</p><div style="display:flex;gap:8px"><button class="btn btn-a" id="rv" type="button">Stop sharing</button><button class="btn btn-o" type="button" data-close>Keep sharing</button></div>`
+    :`<h3>Share your report with Corniche Women's Clinic?</h3><p class="s">They will see this report and your year chart for 7 days. They won't see your private notes. You can stop sharing at any time.</p><label class="s" style="display:flex;gap:8px"><input type="checkbox" id="ok"> I agree to share for my care only</label><div style="display:flex;gap:8px"><button class="btn btn-a" id="go" type="button" disabled>Share for 7 days</button><button class="btn btn-o" type="button" data-close>Cancel</button></div>`);
+   if(cur)$("#rv",d).onclick=()=>{store.set("rs2_share_"+pid,null);d.hidden=true;toast("Sharing stopped.");renderPatient();};
+   else{$("#ok",d).onchange=e=>$("#go",d).disabled=!e.target.checked;$("#go",d).onclick=()=>{const x=new Date(REF);x.setDate(x.getDate()+7);store.set("rs2_share_"+pid,fmtY(x.toISOString().slice(0,10)));d.hidden=true;toast("Shared. The link expires in 7 days.");renderPatient();};}};}
+}
+function traceDialog(p,id){const r=R[id],f=p.features,ev=evidenceFor(p,id);
+ dialog(`<h3>How this pattern was produced</h3><p class="s dim">${esc(first(p))} · ${esc(p.observations.find(o=>o.id===id).title)}</p>
+ <div class="tbl"><table><thead><tr><th>Step</th><th>What happened</th></tr></thead><tbody>
+ <tr><td>Intake</td><td>${p.logCount} entries and ${p.cycles.length} periods read from her record. Names and exact identifiers removed.</td></tr>
+ <tr><td>Rule</td><td><span class="mono xs">${esc(r.expr(f))}</span><br>Evaluated in code. No AI involved.</td></tr>
+ <tr><td>Safety</td><td>${p.observations.some(o=>o.id.startsWith("RF"))?"Red flag found and shown first.":"No red flags."}</td></tr>
+ <tr><td>Evidence</td><td>${ev.length} supporting entries linked. Sources: ${r.src.map(s=>SRC[s][0]).join("; ")}.</td></tr>
+ <tr><td>Wording</td><td>Language model wrote the card in a fixed format. Word check passed: no diagnostic phrases.</td></tr>
+ <tr><td>Record</td><td>Each step saved to the audit trail.</td></tr></tbody></table></div>
+ <p class="xs faint">Demo trace. The real build records the model name, timings and check result for every card.</p><button class="btn btn-i" type="button" data-close>Close</button>`);}
+function side(p){const notes={today:["Today","Cycle day against the 21–35 day range, bleeding score, any change in her cycles, and up to three patterns. Everything comes from twelve months of synthetic entries."],
+ log:["Logging","Type “cramps so bad I missed work, pain 8/10”, try the Arabic voice sample, or count pads with the bleeding chart. Choose Heavy and Dizziness, then save, to see the urgent path."],
+ chart:["Her year","Periods, cycle lengths and pain on one scale, then the same cycles row by row, the way a clinical cycle chart is kept."],
+ insights:["Patterns","Each one shows the entries behind it, how much data supports it, and how it was produced. Nothing here is a diagnosis."],
+ ask:["Ask","Every answer cites a guideline. Ask “Do I have PCOS?” to see it decline; mention dizziness to see urgent guidance."],
+ report:["Report","What her gynaecologist reads in a minute. Sharing needs consent and expires after seven days."]}[tab];
+ $("#side").innerHTML=`<div class="panel note"><p class="label">Demo guide</p><h3>${notes[0]}</h3><p class="s dim" style="margin-top:6px">${notes[1]}</p></div>
+ <div class="panel note"><p class="label">This person</p><h3>${esc(p.profile.alias)}</h3><p class="s dim" style="margin-top:6px">${esc(p.profile.story)}</p></div>
+ <div class="panel note"><p class="label">Switch person</p><div class="seg" style="margin-top:8px">${Object.keys(DATA.personas).filter(k=>k!==pid).map(k=>`<button type="button" data-sw="${k}">${esc(first(DATA.personas[k]))}</button>`).join("")}</div><p style="margin-top:12px"><a href="#clinic">Open the clinician view</a></p></div>`;
+ $$("[data-sw]").forEach(b=>b.onclick=()=>{pid=b.dataset.sw;store.set("rs2_p",pid);store.set("rs2_jump",null);renderPatient();});}
+$("#pSel").onchange=e=>{pid=e.target.value;store.set("rs2_p",pid);store.set("rs2_jump",null);renderPatient();};
+$$("#tabs button").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;renderPatient();});
+
+/* ---------- clinician ---------- */
+const rank=p=>{const u=obsOf(p).map(o=>R[o.id].u);return u.includes("urgent")?0:u.includes("soon")?1:u.length?2:3;};
+function recordQA(p){const l=p.cycles.filter(c=>c.len),irr=l.filter(c=>c.len<21||c.len>35),pb=[...p.cycles].sort((a,b)=>b.pbac-a.pbac)[0],rf=evidenceFor(p,"RF1_heavy_bleeding_with_dizziness");
+ return [
+ ["When did her cycles become irregular?",irr.length?`The first cycle outside 21–35 days in this record started ${fmtY(irr[0].start)} (${irr[0].len} days). ${irr.length} of ${l.length} complete cycles are outside the range.`:`They haven't. All ${l.length} complete cycles are within 21–35 days.`,irr.slice(0,4).map(c=>[c.start,c.len+" days"])],
+ ["How often has pain stopped her working?",p.impactDays.length?`${p.impactDays.length} days in the last 12 months, most recently ${fmtY(p.impactDays[p.impactDays.length-1])}.`:`No days logged where pain stopped work or study.`,p.impactDays.slice(-4).map(d=>[d,"missed work"])],
+ ["What was her heaviest period?",pb&&pb.pbac?`The period starting ${fmtY(pb.start)}: bleeding score ${pb.pbac} over ${pb.bleed} days${pb.pbac>=100?", above the 100 threshold":", below the 100 threshold"}.`:"No bleeding scores in this record.",pb&&pb.pbac?[[pb.start,"PBAC "+pb.pbac]]:[]],
+ ["Any red flags?",rf.length?`Yes. Heavy bleeding with dizziness logged on ${rf.map(e=>fmtY(e[0])).join(", ")}.`:"None logged.",rf.map(e=>[e[0],"red flag"])]];}
+function renderClinic(){const ps=Object.values(DATA.personas).sort((a,b)=>rank(a)-rank(b)||obsOf(b).length-obsOf(a).length);if(!sel)sel=ps[0].profile.id;
+ $("#plist").innerHTML=ps.map(p=>{const k=rank(p);return `<button class="prow" type="button" data-c="${p.profile.id}" aria-current="${p.profile.id===sel}"><span class="ini" style="width:34px;height:34px;font-size:14px">${p.profile.alias[0]}</span><span><b class="s">${esc(p.profile.alias.replace(" (fictional)",""))}</b><br><span class="xs faint">${p.profile.age} · ${obsOf(p).length} open · ${reviewed.includes(p.profile.id)?"reviewed":"new"}</span></span>${k===0?`<span class="tag t-urgent">Urgent</span>`:k===1?`<span class="tag t-soon">Due</span>`:""}</button>`}).join("");
+ $$("[data-c]").forEach(b=>b.onclick=()=>{sel=b.dataset.c;renderClinic();});
+ const p=DATA.personas[sel],o=obsOf(p),l=lens(p).slice(-6),f=p.features,gap=p.observations.some(x=>x.id==="CARE_POSTPARTUM_GLUCOSE_TEST");
+ const S=`${p.profile.age}-year-old, ${p.profile.region}. ${o.length?o.map(x=>x.title.replace(/^Your |^It may be /,"").replace(/^./,c=>c.toUpperCase())).join("; ")+".":"No patterns flagged."}`;
+ const B=`First period at ${p.profile.menarche_age}. ${l.length?`Last ${l.length} cycles: ${l.join(", ")} days.`:"Postpartum, breastfeeding."} ${p.events.filter(e=>["gdm_diagnosis","delivery","ttc_started"].includes(e.type)).map(e=>e.type.replace("gdm_diagnosis","gestational diabetes").replace("ttc_started","trying to conceive since").replace("delivery","gave birth")+" "+e.date).join("; ")}`;
+ const A=`Worst pain per period: ${p.cycles.slice(-6).map(c=>c.maxPain).join(", ")} out of 10. Highest bleeding score: ${f.pbac_max_6||0}. ${p.labs.filter(x=>x.flag).map(x=>x.test+" "+x.value+" "+x.unit+" ("+x.flag+")").join("; ")||"Labs within printed ranges."}`;
+ const Rr=o.map(x=>R[x.id].next[0]).join(" ")||"Routine care.";
+ $("#detail").innerHTML=`<div class="kv" style="flex-wrap:wrap;align-items:flex-start"><div><p class="label">Pre-visit summary</p><h3 style="font-size:26px;margin-top:4px">${esc(p.profile.alias)}</h3><p class="s dim">${p.logCount} entries · shared with consent · fictional</p></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-o btn-sm" id="rev" type="button">${reviewed.includes(p.profile.id)?"Reviewed":"Mark reviewed"}</button>${gap?`<button class="btn btn-a btn-sm" id="gap" type="button" ${closed.includes(p.profile.id)?"disabled":""}>${closed.includes(p.profile.id)?"Glucose test booked":"Book glucose test"}</button>`:""}</div></div>
+  <div><p class="label" style="margin-bottom:8px">Handover (SBAR)</p><div class="sbar"><b>S</b><span>${esc(S)}</span><b>B</b><span>${esc(B)}</span><b>A</b><span>${esc(A)}</span><b>R</b><span>${esc(Rr)}</span></div></div>
+  <div class="ask"><p class="label">Ask the record</p><p class="xs faint">Answers come only from her entries, with dates.</p><div class="sugg">${recordQA(p).map((q,i)=>`<button type="button" data-rq="${i}">${q[0]}</button>`).join("")}</div><div id="rqA"></div></div>
+  <div><p class="label" style="margin-bottom:6px">Cycle chart</p><div class="svgbox">${ledger(p,8,600)}</div></div>
+  <div><p class="label">Patterns with evidence</p>${o.map(x=>obsBlock(p,x,true)).join("")||`<p class="s dim">None flagged.</p>`}</div>
+  <div><p class="label" style="margin-bottom:6px">Labs (patient-confirmed extraction)</p><div class="tbl"><table><thead><tr><th>Test</th><th>Value</th><th>Printed range</th><th>Date</th></tr></thead><tbody>${p.labs.map(x=>`<tr><td>${esc(x.test)}</td><td class="mono ${x.flag?"hi":""}">${esc(x.value)} ${esc(x.unit)} ${x.flag||""}</td><td class="mono">${x.ref_low??""}${x.ref_low!=null&&x.ref_high!=null?"–":x.ref_high!=null?"&lt; ":""}${x.ref_high??""}</td><td class="mono">${x.date}</td></tr>`).join("")}</tbody></table></div></div>
+  <div class="field"><label for="vn">Visit note draft (edit before saving)</label><textarea id="vn" rows="6">S: ${esc(S)}\nB: ${esc(B)}\nA: ${esc(A)}\nR: ${esc(Rr)}\nPlan: </textarea></div>`;
+ $$("[data-rq]",$("#detail")).forEach(b=>b.onclick=()=>{const q=recordQA(p)[+b.dataset.rq];$("#rqA").innerHTML=`<div class="msg ai in" style="max-width:100%"><b>${q[0]}</b><br>${esc(q[1])}${q[2].length?`<div class="chips" style="margin-top:8px">${q[2].map(e=>`<span class="ev">${fmt(e[0])} · ${esc(e[1])}</span>`).join("")}</div>`:""}</div>`;});
+ $$("[data-trace]",$("#detail")).forEach(b=>b.onclick=()=>traceDialog(p,b.dataset.trace));
+ $$("[data-jump]",$("#detail")).forEach(b=>b.onclick=()=>toast(fmt(b.dataset.jump)+": entry in her record"));
+ $("#rev").onclick=()=>{if(!reviewed.includes(p.profile.id)){reviewed.push(p.profile.id);store.set("rs2_rev",reviewed);}toast("Marked reviewed. Saved to the audit trail.");renderClinic();};
+ if(gap&&$("#gap"))$("#gap").onclick=()=>{closed.push(p.profile.id);store.set("rs2_closed",closed);toast("Glucose test booked. Follow-up closed in the network view.");renderClinic();};}
+
+/* ---------- network ---------- */
+function renderAdmin(){const c=DATA.cohort,live=closed.length,cl=c.care_gaps_closed+live,op=Math.max(c.care_gaps_open-live,0),T=c.care_gaps_total;
+ $("#figs").innerHTML=[["Women",c.n.toLocaleString("en"),"synthetic, 4 clinics"],["Reports shared",c.reports_shared,"with consent"],["Follow-ups closed",cl,`of ${T}${live?` · ${live} today`:""}`],["Still open",op,"to chase this month"]].map((k,i)=>`<div><p class="label">${k[0]}</p><p class="big mono" style="${i===2?"color:var(--ok)":i===3?"color:var(--accent)":""}">${k[1]}</p><p class="xs faint">${k[2]}</p></div>`).join("");
+ $("#gaps").innerHTML=[["Closed",cl,"var(--ok)"],["In progress",c.care_gaps_in_progress,"var(--ink-2)"],["Open",op,"var(--accent)"]].map(r=>`<div><div class="kv s"><span>${r[0]}</span><b class="mono">${r[1]} · ${Math.round(r[1]/T*100)}%</b></div><div class="bar" style="margin-top:6px"><i style="width:${r[1]/T*100}%;background:${r[2]}"></i></div></div>`).join("");
+ const eq=c.equity,row=(k,v)=>`<tr><td>${esc(k)}</td><td class="mono">${v.n}</td><td class="mono">${v.pct_any_observation}%</td><td class="mono">${v.pct_report_shared}%</td></tr>`;
+ const sh=Object.values(eq.nationality_group).map(v=>v.pct_report_shared),gp=(Math.max(...sh)-Math.min(...sh)).toFixed(1);
+ $("#equity").innerHTML=`<table><thead><tr><th>Group</th><th>Women</th><th>Any pattern</th><th>Report shared</th></tr></thead><tbody>${Object.entries(eq.nationality_group).map(([k,v])=>row(k,v)).join("")}</tbody></table>
+  <p class="xs" style="margin-top:8px">Largest gap in sharing between groups: <b class="mono">${gp}</b> points. ${+gp>5?`<span class="tag t-discuss">Review outreach</span>`:`<span class="tag t-ok">Within 5 points</span>`}</p>`;
+ const reg=Object.entries(c.by_region),mx=Math.max(...reg.map(r=>r[1]));
+ $("#region").innerHTML=`<svg viewBox="0 0 380 130" width="100%" role="img" aria-label="${reg.map(r=>r[0]+" "+r[1]).join(", ")}">${reg.map((r,i)=>{const w=r[1]/mx*220;return `<text x="0" y="${26+i*40}" font-size="12.5" fill="var(--ink-2)">${r[0]}</text><rect x="112" y="${13+i*40}" width="${w}" height="18" fill="var(--ink)" opacity="${1-i*.25}"/><text x="${118+w}" y="${27+i*40}" font-size="12.5" font-family="Plus Jakarta Sans, sans-serif" fill="var(--ink)">${r[1]}</text>`}).join("")}</svg>`;
+ const u=()=>{const m=+$("#mins").value;$("#minsV").textContent=m;$("#minsV2").textContent=m;$("#repN").textContent=c.reports_shared;$("#hrs").textContent=Math.round(c.reports_shared*m/60);};$("#mins").oninput=u;u();}
+
+/* ---------- scorecard ---------- */
+function renderScore(){
+ /* [criterion, max, today, by 16 Nov, showcase, what gets it there] — mirrors docs/09_SCORECARDS.md */
+ const rows=[["Venture potential",30,23,27,28,"clinical advisor, 5 clinic interviews, one letter of intent, priced pilot offer"],["Health impact",20,19,20,20,"five life stages, Abu Dhabi numbers, EPDS and pregnancy glucose screen, clinician quote"],["Innovation & evidence",20,18,19,19,"validated questionnaires, verifier agent, care navigator, clinician-reviewed rules"],["Working prototype",20,7,7,18,"build the 3-woman demo path first (Noura, Hessa, Fatima), demo-safe mode, no dead buttons"],["Team & pitch",10,7,8,9,"clinical advisor named, five rehearsals, backup video"]];
+ const sum=i=>rows.reduce((a,r)=>a+r[i],0);$("#sc0").textContent=sum(2)+" / 100";$("#sc1").textContent=sum(3)+" / 100";$("#sc2").textContent=sum(4)+" / 100";
+ $("#crit").innerHTML=`<span class="label">Criterion</span><span class="label">Today</span><span class="label">Target</span><span class="label mx">Progress</span><span class="label mx">Max</span>`+rows.map(r=>`<span>${r[0]}<br><span class="xs faint">${r[5]}</span></span><b class="mono">${r[2]}</b><b class="mono" style="color:var(--ok)">${r[4]}</b><div class="bar"><span class="p" style="width:${r[4]/r[1]*100}%"></span><span class="t" style="width:${r[2]/r[1]*100}%"></span></div><span class="mono faint mx">${r[1]}</span>`).join("");
+ $("#conf").innerHTML=[["Grant-eligible (60+)","~97%","Even a partly broken demo still clears 60."],["Top 3","~70–75%","Five life stages, a paying clinic and explainable AI cover every criterion. 55–60% if no clinician joins."],["First place","~45–50%","If executed with a clinical advisor and one letter of intent. A doctor-led team with pilot data could still win."]].map(c=>`<div><p class="label">${c[0]}</p><p class="big mono">${c[1]}</p><p class="xs dim">${c[2]}</p></div>`).join("");
+ $("#whyUp").innerHTML=["It fits three of the four themes and DoH's 2026 reproductive-health programme.","The customer and price model are clear, and grants are tied to becoming a company.","Explainable, rule-based observations with sources answer the regulator's first question.","The data generator gives a realistic, stable demo; the jury rubric is built into the kit."].map(x=>`<li>${x}</li>`).join("");
+ $("#whyDown").innerHTML=["No clinician on the team or on stage.","Trying to build all 55 features and breaking the demo (prototype is 20% of the score).","No interviews or letter of intent, so venture claims look like guesses.","Arabic that reads as machine-translated to Emirati jurors."].map(x=>`<li>${x}</li>`).join("");
+ $("#actions").innerHTML=["Recruit a clinician (OB-GYN, GP, nurse or health-science student) to review the rules and answer clinical questions on stage.","Interview 5 clinicians and 3 clinic managers; ask one clinic for a letter of intent to pilot.","Build the full demo path in build week, including Ask the record, traces and the fairness table.","Have a native speaker review every Arabic string; add Arabic answers for the top 10 questions.","Rehearse the 3-minute demo five times and record a backup video."].map(x=>`<li>${x}</li>`).join("");
+ const ck=a=>a.map(([s,x])=>`<div class="check"><b style="color:${s==="✓"?"var(--ok)":s==="◐"?"var(--warn)":"var(--ink-3)"}">${s}</b><span>${x}</span></div>`).join("");
+ $("#changes").innerHTML=ck([["✓","Removed gradient text, glass cards, glows, the abstract helix and all-caps labels"],["✓","Hero shows Noura's actual cycle chart instead of decoration"],["✓","Stat cards replaced by three charts drawn to scale, each sourced"],["✓","Added the validated bleeding score (PBAC) and a fertility persona"],["✓","Added Ask the record, SBAR handover, AI traces and a fairness check"],["✓","Every button names its action"]]);
+ $("#mvp").innerHTML=ck([["✓","Synthetic data generator, 8 people across 5 life stages, repeatable"],["✓","Body map, care navigator, visit mode, FHIR export, discreet mode (mockup)"],["✓","Sourced rules, including bleeding score and fertility timing"],["◐","Full clickable path (this mockup)"],["○","Real sign-up, consent and storage"],["○","Live retrieval answers with citations"],["○","Backend PDF"],["○","Database-level access tests"],["○","Arabic reviewed by a native speaker"]]);
+ $("#saas").innerHTML=ck([["✓","Paying customer named: women's health and IVF clinics"],["✓","Price model: per clinician seat"],["◐","Network dashboard with outcomes and fairness (mockup)"],["○","Clinics as separate tenants with roles"],["○","Clinic onboarding and patient QR invite"],["○","Audit export, UAE-region hosting"],["○","FHIR export for a future Malaffi link"],["○","One letter of intent"]]);}
+
+function render(){const v=view();
+ if(v==="home")renderHome(); if(v==="people")renderPeople(); if(v==="patient")renderPatient();
+ if(v==="clinic")renderClinic(); if(v==="admin")renderAdmin(); if(v==="score")renderScore();}
+applyLang(); route();
+
+/* 3D follow-ups by region (admin) */
+function initMap3D(){const cv=$("#map3d");if(!cv||!window.THREE)return;const T=THREE,cs=getComputedStyle(document.documentElement),col=n=>new T.Color(cs.getPropertyValue(n).trim());
+ let r;try{r=new T.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){return}r.setPixelRatio(Math.min(devicePixelRatio,2));
+ const sc=new T.Scene(),cam=new T.PerspectiveCamera(36,1,.1,100);cam.position.set(0,9,15);cam.lookAt(0,0,0);
+ sc.add(new T.AmbientLight(0xffffff,.8));const dl=new T.DirectionalLight(0xffffff,.8);dl.position.set(4,10,6);sc.add(dl);
+ const g=new T.Group();sc.add(g);const G=DATA.gapsByRegion||{},mx=Math.max(1,...Object.values(G).flatMap(v=>[v.open,v.in_progress,v.closed]));
+ const RG=[["Al Dhafra",-5.2,0,4.4,3.6],["Abu Dhabi City",0,-.6,3.4,3],["Al Ain",4.8,.4,3.4,3.2]];
+ RG.forEach(([n,x,z,w,d])=>{const slab=new T.Mesh(new T.BoxGeometry(w,.4,d),new T.MeshStandardMaterial({color:col("--sheet"),roughness:.6}));slab.position.set(x,0,z);g.add(slab);
+  const v=G[n]||{open:0,in_progress:0,closed:0};[["open","--accent",-1],["in_progress","--warn",0],["closed","--ok",1]].forEach(([k,c,o])=>{const h=Math.max(.05,v[k]/mx*5);const m=new T.Mesh(new T.BoxGeometry(.7,h,.7),new T.MeshStandardMaterial({color:col(c),roughness:.35}));m.position.set(x+o*1,.2+h/2,z);g.add(m);});});
+ let ry=.5,drag=null,vis=false,auto=!matchMedia("(prefers-reduced-motion: reduce)").matches;
+ cv.addEventListener("pointerdown",e=>{drag=[e.clientX,ry];auto=false;cv.setPointerCapture(e.pointerId);$("#m3hint").textContent=Object.entries(G).map(([n,v])=>`${n}: ${v.open} open, ${v.closed} closed`).join(" · ");});
+ cv.addEventListener("pointermove",e=>{if(drag)ry=drag[1]+(e.clientX-drag[0])/120;});cv.addEventListener("pointerup",()=>drag=null);
+ new IntersectionObserver(es=>vis=es[0].isIntersecting).observe(cv);
+ const tick=()=>{if(vis){const w=cv.clientWidth||1,h=cv.clientHeight||1;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();if(auto)ry+=.003;g.rotation.y=ry;r.render(sc,cam);}requestAnimationFrame(tick);};requestAnimationFrame(tick);}
+/* ---------- 3D (three.js r128) ---------- */
+function init3D(){if(!window.THREE)return;const T=THREE,cs=getComputedStyle(document.documentElement),col=n=>new T.Color(cs.getPropertyValue(n).trim()||"#C9559F");
+ const still=matchMedia("(prefers-reduced-motion: reduce)").matches;
+ const mk=cv=>{try{const r=new T.WebGLRenderer({canvas:cv,antialias:true,alpha:true});r.setPixelRatio(Math.min(devicePixelRatio,2));return r}catch(e){cv.hidden=true;return null}};
+ const fit=(r,cam,cv)=>{const w=cv.clientWidth||1,h=cv.clientHeight||1;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();};
+ const lights=sc=>{sc.add(new T.AmbientLight(0xffffff,.75));const d=new T.DirectionalLight(0xffffff,.9);d.position.set(3,5,6);sc.add(d);const d2=new T.DirectionalLight(0xffd6ec,.5);d2.position.set(-5,-2,3);sc.add(d2);};
+ const n=DATA.personas.noura,PHC=[col("--ph-m"),col("--ph-f"),col("--ph-o"),col("--ph-l")];
+ /* hero: ring of cycle-day beads + soft blobs */
+ const hc=$("#hero3d");if(hc){const r=mk(hc);if(r){const sc=new T.Scene(),cam=new T.PerspectiveCamera(40,1,.1,100);cam.position.set(0,0,12);lights(sc);
+  const g=new T.Group();sc.add(g);const c=cyc(n),L=Math.max(c.typ||46,c.day||1),bl=c.bleed||5,ov=(c.typ||46)-14;
+  for(let d=1;d<=L;d++){const a=d/L*Math.PI*2,ph=phaseOf(d,c.typ||46,bl),today=d===c.day;
+   const m=new T.Mesh(new T.SphereGeometry(today?.28:d<=bl?.2:.13,24,24),new T.MeshStandardMaterial({color:today?col("--plum"):PHC[ph],roughness:.35,metalness:.05,emissive:today?col("--plum"):PHC[ph],emissiveIntensity:.12}));
+   m.position.set(Math.cos(a)*3.7,Math.sin(a)*3.7,0);g.add(m);}
+  const tor=new T.Mesh(new T.TorusGeometry(3.7,.05,16,160),new T.MeshStandardMaterial({color:col("--ph-l"),transparent:true,opacity:.35}));g.add(tor);
+  const blobs=[[-4.6,2.6,-2,1.1,"--ph-o"],[4.8,-2.8,-1.5,.8,"--ph-l"],[3.9,3.4,-3,.55,"--ph-f"],[-3.8,-3.4,-1,.45,"--ph-m"]].map(([x,y,z,s,v])=>{const m=new T.Mesh(new T.SphereGeometry(s,48,48),new T.MeshStandardMaterial({color:col(v),roughness:.25,transparent:true,opacity:.9}));m.position.set(x,y,z);sc.add(m);return m;});
+  g.rotation.x=-1.05;g.rotation.y=.35;let mx=0,my=0,vis=true;
+  const hv=$(".hero-vis");hv.addEventListener("pointermove",e=>{const b=hv.getBoundingClientRect();mx=(e.clientX-b.left)/b.width-.5;my=(e.clientY-b.top)/b.height-.5;$(".hero-vis .mini").style.transform=`rotateY(${mx*16}deg) rotateX(${-my*12}deg) rotate(-3deg)`;});
+  hv.addEventListener("pointerleave",()=>{mx=my=0;$(".hero-vis .mini").style.transform="";});
+  new IntersectionObserver(es=>vis=es[0].isIntersecting).observe(hc);
+  const tick=t=>{if(vis){fit(r,cam,hc);g.rotation.z=still?.4:t/9000;g.rotation.y=.35+mx*.4;g.rotation.x=-1.05+my*.3;blobs.forEach((b,i)=>b.position.y+=Math.sin(t/900+i)*.002);r.render(sc,cam);}if(!still)requestAnimationFrame(tick);};requestAnimationFrame(tick);}}
+ /* year spiral */
+ const yc=$("#year3d");if(yc){const r=mk(yc);if(r){const sc=new T.Scene(),cam=new T.PerspectiveCamera(38,1,.1,100);cam.position.set(0,1.5,12.5);cam.lookAt(0,0,0);lights(sc);
+  const g=new T.Group();sc.add(g);const cy=n.cycles,K=cy.length,geo=new T.SphereGeometry(.11,16,16);
+  cy.forEach((c,k)=>{const L=c.len||Math.max(dd(D(c.start),REF)+1,c.bleed);for(let d=1;d<=L;d++){const a=d/L*Math.PI*2,y=(k+d/L)*.62-K*.31;
+   const clr=d<=c.bleed?PHC[0]:d>35?PHC[3]:PHC[1];const m=new T.Mesh(d<=c.bleed?new T.SphereGeometry(.17,16,16):geo,new T.MeshStandardMaterial({color:clr,roughness:.35,emissive:clr,emissiveIntensity:.1}));
+   m.position.set(Math.cos(a)*3.1,y,Math.sin(a)*3.1);g.add(m);}});
+  const band=new T.Mesh(new T.CylinderGeometry(3.25,3.25,K*.62+.6,64,1,true),new T.MeshStandardMaterial({color:col("--ok"),transparent:true,opacity:.07,side:T.DoubleSide}));g.add(band);
+  let rx=.25,ry=0,drag=null,vis=true,auto=!still;
+  yc.addEventListener("pointerdown",e=>{drag=[e.clientX,e.clientY,ry,rx];auto=false;yc.setPointerCapture(e.pointerId);$("#y3hint").textContent=`${K} cycles · ${lens(n).join(", ")} days`;});
+  yc.addEventListener("pointermove",e=>{if(!drag)return;ry=drag[2]+(e.clientX-drag[0])/120;rx=Math.max(-.8,Math.min(.9,drag[3]+(e.clientY-drag[1])/200));if(still)draw();});
+  yc.addEventListener("pointerup",()=>drag=null);
+  new IntersectionObserver(es=>vis=es[0].isIntersecting).observe(yc);
+  const draw=()=>{fit(r,cam,yc);g.rotation.set(rx,ry,0);r.render(sc,cam);};
+  const tick=()=>{if(vis){if(auto)ry+=.004;draw();}requestAnimationFrame(tick);};still?draw():requestAnimationFrame(tick);}}}
+try{init3D();initMap3D()}catch(e){console.warn("3D off",e)}
+</script>

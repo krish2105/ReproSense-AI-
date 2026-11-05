@@ -1,0 +1,22 @@
+{
+  "tag": "SYNTHETIC \u2014 fictional demo data, not a real person",
+  "seed": 2026,
+  "reference_date": "2026-11-22",
+  "personas": [
+    "amina",
+    "noura",
+    "priya",
+    "fatima",
+    "sara",
+    "mariam",
+    "hessa",
+    "layla"
+  ],
+  "cohort_size": 1200,
+  "files": [
+    "personas/*.json",
+    "lab_reports/*.txt",
+    "cohort.csv",
+    "cohort_summary.json"
+  ]
+}
