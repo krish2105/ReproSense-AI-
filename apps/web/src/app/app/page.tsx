@@ -1,35 +1,112 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import { AfterBirthArc, CycleArc, PregnancyArc } from "@/components/charts/Arc";
+import { DayPills } from "@/components/home/DayPills";
+import { MoodRow } from "@/components/home/MoodRow";
+import { NavigatorCard } from "@/components/home/NavigatorCard";
+import { PatternSummary } from "@/components/home/PatternSummary";
+import { Recommendations } from "@/components/home/Recommendations";
+import { StageSwitch } from "@/components/home/StageSwitch";
+import { isTabReady } from "@/components/chrome/tabs";
+import { CrisisCard } from "@/components/safety/CrisisCard";
+import { PregnancyWarning } from "@/components/safety/PregnancyWarning";
+import { RedFlagCard } from "@/components/safety/RedFlagCard";
 import { Box } from "@/components/ui/Box";
 import { ButtonLink } from "@/components/ui/Button";
-import { displayName, isolate, regionKey } from "@/lib/format";
-import { getPersonas, requireRole } from "@/lib/session";
+import { isLocale } from "@/i18n/config";
+import { apiServer } from "@/lib/api/server";
+import type { HomeResponse } from "@/lib/api/types";
+import { displayName, firstName, formatDate, isolate } from "@/lib/format";
+import { requireRole } from "@/lib/session";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("app");
+  const t = await getTranslations("home");
   return { title: t("metaTitle") };
 }
 
-// Phase 0 stand-in: proves the session, the proxy and RLS end to end. Phase 2 replaces it with Home.
-export default async function AppHome() {
-  const me = await requireRole("patient");
+// Home (HANDOFF §5, mockup tToday/todayTop/recs). Order: red flags, then her day, then what to do next.
+export default async function Home() {
+  await requireRole("patient");
+  const raw = await getLocale();
+  const locale = isLocale(raw) ? raw : "en";
   const t = await getTranslations();
-  const { personas } = await getPersonas();
-  const p = personas.find((x) => x.id === me.user_id);
-  const name = isolate(p ? displayName(p.alias) : me.user_id);
-  const region = p ? (t.has(`regions.${regionKey(p.region)}`) ? t(`regions.${regionKey(p.region)}`) : p.region) : "";
+  const h = await apiServer<HomeResponse>("/me/home", { query: { lang: locale } });
+  const name = firstName(h.profile.alias);
+  const soon = h.observations.find((o) => o.urgency === "soon");
+  const gap = soon ? h.care_gaps.find((g) => g.type === soon.creates_care_gap) : undefined;
+  const latestDraft = soon ? h.navigator_drafts.find((d) => d.rule_id === soon.observation_id && d.status !== "discarded") : undefined;
+  const peri = h.observations.find((o) => o.observation_id === "OBS_PERIMENOPAUSE_SYMPTOMS");
+  const vasomotor = peri ? Number(peri.values.vasomotor_days_90 ?? NaN) : NaN;
+
   return (
-    <Box className="hello" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-      <h1 style={{ fontSize: 22 }}>{t("app.signedIn", { name })}</h1>
-      {p && (
-        <>
-          <p className="s">{t("app.stage", { stage: t(`stages.${p.life_stage}`) })}</p>
-          <p className="s dim">{t("app.ageRegion", { age: p.age, region })}</p>
-        </>
-      )}
-      <ButtonLink variant="outline" size="sm" href="/demo" className="self-start">
-        {t("chrome.switchPerson")}
-      </ButtonLink>
-    </Box>
+    <div className="home-grid">
+      <div className="home-col">
+        {h.red_flags.length > 0 && (
+          <section aria-label={t("home.urgentTitle")} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {h.red_flags.map((c) => (
+              <RedFlagCard key={c.observation_id} card={c} locale={locale} />
+            ))}
+          </section>
+        )}
+        {h.crisis && <CrisisCard />}
+
+        <div className="kv" style={{ alignItems: "center" }}>
+          <div className="hello">
+            <p>{t("home.hello", { name: isolate(name) })}</p>
+            <h1 style={{ fontSize: 22, marginTop: 2 }}>{t("home.sub", { date: formatDate(h.ref_date, locale) })}</h1>
+          </div>
+          <span className="ava" aria-hidden="true">
+            {displayName(h.profile.alias)[0]}
+          </span>
+        </div>
+        <StageSwitch current={h.profile.life_stage} />
+
+        {h.status.mode === "cycle" && <DayPills pills={h.day_pills} locale={locale} />}
+        {h.status.mode === "cycle" && <CycleArc status={h.status} locale={locale} peri={h.profile.life_stage === "perimenopause"} />}
+        {h.status.mode === "pregnancy" && <PregnancyArc status={h.status} />}
+        {h.status.mode === "pregnancy" && <PregnancyWarning />}
+        {h.status.mode === "after_birth" && <AfterBirthArc status={h.status} />}
+
+        <ButtonLink href="/app/log" size="wide">
+          {t("home.logButton")}
+        </ButtonLink>
+
+        {soon && <NavigatorCard key={`${h.profile.id}-${soon.observation_id}`} card={soon} dueDate={gap?.due_date} latest={latestDraft} />}
+      </div>
+
+      <div className="home-col">
+        <Recommendations items={h.recommendations} />
+
+        <section aria-labelledby="mood-title" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <h2 id="mood-title" style={{ fontSize: 17 }}>
+            {t("home.moodTitle")}
+          </h2>
+          <MoodRow key={h.profile.id} initial={h.today_mood} />
+        </section>
+
+        {Number.isFinite(vasomotor) && (
+          <Box>
+            <p className="label">{t("home.periTitle")}</p>
+            <p className="big" style={{ marginTop: 6 }}>
+              {t("home.periDays", { count: vasomotor })}
+            </p>
+          </Box>
+        )}
+
+        {!h.crisis && <PatternSummary cards={h.observations} />}
+
+        <p className="xs faint">
+          {t("home.record", {
+            count: h.log_count,
+            strength: t.has(`home.strength.${h.record_strength}`) ? t(`home.strength.${h.record_strength}`) : h.record_strength,
+          })}
+        </p>
+        {isTabReady("report") && (
+          <ButtonLink href="/app/report" variant="outline" size="wide">
+            {t("home.reportButton")}
+          </ButtonLink>
+        )}
+      </div>
+    </div>
   );
 }

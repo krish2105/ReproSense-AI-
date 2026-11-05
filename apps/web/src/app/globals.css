@@ -447,3 +447,47 @@ ul.roster{list-style:none;padding:0;margin-bottom:0}
 .brand img{border-radius:8px}
 a.tb{text-decoration:none;display:inline-flex;align-items:center}
 }
+
+/* Arc outline: a thin edge on pale phase colours in light mode (mauve-charts §2.3); none in dark mode. */
+:root{--arc-outline:var(--rule-2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--arc-outline:transparent}}
+:root[data-theme="dark"]{--arc-outline:transparent}
+
+@layer components {
+/* Her app pages: one 480px column on phones; Home opens into two columns on wide screens. */
+.home-grid{display:grid;gap:14px;max-width:480px;margin-inline:auto;padding-block:20px 8px}
+.home-col{display:flex;flex-direction:column;gap:14px;min-width:0}
+@media (min-width:1024px){.home-grid{max-width:1000px;grid-template-columns:minmax(0,480px) minmax(0,1fr);gap:28px;align-items:start}}
+a.dp{text-decoration:none;color:var(--ink-2)}
+a.dp.now{color:var(--plum-ink)}
+.days{list-style:none;margin:0;padding:2px}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.sec-head h2{font-size:17px}
+.nav-card{background:var(--plum);color:var(--plum-ink);border-color:var(--plum)}
+.nav-card .eyebrow-s{font-size:12.5px;font-weight:700;opacity:.85}
+.doc ul.plain{color:var(--ink)}
+}
+
+@layer components {
+/* Body map (mockup bodyMap(): 3:4 box, 30px points, glow by painful days). Points sit in physical %
+   of the art, so the box is direction-neutral even in RTL (left/right are her sides, explained in the hint). */
+.bodymap{position:relative;aspect-ratio:3/4;width:100%;max-width:260px;min-width:240px;margin:0 auto;direction:ltr}
+.bm-glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(211,95,168,.7),rgba(211,95,168,0));z-index:1;pointer-events:none}
+.bm-pt{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;border:3px solid rgba(255,255,255,.9);background:rgba(75,54,83,.25);cursor:pointer;z-index:2}
+.bm-pt[aria-pressed="true"]{border-color:var(--plum);background:var(--accent)}
+@media (max-width:360px){.bodymap{min-width:0}.bm-pt{width:26px;height:26px;margin:-13px 0 0 -13px}}
+
+/* Calendar: days are links. deviation: period days use dark text on magenta (white on #D35FA8 is 3.5:1, below AA). */
+.cal a,.cal > span{aspect-ratio:1;display:grid;place-items:center;border-radius:50%;max-width:100%;text-decoration:none;color:inherit;position:relative}
+.cal a.bl{background:var(--ph-m);color:#2A1020}
+.cal a.lg::after{content:"";position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.7}
+.cal a[aria-current="date"]{box-shadow:0 0 0 2px var(--plum) inset}
+.cal a[data-selected]{outline:2px solid var(--accent);outline-offset:1px}
+.cal a:hover{background:var(--tint)}
+.cal a.bl:hover{background:var(--ph-m);filter:brightness(1.05)}
+.ldata img{flex:none;border-radius:10px}
+.pills a{flex:1;text-align:center;border-radius:999px;padding:7px 6px;font-size:12.5px;font-weight:600;color:var(--ink-3);text-decoration:none}
+.pills a[aria-current="page"]{background:var(--plum);color:var(--plum-ink)}
+.form-card{display:flex;flex-direction:column;gap:14px}
+.num{width:100px;border:1px solid var(--rule-2);background:var(--sheet);border-radius:16px;padding:10px 12px}
+}
