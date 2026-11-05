@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 
 _YOU_HAVE_OK = (
-    r"(?:been|had|logged|noticed|recorded|told|tried|said|mentioned|entered|shared|marked|chosen|asked|"
+    r"(?:been|had|missed|felt|started|stopped|logged|noticed|recorded|told|tried|said|mentioned|entered|shared|marked|chosen|asked|"
     r"the right|a right|control|questions?|options|time|any)"
 )
 BANNED_PATTERNS: list[tuple[str, re.Pattern]] = [
