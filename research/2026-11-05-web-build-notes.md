@@ -198,3 +198,21 @@ These are handled from the existing skills (no-ai-slop-ui, ui-ux-pro-max, datavi
   the shared skeleton is now at least one screen tall (CLS 0).
 - **Fallback check** (puppeteer-core with system Chrome): normal → WebGL ring and spiral; `prefers-reduced-motion` →
   posters, upright phone, "shown flat" note; `--disable-webgl` → posters and the note. Zero console errors in all three.
+
+## 6. Step 3 findings: what the Playwright e2e caught (6 Nov 2026)
+- **Stale prefetch after login.** The header's "Her app" link prefetched `/app` while the visitor was anonymous; the
+  layout's role check answered with a redirect to `/demo`, Next kept it in the client router cache, and
+  `router.push("/app")` after the demo login replayed it. Real fresh visitors hit this too. Fix: links into the
+  signed-in areas never prefetch, and every login opens its area with a full page load (`src/lib/enter.ts`).
+- **Hydration race on full page loads (React error #418).** Next 15.5.29 bundles React 19.2.0-canary (18 Aug 2025).
+  Its batched reveal of streamed Suspense boundaries (`$RC` marks `$~`, `$RV` reveals a frame later) raced with
+  hydration on full loads: `/admin` failed in 3 of 12 full demo runs and `/clinic` once, with no content difference in
+  the final DOM (checked by diffing the server HTML against the client DOM). With the route-level `loading.tsx`
+  boundaries removed, the full suite passed 3 runs in a row with no hydration error. Navigation feedback now comes
+  from `useLinkStatus` (`LinkPending`). Revisit when the stack moves to a Next release with React ≥ 19.2 stable.
+- **Accessibility, found by axe (Lighthouse had passed them):** text in the accent, faint, warn and ok tones below
+  4.5:1 (QUESTIONS #42, now text-only shades); wide tables not reachable by keyboard (`TableScroll`); day pills whose
+  names did not contain their visible text (WCAG 2.5.3); future calendar days now `aria-disabled`; the floating tab bar
+  let dark content show through its glass (now 94% opaque); the body map's tap points now sit in a named group.
+- **drei `<Html>`** mounts a React root per label and unmounts it during render ("synchronously unmount a root" in
+  development). The region labels are now plain DOM spans moved each frame (`LabelTracker`).

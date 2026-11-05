@@ -52,13 +52,20 @@ Never import a clinician component into `/app` or the reverse (CLAUDE.md rule 9)
 - Never write "you have <condition>", probabilities or "cure". Observations say "a pattern worth discussing".
 
 ## 6. States (every screen)
-- `loading.tsx`: skeleton blocks shaped like the real layout (`Skeleton`, `LoadingRegion`).
+- No route-level `loading.tsx`: in Next 15.5 its streamed boundary raced with hydration on full page loads (React
+  #418; research notes §6). Navigation feedback comes from `LinkPending` inside every `Link` (tab bar, header nav,
+  `ButtonLink`, list rows). Use `Skeleton`/`LoadingRegion` inside a component for client-side loading.
 - Empty: `EmptyState` says what will appear and how to add the first entry.
 - Error: `ErrorState` says what happened and how to fix it, with a retry. Errors never apologise.
 - Pending buttons: `pending` prop (disabled + `aria-busy`).
 - Rule 8: no dead links. Flip `ready: true` in `TabBar.tsx` only when the screen exists.
 
 ## 7. Accessibility, RTL, responsive
+- Text in a tone colour uses the text shades (`--faint-text`, `--accent-text`, `--warn-text`, `--ok-text`); the
+  plain tokens are for fills, marks and borders (QUESTIONS #42). Wide tables go in `TableScroll` (named, focusable).
+- An `aria-label` must contain the visible text, starting with it (WCAG 2.5.3, axe label-content-name-mismatch).
+- After a demo login, open the area with `enterAs()` (full load); links into `/app`, `/clinic`, `/admin` from public
+  pages never prefetch (`isSignedInArea`).
 - Dialogs: the `Dialog` component (native `<dialog>`: Esc, focus in and back, inert page). Toasts: `useToast()`.
 - Focus must not hide behind the fixed tab bar (`scroll-padding-bottom` is set when it exists). Targets ≥ 24px, aim
   for 44px (`.hit` extends a hit area without changing the drawing).
@@ -68,6 +75,8 @@ Never import a clinician component into `/app` or the reverse (CLAUDE.md rule 9)
 
 ## 8. Before the PR
 1. `cd apps/web && pnpm lint && pnpm typecheck && pnpm test && pnpm build`, and `make test` at the root.
+   Then `PW_CHANNEL=chrome pnpm e2e` with the API on :8010 and `pnpm start -p 3100` (both reused when running): the
+   demo path, every key screen in EN/AR/dark through axe, the 998 red flag and the 3D fallbacks, at 1280 and 390 px.
 2. Run it: API with a background shell (`cd backend && DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib uv run uvicorn app.main:app --port 8010`),
    web with `pnpm dev`. The desktop preview launcher cannot start servers inside `~/Downloads`; open the URL in the browser pane instead.
 3. In the browser: EN and AR, light and dark, 390 and 1280, zero console errors, every button does what it says.

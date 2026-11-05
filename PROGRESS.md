@@ -17,6 +17,31 @@ Blockers / questions:
 
 ---
 
+## 2026-11-06 — Step 3: Playwright e2e in CI — Krishna with Claude Code
+Done:
+- `apps/web/e2e` (Playwright 1.64, axe-core 4.14) against the real stack: the seeded API and the production build, at 1280 px and 390 px. Any console error fails a test. Demo data is reset before and after.
+- The 3-minute path in one timed test: landing (Noura's live arc, 46 ring beads, disclosures) → her record (home, timeline with the 21–35 band, body map, patterns with dated evidence and the trace) → assistant ("What is PCOS?" with 2 numbered sources, then Arabic and back) → report (prepare, PDF is a real PDF, consented share with expiry, stop sharing) → Hessa (care navigator draft approved, "Nothing was sent") → clinician (Noura's handover, Ask the record with dates) → Fatima's after-birth glucose follow-up done → admin closed count 102. 13–16 s per viewport.
+- Every key screen in English, Arabic (RTL) and dark through axe (WCAG 2.2 AA) with no sideways scroll; Sara's 998 red flag comes first; reduced motion and no-WebGL show the posters; a guard that no page streams table segments.
+- CI job `e2e`: pgvector Postgres service, seeded API (no LLM key), production build, Playwright Chromium; the report is uploaded when it fails.
+- Real bugs the suite found and fixed:
+  - **Stale prefetched redirect.** A fresh visitor could not open Noura's record from the landing: an anonymous prefetch of `/app` cached a redirect to `/demo`. Logins now do a full navigation (`enterAs`), and links into the signed-in areas don't prefetch.
+  - **Hydration race (React #418).** Intermittent on full page loads with route-level `loading.tsx`, from the React canary bundled in Next 15.5.29. Route skeletons were removed; links show loading with `useLinkStatus` (QUESTIONS #43).
+  - **WCAG AA contrast** in four tones (QUESTIONS #42).
+  - **Keyboard access to wide tables** (`TableScroll`).
+  - **Day-pill names** that missed their visible text (WCAG 2.5.3).
+  - **Future calendar days** are now `aria-disabled`.
+  - **The tab bar's glass** let dark cards show through, so it is now 94% opaque.
+  - **Body-map tap points** are now in a named group.
+  - **The clinician tab title** showed the URL slug; it now shows her name.
+  - **drei `<Html>` labels** raced React roots; they are now plain DOM.
+Tests: web e2e 69 passed, 3 skipped (3 runs in a row) · web unit 50/50 · lint, typecheck, build pass · backend 104/104 (unchanged)
+Lighthouse (landing): mobile 100/100/100/100 · desktop 100/100/100/100.
+UI slop check: pass. The contrast shades keep each hue; nothing new on screen except the link loading state.
+Next:
+- Demo-readiness checklist; scorecard against docs/09.
+Blockers / questions:
+- QUESTIONS #43 (route skeletons replaced by link feedback) is a decision made while building: confirm or ask for another approach.
+
 ## 2026-11-06 — Phase 7 (web) — Krishna with Claude Code
 Done:
 - Landing `/` on Noura's live record (the server reads it with a demo token, cached 10 minutes). Hero: her phone as she sees it today (the real arc "Day 19 · follicular phase · estimate", "Log your symptoms" opens her log, her two recommendations) tilting towards the mouse, over a React Three Fiber ring with one bead per day of her cycle (API phases, today in plum, days ahead lighter because they are estimates). Observation card with its entry count; assistant example with its sources.

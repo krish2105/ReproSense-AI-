@@ -19,7 +19,7 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 | 6 | Life stages + agents v4 | ✅ | Krishna (API ✅) · Atharva (UI, built by Krishna) | every life stage opens from the stage switch; navigator draft needs approval; FHIR bundle validates | Done 5 Nov: stage switch for all five stages and the navigator (Phase 2); EPDS check-in with the standard items and citation (crisis → support only, no score; Arabic items pending the validated version, QUESTIONS #40); lab reports (upload, editable extraction, confirm; Fatima's demo OGTT closes her follow-up); privacy centre (choices, who saw my data, stored counts, JSON export, FHIR check: 9 resources, no validation errors, discreet mode, delete with confirmation). Not built: wearables, Ramadan mode (needs a source). |
 | 7 | Polish (R3F, dark, Arabic RTL, states, a11y, images) | ✅ | Atharva (built by Krishna) | Lighthouse ≥ 90, zero console errors, 3D fallback works | Done 6 Nov: landing on Noura's live record (her phone tilting over a React Three Fiber ring of her cycle days; year spiral beside the cycle ledger; stage cards, evidence, trace, model, promises), `/admin` follow-ups by region in 3D with a flat chart and the table, `/status`, robots.txt. Lighthouse 100/100/100/100 on mobile and desktop (two runs each); reduced motion and no-WebGL show the posters (checked in Chrome); zero console errors. Arabic still needs the native review (AR-REVIEW). All 37 images are in `apps/web/public/images`. |
 | 8 | Security pass | 🟨 | Krishna | docs/07 checklist fully ticked | Done: forced RLS with tests, append-only hash-chained audit log, AES-GCM notes and documents, headers, rate limits, CORS, input validation, PII redaction, injection stripping, gitleaks in CI. Not yet: passkeys (stretch), web CSP, dependency scanning. |
-| 9 | Ship (deploy, reset, video, pitch) | ⬜ | Krishna + Atharva | senior-judge ≥ 90/100 | Demo reset endpoint is done. Not done: deploy, Playwright e2e, backup video. |
+| 9 | Ship (deploy, reset, video, pitch) | 🟨 | Krishna + Atharva | senior-judge ≥ 90/100 | Done: demo reset endpoint; Playwright e2e of the 3-minute path in CI (6 Nov: 69 checks at 1280 and 390 px, every key screen in EN/AR/dark through axe, 998 red flag, 3D fallbacks, zero console errors). Not done: deploy, backup video, pitch. |
 
 ## Pre-build (before selection on 16 Nov)
 
@@ -32,6 +32,11 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 | Generate images with IMAGE_PROMPTS_CHATGPT.md | ✅ 37 images + 1 duplicate placed in public/images; see ASSET_INTEGRATION_REPORT.md |
 | Body-map tap points calibrated to the real art (mockup) | ✅ verified at 320/375/768/1280, front + back |
 | Hackathon rules re-checked on the official page (upstartbar.com/ajyal) | ✅ 5 Nov; building may start when selection is announced on 16 Nov |
+
+## Verified numbers (6 Nov, local)
+- Web e2e (`pnpm e2e`, production build): **69 passed, 3 skipped** (desktop-only checks on the phone project), 3 runs in a row; the demo path takes 13–16 s per viewport
+- Landing Lighthouse: **100 / 100 / 100 / 100** on mobile and on desktop
+- Web unit tests: **50 passed**
 
 ## Verified numbers (5 Nov, local, `make test`)
 - Backend tests: **104 passed** (rules 63 · API 27 · RLS 8 · security 6 · AI eval 1 covering 60 questions)
