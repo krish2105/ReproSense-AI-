@@ -11,7 +11,7 @@ from starlette.responses import JSONResponse
 
 from app.config import get_settings
 
-SENSITIVE = ("/v1/assistant", "/v1/documents", "/v1/clinic/patients/", "/v1/logs/parse", "/v1/demo/signup")
+SENSITIVE = ("/v1/assistant", "/v1/documents", "/v1/clinic/patients/", "/v1/logs/parse", "/v1/demo/signup", "/v1/demo/clinician-join")
 
 
 class SecurityHeaders(BaseHTTPMiddleware):

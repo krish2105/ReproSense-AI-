@@ -249,7 +249,18 @@
     "colConsented": "Agreed to share",
     "colGaps": "Follow-ups",
     "auditExport": "Download the audit log (CSV)",
-    "auditExportHint": "For a compliance review: who did what to which record, and when, without health details. The download is logged too."
+    "auditExportHint": "For a compliance review: who did what to which record, and when, without health details. The download is logged too.",
+    "inviteTitle": "Invite a clinician",
+    "inviteBody": "A link adds one clinician to one clinic. They see only the patients who chose to share with that clinic. The link expires in 7 days.",
+    "inviteClinic": "Clinic",
+    "inviteCreate": "Create invite link",
+    "inviteCreated": "Invite link ready.",
+    "inviteFailed": "Could not create the invite: {detail}",
+    "inviteCopy": "Copy link",
+    "inviteCopied": "Link copied.",
+    "inviteExpires": "Expires {date}",
+    "inviteOpen": "Open the invite",
+    "inviteQrLabel": "QR code that opens the clinician invite"
   },
   "tokens": {
     "metaTitle": "Design tokens",
@@ -1210,5 +1221,19 @@
     "sourceDoh": "Department of Health Abu Dhabi, Responsible AI Standard, version 1 (October 2025)",
     "seeScorecard": "See the test results",
     "seePrivacy": "Try the privacy centre as Noura"
+  },
+  "joinClinician": {
+    "metaTitle": "Join as a clinician",
+    "title": "Join {clinic}",
+    "body": "You were invited to this clinic's ReproSense workspace as a clinician. You will see only the patients who chose to share their record with this clinic.",
+    "demoNote": "This is a demo. Use a made-up name.",
+    "name": "Your name",
+    "join": "Join as a clinician",
+    "joining": "Joining…",
+    "required": "Type a name with letters.",
+    "failed": "Could not join: {detail}",
+    "invalidTitle": "This invite link does not work",
+    "invalidBody": "It may have expired after 7 days, or it was copied incompletely. Ask your clinic's admin for a new link.",
+    "invalidAction": "Open the demo"
   }
 }

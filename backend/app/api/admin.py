@@ -5,11 +5,12 @@ from __future__ import annotations
 import csv
 import io
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, HTTPException, Response
+from pydantic import BaseModel, Field
 
 from app.db import Actor, session
 from app.security import audit
-from app.security.auth import require
+from app.security.auth import create_invite, require
 
 router = APIRouter(prefix="/v1/admin", tags=["admin"])
 admin = require("admin")
@@ -176,3 +177,25 @@ def export_audit(actor: Actor = Depends(admin)):
         media_type="text/csv; charset=utf-8",
         headers={"Content-Disposition": 'attachment; filename="reprosense-audit-log.csv"', "Cache-Control": "no-store"},
     )
+
+
+class InviteIn(BaseModel):
+    clinic_id: str = Field(..., min_length=1, max_length=40)
+
+
+@router.post("/invites")
+def create_clinician_invite(body: InviteIn, actor: Actor = Depends(admin)):
+    """A link that adds a clinician to one clinic. That clinician then sees only the patients who share with that clinic."""
+    with session(actor) as cur:
+        cur.execute("SELECT name FROM clinics WHERE id=%s", (body.clinic_id,))
+        row = cur.fetchone()
+        if not row:
+            raise HTTPException(422, "Unknown clinic")
+        token, exp = create_invite(body.clinic_id)
+        audit.record(cur, actor, "create_clinician_invite", None, f"clinic:{body.clinic_id}")
+    return {
+        "path": f"/join/clinician?invite={token}",
+        "clinic_id": body.clinic_id,
+        "clinic_name": row["name"],
+        "expires_at": exp.isoformat(),
+    }

@@ -3,6 +3,7 @@ Production path: Supabase Auth with passkeys issues the JWT; the API checks it t
 
 from __future__ import annotations
 
+import secrets
 from datetime import UTC, datetime, timedelta
 
 import jwt
@@ -28,6 +29,31 @@ def create_token(user_id: str, role: str, clinic_id: str = "") -> str:
         "demo": True,
     }
     return jwt.encode(claims, s.demo_token_secret, algorithm=ALG)
+
+
+INVITE_AUD = "reprosense-invite"
+INVITE_DAYS = 7
+
+
+def create_invite(clinic_id: str) -> tuple[str, datetime]:
+    """A clinician invite for one clinic (SaaS scorecard: clinic onboarding). Signed and expiring; it names only the clinic."""
+    now = datetime.now(UTC)
+    exp = now + timedelta(days=INVITE_DAYS)
+    claims = {"sub": "clinician_invite", "clinic_id": clinic_id, "iat": now, "exp": exp, "aud": INVITE_AUD}
+    claims["jti"] = secrets.token_hex(8)
+    return jwt.encode(claims, get_settings().demo_token_secret, algorithm=ALG), exp
+
+
+def read_invite(token: str) -> str:
+    try:
+        c = jwt.decode(token, get_settings().demo_token_secret, algorithms=[ALG], audience=INVITE_AUD)
+    except jwt.PyJWTError as e:
+        raise HTTPException(
+            410, "This invite link has expired or is not valid. Ask your clinic's admin for a new one."
+        ) from e
+    if c.get("sub") != "clinician_invite" or not c.get("clinic_id"):
+        raise HTTPException(410, "This invite link has expired or is not valid. Ask your clinic's admin for a new one.")
+    return c["clinic_id"]
 
 
 def decode(token: str) -> Actor:

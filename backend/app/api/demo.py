@@ -6,13 +6,13 @@ import secrets
 from datetime import date, timedelta
 from typing import Literal
 
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from pydantic import BaseModel, Field
 
 from app.config import get_settings
 from app.db import SYSTEM, Actor, session
 from app.security import audit
-from app.security.auth import COOKIE, create_token, current_actor, require
+from app.security.auth import COOKIE, create_token, current_actor, read_invite, require
 from app.services.patient_data import apply_period_log
 
 router = APIRouter(prefix="/v1/demo", tags=["demo"])
@@ -208,3 +208,51 @@ def reset(actor: Actor = Depends(require("admin"))):
     from app.db.seed import seed
 
     return {"ok": True, **seed()}
+
+
+CLINICIAN_CAP = 50  # invited demo clinicians, until the next demo reset
+
+
+@router.get("/invite")
+def invite_info(invite: str = Query(..., min_length=20, max_length=2000)):
+    """Which clinic an invite link is for (shown before the clinician joins)."""
+    _demo_only()
+    clinic_id = read_invite(invite)
+    with session(SYSTEM) as cur:
+        cur.execute("SELECT id, name, region FROM clinics WHERE id=%s", (clinic_id,))
+        clinic = cur.fetchone()
+    if not clinic:
+        raise HTTPException(410, "This invite link has expired or is not valid. Ask your clinic's admin for a new one.")
+    return {"clinic": clinic}
+
+
+class ClinicianJoinIn(BaseModel):
+    invite: str = Field(..., min_length=20, max_length=2000)
+    name: str = Field(..., min_length=1, max_length=40)
+
+
+@router.post("/clinician-join")
+def clinician_join(body: ClinicianJoinIn, response: Response):
+    """Accept a clinician invite: a demo clinician account in that clinic, signed in. Fictional names only."""
+    _demo_only()
+    clinic_id = read_invite(body.invite)
+    name = " ".join(body.name.split())
+    if not name or not any(ch.isalpha() for ch in name):
+        raise HTTPException(422, "Type a name with letters.")
+    with session(SYSTEM) as cur:
+        cur.execute("SELECT count(*) AS n FROM profiles WHERE role='clinician' AND id LIKE 'clin-g%'")
+        if cur.fetchone()["n"] >= CLINICIAN_CAP:
+            raise HTTPException(429, "The demo is full. Ask the team to reset the demo data.")
+        cur.execute("SELECT 1 FROM clinics WHERE id=%s", (clinic_id,))
+        if not cur.fetchone():
+            raise HTTPException(
+                410, "This invite link has expired or is not valid. Ask your clinic's admin for a new one."
+            )
+        uid = f"clin-g{secrets.token_hex(4)}"
+        cur.execute(
+            "INSERT INTO profiles (id, alias, role, clinic_id) VALUES (%s,%s,'clinician',%s)",
+            (uid, f"{name} (demo clinician)", clinic_id),
+        )
+        audit.record(cur, Actor("clinician", uid, clinic_id), "clinician_joined", None, f"clinic:{clinic_id}")
+    _set_session(response, uid, "clinician", clinic_id)
+    return {"ok": True, "clinic_id": clinic_id}

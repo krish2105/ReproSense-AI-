@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AutoRefresh } from "@/components/admin/AutoRefresh";
+import { ClinicianInvite } from "@/components/admin/ClinicianInvite";
 import { RegionSection } from "@/components/admin/RegionSection";
 import { RoiCalculator } from "@/components/admin/RoiCalculator";
 import { Tag } from "@/components/ui/Tag";
@@ -265,6 +266,10 @@ export default async function AdminPage() {
           </table>
         </TableScroll>
       </section>
+
+      <ClinicianInvite
+        clinics={m.clinics.map((c) => ({ id: c.clinic_id, name: t.has(`clinics.${c.clinic_id}`) ? t(`clinics.${c.clinic_id}`) : (c.name ?? c.clinic_id) }))}
+      />
 
       <section className="panel" aria-labelledby="fair-title" style={{ padding: 20, marginTop: 20 }}>
         <h2 id="fair-title" style={{ fontSize: 18 }}>
