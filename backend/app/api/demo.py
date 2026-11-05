@@ -64,7 +64,7 @@ def login(body: LoginIn, response: Response):
         token,
         httponly=True,
         samesite="lax",
-        secure=False,
+        secure=get_settings().cookie_secure,
         max_age=get_settings().token_ttl_minutes * 60,
         path="/",
     )
