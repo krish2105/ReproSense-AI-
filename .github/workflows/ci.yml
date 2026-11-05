@@ -36,6 +36,32 @@ jobs:
         working-directory: backend
         run: uv run pytest -q
 
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: apps/web/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: apps/web/pnpm-lock.yaml
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Unit tests (messages parity, copy guard, API helpers, formatting)
+        run: pnpm test
+      - name: Build
+        run: pnpm build
+
   generator-check:
     runs-on: ubuntu-latest
     steps:
