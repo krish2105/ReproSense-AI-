@@ -177,3 +177,24 @@ Login responses and cookie jars are not kept (they contain demo tokens).
 ## 4. Not covered (stopped before it ran)
 Women's-health app UX patterns, Playwright + Lighthouse CI specifics, and a WCAG 2.2 / Arabic typography pass.
 These are handled from the existing skills (no-ai-slop-ui, ui-ux-pro-max, dataviz) and verified in the browser per phase.
+
+## 5. Phase 7 findings (6 Nov 2026, measured on the local `next start` build)
+- **Colour in R3F.** The Canvas default ACES filmic tone mapping turned the phase colours grey-brown, and three ≥ r155
+  measures light in physical units, so the mockup's r128 intensities (ambient 0.75, key 0.9, fill 0.5) came out about
+  π times too dark. Fix: `<Canvas flat>` and intensities × π (`SceneLights.tsx`). Both scenes now match the CSS tokens.
+- **Deprecation noise.** @react-three/fiber 9.8.2 (latest, 14 Oct 2026) still builds its frame clock with `THREE.Clock`,
+  which three r183+ marks deprecated, so every canvas warned. three's `setConsoleFunction` drops only that notice
+  (`three-console.ts`); everything else still reaches the console. Remove it when fiber moves to `THREE.Timer`.
+- **The WebGL probe is not free.** Creating a test context at mount (software GL in headless Chrome) cost about 1 s of
+  mobile TBT (Lighthouse 98 → 75). The probe now runs only when a 3D panel nears the screen, and it releases its context.
+- **Above-the-fold 3D.** Loading three.js on idle still landed inside Lighthouse's interactive window on desktop
+  (TBT 660 ms, score 74) in one run out of two. The hero ring now starts after the first sign of use (pointer, scroll,
+  key, touch) or 8 s, then waits for idle; the SVG poster shows the same ring until then. Result: 100 on mobile and
+  desktop in two runs each.
+- **Poster = scene.** The poster draws the ring with the scene's own projection (Euler XYZ, camera z 12, fov 40). Camera
+  zoom = min(1, width / height) is a pure 2D scale, which is exactly SVG `viewBox="-1 -1 2 2"` + `meet`, so the swap from
+  poster to WebGL moves no bead at any size (unit-tested in `ring.test.ts`).
+- **Streaming and CLS.** A loading skeleton shorter than the screen let the footer appear and then jump (CLS 0.046);
+  the shared skeleton is now at least one screen tall (CLS 0).
+- **Fallback check** (puppeteer-core with system Chrome): normal → WebGL ring and spiral; `prefers-reduced-motion` →
+  posters, upright phone, "shown flat" note; `--disable-webgl` → posters and the note. Zero console errors in all three.

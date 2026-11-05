@@ -7,3 +7,4 @@
 /playwright/.cache/
 *.tsbuildinfo
 .env*.local
+/lighthouse-report*.html

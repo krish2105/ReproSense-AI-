@@ -12,19 +12,21 @@ export type HeaderVariant = "site" | "patient" | "clinic" | "admin";
 export function SiteHeader({ variant, extra }: { variant: HeaderVariant; extra?: ReactNode }) {
   const t = useTranslations("chrome");
   const all: Record<string, NavItem> = {
+    product: { href: "/", label: t("nav.product") },
+    status: { href: "/status", label: t("nav.status") },
     demo: { href: "/demo", label: t("nav.demo") },
     app: { href: "/app", label: t("nav.app") },
     clinic: { href: "/clinic", label: t("nav.clinic") },
     admin: { href: "/admin", label: t("nav.admin") },
   };
   const byVariant: Record<HeaderVariant, NavItem[]> = {
-    site: [all.demo!, all.app!, all.clinic!, all.admin!],
+    site: [all.product!, all.demo!, all.app!, all.clinic!, all.admin!, all.status!],
     patient: [all.demo!, all.app!],
     clinic: [all.demo!, all.clinic!],
     admin: [all.demo!, all.admin!],
   };
   return (
-    <header className="top">
+    <header className={variant === "site" ? "top top-site" : "top"}>
       <div className="wrap">
         <BrandMark />
         <nav className="nav" aria-label={t("navLabel")}>

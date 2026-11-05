@@ -522,3 +522,47 @@ a.prow{text-decoration:none;color:inherit}
 .radio-pill input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
 .links-list{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:6px}
 }
+
+@layer components {
+/* Landing hero (mockup .hero-vis): Noura's phone over the ring of her cycle days. The SVG poster is the same
+   ring in the 3D scene's resting pose; it fades out once WebGL has drawn. */
+#hero3d svg{position:absolute;inset:0;width:100%;height:100%;display:block;transition:opacity .3s ease-out}
+#hero3d svg.is-hidden{opacity:0}
+.hello .h{font-family:var(--f-display);font-size:22px;font-weight:700;line-height:1.12;letter-spacing:-.02em;margin-top:2px;color:var(--ink)}
+[dir="rtl"] .hello .h{font-family:var(--f-ar);letter-spacing:0}
+/* Deviation from the mockup, which hides the cards on phones: they stack under the phone instead, so the
+   observation stays in the first screens. The ring has no room beside the phone there. */
+@media (max-width:540px){
+  #hero3d{display:none}
+  .hero-vis{flex-direction:column;gap:12px}
+  .hero-vis .floatc{display:flex;position:static;transform:none;max-width:none;width:100%}
+}
+@media (prefers-reduced-motion:reduce){#hero3d svg{transition:none}.hero-vis .mini{transition:none}}
+/* Our phone has no stage pills, so its button sits higher than in the mockup: the cards overlap only the
+   status bar and the clipped bottom edge, never the arc or the button. */
+.hero-vis .floatc.a{top:-18px;right:auto;left:auto;inset-inline-end:0}
+.hero-vis .floatc.b{bottom:-16px;right:auto;left:auto;inset-inline-start:0}
+/* The ring's canvas reaches 40px past the stage (mockup #hero3d); only its empty edge can pass the page edge,
+   so the hero clips sideways and never adds a horizontal scrollbar. The cards above stay inside it. */
+.hero{overflow-x:clip}
+/* The public header has six links (one row needs 1130px in English): below that its nav takes its own row,
+   as every header does at 760px in the mockup, instead of wrapping inside the pill. */
+@media (max-width:1140px){
+  .top-site .wrap{border-radius:26px}
+  .top-site .util{margin-inline-start:auto}
+  .top-site .nav{order:3;flex-basis:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+}
+@media (min-width:981px){.hero-vis.has-phone{min-height:760px}}
+.spiral-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:start;margin-top:22px}
+@media (max-width:980px){.spiral-grid{grid-template-columns:1fr}}
+.y3d .hint{left:auto;inset-inline-start:16px}
+.map3d{height:400px}
+.map3d.is-flat{cursor:default}
+@media (max-width:540px){.map3d{height:320px}}
+.map3d-flat{height:100%;display:grid;place-items:center;padding:12px;transition:opacity .3s ease-out}
+.map3d-flat.is-hidden{opacity:0} /* still the accessible summary (role=img) under the canvas */
+.map3d-label{display:inline-block;white-space:nowrap;font-size:12.5px;font-weight:700;color:var(--ink);background:var(--glass);border:1px solid var(--rule);padding:4px 10px;border-radius:999px}
+.stage{flex:1;font:inherit;color:inherit}
+.stage img{border-radius:50%}
+ol.trace > li{padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0;background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);box-shadow:var(--shadow-s)}
+}

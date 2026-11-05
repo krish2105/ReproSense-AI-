@@ -17,6 +17,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   images: { formats: ["image/avif", "image/webp"] },
+  // Metadata (description, OG) in <head> for every user agent, not streamed into the body.
+  htmlLimitedBots: /.*/,
   async rewrites() {
     return [{ source: "/api/v1/:path*", destination: `${API_URL}/v1/:path*` }];
   },
