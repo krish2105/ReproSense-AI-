@@ -3,6 +3,7 @@ import { SourceLinks } from "@/components/safety/SourceLinks";
 import type { ReportPayload, Source } from "@/lib/api/types";
 import type { Locale } from "@/i18n/config";
 import { displayName, formatDate, formatDayMonth, isolate, regionKey } from "@/lib/format";
+import { TableScroll } from "@/components/ui/TableScroll";
 
 /**
  * The two-page summary as she and her doctor see it (mockup tReport; same payload as the PDF).
@@ -78,7 +79,7 @@ export function ReportDoc({ p, locale }: { p: ReportPayload; locale: Locale }) {
       {p.labs.length > 0 && (
         <>
           <h4>{t("report.labs")}</h4>
-          <div className="tbl">
+          <TableScroll label={t("report.labs")}>
             <table>
               <tbody>
                 {p.labs.map((l) => (
@@ -95,7 +96,7 @@ export function ReportDoc({ p, locale }: { p: ReportPayload; locale: Locale }) {
                 ))}
               </tbody>
             </table>
-          </div>
+          </TableScroll>
         </>
       )}
 

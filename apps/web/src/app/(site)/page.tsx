@@ -108,7 +108,7 @@ export default async function Landing() {
             <div className="floatc b">
               <span className="xs faint">{t("landing.floatCopilot")}</span>
               <span>{t("landing.floatQuestion")}</span>
-              <span className="xs" style={{ color: "var(--accent)", fontWeight: 700 }} dir="ltr">
+              <span className="xs" style={{ color: "var(--accent-text)", fontWeight: 700 }} dir="ltr">
                 {t("landing.floatCites")}
               </span>
             </div>
@@ -155,7 +155,7 @@ export default async function Landing() {
                 <Image src={`/images/stages/${s.img}.png`} alt="" width={56} height={56} />
                 <b>{t(`stages.${s.stage}`)}</b>
                 <span>{t(`landing.stageDesc.${s.stage}`)}</span>
-                <span className="xs" style={{ color: "var(--accent)", fontWeight: 700 }}>
+                <span className="xs" style={{ color: "var(--accent-text)", fontWeight: 700 }}>
                   {t("landing.stageOpen", { name: s.name })}
                 </span>
               </OpenPersona>

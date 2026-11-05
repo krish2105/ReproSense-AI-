@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { formatDayMonth } from "@/lib/format";
 import { beadsOf, type SpiralCycle } from "./spiral";
 import { webglAvailable } from "./webgl";
+import { TableScroll } from "@/components/ui/TableScroll";
 
 // The canvas code is split out and fetched only when needed (never in the first-load JS).
 const YearSpiral3D = dynamic(() => import("./YearSpiral3D"), { ssr: false });
@@ -73,7 +74,7 @@ export function SpiralSection({ cycles }: { cycles: SpiralCycle[] }) {
     <div>
       <div ref={box} className="panel y3d">
         {table ? (
-          <div className="tbl" style={{ padding: 16, height: "100%", overflow: "auto" }}>
+          <TableScroll label={label} style={{ padding: 16, height: "100%", overflow: "auto" }}>
             <table>
               <thead>
                 <tr>
@@ -92,7 +93,7 @@ export function SpiralSection({ cycles }: { cycles: SpiralCycle[] }) {
                 ))}
               </tbody>
             </table>
-          </div>
+          </TableScroll>
         ) : show3d && visible ? (
           <>
             <YearSpiral3D cycles={cycles} animate={!reduced} />

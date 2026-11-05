@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Icon } from "@/components/ui/Icon";
+import { LinkPending } from "@/components/chrome/LinkPending";
 import { TABS } from "./tabs";
 
 /** Floating tab bar (Home · Calendar · Analytics · Patterns · AI Chat · Report). Hidden until two tabs exist. */
@@ -21,6 +22,7 @@ export function TabBar() {
           <Link key={tab.key} href={tab.href} aria-current={current ? "page" : undefined}>
             <Icon name={tab.icon} />
             <span>{t(tab.key)}</span>
+            <LinkPending />
           </Link>
         );
       })}

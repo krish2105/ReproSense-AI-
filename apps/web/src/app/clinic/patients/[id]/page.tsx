@@ -11,10 +11,14 @@ import { apiServer } from "@/lib/api/server";
 import type { ClinicPatientsResponse, ClinicRecord } from "@/lib/api/types";
 import { displayName } from "@/lib/format";
 
+// Her display name in the tab title ("Noura A. · Clinician"), from the consented list the page loads anyway
+// (identical fetches in one render are deduplicated). A record without consent keeps the plain title.
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const t = await getTranslations("clinic");
   const { id } = await params;
-  return { title: `${t("metaTitle")} · ${id}` };
+  const { patients } = await apiServer<ClinicPatientsResponse>("/clinic/patients").catch(() => ({ patients: [] as ClinicPatientsResponse["patients"] }));
+  const alias = patients.find((p) => p.id === id)?.alias;
+  return { title: alias ? `${displayName(alias)} · ${t("metaTitle")}` : t("metaTitle") };
 }
 
 // One consented record (HANDOFF §5 /clinic/patients/[id]). No consent → the API answers 404 and we say why.

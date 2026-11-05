@@ -21,7 +21,7 @@ export async function CycleLedger({ cycles, locale, rows = 8 }: { cycles: { star
           {[0, 7, 14, 21, 28, 35, 42, 49, 56].filter((d) => d <= maxDay).map((d) => (
             <g key={d}>
               <line x1={xs(d)} x2={xs(d)} y1={top - 4} y2={H - 20} stroke="var(--rule)" />
-              <text x={xs(d)} y={H - 6} textAnchor="middle" fontSize="10" fill="var(--ink-3)">
+              <text x={xs(d)} y={H - 6} textAnchor="middle" fontSize="10" fill="var(--faint-text)">
                 {d}
               </text>
             </g>

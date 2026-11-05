@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Seg } from "@/components/ui/Pills";
 import type { PainSite } from "@/lib/api/types";
 import { SITE_POINTS, slug } from "@/lib/vocab";
@@ -22,6 +22,7 @@ export function BodyMap({
   yearCounts: Record<string, number>;
 }) {
   const t = useTranslations();
+  const uid = useId();
   const [side, setSide] = useState<"front" | "back">("front");
   const [imgFailed, setImgFailed] = useState(false);
   const max = Math.max(1, ...Object.values(yearCounts));
@@ -30,10 +31,15 @@ export function BodyMap({
     .map(([site, n]) => t("log.siteYear", { site: t(`sites.${slug(site)}`), count: n }));
 
   return (
-    <div className="box" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+    // A named group, so a screen reader hears the question before the tap points (each is a toggle with its site name).
+    <div className="box" role="group" aria-labelledby={`${uid}-t`} aria-describedby={`${uid}-h`} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
       <div className="kv" style={{ flexWrap: "wrap" }}>
-        <b style={{ fontSize: 16 }}>{t("log.bodyTitle")}</b>
-        <span className="xs faint">{t("log.bodyHint")}</span>
+        <b id={`${uid}-t`} style={{ fontSize: 16 }}>
+          {t("log.bodyTitle")}
+        </b>
+        <span id={`${uid}-h`} className="xs faint">
+          {t("log.bodyHint")}
+        </span>
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Seg

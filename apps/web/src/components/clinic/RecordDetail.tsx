@@ -8,6 +8,7 @@ import type { Locale } from "@/i18n/config";
 import { displayName, formatDayMonth, regionKey } from "@/lib/format";
 import { SOURCES } from "@/lib/sources";
 import { AskRecord, CareGaps, ReviewButton, VisitNote } from "./RecordActions";
+import { TableScroll } from "@/components/ui/TableScroll";
 
 /** The clinician's 30-second view of one consented record (mockup renderClinic). Clinical text is the API's. */
 export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Locale }) {
@@ -147,7 +148,7 @@ export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Loc
         {r.labs.length === 0 ? (
           <p className="s dim">{t("clinic.labsNone")}</p>
         ) : (
-          <div className="tbl">
+          <TableScroll label={t("clinic.labsTitle")}>
             <table>
               <thead>
                 <tr>
@@ -174,7 +175,7 @@ export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Loc
                 ))}
               </tbody>
             </table>
-          </div>
+          </TableScroll>
         )}
       </section>
 

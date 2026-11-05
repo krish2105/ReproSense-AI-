@@ -74,7 +74,7 @@ export async function Calendar({
             const iso = isoOf(y, m, day);
             if (iso > today)
               return (
-                <span key={iso} className="o" role="gridcell">
+                <span key={iso} className="o" role="gridcell" aria-disabled="true">
                   {day}
                 </span>
               );

@@ -8,6 +8,7 @@ import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
 import type { AdminMetricsFull, AuditVerify, FairnessRow } from "@/lib/api/types";
 import { formatNumber, regionKey } from "@/lib/format";
+import { TableScroll } from "@/components/ui/TableScroll";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("admin");
@@ -39,7 +40,7 @@ export default async function AdminPage() {
   const funnelMax = Math.max(1, ...m.funnel.map((f) => f.n));
   const region = (r: string) => (t.has(`regions.${regionKey(r)}`) ? t(`regions.${regionKey(r)}`) : r);
   const fairTable = (title: string, rows: FairnessRow[], id: string) => (
-    <div className="tbl">
+    <TableScroll label={title}>
       <table aria-labelledby={id}>
         <caption id={id} className="label" style={{ textAlign: "start", paddingBottom: 6 }}>
           {title}
@@ -75,7 +76,7 @@ export default async function AdminPage() {
           ))}
         </tbody>
       </table>
-    </div>
+    </TableScroll>
   );
 
   return (
@@ -154,7 +155,7 @@ export default async function AdminPage() {
               </li>
             ))}
           </ul>
-          <div className="tbl" style={{ marginTop: 8 }}>
+          <TableScroll label={t("admin.regionsTitle")} style={{ marginTop: 8 }}>
             <table>
               <thead>
                 <tr>
@@ -187,7 +188,7 @@ export default async function AdminPage() {
                 })}
               </tbody>
             </table>
-          </div>
+          </TableScroll>
         </section>
       </div>
 

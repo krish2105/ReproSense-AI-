@@ -11,6 +11,7 @@ import type { AnalyticsResponse, TimelineResponse } from "@/lib/api/types";
 import { formatDayMonth, formatNumber } from "@/lib/format";
 import { requireRole } from "@/lib/session";
 import { slug } from "@/lib/vocab";
+import { TableScroll } from "@/components/ui/TableScroll";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("analytics");
@@ -109,7 +110,7 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
           />
           <details className="box">
             <summary>{t("analytics.showTable")}</summary>
-            <div className="tbl">
+            <TableScroll label={t("analytics.showTable")}>
               <table>
                 <thead>
                   <tr>
@@ -134,7 +135,7 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
                   ))}
                 </tbody>
               </table>
-            </div>
+            </TableScroll>
           </details>
         </>
       )}
