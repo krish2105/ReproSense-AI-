@@ -17,6 +17,18 @@ Blockers / questions:
 
 ---
 
+## 2026-11-05 — Phase 3 (web) — Krishna with Claude Code
+Done:
+- Patterns `/app/insights`: red flags pinned first; full cards with summary, the rule's explanation, "Why we noticed" chips that open that day in the calendar, record-strength meter, what to consider next, questions for the doctor, draft request (navigator), ask the assistant, how it was written (template or model, sentences matched to a source) and sources. "How this was produced" shows the rule id, rules version, the numbers the rule used and the 7 pipeline steps with timings. Crisis replaces everything with support. Amina gets an empty state that says what will appear.
+- AI Chat `/app/assistant`: header with the copilot avatar, suggested questions (EN/AR from the API), thread kept for the session, answers with numbered citation links and a source list under every answer, refusals rendered as written, urgent answers in the urgent style with Call 998, crisis answers as support only, voice input only where the browser supports it, ?q= prefill from a pattern card.
+- Tab bar now shows Home, Calendar, Analytics, Patterns, AI Chat; Home's "See all patterns" links appear.
+Tests: web 34/34 unit (answer parser added) · lint, typecheck pass · backend 104/104
+Browser check: Noura's Patterns at 1280 (trace dialog, evidence chip → 28 Nov 2025 in the calendar), AI Chat with a suggested question, "Do I have PCOS?" (refusal with sources) and an urgent question (998 first, Call 998, sources); Arabic chat at 390 with an Arabic answer; zero console errors.
+Fixed during the check: English chat text reversed inside the Arabic layout (direction now set on the message text, not the bubble).
+Found (backend, QUESTIONS #39): off-topic questions get unrelated passages instead of "no source found".
+Next:
+- Phase 4: doctor report preview + PDF, share with consent (7-day expiry), revoke, /shared/[token], visit mode with SBAR + QR.
+
 ## 2026-11-05 — Phase 2 (web) — Krishna with Claude Code
 Done:
 - Home `/app`: red flags first (RF card with the action line, date, evidence, source, Call 998), crisis card (RF4 wording, no score), greeting, stage switch (logs in as Noura, Mariam, Hessa, Fatima or Layla), day pills (link to that day), the signature arc for cycle, pregnancy (weeks 0–40 + glucose window ring) and after birth (weeks 0–12 + test window), RF5 pregnancy warning box with sources, recommendations, mood row (POST /v1/mood), up to three pattern cards, record strength.
