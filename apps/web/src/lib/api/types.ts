@@ -509,3 +509,51 @@ export interface AuditVerify {
   chain_ok: boolean;
   first_bad_id: number | null;
 }
+
+// ---------------- Phase 6: check-in, documents, privacy ----------------
+
+/** POST /v1/questionnaires/epds — crisis → total is null and only red-flag cards come back */
+export interface EpdsResult {
+  crisis: boolean;
+  total: number | null;
+  cards: Card[];
+}
+export interface ExtractedRow {
+  code: string;
+  test: string;
+  value: number | string;
+  unit: string | null;
+  ref_low: number | null;
+  ref_high: number | null;
+  flag: string;
+  date: string;
+  note?: string | null;
+}
+/** POST /v1/documents (multipart) */
+export interface DocumentUpload {
+  id: number;
+  rows: ExtractedRow[];
+  sample_date: string | null;
+  injection_lines_removed: number;
+  message: string;
+}
+/** GET /v1/documents */
+export interface DocumentRow {
+  id: number;
+  filename: string;
+  mime: string;
+  status: "extracted" | "confirmed";
+  extraction: { rows: ExtractedRow[]; sample_date: string | null; injection_lines_removed: number } | null;
+  created_at: string;
+}
+/** GET /v1/privacy */
+export interface PrivacyResponse {
+  consents: { purpose: "care_share" | "assistant" | "research"; granted: boolean; granted_at: string | null; revoked_at: string | null; clinic_id: string | null; clinic_name: string | null }[];
+  audit: { actor_role: string; actor_id: string | null; action: string; target: string | null; at: string }[];
+  stored: Record<string, number>;
+  promises: string[];
+}
+export interface FhirExport {
+  bundle: { resourceType: string; type: string; entry?: unknown[] };
+  validation_errors: string[];
+}

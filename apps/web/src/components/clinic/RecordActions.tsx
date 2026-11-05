@@ -179,7 +179,7 @@ export function AskRecord({ pid }: { pid: string }) {
           </button>
         ))}
       </div>
-      <form className="askbar" onSubmit={submit}>
+      <form method="post" className="askbar" onSubmit={submit}>
         <label htmlFor="ask-record" className="sr-only">
           {t("askLabel")}
         </label>
