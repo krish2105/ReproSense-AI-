@@ -40,7 +40,7 @@ export async function CycleLengthChart({ cycles, locale }: { cycles: AnalyticsCy
           {ticks.map((v) => (
             <g key={v}>
               <line x1={l} x2={W - r + 6} y1={ys(v)} y2={ys(v)} stroke="var(--rule)" strokeDasharray="3 4" />
-              <text x={l - 8} y={ys(v) + 4} textAnchor="end" fontSize="10" fill="var(--ink-3)">
+              <text x={l - 8} y={ys(v) + 4} textAnchor="end" fontSize="10" fill="var(--faint-text)">
                 {v}
               </text>
             </g>
@@ -66,7 +66,7 @@ export async function CycleLengthChart({ cycles, locale }: { cycles: AnalyticsCy
                   </text>
                 )}
                 {i % every === 0 && (
-                  <text x={x} y={H - 6} textAnchor="middle" fontSize="10" fill="var(--ink-3)">
+                  <text x={x} y={H - 6} textAnchor="middle" fontSize="10" fill="var(--faint-text)">
                     {monthShort(c.start, locale)}
                   </text>
                 )}
@@ -117,7 +117,7 @@ export async function BarsChart({
           {[0, max / 2, max].filter((v) => !threshold || Math.abs(v - threshold.value) > max * 0.12).map((v) => (
             <g key={v}>
               <line x1={l} x2={W - r} y1={ys(v)} y2={ys(v)} stroke="var(--rule)" strokeDasharray="3 4" />
-              <text x={l - 8} y={ys(v) + 4} textAnchor="end" fontSize="10" fill="var(--ink-3)">
+              <text x={l - 8} y={ys(v) + 4} textAnchor="end" fontSize="10" fill="var(--faint-text)">
                 {Math.round(v)}
               </text>
             </g>
@@ -144,7 +144,7 @@ export async function BarsChart({
                   </text>
                 )}
                 {i % every === 0 && (
-                  <text x={x + bw / 2} y={H - 6} textAnchor="middle" fontSize="10" fill="var(--ink-3)">
+                  <text x={x + bw / 2} y={H - 6} textAnchor="middle" fontSize="10" fill="var(--faint-text)">
                     {monthShort(bar.start, locale)}
                   </text>
                 )}
@@ -187,7 +187,7 @@ export async function YearDots({ timeline, months, locale }: { timeline: Timelin
       <div dir="ltr" style={{ overflowX: "auto" }}>
         <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ minWidth: 300 }} role="img" aria-labelledby="year-title year-sum">
           {rows.map((r, i) => (
-            <text key={`${r.y}-${r.m}`} x={L - 8} y={cy(i) + 3.5} textAnchor="end" fontSize="9" fill="var(--ink-3)">
+            <text key={`${r.y}-${r.m}`} x={L - 8} y={cy(i) + 3.5} textAnchor="end" fontSize="9" fill="var(--faint-text)">
               {label(r)}
             </text>
           ))}

@@ -15,6 +15,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // A second build folder lets a dev server run beside `next start` (NEXT_DIST_DIR=.next-dev pnpm dev -p 3200).
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   reactStrictMode: true,
   images: { formats: ["image/avif", "image/webp"] },
   // Metadata (description, OG) in <head> for every user agent, not streamed into the body.

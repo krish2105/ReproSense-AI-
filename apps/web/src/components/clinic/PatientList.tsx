@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LinkPending } from "@/components/chrome/LinkPending";
 import { getTranslations } from "next-intl/server";
 import { EmptyState } from "@/components/ui/States";
 import { Tag } from "@/components/ui/Tag";
@@ -29,6 +30,7 @@ export async function PatientList({ patients, selected }: { patients: ClinicPati
                   <span className="xs faint">{t("clinic.rowMeta", { age: p.age, open: p.open_obs + p.open_gaps, reviewed: p.reviewed_at ? "yes" : "no" })}</span>
                 </span>
                 {tone && <Tag tone={tone}>{t(`tags.${tone}`)}</Tag>}
+                <LinkPending />
               </Link>
             </li>
           );

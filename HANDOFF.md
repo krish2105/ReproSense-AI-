@@ -33,6 +33,7 @@ make db       # creates databases reprosense + reprosense_test
 make seed     # schema + RLS + 8 personas + 1,200 cohort + RAG index (93 chunks)
 make api      # http://127.0.0.1:8010  (docs at /docs). Port 8000 is taken by another local project.
 make test     # ruff + 104 tests against reprosense_test
+cd apps/web && pnpm build && PW_CHANNEL=chrome pnpm e2e   # 69 Playwright checks at 1280 + 390 px (reuses the API on :8010 and `pnpm start -p 3100` if they run)
 ```
 Gotchas:
 - **WeasyPrint on macOS** needs `DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib`. The Makefile sets it inline because macOS strips `DYLD_*` when it launches `/bin/sh`. Without it, PDFs return 503 and everything else still works.
@@ -108,7 +109,7 @@ Done when each `BUILD_STATUS` "Done when" passes at 390px and 1280px, light and 
 
 ## 6. Krishna — what is left on the backend / ops side
 - Deploy: ready to run, see **docs/16_DEPLOY_NOW.md** (Supabase → Render blueprint `render.yaml` with `backend/Dockerfile` → Vercel `apps/web`). The API seeds an empty database on first boot and never reseeds; the schema now works under a non-superuser owner like Supabase's (tested in `tests/test_rls.py`). Still to do: create the three accounts and deploy, uptime ping, Replit backup.
-- Playwright e2e of the full demo path (with Atharva, once the UI exists), wired into CI.
+- ~~Playwright e2e of the full demo path, wired into CI.~~ Done 6 Nov: `apps/web/e2e`, CI job `e2e` (seeded pgvector Postgres, API, production build, Chromium).
 - Get an `ANTHROPIC_API_KEY` (or decide to stay deterministic). Run the eval in LLM mode and warm the cache for all 8 personas.
 - Clinician sign-off: QUESTIONS #17, #26, #27, #28, #35 and the `clinical_rules.yaml` header. Verify NG257 wording (#29).
 - Disclosure note (#34) and applications by 14 Nov. Interviews + LOI (docs/12, docs/15).

@@ -64,6 +64,7 @@ make api                                          # API on :8010 (8000 is used b
 make test                                         # ruff + backend tests (104)
 python3 data/synthetic/generate_synthetic.py      # demo data
 cd apps/web && pnpm install && pnpm dev       # web on :3000 (needs the API on :8010)
+cd apps/web && pnpm build && PW_CHANNEL=chrome pnpm e2e   # Playwright: demo path, screens, safety, 3D fallbacks
 ```
 Status and next steps for a new session: `HANDOFF.md`.
 

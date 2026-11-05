@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
+import { PatientInvite } from "@/components/clinic/PatientInvite";
 import { PatientList } from "@/components/clinic/PatientList";
 import { EmptyState } from "@/components/ui/States";
 import { Tag } from "@/components/ui/Tag";
 import { isLocale } from "@/i18n/config";
+import { getSession } from "@/lib/session";
 import { apiServer } from "@/lib/api/server";
 import type { ClinicGapRow, ClinicPatientsResponse } from "@/lib/api/types";
 import { displayName, formatDayMonth } from "@/lib/format";
@@ -20,7 +22,11 @@ export default async function ClinicPage() {
   const raw = await getLocale();
   const locale = isLocale(raw) ? raw : "en";
   const t = await getTranslations("clinic");
-  const [{ patients }, gaps] = await Promise.all([apiServer<ClinicPatientsResponse>("/clinic/patients"), apiServer<ClinicGapRow[]>("/clinic/care-gaps")]);
+  const [{ patients }, gaps, me] = await Promise.all([
+    apiServer<ClinicPatientsResponse>("/clinic/patients"),
+    apiServer<ClinicGapRow[]>("/clinic/care-gaps"),
+    getSession(),
+  ]);
   const open = gaps.filter((g) => g.status !== "closed");
   return (
     <>
@@ -54,6 +60,7 @@ export default async function ClinicPage() {
               </ul>
             )}
           </section>
+          {me?.clinic_id && <PatientInvite clinicId={me.clinic_id} />}
         </div>
       </div>
     </>

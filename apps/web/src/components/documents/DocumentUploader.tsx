@@ -9,6 +9,7 @@ import { ApiError, errorDetail } from "@/lib/api/errors";
 import { apiClient } from "@/lib/api/client";
 import type { DocumentUpload, ExtractedRow } from "@/lib/api/types";
 import { formatDate } from "@/lib/format";
+import { TableScroll } from "@/components/ui/TableScroll";
 
 type Row = ExtractedRow & { keep: boolean };
 
@@ -120,7 +121,7 @@ export function DocumentUploader({ demoFile }: { demoFile?: string }) {
           {rows.length === 0 ? (
             <p className="s">{t("noRows")}</p>
           ) : (
-            <div className="tbl">
+            <TableScroll label={t("tableTitle")}>
               <table>
                 <thead>
                   <tr>
@@ -163,7 +164,7 @@ export function DocumentUploader({ demoFile }: { demoFile?: string }) {
                   ))}
                 </tbody>
               </table>
-            </div>
+            </TableScroll>
           )}
           {rows.length > 0 && (
             <Button pending={pending} onClick={confirm} style={{ alignSelf: "flex-start" }}>

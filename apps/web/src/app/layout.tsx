@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Sans_Arabic, Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { cookies } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -9,9 +9,44 @@ import { clientMessages } from "@/i18n/client-messages";
 import { dirOf, isLocale, defaultLocale } from "@/i18n/config";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-jakarta", display: "swap" });
-// Not preloaded: the Arabic face is fetched only when Arabic text renders (saves ~140 kB on English pages).
-const plexArabic = IBM_Plex_Sans_Arabic({ subsets: ["arabic"], weight: ["400", "500", "600", "700"], variable: "--font-plex-arabic", display: "swap", preload: false });
+// Self-hosted (src/app/fonts, SIL Open Font License 1.1): the build never calls Google Fonts, so CI and deploys
+// cannot fail on its responses. Same files, weights and subsets that next/font/google used to fetch. Font loader options
+// must be literals, so the unicode ranges are written out in each call.
+const jakarta = localFont({
+  src: [{ path: "./fonts/plus-jakarta-sans-latin-wght.woff2", weight: "200 800", style: "normal" }],
+  variable: "--font-jakarta",
+  display: "swap",
+  declarations: [{ prop: "unicode-range", value: "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD" }],
+  adjustFontFallback: "Arial",
+});
+// Arabic letters, and the Latin letters (numbers, "PCOS", "AED") inside Arabic text: two families, each limited to its
+// range, so the browser fetches only what a page shows. Not preloaded: English pages never download them.
+const plexArabic = localFont({
+  src: [
+    { path: "./fonts/ibm-plex-sans-arabic-arabic-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/ibm-plex-sans-arabic-arabic-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/ibm-plex-sans-arabic-arabic-600.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/ibm-plex-sans-arabic-arabic-700.woff2", weight: "700", style: "normal" },
+  ],
+  variable: "--font-plex-arabic",
+  display: "swap",
+  preload: false,
+  declarations: [{ prop: "unicode-range", value: "U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC" }],
+  adjustFontFallback: false,
+});
+const plexArabicLatin = localFont({
+  src: [
+    { path: "./fonts/ibm-plex-sans-arabic-latin-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/ibm-plex-sans-arabic-latin-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/ibm-plex-sans-arabic-latin-600.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/ibm-plex-sans-arabic-latin-700.woff2", weight: "700", style: "normal" },
+  ],
+  variable: "--font-plex-arabic-latin",
+  display: "swap",
+  preload: false,
+  declarations: [{ prop: "unicode-range", value: "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD" }],
+  adjustFontFallback: "Arial",
+});
 
 // Absolute URLs for social previews: an explicit NEXT_PUBLIC_SITE_URL, else Vercel's production domain, else local.
 function siteUrl(): string {
@@ -66,7 +101,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       data-theme={theme === "dark" || theme === "light" ? theme : undefined}
       data-scroll-behavior="smooth"
       data-discreet={discreet ? "" : undefined}
-      className={`${jakarta.variable} ${plexArabic.variable}`}
+      className={`${jakarta.variable} ${plexArabic.variable} ${plexArabicLatin.variable}`}
     >
       <body>
         <NextIntlClientProvider messages={await clientMessages()}>

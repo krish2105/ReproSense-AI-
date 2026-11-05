@@ -42,6 +42,9 @@ Keep E · Mauve Pro colours and fonts; take only the methods from `light-3d-desi
 - Colours come from CSS variables read at mount (`getComputedStyle(document.documentElement)`) and re-read when `data-theme`
   changes (MutationObserver), so dark mode is designed, not inverted. Phase colours carry the same meaning as in the charts (see `mauve-charts`).
 
+- No drei `<Html>`: it mounts a React root per label. Put labels in plain DOM over the canvas and move them in
+  `useFrame` with `vector.project(camera)` (`LabelTracker` in `admin/RegionColumns3D.tsx`).
+
 ## 4. Accessibility
 - The canvas is `aria-hidden`; a visible one-line summary sits next to it, and a "Show as table" toggle gives the same numbers.
 - Keyboard users get the table, never a trap inside the canvas. Pointer drag is optional, never required.

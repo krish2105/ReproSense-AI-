@@ -162,7 +162,13 @@
     "noShareTitle": "No shared record",
     "noShareBody": "She hasn't shared her record with this clinic. It appears here only after she shares a report.",
     "careGapsTitle": "Follow-ups due across the clinic",
-    "careGapsNone": "No open follow-ups."
+    "careGapsNone": "No open follow-ups.",
+    "inviteTitle": "Invite patients",
+    "inviteBody": "Patients scan this code to start their own record. Each one decides whether to share it with your clinic; nothing is shared by default.",
+    "inviteCopy": "Copy invite link",
+    "inviteCopied": "Invite link copied.",
+    "inviteOpen": "Open the invite page",
+    "inviteQrLabel": "QR code of the patient invite link"
   },
   "admin": {
     "metaTitle": "Clinic network",
@@ -332,7 +338,10 @@
     "afterBirth": "after birth",
     "recovery": "Recovery, weeks 0–{to}",
     "window": "Glucose test window, weeks {from}–{to}",
-    "summaryAfter": "Week {week} after birth. The glucose test window is weeks {from} to {to}."
+    "summaryAfter": "Week {week} after birth. The glucose test window is weeks {from} to {to}.",
+    "noCycleTitle": "Your cycle day appears here",
+    "noCycleBody": "Log the day your period starts and ReproSense estimates where you are in your cycle. Everything stays in your record.",
+    "noCycleAction": "Log your period"
   },
   "safety": {
     "pregTitle": "Call 998 or go to your maternity unit now if you notice",
@@ -921,7 +930,7 @@
     "womenPrice": "Free for women. No advertising. Health data is never sold.",
     "clinicTitle": "The clinic acts on it",
     "clinicBody": "Before the visit the clinician receives a structured history in a standard handover format, the evidence behind each pattern, and extracted lab values. The clinic dashboard lists follow-ups that are due, such as glucose tests after gestational diabetes, and shows them closing.",
-    "clinicPrice": "Subscription per clinician seat (price to validate in clinic interviews).",
+    "clinicPrice": "From AED 399 per clinician per month, a hypothesis we are testing in clinic interviews.",
     "promisesTitle": "What we promise about her data.",
     "p1t": "No name needed",
     "p1b": "In production she signs in with a passkey under an alias. This demo uses fictional people.",
@@ -933,7 +942,8 @@
     "p4b": "The production plan uses a UAE cloud region and a UAE-hosted model. This demo runs locally.",
     "p5t": "AI never decides",
     "p5b": "Observations come from written rules with sources. The model only explains and is blocked from diagnostic wording.",
-    "finalCta": "Open the demo people"
+    "finalCta": "Open the demo people",
+    "pricingLink": "See pricing and how we sized the market"
   },
   "status": {
     "metaTitle": "Team scorecard",
@@ -959,5 +969,105 @@
     "rubricTitle": "How the jury scores (HealthX Ajyal)",
     "rubric": "Venture 30 · Health impact 20 · Innovation and evidence 20 · Working prototype 20 · Team and pitch 10",
     "unavailable": "The quality numbers didn't load. Start the API with make api, then reload."
+  },
+  "join": {
+    "metaTitle": "Start your own record",
+    "step": "Step {n} of 3",
+    "invitedBy": "Invited by {clinic}",
+    "h1": "Start your own record",
+    "lede": "Two minutes, a few questions. Your entries stay yours: you decide what a clinic sees.",
+    "promise1": "Only you see your entries.",
+    "promise2": "A clinic sees your report only if you share it, and you can stop at any time.",
+    "promise3": "You can download or delete everything from the privacy page.",
+    "demoNote": "This is a demo. Use a nickname and made-up details, not your real health information. Demo records are deleted at the next reset.",
+    "continue": "Continue",
+    "back": "Back",
+    "aboutTitle": "About you",
+    "name": "First name or nickname",
+    "age": "Age",
+    "ageHint": "18 or older",
+    "region": "Where you live",
+    "stage": "What fits you best right now?",
+    "detailsTitle": "One more question",
+    "lastPeriod": "When did your last period start?",
+    "lastPeriodHint": "Leave it empty if you don't remember. You can log it later.",
+    "weeksPregnant": "How many weeks pregnant are you?",
+    "weeksSinceBirth": "How many weeks ago was your baby born?",
+    "gdm": "Was diabetes found during this pregnancy (gestational diabetes)?",
+    "gdmYes": "Yes",
+    "gdmNo": "No",
+    "gdmUnsure": "Not sure",
+    "gdmHint": "If yes, ReproSense checks whether your follow-up glucose test is recorded and reminds you when it is due.",
+    "share": "Share my report with {clinic}. I can stop sharing at any time.",
+    "create": "Create my record",
+    "creating": "Creating your record",
+    "failed": "Your record wasn't created: {detail}",
+    "required": "Fill in every question on this step to continue.",
+    "tryTitle": "Try it as yourself",
+    "tryBody": "Start a new record in two minutes, with made-up details. A clinic's QR code opens the same page.",
+    "tryAction": "Start your own record"
+  },
+  "pricing": {
+    "metaTitle": "Pricing",
+    "title": "Free for women. Clinics pay for follow-ups that get done.",
+    "intro": "Women use ReproSense free. Clinics pay for a history that arrives before the visit and follow-ups that are tracked until they close. Every price on this page is a hypothesis we are testing in clinic interviews, not a quote.",
+    "per": "per clinician per month",
+    "perYear": "AED 349 if paid yearly",
+    "perMonth": "per month",
+    "tiers": {
+      "women": {
+        "name": "Women",
+        "price": "Free",
+        "b1": "Her record: cycles, pain, symptoms and lab results",
+        "b2": "A doctor report as a PDF, and sharing she can stop at any time",
+        "b3": "Arabic and English. No advertising. Health data is never sold."
+      },
+      "seat": {
+        "name": "Clinician seat",
+        "price": "AED 399",
+        "b1": "Consented patients, most urgent first",
+        "b2": "A handover summary (SBAR) with the evidence behind each pattern",
+        "b3": "Follow-ups due, with reminder drafts that staff approve",
+        "b4": "A patient invite QR for the clinic"
+      },
+      "clinic": {
+        "name": "Small clinic",
+        "price": "AED 1,990",
+        "sub": "up to 5 clinicians",
+        "b1": "Everything in a clinician seat, for up to five clinicians",
+        "b2": "The clinic's own patient invite",
+        "b3": "A monthly report of follow-ups closed"
+      },
+      "network": {
+        "name": "Clinic network",
+        "price": "From AED 150,000",
+        "sub": "a year",
+        "b1": "The network dashboard across clinics, with the fairness check",
+        "b2": "FHIR R4 export, ready for Malaffi",
+        "b3": "Planned: single sign-on for staff"
+      }
+    },
+    "pilotTitle": "Start with a paid pilot",
+    "pilotBody": "Three months for AED 5,000–10,000, credited to the first year: up to 3 clinicians and 20 consenting patients, with setup, training and a weekly follow-up report.",
+    "payerTitle": "Payers and employers",
+    "payerBody": "Priced after the pilot, per enrolled woman or per follow-up closed, starting with the glucose test after gestational diabetes.",
+    "whyTitle": "Why these numbers",
+    "whyIntro": "A seat sits between what UAE clinics pay for practice software and what clinicians pay for AI tools.",
+    "colWhat": "What clinics buy today",
+    "colPrice": "Price",
+    "colSource": "Source",
+    "rowPractice": "Practice software in the UAE",
+    "rowPracticePrice": "AED 89–249 per practitioner per month (vendor pages, not fully verified)",
+    "rowScribe": "AI clinical tools (scribes)",
+    "rowScribePrice": "About USD 150 (AED 550) per clinician per month",
+    "rowPortal": "Doctor booking portal, UAE (2019)",
+    "rowPortalPrice": "About AED 500 per doctor per month",
+    "marketTitle": "The market we are sizing",
+    "market1": "Abu Dhabi has 14 specialised fertility centres, 45 women's health facilities, about 700 OB-GYN specialists and consultants and 375 midwives, and ran more than 6,180 IVF cycles in 2024.",
+    "market2": "Seats alone come to about AED 5.2 million a year in Abu Dhabi (1,075 seats × AED 399 × 12). The path to scale is network licences and payer programmes for closed follow-ups.",
+    "market3": "Since July 2025 the Department of Health's Rewarding Exceptional Quality programme rewards fertility providers that meet quality goals. ReproSense records which recommended follow-ups were closed, the kind of evidence such programmes look for.",
+    "sourcesTitle": "Sources",
+    "note": "Prices are hypotheses until clinic interviews and a letter of intent back them (docs/12). Market figures come from the Department of Health via the Abu Dhabi Media Office.",
+    "pilotAction": "Open the demo"
   }
 }

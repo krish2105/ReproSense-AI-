@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LinkPending } from "@/components/chrome/LinkPending";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
 type Variant = "primary" | "outline";
@@ -39,6 +40,7 @@ export function ButtonLink({ variant, size, className, children, href, ...rest }
   return (
     <Link href={href} className={classes({ variant, size, className })} {...rest}>
       {children}
+      <LinkPending />
     </Link>
   );
 }

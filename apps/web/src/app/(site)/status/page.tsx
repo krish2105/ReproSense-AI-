@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { ErrorState } from "@/components/ui/States";
 import { Tag } from "@/components/ui/Tag";
 import { apiServer } from "@/lib/api/server";
+import { TableScroll } from "@/components/ui/TableScroll";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("status");
@@ -62,7 +63,7 @@ export default async function StatusPage() {
           </span>
         </p>
         <p className="s dim">{t("rulesValue", { pass: q.rule_accuracy.pass, of: q.rule_accuracy.of })}</p>
-        <div className="tbl" style={{ marginTop: 12 }}>
+        <TableScroll label={t("rules")} style={{ marginTop: 12 }}>
           <table>
             <thead>
               <tr>
@@ -87,7 +88,7 @@ export default async function StatusPage() {
               ))}
             </tbody>
           </table>
-        </div>
+        </TableScroll>
       </section>
 
       {e && (

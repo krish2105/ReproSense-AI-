@@ -1,13 +1,13 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
 import { useToast } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
+import { enterAs } from "@/lib/enter";
 import type { LoginResponse, Persona } from "@/lib/api/types";
 import { displayName, firstName, isolate, regionKey } from "@/lib/format";
 import { tonesOf } from "@/lib/rules";
@@ -15,7 +15,6 @@ import { tonesOf } from "@/lib/rules";
 /** Roster rows exactly like the mockup's renderPeople(); "Open <name>'s record" signs in as her and opens her app. */
 export function DemoRoster({ personas, storyLang }: { personas: Persona[]; storyLang?: string }) {
   const t = useTranslations();
-  const router = useRouter();
   const toast = useToast();
   const [busy, setBusy] = useState<string | null>(null);
   const [, start] = useTransition();
@@ -25,8 +24,7 @@ export function DemoRoster({ personas, storyLang }: { personas: Persona[]; story
     start(async () => {
       try {
         await apiClient<LoginResponse>("/demo/login", { body: { persona: id } });
-        router.push("/app");
-        router.refresh();
+        enterAs("/app");
       } catch (e) {
         setBusy(null);
         toast(t("demo.failed", { detail: e instanceof ApiError ? e.detail : String(e) }));

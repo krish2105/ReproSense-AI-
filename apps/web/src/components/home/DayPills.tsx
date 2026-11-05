@@ -13,12 +13,13 @@ export async function DayPills({ pills, locale }: { pills: DayPill[]; locale: Lo
     <nav aria-label={t("weekLabel")}>
       <ol className="days">
         {pills.map((p) => {
-          const date = formatDate(p.date, locale);
           const weekday = wd.format(parseIsoDate(p.date));
+          // The name starts with what the pill shows ("Thu 19 Nov 2026, logged"), so voice control can say "Thu" (WCAG 2.5.3).
+          const date = `${weekday} ${formatDate(p.date, locale)}`;
           const label = p.today ? t("pillToday", { date }) : p.past ? (p.logged ? t("pillLogged", { date }) : t("pillNotLogged", { date })) : t("pillFuture", { date });
           const inner = (
             <>
-              <span aria-hidden="true">{weekday}</span>
+              <span aria-hidden="true">{weekday}</span>{" "}
               <i aria-hidden="true">{p.today ? null : p.logged ? <Icon name="check" size={14} /> : <span className="ltr" style={{ fontSize: 11 }}>{p.day}</span>}</i>
             </>
           );

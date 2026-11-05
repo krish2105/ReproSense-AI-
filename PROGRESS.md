@@ -17,6 +17,85 @@ Blockers / questions:
 
 ---
 
+## 2026-11-06 — Demo readiness and scorecard (docs/09) — Krishna with Claude Code
+Scored inline and strictly, on what runs today, not on what is planned. The senior-judge agent was not run, because agents are paused at Krishna's request; run it for an independent read.
+
+**Demo readiness (skill `demo-readiness`)**
+- §1 Path: every step passes in the e2e at 1280 and 390 px, in 5–16 s automated (target ≤ 3:00 spoken):
+  - landing with Noura's real cycles (mobile LCP 1.1 s, Lighthouse 100);
+  - /demo → Noura → home → timeline → patterns (an evidence chip opens its day) → the trace;
+  - "What is PCOS?" with 2 citations, then the Arabic toggle;
+  - report → PDF → consented share with its expiry;
+  - clinician → Fatima's follow-up done → the admin KPI moves 101 → 102;
+  - Ask the record answers with dates;
+  - the fairness table renders.
+- §2 Safety: the demo badge shows on every key screen (EN/AR); Sara's 998 card comes first; the guard tests pass (backend 104/104); AI use is in the footer. The deck's last slide doesn't exist yet.
+- §3 Fallbacks: no LLM key is needed (extractive answers), so nothing depends on the network at demo time. The demo reset works. **Not done:** backup video, second URL (Replit), and a rehearsal with the network off.
+- §4 People: for the team.
+
+Senior-judge score (inline): Venture 18/30 · Impact 16/20 · Innovation 16/20 · Prototype 16/20 · Pitch 6/10 = **72/100**
+
+| Criterion | /5 | Weighted | Why |
+| --- | --- | --- | --- |
+| Venture (30) | 3 | 18 | Price model on the landing and in docs/12; FHIR export as the integration path; regulatory plan in the docs. No named first clinic, 0 of 5 interviews, no letter of intent. |
+| Health impact (20) | 4 | 16 | Sourced UAE numbers on the landing; the clinic loop closes care gaps live; free for women. No clinician quote or pilot outcome. |
+| Innovation & evidence (20) | 4 | 16 | Rules from the YAML with sources (8/8 personas); 96.7% grounded answers, 15/15 refusals, 100% red-flag recall; every card shows its entries, the rule inputs and the pipeline steps. Rules not yet signed off by a clinician (QUESTIONS #17, #26–#28, #35). |
+| Working prototype (20) | 4 | 16 | The whole path passes the e2e at both widths in EN/AR, axe-clean, Lighthouse 100, with a PDF, sources and no dead buttons on the path. **Not deployed**: a judge can't open a URL yet. |
+| Team & pitch (10) | 3 | 6 | Script and Q&A in docs/10; AI disclosure in the footer. No deck, no rehearsal, no backup video. |
+
+Real MVP (B): 7 pass, 2 partial, 1 fail.
+- **Fail:** sign-up for a new user (demo personas only).
+- **Partial:** loading states (link feedback instead of route skeletons, QUESTIONS #43); pilot readiness (real auth, deploy and CSP still to do).
+- **Pass:** persistence, evidence links, the PDF, consent-only clinician view (RLS tests), EN/AR, Lighthouse, automated tests.
+
+Real SaaS (C): 3 pass, 6 partial, 1 fail.
+- **Pass:** roles, residency story, FHIR path.
+- **Partial:** tenants (one clinic wired), metrics (network level only), pricing tiers (two-sided model only), audit export (verify only), status page (no SLA), unit economics (docs only).
+- **Fail:** clinic onboarding.
+
+Trust pack: grounded 96.7% ✓ · refusals 15/15 ✓ · red-flag recall 100% ✓ · rules 8/8 ✓ · banned words 0 ✓ · navigator never sends ✓ (e2e) · network-off run not yet done.
+
+Below 4/5, and the single most valuable fix for each:
+- **Venture 3:** five clinic interviews and one letter of intent (docs/12, docs/15). Team work, not code.
+- **Pitch 3:** a 10-slide deck from docs/10, three timed rehearsals, and the backup video. Team work. The deck can be drafted on request.
+
+Top fixes by points gained per hour:
+1. **Deploy** (docs/08): prototype +4 for ~3 h. Krishna; needs the Vercel, Render and Supabase accounts.
+2. **Deck, rehearsals and video:** pitch +2 for ~3 h.
+3. **A clinician advisor signs off the rules and gives one quote:** innovation and impact +8. This is the biggest lever per docs/15.
+4. **Five interviews and an LOI:** venture +6, over several days.
+5. **A network-off rehearsal of the e2e path:** trust pack, about 30 min.
+
+Hardest questions on stage, grading the docs/10 answers:
+- **"Is this a medical device?"** Answer B. Add that it never outputs a diagnosis or treatment, that it only flags patterns worth discussing, and that red flags route to 998.
+- **"How do you know it helps?"** Answer B-. Add the measured numbers above and the pilot measure: care gaps closed per 100 shared reports.
+- **"Who signs the first cheque?"** Answer C. There is no named clinic or LOI yet, which is fix 4.
+
+## 2026-11-06 — Step 3: Playwright e2e in CI — Krishna with Claude Code
+Done:
+- `apps/web/e2e` (Playwright 1.64, axe-core 4.14) against the real stack: the seeded API and the production build, at 1280 px and 390 px. Any console error fails a test. Demo data is reset before and after.
+- The 3-minute path in one timed test: landing (Noura's live arc, 46 ring beads, disclosures) → her record (home, timeline with the 21–35 band, body map, patterns with dated evidence and the trace) → assistant ("What is PCOS?" with 2 numbered sources, then Arabic and back) → report (prepare, PDF is a real PDF, consented share with expiry, stop sharing) → Hessa (care navigator draft approved, "Nothing was sent") → clinician (Noura's handover, Ask the record with dates) → Fatima's after-birth glucose follow-up done → admin closed count 102. 13–16 s per viewport.
+- Every key screen in English, Arabic (RTL) and dark through axe (WCAG 2.2 AA) with no sideways scroll; Sara's 998 red flag comes first; reduced motion and no-WebGL show the posters; a guard that no page streams table segments.
+- CI job `e2e`: pgvector Postgres service, seeded API (no LLM key), production build, Playwright Chromium; the report is uploaded when it fails.
+- Real bugs the suite found and fixed:
+  - **Stale prefetched redirect.** A fresh visitor could not open Noura's record from the landing: an anonymous prefetch of `/app` cached a redirect to `/demo`. Logins now do a full navigation (`enterAs`), and links into the signed-in areas don't prefetch.
+  - **Hydration race (React #418).** Intermittent on full page loads with route-level `loading.tsx`, from the React canary bundled in Next 15.5.29. Route skeletons were removed; links show loading with `useLinkStatus` (QUESTIONS #43).
+  - **WCAG AA contrast** in four tones (QUESTIONS #42).
+  - **Keyboard access to wide tables** (`TableScroll`).
+  - **Day-pill names** that missed their visible text (WCAG 2.5.3).
+  - **Future calendar days** are now `aria-disabled`.
+  - **The tab bar's glass** let dark cards show through, so it is now 94% opaque.
+  - **Body-map tap points** are now in a named group.
+  - **The clinician tab title** showed the URL slug; it now shows her name.
+  - **drei `<Html>` labels** raced React roots; they are now plain DOM.
+Tests: web e2e 69 passed, 3 skipped (3 runs in a row) · web unit 50/50 · lint, typecheck, build pass · backend 104/104 (unchanged)
+Lighthouse (landing): mobile 100/100/100/100 · desktop 100/100/100/100.
+UI slop check: pass. The contrast shades keep each hue; nothing new on screen except the link loading state.
+Next:
+- Demo-readiness checklist; scorecard against docs/09.
+Blockers / questions:
+- QUESTIONS #43 (route skeletons replaced by link feedback) is a decision made while building: confirm or ask for another approach.
+
 ## 2026-11-06 — Phase 7 (web) — Krishna with Claude Code
 Done:
 - Landing `/` on Noura's live record (the server reads it with a demo token, cached 10 minutes). Hero: her phone as she sees it today (the real arc "Day 19 · follicular phase · estimate", "Log your symptoms" opens her log, her two recommendations) tilting towards the mouse, over a React Three Fiber ring with one bead per day of her cycle (API phases, today in plum, days ahead lighter because they are estimates). Observation card with its entry count; assistant example with its sources.

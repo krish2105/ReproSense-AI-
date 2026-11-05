@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
+import { enterAs } from "@/lib/enter";
 import type { LoginResponse } from "@/lib/api/types";
 
 type Action = "clinic" | "admin" | "reset";
@@ -31,8 +32,7 @@ export function StaffActions({ disabled }: { disabled?: boolean }) {
           router.refresh();
           return;
         }
-        router.push(action === "clinic" ? "/clinic" : "/admin");
-        router.refresh();
+        enterAs(action === "clinic" ? "/clinic" : "/admin");
       } catch (e) {
         setBusy(null);
         toast(t("failed", { detail: e instanceof ApiError ? e.detail : String(e) }));

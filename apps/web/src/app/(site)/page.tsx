@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { CycleArc } from "@/components/charts/Arc";
 import { Recommendations } from "@/components/home/Recommendations";
@@ -12,6 +13,7 @@ import { spiralCycles } from "@/components/landing/spiral";
 import { ButtonLink } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
 import { isLocale } from "@/i18n/config";
+import { isKnownCycle } from "@/lib/api/types";
 import { displayName, firstName, formatDate, isolate } from "@/lib/format";
 import { getShowcase } from "@/lib/showcase";
 
@@ -71,7 +73,7 @@ export default async function Landing() {
           </div>
           <p className="who">{t("landing.who")}</p>
         </div>
-        {show?.status ? (
+        {show?.status && isKnownCycle(show.status) ? (
           <HeroStage beads={ringBeads(show.status)} label={t("landing.phoneLabel")}>
             {/* Noura's home screen as she sees it today (mockup #heroPhone), from the same API and components. */}
             <div className="device mini" style={{ height: 680 }}>
@@ -108,7 +110,7 @@ export default async function Landing() {
             <div className="floatc b">
               <span className="xs faint">{t("landing.floatCopilot")}</span>
               <span>{t("landing.floatQuestion")}</span>
-              <span className="xs" style={{ color: "var(--accent)", fontWeight: 700 }} dir="ltr">
+              <span className="xs" style={{ color: "var(--accent-text)", fontWeight: 700 }} dir="ltr">
                 {t("landing.floatCites")}
               </span>
             </div>
@@ -155,7 +157,7 @@ export default async function Landing() {
                 <Image src={`/images/stages/${s.img}.png`} alt="" width={56} height={56} />
                 <b>{t(`stages.${s.stage}`)}</b>
                 <span>{t(`landing.stageDesc.${s.stage}`)}</span>
-                <span className="xs" style={{ color: "var(--accent)", fontWeight: 700 }}>
+                <span className="xs" style={{ color: "var(--accent-text)", fontWeight: 700 }}>
                   {t("landing.stageOpen", { name: s.name })}
                 </span>
               </OpenPersona>
@@ -231,6 +233,9 @@ export default async function Landing() {
             <h3>{t("landing.clinicTitle")}</h3>
             <p>{t("landing.clinicBody")}</p>
             <p className="price">{t("landing.clinicPrice")}</p>
+            <Link className="link s" href="/pricing">
+              {t("landing.pricingLink")}
+            </Link>
           </div>
         </div>
       </section>
@@ -246,7 +251,12 @@ export default async function Landing() {
           ))}
         </dl>
         <div style={{ marginTop: 28 }}>
-          <ButtonLink href="/demo">{t("landing.finalCta")}</ButtonLink>
+          <div className="acts" style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <ButtonLink href="/demo">{t("landing.finalCta")}</ButtonLink>
+            <ButtonLink href="/join" variant="outline">
+              {t("join.tryAction")}
+            </ButtonLink>
+          </div>
         </div>
       </section>
     </>
