@@ -14,7 +14,7 @@ export function NavLinks({ items }: { items: NavItem[] }) {
   return (
     <>
       {items.map((i) => {
-        const current = path === i.href || (i.href !== "/" && path.startsWith(`${i.href}/`));
+        const current = i.href === "/" ? path === "/" : path === i.href || path.startsWith(`${i.href}/`);
         return (
           <Link key={i.href} href={i.href} aria-current={current ? "page" : undefined}>
             {i.label}
