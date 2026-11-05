@@ -3,7 +3,7 @@
 Save generated images here using the exact file names in `docs/11_IMAGE_PROMPTS.md`.
 
 ```
-public/images/
+apps/web/public/images/
   hero/         hero-light.png, hero-dark.png, hero-mobile.png
   sections/     problem-fragments.png, solution-connected.png, how-it-works.png, for-women.png,
                 for-clinics.png, abu-dhabi-map.png, privacy-vault.png, empty-state.png

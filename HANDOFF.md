@@ -9,9 +9,9 @@ code freeze Sat 21 Nov 18:00 · showcase Sun 22 Nov, DOH Incubator, Masdar City.
 
 ## 1. Where things stand in one minute
 - **Backend: built and tested (104/104).** It runs on FastAPI, local Postgres 17 + pgvector, a LangGraph pipeline, RAG and WeasyPrint. Every endpoint the demo needs exists.
-- **Web app: not started.** `apps/web` does not exist yet. This is the critical path, and it is **Atharva's** (Phases 2–7 UI).
+- **Web app: Phase 0 done (5 Nov).** `apps/web` runs (`cd apps/web && pnpm install && pnpm dev`, needs the API on :8010): tokens, EN/AR + RTL, the `/api/v1` proxy, role-guarded `/app` `/clinic` `/admin`, a UI kit, `/demo` and `/tokens`. Phases 2–7 UI are the critical path (**Atharva's** issues #2–#7). Recipe: `.claude/skills/web-screen`.
 - **Design reference:** `mockup/reprosense-mockup.html` (rebuilt from `mockup/template.html`). Copy its tokens and components exactly (docs/06, design E · Mauve Pro).
-- **Images:** all 37 (+1 duplicate) are in `public/images/`, hash-checked, with derived icons and app icons. See `ASSET_INTEGRATION_REPORT.md`, which also has the calibrated body-map tap points.
+- **Images:** all 37 (+1 duplicate) are in `apps/web/public/images/` (moved in Phase 0), hash-checked, with derived icons and app icons. See `ASSET_INTEGRATION_REPORT.md`, which also has the calibrated body-map tap points.
 - **Not deployed.** No Supabase, Vercel or Render accounts or keys exist yet. Everything runs locally.
 - **No LLM key.** Cards and the assistant run in deterministic mode (templates + extractive answers with citations). Add `ANTHROPIC_API_KEY` to `.env` and the Claude provider switches on by itself (`claude-opus-5-5`, refusal fallbacks on, outputs cached for demo-safe mode).
 
@@ -63,12 +63,12 @@ Gotchas:
 Stack is decided (CLAUDE.md): Next.js 15 App Router + TypeScript strict + Tailwind (tokens from the mockup `:root`, light + dark) + next-intl (EN/AR, RTL) + hand-built SVG charts + React Three Fiber (lazy, with a still fallback). Restyle any shadcn component; never ship defaults.
 
 **Setup (Phase 0 web)**
-- `apps/web` with pnpm. Move or copy `public/images` → `apps/web/public/images` (QUESTIONS #24) and update the CLAUDE.md folder map.
-- Rewrite `/api/v1/*` → `http://127.0.0.1:8010/v1/*` in `next.config` so the `rs_token` cookie is same-origin.
-- Server components call the API directly and forward the cookie.
-- Copy `:root` + both dark blocks and the component CSS from `mockup/template.html` (lines 9–240): tokens, `.box`, `.dp`, `.tabbar`, `.obs`, `.chips`, `.msg`, `.seg`, and so on.
-- Fonts: Plus Jakarta Sans + IBM Plex Sans Arabic.
-- Footer on every screen: "ReproSense gives information, not a diagnosis. In an emergency call 998. Demo data is fictional. Built with AI tools." Plus the "Demo data — fictional" badge.
+- ✅ `apps/web` with pnpm. Images moved to `apps/web/public/images` (QUESTIONS #24); CLAUDE.md folder map updated.
+- ✅ Rewrite `/api/v1/*` → `http://127.0.0.1:8010/v1/*` in `next.config` so the `rs_token` cookie is same-origin.
+- ✅ Server components call the API directly and forward the cookie (`apiServer`, only `rs_token`, as a cookie).
+- ✅ Copy `:root` + both dark blocks and the component CSS from `mockup/template.html` (lines 11–330, copied by script; deviations listed at the end of `globals.css`).
+- ✅ Fonts: Plus Jakarta Sans + IBM Plex Sans Arabic (next/font).
+- ✅ Footer on every screen: "ReproSense gives information, not a diagnosis. In an emergency call 998. Demo data is fictional. Built with AI tools." Plus the "Demo data — fictional" badge.
 
 **Login model.** `/demo` → `POST /v1/demo/login {persona}` or `{role:"clinician"|"admin"}` sets the httpOnly cookie `rs_token`. The stage switch on Home = log in as that stage's persona: Periods→noura, Trying→mariam, Pregnancy→hessa, After birth→fatima, Perimenopause→layla. Reset button: log in as admin → `POST /v1/demo/reset`.
 

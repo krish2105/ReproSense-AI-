@@ -6,6 +6,18 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8765", "--bind", "127.0.0.1", "--directory", "mockup"],
       "port": 8765
+    },
+    {
+      "name": "api",
+      "runtimeExecutable": "make",
+      "runtimeArgs": ["api"],
+      "port": 8010
+    },
+    {
+      "name": "web",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--dir", "apps/web", "dev"],
+      "port": 3000
     }
   ]
 }

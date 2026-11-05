@@ -35,20 +35,20 @@ Judging: Venture 30 · Health impact 20 · Innovation & evidence 20 · Working p
 
 ## Folder map
 ```
-apps/web/            Next.js app (patient + clinician + clinic-admin)
+apps/web/            Next.js app (patient + clinician + clinic-admin); apps/web/public/images = generated images
 backend/app/         FastAPI: api/, ai/, agents/, rules/, rag/, reports/, security/
 data/synthetic/      generator + generated demo data (personas, cohort, lab reports)
 knowledge_base/      curated sources (summaries in our own words + links)
 rules/               clinical_rules.yaml (the only place observation logic lives)
-public/images/       generated images (prompts: IMAGE_PROMPTS_CHATGPT.md)
 docs/                all specs — the source of truth
 .claude/agents/      role agents (CEO, CTO, CMO, CHO, Women Care, Agentic AI, RAG, AI Engineer, Senior Judge)
 ```
 
 ## Skills (load before the matching work)
 `no-ai-slop-ui` (any UI) · `clinical-copy-guard` (any health text) · `add-explainable-observation` (any rule) ·
-`synthetic-data-realism` (data) · `demo-readiness` (build week evenings). Visual reference: `mockup/reprosense-mockup.html` (design E · Mauve Pro).
-Images: `IMAGE_PROMPTS_CHATGPT.md` → save into `public/images/`. Version 4 scope: MASTER_PROMPT.md section 13.
+`synthetic-data-realism` (data) · `demo-readiness` (build week evenings) · `web-screen` (any apps/web screen) ·
+`mauve-charts` (any chart) · `mauve-3d` (any 3D view). Visual reference: `mockup/reprosense-mockup.html` (design E · Mauve Pro).
+Images: `IMAGE_PROMPTS_CHATGPT.md` → save into `apps/web/public/images/`. Version 4 scope: MASTER_PROMPT.md section 13.
 
 ## How to work
 - Work in the phases in `BUILD_STATUS.md`. One phase at a time. Small commits with clear messages.
@@ -63,7 +63,7 @@ make env db seed                                  # .env with random keys, datab
 make api                                          # API on :8010 (8000 is used by another local project)
 make test                                         # ruff + backend tests (104)
 python3 data/synthetic/generate_synthetic.py      # demo data
-cd apps/web && pnpm install && pnpm dev           # web on :3000 (not built yet — see HANDOFF.md §5)
+cd apps/web && pnpm install && pnpm dev       # web on :3000 (needs the API on :8010)
 ```
 Status and next steps for a new session: `HANDOFF.md`.
 

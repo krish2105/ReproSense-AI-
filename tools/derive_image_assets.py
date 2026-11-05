@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Derive individual icons and full-bleed brand icons from the supplied Mauve Pro images.
 
-Source images in public/images/ are never modified. Outputs:
-  public/images/icons/logged-data/{flow,pain,symptoms,sleep,energy,mood}.png   (240x240, cut from E9, no resampling)
-  public/images/icons/moods/{calm,tired,in-pain,low,energetic}.png             (256x256, cut from E10, no resampling)
-  public/images/icons/sprites.json                                             (source regions, for sprite use)
-  public/images/brand/derived/*.png                                            (square icons from A2 on plum)
+Source images in apps/web/public/images/ are never modified. Outputs:
+  apps/web/public/images/icons/logged-data/{flow,pain,symptoms,sleep,energy,mood}.png   (240x240, cut from E9, no resampling)
+  apps/web/public/images/icons/moods/{calm,tired,in-pain,low,energetic}.png             (256x256, cut from E10, no resampling)
+  apps/web/public/images/icons/sprites.json                                             (source regions, for sprite use)
+  apps/web/public/images/brand/derived/*.png                                            (square icons from A2 on plum)
 
 Cut boundaries come from the transparent gaps between icons (measured 5 Nov 2026, alpha >= 24).
 Run: python3 tools/derive_image_assets.py   (needs Pillow)
@@ -16,7 +16,7 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
-IMG = ROOT / "public" / "images"
+IMG = ROOT / "apps" / "web" / "public" / "images"
 PLUM = (75, 54, 83, 255)  # #4B3653
 
 STRIPS = {
