@@ -40,12 +40,12 @@ export default defineConfig({
     {
       // `exec` keeps one process per server: a wrapper that exits early (pnpm, sh) would leave the real server
       // holding Playwright's output pipe, and the run would hang after the last test.
-      command: "cd ../../backend && exec uv run uvicorn app.main:app --port 8010",
+      // macOS drops DYLD_* when /bin/sh starts, so the Pango path for WeasyPrint is passed through env (no-op on Linux).
+      command: `cd ../../backend && exec env DYLD_FALLBACK_LIBRARY_PATH=${process.env.DYLD_FALLBACK_LIBRARY_PATH ?? "/opt/homebrew/lib"} uv run uvicorn app.main:app --port 8010`,
       url: `${API}/healthz`,
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,
-      // The job's environment (database URL, demo keys) plus WeasyPrint's Pango path on macOS (ignored on Linux).
-      env: { ...(process.env as Record<string, string>), DYLD_FALLBACK_LIBRARY_PATH: process.env.DYLD_FALLBACK_LIBRARY_PATH ?? "/opt/homebrew/lib" },
+      env: { ...(process.env as Record<string, string>) }, // the job's environment: database URL, demo keys
     },
     { command: "exec ./node_modules/.bin/next start -p 3100", url: `${WEB}/robots.txt`, reuseExistingServer: !process.env.CI, timeout: 120_000 },
   ],

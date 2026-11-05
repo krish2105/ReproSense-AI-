@@ -25,6 +25,8 @@ def metrics(actor: Actor = Depends(admin)):
             " count(*) FILTER (WHERE care_gap_type IS NOT NULL) gaps, count(*) FILTER (WHERE care_gap_status='open') open,"
             " count(*) FILTER (WHERE care_gap_status='in_progress') in_progress, count(*) FILTER (WHERE care_gap_status='closed') closed,"
             " count(*) FILTER (WHERE care_gap_type='postpartum_glucose_test') pp_gaps,"
+            " count(*) FILTER (WHERE care_gap_type='postpartum_glucose_test' AND care_gap_status='closed') pp_closed,"
+            " count(*) FILTER (WHERE care_gap_type='postpartum_glucose_test' AND care_gap_status='in_progress') pp_booked,"
             " count(*) FILTER (WHERE obs_irregular_cycles OR obs_severe_cyclical_pain OR obs_heavy_periods OR obs_ttc_fertility_assessment) any_obs"
             " FROM cohort_members"
         )
@@ -48,6 +50,11 @@ def metrics(actor: Actor = Depends(admin)):
         # live gaps from the demo personas (closing Fatima's gap moves these numbers)
         cur.execute("SELECT status, n FROM care_gap_counts()")
         live = {r["status"]: r["n"] for r in cur.fetchall()}
+        live_pp: dict[str, int] = {}
+        cur.execute("SELECT to_regprocedure('care_gap_counts_by_type()') IS NOT NULL AS ok")  # older databases lack it
+        if cur.fetchone()["ok"]:
+            cur.execute("SELECT status, n FROM care_gap_counts_by_type() WHERE type = 'postpartum_glucose_test'")
+            live_pp = {r["status"]: r["n"] for r in cur.fetchall()}
         audit.record(cur, actor, "view_admin_metrics", None, "admin")
     overall_shared = round(100.0 * c["shared"] / c["n"], 1)
     overall_obs = round(100.0 * c["any_obs"] / c["n"], 1)
@@ -90,6 +97,25 @@ def metrics(actor: Actor = Depends(admin)):
             "assumptions": "You set minutes saved per consult and cost per clinician hour; nothing here is measured yet.",
         },
         "live_demo_gaps": live,
+        "pc008_glucose": _pc008_glucose(c, live_pp),
+    }
+
+
+def _pc008_glucose(c: dict, live_pp: dict) -> dict:
+    """The glucose-test part of DoH Jawda KPI PC008 (post-partum follow-up, 7-84 days after birth): of the after-birth
+    glucose follow-ups due after gestational diabetes, how many are done. Synthetic cohort plus the live demo; hidden
+    below 10 women like every other group here. A real PC008 rate needs the clinic's claims and records."""
+    due = c["pp_gaps"] + sum(live_pp.values())
+    done = c["pp_closed"] + live_pp.get("closed", 0)
+    booked = c["pp_booked"] + live_pp.get("in_progress", 0)
+    if due < K_MIN:
+        return {"due": None, "done": None, "booked": None, "open": None, "done_pct": None}
+    return {
+        "due": due,
+        "done": done,
+        "booked": booked,
+        "open": due - done - booked,
+        "done_pct": round(100.0 * done / due, 1),
     }
 
 

@@ -206,17 +206,23 @@ def test_clinician_view_sbar_and_ask_the_record(client):
 def test_care_gap_closes_live_and_admin_kpi_moves(client, reseed):
     hc = login(client, role="clinician")
     ha = login(client, role="admin")
-    before = client.get("/v1/admin/metrics", headers=ha).json()["kpis"]["care_gaps_closed"]
+    m0 = client.get("/v1/admin/metrics", headers=ha).json()
+    before, pc0 = m0["kpis"]["care_gaps_closed"], m0["pc008_glucose"]
     gaps = client.get("/v1/clinic/care-gaps", headers=hc).json()
     g = next(x for x in gaps if x["profile_id"] == "fatima")
+    assert g["type"] == "postpartum_glucose_test"
     rem = client.post(f"/v1/clinic/care-gaps/{g['id']}/reminder", headers=hc).json()
     assert rem["sent"] is False and rem["en"] and rem["ar"]
     assert (
         client.patch(f"/v1/clinic/care-gaps/{g['id']}", headers=hc, json={"status": "closed"}).json()["status"]
         == "closed"
     )
-    after = client.get("/v1/admin/metrics", headers=ha).json()["kpis"]["care_gaps_closed"]
-    assert after == before + 1
+    m1 = client.get("/v1/admin/metrics", headers=ha).json()
+    assert m1["kpis"]["care_gaps_closed"] == before + 1
+    # Fatima's glucose test is part of DoH Jawda KPI PC008: its "done" count moves with her
+    pc1 = m1["pc008_glucose"]
+    assert pc0["due"] >= 10 and pc1["due"] == pc0["due"] and pc1["done"] == pc0["done"] + 1
+    assert pc1["done"] + pc1["booked"] + pc1["open"] == pc1["due"]
 
 
 def test_admin_metrics_are_aggregates_with_k_min(client):

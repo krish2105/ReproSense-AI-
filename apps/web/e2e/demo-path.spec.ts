@@ -155,6 +155,8 @@ test("the demo path runs end to end in under three minutes", async ({ page }) =>
     const figs = page.getByRole("definition").filter({ hasText: /^\d/ });
     await expect(figs.first()).toBeVisible();
     await expect(page.getByLabel(en.admin.kpiLabel)).toContainText("102"); // 101 seeded + Fatima's
+    // Her glucose test is part of DoH Jawda KPI PC008: 3 of the 9 synthetic follow-ups done, plus Fatima's now
+    await expect(page.getByRole("region", { name: en.admin.pc008Title })).toContainText("4 of 10 done");
     await expect(page.getByRole("heading", { name: en.admin.fairnessTitle })).toBeVisible();
     await expect(page.getByRole("heading", { name: en.admin.map3dTitle })).toBeVisible();
     await expectAccessible(page, "admin");

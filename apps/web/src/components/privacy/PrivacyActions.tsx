@@ -36,6 +36,12 @@ export function ConsentToggles({ consents }: { consents: PrivacyResponse["consen
                   <span className="xs dim">{t("privacy.clinic", { clinic })}</span>
                 </>
               )}
+              {p === "assistant" && (
+                <>
+                  <br />
+                  <span className="xs dim">{t("privacy.aiHint")}</span>
+                </>
+              )}
             </span>
             <span style={{ display: "flex", gap: 8, alignItems: "center" }}>
               <Tag tone={on ? "ok" : "info"}>{on ? t("privacy.allowed") : t("privacy.notAllowed")}</Tag>

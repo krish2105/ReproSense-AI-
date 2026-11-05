@@ -27,7 +27,7 @@ Our estimate against the official rubric. The jury decides; this file tells the 
 
 What lowers it: no clinician; building all 55 features and breaking the demo; no interviews/LOI; machine-sounding Arabic.
 
-## Before 16 Nov (no product code — research, design and people only)
+## Before 16 Nov (research, design and people; the code built 5–6 Nov must be disclosed in full, see below)
 - [ ] All members apply separately, same team name, by 14 Nov 23:59 GST
 - [ ] Recruit a clinician (OB-GYN, GP, nurse or health-science student); ask the organisers to match one if needed
 - [ ] 5 clinician interviews + 3 clinic-manager interviews (script: docs/12)
@@ -58,14 +58,29 @@ This letter is non-binding and creates no financial obligation.
 Name, role, signature: ____
 ```
 
-## Disclosure note template (read at the start of the event)
+## Prior-work disclosure (read at the start of the event) — UPDATED 6 Nov 2026
+The official rules score "Prototype and execution" on the core journey built **after acceptance (16 Nov)**, and allow
+earlier code, research or designs **only if disclosed at the start of the event** (research/2026-11-06/01 §0.2, 05 §0.1).
+The old template said "an interactive HTML mock-up (no backend)". That stopped being true on 5 Nov. An incomplete
+disclosure costs far more than any feature, so read this version, and ask the organisers in writing how disclosed
+earlier code is scored (QUESTIONS.md #44).
+
 ```
-Prior work disclosed by team ReproSense:
-- Research, product specification, design mock-ups and a synthetic data generator prepared 5–16 Nov 2026.
-- An interactive HTML mock-up (no backend) used to align the team.
+Prior work disclosed by team ReproSense (all before selection on 16 Nov 2026):
+- Research, product specification, clinical rules, design mock-ups and images (5 Nov 2026).
+- Working code in the public repository github.com/krish2105/ReproSense-AI- (5–6 Nov 2026):
+  - backend: FastAPI, PostgreSQL with row-level security, rules engine, LangGraph pipeline, knowledge-base retrieval,
+    assistant, doctor PDF, clinic and network APIs, synthetic data generator and tests;
+  - web app: patient, clinician and network-admin views in English and Arabic, landing page with 3D views;
+  - end-to-end tests, CI, Docker image and deploy configuration;
+  - join flow with clinic QR invite, pricing page, AI on/off switch, DoH Jawda PC008 panel.
+- The repository state at selection is tagged `pre-selection-2026-11-16`; everything after the tag is build-week work.
 - AI tools used: Claude (research, specification, code assistance), [image tool] for illustrations.
-- No real patient data has been used at any point.
+- No real patient data has been used at any point; every record is synthetic and labelled "Demo data — fictional".
 ```
+
+To do on 16 Nov (team): create the tag `git tag -a pre-selection-2026-11-16 -m "State at selection" && git push origin
+pre-selection-2026-11-16`, then keep a "built 17–21 Nov" list in PROGRESS.md for the pitch credits slide.
 
 ## Recruit a clinical advisor before 16 Nov (biggest score lever)
 Send to 5–10 gynaecologists, OB-GYN residents, midwives or GPs (LinkedIn, SP Jain network, SKMC / Corniche / Danat Al Emarat alumni):

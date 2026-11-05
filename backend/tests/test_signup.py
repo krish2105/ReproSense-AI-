@@ -22,7 +22,9 @@ def test_new_record_with_a_period_shows_her_cycle_day(client, reseed):
 
 
 def test_after_birth_with_gestational_diabetes_opens_the_glucose_follow_up(client, reseed):
-    r = fresh(client).post("/v1/demo/signup", json={**BASE, "life_stage": "after_birth", "weeks_since_birth": 6, "gdm": True})
+    r = fresh(client).post(
+        "/v1/demo/signup", json={**BASE, "life_stage": "after_birth", "weeks_since_birth": 6, "gdm": True}
+    )
     assert r.status_code == 200, r.text
     home = client.get("/v1/me/home").json()
     assert home["status"]["mode"] == "after_birth" and home["status"]["week"] == 6
@@ -32,7 +34,13 @@ def test_after_birth_with_gestational_diabetes_opens_the_glucose_follow_up(clien
 def test_sharing_with_the_inviting_clinic_puts_her_on_the_clinician_list(client, reseed):
     r = fresh(client).post(
         "/v1/demo/signup",
-        json={**BASE, "life_stage": "pregnancy", "pregnancy_weeks": 25, "clinic_id": "clinic_corniche", "share_with_clinic": True},
+        json={
+            **BASE,
+            "life_stage": "pregnancy",
+            "pregnancy_weeks": 25,
+            "clinic_id": "clinic_corniche",
+            "share_with_clinic": True,
+        },
     )
     pid = r.json()["user_id"]
     fresh(client).post("/v1/demo/login", json={"role": "clinician"})
@@ -42,7 +50,9 @@ def test_sharing_with_the_inviting_clinic_puts_her_on_the_clinician_list(client,
 
 
 def test_not_sharing_keeps_her_off_the_clinician_list(client, reseed):
-    r = fresh(client).post("/v1/demo/signup", json={**BASE, "life_stage": "perimenopause", "clinic_id": "clinic_corniche"})
+    r = fresh(client).post(
+        "/v1/demo/signup", json={**BASE, "life_stage": "perimenopause", "clinic_id": "clinic_corniche"}
+    )
     pid = r.json()["user_id"]
     fresh(client).post("/v1/demo/login", json={"role": "clinician"})
     assert pid not in [p["id"] for p in client.get("/v1/clinic/patients").json()["patients"]]
@@ -50,11 +60,21 @@ def test_not_sharing_keeps_her_off_the_clinician_list(client, reseed):
 
 def test_signup_refuses_what_it_should(client):
     c = fresh(client)
-    assert c.post("/v1/demo/signup", json={**BASE, "age": 16, "life_stage": "periods"}).status_code == 422  # adults only
-    assert c.post("/v1/demo/signup", json={**BASE, "life_stage": "periods", "last_period_start": "2026-12-01"}).status_code == 422
+    assert (
+        c.post("/v1/demo/signup", json={**BASE, "age": 16, "life_stage": "periods"}).status_code == 422
+    )  # adults only
+    assert (
+        c.post("/v1/demo/signup", json={**BASE, "life_stage": "periods", "last_period_start": "2026-12-01"}).status_code
+        == 422
+    )
     assert c.post("/v1/demo/signup", json={**BASE, "life_stage": "pregnancy"}).status_code == 422  # weeks needed
     assert c.post("/v1/demo/signup", json={**BASE, "name": "1234", "life_stage": "periods"}).status_code == 422
-    assert c.post("/v1/demo/signup", json={**BASE, "life_stage": "periods", "clinic_id": "nope", "share_with_clinic": True}).status_code == 422
+    assert (
+        c.post(
+            "/v1/demo/signup", json={**BASE, "life_stage": "periods", "clinic_id": "nope", "share_with_clinic": True}
+        ).status_code
+        == 422
+    )
 
 
 def test_public_clinic_list(client):

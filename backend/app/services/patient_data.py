@@ -64,7 +64,27 @@ def load_bundle(cur, profile_id: str, include_notes: bool = True) -> dict | None
             }
         )
     profile = {k: _iso(v) for k, v in prof.items()}
-    return {"profile": profile, "cycles": cycles, "daily_logs": logs, "events": events, "labs": labs}
+    return {
+        "profile": profile,
+        "cycles": cycles,
+        "daily_logs": logs,
+        "events": events,
+        "labs": labs,
+        "ai_ok": ai_allowed(cur, profile_id),
+    }
+
+
+def ai_allowed(cur, profile_id: str) -> bool:
+    """Her "AI features" choice in Privacy (consent purpose `assistant`; DoH Responsible AI Standard 3.1.6.1: patients
+    may opt out of AI). Off, or never given: the assistant is closed and cards keep the fixed template wording, so no
+    text of hers reaches a language model. Rules, patterns and reports work the same either way."""
+    cur.execute(
+        "SELECT granted AND revoked_at IS NULL AS ok FROM consents WHERE profile_id=%s AND purpose='assistant'"
+        " ORDER BY id DESC LIMIT 1",
+        (profile_id,),
+    )
+    row = cur.fetchone()
+    return bool(row and row["ok"])
 
 
 def apply_period_log(cur, profile_id: str, day) -> None:

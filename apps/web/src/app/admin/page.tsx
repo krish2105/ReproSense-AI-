@@ -15,6 +15,9 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("metaTitle") };
 }
 
+// DoH Jawda primary-care quality indicators, version 7 (research/2026-11-06/01, source S16).
+const JAWDA_PC_URL = "https://www.doh.gov.ae/-/media/Feature/Muashir/Jawda/Jawda-Quarterly-Submission-Guidelines/PrimaryCare-JAWDA---Update-2022.ashx";
+
 // Status colours always travel with words (mauve-charts): open = accent, booked = warn, done = ok.
 const STATUS = [
   { key: "open", color: "var(--accent)" },
@@ -37,6 +40,7 @@ export default async function AdminPage() {
     { id: "rate", label: t("admin.closeRate"), value: t("admin.closeRateValue", { pct: n(k.close_rate_pct, 1) }), note: t("admin.open") + ": " + n(k.care_gaps_open) },
   ];
   const live = m.live_demo_gaps;
+  const pc = m.pc008_glucose;
   const funnelMax = Math.max(1, ...m.funnel.map((f) => f.n));
   const region = (r: string) => (t.has(`regions.${regionKey(r)}`) ? t(`regions.${regionKey(r)}`) : r);
   const fairTable = (title: string, rows: FairnessRow[], id: string) => (
@@ -116,6 +120,39 @@ export default async function AdminPage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className="panel" aria-labelledby="pc008-title" style={{ padding: 20, marginTop: 20 }}>
+        <h2 id="pc008-title" style={{ fontSize: 18 }}>
+          {t("admin.pc008Title")}
+        </h2>
+        <p className="s dim" style={{ marginTop: 4 }}>
+          {t("admin.pc008Body")}
+        </p>
+        {pc.due === null || pc.done === null ? (
+          <p className="s" style={{ marginTop: 12 }}>
+            {t("admin.pc008Hidden")}
+          </p>
+        ) : (
+          <div style={{ marginTop: 14 }}>
+            <div className="kv s">
+              <span>{t("admin.pc008Glucose")}</span>
+              <b className="mono">{t("admin.pc008Value", { done: n(pc.done), due: n(pc.due) })}</b>
+            </div>
+            <div className="bar" style={{ marginTop: 6 }} aria-hidden="true">
+              <i style={{ width: `${pc.done_pct ?? 0}%`, background: "var(--ok)" }} />
+            </div>
+            <p className="xs dim" style={{ marginTop: 6 }}>
+              {t("admin.pc008Detail", { pct: n(pc.done_pct ?? 0, 1), booked: n(pc.booked ?? 0), open: n(pc.open ?? 0) })}
+            </p>
+          </div>
+        )}
+        <p className="xs faint" style={{ marginTop: 10 }}>
+          {t("admin.pc008Note")}{" "}
+          <a href={JAWDA_PC_URL} target="_blank" rel="noopener noreferrer">
+            {t("admin.pc008Source")}
+          </a>
+        </p>
       </section>
 
       <RegionSection regions={m.regions} names={Object.fromEntries(m.regions.map((r) => [r.region, region(r.region)]))} />

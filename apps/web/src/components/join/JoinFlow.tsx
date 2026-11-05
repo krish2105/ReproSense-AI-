@@ -48,6 +48,7 @@ export function JoinFlow({ inviter, refDate }: { inviter: Clinic | null; refDate
   const [weeks, setWeeks] = useState("");
   const [gdm, setGdm] = useState<"yes" | "no" | "unsure" | "">("");
   const [share, setShare] = useState(false);
+  const [ai, setAi] = useState(false); // AI features stay off unless she ticks the box (DoH RAI 3.1.6.1)
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -90,6 +91,7 @@ export function JoinFlow({ inviter, refDate }: { inviter: Clinic | null; refDate
           gdm: stage === "after_birth" && gdm === "yes",
           clinic_id: inviter?.id ?? null,
           share_with_clinic: Boolean(inviter) && share,
+          use_ai: ai,
           lang: document.documentElement.lang === "ar" ? "ar" : "en",
         },
       });
@@ -230,6 +232,10 @@ export function JoinFlow({ inviter, refDate }: { inviter: Clinic | null; refDate
                 <span>{t("share", { clinic: inviter.name })}</span>
               </label>
             )}
+            <label className="s join-share">
+              <input type="checkbox" checked={ai} onChange={(e) => setAi(e.target.checked)} />
+              <span>{t("useAi")}</span>
+            </label>
             {error && (
               <p className="s" role="alert" style={{ color: "var(--urgent)" }}>
                 {error}

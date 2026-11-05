@@ -22,20 +22,22 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: { absolute: t("metaTitle") } };
 }
 
-// Evidence sources (docs/05_EVIDENCE_AND_RESEARCH.md; DoH programme also in knowledge_base/sources.yaml).
+// Evidence sources (docs/05_EVIDENCE_AND_RESEARCH.md; checked 6 Nov 2026 in research/2026-11-06/02). DOI links are stable.
 const EVIDENCE = [
-  { n: 1, title: "UAE Healthy Future Study, Int J Women's Health 2023", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9939944" },
-  { n: 2, title: "Dubai hospital records study, IJERPH 2023", url: "https://pubmed.ncbi.nlm.nih.gov/37174235/" },
-  { n: 3, title: "Endometriosis diagnostic delay, scoping review, medRxiv 2024", url: "https://www.medrxiv.org/content/10.1101/2024.01.08.24300988v1.full-text" },
-  { n: 4, title: "GDM prevalence in the UAE, Frontiers in Endocrinology 2022", url: "https://www.frontiersin.org/journals/endocrinology/articles/10.3389/fendo.2022.1069477/full" },
-  { n: 5, title: "Postpartum diabetes screening after GDM, Diabetic Medicine 2016", url: "https://eprints.soton.ac.uk/394697" },
-  { n: 6, title: "Abu Dhabi Programme for the Future of Reproductive Health (DoH, Sept 2026)", url: "https://www.mediaoffice.abudhabi/en/health/abu-dhabi-programme-for-the-future-of-reproductive-health-an-integrated-ecosystem-shaping-standards-research-and-innovation/" },
+  { n: 1, title: "WHO fact sheet: Polycystic ovary syndrome (2026)", url: "https://www.who.int/news-room/fact-sheets/detail/polycystic-ovary-syndrome" },
+  { n: 2, title: "UAE Healthy Future Study, Int J Women's Health 2023", url: "https://doi.org/10.2147/IJWH.S398651" },
+  { n: 3, title: "Dubai hospital records study, IJERPH 2023", url: "https://doi.org/10.3390/ijerph20095717" },
+  { n: 4, title: "Endometriosis diagnostic delay, scoping review, Health Care for Women International 2025", url: "https://doi.org/10.1080/07399332.2024.2413056" },
+  { n: 5, title: "Endometriosis in women of Arab ancestry in the UAE, Frontiers in Global Women's Health 2021", url: "https://doi.org/10.3389/fgwh.2021.708410" },
+  { n: 6, title: "Mutaba'ah Study: gestational diabetes in the UAE, Frontiers in Endocrinology 2022", url: "https://doi.org/10.3389/fendo.2022.1069477" },
+  { n: 7, title: "Postpartum glucose testing after gestational diabetes in Al Ain, IJERPH 2022", url: "https://doi.org/10.3390/ijerph192113946" },
+  { n: 8, title: "Abu Dhabi Programme for the Future of Reproductive Health (DoH, Sept 2026)", url: "https://www.mediaoffice.abudhabi/en/health/abu-dhabi-programme-for-the-future-of-reproductive-health-an-integrated-ecosystem-shaping-standards-research-and-innovation/" },
 ] as const;
 const PARAS = [
-  { key: "ev1", cites: [1, 2] },
-  { key: "ev2", cites: [3] },
-  { key: "ev3", cites: [4, 5] },
-  { key: "ev4", cites: [6] },
+  { key: "ev1", cites: [1, 2, 3] },
+  { key: "ev2", cites: [4, 5] },
+  { key: "ev3", cites: [6, 7] },
+  { key: "ev4", cites: [8] },
 ] as const;
 const STAGES = [
   { stage: "periods", persona: "noura", name: "Noura", img: "periods" },

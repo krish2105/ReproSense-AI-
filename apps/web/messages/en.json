@@ -168,7 +168,8 @@
     "inviteCopy": "Copy invite link",
     "inviteCopied": "Invite link copied.",
     "inviteOpen": "Open the invite page",
-    "inviteQrLabel": "QR code of the patient invite link"
+    "inviteQrLabel": "QR code of the patient invite link",
+    "gapPc008": "Counts toward DoH Jawda indicator PC008 (after-birth follow-up)."
   },
   "admin": {
     "metaTitle": "Clinic network",
@@ -230,7 +231,15 @@
     "roiValue": "About {aed} AED at the hourly cost you entered.",
     "auditTitle": "Audit log",
     "auditOk": "{n, plural, one {# entry} other {# entries}}, hash chain intact",
-    "auditBad": "Hash chain broken at entry {id}"
+    "auditBad": "Hash chain broken at entry {id}",
+    "pc008Title": "DoH Jawda PC008: after-birth follow-up",
+    "pc008Body": "Primary-care providers report this quality indicator to DoH every quarter: women seen 7 to 84 days after birth who had breastfeeding support, a depression screen and, after gestational diabetes, a glucose test. ReproSense supports two of those parts: the EPDS mood check in her app and the glucose-test follow-up on the clinic worklist.",
+    "pc008Glucose": "Glucose test after gestational diabetes",
+    "pc008Value": "{done} of {due} done",
+    "pc008Detail": "{pct}% done · {booked} booked · {open} open",
+    "pc008Hidden": "Fewer than 10 women: hidden.",
+    "pc008Note": "Synthetic cohort plus the live demo. A real PC008 rate comes from the clinic's own claims and records.",
+    "pc008Source": "DoH Jawda primary-care quality indicators, version 7 (PDF)"
   },
   "tokens": {
     "metaTitle": "Design tokens",
@@ -616,7 +625,10 @@
     "copilot": "AI Copilot",
     "clear": "Clear conversation",
     "disclaimer": "Information, not a diagnosis. In an emergency call 998.",
-    "empty": "Pick a suggested question or type your own."
+    "empty": "Pick a suggested question or type your own.",
+    "offTitle": "The assistant is off",
+    "offBody": "You turned off AI features in Privacy, so nothing you type here is sent to a language model. Your patterns, timeline and report work as before.",
+    "offAction": "Change this in Privacy"
   },
   "report": {
     "metaTitle": "Report",
@@ -769,7 +781,7 @@
     "consentsTitle": "Your choices",
     "purpose": {
       "care_share": "Share my record with my clinic",
-      "assistant": "Use the AI assistant",
+      "assistant": "Use AI features (the assistant, and AI wording of your pattern cards)",
       "research": "Include my de-identified data in research"
     },
     "clinic": "Clinic: {clinic}",
@@ -849,7 +861,8 @@
     "deleteConfirm": "Delete everything",
     "cancel": "Keep my entries",
     "deleted": "Your entries were deleted.",
-    "deleteFailed": "Nothing was deleted: {detail}"
+    "deleteFailed": "Nothing was deleted: {detail}",
+    "aiHint": "Off: the assistant closes and your cards use fixed wording. Your patterns and report stay the same, because rules find them."
   },
   "more": {
     "title": "Your record",
@@ -905,10 +918,10 @@
     },
     "stageOpen": "Open {name}'s record",
     "evidenceTitle": "The history exists. It arrives at the appointment in pieces.",
-    "ev1": "In the UAE Healthy Future Study, 25.9% of 1,040 Emirati women reported PCOS. In a Dubai hospital records study, it was coded for 1.6% of women. That gap points to recognition, not prevalence.",
-    "ev2": "Endometriosis takes years to name: a 2024 scoping review found an average delay of 6.6 years from first symptoms, and women often describe not being believed.",
-    "ev3": "Gestational diabetes affects 7.9% to 24.9% of pregnancies in UAE studies. After the birth, the glucose test that catches type 2 diabetes early is often missed: studies report 20% to 58% screened in the first year.",
-    "ev4": "Abu Dhabi is already moving: the Department of Health launched its Programme for the Future of Reproductive Health in September 2026, built on prevention and early screening.",
+    "ev1": "Up to 70% of women with PCOS are not aware of it, the World Health Organization estimates. In the UAE Healthy Future Study, 25.9% of 1,040 Emirati women aged 25 to 67 reported PCOS; in one Dubai hospital's records, it was coded for 1.6% of women aged 15 to 45. The two studies count different groups in different ways.",
+    "ev2": "Endometriosis takes years to name. Across 23 studies worldwide, the average delay from first symptoms was 6.8 years. In a UAE study of 518 women with confirmed endometriosis, it was 11.6 years.",
+    "ev3": "About 1 in 5 pregnancies in Al Ain's Mutaba'ah study had gestational diabetes (21.3%). After the birth, the glucose test that catches type 2 diabetes early is easy to miss: at one Al Ain hospital, only 265 of 1,043 women who had gestational diabetes (25.4%) came back for it.",
+    "ev4": "Abu Dhabi is already moving: in September 2026 the Department of Health launched its Programme for the Future of Reproductive Health, built on prevention and early screening, with a goal of raising IVF success from 59% to 80% by 2030.",
     "sources": "Sources",
     "traceTitle": "Follow one observation from her phone to the clinic.",
     "traceIntro": "Rules decide, published guidelines ground, and the language model only explains. This is Noura's path through the system, using her fictional data.",
@@ -1005,7 +1018,8 @@
     "required": "Fill in every question on this step to continue.",
     "tryTitle": "Try it as yourself",
     "tryBody": "Start a new record in two minutes, with made-up details. A clinic's QR code opens the same page.",
-    "tryAction": "Start your own record"
+    "tryAction": "Start your own record",
+    "useAi": "Use AI features: the assistant answers my questions and AI words my pattern cards. I can turn this off in Privacy."
   },
   "pricing": {
     "metaTitle": "Pricing",

@@ -92,6 +92,7 @@ export function CareGaps({ gaps }: { gaps: ClinicGap[] }) {
             <Tag tone={g.status === "closed" ? "ok" : g.status === "in_progress" ? "info" : "soon"}>{t(`gapStatus.${g.status}`)}</Tag>
           </div>
           {g.due_date && <p className="xs dim">{t("gapDue", { date: formatDayMonth(g.due_date, locale) })}</p>}
+          {g.type === "postpartum_glucose_test" && <p className="xs dim">{t("gapPc008")}</p>}
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             {g.status === "open" && (
               <Button size="sm" variant="outline" disabled={pending} onClick={() => setStatus(g.id, "in_progress")}>
