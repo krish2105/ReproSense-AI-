@@ -255,3 +255,19 @@ def test_assistant_answers_with_citations(client):
 def test_quality_panel(client):
     q = client.get("/v1/quality").json()
     assert q["rule_accuracy"]["pass"] == 8
+
+
+def test_admin_sees_each_clinic_and_can_export_the_audit_log(client):
+    ha = login(client, role="admin")
+    m = client.get("/v1/admin/metrics", headers=ha).json()
+    clinics = {c["clinic_id"]: c for c in m["clinics"]}
+    assert set(clinics) == {"clinic_corniche", "clinic_north", "clinic_alain", "clinic_dhafra"}
+    assert all(c["n"] is None or c["n"] >= 10 for c in m["clinics"])
+    assert sum(c["n"] or 0 for c in m["clinics"]) == m["cohort"]["n"]
+    r = client.get("/v1/admin/audit/export.csv", headers=ha)
+    assert r.status_code == 200 and r.headers["content-type"].startswith("text/csv")
+    lines = r.text.strip().splitlines()
+    assert lines[0] == "id,at,actor_role,actor_id,action,subject_id,target,prev_hash,hash" and len(lines) > 1
+    assert "detail" not in lines[0]
+    assert client.get("/v1/admin/audit/export.csv", headers=login(client, "noura")).status_code == 403
+    assert client.get("/v1/admin/audit/verify", headers=ha).json()["chain_ok"]  # exporting is itself logged, chain intact
