@@ -57,7 +57,8 @@ test("a new record without a clinic starts from her last period, and nothing is 
   await page.getByRole("group", { name: en.join.stage }).getByRole("radio", { name: en.stages.periods, exact: true }).check();
   await page.getByRole("button", { name: en.join.continue }).click();
   await page.getByLabel(en.join.lastPeriod).fill("2026-11-10");
-  await expect(page.getByRole("checkbox")).toHaveCount(0); // no clinic, no sharing question
+  await expect(page.getByRole("checkbox", { name: /Share my report/ })).toHaveCount(0); // no clinic, no sharing question
+  await expect(page.getByRole("checkbox", { name: en.join.useAi })).not.toBeChecked(); // AI stays off unless she ticks it
   await page.getByRole("button", { name: en.join.create }).click();
   await expect(page).toHaveURL(/\/app$/);
   await expect(page.getByText(hello("Huda"))).toBeVisible();

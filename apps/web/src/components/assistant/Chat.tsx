@@ -79,7 +79,7 @@ export function Chat({ suggested, persona, initialQuestion }: { suggested: strin
         const a = await apiClient<AskResponse>("/assistant/ask", { body: { question: text, lang: locale } });
         setTurns((x) => x.map((turn) => (turn.id === id ? { ...turn, a } : turn)));
       } catch (e) {
-        const detail = e instanceof ApiError ? e.detail : String(e);
+        const detail = e instanceof ApiError ? (e.detail === "ai_off" ? t("offBody") : e.detail) : String(e);
         setTurns((x) => x.map((turn) => (turn.id === id ? { ...turn, error: detail } : turn)));
       }
     });
