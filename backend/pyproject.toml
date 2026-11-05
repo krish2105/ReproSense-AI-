@@ -1,0 +1,40 @@
+[project]
+name = "reprosense-api"
+version = "0.1.0"
+description = "ReproSense AI backend: rules engine, agents, RAG, reports (synthetic data only)"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi>=0.115",
+  "uvicorn[standard]>=0.30",
+  "pydantic>=2.8",
+  "pydantic-settings>=2.4",
+  "psycopg[binary]>=3.2",
+  "psycopg-pool>=3.2",
+  "pyyaml>=6.0",
+  "pyjwt>=2.9",
+  "cryptography>=43",
+  "langgraph>=0.2",
+  "weasyprint>=62",
+  "qrcode>=7.4",
+  "anthropic>=0.40",
+  "python-multipart>=0.0.9",
+  "pypdf>=6.21.4",
+]
+
+[dependency-groups]
+dev = ["pytest>=8", "httpx>=0.27", "ruff>=0.6"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501", "B008"]  # B008: FastAPI Depends()/File() defaults are the documented idiom

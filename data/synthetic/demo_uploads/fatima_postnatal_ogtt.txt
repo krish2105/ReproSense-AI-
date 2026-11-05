@@ -1,0 +1,16 @@
+================================================================
+  EXAMPLE DIAGNOSTICS LAB — ABU DHABI (FICTIONAL)
+  SYNTHETIC — fictional demo data, not a real person
+================================================================
+Patient alias : Fatima K. (fictional)
+Age           : 33
+Sample date   : 2026-11-20
+Referring dr. : Dr. Example (fictional)
+----------------------------------------------------------------
+TEST                                          RESULT  UNIT    REF RANGE     FLAG
+Fasting plasma glucose                           5.2  mmol/L  < 6.1
+75 g OGTT — 2 hour glucose (postnatal)           7.1  mmol/L  < 7.8
+HbA1c                                            5.4  %       < 5.7
+----------------------------------------------------------------
+Reference ranges are illustrative for this demo and vary by laboratory.
+End of report.

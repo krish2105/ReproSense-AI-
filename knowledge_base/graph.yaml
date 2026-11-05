@@ -1,0 +1,75 @@
+# Small guideline graph: pattern -> what doctors look at -> tests -> timing -> source.
+# The evidence agent walks this first, then retrieves passages for each node. Our own wording; non-diagnostic.
+nodes:
+  - rule: OBS_IRREGULAR_CYCLES
+    condition: "Irregular cycles (many possible causes, including PCOS and thyroid changes)"
+    criteria: ["Cycles < 21 or > 35 days, or < 8 cycles a year, more than 3 years after the first period"]
+    tests: ["Doctor's assessment", "Thyroid and prolactin blood tests may be considered"]
+    timing: "With 4 or more logged cycles"
+    sources: [pcos_guideline_2023, nhs_absent_periods]
+  - rule: OBS_IRREGULAR_PLUS_ANDROGEN
+    condition: "PCOS assessment may be appropriate"
+    criteria: ["2 of 3: irregular cycles, signs of higher androgens, polycystic ovaries on ultrasound or raised AMH"]
+    tests: ["Androgen blood tests", "Ultrasound or AMH when needed"]
+    timing: "Discuss at the next appointment"
+    sources: [pcos_guideline_2023, nhs_pcos]
+  - rule: OBS_SEVERE_CYCLICAL_PAIN
+    condition: "Severe period pain worth a gynaecology review (endometriosis is one possible cause)"
+    criteria: ["Period pain affecting daily activities", "Pain not helped by first treatments"]
+    tests: ["Examination", "Ultrasound or MRI"]
+    timing: "Book a gynaecology appointment"
+    sources: [nice_endometriosis_ng73, eshre_endometriosis_2022, acog_dysmenorrhea]
+  - rule: OBS_CYCLICAL_BOWEL_BLADDER_PAIN
+    condition: "Cyclical bowel or bladder pain"
+    criteria: ["Painful bowel movements or pain passing urine around periods"]
+    tests: ["Mention specifically to the doctor"]
+    timing: "Next appointment"
+    sources: [nice_endometriosis_ng73]
+  - rule: OBS_HEAVY_OR_LONG_PERIODS
+    condition: "Heavy menstrual bleeding"
+    criteria: ["Bleeding > 7 days, flooding, large clots, PBAC >= 100"]
+    tests: ["Full blood count"]
+    timing: "Discuss with a doctor"
+    sources: [nice_hmb_ng88, nhs_heavy_periods, pbac_higham_1990]
+  - rule: OBS_HEAVY_WITH_FATIGUE
+    condition: "Heavy periods and tiredness (low iron is common with heavy bleeding)"
+    criteria: ["Heavy bleeding pattern with tiredness logged"]
+    tests: ["Full blood count (ferritin only when the doctor thinks it is needed)"]
+    timing: "Discuss with a doctor"
+    sources: [nice_hmb_ng88, nhs_heavy_periods]
+  - rule: CARE_POSTPARTUM_GLUCOSE_TEST
+    condition: "Follow-up after gestational diabetes"
+    criteria: ["Gestational diabetes in the last pregnancy"]
+    tests: ["75 g oral glucose tolerance test"]
+    timing: "4-12 weeks after birth, then every 1-3 years"
+    sources: [ada_standards_pregnancy, nice_ng3]
+  - rule: CARE_PREGNANCY_GLUCOSE_SCREEN
+    condition: "Gestational diabetes screening"
+    criteria: ["Pregnancy, not yet screened"]
+    tests: ["Oral glucose tolerance test"]
+    timing: "24-28 weeks of pregnancy"
+    sources: [ada_standards_pregnancy, nice_ng3]
+  - rule: OBS_TTC_FERTILITY_ASSESSMENT
+    condition: "Fertility assessment timing"
+    criteria: ["12 months of trying, or 6 months from age 35"]
+    tests: ["Assessment of both partners"]
+    timing: "Now, given age and months trying"
+    sources: [asrm_2021_infertile_eval, nice_ng257, who_infertility, nhs_folic_acid]
+  - rule: OBS_POSTPARTUM_MOOD
+    condition: "Mood after birth"
+    criteria: ["EPDS total 10 or more"]
+    tests: ["Conversation with a doctor or midwife"]
+    timing: "Soon"
+    sources: [nice_cg192, epds_cox_1987]
+  - rule: OBS_PERIMENOPAUSE_SYMPTOMS
+    condition: "Perimenopause symptoms"
+    criteria: ["Over 45 with hot flushes or night sweats and changing periods"]
+    tests: ["Usually no blood tests needed over 45"]
+    timing: "Discuss treatment options"
+    sources: [nice_ng23, mrs_heinemann_2004]
+  - rule: OBS_NO_PERIOD_90_DAYS
+    condition: "No period for 90 days"
+    criteria: ["No period for 3 months, not pregnant or breastfeeding"]
+    tests: ["Pregnancy test first", "Doctor's assessment"]
+    timing: "Soon"
+    sources: [nhs_absent_periods]
