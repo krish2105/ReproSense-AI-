@@ -251,7 +251,7 @@ export interface HomeResponse {
   last_log: LogEntry | null;
   today_mood: Mood | null;
   record_strength: "strong" | "building" | "early";
-  log_count: number;
+  days_logged: number; // distinct dates with a daily log (same number on home, Patterns, clinician)
 }
 
 /** POST /v1/logs */
@@ -365,7 +365,7 @@ export interface InsightsResponse {
   record_strength: "strong" | "building" | "early";
   cycles_logged: number;
   change_point: { index: number; before: number; after: number } | null;
-  entries_count: number;
+  days_logged: number;
   rules_version: string;
 }
 
@@ -470,6 +470,7 @@ export interface ClinicRecord {
   analytics: AnalyticsResponse;
   timeline: TimelineResponse;
   her_questions: string[];
+  days_logged: number;
   visit_note_draft: string;
 }
 /** POST /v1/clinic/patients/{id}/ask — answers only from her entries */

@@ -319,3 +319,18 @@ def test_a_card_cites_its_own_evidence_first_and_counts_the_rest(client):
     assert andro["why_total"] >= 16 and len(andro["why_we_noticed"]) <= 12
     first = andro["why_we_noticed"][0]["text"].lower()
     assert "acne" in first or "hair" in first, first  # the androgen card shows the skin and hair days first
+
+
+def test_days_logged_is_one_count_on_home_patterns_and_the_clinician_view(client):
+    # Issue #43 (a): home and the clinician view said 128 entries, Patterns said 133. One definition everywhere.
+    import json
+
+    from app.config import DATA_DIR
+
+    noura = json.loads((DATA_DIR / "personas" / "noura.json").read_text(encoding="utf-8"))
+    expected = len({str(lg["date"]) for lg in noura["daily_logs"]})
+    h = login(client, "noura")
+    home = client.get("/v1/me/home", headers=h).json()["days_logged"]
+    patterns = client.get("/v1/insights", headers=h).json()["days_logged"]
+    record = client.get("/v1/clinic/patients/noura", headers=login(client, role="clinician")).json()["days_logged"]
+    assert home == patterns == record == expected

@@ -373,3 +373,10 @@ Outside `ar.json` (same terms):
 - `backend/app/agents/assistant.py` lines 97, 99, 101, 110, 124, 127
 - `backend/app/agents/copy.py` lines 43, 51
 - `rules/translations_ar.yaml` lines 4, 8, 14, 33, 34, 49, 62
+
+## One count everywhere: days logged (#43 a, draft Arabic reusing the landing page's يوماً مُسجَّلاً, not yet reviewed)
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `home.record` | {count} days logged · record strength: {strength} | {count} يوماً مُسجَّلاً · قوة السجلّ: {strength} | |
+| `insights.strengthDetail` | {cycles, plural, one {# cycle} other {# cycles}} logged · {days} days logged | {cycles, plural, one {دورة واحدة مُسجَّلة} two {دورتان مُسجَّلتان} few {# دورات مُسجَّلة} many {# دورة مُسجَّلة} other {# دورة مُسجَّلة}} · {days} يوماً مُسجَّلاً | |
+| `clinic.sharedNote` | {count} days logged · shared with consent · fictional | {count} يوماً مُسجَّلاً · بموافقتها · بيانات خيالية | |
