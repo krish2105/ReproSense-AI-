@@ -1,5 +1,6 @@
 """FHIR R4 export (Bundle of Patient + Observation). Validated in tests against published FHIR models for every demo
-woman (tests/test_fhir_models.py); the official HL7 validator, which also checks terminology, is still to run.
+woman (tests/test_fhir_models.py). The official HL7 validator (v7.0.5, R4 4.0.1) passed all 8 with 0 errors on 6 Nov
+2026 (docs/07); it is run by hand, not in CI.
 We never connect to Malaffi: only licensed facilities do. This export goes into the clinic's own system."""
 
 from __future__ import annotations
