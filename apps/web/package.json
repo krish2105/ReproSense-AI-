@@ -19,7 +19,7 @@
   "dependencies": {
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
-    "next": "^15.5.29",
+    "next": "^16.4.5",
     "next-intl": "^4.14.9",
     "qrcode.react": "^4.2.0",
     "react": "^19.3.1",
@@ -38,7 +38,7 @@
     "@types/react-dom": "^19.3.0",
     "@types/three": "^0.187.0",
     "eslint": "^9.39.5",
-    "eslint-config-next": "15.5.29",
+    "eslint-config-next": "16.4.5",
     "lighthouse": "^13.6.0",
     "tailwindcss": "^4.3.4",
     "typescript": "~5.9.3",
