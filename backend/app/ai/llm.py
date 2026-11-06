@@ -92,7 +92,10 @@ class ClaudeProvider:
             return None
         if resp.stop_reason == "refusal":
             return None
-        text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
+        if resp.stop_reason == "max_tokens":
+            log.warning("LLM reply cut at max_tokens=%s; using template", max_tokens)
+            return None
+        text ="".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
         value = _parse_json(text)
         if value is not None:
             cache_put(system, user, value)
