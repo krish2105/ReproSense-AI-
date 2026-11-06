@@ -277,7 +277,9 @@ def test_admin_sees_each_clinic_and_can_export_the_audit_log(client):
     assert lines[0] == "id,at,actor_role,actor_id,action,subject_id,target,prev_hash,hash" and len(lines) > 1
     assert "detail" not in lines[0]
     assert client.get("/v1/admin/audit/export.csv", headers=login(client, "noura")).status_code == 403
-    assert client.get("/v1/admin/audit/verify", headers=ha).json()["chain_ok"]  # exporting is itself logged, chain intact
+    assert client.get("/v1/admin/audit/verify", headers=ha).json()[
+        "chain_ok"
+    ]  # exporting is itself logged, chain intact
 
 
 def test_the_crisis_path_never_shows_a_score_or_a_scored_card(client, reseed):
@@ -298,9 +300,13 @@ def test_the_crisis_path_never_shows_a_score_or_a_scored_card(client, reseed):
 
 def test_bad_input_and_unshared_records_get_clear_errors_not_500(client):
     h = login(client, "noura")
-    bad = client.post("/v1/logs", headers=h, json={"date": "2026-11-20", "flow": "medium", "pbac_items": {"pads": {"huge": 3}}})
+    bad = client.post(
+        "/v1/logs", headers=h, json={"date": "2026-11-20", "flow": "medium", "pbac_items": {"pads": {"huge": 3}}}
+    )
     assert bad.status_code == 422
-    neg = client.post("/v1/logs", headers=h, json={"date": "2026-11-20", "flow": "medium", "pbac_items": {"pads": {"soaked": -2}}})
+    neg = client.post(
+        "/v1/logs", headers=h, json={"date": "2026-11-20", "flow": "medium", "pbac_items": {"pads": {"soaked": -2}}}
+    )
     assert neg.status_code == 422
     hc = login(client, role="clinician")
     assert client.post("/v1/clinic/patients/amina/review", headers=hc).status_code == 404  # Amina has not shared

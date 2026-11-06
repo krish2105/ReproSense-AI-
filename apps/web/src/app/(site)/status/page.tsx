@@ -123,6 +123,11 @@ export default async function StatusPage() {
               <p className="s dim" style={{ marginTop: 4 }}>
                 {t("heldoutIntro")}
               </p>
+              <p className="xs faint" style={{ marginTop: 4 }}>
+                {t("heldoutCount", {
+                  n: (["crisis", "urgent", "refuse", "medicine", "answer"] as const).reduce((n, k) => n + (e.heldout?.[k]?.of ?? 0), 0),
+                })}
+              </p>
               <ul className="tier-list" style={{ marginTop: 8 }}>
                 {(["crisis", "urgent", "refuse", "medicine", "answer"] as const).map((k) =>
                   e.heldout?.[k] ? (
@@ -130,6 +135,9 @@ export default async function StatusPage() {
                   ) : null,
                 )}
               </ul>
+              <p className="s dim" style={{ marginTop: 8 }}>
+                {t("heldoutAfter")}
+              </p>
             </div>
           )}
         </section>

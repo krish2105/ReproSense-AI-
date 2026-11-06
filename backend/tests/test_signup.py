@@ -92,7 +92,9 @@ def test_sharing_from_privacy_goes_to_her_own_clinic_only(client, reseed):
     assert r.status_code == 422
     fresh(client)
     assert (
-        client.post("/v1/demo/signup", json={**BASE, "name": "Shamma", "life_stage": "periods", "clinic_id": "clinic_alain"}).status_code
+        client.post(
+            "/v1/demo/signup", json={**BASE, "name": "Shamma", "life_stage": "periods", "clinic_id": "clinic_alain"}
+        ).status_code
         == 200
     )
     assert client.get("/v1/privacy").json()["home_clinic"]["id"] == "clinic_alain"
@@ -113,10 +115,34 @@ def test_a_joined_record_is_not_on_the_public_roster(client, reseed):
     assert client.post("/v1/demo/login", json={"persona": gid}).status_code == 404  # nobody else can open her record
 
 
+def test_a_period_entered_backwards_stays_one_period(client, reseed):
+    """She logs the days of one period from the last day back to the first: one period, not four one-day cycles."""
+    fresh(client)
+    r = client.post(
+        "/v1/demo/signup", json={**BASE, "name": "Salma", "life_stage": "periods", "last_period_start": "2026-10-13"}
+    )
+    assert r.status_code == 200, r.text
+    for d in ("2026-11-14", "2026-11-13", "2026-11-12", "2026-11-11", "2026-11-10"):
+        r = client.post("/v1/logs", json={"date": d, "flow": "medium", "pain": 2})
+        assert r.status_code == 200, r.text
+    cycles = client.get("/v1/export").json()["cycles"]
+    assert [c["start"] for c in cycles] == ["2026-10-13", "2026-11-10"]
+    assert [c["length_days"] for c in cycles] == [28, None]
+    assert cycles[-1]["bleed_days"] == 5
+    patterns = {c["observation_id"] for c in client.get("/v1/insights").json()["cards"]}
+    assert "OBS_IRREGULAR_CYCLES" not in patterns
+    fresh(client)
+
+
 def test_periods_entered_after_joining_become_cycles(client, reseed):
     """She joins with her last period, then adds the three before it: none of them is dropped."""
     fresh(client)
-    assert client.post("/v1/demo/signup", json={**BASE, "name": "Mira", "life_stage": "periods", "last_period_start": "2026-11-10"}).status_code == 200
+    assert (
+        client.post(
+            "/v1/demo/signup", json={**BASE, "name": "Mira", "life_stage": "periods", "last_period_start": "2026-11-10"}
+        ).status_code
+        == 200
+    )
     for d in ("2026-10-13", "2026-09-15", "2026-08-18"):
         r = client.post("/v1/logs", json={"date": d, "flow": "medium", "pain": 3})
         assert r.status_code == 200, r.text

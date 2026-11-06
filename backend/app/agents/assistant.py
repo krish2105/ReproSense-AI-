@@ -27,7 +27,7 @@ CRISIS = [
     r"\bend(ing)? (my|it) (own )?(life|all)\b",
     r"\b(take|taking) my (own )?life\b",
     r"\bsuicid",
-    r"\b(harm|hurt|cut)(ing)? myself\b",
+    r"\b(harm|harming|hurt|hurting|cut|cutting) myself\b",
     r"\bself[- ]?harm",
     r"\b(do not|don'?t|dont) want to (live|be alive|be here( anymore)?|wake up|exist)\b",
     r"\b(want|wanted|wanting|wish) (to )?(die|be dead)\b",
@@ -117,15 +117,15 @@ URGENT_TEXT = {
         "bleed": "Call 998 or go to the nearest emergency department if this is happening now. Very heavy bleeding with dizziness or fainting needs urgent care.",
         "pregnancy": "Call 998 or go to your maternity unit now if this is happening. These signs in pregnancy need checking today.",
         "pain": "Call 998 or go to the nearest emergency department if this is happening now. Sudden, severe pain needs urgent care.",
-        "postnatal": "Call 998 if this is happening now. After birth, a fever, very heavy bleeding, a severe headache, chest pain or breathlessness, or pain or swelling in one leg needs urgent care.",
-        "crisis": "You deserve support right now. Please call 998 or speak to a doctor today. You are not alone.",
+        "postnatal": "Call 998 or go to the nearest emergency department if this is happening now. After a birth or a pregnancy loss, get urgent care for a fever, very heavy bleeding or feeling faint. Do the same for tummy pain that is severe or getting worse, or a severe headache. Also get urgent care for chest pain, trouble breathing, or pain or swelling in one leg. You were right to ask.",
+        "crisis": "You deserve support right now. If you took too many tablets or hurt yourself badly, or feel you can't keep yourself or someone else safe, call 998 now. Please also talk to a doctor today, and to someone you trust. You are not alone.",
     },
     "ar": {
         "bleed": "اتصلي بالرقم 998 أو توجهي إلى أقرب قسم طوارئ إذا كان هذا يحدث الآن. النزيف الغزير جداً مع الدوخة أو الإغماء يحتاج رعاية عاجلة.",
         "pregnancy": "اتصلي بالرقم 998 أو توجهي إلى وحدة الولادة الآن إذا كان هذا يحدث. هذه العلامات أثناء الحمل تحتاج فحصاً اليوم.",
         "pain": "اتصلي بالرقم 998 أو توجهي إلى أقرب قسم طوارئ إذا كان هذا يحدث الآن. الألم المفاجئ الشديد يحتاج رعاية عاجلة.",
-        "postnatal": "اتصلي بالرقم 998 إذا كان هذا يحدث الآن. بعد الولادة، الحرارة أو النزيف الغزير أو الصداع الشديد أو ألم الصدر أو ضيق التنفس أو ألم أو تورّم في ساق واحدة يحتاج رعاية عاجلة.",
-        "crisis": "أنتِ تستحقين الدعم الآن. اتصلي بالرقم 998 أو تحدثي مع طبيبة اليوم. لستِ وحدك.",
+        "postnatal": "اتصلي بالرقم 998 أو توجّهي إلى أقرب قسم طوارئ إذا كان هذا يحدث الآن. بعد الولادة أو فقدان الحمل، اطلبي رعاية عاجلة عند ارتفاع الحرارة أو النزيف الغزير جداً أو الشعور بالإغماء. وكذلك عند ألم البطن الشديد أو المتزايد، أو الصداع الشديد. واطلبي رعاية عاجلة أيضاً عند ألم الصدر أو ضيق التنفس أو ألم إحدى الساقين أو تورّمها. سؤالكِ في محلّه.",
+        "crisis": "أنتِ تستحقين الدعم الآن. إذا تناولتِ حبوباً أكثر من اللازم أو آذيتِ نفسكِ بشدة، أو شعرتِ بأنكِ لا تستطيعين الحفاظ على سلامتكِ أو سلامة غيركِ، اتصلي بالرقم 998 الآن. وتحدّثي اليوم مع طبيب أو طبيبة، ومع شخص تثقين به. لستِ وحدكِ.",
     },
 }
 URGENT_SOURCES = {
@@ -302,7 +302,11 @@ def answer(question: str, lang: str | None = None, names: list[str] | None = Non
         "trace": trace,
     }
 
-    if _crisis(q):
+    llm = get_llm()
+    words = _crisis(q)
+    # the second check by the model runs when the word checks found no crisis; it can only add a route, never remove one
+    second = None if words else safety.model_check(q, llm, names)
+    if words or (second and second["crisis"]):
         out.update(
             crisis=True,
             urgent={"kind": "crisis", "message": URGENT_TEXT[lang]["crisis"], "number": "998"},
@@ -310,9 +314,10 @@ def answer(question: str, lang: str | None = None, names: list[str] | None = Non
             citations=_cite_list([URGENT_SOURCES["crisis"]]),
             grounded=True,
         )
-        trace.append({"agent": "safety", "detail": "crisis path: support message only, no other content"})
+        how = "word checks" if words else "second check by the language model"
+        trace.append({"agent": "safety", "detail": f"crisis path ({how}): support message only, no other content"})
         return out
-    kind = _urgent_kind(q)
+    kind = _urgent_kind(q) or (second["urgent"] if second else None)
     if kind:
         out["urgent"] = {"kind": kind, "message": URGENT_TEXT[lang][kind], "number": "998"}
         trace.append({"agent": "safety", "detail": f"urgent guidance first ({kind})"})
@@ -338,7 +343,6 @@ def answer(question: str, lang: str | None = None, names: list[str] | None = Non
         {"agent": "evidence", "detail": f"{len(passages)} passages from {len({p.source_id for p in passages})} sources"}
     )
     sents, order = _extractive(q, passages, lang, 2 if refused else 3)
-    llm = get_llm()
     if llm.name != "none" and passages and not refused:
         numbered = [p for p in passages if p.lang == lang][:4] or passages[:4]
         ctx = "\n".join(f"[{i + 1}] {p.text}" for i, p in enumerate(numbered))

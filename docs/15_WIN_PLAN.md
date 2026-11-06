@@ -73,9 +73,13 @@ Prior work disclosed by team ReproSense (all before selection on 16 Nov 2026):
     assistant, doctor PDF, clinic and network APIs, synthetic data generator and tests;
   - web app: patient, clinician and network-admin views in English and Arabic, landing page with 3D views;
   - end-to-end tests, CI, Docker image and deploy configuration;
-  - join flow with clinic QR invite, pricing page, AI on/off switch, DoH Jawda PC008 panel.
+  - join flow with clinic QR invite, pricing page, AI on/off switch, DoH Jawda PC008 panel;
+  - trust centre (DoH Responsible AI Standard clause map), per-clinic metrics, audit log export, support terms,
+    pitch deck, and the safety, privacy and evidence fixes from the 6 Nov judge panel (assistant safety routing with a
+    held-out test, crisis path, clinic-only sharing, closed demo roster, evidence order, clinician voice).
+- Built but parked for build week (not merged before selection): clinician invites (branch `build-week/clinician-invites`).
 - The repository state at selection is tagged `pre-selection-2026-11-16`; everything after the tag is build-week work.
-- AI tools used: Claude (research, specification, code assistance), [image tool] for illustrations.
+- AI tools used: Claude (research, specification, code assistance), ChatGPT for illustrations.
 - No real patient data has been used at any point; every record is synthetic and labelled "Demo data — fictional".
 ```
 

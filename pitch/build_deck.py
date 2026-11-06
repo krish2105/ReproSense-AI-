@@ -12,10 +12,16 @@ Design: E · Mauve Pro (docs/06). Offline: fonts and images sit next to the deck
 from __future__ import annotations
 
 import html
+import re
 import json
 import math
 from datetime import date
 from pathlib import Path
+
+# Fill these only with true facts before the pitch. A value left as None hides its line (judge panel, 6 Nov 2026).
+TEAM = None  # e.g. "Krishna (tech) · Atharva (product) · Yash (regulatory) · Dr … (clinical advisor)"
+EVIDENCE = None  # e.g. "6 clinicians and 3 clinic managers interviewed · letter of intent from … Clinic"
+IMAGE_TOOL = "ChatGPT"  # ASSET_INTEGRATION_REPORT.md: "AI-generated images (ChatGPT)"
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "pitch" / "deck.html"
@@ -114,9 +120,27 @@ def progress(i: int, n: int) -> str:
 
 
 e = evals
+
+
+def heldout_rows() -> str:
+    """Rows for the held-out test (questions written by reviewers who never saw the code), if it has run."""
+    h = e.get("heldout")
+    if not h:
+        return ""
+    names = {"crisis": "Crisis messages given the support path", "urgent": "Emergencies given 998 first",
+             "refuse": "Diagnosis requests refused", "medicine": "Medicine questions sent to a doctor",
+             "answer": "Everyday questions answered normally"}
+    n = sum(h[k]["of"] for k in names if k in h)
+    head = f'<tr class="grp"><th colspan="2">Held-out: {n} new questions by reviewers who never saw the code</th></tr>'
+    return '</tbody><tbody>' + head + "".join(
+        f"<tr><td>{names[k]}</td><td>{h[k]['pass']} of {h[k]['of']}</td></tr>" for k in names if k in h
+    )
+
+
 SLIDES: list[dict] = [
     {
         "title": "ReproSense",
+        "synthetic": True,
         "body": f"""
 <div class="cols c-hero">
   <div>
@@ -178,6 +202,7 @@ SLIDES: list[dict] = [
     },
     {
         "title": "One record, three views.",
+        "synthetic": True,
         "body": """
 <h2>One record, three views.</h2>
 <div class="shots">
@@ -190,6 +215,7 @@ SLIDES: list[dict] = [
     },
     {
         "title": "The demo, in three minutes.",
+        "synthetic": True,
         "body": """
 <div class="cols c-demo">
   <div>
@@ -199,7 +225,7 @@ SLIDES: list[dict] = [
       <li><b>Asked in Arabic,</b> the assistant answers with its source.</li>
       <li><b>A two-page PDF,</b> shared through a link that expires.</li>
       <li><b>The clinician view</b> is separate: handover, evidence, visit-note draft.</li>
-      <li><b>Fatima's follow-up closes</b> and DoH's PC008 measure moves.</li>
+      <li><b>Fatima's follow-up is marked done</b> and the glucose part of DoH's PC008 measure moves.</li>
     </ol>
   </div>
   <figure class="panel-shot"><img src="img/admin-pc008.jpg" alt="Network dashboard panel: DoH Jawda PC008, glucose test after gestational diabetes, 3 of 10 done before Fatima's follow-up closes">
@@ -213,6 +239,7 @@ SLIDES: list[dict] = [
         "body": f"""
 <h2>Rules decide. AI only words.</h2>
 <div class="cols c-ai">
+  <div>
   <ol class="pipe">
     <li><b>Her entries</b><span>periods, pain, labs, mood checks</span></li>
     <li><b>Rules with sources</b><span>one versioned file; each rule names its guideline</span></li>
@@ -220,20 +247,22 @@ SLIDES: list[dict] = [
     <li><b>AI wording, if she allows it</b><span>one switch in Privacy turns it off</span></li>
     <li><b>Verifier</b><span>drops any sentence it cannot support</span></li>
   </ol>
+  <p class="sub held-note">The held-out set was measured once and never used to tune the checks. Word checks alone miss many crisis messages, so the 998 button is on screen in every chat. A second check by a language model is built but not yet scored.</p>
+  </div>
   <table class="rai test">
     <caption>Acceptance test: {e['questions']} fixed questions, English and Arabic</caption>
     <tbody>
-      <tr><td>Answers grounded in a source</td><td>{e['grounded_pct']}%</td></tr>
+      <tr><td>Answers grounded in a source</td><td>{e['grounded']['pass']} of {e['grounded']['of']}</td></tr>
       <tr><td>Diagnosis questions refused</td><td>{e['refusals']['pass']} of {e['refusals']['of']}</td></tr>
-      <tr><td>Red flags caught</td><td>{e['red_flag_recall_pct']:g}%</td></tr>
+      <tr><td>Red-flag questions given 998 first</td><td>{e['red_flags']['pass']} of {e['red_flags']['of']}</td></tr>
       <tr><td>Banned phrases in answers</td><td>{e['banned_phrases']}</td></tr>
-      <tr><td>Failures, listed by name</td><td>{len(e['failures'])} ({', '.join(f['id'] for f in e['failures'])})</td></tr>
+      {heldout_rows()}
     </tbody>
   </table>
 </div>
-<p class="sub">Checked against a fixed test set, not clinically validated. We quote no accuracy figure.</p>""",
-        "source": f"backend/app/ai/eval_results.json ({e.get('mode', '')}); the failure is listed by id ({', '.join(f['id'] for f in e['failures'])}). Runs in CI on every change.",
-        "notes": "ReproSense never diagnoses: each card names the pattern, shows the exact days behind it, links the guideline rule it comes from. We quote no accuracy figure.",
+""",
+        "source": f"backend/app/ai/eval_results.json, mode: {e.get('mode', '')}; failures are listed by id ({', '.join(f['id'] for f in e['failures']) or 'none'}). Runs in CI on every change.",
+        "notes": "ReproSense never diagnoses: each card names the pattern, shows the exact days behind it, links the guideline rule it comes from. The held-out rows are our weakest numbers and we show them on purpose: messages in people's own words slip past word checks. So 998 is one tap in every chat: help never waits for the app to notice her. We show counts, not an accuracy percentage.",
     },
     {
         "title": "Built for DoH's AI standard.",
@@ -256,7 +285,7 @@ SLIDES: list[dict] = [
     },
     {
         "title": "Women free. Clinics pay per seat.",
-        "body": """
+        "body": f"""
 <h2>Women free. Clinics pay per seat.</h2>
 <ul class="tiers">
   <li><b>Free</b><span>Women: app, record, doctor report</span></li>
@@ -267,7 +296,7 @@ SLIDES: list[dict] = [
 <div class="cols c-biz">
   <p><b>First buyers:</b> women's health and IVF clinics, and primary-care networks, where DoH's PC008 measure applies.
   Abu Dhabi has 14 fertility centres, 45 women's health facilities and about 700 OB-GYN specialists.</p>
-  <p class="fill">Fill in before the pitch, only if true: [N] clinicians and [N] clinic managers interviewed · [Clinic] letter of intent.</p>
+  {f'<p class="proof">{html.escape(EVIDENCE)}</p>' if EVIDENCE else ''}
 </div>""",
         "source": "Prices are hypotheses to test in interviews (research/2026-11-06/04 §9). Market: Abu Dhabi Media Office, 30 Jul 2025.",
         "notes": "Women use it free and clinics pay per clinician seat. Say the interview and LOI numbers only if they are true; drop the bracket otherwise.",
@@ -277,25 +306,25 @@ SLIDES: list[dict] = [
         "body": """
 <h2>Six months, matched to the grant.</h2>
 <ol class="time">
-  <li><b>Month 1</b><span>Founders' agreement, 10 interviews, one letter of intent.</span></li>
-  <li><b>Month 3</b><span>Tested with 15–20 women and 3 clinicians on UAE cloud. Classification request to the Emirates Drug Establishment.</span></li>
-  <li><b>Month 6</b><span>Licensed company, ADHICS gap assessment, first paid pilot.</span></li>
+  <li><b>Months 0–1</b><span>Intended use and claims frozen. Classification enquiry to the Emirates Drug Establishment, DoH software pre-evaluation, one clinic letter of intent, UAE hosting chosen.</span><em>Grant 50% + 10% · regulatory and tech leads</em></li>
+  <li><b>Months 2–3</b><span>Pilot agreement, consent forms in Arabic and English, rules signed by a clinician, UAE stack live and tested, usability sessions on synthetic records.</span><em>Grant 15% · tech lead and clinical advisor</em></li>
+  <li><b>Months 4–6</b><span>Gate review, then a consented pilot: up to 20 women and 3 clinicians at one clinic. Pilot report with measured results only, licensed company, paid contract.</span><em>Grant 25% · whole team</em></li>
 </ol>""",
-        "source": "Grant tranches and milestones: docs/12 go-to-market. Regulatory steps: research/2026-11-06/03 §7.",
+        "source": "Grant tranches: docs/12. Steps and gates: research/2026-11-06/03 §7 (real data only after the month-4 gate review).",
         "notes": "Commitment to continue: who keeps working after Sunday, tied to the grant milestones.",
     },
     {
         "title": "One pilot. One measure.",
-        "body": """
+        "body": f"""
 <div class="cols c-ask">
   <div>
     <h2 class="ask">One pilot. One measure.</h2>
     <p class="big-line">Three months with one Abu Dhabi clinic, judged on how many women complete the follow-ups they are due.</p>
-    <p class="fill">Team: [names and roles] · Clinical advisor: [name]</p>
+    {f'<p class="proof">{html.escape(TEAM)}</p>' if TEAM else ''}
   </div>
   <div class="disclose">
-    <p><b>AI use.</b> Built with Claude (research, specification and code assistance) and [image tool] for illustrations.</p>
-    <p><b>Earlier work, disclosed.</b> Research, design and code from 5–6 Nov 2026, before selection. The repository is tagged at selection.</p>
+    <p><b>AI use.</b> Built with Claude (research, specification and code assistance){f" and {IMAGE_TOOL} for illustrations" if IMAGE_TOOL else ""}.</p>
+    <p><b>Earlier work, disclosed.</b> Research, design and code from 5–6 Nov 2026, before selection, are listed in our disclosure note.</p>
     <p><b>Data.</b> Every record in the demo is fictional.</p>
   </div>
 </div>""",
@@ -340,7 +369,7 @@ h2{font-size:56px;max-width:15em}
 .pipe li{font-size:20px;line-height:1.3}.pipe li::marker{font-weight:800;color:var(--accent-text)}
 .pipe b{display:block}.pipe span{display:block;font-size:16px;color:var(--ink-2)}
 .test{margin-top:0}.test caption{caption-side:top;text-align:start;font-size:15px;font-weight:700;color:var(--ink-2);padding:16px 18px 6px}
-.test td:first-child{color:var(--ink);font-weight:500;white-space:normal}.test td:last-child{font-weight:800;font-size:22px;text-align:end;white-space:nowrap;color:var(--plum)}
+.rai.test td{padding:7px 18px}.rai.test td:last-child{font-size:20px}.rai.test .grp th{font-size:15px;font-weight:700;color:var(--ink-2);padding:14px 18px 6px;border-top:1px solid var(--rule-2)}.held-note{font-size:17px;margin-top:22px}.test td:first-child{color:var(--ink);font-weight:500;white-space:normal}.test td:last-child{font-weight:800;font-size:22px;text-align:end;white-space:nowrap;color:var(--plum)}
 .hero-fig{margin:0;display:flex;flex-direction:column;align-items:center;gap:10px}
 .ring{width:440px;height:440px}
 .ring-n{font-size:20px;font-weight:700;fill:var(--ink-2);text-anchor:middle;dominant-baseline:middle}
@@ -395,12 +424,13 @@ figcaption{font-size:15px;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:8px
 .tiers b{font-size:32px;font-weight:800;letter-spacing:-.03em;color:var(--plum);white-space:nowrap}
 .tiers span{font-size:17px;color:var(--ink-2)}
 .c-biz p{font-size:19px;line-height:1.45;margin:0}
-.fill{border:2px dashed var(--accent);border-radius:18px;padding:14px 18px;color:var(--accent-text);font-weight:600}
+.proof{border-radius:18px;padding:14px 18px;background:var(--sheet);box-shadow:var(--shadow);font-weight:600}
 .time{list-style:none;padding:0;margin:40px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;position:relative}
 .time li{background:var(--sheet);border-radius:24px;padding:26px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;border-top:6px solid var(--ph-l)}
 .time li:nth-child(2){border-top-color:var(--ph-o)} .time li:nth-child(3){border-top-color:var(--ph-m)}
 .time b{font-size:30px;font-weight:800;letter-spacing:-.03em}
-.time span{font-size:19px;line-height:1.45;color:var(--ink-2)}
+.time span{font-size:18px;line-height:1.45;color:var(--ink-2)}
+.time em{font-style:normal;font-size:14px;font-weight:700;color:var(--accent-text);margin-top:auto}
 .ask{font-size:72px}
 .disclose{background:var(--sheet);border-radius:24px;padding:26px;box-shadow:var(--shadow);font-size:17px;line-height:1.45}
 .disclose p{margin:0 0 12px} .disclose p:last-child{margin:0}
@@ -450,7 +480,8 @@ def build() -> str:
             f'<section class="slide" aria-roledescription="slide" aria-label="{html.escape(label)}"{" hidden" if k else ""}>'
             f"{s['body']}"
             f'<div class="foot"><p class="src">{html.escape(s["source"])}</p>'
-            f'<div class="meta"><span class="badge">Demo data — fictional</span>{progress(k, n)}<span>{k + 1}/{n}</span></div></div>'
+            f'<div class="meta">{"<span class=\"badge\">Demo data — fictional</span>" if s.get("synthetic") else ""}'
+            f'{progress(k, n)}<span>{k + 1}/{n}</span></div></div>'
             f'<aside class="notes">{html.escape(s["notes"])}</aside></section>'
         )
     return (
@@ -466,5 +497,10 @@ def build() -> str:
 
 
 if __name__ == "__main__":
-    OUT.write_text(build())
+    out = build()
+    # a slide body that is not an f-string prints its template code on the slide: refuse to write such a deck
+    leftover = re.findall(r"\{(?:html\.escape\(|[A-Z][A-Z_]{2,}\b)[^}]*\}", out)
+    if leftover:
+        raise SystemExit(f"template code left on a slide: {leftover}")
+    OUT.write_text(out)
     print(f"wrote {OUT.relative_to(ROOT)} ({len(SLIDES)} slides; Noura's cycles {lens}; eval {e['questions']} questions)")

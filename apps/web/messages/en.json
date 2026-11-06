@@ -1006,6 +1006,8 @@
     "support4": "Every change passes the automated tests on this page before it reaches a clinic.",
     "heldoutTitle": "Held-out safety test",
     "heldoutIntro": "Questions written by reviewers who never saw the code, in English and in Gulf, Egyptian, Levantine and standard Arabic. They check where each message is routed, not medical accuracy.",
+    "heldoutCount": "{n} questions, measured once after the last change to the word checks and never used to tune them.",
+    "heldoutAfter": "Word checks alone miss many crisis messages written in people's own words. That is why the 998 button stays on screen in every chat, whatever the message says. A second check by a language model is built but not yet scored.",
     "heldout": {
       "crisis": "Crisis messages given the support path: {pass} of {of}",
       "urgent": "Emergencies given 998 first: {pass} of {of}",

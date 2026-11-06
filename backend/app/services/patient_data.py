@@ -88,9 +88,10 @@ def ai_allowed(cur, profile_id: str) -> bool:
 
 
 def apply_period_log(cur, profile_id: str, day) -> None:
-    """Update cycles when a flow day is logged, in any order (she may enter earlier periods after joining).
-    A flow day within 3 days of the end of the period it follows extends that period; any other flow day starts a new
-    cycle, and the cycle before it ends there. Cycles that are not touched keep their seeded lengths."""
+    """Update cycles when a flow day is logged, in any order (she may enter earlier periods after joining, or the days
+    of one period backwards). A flow day within 3 days of the end of the period it follows extends that period; a flow
+    day up to 3 days before the next period's start means that period started earlier, so it is moved back. Any other
+    flow day starts a new cycle, and the cycle before it ends there. Cycles that are not touched keep their lengths."""
     cur.execute(
         "SELECT id, start_date, bleed_days FROM cycles WHERE profile_id=%s AND start_date <= %s"
         " ORDER BY start_date DESC LIMIT 1",
@@ -103,15 +104,24 @@ def apply_period_log(cur, profile_id: str, day) -> None:
             new_bleed = max(before["bleed_days"], day.toordinal() - before["start_date"].toordinal() + 1)
             cur.execute("UPDATE cycles SET bleed_days=%s WHERE id=%s", (new_bleed, before["id"]))
             return
+    cur.execute(
+        "SELECT id, start_date FROM cycles WHERE profile_id=%s AND start_date > %s ORDER BY start_date LIMIT 1",
+        (profile_id, day),
+    )
+    after = cur.fetchone()
+    if before:  # the cycle before ends where this period starts
         cur.execute(
             "UPDATE cycles SET length_days=%s WHERE id=%s",
             (day.toordinal() - before["start_date"].toordinal(), before["id"]),
         )
-    cur.execute(
-        "SELECT start_date FROM cycles WHERE profile_id=%s AND start_date > %s ORDER BY start_date LIMIT 1",
-        (profile_id, day),
-    )
-    after = cur.fetchone()
+    if after and after["start_date"].toordinal() - day.toordinal() <= 3:  # the next period started earlier
+        shift = after["start_date"].toordinal() - day.toordinal()
+        cur.execute(
+            "UPDATE cycles SET start_date=%s, bleed_days=bleed_days+%s,"
+            " length_days=CASE WHEN length_days IS NULL THEN NULL ELSE length_days+%s END WHERE id=%s",
+            (day, shift, shift, after["id"]),
+        )
+        return
     length = after["start_date"].toordinal() - day.toordinal() if after else None
     cur.execute(
         "INSERT INTO cycles (profile_id, start_date, bleed_days, length_days) VALUES (%s,%s,1,%s)",
