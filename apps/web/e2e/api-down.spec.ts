@@ -8,6 +8,7 @@ import en from "../messages/en.json" with { type: "json" };
 // The base test is used on purpose: the browser logs the server error here, and that is the point.
 const WEB = "http://localhost:3101";
 test.skip(({ isMobile }) => isMobile, "server-side states; one viewport is enough");
+test.skip(Boolean(process.env.E2E_BASE_URL), "needs the local stub copy of the build; not run against a live URL");
 test.describe.configure({ mode: "serial" });
 
 let stub: Server | undefined;
@@ -32,6 +33,12 @@ test("API down: her app shows the error screen with a way back to the demo peopl
 test("API down: the clinic shows the error screen too", async ({ page }) => {
   await page.goto(`${WEB}/clinic`);
   await expectErrorScreen(page);
+});
+
+test("API down: the status page says the service is not answering", async ({ page }) => {
+  await page.goto(`${WEB}/status`);
+  const live = page.getByRole("region", { name: en.status.liveTitle });
+  await expect(live).toContainText(en.status.liveDown);
 });
 
 test("API too slow: the demo roster gives up after the timeout instead of hanging", async ({ page }) => {
