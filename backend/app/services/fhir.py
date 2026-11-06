@@ -1,5 +1,6 @@
-"""FHIR R4 export (Bundle of Patient + Observation). Structure follows the R4 spec; validated structurally in tests
-(an official validator run is a Phase 9 item). Shaped so a future Malaffi integration is a mapping, not a rewrite."""
+"""FHIR R4 export (Bundle of Patient + Observation). Validated in tests against published FHIR models for every demo
+woman (tests/test_fhir_models.py); the official HL7 validator, which also checks terminology, is still to run.
+We never connect to Malaffi: only licensed facilities do. This export goes into the clinic's own system."""
 
 from __future__ import annotations
 

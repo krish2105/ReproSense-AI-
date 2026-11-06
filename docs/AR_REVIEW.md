@@ -208,6 +208,7 @@ in crisis or in an emergency. Edit them in `assistant.py` (`URGENT_TEXT`, `MEDIC
 
 | Key | English | Arabic | OK? |
 | --- | --- | --- | --- |
+| `trust.data5` | We do not connect to Malaffi. Only licensed facilities do, and DoH policy forbids copying Malaffi data into other systems. Her FHIR R4 export goes into her clinic's own system, which reports to Malaffi. | لا نتصل بمنصة ملفي. الاتصال بها مقصور على المنشآت الصحية المرخّصة، وتمنع سياسة دائرة الصحة نسخ بيانات ملفي إلى أنظمة أخرى. يذهب ملفها بصيغة FHIR R4 إلى نظام عيادتها، وهو الذي يرفع البيانات إلى ملفي. | |
 | `chrome.footerTrust` | Trust centre | مركز الثقة | |
 | `chrome.footerPricing` | Pricing | الأسعار | |
 | `chrome.footerLinks` | More about ReproSense | المزيد عن ReproSense | |

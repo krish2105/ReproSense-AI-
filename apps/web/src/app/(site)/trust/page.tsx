@@ -74,6 +74,7 @@ export default async function TrustPage() {
             <li>{t("data2")}</li>
             <li>{t("data3")}</li>
             <li>{t("data4")}</li>
+            <li>{t("data5")}</li>
           </ul>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
             <OpenPersona persona="noura" to="/app/privacy" className="btn btn-a btn-sm">

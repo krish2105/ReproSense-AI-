@@ -1230,6 +1230,7 @@
     "seePrivacy": "Try the privacy centre as Noura",
     "intendedTitle": "What ReproSense is for",
     "intendedBody": "ReproSense is a personal health record and consultation-preparation tool. A woman records her own cycles, symptoms, questionnaires and lab results. ReproSense organises them, shows where her entries meet published guideline thresholds that are worth discussing, and creates a summary she can choose to share with her clinic. It does not diagnose, treat, predict or prevent disease, does not give contraceptive advice, and does not replace a clinician's judgement. Clinicians see the entries and the guideline behind every item.",
-    "data4": "In this demo, deleting removes your entries at once. UAE law asks health records to be kept for 25 years, so before any real data we will agree with the Department of Health how deletion and that rule work together."
+    "data4": "In this demo, deleting removes your entries at once. UAE law asks health records to be kept for 25 years, so before any real data we will agree with the Department of Health how deletion and that rule work together.",
+    "data5": "We do not connect to Malaffi. Only licensed facilities do, and DoH policy forbids copying Malaffi data into other systems. Her FHIR R4 export goes into her clinic's own system, which reports to Malaffi."
   }
 }
