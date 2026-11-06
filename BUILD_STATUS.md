@@ -48,6 +48,12 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 - **Lighthouse, mobile, signed in** (performance / accessibility / best practices): `/app` 99/100/100 · `/app/insights` 99/100/100 · `/app/assistant` 100/100/100 · `/app/report` 100/100/100 · `/clinic` 100/100/100. SEO is 66 on the three inner patient pages only because they are deliberately not crawlable.
 - **States:** every area has an `error.tsx` with Try again (her app and the clinic also link back to the demo people); empty states where data can be empty; navigation feedback through `LinkPending` (route `loading.tsx` stays removed, see #54). Server calls now time out after 15 s (`API_TIMEOUT_MS`), so a hung API shows the error screen instead of a spinner. New `e2e/api-down.spec.ts`: API down (her app, clinic) and API too slow (roster and her app give up after the timeout), against a second copy of the build on :3101 pointed at a stub.
 
+## SaaS evidence (issue #25, 6 Nov)
+- **FHIR R4:** the export of all 8 personas passes the official HL7 FHIR validator (v7.0.5, R4 4.0.1) with **0 errors**. The first run found 1 error per bundle (a custom `synthetic` extension with no published definition); it was removed, since the standard `HTEST` tag already marks the data as test data, and `fhir.validate()` now rejects such extensions. 94 best-practice warnings remain (narrative, performer, dates on pattern Observations).
+- **Unit economics** (docs/12, deck slide 8): UAE pilot stack ≈ AED 122 a month (AWS me-central-1 list prices with VAT), model cost per report zero in the shipped mode, infrastructure-only margin ≈ 94% for one small clinic, payback shown as CAC scenarios. All labelled hypotheses with sources.
+- **UAE hosting plan** (docs/07, /trust clause 3.1.4.5.1): Supabase, Render and Vercel have no UAE region, so production moves to AWS Middle East (UAE) or Azure UAE North before any real record.
+- **Malaffi:** wording checked in docs/07, docs/10 and docs/12; nothing in the app or deck claims a direct connection.
+
 ## Verified numbers (5 Nov, local, `make test`)
 - Backend tests: **104 passed** (rules 63 · API 27 · RLS 8 · security 6 · AI eval 1 covering 60 questions)
 - AI eval (extractive mode, no LLM): grounded **96.7%** (target ≥ 95) · refusals **15/15** · red-flag recall **100%** · banned phrases **0** · answer language match **100%**. One known miss: ar04.
