@@ -4,6 +4,9 @@ services:
   - type: web
     name: reprosense-api
     runtime: docker
+    # Same region as the Supabase database (eu-central-1) and the Vercel functions (fra1, apps/web/vercel.json):
+    # every page makes several API-to-database round trips, so the three must sit together (docs/16).
+    region: frankfurt
     dockerfilePath: ./backend/Dockerfile
     dockerContext: .
     healthCheckPath: /healthz
