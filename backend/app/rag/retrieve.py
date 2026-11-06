@@ -14,6 +14,7 @@ from app.rag.embed import embed, normalise, stem, to_pg, tokens
 from app.rag.kb import chunks, sources
 
 GLOSSARY = {  # Arabic term (normalised) -> English expansion. AR-REVIEW
+    "pmos": "pcos polycystic ovary syndrome",  # the NHS now says PMOS (polyendocrine metabolic ovarian syndrome)
     "تكيس": "pcos polycystic ovary syndrome",
     "المبايض": "ovary ovaries pcos",
     "متلازمه": "syndrome",
@@ -181,7 +182,12 @@ def search(
     out = []
     weights = idf()
     total = sum(weights.get(x, 3.0) for x in terms) or 1.0
+    known = sources()
     for f in fused.values():
+        # The hosted index is built on first boot only: a source removed from sources.yaml (e.g. a withdrawn guideline)
+        # can still be indexed until Reset demo data. Skip it rather than cite a source we no longer stand behind.
+        if f["source_id"] not in known:
+            continue
         words = set(tokens(f["title"] + " " + f["text"]))
         coverage = sum(weights.get(x, 3.0) for x in terms if x in words) / total
         boost = 0.004 if lang and f["lang"] == lang else 0.0
