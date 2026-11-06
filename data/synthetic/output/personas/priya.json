@@ -100,12 +100,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "priya-e0002",
@@ -125,12 +125,11 @@
       "note": "Had to leave the office, pain 9/10",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "priya-e0003",
@@ -148,12 +147,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "priya-e0004",
@@ -172,11 +171,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "priya-e0005",
@@ -242,11 +241,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "priya-e0009",
@@ -305,11 +304,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "priya-e0012",
@@ -348,11 +347,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "priya-e0014",
@@ -384,12 +383,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "priya-e0016",
@@ -410,12 +408,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "priya-e0017",
@@ -432,12 +429,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "priya-e0018",
@@ -521,11 +518,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "priya-e0022",
@@ -558,12 +555,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "priya-e0024",
@@ -579,12 +576,12 @@
       "note": "Painkillers barely helped today",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "priya-e0025",
@@ -602,12 +599,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "priya-e0026",
@@ -623,11 +620,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "priya-e0027",
@@ -646,11 +643,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "priya-e0028",
@@ -689,11 +686,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "priya-e0030",
@@ -726,12 +723,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "priya-e0032",
@@ -753,14 +750,14 @@
       "note": "Cramps so bad I missed work again",
       "pbac_items": {
         "pads": {
-          "soaked": 3,
-          "moderate": 1
+          "soaked": 2,
+          "moderate": 2
         },
         "clots": {
           "large": 1
         }
       },
-      "pbac": 70
+      "pbac": 55
     },
     {
       "id": "priya-e0033",
@@ -806,11 +803,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "priya-e0035",
@@ -876,12 +873,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 10
     },
     {
       "id": "priya-e0039",
@@ -898,12 +894,12 @@
       "note": "Cramps so bad I missed work again",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "priya-e0040",
@@ -968,11 +964,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "priya-e0043",
@@ -1017,12 +1013,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "priya-e0046",
@@ -1041,12 +1037,11 @@
       "note": "Cramps so bad I missed work again",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "priya-e0047",
@@ -1065,12 +1060,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "priya-e0048",
@@ -1088,11 +1083,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "priya-e0049",
@@ -1110,11 +1105,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "priya-e0050",
@@ -1173,12 +1168,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "priya-e0054",
@@ -1197,12 +1192,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "priya-e0055",
@@ -1219,11 +1214,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "priya-e0056",
@@ -1312,12 +1307,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "priya-e0061",
@@ -1337,11 +1331,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "priya-e0062",
@@ -1384,11 +1378,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "priya-e0064",
@@ -1406,11 +1400,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "priya-e0065",
@@ -1428,11 +1422,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "priya-e0066",
@@ -1474,12 +1468,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "priya-e0068",
@@ -1500,12 +1494,11 @@
       "note": "Had to leave the office, pain 9/10",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "priya-e0069",
@@ -1522,12 +1515,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "priya-e0070",
@@ -1543,11 +1536,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "priya-e0071",
@@ -1650,12 +1643,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "priya-e0077",
@@ -1676,12 +1669,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "priya-e0078",
@@ -1701,11 +1693,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "priya-e0079",
@@ -1724,11 +1716,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "priya-e0080",
@@ -1744,11 +1736,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "priya-e0081",
@@ -1767,12 +1759,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "priya-e0082",
@@ -1791,12 +1783,12 @@
       "note": "Cramps so bad I missed work again",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "priya-e0083",
@@ -1816,12 +1808,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 10
     },
     {
       "id": "priya-e0084",
@@ -1862,11 +1853,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "priya-e0086",
@@ -1909,12 +1900,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "priya-e0089",
@@ -1935,11 +1925,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "priya-e0090",
@@ -1956,12 +1946,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "priya-e0091",
@@ -2042,11 +2032,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     }
   ],
   "events": [
@@ -2129,14 +2119,14 @@
     "period_duration_max": 7,
     "heavy_flow_days_cycle": 0,
     "pbac_by_cycle_6": [
+      48,
       36,
-      38,
-      38,
-      35,
-      35,
-      39
+      34,
+      37,
+      36,
+      31
     ],
-    "pbac_max_6": 39,
+    "pbac_max_6": 48,
     "age": 31,
     "ttc_months": 0,
     "red_flag_heavy_with_dizziness": false,

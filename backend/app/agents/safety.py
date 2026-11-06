@@ -573,6 +573,10 @@ Otherwise urgent is null."""
 _KINDS = {"bleed", "pregnancy", "postnatal", "pain"}
 
 
+# Opus 5.5 always thinks, and thinking counts toward max_tokens: a small cap can cut the reply to nothing (card A3).
+MODEL_CHECK_MAX_TOKENS = 1024
+
+
 def model_check(text: str, llm, names: list[str] | None = None) -> dict | None:
     """{"crisis": bool, "urgent": kind | None} from the configured model, or None when there is no model or no answer."""
     if getattr(llm, "name", "none") == "none":
@@ -580,7 +584,9 @@ def model_check(text: str, llm, names: list[str] | None = None) -> dict | None:
     from app.ai.redact import redact
 
     try:
-        out = llm.complete_json(MODEL_SYSTEM, f"<message>\n{redact(text, names or [])}\n</message>", 120)
+        out = llm.complete_json(
+            MODEL_SYSTEM, f"<message>\n{redact(text, names or [])}\n</message>", MODEL_CHECK_MAX_TOKENS
+        )
     except Exception:  # noqa: BLE001 (any failure falls back to the word checks)
         return None
     if not isinstance(out, dict):

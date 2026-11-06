@@ -9,7 +9,7 @@ import pytest
 import yaml
 
 from app.config import DATA_DIR, SOURCES_PATH
-from app.rules import expr
+from app.rules import expr, features
 from app.rules.engine import evaluate, load_rules
 
 REF = date(2026, 11, 22)
@@ -174,6 +174,79 @@ def test_rf4_self_harm_opens_crisis_path_and_hides_mood_card():
 def test_rf5_pregnancy_warning_signs():
     assert "RF5_PREGNANCY_WARNING_SIGNS" in _rf(_with_log("hessa", symptoms=["reduced baby movements"]))
     assert "RF5_PREGNANCY_WARNING_SIGNS" in _rf(_with_log("hessa", symptoms=["severe headache", "vision changes"]))
+
+
+# ---------- QUESTIONS #53: RF2 when a pregnancy is possible, with no fever ----------
+RF2 = "RF2_severe_sudden_pain_possible_pregnancy"
+
+
+def _cycles_before(p: dict, days: int) -> dict:
+    """Keep only the cycles that started at least `days` before REF, so her last period started that long ago."""
+    p["cycles"] = [c for c in p["cycles"] if (REF - date.fromisoformat(str(c["start"]))).days >= days]
+    return p
+
+
+def test_rf2_severe_pain_while_trying_to_conceive():
+    p = _with_log("mariam", symptoms=["sudden severe pain"])
+    assert p["profile"]["trying_to_conceive"] and features.compute(p, REF).values["days_since_last_period"] <= 35
+    assert RF2 in _rf(p)
+
+
+def test_rf2_severe_pain_with_a_late_period():
+    p = _cycles_before(_with_log("amina", symptoms=["sudden severe pain"]), 40)
+    assert not p["profile"]["trying_to_conceive"]
+    assert RF2 in _rf(p)
+
+
+def test_rf2_severe_pain_in_a_known_pregnancy_with_no_period_logged():
+    p = _with_log("hessa", symptoms=["sudden severe pain"])  # a record joined at the pregnancy stage has no cycles
+    p["cycles"] = []
+    assert RF2 in _rf(p)
+
+
+def test_rf2_needs_fever_when_pregnancy_is_unlikely():
+    p = _with_log("amina", symptoms=["sudden severe pain"])  # not trying, last period 24 days ago
+    assert features.compute(p, REF).values["possible_pregnancy"] is False
+    assert RF2 not in _rf(p)
+    assert RF2 in _rf(_with_log("amina", symptoms=["sudden severe pain", "fever"]))
+
+
+def test_rf2_late_period_does_not_count_after_menopause():
+    p = _cycles_before(_with_log("amina", symptoms=["sudden severe pain"]), 40)
+    p["profile"]["life_stage"] = "postmenopause"
+    assert RF2 not in _rf(p)
+
+
+# ---------- QUESTIONS #48: "fewer than 8 cycles a year" needs a long enough record ----------
+def _obs(p: dict) -> set[str]:
+    return {h.rule_id for h in evaluate(p, REF).observations}
+
+
+def test_a_short_regular_record_is_not_called_irregular():
+    p = copy.deepcopy(PERSONAS["amina"])  # regular cycles
+    p["cycles"] = [c for c in p["cycles"] if (REF - date.fromisoformat(str(c["start"]))).days <= 150]
+    f = features.compute(p, REF).values
+    assert f["cycles_logged"] >= 4 and f["irregular_cycle_count_6"] == 0  # the rule's other gates are open
+    assert f["cycles_per_year"] is None
+    assert "OBS_IRREGULAR_CYCLES" not in _obs(p)
+
+
+def test_cycles_per_year_counts_once_the_record_could_hold_8_cycles():
+    assert features.compute(PERSONAS["amina"], REF).values["cycles_per_year"] == 13
+    assert features.compute(PERSONAS["noura"], REF).values["cycles_per_year"] == 8
+
+
+def test_adolescents_are_excluded_from_the_irregular_pattern():
+    p = copy.deepcopy(PERSONAS["noura"])  # irregular cycles, normally fires
+    p["profile"].update(age=15, menarche_age=13)  # 2 years after first period
+    assert "OBS_IRREGULAR_CYCLES" not in _obs(p)
+
+
+def test_missing_menarche_age_is_treated_as_more_than_3_years_for_adults():
+    # /join asks for age 18+ and not menarche age; the feature then uses her age. Pinned here for the clinical advisor.
+    p = copy.deepcopy(PERSONAS["noura"])
+    p["profile"]["menarche_age"] = None
+    assert "OBS_IRREGULAR_CYCLES" in _obs(p)
 
 
 def test_rf5_needs_both_headache_and_vision_change():
