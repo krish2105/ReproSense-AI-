@@ -39,3 +39,18 @@ test("the status page states the support terms", async ({ page }) => {
   await expect(live).toContainText(en.status.liveUp);
   await expect(live).toContainText("Gulf time");
 });
+
+test("Noura's record size is the same number on home, Patterns and the clinician view (#43 a)", async ({ page }) => {
+  const days = async (path: string) => {
+    await page.goto(path);
+    const text = await page.getByText(/\d+ days logged/).first().innerText();
+    return Number(/(\d+) days logged/.exec(text)![1]);
+  };
+  await signIn(page, { persona: "noura" });
+  const home = await days("/app");
+  const patterns = await days("/app/insights");
+  await signIn(page, { role: "clinician" });
+  const clinician = await days("/clinic/patients/noura");
+  expect(home).toBeGreaterThan(0);
+  expect([patterns, clinician]).toEqual([home, home]);
+});

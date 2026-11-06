@@ -97,6 +97,11 @@ def day_pills(bundle: dict, ref: date) -> list[dict]:
     return out
 
 
+def days_logged(bundle: dict) -> int:
+    """Distinct dates with a daily log: the one record-size number shown on home, Patterns and the clinician view."""
+    return len({str(lg["date"]) for lg in bundle["daily_logs"]})
+
+
 def timeline(bundle: dict, ref: date, months: int = 12) -> dict:
     start = ref - timedelta(days=int(months * 30.5))
     logs = [lg for lg in bundle["daily_logs"] if _d(lg["date"]) >= start]

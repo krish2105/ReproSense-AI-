@@ -158,7 +158,7 @@ def home(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         "last_log": {**last, "label": views.entry_label(last, lang)} if last else None,
         "today_mood": today.get("mood") if today else None,
         "record_strength": ev.features.values.get("record_strength"),
-        "log_count": len(b["daily_logs"]),
+        "days_logged": views.days_logged(b),
     }
 
 
@@ -387,7 +387,6 @@ def insights(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         audit.record(cur, actor, "view_insights", actor.user_id, "insights")
     out = run(b, lang=lang)
     ev = out["evaluation"]
-    entries = {e["id"]: e for e in b["daily_logs"] + b["events"]}
     return {
         "cards": out["cards"],
         "crisis": bool(out.get("crisis")),
@@ -395,7 +394,7 @@ def insights(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         "record_strength": ev.features.values.get("record_strength"),
         "cycles_logged": ev.features.values.get("cycles_logged"),
         "change_point": ev.features.values.get("cycle_change_point"),
-        "entries_count": len(entries),
+        "days_logged": views.days_logged(b),
         "rules_version": load_rules().version,
     }
 

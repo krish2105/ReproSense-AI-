@@ -28,7 +28,7 @@ export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Loc
           <p className="s dim">
             {t("demo.ageRegion", { age: r.profile.age, region })} · {t(`stages.${r.profile.life_stage}`)}
           </p>
-          <p className="xs faint">{t("clinic.sharedNote", { count: r.timeline.days.length })}</p>
+          <p className="xs faint">{t("clinic.sharedNote", { count: r.days_logged })}</p>
         </div>
         <ReviewButton pid={r.profile.id} reviewedAt={r.review?.reviewed_at ?? null} />
       </div>
