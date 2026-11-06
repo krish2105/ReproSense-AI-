@@ -39,3 +39,14 @@ test("the status page states the support terms", async ({ page }) => {
   await expect(live).toContainText(en.status.liveUp);
   await expect(live).toContainText("Gulf time");
 });
+
+test("Ask the record offers 'mood since the birth' only for a record with a birth (#43 b)", async ({ page }) => {
+  await signIn(page, { role: "clinician" });
+  const mood = page.getByRole("region", { name: en.clinic.askTitle }).getByRole("button", { name: en.clinic.askChips.mood });
+  await page.goto("/clinic/patients/fatima");
+  await expect(page.getByRole("button", { name: en.clinic.askChips.cycles })).toBeVisible();
+  await expect(mood).toBeVisible();
+  await page.goto("/clinic/patients/noura");
+  await expect(page.getByRole("button", { name: en.clinic.askChips.cycles })).toBeVisible();
+  await expect(mood).toHaveCount(0);
+});
