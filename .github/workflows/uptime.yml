@@ -1,0 +1,42 @@
+name: uptime
+
+# Checks the live demo every 10 minutes (issue #30). Off until the deploy (issue #22): set the repository variables
+# LIVE_API_URL (e.g. https://reprosense-api.onrender.com) and LIVE_WEB_URL (the Vercel URL) under
+# Settings → Secrets and variables → Actions → Variables. Until LIVE_API_URL is set, every run is skipped.
+# A failed run is the alert, and the run history is the uptime log. The pings also keep a free Render instance from
+# sleeping (free instances sleep after about 15 minutes idle); GitHub may delay scheduled runs at busy times.
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    if: ${{ vars.LIVE_API_URL != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      API: ${{ vars.LIVE_API_URL }}
+      WEB: ${{ vars.LIVE_WEB_URL }}
+    steps:
+      - name: API ready (personas seeded, knowledge base loaded)
+        run: |
+          for attempt in 1 2 3; do
+            if body=$(curl -fsS --max-time 70 "$API/readyz"); then
+              echo "$body"
+              echo "$body" | jq -e '.db == true and .personas >= 8 and .kb_chunks > 0' >/dev/null && exit 0
+              echo "::error::API answered but the demo data is not ready: $body"
+              exit 1
+            fi
+            echo "attempt $attempt failed; a sleeping instance can take about a minute to wake"
+            sleep 20
+          done
+          echo "::error::API not reachable at $API/readyz"
+          exit 1
+      - name: Web answers
+        if: ${{ env.WEB != '' }}
+        run: curl -fsS --max-time 70 -o /dev/null "$WEB/robots.txt" && echo "web ok"
