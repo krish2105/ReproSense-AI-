@@ -192,8 +192,9 @@ def signup(body: SignupIn, response: Response):
     from app.agents.pipeline import refresh
 
     refresh(pid, body.lang)
-    _set_session(response, pid, "patient", body.clinic_id or "")
-    return {"role": "patient", "user_id": pid}
+    token = _set_session(response, pid, "patient", body.clinic_id or "")
+    # The token in the body, as /login returns it, lets the phone app keep the session in its Keychain or Keystore.
+    return {"role": "patient", "user_id": pid, "token": token}
 
 
 @router.post("/logout")

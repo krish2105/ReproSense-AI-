@@ -17,6 +17,23 @@ Blockers / questions:
 
 ---
 
+## 2026-11-06 (late night) — Phone app built: iOS and Android with Expo (`apps/mobile`) — Krishna with Claude Code
+Done:
+- **Every v1 screen from docs/21 section 1 except sign-in (follows #27):** demo people (join, reset), Join with the clinic QR, Home for all five life stages, Patterns (evidence, "How this was produced", care navigator), AI Chat, Report (PDF, share, visit QR), Log, Calendar and analytics, Lab reports, Mood check (EPDS), Privacy (app lock).
+- **Shared with the web:** API types, messages (EN/AR), tokens and helpers are copied by `scripts/sync-shared.mjs`; CI fails if a copy is stale.
+- **Safety found and fixed on the phone:** a red flag after saving a log appeared off screen (now scrolls into view); crisis answers in the chat showed the mood-check note (now the API's own support text, 998, NICE CG192); the assistant missed the AI switch until a restart.
+- **Privacy:** bearer token only (no cookies), this-device-only Keychain/Keystore, no Android backup, app-switcher cover with the app lock.
+- **Backend (one line, tested):** `/demo/signup` returns the session token like `/demo/login`, so Join works on a phone.
+- **Found for the backend, not changed here:** "bleeding through a pad every hour and feel faint" gets no urgent reply in the assistant (filed as an issue; G2 needs Krishna); the care-navigator draft says "your cycle lengths" inside her own first-person message (filed).
+Tests: mobile 20/20 unit tests, lint, typecheck, shared-copy check (also in a clean `npm ci` copy) · backend test_signup 11/11 · verified on the iPhone 17 Pro simulator (iOS 26.5), EN/AR, light/dark
+Next:
+- Android: run on an emulator or a preview build (Atharva or Krishna).
+- M9 matrix and Maestro flows; M10 store builds after the M0 accounts (#50).
+Blockers / questions:
+- Arabic layout switching needs a development build; Expo Go overrides the direction (README "Not done yet").
+
+---
+
 ## 2026-11-06 (night) — Judge panel, research-driven fixes, deck — Krishna with Claude Code
 **Independent judge panel (6 agents, read-only, live API + web + code):**
 - Panel: senior judge (DoH + OB-GYN + VC + founder), chief healthcare officer, women's care lead, CEO/VC, MVP auditor, and a chief judge who merged them.

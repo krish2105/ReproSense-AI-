@@ -1,0 +1,71 @@
+{
+  "expo": {
+    "name": "ReproSense",
+    "slug": "reprosense",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ae.reprosense.app",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Lock ReproSense with Face ID so only you can open your record.",
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#F6F1F4",
+        "foregroundImage": "./assets/android-icon-foreground.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "ae.reprosense.app",
+      "allowBackup": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      "expo-secure-store",
+      "expo-sharing",
+      "expo-localization",
+      "expo-web-browser",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "backgroundColor": "#F6F1F4",
+          "dark": {
+            "backgroundColor": "#17111A"
+          }
+        }
+      ],
+      "@react-native-community/datetimepicker",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "ReproSense uses the camera only to read your clinic's QR code. No photo is taken or saved.",
+          "microphonePermission": false,
+          "recordAudioAndroid": false,
+          "barcodeScannerEnabled": true
+        }
+      ]
+    ],
+    "scheme": "reprosense",
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "note": "Demo data only (docs/21 gate M-G3). Bundle ID and package name to confirm in M0 (#50). No device backup (M-G2).",
+      "supportsRTL": true
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
+  }
+}
