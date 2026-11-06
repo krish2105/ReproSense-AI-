@@ -142,7 +142,18 @@ npm run ios:release
 A paid Apple Developer account and TestFlight (card M10) remove both limits.
 
 The app reaches the API over plain HTTP only on the local network (`NSAllowsLocalNetworking`); every other address
-needs HTTPS. Shared-report links point at the website, so they open only once the deployed API is live.
+needs HTTPS. iOS asks once to allow local-network access (`NSLocalNetworkUsageDescription`). Shared-report links
+point at the website, so they open only once the deployed API is live.
+
+**If the app says "The server could not be reached",** open `http://<mac-ip>:8010/v1/demo/personas` in Safari on the
+iPhone.
+- **Safari can't connect either:** the Wi‑Fi stops devices from reaching each other, which is common on office and
+  university networks. Turn on the iPhone's Personal Hotspot, keep it plugged into the Mac (the Mac gets an "iPhone
+  USB" connection), and build again with the Mac's address on that connection (172.20.10.x).
+- **Safari shows the data:** allow ReproSense in Settings → Privacy & Security → Local Network.
+
+Once the API is deployed with HTTPS, a build with `EXPO_PUBLIC_API_URL=https://reprosense-api.onrender.com` works on
+any network.
 
 ## Build for testers and the stores (card M10)
 

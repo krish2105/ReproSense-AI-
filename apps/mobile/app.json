@@ -11,7 +11,8 @@
       "bundleIdentifier": "ae.reprosense.app",
       "infoPlist": {
         "NSFaceIDUsageDescription": "Lock ReproSense with Face ID so only you can open your record.",
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSLocalNetworkUsageDescription": "ReproSense connects to the demo server on your Wi-Fi network to load the fictional records."
       }
     },
     "android": {
