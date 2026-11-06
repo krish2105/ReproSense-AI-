@@ -151,6 +151,14 @@ iPhone.
   university networks. Turn on the iPhone's Personal Hotspot, keep it plugged into the Mac (the Mac gets an "iPhone
   USB" connection), and build again with the Mac's address on that connection (172.20.10.x).
 - **Safari shows the data:** allow ReproSense in Settings → Privacy & Security → Local Network.
+- **No hotspot (no mobile data):** start a temporary HTTPS link to the local API, then build with the
+  `https://….trycloudflare.com` address it prints:
+  ```bash
+  cloudflared tunnel --url http://127.0.0.1:8010
+  ```
+  Anyone with that address can reach the demo API (fictional data, demo reset included) while it runs. Stop it with
+  Ctrl+C when you're done. The address changes on every start, so the app needs building again each time. Checked
+  6 Nov on an iPhone 16 Pro: every screen loaded through it.
 
 Once the API is deployed with HTTPS, a build with `EXPO_PUBLIC_API_URL=https://reprosense-api.onrender.com` works on
 any network.
