@@ -75,6 +75,7 @@ Branch `fix/judge-findings` is pushed, all tests green locally (backend, web uni
 Prerequisites: Homebrew Postgres 17 with pgvector listening on `/tmp:5432`, `pango` (for PDFs), `uv`, Python 3.12, Node 20+ and pnpm.
 ```bash
 make env      # writes .env with random DEMO_TOKEN_SECRET + NOTES_KEY (git-ignored). Never commit it.
+make hooks    # once per clone: refuses commits with AI co-author or "Generated with" lines (CLAUDE.md, Git)
 make db       # creates databases reprosense + reprosense_test
 make seed     # schema + RLS + 8 personas + 1,200 cohort + RAG index (93 chunks)
 make api      # http://127.0.0.1:8010  (docs at /docs). Port 8000 is taken by another local project.

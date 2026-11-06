@@ -74,7 +74,7 @@ GLOSSARY = {  # Arabic term (normalised) -> English expansion. AR-REVIEW
 }
 _EN_STOP = set(
     "a an and are as at be but by can do does for from how i if in is it its me my of on or should so that "
-    "the their there this to was what when where which who why will with you your about after before".split()
+    "the their there this to was what when where which who why will with you your about after before than might".split()
 )
 _EN_STOP |= {
     "متي",

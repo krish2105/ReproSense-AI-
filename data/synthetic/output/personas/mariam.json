@@ -97,12 +97,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "mariam-e0002",
@@ -120,12 +119,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "mariam-e0003",
@@ -144,12 +142,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "mariam-e0004",
@@ -281,12 +278,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "mariam-e0012",
@@ -305,12 +302,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "mariam-e0013",
@@ -326,12 +323,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "mariam-e0014",
@@ -383,12 +380,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "mariam-e0017",
@@ -407,12 +404,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "mariam-e0018",
@@ -428,12 +425,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "mariam-e0019",
@@ -474,12 +471,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "mariam-e0021",
@@ -497,12 +493,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "mariam-e0022",
@@ -521,11 +516,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "mariam-e0023",
@@ -630,12 +625,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 10
     },
     {
       "id": "mariam-e0029",
@@ -759,12 +753,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "mariam-e0036",
@@ -780,12 +774,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "mariam-e0037",
@@ -803,12 +796,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "mariam-e0038",
@@ -935,11 +928,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "mariam-e0046",
@@ -955,12 +948,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "mariam-e0047",
@@ -976,12 +969,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "mariam-e0048",
@@ -1000,11 +993,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "mariam-e0049",
@@ -1069,12 +1062,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "mariam-e0053",
@@ -1090,12 +1083,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "mariam-e0054",
@@ -1111,12 +1104,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "mariam-e0055",
@@ -1135,11 +1128,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "mariam-e0056",
@@ -1196,12 +1189,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "mariam-e0060",
@@ -1220,12 +1212,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 10
     },
     {
       "id": "mariam-e0061",
@@ -1241,12 +1232,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 10
     },
     {
       "id": "mariam-e0062",
@@ -1265,11 +1255,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "mariam-e0063",
@@ -1321,11 +1311,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "mariam-e0066",
@@ -1344,11 +1334,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "mariam-e0067",
@@ -1366,12 +1356,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "mariam-e0068",
@@ -1435,11 +1425,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "mariam-e0071",
@@ -1471,12 +1461,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "mariam-e0073",
@@ -1492,12 +1481,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "mariam-e0074",
@@ -1556,11 +1545,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "mariam-e0077",
@@ -1579,11 +1568,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "mariam-e0078",
@@ -1628,12 +1617,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "mariam-e0081",
@@ -1649,12 +1638,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "mariam-e0082",
@@ -1673,12 +1662,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "mariam-e0083",
@@ -1697,11 +1686,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "mariam-e0084",
@@ -1800,14 +1789,14 @@
     "period_duration_max": 6,
     "heavy_flow_days_cycle": 0,
     "pbac_by_cycle_6": [
-      36,
-      35,
-      36,
-      37,
-      37,
-      34
+      38,
+      43,
+      39,
+      46,
+      48,
+      32
     ],
-    "pbac_max_6": 37,
+    "pbac_max_6": 48,
     "age": 36,
     "ttc_months": 7,
     "red_flag_heavy_with_dizziness": false,
