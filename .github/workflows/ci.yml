@@ -85,6 +85,10 @@ jobs:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/reprosense
       DEMO_MODE: "true"
       LLM_PROVIDER: none
+      # Demo-safe mode (issue #24): a dummy key and a dead model address, so "none" must win and any leak fails offline
+      ANTHROPIC_API_KEY: demo-safe-ci-not-a-key
+      ANTHROPIC_BASE_URL: http://127.0.0.1:9
+      E2E_DEMO_SAFE: "1"
       API_URL: http://127.0.0.1:8010
       ALLOWED_ORIGINS: http://localhost:3100
     steps:
