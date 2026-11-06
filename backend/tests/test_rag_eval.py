@@ -13,7 +13,7 @@ CASES = [
 # Safety routing test written by reviewers who never saw the code (method, 6 Nov 2026): each round is measured first,
 # exactly as written, and only then used to improve app/agents/safety.py. Rounds before HELDOUT_ROUND are development
 # sets; HELDOUT_ROUND was written after the last change and is the held-out measure shown on /status and the deck.
-HELDOUT_ROUND = 3
+HELDOUT_ROUND = 4
 HELDOUT = [
     json.loads(line) for line in (Path(__file__).parent / "rag_heldout.jsonl").read_text().splitlines() if line.strip()
 ]

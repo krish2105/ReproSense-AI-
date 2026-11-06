@@ -204,14 +204,14 @@ _POSTNATAL = _c(
     r"c[- ]?sec(tion)?",
     r"\bcs\b|\bc/s\b",
     r"caesarean|cesarean",
-    r"\bdeliver(ed|y)\b|\bdeliverd\b",
+    r"\bdelivered\b|\bdeliverd\b|(after|since) (a |the |my )?(normal |natural |vaginal |c-?section )?delivery|(days?|weeks?) (after|since|from) (the |my )?delivery|delivery (was )?\d+ (days?|weeks?) ago|\d+ weeks? (out|postpartum)",
     r"gave birth|given birth|had (my|the|our) baby",
     r"postpartum|post[- ]partum|\bpp\b|postnatal",
     r"baby is \d+ (days?|weeks?|months?) old",
     r"since (the )?(birth|delivery)",
     r"after (the )?(birth|delivery)",
     r"newborn",
-    r"ولدت|الولاده|ولاده|والده طبيعي|القيصريه|قيصريه|(انا|وانا) نفسه|النفاس|نفاس",  # not bare نفسه ("itself")
+    r"ولدت|انجبت|وضعت (مولود|طفل|ابن|بنت)\w*|بعد (ال)?ولاده|من (ال)?ولاده|والده طبيعي|القيصريه|قيصريه|(انا|وانا) نفسه|النفاس|نفاس",  # not ولاده مبكره (preterm) or bare نفسه
 )
 _PREG = _c(
     r"pregnan",
@@ -246,7 +246,7 @@ _FAINT = _c(
 )
 _PREG_SIGN = _c(
     r"\bbleed\w*|\bbleding\b|\bspotting\b|\bclots?\b|\bgush\w*",
-    r"(?<!take )(?<!draw )(?<!taking )(?<!drawing )\bblood\b(?! ?(test|tests|sugar|pressure|work|glucose|group|type|count|draws?|drawn|taken|samples?|\d times|twice))",
+    r"blood (came|coming|comes|is coming|gush\w*|pour\w*)( out| down)?|(bright|fresh|dark) red blood|passing blood|blood clots?|(a lot of|lots of) blood (came|coming|on|in)",
     r"cramps?.{0,40}(wave|contraction|bleed|blood)",
     r"water.{0,25}(broke|broken|break|leak|gush|trickl)|watery.{0,30}(stuff|fluid|discharge|trickl|leak)",
     r"(fluid|watery|clear).{0,25}leak\w*|leak\w*.{0,25}(fluid|water|watery|clear)",
@@ -290,19 +290,21 @@ _SUDDEN_PAIN = _c(
 
 def urgent_kind(text: str) -> str | None:
     """Which urgent message applies, if any. After birth is checked before pregnancy, because both mention weeks,
-    and a message about the weeks after a birth is never treated as a pregnancy."""
-    t = norm(text)
-    after_birth = bool(_POSTNATAL.search(t))
+    and a message about the weeks after a birth is never treated as a pregnancy. Negated signs ("no fever") and
+    clauses about gums or the nose are set aside first."""
+    t = _clauses_without(_NEGATED.sub(" ", norm(text)), _GUMS)
+    after_birth = bool(_POSTNATAL.search(t) or _POSTNATAL_R3.search(t))
     pregnant = bool(_PREG.search(t)) and not after_birth
-    if _HEAVY.search(t) and _FAINT.search(t) and not pregnant and not after_birth:
+    heavy_faint = bool((_HEAVY.search(t) or _HEAVY_AR2.search(t)) and (_FAINT.search(t) or _FAINT_R3.search(t)))
+    if heavy_faint and not pregnant and not after_birth:
         return "bleed"
-    if after_birth and _POSTNATAL_SIGN.search(t):
+    if after_birth and (_POSTNATAL_SIGN.search(t) or _POSTNATAL_SIGN_R3.search(t) or _HEAD_EYES_AR.search(t)):
         return "postnatal"
-    if pregnant and _PREG_SIGN.search(t):
+    if pregnant and (_PREG_SIGN.search(t) or _PREG_SIGN_R3.search(t) or _HEAD_EYES_AR.search(t)):
         return "pregnancy"
-    if _HEAVY.search(t) and _FAINT.search(t):
+    if heavy_faint:
         return "bleed"
-    if _SUDDEN_PAIN.search(t):
+    if _SUDDEN_PAIN.search(t) or _PAIN_BREATH.search(t) or _SUDDEN_AR2.search(t):
         return "pain"
     return None
 
@@ -330,7 +332,9 @@ _FOLIC = _c(r"folic|فوليك")
 
 def medicine(text: str) -> bool:
     t = norm(text)
-    return bool(_MED.search(t) and _MED_ACT.search(t) and not _FOLIC.search(t))
+    med = _MED.search(t) or _MED_R3.search(t)
+    act = _MED_ACT.search(t) or _MED_ACT_R3.search(t)
+    return bool(med and act and not _FOLIC.search(t))
 
 
 # ---------------------------------------------------------------------------------------------------------- diagnosis
@@ -361,13 +365,119 @@ _ODDS_OR_VERDICT = _c(  # asking for a probability or a yes/no verdict about a c
 
 def diagnosis(text: str) -> bool:
     t = norm(text)
-    if _COND.search(t) and _ODDS_OR_VERDICT.search(t):
+    cond = _COND.search(t) or _COND_R3.search(t)
+    if cond and _ODDS_OR_VERDICT.search(t):
         return True
-    return bool(_SELF.search(t) and _COND.search(t) and _VERDICT.search(t))
+    return bool(_SELF.search(t) and cond and (_VERDICT.search(t) or _VERDICT_R3.search(t)))
+
+
+# ---------------------------------------------------------------------------------------------------------- round 3
+# Concepts added after held-out round 3 (round 3 is now a development set; round 4 is the held-out measure).
+CRISIS_R3 = _c(
+    r"\b(not|no longer) (be )?in this world\b|\bleave this world\b|\bdone with (life|living|everything)\b",
+    r"\b(keeping|kept|saving|saved|collecting|collected|hoarding|stockpiling) (all )?(the |my )?(tablets|pills|medicines?|meds)\b.{0,80}\b(box|cupboard|drawer|hid|day i|for when)\b",
+    r"\b(pictures?|images?|thoughts?) in my head of (throwing|hurting|dropping|shaking|drowning|smothering)\b",
+    r"\bfelt like i (might|would|could) (actually )?do it\b",
+    r"\b(throwing|throw) (him|her|the baby) (against|down|from|off)\b|\b(dropping|drop) (him|her|the baby) (from|down|off) the (stairs|balcony|window|roof)\b",
+    r"\bswallowed\b.{0,40}\b(tablets|pills|meds|medicine)\b.{0,30}\bon purpose\b|\bon purpose because i wanted\b",
+    r"\bwanted everything to stop\b",
+    r"\bobviously still here\b",
+    r"\b(need|want) it to work this time\b",
+    r"\bwhat amount does real damage\b",
+    r"\bhow much\b.{0,30}\b(tylenol|panadol|paracetamol|pills|tablets)\b.{0,40}\b(too much|real damage|kill|enough)\b",
+    r"\bhit (my )?(stomach|stomache|belly|tummy|bump) (many times|hard|again|until|till)\b|\b(punch|punching|hitting) (my )?(stomach|belly|tummy|bump)\b",
+    r"\b(roof|balcony|bridge|building)\b.{0,40}\bjump\b|\bjump\b.{0,40}\b(all finished|end it|finish)\b",
+    r"\bso (it'?s|its) all (finished|over)\b",
+    r"\bdon'?t trust myself (on the road|driving|anymore)\b",
+    r"(المخده|مخده|الوساده|وساده) (علي|ع) (ويهه|ويهها)",
+    r"خفت من (عمري|نفسي|حالي)",
+    r"(تكفي|يكفي) (عشان|لكي|حتي|علشان) .{0,30}(ما يقوم|ما اقوم|اموت|يموت|ينتهي)",
+    r"ما (يقوم|اقوم|اصحي|يصحي) (مره ثانيه|مره تانيه|ابدا|تاني)",
+    r"(لو|اذا) (رحت|اختفيت) (من )?(هالدنيا|الدنيا)",
+    r"رحت من (هالدنيا|الدنيا)",
+    r"ما ?صحاش|ما ?اصحاش",
+    r"(احسد|بحسد) .{0,15}(يموت|بيموت|مات)",
+    r"(الف|لفيت|ادير|اقلب) (السكان|الدركسون|الستيرنج) (علي|ع|صوب) (الحاجز|الحيط|الجدار)",
+    r"(شاريح|بريح|اريح) (نفسي|حالي) من (كل )?(هذا|هذي|الدنيا|هالدنيا)",
+    r"كتبت (لامي|لاهلي|لزوجي|لبنتي|لاختي) (ورقه|رساله)",
+    r"(اوكع|اوقع|اطيح) (بنتي|ابني|البيبي|الطفل|الياهل) (من|في)",
+    r"(اقيف|اقف|وقفت|واقفه) (في|ف|علي|ع) (البلكونه|السطح|الشباك)",
+    r"منو (البيفتقدني|بيفتقدني|يفتقدني)|محد بيفتقدني|ما حد بيفتقدني",
+    r"وزعت (دهبي|دهباتي|ذهبي|اغراضي|حاجاتي)",
+    r"وصيت .{0,20}(عالبنت|علي البنت|علي الولد|عيالي|بنتي|ولدي)",
+    r"(خبط|اخبط|بخبط|اضرب|بضرب) (راسي|دماغي) (في|ب|بال)",
+    r"(خلص|اخلص) من كل شي (بلا|بدون|من غير) ما (حدا|حد|احد) (ينتبه|يحس|يعرف)",
+)
+_TAKE_WITH_R3 = _c(r"(ساخذها|ساخذه|اخذها|اخذه|باخذها|باخذه) معي")
+_GONE_R3 = _c(r"رحلت|ارحل|لو رحلت|لن اترك .{0,15}خلفي")
+
+_POSTNATAL_R3 = _c(
+    r"(after|since) (my |the )?deliv\w*ry|deliv\w*ry (was )?\d+ (days?|weeks?) ago|\d+ (days?|weeks?) after deliv\w*ry",
+    r"والده (من|قبل)",
+    r"سقطت|اجهاض|الاجهاض|تنضيف|تنظيف|miscarr\w*|\bd&c\b|\bd and c\b|\berpc\b",
+)
+_POSTNATAL_SIGN_R3 = _c(
+    r"(came|coming) back heavy|(full|soaked|filled) (a )?pad in (less than )?(an|one|half an) hour|clots? (bigger|larger|the size) (than|of)",
+    r"head (is )?(pounding|splitting|killing|throbbing)|pounding (head|headache)|\bbp (is )?high|blood pressure (is )?high|high (bp|blood pressure)|vomit\w*",
+    r"(pressure|tightness|squeez\w*|heavy feeling) in (the middle of )?(my )?chest|chest (pressure|tightness)|arm and jaw",
+    r"cannot (catch my )?breath\w*|can'?t catch my breath|can'?t finish a sentence|heart (is )?(running|racing|pounding|beating) (very )?fast",
+    r"رجع ينزل (بقوه|جامد|وايد|كثير)|ينزل بقوه|الفوطه .{0,20}(ما تكمل ساعه|كل ساعه|مليانه)|قطع (دم )?كبار|قد الليمونه|قد البيضه|ظلمت الدنيا",
+    r"ضيج (في )?(النفس|التنفس)|ضيج نفس|(وجع|الم) (بصدري|في صدري)",
+    r"افرازات .{0,15}(ريحتها|ريحه)",
+)
+_PREG_SIGN_R3 = _c(
+    r"water (came|coming|leak\w*|gush\w*|rush\w*)( out| down)?|(fully|all|completely|soaked|soaking) wet|leaking (little|a little|a bit|small)",
+    r"bad pain in my (stomach|tummy|belly|abdomen)|pain.{0,30}(constant|not coming and going|won'?t stop)|(stomach|tummy|belly) (is )?(hard|rigid|tight) like",
+    r"can'?t (even )?stand straight|contractions? (every|regular)|(regular|painful) contractions",
+    r"ما (عاد|عدت) (احس|احسه|حسيت) (به|بيه|فيه|بحركته)|ما شي حركه|ما في حركه|ماكو حركه|بدون حركه",
+    r"نزل(ت)? (مني |علي )?(مويه|المويه|مويا)|(تقلصات|طلق) .{0,20}(منتظمه|كل (خمس|عشر|\d+) دقايق|كل (خمس|عشر|\d+) دقائق)|خيوط دم",
+)
+_HEAD_EYES_AR = _c(  # severe headache or vision change, Egyptian, Gulf and MSA (pre-eclampsia warning signs)
+    r"صداع (شديد|جامد|قوي|حيل)\w*|صداع .{0,15}(جامد|اوي|ما يروح|مش راضي يروح|لا يخف)",
+    r"ومضات|تشوش|زغلل\w*|بتزغلل|نقط (نور|سودا|ضوء)",
+    r"(الم|وجع|عوار) شديد .{0,30}(اعلي البطن|البطن|الاضلاع|المعده)|تحت الاضلاع",
+    r"pain (under|below) (my )?(right )?ribs|upper (right )?(belly|tummy|abdomen) pain",
+)
+_HEAVY_AR2 = _c(r"(انزف|ينزف|تنزف|نازف\w*) ?(بغزاره|كثير|وايد|جامد)|بغزاره|غزاره")
+_SUDDEN_AR2 = _c(r"(الم|عوار|وجع) (مفاجي|فجائي)\w*|(الم|عوار|وجع) (شديد|حاد) (و)?(مفاجي|فجائي)")
+_FAINT_R3 = _c(r"داخت|دخت|وقعت (في|ف|فى) (الحمام|الارض)|نفسي مقطوع|ظلمت الدنيا")
+_PAIN_BREATH = _c(
+    r"(severe|bad|strong) pain.{0,60}(breathless|short of breath|can'?t breathe)",
+    r"(الوجع|الالم|الم|وجع) (قوي|شديد|حيل).{0,60}ضيق (في )?(ال)?(نفس|تنفس)|ضيق (في )?(ال)?نفس.{0,60}(الوجع|الالم) (قوي|شديد)",
+)
+_MED_R3 = _c(
+    r"\btabs?\b|cetirizine|loratadine|antihistamines?|cough syrup|decongestant|omeprazole|antacid|thyroxine|levothyroxine"
+)
+_MED_ACT_R3 = _c(
+    r"bump (it )?up|(up|change|increase|raise|double) (it|the dose|my dose) (myself|by myself|on my own)|\bby myself\b|take 2 a day|catch up",
+    r"ينفع\b|اشرب منها|اخد منها|اخذ منها|ابدل|اغير|من حالي|بقدر",
+)
+_COND_R3 = _c(
+    r"\bamh\b|egg reserve|ovarian reserve|eggs (are )?(almost )?gone|get pregnant naturally",
+    r"ضعف تبويض|تبويض|ليفه|ليفة",
+)
+_VERDICT_R3 = _c(r"ولا لا|جواب واضح|انهي فيهم|بالظبط")
+_GUMS = _c(
+    r"\bgums?\b|teeth|tooth|\bbrush\w*|nose ?bleed|\bnose\b",
+    r"لثه|اللثه|اسنان|سنان|سناني|الفرشه|بالفرشه|انفي|خشمي|رعاف",
+)
+_NEGATED = re.compile(
+    norm_pattern(
+        r"\b(no|without|not any|don'?t have (a )?|haven'?t got (a )?)(fever|temperature|bleeding|pain)\b"
+        r"|(ما عندي|ماكو|مافي|ما في|بدون|ولا) (حراره|حرارة|حمي|نزيف|دم|الم|وجع)"
+    )
+)
+
+
+def _clauses_without(t: str, pattern: re.Pattern) -> str:
+    """The text without the clauses that mention, say, gums or nose (bleeding gums in pregnancy is not an emergency)."""
+    return " . ".join(c for c in re.split(r"[.!?؟،,\n]+", t) if not pattern.search(c))
 
 
 def crisis(text: str) -> bool:
     t = norm(text)
-    if CRISIS.search(t) or CRISIS_MORE.search(t):
+    if CRISIS.search(t) or CRISIS_MORE.search(t) or CRISIS_R3.search(t):
+        return True
+    if _TAKE_WITH_R3.search(t) and _GONE_R3.search(t):
         return True
     return bool(_TAKE_WITH.search(t) and _GONE.search(t))  # "take her with me" only with dying or not being here

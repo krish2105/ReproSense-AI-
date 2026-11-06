@@ -41,6 +41,7 @@ const storeKey = (persona: string) => `rs_chat_${persona}`;
 /** AI Chat (mockup tAsk/msg): every answer shows its sources; urgent answers lead with 998; crisis shows support only. */
 export function Chat({ suggested, persona, initialQuestion }: { suggested: string[]; persona: string; initialQuestion?: string }) {
   const t = useTranslations("assistant");
+  const ts = useTranslations("safety");
   const locale = useLocale() === "ar" ? "ar" : "en";
   const [turns, setTurns] = useState<Turn[]>([]);
   const [q, setQ] = useState(initialQuestion ?? "");
@@ -165,6 +166,14 @@ export function Chat({ suggested, persona, initialQuestion }: { suggested: strin
             </button>
           ))}
         </div>
+      </div>
+
+      {/* Safety by design: the 998 route never depends on the assistant recognising a message (it can miss things). */}
+      <div className="safety-strip" role="note">
+        <span className="s">{t("safetyLine")}</span>
+        <a className="btn btn-o btn-sm" href="tel:998">
+          {ts("call")}
+        </a>
       </div>
 
       <form method="post" className="askbar" onSubmit={submit}>

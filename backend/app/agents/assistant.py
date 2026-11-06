@@ -243,19 +243,17 @@ def _any(patterns: list[re.Pattern], text: str) -> bool:
 
 
 def _urgent_kind(q: str) -> str | None:
-    t = _clean(q)
-    for pat, kind in _URGENT:
-        if pat.search(t):
-            return kind
-    return safety.urgent_kind(q)  # concepts: e.g. "38w and greenish water leaking", "c section 5 days ago, fever"
+    # Concept routing only (app/agents/safety.py): it sets aside negated signs ("no fever") and gum or nose bleeds,
+    # which the older phrase list above could not. The list stays as documentation of the first version.
+    return safety.urgent_kind(q)
 
 
 def _medicine(q: str) -> bool:
-    return (_any(_MEDICINE, q) and not _any(_MED_EXEMPT, q)) or safety.medicine(q)
+    return safety.medicine(q)
 
 
 def _crisis(q: str) -> bool:
-    return _any(_CRISIS, q) or safety.crisis(q)
+    return _any(_CRISIS, q) or safety.crisis(q)  # explicit phrases plus concepts: recall first
 
 
 def _diagnosis(q: str) -> bool:

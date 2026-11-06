@@ -641,7 +641,8 @@
     "empty": "Pick a suggested question or type your own.",
     "offTitle": "The assistant is off",
     "offBody": "AI features are off in Privacy, so nothing you type here is sent to a language model. Your patterns, timeline and report work as before.",
-    "offAction": "Change this in Privacy"
+    "offAction": "Change this in Privacy",
+    "safetyLine": "Thinking of harming yourself or your baby, or is this an emergency? Call 998 now. The assistant can miss things."
   },
   "report": {
     "metaTitle": "Report",
