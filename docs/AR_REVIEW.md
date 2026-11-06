@@ -312,3 +312,14 @@ in crisis or in an emergency. Edit them in `assistant.py` (`URGENT_TEXT`, `MEDIC
 | `status.heldout.refuse` | Requests for a diagnosis or a probability refused: {pass} of {of} | طلبات التشخيص أو النسب التي رُفضت: {pass} من {of} | |
 | `status.heldout.medicine` | Medicine and dose questions sent to a doctor or pharmacist: {pass} of {of} | أسئلة الأدوية والجرعات التي وُجّهت إلى الطبيب أو الصيدلي: {pass} من {of} | |
 | `status.heldout.answer` | Everyday questions answered normally (no false alarm): {pass} of {of} | الأسئلة اليومية التي أُجيبت بشكل طبيعي (دون إنذار خاطئ): {pass} من {of} | |
+
+## Status page service check (#30, draft Arabic, not yet reviewed)
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `status.liveTitle` | Service check | فحص الخدمة | |
+| `status.liveUp` | Up | تعمل | |
+| `status.liveDown` | Not answering | لا تستجيب | |
+| `status.liveUpBody` | The API and its database answered in {ms} ms. Checked {at} Gulf time, each time this page opens. | استجابت الواجهة البرمجية وقاعدة بياناتها خلال {ms} ميلي ثانية. فُحصت في {at} بتوقيت الخليج، في كل مرة تُفتح فيها هذه الصفحة. | |
+| `status.liveDownBody` | The API did not answer within 10 seconds. Checked {at} Gulf time. The demo may be waking up: reload in a minute. | لم تستجب الواجهة البرمجية خلال 10 ثوانٍ. فُحصت في {at} بتوقيت الخليج. قد يكون العرض التجريبي قيد التشغيل: أعيدي التحميل بعد دقيقة. | |
+| `status.liveMonitor` | Uptime history (external monitor, checks every few minutes) | سجل التوفر (مراقب خارجي، يفحص كل بضع دقائق) | |
+| `status.liveSupport` | Support for pilot clinics: | الدعم للعيادات التجريبية: | |

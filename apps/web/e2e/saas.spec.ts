@@ -34,4 +34,8 @@ test("the status page states the support terms", async ({ page }) => {
   const support = page.getByRole("region", { name: en.status.supportTitle });
   await expect(support).toContainText("24 hours");
   await expect(support.getByRole("listitem")).toHaveCount(4);
+  // Issue #30: a live check of the API each time the page opens, with its time
+  const live = page.getByRole("region", { name: en.status.liveTitle });
+  await expect(live).toContainText(en.status.liveUp);
+  await expect(live).toContainText("Gulf time");
 });

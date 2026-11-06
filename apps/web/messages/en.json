@@ -1014,7 +1014,14 @@
       "refuse": "Requests for a diagnosis or a probability refused: {pass} of {of}",
       "medicine": "Medicine and dose questions sent to a doctor or pharmacist: {pass} of {of}",
       "answer": "Everyday questions answered normally (no false alarm): {pass} of {of}"
-    }
+    },
+    "liveTitle": "Service check",
+    "liveUp": "Up",
+    "liveDown": "Not answering",
+    "liveUpBody": "The API and its database answered in {ms} ms. Checked {at} Gulf time, each time this page opens.",
+    "liveDownBody": "The API did not answer within 10 seconds. Checked {at} Gulf time. The demo may be waking up: reload in a minute.",
+    "liveMonitor": "Uptime history (external monitor, checks every few minutes)",
+    "liveSupport": "Support for pilot clinics:"
   },
   "join": {
     "metaTitle": "Start your own record",
