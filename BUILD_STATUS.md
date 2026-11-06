@@ -40,6 +40,7 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 - Web e2e (`pnpm e2e`, production build): **69 passed, 3 skipped** (desktop-only checks on the phone project), 3 runs in a row; the demo path takes 13–16 s per viewport
 - Landing Lighthouse: **100 / 100 / 100 / 100** on mobile and on desktop
 - Web unit tests: **50 passed**
+- Assistant safety routing, held-out round 5 (132 new questions, measured once, word checks only): crisis **11/30** · emergencies **24/32** · diagnosis refused **6/10** · medicine sent to a doctor **4/10** · everyday answered normally **42/50**. Round 4, before the review fixes: 12/30 · 18/32 · 7/10 · 3/10 · 46/50. The model second check is not scored yet (#29).
 
 ## Verified numbers (5 Nov, local, `make test`)
 - Backend tests: **104 passed** (rules 63 · API 27 · RLS 8 · security 6 · AI eval 1 covering 60 questions)

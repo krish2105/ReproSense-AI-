@@ -44,12 +44,13 @@ Blockers / questions:
     | 1 | 9/36 | 4/44 | 2/16 | 1/12 | 25/26 |
     | 2 | 9/30 | 28/32 | 6/10 | 5/10 | 35/40 |
     | 3 | 12/30 | 18/32 | 7/10 | 5/10 | 35/40 |
-    | **4, held-out (measured once, never used for tuning)** | **12/30** | **18/32** | **7/10** | **3/10** | **46/50** |
+    | 4, held-out before the review fixes (measured once, never used for tuning) | 12/30 | 18/32 | 7/10 | 3/10 | 46/50 |
+    | **5, held-out after the review fixes (new writers, measured once, word checks only)** | **11/30** | **24/32** | **6/10** | **4/10** | **42/50** |
 
   - Each new community or dialect brings phrasings the checks have never seen. That is why the assistant now always shows a 998 strip above the question box: detection can miss things.
   - Round 4 (132 questions, written after the last change) adds voice-typed and very short messages, and husbands, sisters,
-    mothers and friends writing about her. It is the held-out number on /status and deck slide 6.
-  - Word checks do not generalise: crisis stayed at 12/30 from round 3 to round 4. So the assistant now has a **second
+    mothers and friends writing about her. Round 5 (132 questions by new writers, written after the review fixes) is now the held-out number on /status and deck slide 6.
+  - Word checks do not generalise: crisis stayed at 12/30 from round 3 to round 4, and was 11/30 on round 5. So the assistant now has a **second
     check by the language model** (`safety.model_check`). It runs only with a model key and her AI switch on, reads
     redacted text, can add the crisis or urgent route but never remove one, and any error leaves the word checks in
     charge. 11 unit tests with a fake model. Its held-out score is not measured yet: `make safety-eval` with a key
