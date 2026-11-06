@@ -72,12 +72,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "hessa-e0061",
@@ -96,12 +95,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "hessa-e0062",
@@ -119,12 +118,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "hessa-e0063",
@@ -140,11 +139,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "hessa-e0064",
@@ -182,11 +181,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "hessa-e0066",
@@ -244,12 +243,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "hessa-e0070",
@@ -268,11 +267,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "hessa-e0071",
@@ -291,11 +290,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "hessa-e0072",
@@ -313,11 +312,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "hessa-e0073",
@@ -369,12 +368,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "hessa-e0076",
@@ -393,12 +391,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "hessa-e0077",
@@ -416,12 +414,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "hessa-e0078",
@@ -457,11 +454,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "hessa-e0080",
@@ -516,12 +513,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "hessa-e0084",
@@ -540,12 +537,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "hessa-e0085",
@@ -563,12 +560,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "hessa-e0086",
@@ -629,11 +625,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "hessa-e0089",
@@ -692,11 +688,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "hessa-e0093",
@@ -736,12 +732,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "hessa-e0095",
@@ -799,11 +795,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "hessa-e0098",
@@ -858,12 +854,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "hessa-e0102",
@@ -881,12 +877,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "hessa-e0103",
@@ -902,12 +898,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "hessa-e0104",
@@ -969,12 +965,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "hessa-e0108",
@@ -993,12 +989,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "hessa-e0109",
@@ -1016,12 +1011,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "hessa-e0110",
@@ -1040,11 +1034,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "hessa-e0111",
@@ -1063,11 +1057,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "hessa-e0112",
@@ -1987,14 +1981,14 @@
     "period_duration_max": 6,
     "heavy_flow_days_cycle": 0,
     "pbac_by_cycle_6": [
-      36,
-      36,
-      38,
-      38,
-      35,
-      37
+      44,
+      31,
+      44,
+      45,
+      32,
+      33
     ],
-    "pbac_max_6": 38,
+    "pbac_max_6": 45,
     "age": 29,
     "ttc_months": 0,
     "red_flag_heavy_with_dizziness": false,

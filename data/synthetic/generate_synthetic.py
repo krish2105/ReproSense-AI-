@@ -104,6 +104,9 @@ def simulate_persona(spec: PersonaSpec, ref: date, rng: random.Random) -> dict:
     logs: list[dict] = []
     cycles: list[dict] = []
     events: list[dict] = []
+    # Pad counts draw from their own stream (issue #43 d), so cycle lengths, pain and the days logged, which the demo
+    # script and docs quote, come out exactly as before. A str-free seed keeps it the same in every process (rule 6).
+    pad_rng = random.Random(sum(map(ord, "pads:" + spec.id)))
     entry_no = 0
 
     def new_id() -> str:
@@ -191,8 +194,15 @@ def simulate_persona(spec: PersonaSpec, ref: date, rng: random.Random) -> dict:
             if bowel and day in (0, 1):
                 symptoms.append("pain with bowel movements")
             impact = "missed work or study" if (impact_needed and day == 1) else ("reduced activity" if pain >= 6 else "none")
-            pads = ({"light": rng.randint(1, 2)} if flow == "light" else
-                    {"moderate": 2, "light": 1} if flow == "medium" else {"soaked": 2, "moderate": 1})
+            # Pads vary inside each flow band (PBAC was 11 on every medium day). Light days keep their one draw from the
+            # main stream, so it stays in step, and add 0-1 from the pad stream: 1-3 pads.
+            if flow == "light":
+                pads = {"light": rng.randint(1, 2) + pad_rng.randint(0, 1)}
+            elif flow == "medium":
+                pads = {"moderate": pad_rng.randint(1, 3), "light": pad_rng.randint(0, 2)}
+            else:
+                pads = {"soaked": pad_rng.randint(1, 3), "moderate": pad_rng.randint(0, 2)}
+            pads = {k: n for k, n in pads.items() if n}
             clots = {}
             if flooding:
                 pads["soaked"] = pads.get("soaked", 0) + 1
