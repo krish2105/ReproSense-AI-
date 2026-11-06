@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { ErrorState } from "@/components/ui/States";
 import { Tag } from "@/components/ui/Tag";
-import { apiServer } from "@/lib/api/server";
+import { API_URL, apiServer } from "@/lib/api/server";
 import { TableScroll } from "@/components/ui/TableScroll";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,17 +25,69 @@ interface Quality {
   } | null;
 }
 
+/** One live check of the API's readiness (database reachable) each time the page opens (issue #30). */
+async function checkApi(): Promise<{ up: boolean; ms: number; at: Date }> {
+  const t0 = Date.now();
+  const up = await fetch(new URL("/readyz", API_URL), { cache: "no-store", signal: AbortSignal.timeout(10_000) })
+    .then((r) => r.ok)
+    .catch(() => false);
+  return { up, ms: Date.now() - t0, at: new Date() };
+}
+
 // Team scorecard (HANDOFF §5 /status, GET /v1/quality). Only measured numbers; the mockup's projected scores are
 // the team's estimates and are not shown as facts.
 export default async function StatusPage() {
   const t = await getTranslations("status");
+  const live = await checkApi();
+  const checkedAt = new Intl.DateTimeFormat(await getLocale(), { timeZone: "Asia/Dubai", dateStyle: "medium", timeStyle: "short" }).format(live.at);
+  // Set where the service is hosted (docs/16): the external uptime monitor and the pilot support inbox. Hidden if unset.
+  const monitor = process.env.STATUS_MONITOR_URL;
+  const support = process.env.SUPPORT_EMAIL;
+  const liveSection = (
+    <section className="panel" aria-labelledby="live-title" style={{ padding: 22, marginTop: 22 }}>
+      <div className="kv" style={{ flexWrap: "wrap" }}>
+        <h2 id="live-title" style={{ fontSize: 19 }}>
+          {t("liveTitle")}
+        </h2>
+        {live.up ? <Tag tone="ok">{t("liveUp")}</Tag> : <Tag tone="urgent">{t("liveDown")}</Tag>}
+      </div>
+      <p className="s dim" style={{ marginTop: 6 }}>
+        {live.up ? t("liveUpBody", { ms: live.ms, at: checkedAt }) : t("liveDownBody", { at: checkedAt })}
+      </p>
+      {(monitor || support) && (
+        <ul className="tier-list" style={{ marginTop: 10 }}>
+          {monitor && (
+            <li>
+              <a href={monitor} rel="noopener noreferrer" target="_blank">
+                {t("liveMonitor")}
+              </a>
+            </li>
+          )}
+          {support && (
+            <li>
+              {t("liveSupport")}{" "}
+              <a href={`mailto:${support}`} dir="ltr">
+                {support}
+              </a>
+            </li>
+          )}
+        </ul>
+      )}
+    </section>
+  );
   let q: Quality | null = null;
   try {
     q = await apiServer<Quality>("/quality");
   } catch {
     q = null;
   }
-  if (!q) return <ErrorState headingLevel={1} title={t("title")} body={t("unavailable")} />;
+  if (!q)
+    return (
+      <>
+        <ErrorState headingLevel={1} title={t("title")} body={t("unavailable")} />
+        {liveSection}
+      </>
+    );
   const e = q.ai_eval;
   const figs = e
     ? [
@@ -51,7 +103,9 @@ export default async function StatusPage() {
       <h1 className="page-title">{t("title")}</h1>
       <p className="page-intro">{t("intro")}</p>
 
-      <section className="panel" aria-labelledby="rules-title" style={{ padding: 22, marginTop: 22 }}>
+      {liveSection}
+
+      <section className="panel" aria-labelledby="rules-title" style={{ padding: 22, marginTop: 20 }}>
         <div className="kv" style={{ flexWrap: "wrap" }}>
           <h2 id="rules-title" style={{ fontSize: 19 }}>
             {t("rules")}

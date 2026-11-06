@@ -2,7 +2,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import { ApiError, errorDetail } from "./errors";
 
-const API_URL = process.env.API_URL ?? "http://127.0.0.1:8010";
+export const API_URL = process.env.API_URL ?? "http://127.0.0.1:8010";
 // A hung API (a sleeping free instance can take ~30-60 s to wake) shows the error screen with Retry, not a spinner.
 const API_TIMEOUT_MS = Number(process.env.API_TIMEOUT_MS) || 15_000;
 export const SESSION_COOKIE = "rs_token";

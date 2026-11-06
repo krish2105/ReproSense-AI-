@@ -4,6 +4,14 @@ Database on **Supabase** (pgvector), API on **Render** (Docker, `render.yaml`), 
 in CLAUDE.md. Synthetic data only: `DEMO_MODE=true` everywhere (docs/08 rule 1). You need your own accounts for the
 three services; nothing here needs a credit card except an always-on Render instance for demo day.
 
+**Before you start:** the repository belongs to `krish2105`, so Render's and Vercel's GitHub apps must be installed on
+that account. If a teammate starts the import, GitHub sends the owner an install request to approve.
+
+**Dry run (6 Nov, local):** the production API image booted on an empty Postgres 17 + pgvector database owned by a
+non-superuser (as on Supabase), with `COOKIE_SECURE=true`, `LLM_PROVIDER=none` and `SEED_IF_EMPTY=true`. The first boot
+seeded 8 personas and 93 chunks, a restart did not reseed, and the full e2e suite passed against it (106 passed,
+PDFs included).
+
 ## 1. Database: Supabase (5 min)
 1. Create a project. Pick the region closest to the UAE that your plan offers (production moves to a UAE-hosted
    database, docs/07). Save the database password.
@@ -31,18 +39,29 @@ three services; nothing here needs a credit card except an always-on Render inst
 1. Add New → Project → import this repository.
 2. **Root Directory: `apps/web`**. Framework: Next.js (detected). Install and build commands: leave the defaults.
 3. Environment variables (Production and Preview):
-   - `API_URL` = `https://<your-api>.onrender.com` (required: the `/api/v1` proxy is written at build time).
+   - `API_URL` = `https://<your-api>.onrender.com` (required at build time for the `/api/v1` proxy **and at runtime**:
+     server-rendered pages call the API directly. Set it for Production and Preview; if it is missing at runtime,
+     every signed-in page sends you back to Demo people).
+   - `STATUS_MONITOR_URL` = the public page of the uptime monitor from step 4 (optional; /status links to it).
+   - `SUPPORT_EMAIL` = the pilot support inbox (optional; /status shows it only when set, never a made-up address).
    - `NEXT_PUBLIC_SITE_URL` = `https://<your-project>.vercel.app` (optional; Vercel's own domain is used otherwise).
 4. Deploy, open the URL, go to **Demo people → Open Noura's record**.
 5. Back on Render, set `ALLOWED_ORIGINS` to the Vercel URL if you skipped it.
 
-## 4. Smoke test the live demo (2 min)
+## 4. Uptime monitor (3 min, issue #30)
+Any free uptime service (for example UptimeRobot or Better Stack) on `https://<your-api>.onrender.com/healthz`, every
+5 minutes. Make its status page public and put that URL in `STATUS_MONITOR_URL` on Vercel, then redeploy. /status also
+checks `/readyz` itself every time it opens and shows the result with the time.
+
+## 5. Smoke test the live demo (2 min)
 From your laptop, run the same e2e suite CI runs, against the live URLs (it resets the demo data first):
 ```bash
 cd apps/web && PW_CHANNEL=chrome E2E_BASE_URL=https://<your-project>.vercel.app E2E_API_URL=https://<your-api>.onrender.com pnpm e2e
 ```
 
-## 5. Demo day
+`e2e/api-down.spec.ts` is skipped against live URLs (it needs a local copy of the build pointed at a stub).
+
+## 6. Demo day
 - Reset the data on **Demo people → Reset demo data** after every rehearsal (docs/08 rule 8).
 - Both URLs on venue Wi-Fi and a phone hotspot; Arabic and dark mode checked; PDF downloads (docs/08 checklist).
 - Backup: the 2-minute screen recording on two laptops and a USB stick (docs/08 rule 10).
