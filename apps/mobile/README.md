@@ -90,6 +90,8 @@ and Arabic, light and dark. Android has not been run yet (see "Not done").
    - Expo Go applies its own direction settings each time the app loads, so switching to Arabic inside Expo Go changes
      the words but not the layout, and the top bar asks her to reopen the app.
    - Development and store builds use expo-localization's native setup, which keeps the app's own switch.
+     Checked 6 Nov in a standalone Release build on the simulator: switching to Arabic reloads once and flips the
+     whole layout to right to left.
    - To check the Arabic layout in Expo Go, add `"forcesRTL": true` under `expo.extra` in `app.json` for that session
      only, and remove it afterwards. The Arabic screens were checked that way on 6 Nov.
 3. **Not checked on the simulator:**
@@ -102,6 +104,45 @@ and Arabic, light and dark. Android has not been run yet (see "Not done").
    - The month calendar grid: the phone lists logged days.
 5. **Arabic strings only the phone uses** (`src/i18n/mobile.ar.json`): listed in `docs/AR_REVIEW.md` for the native
    review.
+
+## Install the iOS app without Expo Go (standalone Release build)
+
+The native `ios/` project is generated from `app.json` by `npx expo prebuild` and is not committed. Editing
+`app.json` and building again regenerates it. A Release build carries its own JavaScript, so it runs with no Metro
+server, and `EXPO_PUBLIC_*` addresses are fixed when it is built.
+
+**On the iOS simulator** (the API on :8010 on this Mac):
+
+```bash
+npm run ios:release
+```
+
+**On your own iPhone** (Xcode signed in with your Apple ID; a free Apple ID works for 7 days at a time):
+1. **Connect the iPhone.** Plug it in or have it on the same Wi‑Fi, unlock it, and turn on Settings → Privacy &
+   Security → Developer Mode.
+2. **Start the API so the phone can reach it.** On the Mac, in `backend`:
+   ```bash
+   DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib uv run uvicorn app.main:app --host 0.0.0.0 --port 8010
+   ```
+   If macOS asks whether Python may accept incoming connections, allow it. Anyone on the same Wi‑Fi can then reach
+   the demo API, which holds fictional data only.
+3. **Build with the Mac's Wi‑Fi address,** from `ipconfig getifaddr en0`:
+   ```bash
+   EXPO_PUBLIC_API_URL=http://<mac-ip>:8010 npx expo run:ios --device --configuration Release --no-bundler
+   ```
+   Pick the iPhone from the list.
+4. **The first time,** trust the developer on the iPhone: Settings → General → VPN & Device Management.
+
+**Limits with a free Apple ID:**
+- **Three apps at a time:** a phone holds at most three apps signed with a free developer profile. If the install
+  fails with `ApplicationVerificationFailed`, `xcrun devicectl device install app --device <udid> <path to .app>`
+  names the apps already installed; remove one of them.
+- **Seven days:** the app stops opening after seven days, so build it again then.
+
+A paid Apple Developer account and TestFlight (card M10) remove both limits.
+
+The app reaches the API over plain HTTP only on the local network (`NSAllowsLocalNetworking`); every other address
+needs HTTPS. Shared-report links point at the website, so they open only once the deployed API is live.
 
 ## Build for testers and the stores (card M10)
 
