@@ -9,7 +9,9 @@ import math
 import re
 
 DIM = 256
-_WORD = re.compile(r"[\w؀-ۿ]+", re.U)
+# A word: letters and digits, Arabic included, but never Arabic punctuation (، ؍ ؛ ؟ ٪ ٫ ٬ ٭ ۔), which sits in the
+# same Unicode block and used to stick to the word before it ("غزيرة؟" never matched "غزيرة", the ar04 miss).
+WORD = re.compile(r"[\w\u0600-\u060B\u060E-\u061A\u061C-\u061E\u0620-\u0669\u066E-\u06D3\u06D5-\u06FF]+")
 _AR_DIACRITICS = re.compile(r"[ً-ْٰـ]")
 
 
@@ -24,7 +26,7 @@ def _h(s: str) -> int:
 
 def embed(text: str) -> list[float]:
     v = [0.0] * DIM
-    for w in _WORD.findall(normalise(text)):
+    for w in WORD.findall(normalise(text)):
         v[_h("w:" + w) % DIM] += 2.0
         g = f" {w} "
         for n in (3, 4, 5):
@@ -61,4 +63,4 @@ def stem(w: str) -> str:
 
 
 def tokens(text: str) -> list[str]:
-    return [stem(w) for w in _WORD.findall(normalise(text))]
+    return [stem(w) for w in WORD.findall(normalise(text))]

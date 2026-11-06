@@ -159,7 +159,7 @@ Done when each `BUILD_STATUS` "Done when" passes at 390px and 1280px, light and 
 - Get an `ANTHROPIC_API_KEY` (or decide to stay deterministic). Run the eval in LLM mode and warm the cache for all 8 personas.
 - Clinician sign-off: QUESTIONS #17, #26, #27, #28, #35 and the `clinical_rules.yaml` header. Verify NG257 wording (#29).
 - Disclosure: the complete note is in docs/15 (6 Nov); read it at the start of the event, ask the organisers how earlier code is scored (QUESTIONS #44), tag the repo on 16 Nov. Applications by 14 Nov. Interviews + LOI (docs/12, docs/15).
-- Nice-to-have: passkeys via Supabase Auth, web CSP with nonces, dependency scanning (pip-audit / npm audit), ar04 eval miss.
+- Nice-to-have: passkeys via Supabase Auth, web CSP with nonces, dependency scanning (pip-audit / npm audit). (The ar04 eval miss is fixed: Arabic punctuation no longer sticks to words.)
 
 ## 7. Decisions already made (do not re-open without asking Krishna)
 Scope = demo path first (#11) · builders Krishna + Atharva (#12) · demo role tokens + real RLS, passkeys stretch (#13) · `hashing` embeddings + FTS hybrid (#14) · ref date pinned (#16) · 14-day red-flag window (#17) · web only, no native apps (#23) · body-map coordinates (#25) · build before selection with disclosure (#34) · phase owners (#37).
