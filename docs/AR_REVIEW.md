@@ -4,7 +4,8 @@ Arabic strings added or changed on 5–6 Nov 2026, next to their English. A nati
 (warm, direct, feminine address where the screen is hers) and medical terms (Arabic term + the English abbreviation a
 doctor uses). Also check the judge panel's notes: normal period days must not be called نزيف (haemorrhage), clots must
 not be جلطات (thromboses), and flooding must not be الإغراق (QUESTIONS #49, R6). Edit `apps/web/messages/ar.json`
-directly and keep numbers and placeholders like `{clinic}` unchanged.
+directly and keep numbers and placeholders like `{clinic}` unchanged. Every occurrence of the three flagged terms is
+listed at the end ("Flagged terms").
 
 ## Assistant safety replies (`backend/app/agents/assistant.py`)
 
@@ -323,3 +324,51 @@ in crisis or in an emergency. Edit them in `assistant.py` (`URGENT_TEXT`, `MEDIC
 | `status.liveDownBody` | The API did not answer within 10 seconds. Checked {at} Gulf time. The demo may be waking up: reload in a minute. | لم تستجب الواجهة البرمجية خلال 10 ثوانٍ. فُحصت في {at} بتوقيت الخليج. قد يكون العرض التجريبي قيد التشغيل: أعيدي التحميل بعد دقيقة. | |
 | `status.liveMonitor` | Uptime history (external monitor, checks every few minutes) | سجل التوفر (مراقب خارجي، يفحص كل بضع دقائق) | |
 | `status.liveSupport` | Support for pilot clinics: | الدعم للعيادات التجريبية: | |
+
+## Trust centre clause 3.1.4.5.1 (#25, draft Arabic, not yet reviewed)
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `trust…r7.ours` | This demo holds fictional data only, on services without a UAE region. Production will run in a UAE cloud region (AWS Middle East (UAE) or Azure UAE North) with backups and disaster recovery in the UAE, a UAE-hosted model or no model, and support access from inside the UAE. | هذا العرض يحتوي بيانات خيالية فقط، على خدمات ليست لها منطقة في الإمارات. سيعمل الإنتاج في منطقة سحابية داخل الإمارات (AWS الشرق الأوسط (الإمارات) أو Azure الإمارات الشمالية) مع نسخ احتياطية وتعافٍ من الكوارث داخل الإمارات، وبنموذج مستضاف في الإمارات أو دون نموذج، ودعم فني من داخل الإمارات. | |
+
+## Flagged terms: every occurrence (QUESTIONS #49, prepared 6 Nov for #23)
+Each row uses نزيف, جلط… or إغراق. Some are right (bleeding in pregnancy is a warning sign); others describe ordinary
+period days and need a period word. The reviewer decides each one; nothing here has been changed yet.
+
+| Key | English | Arabic now | Decision |
+| --- | --- | --- | --- |
+| `clinic.askChips.bleeding` | Heavy bleeding | النزيف الغزير | |
+| `safety.pregSigns` | bleeding · severe tummy pain · fewer baby movements · a severe headache with changes in your vision | نزيفاً · ألماً شديداً في البطن · قلة حركة الجنين · صداعاً شديداً مع تغيّر في الرؤية | |
+| `symptoms.flooding` | Flooding | نزيف متدفق | |
+| `symptoms.bleeding` | Bleeding | نزيف | |
+| `symptoms.clots_larger_than_a_coin` | Clots larger than a coin | جلطات أكبر من قطعة نقدية | |
+| `log.cellPeriod` | bleeding | نزيف | |
+| `log.tileFlow` | Flow | النزيف | |
+| `log.tilePbac` | Bleeding score | درجة النزيف | |
+| `log.flow` | Flow | النزيف | |
+| `log.pbacTitle` | Bleeding score (pictorial chart): {score} | درجة النزيف (المخطط المصوّر): {score} | |
+| `log.pbacHint` | Count what you used today. Over a whole period, 100 or more on this chart gynaecologists use suggests heavy bleeding. | عدّي ما استخدمتِه اليوم. على مدى دورة كاملة، تشير درجة 100 أو أكثر على هذا المخطط الذي يستخدمه أطباء النساء إلى نزيف غزير. | |
+| `log.pbacItems.clots_small` | Small clots | جلطات صغيرة | |
+| `log.pbacItems.clots_large` | Clots coin-sized or larger | جلطات بحجم قطعة نقدية أو أكبر | |
+| `analytics.pbacTitle` | Bleeding score per period | درجة النزيف في كل دورة | |
+| `analytics.pbacCaption` | Pictorial chart score; 100 or more suggests heavy bleeding | درجة المخطط المصوّر؛ 100 أو أكثر تشير إلى نزيف غزير | |
+| `analytics.pbacBar` | Period starting {date}: bleeding score {pbac} | الدورة التي بدأت في {date}: درجة النزيف {pbac} | |
+| `analytics.heavy` | {n, plural, =0 {No period reached a bleeding score of 100.} one {# period reached a bleeding score of 100 or more.} other {# periods reached a bleeding score of 100 or more.}} | {n, plural, =0 {لم تصل أي دورة إلى درجة نزيف 100.} one {وصلت دورة واحدة إلى درجة نزيف 100 أو أكثر.} two {وصلت دورتان إلى درجة نزيف 100 أو أكثر.} few {وصلت # دورات إلى درجة نزيف 100 أو أكثر.} many {وصلت # دورة إلى درجة نزيف 100 أو أكثر.} other {وصلت # دورة إلى درجة نزيف 100 أو أكثر.}} | |
+| `analytics.colBleed` | Bleeding days | أيام النزيف | |
+| `analytics.colPbac` | Bleeding score | درجة النزيف | |
+| `analytics.yearCaption` | Each dot is a logged day. Filled: bleeding. Ring: pain 7 or more. Diamond: an event. | كل نقطة يوم مُسجَّل. المملوءة: نزيف. الحلقة: ألم 7 أو أكثر. المعيّن: حدث. | |
+| `analytics.yearSummary` | {logged} days logged in the last {months} months, {bleed} with bleeding. | {logged} يوماً مُسجَّلاً خلال آخر {months, plural, few {# أشهر} many {# شهراً} other {# شهر}}، منها {bleed} بنزيف. | |
+| `report.stats` | {logs} entries · {periodDays} bleeding days · {severe, plural, =0 {no days} one {# day} other {# days}} with pain 7 or more | {logs} إدخال · {periodDays} يوم نزيف · {severe, plural, =0 {لا أيام} one {يوم واحد} two {يومان} few {# أيام} many {# يوماً} other {# يوم}} بألم 7 أو أكثر | |
+| `report.pbac` | Bleeding score by period | درجة النزيف في كل دورة | |
+| `landing.legendBleed` | Bleeding day | يوم نزيف | |
+| `landing.chartRow` | Cycle starting {date}: {length} days, {bleed} bleeding days | الدورة التي بدأت في {date}: {length} يوماً، منها {bleed} أيام نزيف | |
+| `landing.floatQuestion` | “How do I know if my bleeding is heavy?” | «كيف أعرف أن نزيفي غزير؟» | |
+| `landing.spiralIntro` | Each bead is one day of one of Noura's cycles. Magenta beads are bleeding days, lavender beads are days past day 35, and peach beads are the rest. A regular year makes short, tidy loops. Hers stretches. | كل حبة يوم واحد من إحدى دورات نورة. الحبات الوردية أيام نزيف، والبنفسجية أيام بعد اليوم 35، والخوخية بقية الأيام. العام المنتظم يرسم حلقات قصيرة مرتبة، أما عامها فيتمدد. | |
+| `landing.colBleed` | Bleeding days | أيام النزيف | |
+| `landing.stageDesc.periods` | Cycles, bleeding score, pain and the body map | الدورات ودرجة النزيف والألم وخريطة الجسم | |
+| `landing.t1Body` | {days} days logged over 12 months: flow, pain, symptoms and a bleeding score. | {days} يوماً مُسجَّلاً خلال 12 شهراً: النزيف والألم والأعراض ودرجة النزيف. | |
+| `landing.womenBody` | Logging takes about twenty seconds: flow, pain from 0 to 10, a bleeding score using the same pictorial chart gynaecologists use, or a sentence in Arabic or English. She sees her year on one screen, gets questions to ask, and decides who sees her report and for how long. | يستغرق التسجيل نحو عشرين ثانية: النزيف، والألم من 0 إلى 10، ودرجة النزيف على المخطط المصوّر نفسه الذي يستخدمه أطباء النساء، أو جملة بالعربية أو الإنجليزية. ترى عامها في شاشة واحدة، وتحصل على أسئلة تطرحها، وتقرر من يرى تقريرها ولمدة كم. | |
+
+Outside `ar.json` (same terms):
+- `backend/app/agents/assistant.py` lines 97, 99, 101, 110, 124, 127
+- `backend/app/agents/copy.py` lines 43, 51
+- `rules/translations_ar.yaml` lines 4, 8, 14, 33, 34, 49, 62
