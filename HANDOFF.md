@@ -7,6 +7,26 @@ code freeze Sat 21 Nov 18:00 · showcase Sun 22 Nov, DOH Incubator, Masdar City.
 
 ---
 
+## 0. Left for Atharva (from Krishna, 6 Nov 2026, late night)
+Branch `fix/judge-findings` is pushed, all tests green locally (backend, web unit, Playwright 106 passed). Not merged yet.
+1. **Docs with the round-5 numbers.** Held-out round 5 (132 questions by new writers, written after the review fixes,
+   measured once, word checks only): crisis 11/30, emergencies 24/32, diagnosis refused 6/10, medicine sent to a
+   doctor 4/10, everyday answered normally 42/50. Round 4 (12/30, 18/32, 7/10, 3/10, 46/50) was measured before the
+   review fixes. Put both rows in the PROGRESS night table, QUESTIONS #50, this file's §1 safety bullet,
+   BUILD_STATUS "Verified numbers", and the docs/10 Q&A row "What if she types something your checks miss?"
+   (say "a fresh held-out round", and quote 11 of 30 crisis and 24 of 32 emergency). /status and the deck already
+   read the new numbers from `backend/app/ai/eval_results.json`.
+2. **Open the PR** for `fix/judge-findings` into `main`, wait for CI (backend, web, e2e, image, gitleaks), merge.
+   No AI co-author lines in commits or the PR.
+3. **Model check score.** With `LLM_PROVIDER=claude` and a key in `.env`, run `make safety-eval`: it scores the
+   language model's second check on round 5 and stores it next to the word-checks number, never in its place.
+4. **QUESTIONS #56:** in round 5, two crisis messages about pills got the fixed medicine reply instead of the support
+   message (the 998 strip was still on screen). Clinical advisor decides whether the medicine reply should carry a
+   crisis line. Do not tune the word checks on round 5: it is the held-out set now.
+5. Build week: #54 (rare hydration flake), #55 (sign-in for joined records). Clinician: #48, #49, #52, #53.
+
+---
+
 ## 1. Where things stand in one minute (updated 6 Nov 2026, night)
 - **Everything is on `main`** (PRs #8–#21, CI green: backend, web, e2e, API image, gitleaks).
 - **Judge panel (6 Nov, before the night's fixes):** jury 61.5/100 (range 53.5–65.5), Real MVP 66, Real SaaS 61, clinical safety 20/35, women's experience 23/35.

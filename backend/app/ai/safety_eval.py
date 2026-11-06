@@ -2,7 +2,9 @@
 
 Method (6 Nov 2026): each round was measured first, exactly as written, and only then used to improve
 app/agents/safety.py. Rounds before HELDOUT_ROUND are development sets; HELDOUT_ROUND was written after the last change
-and is the held-out number shown on /status and in the deck.
+and is the held-out number shown on /status and in the deck. Round 4 was measured once before the review fixes of 6 Nov
+(night) and shaped the model check's prompt; round 5 was written after both, by new writers, and is the held-out set
+for the word checks and for the model check.
 
     uv run python -m app.ai.safety_eval
 
@@ -17,7 +19,7 @@ import json
 import sys
 from pathlib import Path
 
-HELDOUT_ROUND = 4
+HELDOUT_ROUND = 5
 FILE = Path(__file__).resolve().parents[2] / "tests" / "rag_heldout.jsonl"
 OUT = Path(__file__).resolve().parent / "eval_results.json"
 TYPES = ("crisis", "urgent", "refuse", "medicine", "answer")
