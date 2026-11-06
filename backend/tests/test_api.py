@@ -278,3 +278,38 @@ def test_admin_sees_each_clinic_and_can_export_the_audit_log(client):
     assert "detail" not in lines[0]
     assert client.get("/v1/admin/audit/export.csv", headers=login(client, "noura")).status_code == 403
     assert client.get("/v1/admin/audit/verify", headers=ha).json()["chain_ok"]  # exporting is itself logged, chain intact
+
+
+def test_the_crisis_path_never_shows_a_score_or_a_scored_card(client, reseed):
+    """CLAUDE.md rule 5: EPDS item 10 > 0 opens the crisis path only. No RF4 red-flag card, no mood pattern card, no
+    total, and no 'nothing needs discussing' line, in the check-in reply, on Home and after logging."""
+    h = login(client, "fatima")
+    r = client.post("/v1/questionnaires/epds", headers=h, json={"answers": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}).json()
+    assert r["crisis"] and r["total"] is None
+    assert all(c["observation_id"] != "RF4_SELF_HARM_THOUGHTS" for c in r["cards"])
+    home = client.get("/v1/me/home", headers=h).json()
+    assert home["crisis"] and home["recommendations"] == []
+    ids = {c["observation_id"] for c in home["red_flags"] + home["observations"]}
+    assert "RF4_SELF_HARM_THOUGHTS" not in ids and "OBS_POSTPARTUM_MOOD" not in ids
+    assert "EPDS total" not in str(home)
+    log = client.post("/v1/logs", headers=h, json={"date": "2026-11-22", "flow": "none", "pain": 0}).json()
+    assert log["crisis"] and all(c["observation_id"] != "RF4_SELF_HARM_THOUGHTS" for c in log["red_flags"])
+
+
+def test_bad_input_and_unshared_records_get_clear_errors_not_500(client):
+    h = login(client, "noura")
+    bad = client.post("/v1/logs", headers=h, json={"date": "2026-11-20", "flow": "medium", "pbac_items": {"pads": {"huge": 3}}})
+    assert bad.status_code == 422
+    neg = client.post("/v1/logs", headers=h, json={"date": "2026-11-20", "flow": "medium", "pbac_items": {"pads": {"soaked": -2}}})
+    assert neg.status_code == 422
+    hc = login(client, role="clinician")
+    assert client.post("/v1/clinic/patients/amina/review", headers=hc).status_code == 404  # Amina has not shared
+    assert client.put("/v1/clinic/patients/amina/visit-note", headers=hc, json={"text": "x"}).status_code == 404
+
+
+def test_a_card_cites_its_own_evidence_first_and_counts_the_rest(client):
+    cards = {c["observation_id"]: c for c in client.get("/v1/insights", headers=login(client, "noura")).json()["cards"]}
+    andro = cards["OBS_IRREGULAR_PLUS_ANDROGEN"]
+    assert andro["why_total"] >= 16 and len(andro["why_we_noticed"]) <= 12
+    first = andro["why_we_noticed"][0]["text"].lower()
+    assert "acne" in first or "hair" in first, first  # the androgen card shows the skin and hair days first

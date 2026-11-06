@@ -45,7 +45,7 @@ export default async function PrivacyPage() {
 
       <Box>
         <h2 style={{ fontSize: 16 }}>{t("consentsTitle")}</h2>
-        <ConsentToggles consents={p.consents} />
+        <ConsentToggles consents={p.consents} homeClinic={p.home_clinic} />
       </Box>
 
       <Box>
@@ -60,7 +60,7 @@ export default async function PrivacyPage() {
               <li key={i} className="s" style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
                 <span>
                   {t("whoRow", {
-                    who: t.has(`roles.${a.actor_role}`) ? t(`roles.${a.actor_role}`) : a.actor_role,
+                    who: a.actor_id === "share-link" ? t("roles.share_link") : t.has(`roles.${a.actor_role}`) ? t(`roles.${a.actor_role}`) : a.actor_role,
                     action: t.has(`actions.${a.action}`) ? t(`actions.${a.action}`) : t("actions.other"),
                   })}
                 </span>

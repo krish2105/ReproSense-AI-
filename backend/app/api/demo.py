@@ -33,7 +33,7 @@ def personas():
             " (SELECT array_agg(rule_id ORDER BY rule_id) FROM observations o WHERE o.profile_id=p.id) AS rules,"
             " EXISTS (SELECT 1 FROM consents c WHERE c.profile_id=p.id AND c.purpose='care_share' AND c.granted"
             "   AND c.revoked_at IS NULL) AS shares_with_clinic"
-            " FROM profiles p WHERE p.role='patient'"
+            " FROM profiles p WHERE p.role='patient' AND p.id NOT LIKE 'guest-%%'"  # a joined record is hers alone
         )
         rows = {r["id"]: r for r in cur.fetchall()}
     return {
@@ -70,7 +70,12 @@ def login(body: LoginIn, response: Response):
     _demo_only()
     with session(SYSTEM) as cur:
         if body.role == "patient":
-            cur.execute("SELECT id, clinic_id FROM profiles WHERE id=%s AND role='patient'", (body.persona,))
+            # Only the fictional demo people open from the roster. A record she started on /join is reached through her
+            # own session, never by id, so nobody else can open it.
+            cur.execute(
+                "SELECT id, clinic_id FROM profiles WHERE id=%s AND role='patient' AND id NOT LIKE 'guest-%%'",
+                (body.persona,),
+            )
         else:
             cur.execute("SELECT id, clinic_id FROM profiles WHERE role=%s ORDER BY id LIMIT 1", (body.role,))
         row = cur.fetchone()

@@ -5,10 +5,10 @@ from __future__ import annotations
 import json
 import re
 from datetime import date
-from typing import Literal
+from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from app.agents import navigator
 from app.agents.pipeline import cards_for, persist, run
@@ -125,6 +125,7 @@ def home(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         drafts = cur.fetchall()
     ev = evaluate(b, ref(), get_settings().red_flag_window_days)
     cards, _trace, crisis = cards_for(b, lang)
+    flags, obs = views.display_cards(cards, crisis)
     last = b["daily_logs"][-1] if b["daily_logs"] else None
     today = next((lg for lg in b["daily_logs"] if lg["date"] == ref().isoformat()), None)
     return {
@@ -146,10 +147,12 @@ def home(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         "ref_date": ref().isoformat(),
         "status": views.cycle_status(b, ev, ref()),
         "day_pills": views.day_pills(b, ref()),
-        "red_flags": [c for c in cards if c["kind"] == "red_flag"],
+        "red_flags": flags,
         "crisis": crisis,
-        "observations": [c for c in cards if c["kind"] != "red_flag"][:3],
-        "recommendations": views.recommendations(cards, lang),
+        "observations": obs[:3],
+        "recommendations": views.recommendations(
+            obs, lang, crisis=crisis, has_flags=bool(flags), stage=b["profile"].get("life_stage")
+        ),
         "care_gaps": gaps,
         "navigator_drafts": drafts,
         "last_log": {**last, "label": views.entry_label(last, lang)} if last else None,
@@ -178,6 +181,18 @@ def get_analytics(months: int = 6, actor: Actor = Depends(patient)):
 
 
 # ---------- logging ----------
+_Count = Annotated[int, Field(ge=0, le=60)]
+
+
+class PbacItems(BaseModel):
+    """The bleeding chart (PBAC, Higham 1990): how many pads, tampons and clots of each kind. Anything else is a 422."""
+
+    model_config = ConfigDict(extra="forbid")
+    pads: dict[Literal["light", "moderate", "soaked"], _Count] = Field(default_factory=dict)
+    tampons: dict[Literal["light", "moderate", "soaked"], _Count] = Field(default_factory=dict)
+    clots: dict[Literal["small", "large"], _Count] = Field(default_factory=dict)
+
+
 class LogIn(BaseModel):
     date: date
     flow: Literal["none", "spotting", "light", "medium", "heavy"] = "none"
@@ -187,7 +202,7 @@ class LogIn(BaseModel):
     impact: Literal["none", "reduced activity", "missed work or study", "stayed in bed"] = "none"
     mood: str | None = Field(None, max_length=20)
     sleep_h: float | None = Field(None, ge=0, le=24)
-    pbac_items: dict | None = None
+    pbac_items: PbacItems | None = None
     note: str = Field("", max_length=1000)
 
     @field_validator("symptoms")
@@ -224,7 +239,8 @@ def pbac_score(items: dict | None) -> int:
 def create_log(body: LogIn, actor: Actor = Depends(patient)):
     if body.date > ref():
         raise HTTPException(422, "You can't log a future day.")
-    score = pbac_score(body.pbac_items)
+    items = body.pbac_items.model_dump() if body.pbac_items else None
+    score = pbac_score(items)
     with session(actor) as cur:
         cur.execute(
             "SELECT id FROM daily_logs WHERE profile_id=%s AND date=%s AND source='app'", (actor.user_id, body.date)
@@ -248,7 +264,7 @@ def create_log(body: LogIn, actor: Actor = Depends(patient)):
                 body.mood,
                 body.sleep_h,
                 score,
-                json.dumps(body.pbac_items) if body.pbac_items else None,
+                json.dumps(items) if items else None,
                 encrypt(body.note),
             ),
         )
@@ -257,11 +273,12 @@ def create_log(body: LogIn, actor: Actor = Depends(patient)):
         audit.record(cur, actor, "create_log", actor.user_id, lid)
     out = _refresh(actor)
     ev = out["evaluation"]
+    crisis = bool(out.get("crisis"))
     return {
         "id": lid,
         "pbac": score,
-        "red_flags": [c for c in out["cards"] if c["kind"] == "red_flag"],
-        "crisis": bool(out.get("crisis")),
+        "red_flags": views.display_cards(out["cards"], crisis)[0],
+        "crisis": crisis,
         "patterns": [h.rule_id for h in ev.observations],
     }
 
@@ -424,9 +441,9 @@ def epds(body: EPDSIn, actor: Actor = Depends(patient)):
     return {
         "crisis": crisis,
         "total": None if crisis else total,
-        "cards": [c for c in out["cards"] if c["kind"] == "red_flag"]
+        "cards": views.display_cards(out["cards"], crisis)[0]
         if crisis
-        else [c for c in out["cards"] if c["observation_id"] == "OBS_POSTPARTUM_MOOD"],
+        else [c for c in out["cards"] if c["observation_id"] == views.MOOD_RULE],
     }
 
 
@@ -520,6 +537,10 @@ def privacy(actor: Actor = Depends(patient)):
         )
         consents = cur.fetchall()
         cur.execute(
+            "SELECT c.id, c.name FROM profiles p JOIN clinics c ON c.id = p.clinic_id WHERE p.id=%s", (actor.user_id,)
+        )
+        home_clinic = cur.fetchone()  # the clinic a share would go to, named before she allows it
+        cur.execute(
             "SELECT actor_role, actor_id, action, target, at FROM audit_log WHERE subject_id=%s ORDER BY id DESC LIMIT 50",
             (actor.user_id,),
         )
@@ -530,6 +551,7 @@ def privacy(actor: Actor = Depends(patient)):
             counts[t] = cur.fetchone()["n"]
     return {
         "consents": consents,
+        "home_clinic": home_clinic,
         "audit": log,
         "stored": counts,
         "promises": [
@@ -554,11 +576,18 @@ def set_consent(body: ConsentIn, actor: Actor = Depends(patient)):
             (actor.user_id, body.purpose),
         )
         row = cur.fetchone()
-        clinic = "clinic_corniche" if body.purpose == "care_share" else None
+        clinic = None
+        if body.purpose == "care_share":  # share only with her own clinic, never a default one
+            cur.execute("SELECT clinic_id FROM profiles WHERE id=%s", (actor.user_id,))
+            clinic = (cur.fetchone() or {}).get("clinic_id")
+            if body.granted and not clinic:
+                raise HTTPException(
+                    422, "Your record is not linked to a clinic yet. Join from your clinic's invite to share with it."
+                )
         if row:
             cur.execute(
                 "UPDATE consents SET granted=%s, revoked_at=CASE WHEN %s THEN NULL ELSE now() END,"
-                " granted_at=CASE WHEN %s THEN now() ELSE granted_at END, clinic_id=coalesce(clinic_id, %s) WHERE id=%s",
+                " granted_at=CASE WHEN %s THEN now() ELSE granted_at END, clinic_id=coalesce(%s, clinic_id) WHERE id=%s",
                 (body.granted, body.granted, body.granted, clinic, row["id"]),
             )
         else:

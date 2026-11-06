@@ -163,7 +163,7 @@
     "noteFailed": "The visit note wasn't saved: {detail}",
     "back": "All patients",
     "noShareTitle": "No shared record",
-    "noShareBody": "She hasn't shared her record with this clinic. It appears here only after she shares a report.",
+    "noShareBody": "She hasn't shared her record with this clinic. It appears here only after she shares her record.",
     "careGapsTitle": "Follow-ups due across the clinic",
     "careGapsNone": "No open follow-ups.",
     "inviteTitle": "Invite patients",
@@ -172,7 +172,8 @@
     "inviteCopied": "Invite link copied.",
     "inviteOpen": "Open the invite page",
     "inviteQrLabel": "QR code of the patient invite link",
-    "gapPc008": "Counts toward DoH Jawda indicator PC008 (after-birth follow-up)."
+    "gapPc008": "Counts toward DoH Jawda indicator PC008 (after-birth follow-up).",
+    "moreEntries": "and {n} more in her record"
   },
   "admin": {
     "metaTitle": "Clinic network",
@@ -315,8 +316,8 @@
     "patternsTitle": "Patterns",
     "seeAll": "See all patterns",
     "fromEntries": "{count, plural, one {From # of your entries} other {From # of your entries}}",
-    "noneTitle": "Your record looks steady",
-    "noneBody": "Cycles within 21–35 days and mild pain. We check again every time you log.",
+    "noneTitle": "No patterns to discuss yet",
+    "noneBody": "Nothing in your entries matches a pattern doctors look at. We check again every time you log.",
     "record": "{count} entries · record strength: {strength}",
     "strength": {
       "strong": "strong",
@@ -360,7 +361,9 @@
     "summaryAfter": "Week {week} after birth. The glucose test window is weeks {from} to {to}.",
     "noCycleTitle": "Your cycle day appears here",
     "noCycleBody": "Log the day your period starts and ReproSense estimates where you are in your cycle. Everything stays in your record.",
-    "noCycleAction": "Log your period"
+    "noCycleAction": "Log your period",
+    "notContraception": "Phase estimates are not contraception.",
+    "estimateNoteNew": "Fewer than two full cycles are logged, so phases are rough estimates."
   },
   "safety": {
     "pregTitle": "Call 998 or go to your maternity unit now if you notice",
@@ -637,7 +640,7 @@
     "disclaimer": "Information, not a diagnosis. In an emergency call 998.",
     "empty": "Pick a suggested question or type your own.",
     "offTitle": "The assistant is off",
-    "offBody": "You turned off AI features in Privacy, so nothing you type here is sent to a language model. Your patterns, timeline and report work as before.",
+    "offBody": "AI features are off in Privacy, so nothing you type here is sent to a language model. Your patterns, timeline and report work as before.",
     "offAction": "Change this in Privacy"
   },
   "report": {
@@ -673,8 +676,8 @@
     "visit": "Visit mode",
     "actions": "Report actions",
     "shareTitle": "Share with your clinic",
-    "shareBody": "Your clinic will see this report and the patterns in it for 7 days. You can stop sharing at any time, and every view is logged.",
-    "consent": "I agree to share this report with my clinic for 7 days",
+    "shareBody": "Anyone you give this link to can open this report for 7 days, so give it only to your doctor or clinic. You can stop sharing at any time, and every opening is logged.",
+    "consent": "I agree to share this report through a link that works for 7 days",
     "confirm": "Share for 7 days",
     "shared": "Shared until {date}. Copy the link or show the QR code in visit mode.",
     "copyLink": "Copy link",
@@ -702,7 +705,7 @@
     "aPain": "{severe, plural, =0 {No days with pain 7 or more.} one {Pain 7 or more on # day.} other {Pain 7 or more on # days.}}",
     "rNone": "Routine care.",
     "qrLabel": "QR code that opens the shared report",
-    "qrCaption": "Your doctor scans this to open the shared report. One clinic, expires {date}, every view logged.",
+    "qrCaption": "Your doctor scans this to open the shared report. It expires {date}, and every opening is logged.",
     "needShare": "To show a QR code, share this report with your clinic for 7 days first.",
     "exit": "Exit visit mode",
     "visitNote": "Patterns, not a diagnosis · fictional demo data",
@@ -722,7 +725,7 @@
   "clinics": {
     "clinic_corniche": "Seaside Women's Clinic (fictional)",
     "clinic_north": "North Island Women's Clinic (fictional)",
-    "clinic_alain": "Oasis Women's Clinic, Al Ain (fictional)",
+    "clinic_alain": "Garden City Women's Clinic, Al Ain (fictional)",
     "clinic_dhafra": "Western Region Women's Clinic (fictional)"
   },
   "checkin": {
@@ -808,7 +811,8 @@
       "patient": "You",
       "clinician": "A clinician",
       "admin": "The network admin",
-      "system": "The app"
+      "system": "The app",
+      "share_link": "Someone with your share link"
     },
     "actions": {
       "view_record": "opened your record",
@@ -872,7 +876,8 @@
     "cancel": "Keep my entries",
     "deleted": "Your entries were deleted.",
     "deleteFailed": "Nothing was deleted: {detail}",
-    "aiHint": "Off: the assistant closes and your cards use fixed wording. Your patterns and report stay the same, because rules find them."
+    "aiHint": "Off: the assistant closes and your cards use fixed wording. Your patterns and report stay the same, because rules find them.",
+    "noClinic": "Not linked to a clinic yet. Join from your clinic's invite to share with it."
   },
   "more": {
     "title": "Your record",
@@ -930,7 +935,7 @@
     "evidenceTitle": "The history exists. It arrives at the appointment in pieces.",
     "ev1": "Up to 70% of women with PCOS are not aware of it, the World Health Organization estimates. In the UAE Healthy Future Study, 25.9% of 1,040 Emirati women aged 25 to 67 reported PCOS; in one Dubai hospital's records, it was coded for 1.6% of women aged 15 to 45. The two studies count different groups in different ways.",
     "ev2": "Endometriosis takes years to name. Across 23 studies worldwide, the average delay from first symptoms was 6.8 years. In a UAE study of 518 women with confirmed endometriosis, it was 11.6 years.",
-    "ev3": "About 1 in 5 pregnancies in Al Ain's Mutaba'ah study had gestational diabetes (21.3%). After the birth, the glucose test that catches type 2 diabetes early is easy to miss: at one Al Ain hospital, only 265 of 1,043 women who had gestational diabetes (25.4%) came back for it.",
+    "ev3": "About 1 in 5 pregnancies in Al Ain's Mutaba'ah study had gestational diabetes (21.3%). After the birth, the glucose test that catches type 2 diabetes early is easy to miss: at one Al Ain hospital (2013–14 data), only 265 of 1,043 women who had gestational diabetes (25.4%) came back for it.",
     "ev4": "Abu Dhabi is already moving: in September 2026 the Department of Health launched its Programme for the Future of Reproductive Health, built on prevention and early screening, with a goal of raising IVF success from 59% to 80% by 2030.",
     "sources": "Sources",
     "traceTitle": "Follow one observation from her phone to the clinic.",
@@ -993,11 +998,20 @@
     "rubric": "Venture 30 · Health impact 20 · Innovation and evidence 20 · Working prototype 20 · Team and pitch 10",
     "unavailable": "The quality numbers didn't load. Start the API with make api, then reload.",
     "supportTitle": "Support and service levels",
-    "supportIntro": "The terms we offer pilot clinics. This demo runs on free hosting and has no service level.",
+    "supportIntro": "The terms we offer pilot clinics. This demo is not a hosted service yet and has no service level.",
     "support1": "A named contact for each pilot clinic, Monday to Friday, 9:00 to 18:00 Gulf time, with a first reply within one working day.",
     "support2": "A suspected data breach is reported to the clinic and to the Department of Health within 24 hours, as the DoH privacy standard requires.",
     "support3": "Target availability of 99.5% a month on UAE hosting, checked every minute against the public health check.",
-    "support4": "Every change passes the automated tests on this page before it reaches a clinic."
+    "support4": "Every change passes the automated tests on this page before it reaches a clinic.",
+    "heldoutTitle": "Held-out safety test",
+    "heldoutIntro": "Questions written by reviewers who never saw the code, in English and in Gulf, Egyptian, Levantine and standard Arabic. They check where each message is routed, not medical accuracy.",
+    "heldout": {
+      "crisis": "Crisis messages given the support path: {pass} of {of}",
+      "urgent": "Emergencies given 998 first: {pass} of {of}",
+      "refuse": "Requests for a diagnosis or a probability refused: {pass} of {of}",
+      "medicine": "Medicine and dose questions sent to a doctor or pharmacist: {pass} of {of}",
+      "answer": "Everyday questions answered normally (no false alarm): {pass} of {of}"
+    }
   },
   "join": {
     "metaTitle": "Start your own record",
@@ -1027,7 +1041,7 @@
     "gdmNo": "No",
     "gdmUnsure": "Not sure",
     "gdmHint": "If yes, ReproSense checks whether your follow-up glucose test is recorded and reminds you when it is due.",
-    "share": "Share my report with {clinic}. I can stop sharing at any time.",
+    "share": "Share my record with {clinic} until I stop it. I can stop at any time in Privacy.",
     "create": "Create my record",
     "creating": "Creating your record",
     "failed": "Your record wasn't created: {detail}",
@@ -1066,19 +1080,19 @@
         "sub": "up to 5 clinicians",
         "b1": "Everything in a clinician seat, for up to five clinicians",
         "b2": "The clinic's own patient invite",
-        "b3": "A monthly report of follow-ups closed"
+        "b3": "Planned: a monthly report of follow-ups closed"
       },
       "network": {
         "name": "Clinic network",
         "price": "From AED 150,000",
         "sub": "a year",
         "b1": "The network dashboard across clinics, with the fairness check",
-        "b2": "FHIR R4 export, ready for Malaffi",
+        "b2": "FHIR R4 export into the clinic's own record system",
         "b3": "Planned: single sign-on for staff"
       }
     },
     "pilotTitle": "Start with a paid pilot",
-    "pilotBody": "Three months for AED 5,000–10,000, credited to the first year: up to 3 clinicians and 20 consenting patients, with setup, training and a weekly follow-up report.",
+    "pilotBody": "Three months for AED 5,000–10,000, credited to the first year: up to 3 clinicians and 20 consenting patients, with setup, training and a weekly review of follow-ups with our team.",
     "payerTitle": "Payers and employers",
     "payerBody": "Priced after the pilot, per enrolled woman or per follow-up closed, starting with the glucose test after gestational diabetes.",
     "whyTitle": "Why these numbers",
@@ -1200,7 +1214,8 @@
       "n2": "It is checked against a fixed test set, not clinically validated. We quote no accuracy figure.",
       "n3": "Whether it is a medical device is for the regulator to decide. We will ask the Emirates Drug Establishment before any pilot.",
       "n4": "Every record in this demo is fictional.",
-      "n5": "UAE hosting, the ADHICS assessment and a clinician's sign-off on the rules are next steps, not done."
+      "n5": "UAE hosting, the ADHICS assessment and a clinician's sign-off on the rules are next steps, not done.",
+      "n6": "We never describe it as early detection, screening for PCOS, a risk score, fertile or safe days, or an AI doctor."
     },
     "dataTitle": "Her data, her choices",
     "data1": "She decides who sees her record: sharing with a clinic is a separate choice she can stop at any time, and the clinic loses access at once.",
@@ -1209,6 +1224,9 @@
     "sourcesTitle": "Source",
     "sourceDoh": "Department of Health Abu Dhabi, Responsible AI Standard, version 1 (October 2025)",
     "seeScorecard": "See the test results",
-    "seePrivacy": "Try the privacy centre as Noura"
+    "seePrivacy": "Try the privacy centre as Noura",
+    "intendedTitle": "What ReproSense is for",
+    "intendedBody": "ReproSense is a personal health record and consultation-preparation tool. A woman records her own cycles, symptoms, questionnaires and lab results. ReproSense organises them, shows where her entries meet published guideline thresholds that are worth discussing, and creates a summary she can choose to share with her clinic. It does not diagnose, treat, predict or prevent disease, does not give contraceptive advice, and does not replace a clinician's judgement. Clinicians see the entries and the guideline behind every item.",
+    "data4": "In this demo, deleting removes your entries at once. UAE law asks health records to be kept for 25 years, so before any real data we will agree with the Department of Health how deletion and that rule work together."
   }
 }

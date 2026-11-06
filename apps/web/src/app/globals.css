@@ -580,6 +580,8 @@ a.prow{text-decoration:none;color:inherit}
 .trust-list>li{padding:18px;display:flex;flex-direction:column;gap:6px;min-width:0}
 .trust-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0}
 @media (max-width:760px){.trust-list{grid-template-columns:1fr}}
+/* The evidence list says how many more entries back a pattern instead of cutting it silently */
+.ev-more{background:transparent;border:1px dashed var(--rule-2);color:var(--ink-2)}
 /* Footer links to the public pages (trust, pricing); each a 24 px target */
 .foot-links{display:flex;gap:18px;flex-wrap:wrap;margin-top:6px}
 .foot-links a{display:inline-flex;align-items:center;min-height:24px;color:var(--ink-2)}

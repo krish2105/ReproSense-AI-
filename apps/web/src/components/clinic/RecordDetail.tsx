@@ -119,7 +119,7 @@ export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Loc
               <Tag tone={c.urgency}>{t(`tags.${c.urgency}`)}</Tag>
             </span>
             <h3 style={{ fontSize: 16 }} lang="en" dir="auto">
-              {c.title}
+              {c.clinician_title ?? c.title}
             </h3>
             <p className="s dim" lang="en" dir="auto">
               {c.explains || c.summary}
@@ -131,6 +131,9 @@ export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Loc
                     {e.text}
                   </li>
                 ))}
+                {(c.why_total ?? c.why_we_noticed.length) > 8 && (
+                  <li className="ev ev-more">{t("clinic.moreEntries", { n: (c.why_total ?? c.why_we_noticed.length) - 8 })}</li>
+                )}
               </ul>
             )}
             <div className="kv" style={{ flexWrap: "wrap" }}>

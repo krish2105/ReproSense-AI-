@@ -27,7 +27,7 @@ test("a patient invited by the clinic's QR starts a record, shares it, and the c
 
   await page.getByLabel(en.join.weeksSinceBirth).fill("6");
   await page.getByRole("group", { name: en.join.gdm }).getByRole("radio", { name: en.join.gdmYes, exact: true }).check();
-  const share = page.getByRole("checkbox", { name: /Share my report with/ });
+  const share = page.getByRole("checkbox", { name: /Share my record with/ });
   await expect(share).not.toBeChecked(); // sharing is her choice, never the default
   await share.check();
   await expectNoSideScroll(page, "join step 3");
@@ -57,7 +57,7 @@ test("a new record without a clinic starts from her last period, and nothing is 
   await page.getByRole("group", { name: en.join.stage }).getByRole("radio", { name: en.stages.periods, exact: true }).check();
   await page.getByRole("button", { name: en.join.continue }).click();
   await page.getByLabel(en.join.lastPeriod).fill("2026-11-10");
-  await expect(page.getByRole("checkbox", { name: /Share my report/ })).toHaveCount(0); // no clinic, no sharing question
+  await expect(page.getByRole("checkbox", { name: /Share my record with/ })).toHaveCount(0); // no clinic, no sharing question
   await expect(page.getByRole("checkbox", { name: en.join.useAi })).not.toBeChecked(); // AI stays off unless she ticks it
   await page.getByRole("button", { name: en.join.create }).click();
   await expect(page).toHaveURL(/\/app$/);

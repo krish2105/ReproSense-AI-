@@ -21,6 +21,7 @@ interface Quality {
     banned_phrases: number;
     answer_language_match_pct: number;
     failures: { id: string }[];
+    heldout?: Partial<Record<"crisis" | "urgent" | "refuse" | "medicine" | "answer", { pass: number; of: number }>> & { misses?: { id: string }[] };
   } | null;
 }
 
@@ -115,6 +116,21 @@ export default async function StatusPage() {
             <p className="s dim" style={{ marginTop: 12 }}>
               {t("misses", { ids: e.failures.map((f) => f.id).join(", ") })}
             </p>
+          )}
+          {e.heldout && (
+            <div style={{ marginTop: 16 }}>
+              <h3 style={{ fontSize: 15 }}>{t("heldoutTitle")}</h3>
+              <p className="s dim" style={{ marginTop: 4 }}>
+                {t("heldoutIntro")}
+              </p>
+              <ul className="tier-list" style={{ marginTop: 8 }}>
+                {(["crisis", "urgent", "refuse", "medicine", "answer"] as const).map((k) =>
+                  e.heldout?.[k] ? (
+                    <li key={k}>{t(`heldout.${k}`, { pass: e.heldout[k]!.pass, of: e.heldout[k]!.of })}</li>
+                  ) : null,
+                )}
+              </ul>
+            </div>
           )}
         </section>
       )}
