@@ -8,6 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 from app.agents import copilot
+from app.agents import copy as cp
 from app.agents.pipeline import cards_for
 from app.config import get_settings
 from app.db import Actor, session
@@ -71,7 +72,12 @@ def patient_view(pid: str, actor: Actor = Depends(clinician)):
             for k in ("id", "alias", "age", "region", "life_stage", "pregnancy_weeks", "language", "ttc_months")
         },
         "sbar": copilot.sbar(b, ev, ref),
-        "cards": sorted(cards, key=lambda c: (c["kind"] != "red_flag", URG.get(c["urgency"], 9))),
+        "cards": sorted(
+            [  # the clinician reads the pattern names in clinician voice; her own wording stays in her app
+                {**c, "clinician_title": cp.clinician_title(c["observation_id"], c["title"])} for c in cards
+            ],
+            key=lambda c: (c["kind"] != "red_flag", URG.get(c["urgency"], 9)),
+        ),
         "crisis": crisis,
         "trace": trace,
         "labs": b["labs"],
@@ -99,9 +105,17 @@ def ask_record(pid: str, body: AskIn, actor: Actor = Depends(clinician)):
     return copilot.ask_record(b, body.question)
 
 
+def _require_shared(cur, pid: str) -> None:
+    """A clinician acts only on a record shared with her clinic: a clear 404 instead of a database refusal (HTTP 500)."""
+    cur.execute("SELECT clinician_can_see(%s) AS ok", (pid,))
+    if not cur.fetchone()["ok"]:
+        raise HTTPException(404, "No shared record for this patient (no active consent).")
+
+
 @router.post("/patients/{pid}/review")
 def mark_reviewed(pid: str, actor: Actor = Depends(clinician)):
     with session(actor) as cur:
+        _require_shared(cur, pid)
         cur.execute(
             "INSERT INTO clinic_reviews (profile_id, clinician_id, reviewed_at) VALUES (%s,%s,now())"
             " ON CONFLICT (profile_id) DO UPDATE SET reviewed_at=now(), clinician_id=EXCLUDED.clinician_id RETURNING reviewed_at",
@@ -120,6 +134,7 @@ class NoteIn(BaseModel):
 @router.put("/patients/{pid}/visit-note")
 def save_note(pid: str, body: NoteIn, actor: Actor = Depends(clinician)):
     with session(actor) as cur:
+        _require_shared(cur, pid)
         cur.execute(
             "INSERT INTO clinic_reviews (profile_id, clinician_id, visit_note) VALUES (%s,%s,%s)"
             " ON CONFLICT (profile_id) DO UPDATE SET visit_note=EXCLUDED.visit_note, updated_at=now()",

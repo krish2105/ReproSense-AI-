@@ -35,7 +35,15 @@ def build_payload(bundle: dict, ev: Evaluation, cards: list[dict], ref: date) ->
             "cycle_change": f.get("cycle_change_point"),
         },
         "red_flags": [c for c in cards if c["kind"] == "red_flag"],
-        "patterns": [c for c in cards if c["kind"] != "red_flag"],
+        "patterns": [
+            {  # the doctor reads the same facts in clinician voice (QUESTIONS #41); her preview keeps her wording
+                **c,
+                "doctor_title": cp.clinician_title(c["observation_id"], c["title"]),
+                "doctor_summary": cp.clinician_detail(c["observation_id"], f) or c["summary"],
+            }
+            for c in cards
+            if c["kind"] != "red_flag"
+        ],
         "labs": bundle["labs"],
         "questions": list(dict.fromkeys(q for c in cards for q in c.get("questions_for_doctor", [])))[:5],
         "sources": list(dict.fromkeys(s["source_id"] for c in cards for s in c.get("sources", []))),
@@ -87,15 +95,23 @@ def render_html(pl: dict) -> str:
     for c in pl["patterns"]:
         srcs = ", ".join(escape(s["title"]) for s in c["sources"])
         pats += (
-            f"<div class='card'><h3>{escape(c['title'])}</h3><p>{escape(c['summary'])}</p>"
+            f"<div class='card'><h3>{escape(c.get('doctor_title') or c['title'])}</h3>"
+            f"<p>{escape(c.get('doctor_summary') or c['summary'])}</p>"
             f"<p class='muted'>Rule: {escape(c['observation_id'])} · Source: {srcs}</p></div>"
         )
     if not pats:
         pats = "<p>No rule-based patterns in this record. Logging continues.</p>"
-    ev_rows = ""
+    ev_rows, shown = "", set()
     for c in pl["patterns"] + pl["red_flags"]:
-        for e in c.get("why_we_noticed", [])[:6]:
+        rows = [e for e in c.get("why_we_noticed", []) if e.get("entry_id") not in shown]
+        for e in rows[:8]:
+            shown.add(e.get("entry_id"))
             ev_rows += f"<tr><td>{escape(c['observation_id'])}</td><td>{escape(e['text'])}</td></tr>"
+        more = max(0, c.get("why_total", len(c.get("why_we_noticed", []))) - min(8, len(rows)))
+        if more:  # never cut the list silently
+            ev_rows += (
+                f"<tr><td>{escape(c['observation_id'])}</td><td class='muted'>and {more} more in her record</td></tr>"
+            )
     labs = (
         "".join(
             f"<tr><td>{escape(str(lab['date']))}</td><td>{escape(lab['test'])}</td><td>{escape(str(lab['value']))} {escape(lab['unit'] or '')}</td>"
@@ -131,7 +147,7 @@ table {{ width: 100%; border-collapse: collapse; font-size: 8.6pt; }} td, th {{ 
 {("<h2>Urgent</h2>" + rf) if rf else ""}
 <h2>Patterns worth discussing</h2>{pats}
 <h2>Cycle lengths</h2>{cycle_chart_svg(pl["cycles"])}
-<p class='muted'>Shaded band: 21–35 days. Magenta bars are outside it. {escape(change_txt)} Severe pain days (7/10 or more): {st["severe_pain_days"]}. Bleeding scores (PBAC) for the last 6 periods: {escape(", ".join(map(str, st["pbac_by_cycle"] or [])) or "not logged")}.</p>
+<p class='muted'>Shaded band: 21–35 days. Magenta bars are outside it. {escape(change_txt)} Severe pain days (7/10 or more): {st["severe_pain_days"]}. Bleeding scores (PBAC) for the last 6 periods: {escape(", ".join(str(v) if v else "not recorded" for v in (st["pbac_by_cycle"] or [])) or "not logged")}.</p>
 <div class='pb'></div>
 <h2>Entries behind each pattern</h2><table><tr><th>Rule</th><th>Entry</th></tr>{ev_rows or "<tr><td colspan=2>None</td></tr>"}</table>
 <h2>Lab results (as entered or confirmed by her)</h2><table><tr><th>Date</th><th>Test</th><th>Result</th><th>Reference</th><th>Flag</th></tr>{labs}</table>

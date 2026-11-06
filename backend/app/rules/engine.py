@@ -201,7 +201,9 @@ def evaluate(bundle: dict, ref: date, window_days: int = 14, rules: RuleSet | No
             continue
         hits_so_far.add(r.id)
         ids: list[str] = []
-        for n in sorted(expr.names(r.node)):
+        # Its own clause first (e.g. the androgen-symptom days for the androgen card), then the entries of a pattern it
+        # builds on (the irregular cycle starts), so the first entries a doctor sees are the ones the card is about.
+        for n in sorted(expr.names(r.node), key=lambda name: (name in evidence_by_rule, name)):
             ids += evidence_by_rule.get(n, []) if n in evidence_by_rule else fs.evidence.get(n, [])
         ids = list(dict.fromkeys(ids))
         evidence_by_rule[r.id] = ids

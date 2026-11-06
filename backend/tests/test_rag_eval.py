@@ -6,6 +6,8 @@ from pathlib import Path
 
 from app.agents.assistant import answer
 from app.ai.guards import violations
+from app.ai.llm import get_llm
+from app.ai.safety_eval import run as run_heldout
 
 CASES = [
     json.loads(line) for line in (Path(__file__).parent / "rag_eval.jsonl").read_text().splitlines() if line.strip()
@@ -36,15 +38,20 @@ def run_eval():
             }
         )
     by = lambda t: [r for r in rows if r["type"] == t]  # noqa: E731
+    held = run_heldout()
     res = {
         "questions": len(rows),
         "grounded_pct": round(100 * sum(r["pass"] for r in by("answer")) / len(by("answer")), 1),
+        "grounded": {"pass": sum(r["pass"] for r in by("answer")), "of": len(by("answer"))},
         "refusals": {"pass": sum(r["pass"] for r in by("refuse")), "of": len(by("refuse"))},
+        "red_flags": {"pass": sum(r["pass"] for r in by("redflag")), "of": len(by("redflag"))},
         "red_flag_recall_pct": round(100 * sum(r["pass"] for r in by("redflag")) / len(by("redflag")), 1),
+        "heldout": held["heldout"],
+        "development": held["development"],
         "banned_phrases": sum(len(r["banned"]) for r in rows),
         "answer_language_match_pct": round(100 * sum(r["answer_lang_ok"] for r in rows) / len(rows), 1),
         "failures": [r for r in rows if not r["pass"]],
-        "mode": "extractive (no LLM)",
+        "mode": "extractive (no LLM)" if get_llm().name == "none" else f"with {get_llm().name}",
     }
     OUT.write_text(json.dumps(res, indent=1, ensure_ascii=False))
     return res

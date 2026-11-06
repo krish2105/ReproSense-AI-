@@ -102,6 +102,8 @@ export interface Card {
   summary: string;
   explains: string;
   why_we_noticed: Evidence[];
+  why_total?: number; // how many entries back the card (why_we_noticed holds the first 12)
+  clinician_title?: string; // the clinician view's name for the pattern
   values: Record<string, number | boolean | string | null>;
   what_to_consider: string[];
   questions_for_doctor: string[];
@@ -120,6 +122,7 @@ export interface CycleStatus {
   day: number | null; // null until her first period is logged (a new record)
   length: number | null;
   estimate: boolean;
+  estimate_reason?: "little_data" | "irregular" | null; // why phases are estimates (no fertile window then)
   phase: PhaseKey;
   phases: { key: PhaseKey; from: number; to: number }[];
   next_period_from: string | null;
@@ -557,6 +560,7 @@ export interface DocumentRow {
 /** GET /v1/privacy */
 export interface PrivacyResponse {
   consents: { purpose: "care_share" | "assistant" | "research"; granted: boolean; granted_at: string | null; revoked_at: string | null; clinic_id: string | null; clinic_name: string | null }[];
+  home_clinic: { id: string; name: string } | null; // where a share would go, named before she allows it
   audit: { actor_role: string; actor_id: string | null; action: string; target: string | null; at: string }[];
   stored: Record<string, number>;
   promises: string[];

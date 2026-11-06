@@ -17,6 +17,81 @@ Blockers / questions:
 
 ---
 
+## 2026-11-06 (night) — Judge panel, research-driven fixes, deck — Krishna with Claude Code
+**Independent judge panel (6 agents, read-only, live API + web + code):**
+- Panel: senior judge (DoH + OB-GYN + VC + founder), chief healthcare officer, women's care lead, CEO/VC, MVP auditor, and a chief judge who merged them.
+- Scored on main through PR #20, before tonight's fixes.
+
+| Scorecard | Chief judge's call | Range / note |
+| --- | --- | --- |
+| Jury rubric (docs/09 A) | **61.5/100**: Venture 16.5/30 · Impact 15/20 · Innovation 13/20 · Prototype 12/20 · Pitch 5/10 | 53.5–65.5, depending on how disclosed pre-selection code is scored (QUESTIONS #44) |
+| Real MVP (docs/09 B) | **66/100** | |
+| Real SaaS (docs/09 C) | **61/100** | |
+| Clinical safety | **20/35** | |
+| Women's experience | **23/35** | |
+| Trust pack | **5/7** | Assistant failed held-out phrasings; demo-safe mode only checked by inspection |
+
+- **Winning odds today:** grant-eligible about 50%, top 3 about 20%, first place about 7%.
+  - With the code fixes plus deploy and a team slide: about 68.
+  - With a clinical advisor, interviews, an LOI and rehearsals as well: about 78–83 (first place about 25–30%).
+
+**Fixed tonight (only defects in disclosed work: safety, privacy, truth, data loss; QUESTIONS #51):**
+- **Assistant safety routing** (`app/agents/safety.py`, QUESTIONS #50).
+  - Every round of questions was written by reviewers who never saw the code. Each round was measured as written, then used to improve the checks.
+
+    | Round (before it was used) | Crisis | Emergencies | Diagnosis | Medicine | Everyday answered normally |
+    | --- | --- | --- | --- | --- | --- |
+    | 1 | 9/36 | 4/44 | 2/16 | 1/12 | 25/26 |
+    | 2 | 9/30 | 28/32 | 6/10 | 5/10 | 35/40 |
+    | 3 | 12/30 | 18/32 | 7/10 | 5/10 | 35/40 |
+    | 4, held-out before the review fixes (measured once, never used for tuning) | 12/30 | 18/32 | 7/10 | 3/10 | 46/50 |
+    | **5, held-out after the review fixes (new writers, measured once, word checks only)** | **11/30** | **24/32** | **6/10** | **4/10** | **42/50** |
+
+  - Each new community or dialect brings phrasings the checks have never seen. That is why the assistant now always shows a 998 strip above the question box: detection can miss things.
+  - Round 4 (132 questions, written after the last change) adds voice-typed and very short messages, and husbands, sisters,
+    mothers and friends writing about her. Round 5 (132 questions by new writers, written after the review fixes) is now the held-out number on /status and deck slide 6.
+  - Word checks do not generalise: crisis stayed at 12/30 from round 3 to round 4, and was 11/30 on round 5. So the assistant now has a **second
+    check by the language model** (`safety.model_check`). It runs only with a model key and her AI switch on, reads
+    redacted text, can add the crisis or urgent route but never remove one, and any error leaves the word checks in
+    charge. 11 unit tests with a fake model. Its held-out score is not measured yet: `make safety-eval` with a key
+    (synthetic questions only) writes it next to the word-checks number, never in its place.
+  - Routing is concept-based, in EN and Gulf, Egyptian, Levantine, Iraqi, Sudanese and Yemeni Arabic. It includes a medicine and dose guard.
+  - A near-miss probe (alarming words used innocently) finds 0 false alarms.
+- **Crisis path** (rule 5): no RF4 alarm card, no EPDS total and no mood pattern card; recommendations are hidden. Covered by backend and e2e tests in EN and AR.
+- **Privacy:**
+  - Joined records no longer appear on the public roster or open by id.
+  - Clinic sharing goes only to her own clinic, named before she allows it (no more default Seaside).
+  - The stage switch is hidden on joined records.
+- **Data loss:** periods entered for earlier dates now become cycles.
+- **Errors:** two HTTP 500s now return 422 or 404.
+- **Evidence and voice:**
+  - A card cites its own clause first, for example the androgen days.
+  - "And N more" replaces silent caps.
+  - The doctor PDF and the clinician view are in clinician voice, with an NG88-consistent iron line.
+  - PBAC shows "not recorded" instead of 0.
+- **Truth:**
+  - Malaffi overclaim removed.
+  - Data years added to the Al Ain figure.
+  - Share copy says "anyone with this link".
+  - "AI features are off" no longer blames her.
+  - Home empty state and stage-aware next steps.
+  - No fertile window or next-period date from irregular or too few cycles, plus a "not contraception" line.
+  - /trust gains the intended-use statement, banned claims and the 25-year retention note.
+  - The fictional "Oasis" clinic is renamed, because Oasis Hospital is the real study site.
+- **Deck:**
+  - Placeholders are hidden until filled with true facts.
+  - Slide 9 follows the regulatory gate plan.
+  - Slide 6 shows counts plus the held-out rows.
+  - The demo badge appears only on synthetic slides.
+- **Parked for build week:** clinician invites (`build-week/clinician-invites`).
+
+**Needs Krishna or a clinician:**
+- #44: prior-work ruling and the tag.
+- #45: second competition (closes 10 Nov).
+- #48: cycles_per_year false positive.
+- #49: rules YAML R1–R10.
+- Interviews, LOI, clinical advisor, Arabic review, deploy.
+
 ## 2026-11-06 — Demo readiness and scorecard (docs/09) — Krishna with Claude Code
 Scored inline and strictly, on what runs today, not on what is planned. The senior-judge agent was not run, because agents are paused at Krishna's request; run it for an independent read.
 

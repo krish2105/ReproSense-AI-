@@ -22,7 +22,10 @@ api:            ## run the API on :8010 (8000 is used by another local project)
 test:           ## backend lint + tests (uses the reprosense_test database)
 	cd backend && $(LIBS) uv run ruff check app tests && $(LIBS) uv run pytest -q
 
+safety-eval:    ## held-out safety routing; with a model key it also measures the model's second check
+	cd backend && $(LIBS) uv run python -m app.ai.safety_eval
+
 mockup:         ## rebuild the HTML mockup from the synthetic data
 	python3 mockup/build_mockup.py
 
-.PHONY: env db data seed api test mockup
+.PHONY: env db data seed api test safety-eval mockup

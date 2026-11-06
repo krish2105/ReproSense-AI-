@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
 // DoH Responsible AI Standard V1 (research/2026-11-06/01 §5.1, read in full). Status is honest: "planned" means not built.
 const DOH_RAI_URL = "https://www.doh.gov.ae/-/media/Feature/Resources/Standards/2025/Responsible-AI-Standard-V1.ashx";
 const ROWS = ["r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10", "r11", "r12", "r13"] as const;
-const NOT = ["n1", "n2", "n3", "n4", "n5"] as const;
+const NOT = ["n1", "n2", "n3", "n4", "n5", "n6"] as const;
 const TONE = { built: "ok", partly: "info", planned: "soon" } as const;
 
 export default async function TrustPage() {
@@ -21,6 +21,15 @@ export default async function TrustPage() {
     <>
       <h1 className="page-title">{t("title")}</h1>
       <p className="page-intro">{t("intro")}</p>
+
+      <section className="panel" aria-labelledby="intended-title" style={{ padding: 20, marginTop: 22 }}>
+        <h2 id="intended-title" style={{ fontSize: 18 }}>
+          {t("intendedTitle")}
+        </h2>
+        <p className="s" style={{ marginTop: 6 }}>
+          {t("intendedBody")}
+        </p>
+      </section>
 
       <section aria-labelledby="rai-title" style={{ marginTop: 26 }}>
         <h2 id="rai-title" style={{ fontSize: 20 }}>
@@ -64,6 +73,7 @@ export default async function TrustPage() {
             <li>{t("data1")}</li>
             <li>{t("data2")}</li>
             <li>{t("data3")}</li>
+            <li>{t("data4")}</li>
           </ul>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
             <OpenPersona persona="noura" to="/app/privacy" className="btn btn-a btn-sm">

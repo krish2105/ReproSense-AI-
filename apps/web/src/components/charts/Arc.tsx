@@ -119,13 +119,13 @@ export async function CycleArc({ status, locale, peri = false }: { status: Cycle
           items={[
             { label: t("phases.period"), swatch: COLOR.period! },
             { label: t("phases.follicular"), swatch: COLOR.follicular! },
-            { label: t("phases.fertile"), swatch: "", hatch: true },
+            ...(status.phases.some((ph) => ph.key === "fertile") ? [{ label: t("phases.fertile"), swatch: "", hatch: true }] : []),
             { label: t("phases.luteal"), swatch: COLOR.luteal! },
           ]}
         />
         {status.estimate && (
           <p className="xs faint" style={{ marginTop: 6, textAlign: "center" }}>
-            {peri ? t("estimateNotePeri") : t("estimateNote")}
+            {peri ? t("estimateNotePeri") : status.estimate_reason === "little_data" ? t("estimateNoteNew") : t("estimateNote")}
           </p>
         )}
         {status.next_period_from && !status.estimate && (
@@ -133,6 +133,10 @@ export async function CycleArc({ status, locale, peri = false }: { status: Cycle
             {t("nextPeriod", { date: formatDayMonth(status.next_period_from, locale) })}
           </p>
         )}
+        {/* Intended use (research/2026-11-06/03 §1.5): phase estimates are never contraceptive advice */}
+        <p className="xs faint" style={{ marginTop: 4, textAlign: "center" }}>
+          {t("notContraception")}
+        </p>
       </figcaption>
     </figure>
   );

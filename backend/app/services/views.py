@@ -48,6 +48,8 @@ def cycle_status(bundle: dict, ev: Evaluation, ref: date) -> dict:
         or (f.get("cycle_length_sd") or 0) > 7
         or stage == "perimenopause"
     )
+    little_data = len(lens) < 2  # fewer than two complete cycles: the 28-day default is a placeholder, not her cycle
+    estimate = irregular or little_data
     ov = max(bleed + 2, usual - 14)
     phases = [
         {"key": "period", "from": 1, "to": bleed},
@@ -55,16 +57,23 @@ def cycle_status(bundle: dict, ev: Evaluation, ref: date) -> dict:
         {"key": "fertile", "from": ov - 4, "to": ov + 1},
         {"key": "luteal", "from": ov + 2, "to": usual},
     ]
+    if estimate:  # no fertile window from irregular or too few cycles (never contraceptive advice; research 03 §1.5)
+        phases = [
+            {"key": "period", "from": 1, "to": bleed},
+            {"key": "follicular", "from": bleed + 1, "to": ov + 1},
+            {"key": "luteal", "from": ov + 2, "to": usual},
+        ]
     phases = [ph for ph in phases if ph["to"] >= ph["from"]]
     cur = next((ph["key"] for ph in phases if ph["from"] <= day <= ph["to"]), "late" if day > usual else "luteal")
     return {
         "mode": "cycle",
         "day": day,
         "length": usual,
-        "estimate": irregular,
+        "estimate": estimate,
+        "estimate_reason": "little_data" if little_data and not irregular else ("irregular" if irregular else None),
         "phase": cur,
         "phases": phases,
-        "next_period_from": (_d(last["start"]) + timedelta(days=usual)).isoformat() if not irregular else None,
+        "next_period_from": (_d(last["start"]) + timedelta(days=usual)).isoformat() if not estimate else None,
     }
 
 
@@ -158,18 +167,45 @@ def analytics(bundle: dict, ev: Evaluation, ref: date, months: int = 6) -> dict:
     }
 
 
-def recommendations(cards: list[dict], lang: str = "en") -> list[dict]:
+CRISIS_RULE = "RF4_SELF_HARM_THOUGHTS"
+MOOD_RULE = "OBS_POSTPARTUM_MOOD"
+
+
+def display_cards(cards: list[dict], crisis: bool) -> tuple[list[dict], list[dict]]:
+    """Red flags and pattern cards for a screen. On the crisis path (CLAUDE.md rule 5) the self-harm answer opens the
+    support card only: it is never shown as a red-flag card or a mood pattern card, so no score appears anywhere.
+    Other red flags stay, because each needs its own urgent action."""
+    flags = [c for c in cards if c["kind"] == "red_flag" and not (crisis and c["observation_id"] == CRISIS_RULE)]
+    obs = [c for c in cards if c["kind"] != "red_flag" and not (crisis and c["observation_id"] == MOOD_RULE)]
+    return flags, obs
+
+
+_NOTHING = {  # what to keep doing when no pattern needs discussing, by life stage
+    "en": {
+        "pregnancy": "No pattern in your entries needs discussing right now. Keep your antenatal appointments and log anything new.",
+        "after_birth": "No pattern in your entries needs discussing right now. Log how you feel and anything new since the birth.",
+        "default": "No pattern in your entries needs discussing right now. Keep logging period start dates.",
+    },
+    "ar": {
+        "pregnancy": "لا يوجد في إدخالاتك نمط يحتاج نقاشاً الآن. استمري في مواعيد متابعة الحمل وسجّلي أي شيء جديد.",
+        "after_birth": "لا يوجد في إدخالاتك نمط يحتاج نقاشاً الآن. سجّلي شعورك وأي شيء جديد منذ الولادة.",
+        "default": "لا يوجد في إدخالاتك نمط يحتاج نقاشاً الآن. استمري في تسجيل تواريخ بدء الدورة.",
+    },
+}
+_URGENT_FIRST = {"en": "Start with the urgent card above.", "ar": "ابدئي بالبطاقة العاجلة في الأعلى."}
+
+
+def recommendations(
+    cards: list[dict], lang: str = "en", crisis: bool = False, has_flags: bool = False, stage: str | None = None
+) -> list[dict]:
+    if crisis:  # the support card is the only next step on the crisis path
+        return []
+    if has_flags:
+        return [{"kind": "next_step", "text": _URGENT_FIRST[lang], "rule": None}]
     top = next((c for c in cards if c["kind"] != "red_flag"), None)
     if not top:
-        return [
-            {
-                "kind": "next_step",
-                "text": "Nothing in your record needs discussing right now. Keep logging period start dates."
-                if lang == "en"
-                else "لا يوجد في سجلك ما يحتاج نقاشاً الآن. استمري في تسجيل تواريخ بدء الدورة.",
-                "rule": None,
-            }
-        ]
+        texts = _NOTHING["ar" if lang == "ar" else "en"]
+        return [{"kind": "next_step", "text": texts.get(stage or "", texts["default"]), "rule": None}]
     out = [
         {
             "kind": "next_step",

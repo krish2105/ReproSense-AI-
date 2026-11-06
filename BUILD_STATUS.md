@@ -2,7 +2,7 @@
 
 Legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 
-Last updated: 2026-11-06 (backend built and tested; web Phases 0, 2–7 done). Repo: https://github.com/krish2105/ReproSense-AI-
+Last updated: 2026-11-06, night (all phases built and on `main`; deploy waits for Krishna's accounts). Repo: https://github.com/krish2105/ReproSense-AI-
 
 **Owners.** Krishna (`krish2105`): backend, AI, data, security, deploy. Atharva (`mercydeez`): web app (design + frontend).
 Yash (`Yashpetkar7`, invite pending): not assigned yet.
@@ -26,7 +26,10 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 | Task | Status |
 | --- | --- |
 | All members submit application (same team name) by 14 Nov 23:59 GST | ⬜ |
-| Disclosure note of prior designs/research/AI tools; **now also the code written on 5 Nov** (QUESTIONS #34) | ⬜ |
+| Disclosure note of prior designs/research/AI tools; **now also the code written on 5–6 Nov** (QUESTIONS #34, #44) | 🟨 complete note drafted in docs/15 (6 Nov); Krishna: ask the organisers how earlier code is scored, tag `pre-selection-2026-11-16` |
+| Second competition (Future Health Digital Innovation Challenge, Fertility track): registration closes **10 Nov** (QUESTIONS #45) | ⬜ Krishna decides |
+| Native Arabic review of every AR-REVIEW string (landing evidence, join, trust, admin, privacy, assistant) | ⬜ |
+| Pitch deck from the real build (`pitch/deck.html`, PDF backup) | ✅ 6 Nov; fill the marked placeholders only with true facts |
 | 5+ interviews (clinicians, clinic managers, women) | ⬜ |
 | Clinician reviewer for rules/clinical_rules.yaml (also #17, #27, #28, #35) | ⬜ |
 | Generate images with IMAGE_PROMPTS_CHATGPT.md | ✅ 37 images + 1 duplicate placed in public/images; see ASSET_INTEGRATION_REPORT.md |
@@ -37,6 +40,7 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 - Web e2e (`pnpm e2e`, production build): **69 passed, 3 skipped** (desktop-only checks on the phone project), 3 runs in a row; the demo path takes 13–16 s per viewport
 - Landing Lighthouse: **100 / 100 / 100 / 100** on mobile and on desktop
 - Web unit tests: **50 passed**
+- Assistant safety routing, held-out round 5 (132 new questions, measured once, word checks only): crisis **11/30** · emergencies **24/32** · diagnosis refused **6/10** · medicine sent to a doctor **4/10** · everyday answered normally **42/50**. Round 4, before the review fixes: 12/30 · 18/32 · 7/10 · 3/10 · 46/50. The model second check is not scored yet (#29).
 
 ## Verified numbers (5 Nov, local, `make test`)
 - Backend tests: **104 passed** (rules 63 · API 27 · RLS 8 · security 6 · AI eval 1 covering 60 questions)

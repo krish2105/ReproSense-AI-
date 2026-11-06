@@ -14,7 +14,7 @@ import type { FhirExport, PrivacyResponse } from "@/lib/api/types";
 const detailOf = (e: unknown) => (e instanceof ApiError ? e.detail : String(e));
 
 /** Her three choices (PATCH /v1/consents). Stopping care_share removes her from the clinic list at once. */
-export function ConsentToggles({ consents }: { consents: PrivacyResponse["consents"] }) {
+export function ConsentToggles({ consents, homeClinic }: { consents: PrivacyResponse["consents"]; homeClinic: PrivacyResponse["home_clinic"] }) {
   const t = useTranslations();
   const router = useRouter();
   const toast = useToast();
@@ -25,7 +25,10 @@ export function ConsentToggles({ consents }: { consents: PrivacyResponse["consen
       {purposes.map((p) => {
         const c = consents.find((x) => x.purpose === p);
         const on = Boolean(c?.granted && !c.revoked_at);
-        const clinic = c?.clinic_id && t.has(`clinics.${c.clinic_id}`) ? t(`clinics.${c.clinic_id}`) : c?.clinic_name;
+        // The clinic a share goes to is always named, before and after she allows it (never a default clinic).
+        const clinicId = c?.clinic_id ?? homeClinic?.id ?? null;
+        const clinic = clinicId && t.has(`clinics.${clinicId}`) ? t(`clinics.${clinicId}`) : (c?.clinic_name ?? homeClinic?.name);
+        const noClinic = p === "care_share" && !clinicId;
         return (
           <li key={p} className="kv" style={{ flexWrap: "wrap", alignItems: "center" }}>
             <span>
@@ -34,6 +37,12 @@ export function ConsentToggles({ consents }: { consents: PrivacyResponse["consen
                 <>
                   <br />
                   <span className="xs dim">{t("privacy.clinic", { clinic })}</span>
+                </>
+              )}
+              {noClinic && (
+                <>
+                  <br />
+                  <span className="xs dim">{t("privacy.noClinic")}</span>
                 </>
               )}
               {p === "assistant" && (
@@ -48,7 +57,7 @@ export function ConsentToggles({ consents }: { consents: PrivacyResponse["consen
               <Button
                 size="sm"
                 variant="outline"
-                disabled={pending}
+                disabled={pending || (noClinic && !on)}
                 aria-label={`${on ? t("privacy.stop") : t("privacy.allow")}: ${t(`privacy.purpose.${p}`)}`}
                 onClick={() =>
                   start(async () => {

@@ -18,7 +18,7 @@ from app.security.crypto import encrypt
 CLINICS = [
     ("clinic_corniche", "Seaside Women's Clinic (fictional)", "Abu Dhabi City"),
     ("clinic_north", "North Island Women's Clinic (fictional)", "Abu Dhabi City"),
-    ("clinic_alain", "Oasis Women's Clinic, Al Ain (fictional)", "Al Ain"),
+    ("clinic_alain", "Garden City Women's Clinic, Al Ain (fictional)", "Al Ain"),
     ("clinic_dhafra", "Western Region Women's Clinic (fictional)", "Al Dhafra"),
 ]
 DEMO_CLINIC = "clinic_corniche"

@@ -132,11 +132,12 @@ def _template_card(h: Hit, ev: Evaluation, lang: str, bundle: dict) -> dict:
         summary = f"{lead} {cp.detail(h.rule_id, h.values, f, lang)}".strip()
         consider = tr.get("next_steps") if lang == "ar" and tr.get("next_steps") else list(h.next_steps)
     entries = {e["id"]: e for e in bundle["daily_logs"] + bundle["events"]}
-    why = [
+    why_all = [
         {"entry_id": i, "date": str(entries[i]["date"]), "text": cp.entry_text(entries[i], lang)}
         for i in h.supporting_entry_ids
         if i in entries
-    ][:12]
+    ]
+    why = why_all[:12]
     srcs = kb.sources()
     return {
         "observation_id": h.rule_id,
@@ -145,6 +146,7 @@ def _template_card(h: Hit, ev: Evaluation, lang: str, bundle: dict) -> dict:
         "summary": summary,
         "explains": (tr.get("explains") if lang == "ar" and tr.get("explains") else h.explains),
         "why_we_noticed": why,
+        "why_total": len(why_all),  # screens say "and N more" instead of silently cutting the list
         "values": h.values,
         "what_to_consider": consider,
         "questions_for_doctor": cp.questions(h.rule_id, lang),

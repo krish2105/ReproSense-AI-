@@ -42,6 +42,7 @@ export default async function Home() {
   return (
     <div className="home-grid">
       <div className="home-col">
+        {h.crisis && <CrisisCard />}
         {h.red_flags.length > 0 && (
           <section aria-label={t("home.urgentTitle")} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {h.red_flags.map((c) => (
@@ -49,7 +50,6 @@ export default async function Home() {
             ))}
           </section>
         )}
-        {h.crisis && <CrisisCard />}
 
         <div className="kv" style={{ alignItems: "center" }}>
           <div className="hello">
@@ -60,7 +60,8 @@ export default async function Home() {
             {displayName(h.profile.alias)[0]}
           </span>
         </div>
-        <StageSwitch current={h.profile.life_stage} />
+        {/* The stage switch opens a fictional demo person; on a record she started herself it would leave her own. */}
+        {!h.profile.id.startsWith("guest-") && <StageSwitch current={h.profile.life_stage} />}
 
         {h.status.mode === "cycle" && <DayPills pills={h.day_pills} locale={locale} />}
         {h.status.mode === "cycle" && <CycleArc status={h.status} locale={locale} peri={h.profile.life_stage === "perimenopause"} />}

@@ -7,13 +7,59 @@ code freeze Sat 21 Nov 18:00 · showcase Sun 22 Nov, DOH Incubator, Masdar City.
 
 ---
 
-## 1. Where things stand in one minute
-- **Backend: built and tested (104/104).** It runs on FastAPI, local Postgres 17 + pgvector, a LangGraph pipeline, RAG and WeasyPrint. Every endpoint the demo needs exists.
-- **Web app: Phase 0 done (5 Nov).** `apps/web` runs (`cd apps/web && pnpm install && pnpm dev`, needs the API on :8010): tokens, EN/AR + RTL, the `/api/v1` proxy, role-guarded `/app` `/clinic` `/admin`, a UI kit, `/demo` and `/tokens`. Phases 2–7 UI are the critical path (**Atharva's** issues #2–#7). Recipe: `.claude/skills/web-screen`.
-- **Design reference:** `mockup/reprosense-mockup.html` (rebuilt from `mockup/template.html`). Copy its tokens and components exactly (docs/06, design E · Mauve Pro).
-- **Images:** all 37 (+1 duplicate) are in `apps/web/public/images/` (moved in Phase 0), hash-checked, with derived icons and app icons. See `ASSET_INTEGRATION_REPORT.md`, which also has the calibrated body-map tap points.
-- **Not deployed.** No Supabase, Vercel or Render accounts or keys exist yet. Everything runs locally.
-- **No LLM key.** Cards and the assistant run in deterministic mode (templates + extractive answers with citations). Add `ANTHROPIC_API_KEY` to `.env` and the Claude provider switches on by itself (`claude-opus-5-5`, refusal fallbacks on, outputs cached for demo-safe mode).
+## 0. Left for Atharva (from Krishna, 6 Nov 2026, late night)
+**Full plan to 95+:** `docs/17_PLAN_TO_95.md`, tracked on GitHub in issue #32 (issues #21–#31, assigned to Atharva).
+Branch `fix/judge-findings` is pushed, all tests green locally (backend, web unit, Playwright 106 passed). Not merged yet.
+1. **Docs with the round-5 numbers.** Held-out round 5 (132 questions by new writers, written after the review fixes,
+   measured once, word checks only): crisis 11/30, emergencies 24/32, diagnosis refused 6/10, medicine sent to a
+   doctor 4/10, everyday answered normally 42/50. Round 4 (12/30, 18/32, 7/10, 3/10, 46/50) was measured before the
+   review fixes. Put both rows in the PROGRESS night table, QUESTIONS #50, this file's §1 safety bullet,
+   BUILD_STATUS "Verified numbers", and the docs/10 Q&A row "What if she types something your checks miss?"
+   (say "a fresh held-out round", and quote 11 of 30 crisis and 24 of 32 emergency). /status and the deck already
+   read the new numbers from `backend/app/ai/eval_results.json`.
+2. **Open the PR** for `fix/judge-findings` into `main`, wait for CI (backend, web, e2e, image, gitleaks), merge.
+   No AI co-author lines in commits or the PR.
+3. **Model check score.** With `LLM_PROVIDER=claude` and a key in `.env`, run `make safety-eval`: it scores the
+   language model's second check on round 5 and stores it next to the word-checks number, never in its place.
+4. **QUESTIONS #56:** in round 5, two crisis messages about pills got the fixed medicine reply instead of the support
+   message (the 998 strip was still on screen). Clinical advisor decides whether the medicine reply should carry a
+   crisis line. Do not tune the word checks on round 5: it is the held-out set now.
+5. Build week: #54 (rare hydration flake), #55 (sign-in for joined records). Clinician: #48, #49, #52, #53.
+
+---
+
+## 1. Where things stand in one minute (updated 6 Nov 2026, night)
+- **Everything is on `main`** (PRs #8–#21, CI green: backend, web, e2e, API image, gitleaks).
+- **Judge panel (6 Nov, before the night's fixes):** jury 61.5/100 (range 53.5–65.5), Real MVP 66, Real SaaS 61, clinical safety 20/35, women's experience 23/35.
+  - The night's fixes (PR #21) close the safety, privacy, truth and data-loss findings. Details in PROGRESS.md.
+  - What remains is people work and rules-file sign-off: QUESTIONS #44–#51.
+- **Backend: 132 tests.**
+  - FastAPI, Postgres 17 + pgvector with forced row-level security, rules engine, LangGraph pipeline, RAG assistant, WeasyPrint PDF.
+  - Sign-up (`/join`) and the clinic patient QR.
+  - **AI on/off switch enforced:** Privacy → "Use AI features"; off closes the assistant and keeps template wording.
+  - **Assistant safety routing** (`app/agents/safety.py`) for crisis, emergencies, diagnosis requests and medicine questions in EN and Gulf, Egyptian, Levantine, Iraqi, Sudanese and Yemeni Arabic. Held-out round 5 (132 questions by new writers, written after the review fixes, measured once, word checks only): crisis 11/30, emergencies 24/32, diagnosis 6/10, medicine 4/10, everyday 42/50. Round 4, before the fixes: 12/30, 18/32, 7/10, 3/10, 46/50. The 998 strip is always on screen. With a model key, a second check by the language model (`safety.model_check`) can add a route, never remove one; measure it with `make safety-eval`.
+  - **Crisis path:** no score and no alarm card anywhere. Joined records stay private (not on the roster). Sharing goes only to her own clinic.
+  - DoH Jawda **PC008** glucose measure; per-clinic metrics; audit log CSV export.
+  - Clinician handover in clinician voice.
+- **Web app: done.**
+  - Phases 0–7, plus `/join`, `/pricing`, `/trust` (the DoH Responsible AI Standard, clause by clause) and `/status` support terms.
+  - Playwright e2e in CI covers the 3-minute demo path, every key screen in EN/AR/dark through axe (WCAG 2.2 AA), safety, 3D fallbacks, join, AI switch and SaaS checks.
+  - Lighthouse 100 on the landing page.
+- **Pitch:** `pitch/deck.html` (10 slides from the real data and screens) and `pitch/ReproSense-pitch.pdf`.
+  - Team and evidence lines are hidden until `TEAM` and `EVIDENCE` are set in `pitch/build_deck.py`. Fill them only with true facts.
+- **Parked for build week (17–21 Nov):** clinician invites on branch `build-week/clinician-invites`, built and tested. Merge it on 17 Nov so it counts as build-week work (QUESTIONS #51).
+- **Research (6 Nov):** `research/2026-11-06/` holds five sourced notes. They have already corrected the landing evidence, docs/05, 07, 10, 12 and 15.
+- **Not deployed.** It needs Krishna's own Supabase, Render and Vercel accounts; follow `docs/16_DEPLOY_NOW.md`.
+- **No LLM key.** Cards and the assistant run deterministically (templates plus extractive answers with citations). Adding `ANTHROPIC_API_KEY` to `.env` switches the Claude provider on, including the model's second safety check in the assistant.
+- **Needs Krishna before 16 Nov:**
+  - QUESTIONS #44: read the complete prior-work disclosure in docs/15, ask the organisers how earlier code is scored, and tag `pre-selection-2026-11-16`.
+  - QUESTIONS #45: a second competition's registration closes **10 Nov**.
+  - Applications by 14 Nov.
+  - Interviews and a letter of intent.
+  - A clinical advisor to sign `rules/clinical_rules.yaml`.
+  - A native Arabic review of the AR-REVIEW strings.
+- **Design reference:** `mockup/reprosense-mockup.html` (docs/06, design E · Mauve Pro).
+- **Images:** `apps/web/public/images/` (see `ASSET_INTEGRATION_REPORT.md`).
 
 ## 2. Rules for whoever continues (non-negotiable)
 1. Read `CLAUDE.md` (11 product rules), then this file, `BUILD_STATUS.md`, `QUESTIONS.md`.
@@ -32,7 +78,7 @@ make env      # writes .env with random DEMO_TOKEN_SECRET + NOTES_KEY (git-ignor
 make db       # creates databases reprosense + reprosense_test
 make seed     # schema + RLS + 8 personas + 1,200 cohort + RAG index (93 chunks)
 make api      # http://127.0.0.1:8010  (docs at /docs). Port 8000 is taken by another local project.
-make test     # ruff + 104 tests against reprosense_test
+make test     # ruff + 132 tests against reprosense_test
 cd apps/web && pnpm build && PW_CHANNEL=chrome pnpm e2e   # 69 Playwright checks at 1280 + 390 px (reuses the API on :8010 and `pnpm start -p 3100` if they run)
 ```
 Gotchas:
@@ -112,7 +158,7 @@ Done when each `BUILD_STATUS` "Done when" passes at 390px and 1280px, light and 
 - ~~Playwright e2e of the full demo path, wired into CI.~~ Done 6 Nov: `apps/web/e2e`, CI job `e2e` (seeded pgvector Postgres, API, production build, Chromium).
 - Get an `ANTHROPIC_API_KEY` (or decide to stay deterministic). Run the eval in LLM mode and warm the cache for all 8 personas.
 - Clinician sign-off: QUESTIONS #17, #26, #27, #28, #35 and the `clinical_rules.yaml` header. Verify NG257 wording (#29).
-- Disclosure note (#34) and applications by 14 Nov. Interviews + LOI (docs/12, docs/15).
+- Disclosure: the complete note is in docs/15 (6 Nov); read it at the start of the event, ask the organisers how earlier code is scored (QUESTIONS #44), tag the repo on 16 Nov. Applications by 14 Nov. Interviews + LOI (docs/12, docs/15).
 - Nice-to-have: passkeys via Supabase Auth, web CSP with nonces, dependency scanning (pip-audit / npm audit), ar04 eval miss.
 
 ## 7. Decisions already made (do not re-open without asking Krishna)
@@ -122,7 +168,7 @@ Scope = demo path first (#11) · builders Krishna + Atharva (#12) · demo role t
 ```
 You are continuing ReproSense AI. Read HANDOFF.md first, then CLAUDE.md, BUILD_STATUS.md, QUESTIONS.md.
 Do not add any Claude or AI co-author lines to commits or PRs.
-Run `make env db seed test` to confirm the backend (expect 104 passed).
+Run `make env db seed test` to confirm the backend (expect 121+ passed), then `cd apps/web && pnpm build && PW_CHANNEL=chrome pnpm e2e`.
 Then continue the next unfinished item in HANDOFF.md §5 (web app) or §6 (ops), phase by phase,
 updating BUILD_STATUS.md and PROGRESS.md after each phase. Ask me before changing rules/clinical_rules.yaml.
 ```

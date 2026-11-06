@@ -34,7 +34,7 @@ def _fmt_day(s: str, lang: str = "en", year: bool = False) -> str:
             "ديسمبر",
         ]
         return f"{d.day} {months[d.month - 1]}" + (f" {d.year}" if year else "")
-    return d.strftime("%-d %b %Y" if year else "%-d %b")
+    return f"{d.day} {d:%b}" + (f" {d.year}" if year else "")  # %-d is glibc-only
 
 
 RF_TITLES = {  # short urgent titles; the full message comes from the rules file
@@ -214,7 +214,7 @@ CLINICIAN = {
         "Pain on bowel movements or passing urine during periods",
         ["Ask about bowel and bladder symptoms during periods."],
     ),
-    "OBS_HEAVY_OR_LONG_PERIODS": ("Heavy or prolonged periods", ["Consider an iron blood test."]),
+    "OBS_HEAVY_OR_LONG_PERIODS": ("Heavy or prolonged periods", ["Consider a full blood count (NICE NG88)."]),
     "OBS_NO_PERIOD_90_DAYS": ("No period logged for 90 days or more", ["Consider a pregnancy test and a review."]),
     "CARE_POSTPARTUM_GLUCOSE_TEST": (
         "After-birth glucose test due after gestational diabetes",
@@ -226,7 +226,7 @@ CLINICIAN = {
     ),
     "OBS_HEAVY_WITH_FATIGUE": (
         "Heavy periods with tiredness",
-        ["Consider an iron blood test (full blood count, ferritin)."],
+        ["Consider a full blood count (NICE NG88)."],
     ),
     "CARE_PREGNANCY_GLUCOSE_SCREEN": (
         "Pregnancy glucose test not yet recorded",
