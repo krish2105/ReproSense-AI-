@@ -1178,7 +1178,7 @@
       "r7": {
         "clause": "3.1.4.5.1",
         "asks": "Compute and storage, disaster recovery included, inside the UAE.",
-        "ours": "This demo holds fictional data only. Production will run on UAE-region cloud with disaster recovery in the UAE, a UAE-hosted model or no model, and support access from inside the UAE.",
+        "ours": "This demo holds fictional data only, on services without a UAE region. Production will run in a UAE cloud region (AWS Middle East (UAE) or Azure UAE North) with backups and disaster recovery in the UAE, a UAE-hosted model or no model, and support access from inside the UAE.",
         "status": "planned"
       },
       "r8": {
