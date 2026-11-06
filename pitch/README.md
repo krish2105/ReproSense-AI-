@@ -20,7 +20,7 @@ It works offline (font and screenshots sit next to it). `ReproSense-pitch.pdf` i
 | 2 | 265 of 1,043; about 1 in 5 | Agarwal et al., IJERPH 2022; Bashir et al., Front Endocrinol 2022 |
 | 3 | Up to 70%; 11.6 years | WHO PCOS fact sheet 2026; Mousa et al. 2021 |
 | 5 | PC008 3 of 10 → 4 of 10 | synthetic cohort + live demo, `/v1/admin/metrics` |
-| 6 | 60 questions, 96.7%, 15 of 15, 100%, 0, 1 failure | `backend/app/ai/eval_results.json` |
+| 6 | 60 questions, 100%, 15 of 15, 100%, 0, no failures | `backend/app/ai/eval_results.json` |
 | 8 | Prices; 14 centres, 45 facilities, ~700 OB-GYNs | research/2026-11-06/04 §9; Abu Dhabi Media Office, Jul 2025 |
 
 ## Rebuild after the product or data changes

@@ -10,6 +10,7 @@ import { useToast } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
 import type { ClinicGap, RecordAnswer, ReminderDraft } from "@/lib/api/types";
+import { CHIPS, chipKeys } from "@/lib/ask-chips";
 import { formatDate, formatDayMonth } from "@/lib/format";
 
 const detailOf = (e: unknown) => (e instanceof ApiError ? e.detail : String(e));
@@ -143,11 +144,8 @@ export function CareGaps({ gaps }: { gaps: ClinicGap[] }) {
   );
 }
 
-// Suggested questions are sent in English: the record copilot matches English keywords in her entries.
-const CHIPS = { work: "pain that stopped work or study", mood: "mood since the birth", cycles: "cycle lengths", bleeding: "heavy bleeding" } as const;
-
 /** Ask the record: answers only from her entries, each with its date. */
-export function AskRecord({ pid }: { pid: string }) {
+export function AskRecord({ pid, hasBirth }: { pid: string; hasBirth: boolean }) {
   const t = useTranslations("clinic");
   const locale = useLocale() === "ar" ? "ar" : "en";
   const [q, setQ] = useState("");
@@ -174,7 +172,7 @@ export function AskRecord({ pid }: { pid: string }) {
       </p>
       <p className="xs faint">{t("askHint")}</p>
       <div className="sugg">
-        {(Object.keys(CHIPS) as (keyof typeof CHIPS)[]).map((k) => (
+        {chipKeys(hasBirth).map((k) => (
           <button key={k} type="button" disabled={pending} onClick={() => ask(CHIPS[k])}>
             {t(`askChips.${k}`)}
           </button>

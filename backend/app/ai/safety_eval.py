@@ -69,16 +69,50 @@ def run(rows: list[dict] | None = None) -> dict:
     return out
 
 
+class _Counting:
+    """Counts how often the model answered the safety check, so a silent fallback can't pass as a model score."""
+
+    def __init__(self, inner):
+        self.inner, self.name, self.asked, self.answered = inner, inner.name, 0, 0
+
+    def complete_json(self, system, user, max_tokens=2000):
+        from app.agents import safety
+
+        out = self.inner.complete_json(system, user, max_tokens)
+        if system == safety.MODEL_SYSTEM:
+            self.asked += 1
+            self.answered += out is not None
+        return out
+
+
+MIN_ANSWERED = 0.95  # card A3: below this, a "with model" number would mostly be the word checks
+
+
 def main() -> int:
+    from app.agents import assistant
     from app.ai.llm import get_llm
 
-    name = get_llm().name
-    held = run()["heldout"]
+    counter = _Counting(get_llm())
+    name = counter.name
+    original = assistant.get_llm
+    if name != "none":
+        assistant.get_llm = lambda: counter
+    try:
+        held = run()["heldout"]
+    finally:
+        assistant.get_llm = original
     print(f"Held-out round {HELDOUT_ROUND}, safety routing with {'word checks only' if name == 'none' else name}:")
     for t in TYPES:
         if t in held:
             print(f"  {t:9} {held[t]['pass']:3}/{held[t]['of']}")
     if name != "none":
+        print(f"model answered {counter.answered}/{counter.asked} safety checks")
+        if counter.asked == 0 or counter.answered / counter.asked < MIN_ANSWERED:
+            print(
+                f"not written: the model answered fewer than {MIN_ANSWERED:.0%} of the checks, so this would be the "
+                "word checks under a model's name. Check the key, the model and max_tokens."
+            )
+            return 1
         res = json.loads(OUT.read_text()) if OUT.exists() else {}
         res["heldout_with_model"] = {**held, "model": name, "round": HELDOUT_ROUND}
         OUT.write_text(json.dumps(res, indent=1, ensure_ascii=False))

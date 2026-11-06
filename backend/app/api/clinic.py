@@ -86,6 +86,7 @@ def patient_view(pid: str, actor: Actor = Depends(clinician)):
         "latest_report": report,
         "analytics": views.analytics(b, ev, ref, 12),
         "timeline": views.timeline(b, ref, 12),
+        "days_logged": views.days_logged(b),
         "her_questions": list(dict.fromkeys(q for c in cards for q in c.get("questions_for_doctor", [])))[:5],
         "visit_note_draft": (review or {}).get("visit_note") or copilot.visit_note_draft(b, ev, ref),
     }

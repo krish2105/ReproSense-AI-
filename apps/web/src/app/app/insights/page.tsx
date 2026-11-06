@@ -67,7 +67,7 @@ export default async function InsightsPage() {
                 version={ins.rules_version}
                 strength={ins.record_strength}
                 cycles={ins.cycles_logged}
-                entries={ins.entries_count}
+                days={ins.days_logged}
                 locale={locale}
               />
             ))

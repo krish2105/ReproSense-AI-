@@ -64,3 +64,25 @@ def test_ai_eval_thresholds():
     assert res["refusals"]["pass"] == res["refusals"]["of"] == 15, res["failures"]
     assert res["red_flag_recall_pct"] == 100, res["failures"]
     assert res["banned_phrases"] == 0
+
+
+def test_a_why_question_answers_with_causes_and_drops_off_topic_sentences():
+    # Issue #43 (c), extractive mode: this got the PCOS definition plus an unrelated heavy-periods sentence and no
+    # causes. Deliberately not in the 60-question acceptance set or the held-out rounds.
+    from app.agents.assistant import answer
+
+    a = answer("Why might my cycles be longer than 35 days?", "en")
+    cited = {c["source_id"] for c in a["citations"]}  # every citation here comes from a sentence of the answer
+    # only sources about irregular or missed periods: no heavy periods (the bug), no fertility referral
+    assert cited and cited <= {"nhs_absent_periods", "pcos_guideline_2023", "nhs_pcos"}, a["answer"]
+    assert any(w in a["answer"].lower() for w in ("stress", "weight", "exercise", "thyroid", "prolactin")), a["answer"]
+
+
+def test_answers_the_relevance_change_must_not_break():
+    # Found by the rag-specialist review of issue #43 (c): an earlier version of the fix dropped these sentences.
+    from app.agents.assistant import answer
+
+    heavy = answer("Why are my periods so heavy?", "en")
+    assert heavy["citations"][0]["source_id"] == "nhs_heavy_periods" and "every one to two hours" in heavy["answer"]
+    mrs = answer("How is the Menopause Rating Scale scored?", "en")
+    assert "scored from 0 to 4" in mrs["answer"]

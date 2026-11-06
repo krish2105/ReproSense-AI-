@@ -6,6 +6,9 @@ API_PORT ?= 8010
 env:            ## create a local .env with random keys (never committed)
 	python3 tools/make_env.py
 
+hooks:          ## refuse commits with AI co-author lines (run once per clone)
+	git config core.hooksPath .githooks
+
 db:             ## create local databases (needs Postgres with pgvector listening on /tmp)
 	psql -h /tmp -d postgres -qc "create database reprosense" || true
 	psql -h /tmp -d postgres -qc "create database reprosense_test" || true
@@ -28,4 +31,4 @@ safety-eval:    ## held-out safety routing; with a model key it also measures th
 mockup:         ## rebuild the HTML mockup from the synthetic data
 	python3 mockup/build_mockup.py
 
-.PHONY: env db data seed api test safety-eval mockup
+.PHONY: env hooks db data seed api test safety-eval mockup

@@ -7,6 +7,7 @@ import type { ClinicRecord } from "@/lib/api/types";
 import type { Locale } from "@/i18n/config";
 import { displayName, formatDayMonth, regionKey } from "@/lib/format";
 import { SOURCES } from "@/lib/sources";
+import { hasBirth } from "@/lib/ask-chips";
 import { AskRecord, CareGaps, ReviewButton, VisitNote } from "./RecordActions";
 import { TableScroll } from "@/components/ui/TableScroll";
 
@@ -28,7 +29,7 @@ export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Loc
           <p className="s dim">
             {t("demo.ageRegion", { age: r.profile.age, region })} · {t(`stages.${r.profile.life_stage}`)}
           </p>
-          <p className="xs faint">{t("clinic.sharedNote", { count: r.timeline.days.length })}</p>
+          <p className="xs faint">{t("clinic.sharedNote", { count: r.days_logged })}</p>
         </div>
         <ReviewButton pid={r.profile.id} reviewedAt={r.review?.reviewed_at ?? null} />
       </div>
@@ -83,7 +84,7 @@ export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Loc
 
       {r.care_gaps.length > 0 && <CareGaps gaps={r.care_gaps} />}
 
-      <AskRecord pid={r.profile.id} />
+      <AskRecord pid={r.profile.id} hasBirth={hasBirth(r)} />
 
       {(a.cycles.some((c) => c.length !== null) || a.cycles.length > 0) && (
         <section aria-labelledby="charts-c" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
