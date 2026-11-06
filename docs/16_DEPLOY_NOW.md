@@ -13,11 +13,14 @@ seeded 8 personas and 93 chunks, a restart did not reseed, and the full e2e suit
 PDFs included).
 
 ## 1. Database: Supabase (5 min)
-1. Create a project. Pick the region closest to the UAE that your plan offers (production moves to a UAE-hosted
-   database, docs/07). Save the database password.
+1. Create a project in **Frankfurt (eu-central-1)**. `render.yaml` puts the API in Frankfurt and
+   `apps/web/vercel.json` puts the web functions in `fra1`, so all three sit together. Each page makes several
+   API-to-database round trips, so a database on another continent makes every page slow. (Production moves to a
+   UAE-hosted database, docs/07.) Save the database password in your password manager, never in chat or the repo.
 2. Database → Extensions → enable **vector**. (The schema also runs `CREATE EXTENSION IF NOT EXISTS vector`.)
-3. Connect → copy the **Session pooler** connection string (port 5432), or the direct connection. Do **not** use the
-   transaction pooler (port 6543): the API keeps prepared statements and runs `SET LOCAL ROLE` per request.
+3. Connect → copy the **Session pooler** connection string (port 5432). Do **not** use the direct connection (on the
+   free plan it is IPv6 only, which Render cannot reach) or the transaction pooler (port 6543): the API keeps prepared
+   statements and runs `SET LOCAL ROLE` per request.
    It looks like `postgresql://postgres.<ref>:<password>@aws-0-<region>.pooler.supabase.com:5432/postgres`.
 
 ## 2. API: Render (10 min)
@@ -38,6 +41,7 @@ PDFs included).
 ## 3. Web: Vercel (5 min)
 1. Add New → Project → import this repository.
 2. **Root Directory: `apps/web`**. Framework: Next.js (detected). Install and build commands: leave the defaults.
+   `apps/web/vercel.json` sets the function region to `fra1` (Frankfurt), next to the API and the database.
 3. Environment variables (Production and Preview):
    - `API_URL` = `https://<your-api>.onrender.com` (required at build time for the `/api/v1` proxy **and at runtime**:
      server-rendered pages call the API directly. Set it for Production and Preview; if it is missing at runtime,
