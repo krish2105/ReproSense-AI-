@@ -238,7 +238,7 @@ _FAINT = _c(
     r"\bfaint\w*",
     r"pass(ed)? out|nearly passed",
     r"\bdizz\w*",
-    r"light ?headed",
+    r"light[- ]?headed",
     r"white as|\bpale\b",
     r"short of breath|breathless",
     r"can'?t stand|everything went (black|dark)",
@@ -296,8 +296,8 @@ def urgent_kind(text: str) -> str | None:
     now_preg = bool(_NOW_PREG.search(t))
     after_birth = bool(_POSTNATAL.search(t) or _POSTNATAL_R3.search(t) or _POSTNATAL_FIX.search(t))
     pregnant = bool(_PREG.search(t)) and (now_preg or not after_birth)
-    heavy = bool(_HEAVY.search(t) or _HEAVY_AR2.search(t) or _HEAVY_FIX.search(t))
-    faint = bool(_FAINT.search(t) or _FAINT_R3.search(t))
+    heavy = bool(_HEAVY.search(t) or _HEAVY_AR2.search(t) or _HEAVY_FIX.search(t) or _HEAVY_65.search(t))
+    faint = bool(_FAINT.search(t) or _FAINT_R3.search(t) or _FAINT_65.search(t))
     heavy_faint = heavy and faint
     preg_sign = bool(
         _PREG_SIGN.search(t) or _PREG_SIGN_R3.search(t) or _PREG_SIGN_FIX.search(t) or _HEAD_EYES_AR.search(t)
@@ -538,6 +538,29 @@ _WORSE_PAIN = _c(
     r"(الم|وجع|عوار|مغص).{0,20}(يزيد|يزداد|تزيد|صاير اقوي|يشتد)",
 )
 _CANT_COPE = _c(r"can'?t (stand|walk|move)|\bvomit\w*|throwing up|ما (اقدر|اقدرش|قادره) (اوقف|امشي|اتحرك)")
+
+# ---------------------------------------------------------------------------------------------------------- issue #65
+# Found on 6 Nov in the phone app: "I am bleeding through a pad every hour and feel faint" got no 998 reply (RF1, heavy
+# bleeding with dizziness or fainting). Heavy bleeding is also said as bleeding through a pad, clothes or bedding (like
+# soaking through), or as a pad every hour in either word order. In Arabic: blood leaking or getting through the pad or
+# to clothes (تسرب الدم إلى الملابس), and a pad every hour with any verb (أغيّر، أبدّل، تغيير الفوطة الصحية). Fainting
+# is also MSA dizziness (دوار), about to faint (يغمى علي), passing out (فقدت الوعي) and light-headed (خفة في الرأس);
+# the English "light-headed" is fixed in _FAINT above. Each is still only one half of RF1, so a question such as "what
+# counts as a heavy period?" stays an ordinary answer. Matches stay inside one clause ([^.]), so they cannot join
+# unrelated sentences.
+_HEAVY_65 = _c(
+    r"\b(bleed\w*|bled|bleding) (right |straight |all the way )?(through|thru)\b",
+    r"\b(pad|tampon)s?\b[^.]{0,30}\bevery (half )?(an )?hour",
+    r"(يتسرب|تسرب|تتسرب|تسربت|يخترق|اخترق|تخترق|اخترقت|يعدي|عدي) (من )?(ال)?(فوط|كوتكس)",
+    r"(تسرب|يتسرب|تسربت|وصل|يوصل|اخترق|يخترق|عدي|يعدي) (ال)?دم [^.]{0,6}(ملابس|هدوم|ثياب|فراش|السرير|شرشف|شراشف)",
+    r"\b(ال)?دم (تسرب|يتسرب|تسربت|وصل|يوصل|اخترق|يخترق|عدي|يعدي) [^.]{0,6}(ملابس|هدوم|ثياب|فراش|السرير|شرشف|شراشف)",
+    r"(فوط|كوتكس)\w*[^.]{0,25}كل (نص |نصف )?ساعه|كل (نص |نصف )?ساعه[^.]{0,25}(فوط|كوتكس)",
+)
+_FAINT_65 = _c(
+    r"\b(ب|و|ال|بال|وال)?دوار|دوخ",
+    r"يغمي|غمي علي|فقدت (ال)?وعي",
+    r"خفه (في |ب|بال)?(ال)?راس|راسي خفيف",
+)
 
 
 def _clauses_without(t: str, pattern: re.Pattern) -> str:
