@@ -34,7 +34,7 @@ def _fmt_day(s: str, lang: str = "en", year: bool = False) -> str:
             "ديسمبر",
         ]
         return f"{d.day} {months[d.month - 1]}" + (f" {d.year}" if year else "")
-    return d.strftime("%-d %b %Y" if year else "%-d %b")
+    return f"{d.day} {d:%b}" + (f" {d.year}" if year else "")  # %-d is glibc-only
 
 
 RF_TITLES = {  # short urgent titles; the full message comes from the rules file
