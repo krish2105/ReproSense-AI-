@@ -42,6 +42,12 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 - Web unit tests: **50 passed**
 - Assistant safety routing, held-out round 5 (132 new questions, measured once, word checks only): crisis **11/30** · emergencies **24/32** · diagnosis refused **6/10** · medicine sent to a doctor **4/10** · everyday answered normally **42/50**. Round 4, before the review fixes: 12/30 · 18/32 · 7/10 · 3/10 · 46/50. The model second check is not scored yet (#29).
 
+## Test hardening (issue #24, 6 Nov, local on Windows + Chrome, production build)
+- **Demo-safe mode:** `backend/tests/test_demo_safe.py` replaces the Anthropic client with a tripwire and runs home, patterns and the assistant for three personas with `LLM_PROVIDER=none` and a key set: no model client is built (a second test proves the tripwire fires under `auto`). The CI e2e job now runs with a dummy key, a dead `ANTHROPIC_BASE_URL` and `E2E_DEMO_SAFE=1`, so the whole demo path must pass with `/readyz` reporting `llm: none`.
+- **Hydration flake #418 (QUESTIONS #54):** not reproduced in 2 full local runs (106 tests each, 0 hydration errors). Cause stands as documented in research/2026-11-05 §6: Next 15.5.29 is the newest 15.5 and still bundles React `19.2.0-canary-0bdb9206-20250818`; a stable React needs Next 16 (a stack change, Krishna's call). CI keeps one retry.
+- **Lighthouse, mobile, signed in** (performance / accessibility / best practices): `/app` 99/100/100 · `/app/insights` 99/100/100 · `/app/assistant` 100/100/100 · `/app/report` 100/100/100 · `/clinic` 100/100/100. SEO is 66 on the three inner patient pages only because they are deliberately not crawlable.
+- **States:** every area has an `error.tsx` with Try again (her app and the clinic also link back to the demo people); empty states where data can be empty; navigation feedback through `LinkPending` (route `loading.tsx` stays removed, see #54). Server calls now time out after 15 s (`API_TIMEOUT_MS`), so a hung API shows the error screen instead of a spinner. New `e2e/api-down.spec.ts`: API down (her app, clinic) and API too slow (roster and her app give up after the timeout), against a second copy of the build on :3101 pointed at a stub.
+
 ## Verified numbers (5 Nov, local, `make test`)
 - Backend tests: **104 passed** (rules 63 · API 27 · RLS 8 · security 6 · AI eval 1 covering 60 questions)
 - AI eval (extractive mode, no LLM): grounded **96.7%** (target ≥ 95) · refusals **15/15** · red-flag recall **100%** · banned phrases **0** · answer language match **100%**. One known miss: ar04.
