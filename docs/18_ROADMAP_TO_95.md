@@ -217,7 +217,7 @@ A card that breaks any of them does not merge.
 | By | What | Who |
 | --- | --- | --- |
 | Sat 7 Nov | A0. Approve PR #40 and the A4e wording. A3, A4a, A4b. | Atharva; Krishna approves |
-| Sun 8 Nov | A4c, A4d, A5, A9 draft. A8: first outreach messages sent (advisor first). | Atharva |
+| Sun 8 Nov | A4c, A4d, A5, A9 draft, A11. A8: first outreach messages sent (advisor first). | Atharva |
 | Mon 9 Nov | A7 live, smoke test passed, uptime check on. A6 branch ready (not merged). A10. B9 organiser email sent (deadline 16 Nov, but the answer shapes build week). | Krishna (deploy, email), Atharva |
 | Tue 10 Nov | **B1 second-competition decision.** B3 reviewer starts. | Krishna, reviewer |
 | Fri 13 Nov | B2 model check scored. B4 at least 8 interviews done. B5 five sessions done. B6 advisor review booked. B10 rehearsals 1–2. | Krishna, Atharva |
@@ -550,6 +550,17 @@ link; anything without a source is labelled a hypothesis. Write docs/19_VENTURE_
    (docs/drafts/26-letter-of-intent.md) and an empty tracker for B7.
 Then add one appendix slide built from sections 2 and 3 to pitch/build_deck.py, rebuild pitch/deck.html and
 ReproSense-pitch.pdf, and run python3 pitch/build_deck.py so its guard checks the slides.
+```
+
+#### A11 · Security: postcss advisories via Next · #57 · Atharva · 30 min
+- **Why:** `pnpm audit --prod` on 6 Nov found 4 advisories (2 high), all in `postcss` 8.5.x pulled in by `next` 15.5.29. PostCSS runs on our own CSS at build time, so the real risk is low, but the fix is cheap and allowed before selection.
+- **Moves:** the security line of the rescore (`docs/22`), from C to A.
+```text
+Card A11 (issue #57). Branch: fix/postcss-override.
+1. Add to apps/web/package.json: "pnpm": { "overrides": { "postcss": "^8.5.23" } }, then run pnpm install.
+2. Show pnpm audit --prod with 0 advisories.
+3. Run pnpm lint, pnpm test, pnpm build and the full e2e (PW_CHANNEL=chrome pnpm e2e), and show them passing.
+4. If the Next 16 branch (#44) already brings a fixed postcss, say so in both PRs and drop the override when #44 merges.
 ```
 
 ### Phase B · Tuesday 10 to Monday 16 Nov (gate G1 still holds)
