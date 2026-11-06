@@ -1,5 +1,8 @@
 # 17 · Plan to 95+ on every scorecard (for Atharva, from Krishna, 7 Nov 2026)
 
+> **The order of work now lives in `docs/18_ROADMAP_TO_95.md`** (6 Nov evening): cards with Opus 5.5 prompts, the
+> calendar to 22 Nov, and the line-by-line targets. This file keeps the score analysis from the morning of 6 Nov.
+
 Every number below is our own strict estimate against `docs/09_SCORECARDS.md` and the judge panel's evidence of 6 Nov.
 The jury decides the real score. The GitHub issues for this plan are assigned to Atharva (`mercydeez`) and grouped in
 two milestones: **Before selection (16 Nov)** and **Build week (17–21 Nov)**.
