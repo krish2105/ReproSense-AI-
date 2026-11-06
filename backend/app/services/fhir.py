@@ -39,8 +39,9 @@ def bundle_for(record: dict, cards: list[dict]) -> dict:
                 }
             ]
         },
+        # Synthetic is marked by the standard HTEST tag above; a custom extension without a published definition fails
+        # the HL7 validator (issue #25).
         "name": [{"text": p.get("alias")}],
-        "extension": [{"url": "https://reprosense.example/fhir/StructureDefinition/synthetic", "valueBoolean": True}],
     }
     entries = [{"fullUrl": f"urn:uuid:{pid}", "resource": patient}]
     for lab in record["labs"]:
@@ -111,6 +112,9 @@ def validate(b: dict) -> list[str]:
         r = e.get("resource", {})
         if not e.get("fullUrl", "").startswith("urn:uuid:"):
             errs.append("fullUrl")
+        # The HL7 validator rejects extensions it cannot resolve; we publish no StructureDefinitions of our own.
+        if any(not x.get("url", "").startswith("http://hl7.org/") for x in r.get("extension", [])):
+            errs.append(f"{r.get('resourceType')}.extension without a published definition")
         if r.get("resourceType") == "Observation":
             for k in ("status", "code", "subject"):
                 if k not in r:
