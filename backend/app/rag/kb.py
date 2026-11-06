@@ -17,6 +17,8 @@ class Source:
     title: str
     url: str
     publisher: str = ""
+    answers: bool = True  # false: cite-only (backs a fixed urgent or crisis reply; never quoted in general answers)
+    quote: bool = True  # false: indexed (evidence, model answers) but never quoted by the word-match picker
 
 
 @dataclass(frozen=True)
@@ -30,7 +32,7 @@ class Chunk:
 @lru_cache
 def sources() -> dict[str, Source]:
     return {
-        s["id"]: Source(s["id"], s["title"], s["url"], s.get("publisher", ""))
+        s["id"]: Source(s["id"], s["title"], s["url"], s.get("publisher", ""), s.get("answers", True), s.get("quote", True))
         for s in yaml.safe_load(SOURCES_PATH.read_text())
     }
 
@@ -56,7 +58,9 @@ def _sections(md: str) -> dict[str, str]:
 @lru_cache
 def chunks() -> list[Chunk]:
     out: list[Chunk] = []
-    for sid in sources():
+    for sid, src in sources().items():
+        if not src.answers:
+            continue
         md = (SUMMARIES_DIR / f"{sid}.md").read_text(encoding="utf-8")
         for lang, text in _sections(md).items():
             for i, para in enumerate(p.strip() for p in text.split("\n\n") if p.strip()):

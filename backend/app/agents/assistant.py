@@ -276,7 +276,7 @@ def _extractive(q: str, passages, lang: str, max_sents: int = 3) -> tuple[list[d
     why = bool(_WHY & set(re.findall(r"\w+", normalise(q))) or terms & _CAUSE)
     cands = []
     for rank, p in enumerate(passages):
-        if p.lang != lang:
+        if p.lang != lang or not sources()[p.source_id].quote:
             continue
         for s in _SENT.split(p.text):
             words = set(tokens(s))

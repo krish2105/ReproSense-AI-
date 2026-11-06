@@ -138,16 +138,19 @@
   accessed: "2026-11-06"
   topics: [abu dhabi, health information exchange]
 - id: nice_ng126
+  quote: false  # first-13-weeks advice: word matching cannot tell a 6-week question from a 30-week one
   title: "NICE NG126 Ectopic pregnancy and miscarriage: diagnosis and initial management"
   url: "https://www.nice.org.uk/guidance/ng126"
   accessed: "2026-11-06"
   topics: [ectopic pregnancy, miscarriage, early pregnancy pain, early pregnancy bleeding, urgent signs]
 - id: nhs_suicidal_thoughts
+  answers: false  # cite-only: backs the crisis reply; its sentences would attach to unrelated answers
   title: "Help for suicidal thoughts — NHS"
   url: "https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/behaviours/help-for-suicidal-thoughts/"
   accessed: "2026-11-06"
   topics: [crisis, self-harm, overdose, emergency help]
 - id: nhs_urgent_mental_health
+  answers: false  # cite-only: backs the crisis reply; its sentences would attach to unrelated answers
   title: "Where to get urgent help for mental health — NHS"
   url: "https://www.nhs.uk/nhs-services/mental-health-services/where-to-get-urgent-help-for-mental-health/"
   accessed: "2026-11-06"

@@ -36,3 +36,33 @@ def test_asking_whether_it_is_pmos_is_refused_like_pcos(seeded):
     from app.agents.assistant import answer
 
     assert answer("Is it PMOS?", "en")["refused"] and answer("Is it PCOS?", "en")["refused"]
+
+
+def test_crisis_sources_are_cite_only():
+    # They back the fixed crisis reply. Indexed, their sentences ("Do not drive yourself to the emergency department")
+    # attached to unrelated answers by shared words.
+    from app.rag.kb import chunks, sources
+
+    for sid in ("nhs_suicidal_thoughts", "nhs_urgent_mental_health"):
+        assert sid in sources() and not sources()[sid].answers
+        assert not [c for c in chunks() if c.source_id == sid]
+
+
+def test_a_general_pregnancy_answer_never_quotes_the_early_pregnancy_guideline(seeded):
+    # NG126 covers the first 13 weeks, and word matching cannot tell a 6-week question from a 30-week one. Quoted, it
+    # put ectopic-pregnancy warnings into answers on caffeine, swollen feet and late pregnancy (42 answers judged worse),
+    # so it is indexed and retrievable (above) but never quoted (quote: false).
+    from app.agents.assistant import answer
+    from app.rag.kb import sources
+
+    assert not sources()["nice_ng126"].quote
+    a = answer("Pregnant karak addict: does tea count as caffeine?", "en")
+    assert "nice_ng126" not in [c["source_id"] for c in a["citations"]], a["answer"]
+
+
+def test_pcos_signs_still_answer_after_the_pmos_rename(seeded):
+    # The NHS renamed the page. A summary written around the new name lost the signs sentence to word matching.
+    from app.agents.assistant import answer
+
+    a = answer("What are common signs of polycystic ovary syndrome?", "en")
+    assert "nhs_pcos" in [c["source_id"] for c in a["citations"]] and "acne" in a["answer"], a["answer"]
