@@ -296,9 +296,11 @@ SLIDES: list[dict] = [
 <div class="cols c-biz">
   <p><b>First buyers:</b> women's health and IVF clinics, and primary-care networks, where DoH's PC008 measure applies.
   Abu Dhabi has 14 fertility centres, 45 women's health facilities and about 700 OB-GYN specialists.</p>
+  <p><b>Cost to serve (hypothesis):</b> a pilot stack in a UAE cloud region lists at about AED 122 a month, and rules
+  need no model. A small clinic at AED 1,990 would keep about 94% before support. The pilot measures the real margin.</p>
   {f'<p class="proof">{html.escape(EVIDENCE)}</p>' if EVIDENCE else ''}
 </div>""",
-        "source": "Prices are hypotheses to test in interviews (research/2026-11-06/04 §9). Market: Abu Dhabi Media Office, 30 Jul 2025.",
+        "source": "Prices are hypotheses to test in interviews (research/2026-11-06/04 §9). Market: Abu Dhabi Media Office, 30 Jul 2025. Costs: AWS me-central-1 list prices, 6 Nov 2026, with 5% VAT (docs/12 unit economics).",
         "notes": "Women use it free and clinics pay per clinician seat. Say the interview and LOI numbers only if they are true; drop the bracket otherwise.",
     },
     {
