@@ -27,4 +27,8 @@ test("turning AI off closes the assistant, and turning it on opens it again", as
   await page.goto("/app/assistant");
   await expect(page.getByRole("heading", { name: en.assistant.offTitle })).toHaveCount(0);
   await expect(page.getByRole("textbox", { name: en.assistant.inputLabel })).toBeVisible();
+  // The 998 route never depends on the assistant recognising a message: it is always on screen.
+  const strip = page.getByRole("note").filter({ hasText: en.assistant.safetyLine });
+  await expect(strip).toBeVisible();
+  await expect(strip.getByRole("link", { name: en.safety.call })).toHaveAttribute("href", "tel:998");
 });
