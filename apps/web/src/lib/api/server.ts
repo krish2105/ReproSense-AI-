@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import { ApiError, errorDetail } from "./errors";
 
 const API_URL = process.env.API_URL ?? "http://127.0.0.1:8010";
+// A hung API (a sleeping free instance can take ~30-60 s to wake) shows the error screen with Retry, not a spinner.
+const API_TIMEOUT_MS = Number(process.env.API_TIMEOUT_MS) || 15_000;
 export const SESSION_COOKIE = "rs_token";
 
 type Query = Record<string, string | number | boolean | undefined>;
@@ -32,6 +34,7 @@ export async function apiServer<T>(path: string, call: ServerCall = {}): Promise
     headers,
     body: call.body === undefined ? undefined : JSON.stringify(call.body),
     cache: "no-store",
+    signal: AbortSignal.timeout(API_TIMEOUT_MS),
   });
   if (!res.ok) throw new ApiError(res.status, await errorDetail(res));
   return (await res.json()) as T;

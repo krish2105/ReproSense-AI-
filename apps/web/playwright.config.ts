@@ -48,5 +48,13 @@ export default defineConfig({
       env: { ...(process.env as Record<string, string>) }, // the job's environment: database URL, demo keys
     },
     { command: "exec ./node_modules/.bin/next start -p 3100", url: `${WEB}/robots.txt`, reuseExistingServer: !process.env.CI, timeout: 120_000 },
+    // A second copy of the same build whose API is a stub the test controls (api-down.spec.ts): down, or too slow.
+    {
+      command: "exec ./node_modules/.bin/next start -p 3101",
+      url: "http://localhost:3101/robots.txt",
+      reuseExistingServer: !process.env.CI,
+      timeout: 120_000,
+      env: { ...(process.env as Record<string, string>), API_URL: "http://127.0.0.1:8019", API_TIMEOUT_MS: "3000" },
+    },
   ],
 });
