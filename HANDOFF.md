@@ -8,6 +8,7 @@ code freeze Sat 21 Nov 18:00 · showcase Sun 22 Nov, DOH Incubator, Masdar City.
 ---
 
 ## 0. Left for Atharva (from Krishna, 6 Nov 2026, late night)
+**Full plan to 95+:** `docs/17_PLAN_TO_95.md`, tracked on GitHub in issue #32 (issues #21–#31, assigned to Atharva).
 Branch `fix/judge-findings` is pushed, all tests green locally (backend, web unit, Playwright 106 passed). Not merged yet.
 1. **Docs with the round-5 numbers.** Held-out round 5 (132 questions by new writers, written after the review fixes,
    measured once, word checks only): crisis 11/30, emergencies 24/32, diagnosis refused 6/10, medicine sent to a

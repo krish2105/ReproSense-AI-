@@ -4,6 +4,21 @@ Every number below is our own strict estimate against `docs/09_SCORECARDS.md` an
 The jury decides the real score. The GitHub issues for this plan are assigned to Atharva (`mercydeez`) and grouped in
 two milestones: **Before selection (16 Nov)** and **Build week (17–21 Nov)**.
 
+## GitHub issues (all assigned to Atharva; tracking issue #32)
+| Milestone | Issue | Moves |
+| --- | --- | --- |
+| Before selection (16 Nov) | #21 Merge `fix/judge-findings`, delete the 8 merged branches | Prototype, Clinical safety, Trust pack |
+| Before selection (16 Nov) | #22 Deploy the live demo (Supabase, Render, Vercel) | Prototype, Real MVP, Real SaaS |
+| Before selection (16 Nov) | #23 Native Arabic review, safety replies first | Women's experience, Real MVP |
+| Before selection (16 Nov) | #24 Test hardening: demo-safe e2e, #418 flake, Lighthouse, states | Trust pack, Real MVP |
+| Before selection (16 Nov) | #25 SaaS evidence: unit economics, UAE hosting, FHIR, Malaffi | Real SaaS, Venture |
+| Before selection (16 Nov) | #26 People: clinical advisor, interviews, letter of intent, usability, rehearsals | Venture, Impact, Pitch, Clinical safety |
+| Build week (17–21 Nov) | #27 Sign-in for joined records | Real MVP, Women's experience |
+| Build week (17–21 Nov) | #28 Clinic tenants: invites, clinic admin, per-clinic dashboard | Real SaaS |
+| Build week (17–21 Nov) | #29 Score the model safety check on round 5 | Clinical safety, Innovation |
+| Build week (17–21 Nov) | #30 Status page: live uptime, support contact | Real SaaS |
+| Build week (17–21 Nov) | #31 Demo readiness every evening, code freeze | Prototype |
+
 ## The honest summary
 - Code alone takes the jury score to about **75**. The last 20 points come from people: a clinician advisor on the team,
   interviews, a letter of intent, rehearsals. Without them, 95 is not reachable.
