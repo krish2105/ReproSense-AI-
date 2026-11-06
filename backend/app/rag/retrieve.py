@@ -5,12 +5,11 @@ retrieve English passages (and vice versa)."""
 from __future__ import annotations
 
 import math
-import re
 from dataclasses import dataclass
 from functools import lru_cache
 
 from app.db import SYSTEM, session
-from app.rag.embed import embed, normalise, stem, to_pg, tokens
+from app.rag.embed import WORD, embed, normalise, stem, to_pg, tokens
 from app.rag.kb import chunks, sources
 
 GLOSSARY = {  # Arabic term (normalised) -> English expansion. AR-REVIEW
@@ -112,7 +111,7 @@ _EN_STOP |= {
 
 
 def expand_query(q: str) -> str:
-    words = re.findall(r"[\w؀-ۿ]+", normalise(q))
+    words = WORD.findall(normalise(q))
     extra = [GLOSSARY[w] for w in words if w in GLOSSARY]
     extra += [GLOSSARY[w[2:]] for w in words if w.startswith("ال") and w[2:] in GLOSSARY]
     return q + (" " + " ".join(extra) if extra else "")
@@ -151,7 +150,7 @@ def search(
 ) -> list[Passage]:
     eq = expand_query(q)
     terms = sorted(query_terms(q))
-    raw = sorted({w for w in re.findall(r"[\w\u0600-\u06FF]+", normalise(eq)) if len(w) > 2 and w not in _EN_STOP})
+    raw = sorted({w for w in WORD.findall(normalise(eq)) if len(w) > 2 and w not in _EN_STOP})
     ts = " | ".join(f"{w}:*" for w in {*raw, *terms}) or "x"
     vec = to_pg(embed(eq))
     filt, args = "", []

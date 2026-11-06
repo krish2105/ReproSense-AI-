@@ -23,6 +23,7 @@ from app.ai.redact import redact
 from app.config import get_settings
 from app.db import SYSTEM, session
 from app.rag import kb
+from app.rag.embed import WORD
 from app.rag.retrieve import search
 from app.rules.engine import Evaluation, Hit, evaluate, load_rules
 
@@ -207,7 +208,7 @@ def writer(state: State) -> dict:
 
 
 _SENT = re.compile(r"(?<=[.!?؟])\s+")
-_WORDS = re.compile(r"[\w؀-ۿ]+")
+_WORDS = WORD  # one definition of a word, without Arabic punctuation (app/rag/embed.py)
 
 
 def supported(sentence: str, facts: list[str]) -> bool:
