@@ -345,7 +345,9 @@ def compute_features(data: dict, ref: date) -> dict:
         "cycles_logged": len(lengths),
         "cycle_lengths_last6": last6,
         "irregular_cycle_count_6": sum(1 for x in last6 if x < 21 or x > 35),
-        "cycles_per_year": sum(1 for s in starts if s >= ref - timedelta(days=365)),
+        # mirrors backend/app/rules/features.py (QUESTIONS #48): None until the record could hold 8 cycles of <= 35 days
+        "cycles_per_year": sum(1 for s in starts if s >= ref - timedelta(days=365))
+        if starts and (ref - starts[0]).days >= 7 * 35 else None,
         "cycle_length_sd": round(statistics.pstdev(last6), 1) if len(last6) > 1 else None,
         "days_since_last_period": (ref - starts[-1]).days if starts else None,
         "androgen_symptom_days_90": sum(1 for l in recent if any(s in ANDROGEN for s in l["symptoms"])),
@@ -381,7 +383,7 @@ def evaluate_rules(f: dict) -> list[str]:
     if f["epds_item10"]:
         hits.append("RF4_SELF_HARM_THOUGHTS")
     irregular = (f["age"] < 45 and not f["pregnant"] and f["years_since_menarche"] >= 3 and f["cycles_logged"] >= 4 and
-                 (f["irregular_cycle_count_6"] >= 2 or f["cycles_per_year"] < 8))
+                 (f["irregular_cycle_count_6"] >= 2 or (f["cycles_per_year"] is not None and f["cycles_per_year"] < 8)))
     if irregular:
         hits.append("OBS_IRREGULAR_CYCLES")
         if f["androgen_symptom_days_90"] >= 10:
