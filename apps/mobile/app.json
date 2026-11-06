@@ -22,7 +22,11 @@
       },
       "predictiveBackGestureEnabled": false,
       "package": "ae.reprosense.app",
-      "allowBackup": false
+      "allowBackup": false,
+      "blockedPermissions": [
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
