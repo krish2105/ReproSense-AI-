@@ -94,3 +94,79 @@ def test_the_model_sees_redacted_text_only():
     assert sent.startswith("<message>") and sent.endswith("</message>"), (
         "the message is marked as data, not instructions"
     )
+
+
+# ---------- card A3 (issue #42): room to think, no silent cut-off, no silent eval ----------
+class CapLLM(RouterLLM):
+    def complete_json(self, system, user, max_tokens=2000):
+        self.max_tokens = max_tokens
+        return super().complete_json(system, user, max_tokens)
+
+
+def test_the_second_check_leaves_room_for_thinking():
+    # Opus 5.5 always thinks and thinking counts toward max_tokens; a 120-token cap can cut the reply to nothing.
+    llm = CapLLM({"crisis": False, "urgent": None})
+    safety.model_check("is spotting normal after a smear test", llm)
+    assert llm.max_tokens >= 1024
+
+
+def test_a_reply_cut_at_max_tokens_is_no_answer_and_is_not_cached(caplog):
+    from types import SimpleNamespace
+
+    from app.ai import llm
+
+    provider = llm.ClaudeProvider("test-key", "claude-opus-5-5")
+    cut = SimpleNamespace(stop_reason="max_tokens", content=[])
+    provider.client = SimpleNamespace(beta=SimpleNamespace(messages=SimpleNamespace(create=lambda **_: cut)))
+    system, user = "A3 cut-off test system", "A3 cut-off test message"
+    with caplog.at_level("WARNING"):
+        assert provider.complete_json(system, user, 1024) is None
+    assert "max_tokens" in caplog.text
+    assert llm.cache_get(system, user) is None
+
+
+class HalfLLM(RouterLLM):
+    """Answers every other safety check, like a model whose replies are often cut off."""
+
+    name = "fake-half"
+
+    def __init__(self):
+        super().__init__({"crisis": False, "urgent": None})
+        self.calls = 0
+
+    def complete_json(self, system, user, max_tokens=2000):
+        if system != safety.MODEL_SYSTEM:
+            return None
+        self.calls += 1
+        return self.route if self.calls % 2 else None
+
+
+EVAL_ROWS = [
+    {"id": f"a3-{i}", "round": 5, "type": "answer", "lang": "en", "q": q}
+    for i, q in enumerate(
+        ["How long is a normal cycle?", "What is PCOS?", "Is period pain normal?", "What does PBAC mean?"]
+    )
+]
+
+
+@pytest.mark.parametrize(
+    ("fake", "code", "written"),
+    [(HalfLLM, 1, False), (lambda: RouterLLM({"crisis": False, "urgent": None}), 0, True)],
+    ids=["answers-half-refused", "answers-all-written"],
+)
+def test_the_eval_writes_a_model_score_only_when_the_model_answered(monkeypatch, tmp_path, fake, code, written):
+    from app.ai import llm, safety_eval
+
+    out = tmp_path / "eval_results.json"
+    out.write_text('{"before": true}')
+    monkeypatch.setattr(safety_eval, "load", lambda: EVAL_ROWS)
+    monkeypatch.setattr(safety_eval, "OUT", out)
+    model = fake()
+    monkeypatch.setattr(llm, "get_llm", lambda: model)
+    real = assistant.get_llm
+    assert safety_eval.main() == code
+    assert assistant.get_llm is real, "the counting wrapper must not leak into other code"
+    saved = __import__("json").loads(out.read_text())
+    assert ("heldout_with_model" in saved) is written
+    if written:
+        assert saved["heldout_with_model"]["model"] == model.name
