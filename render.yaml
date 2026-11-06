@@ -7,6 +7,9 @@ services:
     # Same region as the Supabase database (eu-central-1) and the Vercel functions (fra1, apps/web/vercel.json):
     # every page makes several API-to-database round trips, so the three must sit together (docs/16).
     region: frankfurt
+    # Free until demo day. Without a plan Render creates a paid 0.5c-512mb instance. For the showcase, switch the
+    # instance type to a paid one in the dashboard for the day (free instances sleep after ~15 minutes idle).
+    plan: free
     dockerfilePath: ./backend/Dockerfile
     dockerContext: .
     healthCheckPath: /healthz
