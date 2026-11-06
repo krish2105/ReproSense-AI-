@@ -75,12 +75,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "noura-e0002",
@@ -97,12 +97,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "noura-e0003",
@@ -120,12 +119,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "noura-e0004",
@@ -143,11 +142,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "noura-e0005",
@@ -187,11 +186,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "noura-e0007",
@@ -343,12 +342,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "noura-e0018",
@@ -434,11 +433,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "noura-e0022",
@@ -636,12 +635,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "noura-e0035",
@@ -660,12 +658,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "noura-e0036",
@@ -681,12 +679,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "noura-e0037",
@@ -769,11 +767,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "noura-e0041",
@@ -951,12 +949,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "noura-e0054",
@@ -975,12 +973,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "noura-e0055",
@@ -998,12 +996,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "noura-e0056",
@@ -1022,11 +1020,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "noura-e0057",
@@ -1044,11 +1042,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "noura-e0058",
@@ -1161,12 +1159,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "noura-e0066",
@@ -1185,12 +1183,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "noura-e0067",
@@ -1208,12 +1206,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "noura-e0068",
@@ -1231,11 +1229,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "noura-e0069",
@@ -1253,11 +1251,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "noura-e0070",
@@ -1273,11 +1271,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "noura-e0071",
@@ -1446,12 +1444,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "noura-e0083",
@@ -1469,12 +1467,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "noura-e0084",
@@ -1514,11 +1511,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "noura-e0086",
@@ -1557,11 +1554,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "noura-e0088",
@@ -1580,11 +1577,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "noura-e0089",
@@ -1754,12 +1751,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "noura-e0101",
@@ -1778,12 +1774,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "noura-e0102",
@@ -1802,11 +1798,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "noura-e0103",
@@ -1822,11 +1818,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "noura-e0104",
@@ -1845,11 +1841,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "noura-e0105",
@@ -2075,11 +2071,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "noura-e0121",
@@ -2098,12 +2094,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "noura-e0122",
@@ -2119,12 +2115,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "noura-e0123",
@@ -2330,14 +2325,14 @@
     "period_duration_max": 7,
     "heavy_flow_days_cycle": 0,
     "pbac_by_cycle_6": [
-      39,
       36,
-      36,
-      40,
-      37,
-      34
+      25,
+      35,
+      32,
+      30,
+      35
     ],
-    "pbac_max_6": 40,
+    "pbac_max_6": 36,
     "age": 24,
     "ttc_months": 0,
     "red_flag_heavy_with_dizziness": false,

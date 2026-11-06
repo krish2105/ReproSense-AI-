@@ -15,7 +15,7 @@ from app.agents.pipeline import supported
 from app.ai.guards import violations
 from app.ai.llm import get_llm
 from app.ai.redact import redact
-from app.rag.embed import tokens
+from app.rag.embed import normalise, tokens
 from app.rag.kb import sources
 from app.rag.retrieve import query_terms, search
 
@@ -265,23 +265,40 @@ def _cite_list(ids: list[str]) -> list[dict]:
     return [{"n": i + 1, "source_id": sid, "title": s[sid].title, "url": s[sid].url} for i, sid in enumerate(ids)]
 
 
+# Issue #43 (c): "Why might my cycles be longer than 35 days?" got an off-topic heavy-periods sentence and no causes.
+# Measured by the rag-specialist on all 702 eval and held-out questions plus 42 probes: no answer got worse.
+_WHY = {"why", "لماذا", "ليش", "ليه"}
+_CAUSE = {"reason", "caus", "سبب", "اسباب"}  # stems of reasons / causes
+
+
 def _extractive(q: str, passages, lang: str, max_sents: int = 3) -> tuple[list[dict], list[str]]:
     terms = query_terms(q)
+    why = bool(_WHY & set(re.findall(r"\w+", normalise(q))) or terms & _CAUSE)
     cands = []
     for rank, p in enumerate(passages):
         if p.lang != lang:
             continue
         for s in _SENT.split(p.text):
             words = set(tokens(s))
-            overlap = len(terms & words)
-            cands.append((overlap - 0.15 * rank, overlap, rank, s.strip(), p.source_id))
-    cands.sort(key=lambda c: c[0], reverse=True)
-    chosen = [c for c in cands if c[1] > 0][:max_sents]
+            cands.append([len(terms & words), rank, s.strip(), p.source_id, bool(words & _CAUSE)])
+    if not cands:
+        return [], []
+    best = max(c[0] for c in cands)
+    # The source of the best-matching sentence answers the question; other sources must earn their place.
+    top = min((c for c in cands if c[0] == best), key=lambda c: c[1])[3]
+    if why and best >= 1:  # a why-question wants causes: favour cause sentences in that source only
+        for c in cands:
+            if c[3] == top and c[4]:
+                c[0] += 1
+    # One shared word is weak evidence: once a sentence shares 3 or more, other sources need 2.
+    floor = 2 if best >= 3 else 1
+    cands.sort(key=lambda c: c[0] - 0.15 * c[1], reverse=True)
+    chosen = [c for c in cands if c[0] >= (1 if c[3] == top else floor)][:max_sents]
     if not chosen:
         return [], []
-    order = list(dict.fromkeys(c[4] for c in chosen))
-    chosen.sort(key=lambda c: (order.index(c[4]), c[2]))
-    return [{"text": c[3], "source_id": c[4]} for c in chosen], order
+    order = list(dict.fromkeys(c[3] for c in chosen))
+    chosen.sort(key=lambda c: (order.index(c[3]), c[1]))
+    return [{"text": c[2], "source_id": c[3]} for c in chosen], order
 
 
 def answer(question: str, lang: str | None = None, names: list[str] | None = None) -> dict:

@@ -100,11 +100,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "amina-e0002",
@@ -122,12 +122,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "amina-e0003",
@@ -143,12 +143,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 10
     },
     {
       "id": "amina-e0004",
@@ -164,11 +163,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "amina-e0005",
@@ -209,12 +208,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "amina-e0007",
@@ -232,12 +231,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "amina-e0008",
@@ -253,12 +251,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "amina-e0009",
@@ -277,11 +274,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "amina-e0010",
@@ -300,11 +297,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "amina-e0011",
@@ -375,12 +372,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "amina-e0016",
@@ -398,12 +395,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "amina-e0017",
@@ -419,12 +416,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "amina-e0018",
@@ -496,12 +493,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "amina-e0022",
@@ -519,12 +516,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 10
     },
     {
       "id": "amina-e0023",
@@ -544,11 +540,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "amina-e0024",
@@ -567,11 +563,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "amina-e0025",
@@ -650,12 +646,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "amina-e0030",
@@ -672,11 +668,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "amina-e0031",
@@ -695,12 +691,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "amina-e0032",
@@ -762,12 +758,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "amina-e0036",
@@ -785,12 +781,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "amina-e0037",
@@ -808,12 +804,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "amina-e0038",
@@ -878,12 +874,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "amina-e0042",
@@ -899,12 +895,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "amina-e0043",
@@ -992,12 +988,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "amina-e0048",
@@ -1036,12 +1032,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "amina-e0050",
@@ -1096,11 +1091,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "amina-e0053",
@@ -1118,12 +1113,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 10
     },
     {
       "id": "amina-e0054",
@@ -1166,11 +1160,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "amina-e0056",
@@ -1246,12 +1240,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "amina-e0061",
@@ -1311,12 +1305,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "amina-e0064",
@@ -1333,11 +1326,11 @@
       "pbac_items": {
         "pads": {
           "moderate": 2,
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 12
     },
     {
       "id": "amina-e0065",
@@ -1355,12 +1348,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "amina-e0066",
@@ -1402,11 +1394,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "amina-e0068",
@@ -1462,12 +1454,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "amina-e0072",
@@ -1485,12 +1477,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "amina-e0073",
@@ -1508,12 +1499,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "amina-e0074",
@@ -1529,11 +1520,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     },
     {
       "id": "amina-e0075",
@@ -1552,11 +1543,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "amina-e0076",
@@ -1622,12 +1613,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 3,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 16
     },
     {
       "id": "amina-e0080",
@@ -1645,12 +1636,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 15
     },
     {
       "id": "amina-e0081",
@@ -1666,11 +1656,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 1
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 1
+      "pbac": 2
     }
   ],
   "events": [
@@ -1735,14 +1725,14 @@
     "period_duration_max": 5,
     "heavy_flow_days_cycle": 0,
     "pbac_by_cycle_6": [
-      35,
-      34,
       34,
       35,
-      36,
-      34
+      39,
+      35,
+      23,
+      44
     ],
-    "pbac_max_6": 36,
+    "pbac_max_6": 44,
     "age": 27,
     "ttc_months": 0,
     "red_flag_heavy_with_dizziness": false,

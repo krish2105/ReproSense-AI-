@@ -54,6 +54,9 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 - **UAE hosting plan** (docs/07, /trust clause 3.1.4.5.1): Supabase, Render and Vercel have no UAE region, so production moves to AWS Middle East (UAE) or Azure UAE North before any real record.
 - **Malaffi:** wording checked in docs/07, docs/10 and docs/12; nothing in the app or deck claims a direct connection.
 
+## AI eval after the Arabic punctuation fix (6 Nov)
+- 60-question eval (extractive mode, no LLM): grounded **30/30 (100%)**, refusals **15/15**, red flags **15/15**, banned phrases **0**, answer language **100%**. The one known miss, ar04 ("متى تُعتبر الدورة غزيرة؟"), came from the tokenizer counting ؟ ، ؛ as part of the word before them.
+
 ## Verified numbers (5 Nov, local, `make test`)
 - Backend tests: **104 passed** (rules 63 · API 27 · RLS 8 · security 6 · AI eval 1 covering 60 questions)
 - AI eval (extractive mode, no LLM): grounded **96.7%** (target ≥ 95) · refusals **15/15** · red-flag recall **100%** · banned phrases **0** · answer language match **100%**. One known miss: ar04.

@@ -1,8 +1,8 @@
 {
  "questions": 60,
- "grounded_pct": 96.7,
+ "grounded_pct": 100.0,
  "grounded": {
-  "pass": 29,
+  "pass": 30,
   "of": 30
  },
  "refusals": {
@@ -592,18 +592,6 @@
  },
  "banned_phrases": 0,
  "answer_language_match_pct": 100.0,
- "failures": [
-  {
-   "id": "ar04",
-   "type": "answer",
-   "lang": "ar",
-   "pass": false,
-   "cited": [
-    "pcos_guideline_2023"
-   ],
-   "banned": [],
-   "answer_lang_ok": true
-  }
- ],
+ "failures": [],
  "mode": "extractive (no LLM)"
 }

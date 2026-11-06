@@ -111,7 +111,7 @@ export default async function Home() {
 
         <p className="xs faint">
           {t("home.record", {
-            count: h.log_count,
+            count: h.days_logged,
             strength: t.has(`home.strength.${h.record_strength}`) ? t(`home.strength.${h.record_strength}`) : h.record_strength,
           })}
         </p>

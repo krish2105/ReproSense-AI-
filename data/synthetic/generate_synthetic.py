@@ -104,6 +104,9 @@ def simulate_persona(spec: PersonaSpec, ref: date, rng: random.Random) -> dict:
     logs: list[dict] = []
     cycles: list[dict] = []
     events: list[dict] = []
+    # Pad counts draw from their own stream (issue #43 d), so cycle lengths, pain and the days logged, which the demo
+    # script and docs quote, come out exactly as before. A str-free seed keeps it the same in every process (rule 6).
+    pad_rng = random.Random(sum(map(ord, "pads:" + spec.id)))
     entry_no = 0
 
     def new_id() -> str:
@@ -191,8 +194,15 @@ def simulate_persona(spec: PersonaSpec, ref: date, rng: random.Random) -> dict:
             if bowel and day in (0, 1):
                 symptoms.append("pain with bowel movements")
             impact = "missed work or study" if (impact_needed and day == 1) else ("reduced activity" if pain >= 6 else "none")
-            pads = ({"light": rng.randint(1, 2)} if flow == "light" else
-                    {"moderate": 2, "light": 1} if flow == "medium" else {"soaked": 2, "moderate": 1})
+            # Pads vary inside each flow band (PBAC was 11 on every medium day). Light days keep their one draw from the
+            # main stream, so it stays in step, and add 0-1 from the pad stream: 1-3 pads.
+            if flow == "light":
+                pads = {"light": rng.randint(1, 2) + pad_rng.randint(0, 1)}
+            elif flow == "medium":
+                pads = {"moderate": pad_rng.randint(1, 3), "light": pad_rng.randint(0, 2)}
+            else:
+                pads = {"soaked": pad_rng.randint(1, 3), "moderate": pad_rng.randint(0, 2)}
+            pads = {k: n for k, n in pads.items() if n}
             clots = {}
             if flooding:
                 pads["soaked"] = pads.get("soaked", 0) + 1
@@ -345,7 +355,9 @@ def compute_features(data: dict, ref: date) -> dict:
         "cycles_logged": len(lengths),
         "cycle_lengths_last6": last6,
         "irregular_cycle_count_6": sum(1 for x in last6 if x < 21 or x > 35),
-        "cycles_per_year": sum(1 for s in starts if s >= ref - timedelta(days=365)),
+        # mirrors backend/app/rules/features.py (QUESTIONS #48): None until the record could hold 8 cycles of <= 35 days
+        "cycles_per_year": sum(1 for s in starts if s >= ref - timedelta(days=365))
+        if starts and (ref - starts[0]).days >= 7 * 35 else None,
         "cycle_length_sd": round(statistics.pstdev(last6), 1) if len(last6) > 1 else None,
         "days_since_last_period": (ref - starts[-1]).days if starts else None,
         "androgen_symptom_days_90": sum(1 for l in recent if any(s in ANDROGEN for s in l["symptoms"])),
@@ -381,7 +393,7 @@ def evaluate_rules(f: dict) -> list[str]:
     if f["epds_item10"]:
         hits.append("RF4_SELF_HARM_THOUGHTS")
     irregular = (f["age"] < 45 and not f["pregnant"] and f["years_since_menarche"] >= 3 and f["cycles_logged"] >= 4 and
-                 (f["irregular_cycle_count_6"] >= 2 or f["cycles_per_year"] < 8))
+                 (f["irregular_cycle_count_6"] >= 2 or (f["cycles_per_year"] is not None and f["cycles_per_year"] < 8)))
     if irregular:
         hits.append("OBS_IRREGULAR_CYCLES")
         if f["androgen_symptom_days_90"] >= 10:

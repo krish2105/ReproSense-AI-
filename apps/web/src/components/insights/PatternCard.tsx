@@ -19,7 +19,7 @@ export async function PatternCard({
   version,
   strength,
   cycles,
-  entries,
+  days,
   locale,
 }: {
   card: Card;
@@ -27,7 +27,7 @@ export async function PatternCard({
   version: string;
   strength: string;
   cycles: number;
-  entries: number;
+  days: number;
   locale: Locale;
 }) {
   const t = await getTranslations();
@@ -72,7 +72,7 @@ export async function PatternCard({
               <i key={i} className={i <= filled ? "on" : undefined} />
             ))}
           </span>
-          {t("insights.strengthDetail", { cycles, entries })}
+          {t("insights.strengthDetail", { cycles, days })}
         </span>
         <TraceButton card={card} trace={trace} version={version} />
       </div>
