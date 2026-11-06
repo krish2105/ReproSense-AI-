@@ -50,3 +50,22 @@
 4. **Otherwise,** don't submit. Registration alone hands over no materials.
 
 **Krishna decides.** Registration needs the team lead's account; nothing has been registered or submitted.
+
+## Registration answers, ready to paste (team lead's Hack2skill account)
+Sign in at https://hack2skill.com/event/futurehealthchallenge/ → Register Now. Hack2skill asks you to sign in with Google, GitHub or email; that step is yours. Fill only what the form asks for.
+
+- **Team name:** ReproSense
+- **Focus area and challenge:** Fertility · Reproductive Potential
+- **One line:** A woman's own record of cycles, symptoms and lab results that turns scattered history into explainable patterns worth discussing and a doctor-ready report, so changes in reproductive potential are noticed and assessed earlier.
+- **The problem:** What shapes reproductive potential is scattered: cycle history, symptoms, signs of conditions such as PCOS, lab results such as AMH, and metabolic risk. Most women get a meaningful assessment only when they are already trying to conceive or struggling, and a clinician has minutes to rebuild that history.
+- **Maturity:**
+  - A working prototype (web, English and Arabic).
+  - Transparent rules that cite published guidelines: no diagnosis, no probabilities.
+  - The entries behind every pattern.
+  - An assistant that cites sources and routes red flags to emergency care.
+  - A two-page doctor PDF, and a clinician view by consent.
+  - A FHIR R4 export with 0 errors on the official HL7 validator.
+  - Synthetic data only.
+- **During the challenge:** document assumptions, dependencies and limitations, and refine the reproductive-potential pathway (guideline-timed prompts to seek a fertility assessment), without adding diagnostic claims.
+- **Data:** synthetic data from our own seeded generator; no real patient data; every source declared.
+- **Team:** Krishna Mathur (lead; AI and backend), Atharva Soundankar (design and frontend). Each person can be in one team only.
