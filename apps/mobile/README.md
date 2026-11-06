@@ -183,8 +183,11 @@ cd android && EXPO_PUBLIC_API_URL=https://<api address> ./gradlew assembleReleas
   32-bit ARM). The first build takes about 9 minutes.
 - **Signing:** the APK is signed with the Android debug key. Testers can install it directly ("Install unknown apps"),
   but Google Play needs an upload key, which EAS manages (card M10).
-- **Sending it:** native code is stored uncompressed, so zipping the APK roughly halves it (60 → 27 MB). That fits
-  file-size limits in chat apps.
+- **Sending it:** for a small APK, build for 64-bit phones only with compressed native code. That's 22 MB
+  (checked on Android 14) and fits file-size limits in chat apps:
+  ```bash
+  ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a -Pexpo.useLegacyPackaging=true
+  ```
 
 ## Build for testers and the stores (card M10)
 
