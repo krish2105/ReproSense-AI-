@@ -155,23 +155,32 @@ def evaluate(bundle: dict, ref: date, window_days: int = 14, rules: RuleSet | No
         for lg in bundle.get("daily_logs", [])
         if ref - timedelta(days=window_days) <= date.fromisoformat(str(lg["date"])) <= ref
     ]
-    window.sort(key=lambda lg: str(lg["date"]), reverse=True)  # newest first
+    # A date can hold more than one row (a second tab, the phone app, a seeded row plus her own entry). Red flags read
+    # every row for a date together, so heavy flow in one row and dizziness in another still raise RF1 (7 Nov, 4a).
+    by_day: dict[str, list[dict]] = {}
+    for lg in window:
+        by_day.setdefault(str(lg["date"]), []).append(lg)
+    days = sorted(by_day.items(), reverse=True)  # newest first
 
     red: list[Hit] = []
     for r in rs.red_flags:
-        hit_log, ctx_hit = None, None
+        hit_ids, hit_date, ctx_hit = None, None, None
         ctx0 = {**base, **no_day, **rule_ids}
         if expr.evaluate(r.node, ctx0):
             ctx_hit = ctx0
         else:
-            for lg in window:
-                ctx = {**base, **day_context(lg), **rule_ids}
+            names = expr.names(r.node)
+            for day, rows in days:
+                row_ctx = [day_context(lg) for lg in rows]
+                merged = {k: any(c[k] for c in row_ctx) for k in DAY_SYMPTOMS}
+                ctx = {**base, **merged, **rule_ids}
                 if expr.evaluate(r.node, ctx):
-                    hit_log, ctx_hit = lg, ctx
+                    used = [lg["id"] for lg, c in zip(rows, row_ctx, strict=True) if any(c.get(n) for n in names)]
+                    hit_ids, hit_date, ctx_hit = used or [rows[0]["id"]], day, ctx
                     break
         if ctx_hit is None:
             continue
-        ids = [hit_log["id"]] if hit_log else [i for n in expr.names(r.node) for i in fs.evidence.get(n, [])]
+        ids = hit_ids if hit_ids else [i for n in expr.names(r.node) for i in fs.evidence.get(n, [])]
         red.append(
             Hit(
                 r.id,
@@ -186,7 +195,7 @@ def evaluate(bundle: dict, ref: date, window_days: int = 14, rules: RuleSet | No
                 _values_for(r, ctx_hit),
                 None,
                 r.crisis_path,
-                str(hit_log["date"]) if hit_log else None,
+                hit_date,
             )
         )
 
