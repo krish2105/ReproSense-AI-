@@ -419,4 +419,7 @@ Note that two impacts are in her first-person voice, as on the log form: غبت�
 
 | Key | English | Arabic | OK |
 | --- | --- | --- | --- |
-| `detail.OBS_SEVERE_CYCLICAL_PAIN` | …and you logged missing work or study, or staying in bed, on {n} days in the last 90 days. | …وسجّلتِ الغياب عن العمل أو الدراسة أو البقاء في السرير في {n} أيام خلال آخر 90 يوماً. | |
+| `detail.OBS_SEVERE_CYCLICAL_PAIN` | …and on {n} of the last 90 days you logged that you missed work or study or stayed in bed. | …وفي {n} من آخر 90 يوماً سجّلتِ أنكِ غبتِ عن العمل أو الدراسة أو بقيتِ في السرير. | |
+
+"{n} من آخر 90 يوماً" reads right for any n. Nearby sentences in `copy.py` still put a fixed يوماً, أيام, أسابيع or أشهر after a
+number that changes, which is wrong for some values (2, 3–10, 11+): a follow-up for the native review (#23).

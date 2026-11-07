@@ -77,8 +77,6 @@ def extract(text: str) -> dict:
         cmp = raw[0] if raw[0] in "<>" else ""
         num = float(raw.lstrip("<>"))
         div, unit, note = _normalise(code, num, r.group("unit"))
-        num = round(num / div, 1) if div != 1.0 else num
-        value = f"{cmp}{num:g}" if cmp else num  # "<5" stays "<5": it is saved as text, never as exactly 5
         lo = hi = None
         ref = (r.group("ref") or "").replace(" ", "")
         if "-" in ref:
@@ -87,9 +85,10 @@ def extract(text: str) -> dict:
             hi = float(ref[1:])
         elif ref.startswith(">"):
             lo = float(ref[1:])
+        flag = r.group("flag") or _flag(cmp, num, lo, hi)  # in the printed unit, before rounding can hide a cut-off
         if div != 1.0:
-            lo, hi = (round(x / div, 1) if x is not None else None for x in (lo, hi))
-        flag = r.group("flag") or _flag(cmp, num, lo, hi)
+            num, lo, hi = (round(x / div, 1) if x is not None else None for x in (num, lo, hi))
+        value = f"{cmp}{num:g}" if cmp else num  # "<5" stays "<5": it is saved as text, never as exactly 5
         rows.append(
             {
                 "code": code,

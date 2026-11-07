@@ -16,6 +16,12 @@ def test_a_converted_value_keeps_its_reference_range_in_the_same_unit():
     assert (r["ref_low"], r["ref_high"], r["flag"]) == (12.0, 15.0, "")  # was 120-150 and flagged L
 
 
+def test_the_flag_is_set_in_the_printed_unit_before_rounding():
+    # CHO review: 101 and 100 mg/dL both round to 5.6 mmol/L, so a flag set after rounding lost the H at the cut-off.
+    assert _row("Fasting plasma glucose    101 mg/dL    <100")["flag"] == "H"
+    assert _row("OGTT 2h glucose    141 mg/dL    <140")["flag"] == "H"
+
+
 def test_glucose_conversion_still_converts_its_range():
     r = _row("Fasting plasma glucose    99 mg/dL    70-99")
     assert (r["value"], r["unit"], r["ref_low"], r["ref_high"]) == (5.5, "mmol/L", 3.9, 5.5)
@@ -35,4 +41,6 @@ def test_the_pain_card_names_every_kind_of_day_it_counts():
     en = cp.detail("OBS_SEVERE_CYCLICAL_PAIN", {}, f, "en")
     ar = cp.detail("OBS_SEVERE_CYCLICAL_PAIN", {}, f, "ar")
     doc = cp.clinician_detail("OBS_SEVERE_CYCLICAL_PAIN", f)
-    assert "staying in bed" in en and "البقاء في السرير" in ar and "stayed in bed" in doc
+    assert "you missed work or study or stayed in bed" in en and "stayed in bed" in doc
+    assert "غبتِ عن العمل أو الدراسة أو بقيتِ في السرير" in ar
+    assert "6 من آخر 90 يوماً" in ar  # "n من آخر 90 يوماً" reads right for any n (no أيام/يوماً agreement)
