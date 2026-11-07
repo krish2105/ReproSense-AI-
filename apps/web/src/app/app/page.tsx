@@ -17,7 +17,7 @@ import Link from "next/link";
 import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
 import type { HomeResponse } from "@/lib/api/types";
-import { displayName, firstName, formatDate, isolate } from "@/lib/format";
+import { firstName, formatDate, isolate, shownName } from "@/lib/format";
 import { requireRole } from "@/lib/session";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -57,7 +57,7 @@ export default async function Home() {
             <h1 style={{ fontSize: 22, marginTop: 2 }}>{t("home.sub", { date: formatDate(h.ref_date, locale) })}</h1>
           </div>
           <span className="ava" aria-hidden="true">
-            {displayName(h.profile.alias)[0]}
+            {shownName(h.profile.alias, locale)[0]}
           </span>
         </div>
         {/* The stage switch opens a fictional demo person; on a record she started herself it would leave her own. */}

@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { SourceLinks } from "@/components/safety/SourceLinks";
 import type { ReportPayload, Source } from "@/lib/api/types";
 import type { Locale } from "@/i18n/config";
-import { displayName, formatDate, formatDayMonth, isolate, regionKey } from "@/lib/format";
+import { formatDate, formatDayMonth, isolate, regionKey, shownName } from "@/lib/format";
 import { TableScroll } from "@/components/ui/TableScroll";
 
 /**
@@ -24,7 +24,7 @@ export function ReportDoc({ p, locale }: { p: ReportPayload; locale: Locale }) {
         <span className="xs faint mono">{formatDate(p.generated, locale)}</span>
       </div>
       <p>
-        {t("report.identity", { name: isolate(displayName(p.alias)), age: p.age, region })} · {t("report.stage", { stage: t(`stages.${p.life_stage}`) })}
+        {t("report.identity", { name: isolate(shownName(p.alias, locale)), age: p.age, region })} · {t("report.stage", { stage: t(`stages.${p.life_stage}`) })}
         {p.is_synthetic && <span className="tag t-info" style={{ marginInlineStart: 8 }}>{t("report.synthetic")}</span>}
       </p>
       <p className="s dim">

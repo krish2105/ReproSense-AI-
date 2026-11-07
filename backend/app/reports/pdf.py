@@ -83,6 +83,15 @@ def cycle_chart_svg(cycles: list[dict], w: int = 520, h: int = 150) -> str:
     return "".join(out)
 
 
+def lab_range(lo, hi) -> str:
+    """The printed reference range: "12.0–15.0", "< 5.6" or "> 15" (a bare "–5.6" reads as minus 5.6)."""
+    if lo is not None and hi is not None:
+        return f"{lo}–{hi}"
+    if hi is not None:
+        return f"&lt; {hi}"
+    return f"&gt; {lo}" if lo is not None else ""
+
+
 def render_html(pl: dict) -> str:
     src = sources()
     stage = (pl["life_stage"] or "periods").replace("_", " ")
@@ -115,7 +124,7 @@ def render_html(pl: dict) -> str:
     labs = (
         "".join(
             f"<tr><td>{escape(str(lab['date']))}</td><td>{escape(lab['test'])}</td><td>{escape(str(lab['value']))} {escape(lab['unit'] or '')}</td>"
-            f"<td>{'' if lab['ref_low'] is None else lab['ref_low']}–{'' if lab['ref_high'] is None else lab['ref_high']}</td>"
+            f"<td>{lab_range(lab['ref_low'], lab['ref_high'])}</td>"
             f"<td><b>{escape(lab['flag'] or '')}</b></td></tr>"
             for lab in pl["labs"]
         )
