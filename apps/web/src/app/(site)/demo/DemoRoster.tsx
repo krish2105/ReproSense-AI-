@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
@@ -15,6 +15,7 @@ import { tonesOf } from "@/lib/rules";
 /** Roster rows exactly like the mockup's renderPeople(); "Open <name>'s record" signs in as her and opens her app. */
 export function DemoRoster({ personas, storyLang }: { personas: Persona[]; storyLang?: string }) {
   const t = useTranslations();
+  const locale = useLocale();
   const toast = useToast();
   const [busy, setBusy] = useState<string | null>(null);
   const [, start] = useTransition();
@@ -73,7 +74,7 @@ export function DemoRoster({ personas, storyLang }: { personas: Persona[]; story
               )}
             </div>
             <Button variant="outline" size="sm" pending={busy === p.id} onClick={() => open(p.id)}>
-              {t("demo.open", { name: isolate(firstName(p.alias)) })}
+              {t("demo.open", { name: isolate(firstName(p.alias, locale)) })}
             </Button>
           </li>
         );

@@ -20,6 +20,11 @@ describe("format", () => {
   it("names", () => {
     expect(displayName("Noura A. (fictional)")).toBe("Noura A.");
     expect(firstName("Noura A. (fictional)")).toBe("Noura");
+    // Arabic screens write the fictional personas' names in Arabic script, as the landing CTA already does.
+    expect(firstName("Noura A. (fictional)", "ar")).toBe("نورة");
+    expect(firstName("Mariam", "ar")).toBe("مريم");
+    expect(firstName("Priya S. (fictional)", "en")).toBe("Priya");
+    expect(firstName("Someone N. (fictional)", "ar")).toBe("Someone"); // a joined record's own name stays as typed
     expect(regionKey("Abu Dhabi City")).toBe("abu_dhabi_city");
     expect(regionKey("Al Ain")).toBe("al_ain");
     expect(isolate("Noura A.")).toBe("\u2068Noura A.\u2069");
