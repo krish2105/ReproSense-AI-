@@ -138,7 +138,7 @@ export function LogForm({
       <h2 id="log-form-title" style={{ fontSize: 18 }}>
         {isToday ? t("log.formToday", { date: dateLabel }) : t("log.formDay", { date: dateLabel })}
       </h2>
-      {saved && <p className="xs dim">{t("log.editing")}</p>}
+      {saved && <p className="s">{t("log.editing")}</p>}
 
       <div ref={resultRef} tabIndex={-1} aria-live="assertive" style={{ outline: "none" }}>
         {result && (
