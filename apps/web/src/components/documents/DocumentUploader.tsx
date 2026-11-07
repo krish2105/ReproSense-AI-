@@ -155,9 +155,13 @@ export function DocumentUploader({ demoFile }: { demoFile?: string }) {
                       </td>
                       <td dir="ltr">{r.unit}</td>
                       <td className="mono" dir="ltr">
-                        {r.ref_low ?? ""}
-                        {r.ref_low !== null && r.ref_high !== null ? "–" : r.ref_high !== null ? "< " : ""}
-                        {r.ref_high ?? ""}
+                        {r.ref_low !== null && r.ref_high !== null
+                          ? `${r.ref_low}–${r.ref_high}`
+                          : r.ref_high !== null
+                            ? `< ${r.ref_high}`
+                            : r.ref_low !== null
+                              ? `> ${r.ref_low}`
+                              : ""}
                       </td>
                       <td className={r.flag ? "hi" : undefined}>{r.flag}</td>
                     </tr>

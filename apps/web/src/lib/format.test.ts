@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { displayName, firstName, formatDate, formatDayMonth, formatNumber, isolate, parseIsoDate, regionKey } from "./format";
+import { displayName, firstName, shownName, formatDate, formatDayMonth, formatNumber, isolate, parseIsoDate, regionKey } from "./format";
 
 describe("format", () => {
   it("parses ISO dates without a timezone shift", () => {
@@ -25,6 +25,9 @@ describe("format", () => {
     expect(firstName("Mariam", "ar")).toBe("مريم");
     expect(firstName("Priya S. (fictional)", "en")).toBe("Priya");
     expect(firstName("Someone N. (fictional)", "ar")).toBe("Someone"); // a joined record's own name stays as typed
+    expect(shownName("Noura A. (fictional)", "en")).toBe("Noura A.");
+    expect(shownName("Noura A. (fictional)", "ar")).toBe("نورة");
+    expect(shownName("Someone N. (fictional)", "ar")).toBe("Someone N.");
     expect(regionKey("Abu Dhabi City")).toBe("abu_dhabi_city");
     expect(regionKey("Al Ain")).toBe("al_ain");
     expect(isolate("Noura A.")).toBe("\u2068Noura A.\u2069");
