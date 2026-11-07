@@ -31,6 +31,8 @@ export default async function LogPage({ searchParams }: { searchParams: Promise<
 
   const inRange = (s: string | undefined): s is string => !!s && ISO.test(s) && s >= tl.from && s <= today;
   const formDate = inRange(qDate) ? qDate : today;
+  // Her own saved entry for that day reopens in the form: a second save replaces the row, so a blank form lost data.
+  const saved = tl.days.find((d) => d.date === formDate && d.source === "app");
   const lastLogged = tl.days.length ? tl.days[tl.days.length - 1]!.date : undefined;
   const selected = inRange(qDate) ? qDate : byDate.has(today) ? today : (lastLogged ?? today);
   const first = tl.from.slice(0, 7);
@@ -44,7 +46,7 @@ export default async function LogPage({ searchParams }: { searchParams: Promise<
       <h1 style={{ fontSize: 22, textAlign: "center" }}>{t("title")}</h1>
       <Calendar month={month} today={today} first={first} selected={selected} byDate={byDate} locale={locale} />
       <DayDetail entry={byDate.get(selected)} dateLabel={formatDate(selected, locale)} />
-      <LogForm key={formDate} date={formDate} isToday={formDate === today} dateLabel={formatDate(formDate, locale)} yearCounts={yearCounts} locale={locale} />
+      <LogForm key={formDate} date={formDate} saved={saved} isToday={formDate === today} dateLabel={formatDate(formDate, locale)} yearCounts={yearCounts} locale={locale} />
     </div>
   );
 }

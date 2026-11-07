@@ -319,6 +319,9 @@ export interface TimelineDay {
   sites: string[];
   mood: string | null;
   note: string;
+  sleep_h: number | null;
+  pbac_items: PbacItems | null;
+  source: string | null; // "app" for her own entries; the log form reopens those
 }
 export interface TimelineEvent {
   id: string;

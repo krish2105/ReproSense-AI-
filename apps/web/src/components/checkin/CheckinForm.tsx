@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useTransition, type FormEvent } from "react";
 import { CrisisCard } from "@/components/safety/CrisisCard";
+import { RedFlagCard } from "@/components/safety/RedFlagCard";
 import { SourceLinks } from "@/components/safety/SourceLinks";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { apiClient } from "@/lib/api/client";
@@ -11,7 +12,7 @@ import { ApiError } from "@/lib/api/errors";
 import type { EpdsResult } from "@/lib/api/types";
 import { EPDS_CITATION, EPDS_ITEMS, EPDS_URL } from "@/lib/epds";
 
-/** EPDS check-in. Crisis (item 10 > 0) shows support only: no score, no pattern card (CLAUDE.md rule 5). */
+/** EPDS check-in. Crisis (item 10 > 0) shows support and any other red flag: no score, no pattern card (CLAUDE.md rule 5). */
 export function CheckinForm() {
   const t = useTranslations("checkin");
   const locale = useLocale();
@@ -49,7 +50,13 @@ export function CheckinForm() {
     return (
       <div ref={top} tabIndex={-1} style={{ display: "flex", flexDirection: "column", gap: 12, outline: "none" }}>
         {result.crisis ? (
-          <CrisisCard />
+          <>
+            <CrisisCard />
+            {/* On the crisis path the API sends only the other red flags (never the self-harm card), each with its action. */}
+            {result.cards.map((c) => (
+              <RedFlagCard key={c.observation_id} card={c} locale={locale === "ar" ? "ar" : "en"} />
+            ))}
+          </>
         ) : (
           <section className="box" aria-live="polite">
             <h2 style={{ fontSize: 18 }}>{t("doneTitle")}</h2>

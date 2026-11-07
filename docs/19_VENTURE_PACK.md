@@ -148,7 +148,7 @@ The clinic team's pain (medical director, lead OB-GYN, privacy officer): short v
 - **Price, to validate (ex VAT):** free for women. A paid pilot at AED 5,000–10,000 for 3 months, credited to year 1. Then AED 399 per clinician a month (test 299 / 399 / 549), or AED 1,990 a month for up to 5 clinicians (04 §9; docs/12).
 - docs/15 (our own estimate) scores Venture at 23/30 on 5 Nov. It reaches 27 by 16 Nov only with the advisor, the interviews, 1 LOI, a priced offer and this plan.
 
-**Letter of intent:** use the docs/15 template (`docs/drafts/26-letter-of-intent.md` does not exist yet). Before sending, add the upgrades in 05 §6:
+**Letter of intent:** start from `docs/drafts/26-letter-of-intent.md` (built on the docs/15 template). Before sending, check it has the upgrades in 05 §6:
 1. A named clinical champion and a decision-maker.
 2. The primary measure plus one secondary measure. The baseline is the clinic's own aggregate rate, worked out inside its systems and shared only as x of n (n ≥ 10) once its privacy officer agrees.
 3. An agreed target, a review date, and what follows success.
