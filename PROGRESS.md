@@ -17,6 +17,20 @@ Blockers / questions:
 
 ---
 
+## 2026-11-07 (late) — Safety fix: "severe bleeding" wordings (gate G2, awaiting Krishna) — Krishna with Claude Code
+Done:
+- The assistant's urgent check now treats "severe bleeding", "bleeding really badly", "lots of / so much blood",
+  "haemorrhaging" and Arabic نزيف حاد / شديد / قوي, أنزف بقوة, دم كثير as the heavy half of RF1. With dizziness or fainting
+  they now get the 998 bleed reply. Before, they got `urgent: None` (HANDOFF section 0, known gap).
+- Each cue must sit next to a bleeding word (never a bare "severe" or «شديد»). Blood tests, blood donation and cuts
+  anywhere in the message are excluded. Block `severe bleeding gap` in `backend/app/agents/safety.py`.
+- Tests written first and watched failing (14 failed), then passing: 26 probes in `backend/tests/test_safety_routing.py`.
+- 0 routing changes across all 702 eval questions (60-question eval + held-out rounds 1–5); `eval_results.json` unchanged.
+Tests: backend 306/306 pass (`make test`)
+Next:
+- Krishna approves or edits the PR (G2). Known limitation, shared with the existing "heavy" wording: a past event
+  ("bad bleeding last year, dizzy from the heat now") still routes to 998.
+
 ## 2026-11-06 (night) — Judge panel, research-driven fixes, deck — Krishna with Claude Code
 **Independent judge panel (6 agents, read-only, live API + web + code):**
 - Panel: senior judge (DoH + OB-GYN + VC + founder), chief healthcare officer, women's care lead, CEO/VC, MVP auditor, and a chief judge who merged them.
