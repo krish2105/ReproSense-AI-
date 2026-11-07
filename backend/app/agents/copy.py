@@ -64,6 +64,24 @@ def title(rule_id: str, lang: str = "en") -> str | None:
     return (t[1] if lang == "ar" else t[0]) if t else None
 
 
+DAYS_AR = ("يوم واحد", "يومين", "أيام", "يوماً")
+WEEKS_AR = ("أسبوع واحد", "أسبوعين", "أسابيع", "أسبوعاً")
+MONTHS_AR = ("شهر واحد", "شهرين", "أشهر", "شهراً")
+
+
+def _ar_n(n, one: str, two: str, few: str, many: str) -> str:
+    """Arabic counted noun after a preposition: 1 one, 2 the dual, 3–10 the plural, 11 or more the singular (AR-REVIEW)."""
+    try:
+        k = int(n)
+    except (TypeError, ValueError):
+        return f"{n} {few}"
+    if k == 1:
+        return one
+    if k == 2:
+        return two
+    return f"{k} {few}" if 3 <= k % 100 <= 10 else f"{k} {many}"
+
+
 def detail(rule_id: str, v: dict, f: dict, lang: str = "en", entry_date: str | None = None) -> str:
     """One sentence with the numbers behind the pattern."""
     lens = f.get("cycle_lengths_last6") or []
@@ -84,17 +102,17 @@ def detail(rule_id: str, v: dict, f: dict, lang: str = "en", entry_date: str | N
     }
     ar = {
         "OBS_IRREGULAR_CYCLES": f"{f.get('irregular_cycle_count_6')} من آخر {len(lens)} دورات كانت أقصر من 21 يوماً أو أطول من 35 يوماً (تراوحت بين {rng} يوماً).",
-        "OBS_IRREGULAR_PLUS_ANDROGEN": f"سجّلتِ حب الشباب أو نمو الشعر الزائد في {f.get('androgen_symptom_days_90')} يوماً خلال آخر 90 يوماً، مع دورات غير منتظمة.",
+        "OBS_IRREGULAR_PLUS_ANDROGEN": f"سجّلتِ حب الشباب أو نمو الشعر الزائد في {f.get('androgen_symptom_days_90')} من آخر 90 يوماً، مع دورات غير منتظمة.",
         "OBS_SEVERE_CYCLICAL_PAIN": f"وصل ألم الدورة إلى 7 من 10 أو أكثر في {f.get('severe_pain_cycles_6')} من آخر 6 دورات، وفي {f.get('pain_impact_days_90')} من آخر 90 يوماً سجّلتِ أنكِ غبتِ عن العمل أو الدراسة أو بقيتِ في السرير.",
         "OBS_CYCLICAL_BOWEL_BLADDER_PAIN": "سجّلتِ ألماً أثناء التبرز أو التبول خلال الدورة في دورتين على الأقل.",
-        "OBS_HEAVY_OR_LONG_PERIODS": f"أعلى مجموع لفقدان الدم (PBAC) في آخر 6 دورات كان {f.get('pbac_max_6')}، وأطول دورة استمرت {f.get('period_duration_max')} أيام.",
-        "OBS_HEAVY_WITH_FATIGUE": f"سجّلتِ التعب في {f.get('fatigue_days_90')} يوماً خلال آخر 90 يوماً، مع دورات غزيرة.",
-        "OBS_NO_PERIOD_90_DAYS": f"بدأت آخر دورة مسجّلة قبل {f.get('days_since_last_period')} يوماً.",
-        "CARE_POSTPARTUM_GLUCOSE_TEST": f"كان لديكِ سكري الحمل في حملك الأخير، ووُلد طفلك قبل {f.get('weeks_since_delivery')} أسابيع، ولا يوجد فحص سكر مسجّل بعد الولادة.",
-        "OBS_TTC_FERTILITY_ASSESSMENT": f"تحاولين الحمل منذ {f.get('ttc_months')} أشهر وعمرك {f.get('age')} سنة.",
+        "OBS_HEAVY_OR_LONG_PERIODS": f"أعلى مجموع لفقدان الدم (PBAC) في آخر 6 دورات كان {f.get('pbac_max_6')}، وأطول دورة استمرت {_ar_n(f.get('period_duration_max'), *DAYS_AR)}.",
+        "OBS_HEAVY_WITH_FATIGUE": f"سجّلتِ التعب في {f.get('fatigue_days_90')} من آخر 90 يوماً، مع دورات غزيرة.",
+        "OBS_NO_PERIOD_90_DAYS": f"بدأت آخر دورة مسجّلة قبل {_ar_n(f.get('days_since_last_period'), *DAYS_AR)}.",
+        "CARE_POSTPARTUM_GLUCOSE_TEST": f"كان لديكِ سكري الحمل في حملك الأخير، ووُلد طفلك قبل {_ar_n(f.get('weeks_since_delivery'), *WEEKS_AR)}، ولا يوجد فحص سكر مسجّل بعد الولادة.",
+        "OBS_TTC_FERTILITY_ASSESSMENT": f"تحاولين الحمل منذ {_ar_n(f.get('ttc_months'), *MONTHS_AR)} وعمرك {f.get('age')} سنة.",
         "CARE_PREGNANCY_GLUCOSE_SCREEN": f"أنتِ في الأسبوع {f.get('pregnancy_weeks')} من الحمل ولا يوجد فحص سكر مسجّل في هذا الحمل بعد.",
-        "OBS_POSTPARTUM_MOOD": f"كان مجموع آخر فحص للمزاج (EPDS) {f.get('epds_latest_total')}، بعد {f.get('weeks_since_delivery')} أسابيع من الولادة.",
-        "OBS_PERIMENOPAUSE_SYMPTOMS": f"سجّلتِ الهبّات الساخنة أو التعرق الليلي في {f.get('vasomotor_days_90')} يوماً خلال آخر 90 يوماً.",
+        "OBS_POSTPARTUM_MOOD": f"كان مجموع آخر فحص للمزاج (EPDS) {f.get('epds_latest_total')}، بعد {_ar_n(f.get('weeks_since_delivery'), *WEEKS_AR)} من الولادة.",
+        "OBS_PERIMENOPAUSE_SYMPTOMS": f"سجّلتِ الهبّات الساخنة أو التعرق الليلي في {f.get('vasomotor_days_90')} من آخر 90 يوماً.",
     }
     if rule_id.startswith("RF"):
         when = _fmt_day(entry_date, lang) if entry_date else ""

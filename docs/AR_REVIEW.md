@@ -447,3 +447,16 @@ The doctor report keeps the full Latin alias with its initial ("Noura A.").
 | Noura | نورة | |
 | Priya | بريا | |
 | Sara | سارة | |
+
+## Counted nouns on pattern cards (7 Nov night, draft Arabic, not yet reviewed)
+The "why we noticed" sentences put a fixed أيام / يوماً / أسابيع / أشهر after a number that changes, which was wrong at 2 and
+at 11 or more. `_ar_n` in `backend/app/agents/copy.py` now picks the form: 1 يوم واحد · 2 يومين · 3–10 أيام · 11+ يوماً
+(the same for أسبوع and شهر). Day counts out of 90 read "{n} من آخر 90 يوماً", which is right for any n.
+
+| Sentence | Arabic now | OK |
+| --- | --- | --- |
+| Acne or hair growth, fatigue, hot flushes | …في {n} من آخر 90 يوماً… | |
+| Longest period | …وأطول دورة استمرت يومين / 8 أيام / 12 يوماً. | |
+| Last period started | …قبل 95 يوماً. | |
+| Weeks since the birth (glucose test, mood check) | …قبل / بعد أسبوعين / 9 أسابيع / 12 أسبوعاً… | |
+| Months trying to conceive | …منذ 14 شهراً… | |
