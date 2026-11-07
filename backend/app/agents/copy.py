@@ -71,7 +71,7 @@ def detail(rule_id: str, v: dict, f: dict, lang: str = "en", entry_date: str | N
     en = {
         "OBS_IRREGULAR_CYCLES": f"{f.get('irregular_cycle_count_6')} of your last {len(lens)} cycles were shorter than 21 or longer than 35 days (they ranged from {rng} days).",
         "OBS_IRREGULAR_PLUS_ANDROGEN": f"You logged acne or extra hair growth on {f.get('androgen_symptom_days_90')} days in the last 90 days, alongside irregular cycles.",
-        "OBS_SEVERE_CYCLICAL_PAIN": f"Your period pain reached 7 out of 10 or more in {f.get('severe_pain_cycles_6')} of your last 6 periods, and you logged missing work or study on {f.get('pain_impact_days_90')} days in the last 90 days.",
+        "OBS_SEVERE_CYCLICAL_PAIN": f"Your period pain reached 7 out of 10 or more in {f.get('severe_pain_cycles_6')} of your last 6 periods, and on {f.get('pain_impact_days_90')} of the last 90 days you logged that you missed work or study or stayed in bed.",
         "OBS_CYCLICAL_BOWEL_BLADDER_PAIN": "You logged pain with bowel movements or passing urine during your periods in at least 2 cycles.",
         "OBS_HEAVY_OR_LONG_PERIODS": f"Your highest bleeding score (PBAC) in the last 6 periods was {f.get('pbac_max_6')}, and your longest period lasted {f.get('period_duration_max')} days.",
         "OBS_HEAVY_WITH_FATIGUE": f"You logged tiredness on {f.get('fatigue_days_90')} days in the last 90 days, alongside heavy periods.",
@@ -85,7 +85,7 @@ def detail(rule_id: str, v: dict, f: dict, lang: str = "en", entry_date: str | N
     ar = {
         "OBS_IRREGULAR_CYCLES": f"{f.get('irregular_cycle_count_6')} من آخر {len(lens)} دورات كانت أقصر من 21 يوماً أو أطول من 35 يوماً (تراوحت بين {rng} يوماً).",
         "OBS_IRREGULAR_PLUS_ANDROGEN": f"سجّلتِ حب الشباب أو نمو الشعر الزائد في {f.get('androgen_symptom_days_90')} يوماً خلال آخر 90 يوماً، مع دورات غير منتظمة.",
-        "OBS_SEVERE_CYCLICAL_PAIN": f"وصل ألم الدورة إلى 7 من 10 أو أكثر في {f.get('severe_pain_cycles_6')} من آخر 6 دورات، وسجّلتِ الغياب عن العمل أو الدراسة في {f.get('pain_impact_days_90')} أيام خلال آخر 90 يوماً.",
+        "OBS_SEVERE_CYCLICAL_PAIN": f"وصل ألم الدورة إلى 7 من 10 أو أكثر في {f.get('severe_pain_cycles_6')} من آخر 6 دورات، وفي {f.get('pain_impact_days_90')} من آخر 90 يوماً سجّلتِ أنكِ غبتِ عن العمل أو الدراسة أو بقيتِ في السرير.",
         "OBS_CYCLICAL_BOWEL_BLADDER_PAIN": "سجّلتِ ألماً أثناء التبرز أو التبول خلال الدورة في دورتين على الأقل.",
         "OBS_HEAVY_OR_LONG_PERIODS": f"أعلى مجموع لفقدان الدم (PBAC) في آخر 6 دورات كان {f.get('pbac_max_6')}، وأطول دورة استمرت {f.get('period_duration_max')} أيام.",
         "OBS_HEAVY_WITH_FATIGUE": f"سجّلتِ التعب في {f.get('fatigue_days_90')} يوماً خلال آخر 90 يوماً، مع دورات غزيرة.",
@@ -321,7 +321,7 @@ def clinician_detail(rule_id: str, f: dict) -> str:
     return {
         "OBS_IRREGULAR_CYCLES": f"{f.get('irregular_cycle_count_6')} of her last {len(lens)} cycles were shorter than 21 or longer than 35 days (range {rng} days).",
         "OBS_IRREGULAR_PLUS_ANDROGEN": f"Acne or excess hair growth logged on {f.get('androgen_symptom_days_90')} of the last 90 days, alongside irregular cycles.",
-        "OBS_SEVERE_CYCLICAL_PAIN": f"Period pain 7/10 or more in {f.get('severe_pain_cycles_6')} of her last 6 periods; missed work or study on {f.get('pain_impact_days_90')} of the last 90 days.",
+        "OBS_SEVERE_CYCLICAL_PAIN": f"Period pain 7/10 or more in {f.get('severe_pain_cycles_6')} of her last 6 periods; missed work or study, or stayed in bed, on {f.get('pain_impact_days_90')} of the last 90 days.",
         "OBS_CYCLICAL_BOWEL_BLADDER_PAIN": "Pain on bowel movements or passing urine during periods, logged in at least 2 cycles.",
         "OBS_HEAVY_OR_LONG_PERIODS": f"Highest PBAC {f.get('pbac_max_6')} in the last 6 periods; longest period {f.get('period_duration_max')} days.",
         "OBS_HEAVY_WITH_FATIGUE": f"Tiredness logged on {f.get('fatigue_days_90')} of the last 90 days, alongside heavy periods.",

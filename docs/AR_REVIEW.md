@@ -413,6 +413,17 @@ there must be copied to `AR_FLOW`, `AR_SYMPTOM` and `AR_IMPACT`. These are the s
 Example line: `28 نوفمبر · نزول متوسط، ألم 7/10، PBAC 11، نشاط أقل من المعتاد` (was `نزول medium, … reduced activity`).
 Note that two impacts are in her first-person voice, as on the log form: غبتُ عن العمل أو الدراسة، بقيتُ في السرير.
 
+## Pain card: days counted (7 Nov rescore, draft Arabic, not yet reviewed)
+`OBS_SEVERE_CYCLICAL_PAIN` counts days she logged "missed work or study" and days she logged "stayed in bed"
+(`IMPACT_DAYS` in `backend/app/rules/features.py`). The sentence now names both (`backend/app/agents/copy.py`).
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `detail.OBS_SEVERE_CYCLICAL_PAIN` | …and on {n} of the last 90 days you logged that you missed work or study or stayed in bed. | …وفي {n} من آخر 90 يوماً سجّلتِ أنكِ غبتِ عن العمل أو الدراسة أو بقيتِ في السرير. | |
+
+"{n} من آخر 90 يوماً" reads right for any n. Nearby sentences in `copy.py` still put a fixed يوماً, أيام, أسابيع or أشهر after a
+number that changes, which is wrong for some values (2, 3–10, 11+): a follow-up for the native review (#23).
+
 ## Persona names in Arabic script (7 Nov rescore, draft, not yet reviewed)
 Arabic screens wrote the fictional personas' names in Latin script ("مرحباً Noura", "فتح سجلّ Mariam"), while the landing
 CTA already said نورة. `firstName(alias, "ar")` in `apps/web/src/lib/format.ts` now gives the Arabic spelling on the
