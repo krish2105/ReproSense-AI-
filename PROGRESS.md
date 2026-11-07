@@ -64,6 +64,14 @@ Blockers / questions:
   - Fixes to doc drift (README test counts, the docs/19 letter-of-intent line).
   - The deck's team line, true names and roles only, no advisor. The deck HTML and PDF were rebuilt, and no slide overflows.
 
+**Health wording review (gate G4):** the chief-healthcare-officer and women-care-lead agents read #82–#86.
+- Applied:
+  - #82 step 1 names the pattern ("your irregular cycles"), because home shows the step without the card title.
+  - #83 the reopened-day line says she can change any answer.
+  - #84 the lab flag is set in the printed unit before rounding (101 mg/dL against <100 kept its H), and the pain
+    sentence uses the log form's own words, with Arabic number agreement that works for any count.
+- Not applied: widening the NG194 and NG126 summaries so the after-birth reply's every claim has a source. That changed
+  145 of 702 answers and could not be checked against NICE (403). It is written up in #86 for its own judged PR.
 Tests: backend 306 on main (each fix branch adds its own; the PDF test needs GTK and fails only on Windows) · web unit 52 ·
 e2e 114 passed / 8 skipped, 3 runs in a row
 Senior-judge score: Venture 20/30 · Impact 15.5/20 · Innovation 15.5/20 · Prototype 15/20 · Pitch 6/10 = 72/100
