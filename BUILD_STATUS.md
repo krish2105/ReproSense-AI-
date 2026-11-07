@@ -2,7 +2,7 @@
 
 Legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 
-Last updated: 2026-11-06, night (all phases built and on `main`; deploy waits for Krishna's accounts). Repo: https://github.com/krish2105/ReproSense-AI-
+Last updated: 2026-11-07, night (e2e 3 runs in a row green on `main`; rescore 72/100; fixes from the rescore: #83–#85 merged, #82 and #86 wait for Krishna's G2 approval; deploy waits for Krishna's accounts). Repo: https://github.com/krish2105/ReproSense-AI-
 
 **Owners.** Krishna (`krish2105`): backend, AI, data, security, deploy. Atharva (`mercydeez`): web app (design + frontend).
 Yash (`Yashpetkar7`, invite pending): not assigned yet.
@@ -35,6 +35,13 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 | Generate images with IMAGE_PROMPTS_CHATGPT.md | ✅ 37 images + 1 duplicate placed in public/images; see ASSET_INTEGRATION_REPORT.md |
 | Body-map tap points calibrated to the real art (mockup) | ✅ verified at 320/375/768/1280, front + back |
 | Hackathon rules re-checked on the official page (upstartbar.com/ajyal) | ✅ 5 Nov; building may start when selection is announced on 16 Nov |
+
+## Verified numbers (7 Nov night, local, main `31ca72d`)
+- Web e2e (production build, API from the Linux Docker image in CI's demo-safe setup, no retries): **114 passed, 8 skipped,
+  0 failed in each of 3 runs in a row** (runs 4–6; 5.9–7.1 min each), 0 hydration errors
+- Backend: **306 passed** (the PDF test also passes in CI on Linux; on Windows it needs GTK)
+- Web unit tests: **52 passed**
+- Senior-judge rescore: Jury **72**, MVP **76**, SaaS **72**, Clinical safety **26/35**, Women's experience **27/35**, Trust pack **7/7** (PROGRESS.md)
 
 ## Verified numbers (6 Nov, local)
 - Web e2e (`pnpm e2e`, production build): **69 passed, 3 skipped** (desktop-only checks on the phone project), 3 runs in a row; the demo path takes 13–16 s per viewport

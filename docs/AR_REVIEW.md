@@ -412,3 +412,51 @@ there must be copied to `AR_FLOW`, `AR_SYMPTOM` and `AR_IMPACT`. These are the s
 
 Example line: `28 نوفمبر · نزول متوسط، ألم 7/10، PBAC 11، نشاط أقل من المعتاد` (was `نزول medium, … reduced activity`).
 Note that two impacts are in her first-person voice, as on the log form: غبتُ عن العمل أو الدراسة، بقيتُ في السرير.
+
+## Log form: reopening a saved day (7 Nov rescore, draft Arabic, not yet reviewed)
+Shown above the log form when she already saved that day; her answers are filled in, so she can change any of them and save again.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `log.editing` | You already saved this day. Your answers are below. Change anything you need, then save again. | سبق أن حفظتِ هذا اليوم. إجاباتكِ أدناه، عدّلي ما تريدين ثم احفظي مرة أخرى. | |
+
+## Pain card: days counted (7 Nov rescore, draft Arabic, not yet reviewed)
+`OBS_SEVERE_CYCLICAL_PAIN` counts days she logged "missed work or study" and days she logged "stayed in bed"
+(`IMPACT_DAYS` in `backend/app/rules/features.py`). The sentence now names both (`backend/app/agents/copy.py`).
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `detail.OBS_SEVERE_CYCLICAL_PAIN` | …and on {n} of the last 90 days you logged that you missed work or study or stayed in bed. | …وفي {n} من آخر 90 يوماً سجّلتِ أنكِ غبتِ عن العمل أو الدراسة أو بقيتِ في السرير. | |
+
+"{n} من آخر 90 يوماً" reads right for any n. Nearby sentences in `copy.py` still put a fixed يوماً, أيام, أسابيع or أشهر after a
+number that changes, which is wrong for some values (2, 3–10, 11+): a follow-up for the native review (#23).
+
+## Persona names in Arabic script (7 Nov rescore, draft, not yet reviewed)
+Arabic screens wrote the fictional personas' names in Latin script ("مرحباً Noura", "فتح سجلّ Mariam"), while the landing
+CTA already said نورة. `firstName(alias, "ar")` in `apps/web/src/lib/format.ts` now gives the Arabic spelling on the
+greeting, the landing stage cards, the demo roster and the stage switch. A joined record's own name stays as she typed it.
+The doctor report keeps the full Latin alias with its initial ("Noura A.").
+
+| Name | Arabic | OK |
+| --- | --- | --- |
+| Amina | أمينة | |
+| Fatima | فاطمة | |
+| Hessa | حصة | |
+| Layla | ليلى | |
+| Mariam | مريم | |
+| Noura | نورة | |
+| Priya | بريا | |
+| Sara | سارة | |
+
+## Counted nouns on pattern cards (7 Nov night, draft Arabic, not yet reviewed)
+The "why we noticed" sentences put a fixed أيام / يوماً / أسابيع / أشهر after a number that changes, which was wrong at 2 and
+at 11 or more. `_ar_n` in `backend/app/agents/copy.py` now picks the form: 1 يوم واحد · 2 يومين · 3–10 أيام · 11+ يوماً
+(the same for أسبوع and شهر). Day counts out of 90 read "{n} من آخر 90 يوماً", which is right for any n.
+
+| Sentence | Arabic now | OK |
+| --- | --- | --- |
+| Acne or hair growth, fatigue, hot flushes | …في {n} من آخر 90 يوماً… | |
+| Longest period | …وأطول دورة استمرت يومين / 8 أيام / 12 يوماً. | |
+| Last period started | …قبل 95 يوماً. | |
+| Weeks since the birth (glucose test, mood check) | …قبل / بعد أسبوعين / 9 أسابيع / 12 أسبوعاً… | |
+| Months trying to conceive | …منذ 14 شهراً… | |

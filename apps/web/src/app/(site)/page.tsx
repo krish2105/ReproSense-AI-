@@ -86,7 +86,7 @@ export default async function Landing() {
               <div className="dev-body" style={{ paddingBottom: 20, overflow: "hidden" }}>
                 <div className="kv" style={{ alignItems: "center" }}>
                   <div className="hello">
-                    <p>{t("home.hello", { name: isolate(firstName(show.alias)) })}</p>
+                    <p>{t("home.hello", { name: isolate(firstName(show.alias, locale)) })}</p>
                     <p className="h">{t("home.sub", { date: formatDate(show.refDate, locale) })}</p>
                   </div>
                   <span className="ava" aria-hidden="true">
@@ -160,7 +160,7 @@ export default async function Landing() {
                 <b>{t(`stages.${s.stage}`)}</b>
                 <span>{t(`landing.stageDesc.${s.stage}`)}</span>
                 <span className="xs" style={{ color: "var(--accent-text)", fontWeight: 700 }}>
-                  {t("landing.stageOpen", { name: s.name })}
+                  {t("landing.stageOpen", { name: firstName(s.name, locale) })}
                 </span>
               </OpenPersona>
             </li>

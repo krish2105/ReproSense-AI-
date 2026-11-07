@@ -31,9 +31,22 @@ export function displayName(alias: string): string {
   return alias.replace(/\s*\(fictional\)\s*$/i, "").trim();
 }
 
-/** "Noura A. (fictional)" → "Noura" */
-export function firstName(alias: string): string {
-  return displayName(alias).split(/\s+/)[0] ?? alias;
+// The eight fictional personas' first names in Arabic script (AR-REVIEW). API aliases are Latin.
+const AR_NAMES: Readonly<Record<string, string>> = {
+  Amina: "أمينة",
+  Fatima: "فاطمة",
+  Hessa: "حصة",
+  Layla: "ليلى",
+  Mariam: "مريم",
+  Noura: "نورة",
+  Priya: "بريا",
+  Sara: "سارة",
+};
+
+/** "Noura A. (fictional)" → "Noura"; on Arabic screens a persona's name is written in Arabic ("نورة"). */
+export function firstName(alias: string, locale?: string): string {
+  const name = displayName(alias).split(/\s+/)[0] ?? alias;
+  return locale === "ar" ? (AR_NAMES[name] ?? name) : name;
 }
 
 /** "Abu Dhabi City" → "abu_dhabi_city" (message key under regions.*). */
