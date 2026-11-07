@@ -17,7 +17,7 @@ Blockers / questions:
 
 ---
 
-## 2026-11-07 (late) — Safety fix: "severe bleeding" wordings (gate G2, awaiting Krishna) — Krishna with Claude Code
+## 2026-11-07 (late) — Safety fix: "severe bleeding" wordings (PR #79, G2 approved, merged) — Krishna with Claude Code
 Done:
 - The assistant's urgent check now treats "severe bleeding", "bleeding really badly", "lots of / so much blood",
   "haemorrhaging" and Arabic نزيف حاد / شديد / قوي, أنزف بقوة, دم كثير as the heavy half of RF1. With dizziness or fainting
@@ -28,7 +28,7 @@ Done:
 - 0 routing changes across all 702 eval questions (60-question eval + held-out rounds 1–5); `eval_results.json` unchanged.
 Tests: backend 306/306 pass (`make test`)
 Next:
-- Krishna approves or edits the PR (G2). Known limitation, shared with the existing "heavy" wording: a past event
+- Krishna approved (G2) and #79 was merged after 14/14 CI checks. Known limitation, shared with the existing "heavy" wording: a past event
   ("bad bleeding last year, dizzy from the heat now") still routes to 998.
 
 ## 2026-11-06 (night) — Judge panel, research-driven fixes, deck — Krishna with Claude Code

@@ -36,6 +36,7 @@ section, then `CLAUDE.md`, then `docs/18_ROADMAP_TO_95.md` (the order of work, c
 | #73 | Issue #66: the care navigator's appointment request is in her own voice (`OWN_VOICE` in `backend/app/agents/navigator.py`; `tests/test_navigator.py`) |
 | #76 | Issue #67: Arabic evidence lines give flow, symptoms, impact and events in Arabic (`AR_*` maps in `backend/app/agents/copy.py`; `tests/test_arabic_evidence.py`; new strings in `docs/AR_REVIEW.md`) |
 | #78 | New README: product, safety, architecture, measured results, setup, limitations |
+| #79 | Severe-bleeding gap: "severe bleeding", "bleeding really badly", "lots of blood", "haemorrhaging" and Arabic نزيف حاد / شديد / قوي, أنزف بقوة, دم كثير count as the heavy half of RF1 (block `severe bleeding gap` in `backend/app/agents/safety.py`; 26 probes in `test_safety_routing.py`). 0 routing changes across all 702 eval questions. G2 approved by Krishna |
 | #48, #75, #74, #77 | docs/18 roadmap; Atharva's A9 safety case, A5 sources (NICE NG126, crisis, period pain) and A10 venture pack |
 Also on 7 Nov: Krishna submitted his HealthX Ajyal application (via Outlook) and emailed the organisers (Upstart Bar's
 info address, from his Gmail) the four questions in `docs/drafts/44-organiser-email.md`, including whether entering the
@@ -63,11 +64,8 @@ venture pack) on 7 Nov evening. Still open:
 | #58 Rescore and mobile roadmap | Krishna | Docs; review and merge or close |
 
 ### Known gaps found 7 Nov, not fixed yet
-- **"Severe bleeding" wordings: fixed on branch `fix/severe-bleeding-urgent`, PR open and waiting for Krishna's G2
-  approval (not merged).** "severe bleeding", "bleeding really badly", "lots of blood" and Arabic نزيف حاد / شديد / قوي,
-  with dizziness, got `urgent: None`. The fix adds adjacency-based cues (never a bare "severe" or «شديد»), 26 probes,
-  306 tests passing and 0 routing changes across the 702 eval questions. A past event ("bad bleeding last year") still
-  routes to 998, the same as the existing "heavy" wording.
+- **Word checks do not read time** (not new, seen while fixing #79): "I had a bad bleeding scare last year, now I'm just dizzy from the heat" gets the 998 reply, and so does the same message with "heavy" on `main` before #79. It errs towards showing 998. A fix is a separate safety change (G2).
+- **"bleed a lot" with unrelated dizziness:** "is it bad if I bleed a lot on day one? I sometimes feel dizzy when I stand" routes to 998 through the existing `_HEAVY_FIX` pattern. Raise with the clinical advisor.
 - **React hydration error #418 on `/clinic`** still fails an e2e run now and then (seen on PR #71's first run; a re-run
   passed). docs/17 target: find the cause, CI green 3 runs in a row.
 - **Arabic copy** (including the new #65–#67 strings) is a draft until the native review (#23).
@@ -78,7 +76,7 @@ venture pack) on 7 Nov evening. Still open:
   fails with "NOTES_KEY is not set". Never copy another checkout's `.env`.
 - Run `make seed` only from the checkout whose `.env` will serve the dev database: it reseeds `reprosense` with
   that checkout's NOTES_KEY. Tests seed `reprosense_test` by themselves.
-- `make test` takes about 20 s once warm (the first run in a new venv is slower). Expect **280 passed** on `main` (7 Nov evening).
+- `make test` takes about 20 s once warm (the first run in a new venv is slower). Expect **306 passed** on `main` (7 Nov, after #79).
 - The desktop preview launcher cannot start servers from `~/Downloads` (macOS privacy). Start servers with a background
   shell instead, for example
   `cd backend && DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib uv run uvicorn app.main:app --port 8010`, then open the URL.
@@ -237,7 +235,7 @@ Scope = demo path first (#11) · builders Krishna + Atharva (#12) · demo role t
 You are continuing ReproSense AI for Krishna. Read HANDOFF.md section 0 first, then CLAUDE.md and docs/18_ROADMAP_TO_95.md.
 Commit as Krishna Mathur <113384784+krish2105@users.noreply.github.com>. Never add Claude or AI co-author lines or
 "Generated with Claude Code" to commits or PRs. Run `make hooks` once.
-Run `make env db seed test` to confirm the backend (expect 280 passed), then `cd apps/web && pnpm build && PW_CHANNEL=chrome pnpm e2e`.
+Run `make env db seed test` to confirm the backend (expect 306 passed), then `cd apps/web && pnpm build && PW_CHANNEL=chrome pnpm e2e`.
 Then tell me what is waiting on me today (HANDOFF.md section 0, "Waiting on Krishna") and continue the next item I pick.
 Before 16 Nov only safety, privacy, truth and data-loss fixes. Test first. Ask me before changing safety logic or
 rules/clinical_rules.yaml.
