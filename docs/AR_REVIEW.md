@@ -412,3 +412,11 @@ there must be copied to `AR_FLOW`, `AR_SYMPTOM` and `AR_IMPACT`. These are the s
 
 Example line: `28 نوفمبر · نزول متوسط، ألم 7/10، PBAC 11، نشاط أقل من المعتاد` (was `نزول medium, … reduced activity`).
 Note that two impacts are in her first-person voice, as on the log form: غبتُ عن العمل أو الدراسة، بقيتُ في السرير.
+
+## Irregular cycles: next steps (#43 e, draft Arabic, not yet reviewed)
+`OBS_IRREGULAR_CYCLES` now leads with the doctor step, and the logging step no longer names a cycle count
+(`rules/translations_ar.yaml`). The first line shows as "Today's recommendation" on home.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `OBS_IRREGULAR_CYCLES.next_steps[1]` | Keep logging the day each period starts. Each new cycle makes the pattern clearer. | استمري في تسجيل يوم بدء كل دورة. كل دورة جديدة تجعل النمط أوضح. | |
