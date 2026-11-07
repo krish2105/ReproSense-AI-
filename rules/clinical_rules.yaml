@@ -16,7 +16,7 @@ red_flags:   # evaluated FIRST by the safety guardian; any hit shows an urgent c
     when: "sudden_severe_pelvic_pain_today and (possible_pregnancy or fever_today)"
     urgency: urgent
     message_en: "Sudden severe pelvic pain, especially with fever or a possible pregnancy, needs urgent care. Call 998."
-    source_ids: [nhs_pelvic_pain]
+    source_ids: [nhs_pelvic_pain, nice_ng126]   # NG126: ectopic pregnancy (QUESTIONS #59)
   - id: RF3_postmenopausal_or_pregnancy_bleeding
     when: "bleeding_today and (pregnant or postmenopausal)"
     urgency: urgent

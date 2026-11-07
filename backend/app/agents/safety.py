@@ -306,7 +306,11 @@ def urgent_kind(text: str) -> str | None:
     faint = bool(_FAINT.search(t) or _FAINT_R3.search(t) or _FAINT_65.search(t))
     heavy_faint = heavy and faint
     preg_sign = bool(
-        _PREG_SIGN.search(t) or _PREG_SIGN_R3.search(t) or _PREG_SIGN_FIX.search(t) or _HEAD_EYES_AR.search(t)
+        _PREG_SIGN.search(t)
+        or _PREG_SIGN_R3.search(t)
+        or _PREG_SIGN_FIX.search(t)
+        or _HEAD_EYES_AR.search(t)
+        or _PREG_SIGN_59.search(t)
     )
     worse_pain = bool(_WORSE_PAIN.search(t))
     if heavy_faint and not pregnant and not after_birth:
@@ -593,6 +597,19 @@ _HEAVY_SEVERE = _c(
 )
 # Checked on the whole message, not per clause: "I cut my finger, it's bleeding badly" and "I gave blood today, lots
 # of blood" put the site or the blood draw in a different clause from the bleeding cue.
+# ------------------------------------------------------------------------------------------------------- QUESTIONS #59
+# Found in card A5 (7 Nov): "I might be pregnant and my period pain is severe" got an ordinary answer. Severe pain with a
+# possible pregnancy can be an ectopic pregnancy, an emergency (NICE NG126). "severe pain" already counted as a pregnancy
+# warning sign; these say the same in other word orders: the pain or cramps are severe or unbearable, severe period
+# pain, and Arabic ألم / وجع / مغص شديد or قوي. They only count with a pregnancy cue (the pregnancy route needs both), so
+# severe period pain alone stays an ordinary answer.
+_PREG_SIGN_59 = _c(
+    r"\b(pain|cramps?|cramping|ache)\b (is |are |feels? |has been |have been |getting |got )?(really |very |so |extremely )?"
+    r"(severe|unbearable|excruciating|agonis\w*|agoniz\w*)\b",
+    r"\b(unbearable|excruciating|agonis\w*|agoniz\w*) (period |tummy |belly |pelvic |lower )?(pain|cramps?)\b",
+    r"\bsevere (period |tummy |belly |pelvic |lower (belly |tummy )?)?(pain|cramps?|cramping)\b",
+    r"(الم|وجع|مغص|تقلصات|عوار) (\S+ ){0,2}?(شديد|شديده|قوي|قويه|لا يحتمل|ما ينطاق|ما يتحمل|فظيع)",
+)
 _NOT_WOMB = _c(
     r"\b(cut|cuts|knee|finger|toe|arm|lip|mouth|ear|wound|scratch\w*|graze\w*|scrape\w*)\b",
     r"\b(gave|giving|give|donat\w*) (some )?blood\b|\bdonat\w*|\bblood (tests?|work|draw\w*|samples?|bank)\b",

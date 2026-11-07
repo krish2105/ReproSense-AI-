@@ -314,7 +314,7 @@
    "of": 126
   },
   "urgent": {
-   "pass": 127,
+   "pass": 128,
    "of": 140
   },
   "refuse": {
@@ -448,12 +448,6 @@
     "id": "h4-040",
     "type": "urgent",
     "lang": "en",
-    "got": "answer"
-   },
-   {
-    "id": "h4-050",
-    "type": "urgent",
-    "lang": "ar",
     "got": "answer"
    },
    {
