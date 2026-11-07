@@ -17,6 +17,78 @@ Blockers / questions:
 
 ---
 
+## 2026-11-07 (night) — Full e2e, senior-judge rescore, fixes from the rescore — Atharva with Claude Code
+**Build and e2e on main (`31ca72d`, Windows, Chrome, production build, no retries):**
+- `pnpm build` passes (22 routes).
+- Run 1, API run natively on Windows: 112 passed, 8 skipped, 2 failed. Both failures were the PDF step of the demo path
+  (desktop and mobile). WeasyPrint has no Pango on Windows, so the API answered 503. CI runs that step on Linux.
+- From run 2 on, the API ran from the project's own Linux image (`backend/Dockerfile`), in CI's demo-safe setup: dummy key,
+  dead model address, `E2E_DEMO_SAFE=1`.
+- Run 2: **114 passed, 8 skipped, 0 failed**.
+- Run 3: 113 passed, 1 failed. The mobile demo path passed its 3-minute budget while backend tests and installs ran
+  alongside it (20.8 min for the run, against 6.2). This was load, not a code fault, and is not counted as a green run.
+- **Runs 4, 5 and 6, back to back on a quiet machine: 114 passed, 8 skipped, 0 failed each**, with 0 hydration errors
+  (React #418) in any run. That meets the docs/17 target of 3 green runs in a row locally. #418 stays open as documented
+  (Next 15.5's React canary; Next 16 in PR #72), because it is rare.
+- The 8 skips are by design: desktop-only or server-side checks skip on the phone project.
+
+**Senior-judge rescore (docs/18 §5; main `31ca72d`; 6 Nov evening values in brackets):**
+
+| Scorecard | 7 Nov night | Moved by |
+| --- | --- | --- |
+| Jury | **72.0** (68.5) | Venture 20.0 (venture pack #77), Impact 15.5, Innovation 15.5 (NG126 and crisis sources #74, safety case #75), Prototype 15.0, Pitch 6.0 |
+| Real MVP | **76** (75) | Arabic 6.5 (#76), pilot-ready 5.5 (safety case) |
+| Real SaaS | **72** (72) | No change; every gap is build-week work (C1, C2, C6) or needs people (B4, B12) |
+| Clinical safety | **26/35** (23) | Red flags 4.5 (#40, #71, #79), sources 4.5, edge cases 3, governance 3.5. Guards went down to 4.5: the judge's probes found the Arabic and hedged-English gaps |
+| Women's experience | **27/35** (26) | Clarity 4.5 (A4a–d, #73), Arabic 2.5 |
+| Trust pack | **7/7** | Kept |
+
+**Fixes from the rescore (opened tonight, all test-first, all inside gate G1):**
+- #82 A4e next-step wording (rules YAML, **needs Krishna's G2 approval**).
+- #83 Safety and data loss:
+  - The crisis path keeps her other red flags on Patterns and in the check-in reply.
+  - The log form reopens the day's saved entry, so a second save adds to the first instead of replacing it.
+- #84 Truth:
+  - A converted lab value keeps its range in the same unit.
+  - "<5" stays "<5".
+  - The pain card names the bed days it counts.
+- #85 Arabic screens write the fictional personas' names in Arabic script.
+- #86 Guard gaps (diacritised and Gulf Arabic, hedged English) and urgent replies citing sources that cover their text
+  (NG126; the NHS crisis pages). **Needs Krishna's G2 approval.** Across 702 eval questions: 0 routing changes and 0
+  answer-text changes.
+- This PR:
+  - `CHANGE_LOG.md` rows for #71 and #79.
+  - A CI `change-log` job that fails a PR changing clinical logic without a change-log row.
+  - A status update in `HAZARD_LOG.md`.
+  - The docs/18 "Now" columns.
+  - Fixes to doc drift (README test counts, the docs/19 letter-of-intent line).
+  - The deck's team line, true names and roles only, no advisor. The deck HTML and PDF were rebuilt, and no slide overflows.
+
+**Health wording review (gate G4):** the chief-healthcare-officer and women-care-lead agents read #82–#86.
+- Applied:
+  - #82 step 1 names the pattern ("your irregular cycles"), because home shows the step without the card title.
+  - #83 the reopened-day line says she can change any answer.
+  - #84 the lab flag is set in the printed unit before rounding (101 mg/dL against <100 kept its H), and the pain
+    sentence uses the log form's own words, with Arabic number agreement that works for any count.
+- Not applied: widening the NG194 and NG126 summaries so the after-birth reply's every claim has a source. That changed
+  145 of 702 answers and could not be checked against NICE (403). It is written up in #86 for its own judged PR.
+Tests: backend 306 on main (each fix branch adds its own; the PDF test needs GTK and fails only on Windows) · web unit 52 ·
+e2e 114 passed / 8 skipped, 3 runs in a row
+Senior-judge score: Venture 20/30 · Impact 15.5/20 · Innovation 15.5/20 · Prototype 15/20 · Pitch 6/10 = 72/100
+Next (the judge's points per hour):
+- Krishna:
+  - Approve #82 and #86 (G2).
+  - Deploy on Mon 9 Nov (A7).
+- Atharva:
+  - Send the advisor, clinician and manager messages (A8). Both trackers are still empty, and this is the only route to
+    the ~17 people points.
+Not done tonight, and why:
+- The ferritin next step contradicts NG88 (`clinical_rules.yaml:133`): an advisor decision (Q35, Q49).
+- The model timeout (30 s × 2 retries) is longer than the web's 15 s limit. It is latent while the model is off; fix it
+  with B2.
+- `/readyz` briefly shows an empty index while demo data resets: warm up after every reset.
+- The EPDS items are in English in the Arabic app: they need the validated Arabic EPDS.
+
 ## 2026-11-07 (late) — Safety fix: "severe bleeding" wordings (PR #79, G2 approved, merged) — Krishna with Claude Code
 Done:
 - The assistant's urgent check now treats "severe bleeding", "bleeding really badly", "lots of / so much blood",
