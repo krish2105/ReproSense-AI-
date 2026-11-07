@@ -333,6 +333,26 @@ SLIDES: list[dict] = [
         "source": "Understand your body. Recognise the patterns. Take informed action.",
         "notes": "Our ask is one three-month pilot with one Abu Dhabi clinic. Then the tagline. Stop speaking by 2:55.",
     },
+    {
+        "title": "Eight gates, then one pilot.",
+        "body": """
+<p class="eyebrow">Appendix · regulatory path and pilot measure · draft, pending clinician review</p>
+<h2>Eight gates, then one pilot.</h2>
+<table class="rai" style="font-size:15px;margin-top:16px">
+  <thead><tr><th>Months</th><th>Regulatory steps</th><th>Owner (proposed)</th><th>Regulator</th><th>Grant</th></tr></thead>
+  <tbody>
+    <tr><td>0–1</td><td>Claims frozen. EDE classification enquiry, DoH HTA software pre-evaluation, ADHICS gap and privacy impact assessments.</td><td>Regulatory, product and tech leads</td><td>EDE; DoH Facility Licensing, AAMEN, ADHTAC; DoH Incubator intros</td><td>50% + 10%</td></tr>
+    <tr><td>2–3</td><td>Data processing agreement, Arabic and English consent, ethics protocol, clinician-signed rules. UAE stack live; app registration filed.</td><td>All leads and the clinical advisor</td><td>Clinic ethics committee; DoH AAMEN, Facility Licensing</td><td>15%</td></tr>
+    <tr><td>4–6</td><td>Gate review G1–G8, then a consented pilot: up to 20 women, 3 clinicians, one clinic. ADHICS evidence pack, licensed company.</td><td>Whole team, with the clinic</td><td>DoH and EDE; pilot notices via the clinic</td><td>25%</td></tr>
+  </tbody>
+</table>
+<div class="cols c-biz" style="margin-top:14px">
+  <p style="font-size:15px;line-height:1.4"><b>Pilot measure.</b> Among women with gestational diabetes, the share who complete the postpartum glucose test (75 g OGTT or the clinic's protocol test) within 12 weeks of birth; DoH's Jawda PC008 tracks it in primary care. Baseline: the clinic's own rate, shared only as an aggregate (n ≥ 10). Local reference: 265 of 1,043 (25.4%) returned for the 4–6-week OGTT, one Al Ain hospital, 2013–14. Target set with the clinic. Secondary: clinician minutes to understand a new patient's history.</p>
+  <p style="font-size:15px;line-height:1.4"><b>Synthetic data until eight gates pass:</b> company licence; written EDE classification plus DoH HTA pre-evaluation; DoH app registration (or written word it isn't needed); ADHICS on UAE hosting, nothing offshore; privacy; ethics; AI risk file; clinician-signed rules with a hazard log and red-flag tests at 100% recall.</p>
+</div>""",
+        "source": "Plan, owners, gates: research/2026-11-06/03 §6–7. Grant: HealthX Ajyal page (01 §1 ← upstartbar.com/ajyal), timings indicative. Measure: SMFM 2023 (02 §3.5); DoH Jawda PC v7, 2026 wording to confirm (01 §4.3). Local reference: Agarwal et al., IJERPH 2022 (02 §3.5). Secondary: 05 §6.",
+        "notes": "Appendix for questions on regulation and milestones. Draft, pending clinician review: the measure definition and red-flag wording need the clinical advisor's sign-off. No real patient data until all eight gates pass. The clinic works out its own baseline in its own systems and shares only an aggregate count. The Emirates Drug Establishment decides device status; we don't self-certify. If EDE classifies it as medical equipment, there is no pilot until EDE marketing approval. PC008 is a primary-care indicator, which is why the first clinic sits in a group that also runs family medicine. One primary measure plus one operational secondary measure, judged against the clinic's own current rate and reported as counts.",
+    },
 ]
 
 CSS = """
