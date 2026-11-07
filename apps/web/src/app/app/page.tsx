@@ -32,7 +32,7 @@ export default async function Home() {
   const locale = isLocale(raw) ? raw : "en";
   const t = await getTranslations();
   const h = await apiServer<HomeResponse>("/me/home", { query: { lang: locale } });
-  const name = firstName(h.profile.alias);
+  const name = firstName(h.profile.alias, locale);
   const soon = h.observations.find((o) => o.urgency === "soon");
   const gap = soon ? h.care_gaps.find((g) => g.type === soon.creates_care_gap) : undefined;
   const latestDraft = soon ? h.navigator_drafts.find((d) => d.rule_id === soon.observation_id && d.status !== "discarded") : undefined;

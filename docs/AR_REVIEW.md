@@ -412,3 +412,20 @@ there must be copied to `AR_FLOW`, `AR_SYMPTOM` and `AR_IMPACT`. These are the s
 
 Example line: `28 نوفمبر · نزول متوسط، ألم 7/10، PBAC 11، نشاط أقل من المعتاد` (was `نزول medium, … reduced activity`).
 Note that two impacts are in her first-person voice, as on the log form: غبتُ عن العمل أو الدراسة، بقيتُ في السرير.
+
+## Persona names in Arabic script (7 Nov rescore, draft, not yet reviewed)
+Arabic screens wrote the fictional personas' names in Latin script ("مرحباً Noura", "فتح سجلّ Mariam"), while the landing
+CTA already said نورة. `firstName(alias, "ar")` in `apps/web/src/lib/format.ts` now gives the Arabic spelling on the
+greeting, the landing stage cards, the demo roster and the stage switch. A joined record's own name stays as she typed it.
+The doctor report keeps the full Latin alias with its initial ("Noura A.").
+
+| Name | Arabic | OK |
+| --- | --- | --- |
+| Amina | أمينة | |
+| Fatima | فاطمة | |
+| Hessa | حصة | |
+| Layla | ليلى | |
+| Mariam | مريم | |
+| Noura | نورة | |
+| Priya | بريا | |
+| Sara | سارة | |
