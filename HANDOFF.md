@@ -71,6 +71,7 @@ Atharva merged #74 and #77 on 7 Nov evening, then #83, #84, #85, #87, #88, #89 a
 | #58 Rescore and mobile roadmap | Krishna | Docs; review and merge or close |
 
 ### Known gaps found 7 Nov, not fixed yet
+- **Found by the 7 Nov late-night rescore (PROGRESS.md):** Q59 still misses a late or missed period with severe pain in the assistant (Home's RF2 catches it); the guard still passes "your results suggest PCOS" and «يبدو أنك مصابة»; budget fallbacks from #94 are not counted; and the live Vercel site tells judges to run `make api` until the API is deployed.
 - **After-birth reply sources (4d):** the after-birth urgent reply still says things its cited NG194 and NG126 summaries do not contain. Widening them moved 145 of 702 answers in a first try, so it needs a judged answer round (card A5) and a clinician check against NICE.
 - **Possible (unconfirmed) pregnancy with severe pain** now gets the pregnancy reply ("go to your maternity unit"), as similar wordings already did (#95). The sudden-pain reply ("nearest emergency department") may fit a possible ectopic better: a decision for the clinical advisor.
 - **Word checks do not read time** (not new, seen while fixing #79): "I had a bad bleeding scare last year, now I'm just dizzy from the heat" gets the 998 reply, and so does the same message with "heavy" on `main` before #79. It errs towards showing 998. A fix is a separate safety change (G2).
@@ -88,7 +89,7 @@ Atharva merged #74 and #77 on 7 Nov evening, then #83, #84, #85, #87, #88, #89 a
   fails with "NOTES_KEY is not set". Never copy another checkout's `.env`.
 - Run `make seed` only from the checkout whose `.env` will serve the dev database: it reseeds `reprosense` with
   that checkout's NOTES_KEY. Tests seed `reprosense_test` by themselves.
-- `make test` takes about 20 s once warm (the first run in a new venv is slower). Expect **357 passed** on `main` once #94–#96 are merged (7 Nov, late night). CI's e2e: 118 passed, 8 skipped by design.
+- `make test` takes about 20 s once warm (the first run in a new venv is slower). Expect **358 passed** on `main` (7 Nov, late night, `5feb506`). CI's e2e: 118 passed, 8 skipped by design.
 - The desktop preview launcher cannot start servers from `~/Downloads` (macOS privacy). Start servers with a background
   shell instead, for example
   `cd backend && DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib uv run uvicorn app.main:app --port 8010`, then open the URL.
@@ -247,7 +248,7 @@ Scope = demo path first (#11) · builders Krishna + Atharva (#12) · demo role t
 You are continuing ReproSense AI for Krishna. Read HANDOFF.md section 0 first, then CLAUDE.md and docs/18_ROADMAP_TO_95.md.
 Commit as Krishna Mathur <113384784+krish2105@users.noreply.github.com>. Never add Claude or AI co-author lines or
 "Generated with Claude Code" to commits or PRs. Run `make hooks` once.
-Run `make env db seed test` to confirm the backend (expect 357 passed), then `cd apps/web && pnpm build && PW_CHANNEL=chrome pnpm e2e`.
+Run `make env db seed test` to confirm the backend (expect 358 passed), then `cd apps/web && pnpm build && PW_CHANNEL=chrome pnpm e2e`.
 Then tell me what is waiting on me today (HANDOFF.md section 0, "Waiting on Krishna") and continue the next item I pick.
 Before 16 Nov only safety, privacy, truth and data-loss fixes. Test first. Ask me before changing safety logic or
 rules/clinical_rules.yaml.
