@@ -5,10 +5,11 @@ Scope: hazards to her, the woman using ReproSense, from the app as it stands on 
 **Status update, 7 Nov night (senior-judge rescore).** The table below is still the snapshot at `8218060`. Since then:
 - Issue #65 is routed: PR #71 merged (`fed926d`). PR #79 merged (`c03ce60`): "severe bleeding" wordings also count as the
   heavy half of RF1. Both rows are in `CHANGE_LOG.md`.
-- Open PRs for the actions below: #83 (the crisis path keeps other red flags on Patterns and in the check-in reply; the log
-  form reopens the day's entry: actions 5 and 6), #84 (lab ranges convert with their values, "<5" stays "<5": note 4),
-  #86 (the diagnostic guard's Arabic and hedged-English gaps, and the urgent citations: gate G2), #82 (A4e wording: G2).
-  The hazards stay open until those merge.
+- Merged the same night: #83 (the crisis path keeps other red flags on Patterns and in the check-in reply; the log form
+  reopens the day's entry: actions 5 and 6) and #84 (lab ranges convert with their values, the H/L flag is set before
+  rounding, "<5" stays "<5": note 4). Their controls are on main; the table rows are refreshed at the next sign-off.
+- Still open for gate G2: #86 (the diagnostic guard's Arabic and hedged-English gaps, and the urgent citations) and #82
+  (A4e wording). Those hazards stay open until they merge.
 
 | Hazard | Cause | Current control | Residual risk | Owner | Next action |
 | --- | --- | --- | --- | --- | --- |

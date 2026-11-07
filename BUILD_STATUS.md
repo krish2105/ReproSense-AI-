@@ -2,7 +2,7 @@
 
 Legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 
-Last updated: 2026-11-07, night (e2e 3 runs in a row green on `main`; rescore 72/100; fixes from the rescore in PRs #82–#86; deploy waits for Krishna's accounts). Repo: https://github.com/krish2105/ReproSense-AI-
+Last updated: 2026-11-07, night (e2e 3 runs in a row green on `main`; rescore 72/100; fixes from the rescore: #83–#85 merged, #82 and #86 wait for Krishna's G2 approval; deploy waits for Krishna's accounts). Repo: https://github.com/krish2105/ReproSense-AI-
 
 **Owners.** Krishna (`krish2105`): backend, AI, data, security, deploy. Atharva (`mercydeez`): web app (design + frontend).
 Yash (`Yashpetkar7`, invite pending): not assigned yet.
