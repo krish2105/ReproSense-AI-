@@ -250,7 +250,7 @@ def create_log(body: LogIn, actor: Actor = Depends(patient)):
         cur.execute(
             "INSERT INTO daily_logs (id, profile_id, date, flow, pain, pain_sites, symptoms, impact, mood, sleep_h, pbac, pbac_items,"
             " note_enc, source) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,'app') ON CONFLICT (id) DO UPDATE SET flow=EXCLUDED.flow,"
-            " pain=EXCLUDED.pain, pain_sites=EXCLUDED.pain_sites, symptoms=EXCLUDED.symptoms, impact=EXCLUDED.impact, mood=EXCLUDED.mood,"
+            " pain=EXCLUDED.pain, pain_sites=EXCLUDED.pain_sites, symptoms=EXCLUDED.symptoms, impact=EXCLUDED.impact, mood=COALESCE(EXCLUDED.mood, daily_logs.mood),"
             " sleep_h=EXCLUDED.sleep_h, pbac=EXCLUDED.pbac, pbac_items=EXCLUDED.pbac_items, note_enc=EXCLUDED.note_enc",
             (
                 lid,
@@ -487,6 +487,22 @@ async def upload_document(file: UploadFile = File(...), actor: Actor = Depends(p
     return {"id": did, **ext}
 
 
+def _confirmed_flag(value: str, lo, hi, printed: str) -> str:
+    """H or L from the value she confirms, never the flag sent back from extraction time: she may have corrected a
+    misread value, and the doctor PDF prints this flag. Without a range, keep the flag the lab printed."""
+    s = value.strip()
+    cmp = s[0] if s[:1] in ("<", ">") else ""
+    try:
+        n = float(s.lstrip("<>"))
+        lo = None if lo in (None, "") else float(lo)
+        hi = None if hi in (None, "") else float(hi)
+    except (TypeError, ValueError):
+        return printed or ""
+    if lo is None and hi is None:
+        return printed or ""
+    return docs._flag(cmp, n, lo, hi)
+
+
 class ConfirmIn(BaseModel):
     rows: list[dict]
 
@@ -503,6 +519,7 @@ def confirm_document(doc_id: int, body: ConfirmIn, actor: Actor = Depends(patien
                 continue
             v = r["value"]
             num = float(v) if isinstance(v, (int, float)) or re.fullmatch(r"-?\d+(\.\d+)?", str(v)) else None
+            flag = _confirmed_flag(str(v), r.get("ref_low"), r.get("ref_high"), r.get("flag", ""))
             cur.execute(
                 "INSERT INTO lab_results (profile_id, code, test, value, value_num, unit, ref_low, ref_high, flag, date,"
                 " source_doc_id, confirmed) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,true)",
@@ -515,7 +532,7 @@ def confirm_document(doc_id: int, body: ConfirmIn, actor: Actor = Depends(patien
                     r.get("unit"),
                     r.get("ref_low"),
                     r.get("ref_high"),
-                    r.get("flag", ""),
+                    flag,
                     r["date"],
                     doc_id,
                 ),

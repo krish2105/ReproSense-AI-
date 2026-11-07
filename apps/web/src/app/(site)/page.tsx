@@ -14,7 +14,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
 import { isLocale } from "@/i18n/config";
 import { isKnownCycle } from "@/lib/api/types";
-import { displayName, firstName, formatDate, isolate } from "@/lib/format";
+import { firstName, formatDate, isolate, shownName } from "@/lib/format";
 import { getShowcase } from "@/lib/showcase";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -90,7 +90,7 @@ export default async function Landing() {
                     <p className="h">{t("home.sub", { date: formatDate(show.refDate, locale) })}</p>
                   </div>
                   <span className="ava" aria-hidden="true">
-                    {displayName(show.alias)[0]}
+                    {shownName(show.alias, locale)[0]}
                   </span>
                 </div>
                 <CycleArc status={show.status} locale={locale} />

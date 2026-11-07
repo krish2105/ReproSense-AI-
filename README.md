@@ -134,7 +134,7 @@ limitations). Rounds 1–4 (510 questions) are development sets used to improve 
 
 | Suite | Count |
 | --- | --- |
-| Backend (pytest): rules, API, RLS, safety routing, assistant eval, PDF, FHIR, security | 313 tests |
+| Backend (pytest): rules, API, RLS, safety routing, assistant eval, PDF, FHIR, security | 318 tests |
 | Web unit tests (Vitest) | 14 files |
 | End-to-end (Playwright): demo path, screens, safety, 3D fallbacks, API-down states | 10 specs, 63 tests per viewport (desktop and phone); 118 run, 8 skip by design |
 

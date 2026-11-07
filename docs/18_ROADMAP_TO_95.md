@@ -5,15 +5,15 @@ This file sets the order of work. `docs/17_PLAN_TO_95.md` keeps the score analys
 
 ## 0. Read this first
 
-**Where we are:** main at `31ca72d`, rescored on 7 Nov at night by the senior-judge agent (PROGRESS.md, #32). The 6 Nov evening values were Jury 68.5, MVP 75, SaaS 72, Clinical safety 23, Women's experience 26, Trust pack 7.
+**Where we are:** main at `d6b298a`, rescored late on 7 Nov by the senior-judge agent (PROGRESS.md, #32). Earlier values: 6 Nov evening Jury 68.5, MVP 75, SaaS 72, Clinical safety 23, Women's experience 26; 7 Nov night on `31ca72d` Jury 72, MVP 76, SaaS 72, Clinical safety 26, Women's experience 27. Trust pack 7 throughout.
 
 | Scorecard | Now |
 | --- | --- |
 | Jury | 72/100 |
-| Real MVP | 76/100 |
+| Real MVP | 76.5/100 |
 | Real SaaS | 72/100 |
-| Clinical safety | 26/35 |
-| Women's experience | 27/35 |
+| Clinical safety | 26.5/35 |
+| Women's experience | 27.5/35 |
 | Trust pack | 7/7 |
 
 - **The target:** 95% or more on every scorecard. That means 95 on the jury, MVP and SaaS scorecards, 33.5 of 35 on Clinical safety and Women's experience, and 7 of 7 on the trust pack.
@@ -133,10 +133,10 @@ Card:
 | Scorecard | Now | 95 bar | With code alone | What only people can add |
 | --- | --- | --- | --- | --- |
 | Jury /100 | 72 | 95 | ~78 | Advisor, interviews, letter of intent, usability evidence, rehearsals (~17 points) |
-| Real MVP /100 | 76 | 95 | ~91 | Timed sign-up with 5 women, clinician timing the PDF, native Arabic review |
+| Real MVP /100 | 76.5 | 95 | ~91 | Timed sign-up with 5 women, clinician timing the PDF, native Arabic review |
 | Real SaaS /100 | 72 | 95 | ~94 | Prices tested in interviews, CAC from the real outreach |
-| Clinical safety /35 | 26 | 33.5 | ~28 (~32 if the model check passes) | Advisor sign-off and rule decisions |
-| Women's experience /35 | 27 | 33.5 | ~29 | Arabic reviewer, usability sessions |
+| Clinical safety /35 | 26.5 | 33.5 | ~28 (~32 if the model check passes) | Advisor sign-off and rule decisions |
+| Women's experience /35 | 27.5 | 33.5 | ~29 | Arabic reviewer, usability sessions |
 | Trust pack /7 | 7 | 7 | 7 | None |
 
 ### 2.2 Jury rubric (docs/09 A: each criterion 0–5, times its weight)
@@ -157,7 +157,7 @@ Card:
 | Doctor PDF accurate and readable in 60 s | 7 | 10 | A clinician times 3 PDFs; a test that every PDF number equals the API data → B6, C4 |
 | Clinician sees only consented patients | 10 | 10 | Keep the RLS tests; extend them to tenants → C1 |
 | Empty, loading and error states | 9 | 10 | A state audit for every route, sign-in and clinic admin included → C7 |
-| Arabic RTL and English | 6.5 | 10 | Native review, then a phone check in RTL → B3, C4 |
+| Arabic RTL and English | 7 | 10 | Native review, then a phone check in RTL → B3, C4 |
 | Lighthouse ≥ 90 on mobile | 10 | 10 | Measure again after Next 16 and sign-in → C0, C7 |
 | Automated tests | 9 | 10 | No React #418 (Next 16), CI green 3 runs in a row → A6, C0 |
 | Pilot-ready after hardening | 5.5 | 9.5 | Deployed, sign-in, tenants, safety case, security review → A7, A9, C1–C3, C7 |
@@ -180,7 +180,7 @@ Card:
 | Line (5 each) | Now | Target | Gap → card |
 | --- | --- | --- | --- |
 | 1 Red flags: 6 rules, 998 first, recall 100% | 4.5 | 5 | RF2 fires without a fever (Q53, PR #40) → A1–A2 |
-| 2 Crisis: EPDS item 10 path and crisis messages to the assistant | 3 | 5 | Model check crisis ≥ 27/30 on round 5 → A3, B2 |
+| 2 Crisis: EPDS item 10 path and crisis messages to the assistant | 3.5 | 5 | Model check crisis ≥ 27/30 on round 5 → A3, B2 |
 | 3 Assistant routing on held-out questions | 3 | 5 | With the model: emergencies ≥ 30/32, diagnosis ≥ 9/10, medicine ≥ 9/10, everyday ≥ 48/50 → B2 |
 | 4 Non-diagnostic language and guards | 4.5 | 5 | Keep the banned-phrase tests and guards; review copy again after the Arabic pass |
 | 5 Sources | 4.5 | 5 | NG126 and an overdose source added; every link checked live with an access date → A5 |
@@ -192,7 +192,7 @@ Card:
 | --- | --- | --- | --- |
 | 1 First run: value in under 3 minutes | 4 | 5 | Timed with 5 women; fix the top 3 → B5, C4 |
 | 2 Clarity and reading level (grade 7) | 4.5 | 5 | Walk findings fixed; copy pass with the women-care-lead agent → A4, C4 |
-| 3 Arabic and RTL | 2.5 | 5 | Native review, safety replies first → B3, C4 |
+| 3 Arabic and RTL | 3 | 5 | Native review, safety replies first → B3, C4 |
 | 4 Tone and cultural fit, no assumptions | 4 | 5 | Sessions with Emirati and expatriate women; fix what they flag → B5, C4 |
 | 5 Privacy and control | 4 | 5 | Sign-in with export and delete; AI stays opt-in → C3 |
 | 6 Accessibility | 5 | 5 | Keep axe and Lighthouse in CI |
@@ -203,7 +203,7 @@ CI already enforces all seven checks:
 
 | Check | Now |
 | --- | --- |
-| Grounded answers | ≥ 95% (96.7% today) |
+| Grounded answers | ≥ 95% (100%, 30/30, on 7 Nov) |
 | Diagnosis questions refused | 15/15 |
 | Red-flag recall | 15/15 |
 | Rule accuracy | 8/8 |

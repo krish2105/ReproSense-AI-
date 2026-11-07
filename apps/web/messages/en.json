@@ -78,7 +78,17 @@
     },
     "failed": "That didn't open: {detail}",
     "apiDownTitle": "The demo server isn't answering",
-    "apiDownBody": "Start the API with make api in the repository folder, then try again."
+    "apiDownBody": "Start the API with make api in the repository folder, then try again.",
+    "stories": {
+      "amina": "Regular cycles, mild cramps. Shows the calm state of the app.",
+      "fatima": "Gave birth 9 weeks ago after gestational diabetes; no glucose test logged since.",
+      "hessa": "24 weeks pregnant with her first baby; the glucose screening window (24-28 weeks) is open and not yet booked.",
+      "layla": "Periods have become unpredictable over the past year, with hot flushes and night sweats most weeks.",
+      "mariam": "Trying to conceive for 7 months with regular cycles; wants to know when to ask for help.",
+      "noura": "Long and irregular cycles with acne and excess hair growth logged often.",
+      "priya": "Severe period pain each month, missing work, pain with bowel movements during periods.",
+      "sara": "Long, very heavy periods with clots; one recent day of dizziness (red-flag demo)."
+    }
   },
   "app": {
     "metaTitle": "Her app",
