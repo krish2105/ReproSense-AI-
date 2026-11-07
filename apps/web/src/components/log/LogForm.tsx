@@ -10,7 +10,7 @@ import { Seg } from "@/components/ui/Pills";
 import { useToast } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
-import type { Card, Flow, Impact, LogBody, LogResult, PainSite, ParseResult, PbacItems } from "@/lib/api/types";
+import type { Card, Flow, Impact, LogBody, LogResult, PainSite, ParseResult, PbacItems, TimelineDay } from "@/lib/api/types";
 import type { Locale } from "@/i18n/config";
 import { ALL_SYMPTOMS, COMMON_SYMPTOMS, FLOWS, IMPACTS, MORE_SYMPTOMS, PBAC_WEIGHTS, pbacScore, slug } from "@/lib/vocab";
 import { BodyMap } from "./BodyMap";
@@ -36,19 +36,42 @@ function toItems(counts: Partial<Record<PbacKey, number>>): PbacItems | null {
   return Object.keys(out).length ? (out as PbacItems) : null;
 }
 
+function fromItems(items: PbacItems | null | undefined): Partial<Record<PbacKey, number>> {
+  const out: Partial<Record<PbacKey, number>> = {};
+  for (const r of PBAC_ROWS) {
+    const n = (items?.[r.group] as Record<string, number> | undefined)?.[r.level];
+    if (n) out[r.key] = n;
+  }
+  return out;
+}
+
 /** Log form (mockup tLog): saves with POST /v1/logs and shows any red flag immediately, before anything else. */
-export function LogForm({ date, isToday, dateLabel, yearCounts, locale }: { date: string; isToday: boolean; dateLabel: string; yearCounts: Record<string, number>; locale: Locale }) {
+export function LogForm({
+  date,
+  saved,
+  isToday,
+  dateLabel,
+  yearCounts,
+  locale,
+}: {
+  date: string;
+  saved?: TimelineDay;
+  isToday: boolean;
+  dateLabel: string;
+  yearCounts: Record<string, number>;
+  locale: Locale;
+}) {
   const t = useTranslations();
   const router = useRouter();
   const toast = useToast();
-  const [flow, setFlow] = useState<Flow>("none");
-  const [counts, setCounts] = useState<Partial<Record<PbacKey, number>>>({});
-  const [pain, setPain] = useState(0);
-  const [sites, setSites] = useState<PainSite[]>([]);
-  const [symptoms, setSymptoms] = useState<string[]>([]);
-  const [impact, setImpact] = useState<Impact>("none");
-  const [sleep, setSleep] = useState("");
-  const [note, setNote] = useState("");
+  const [flow, setFlow] = useState<Flow>(saved?.flow ?? "none");
+  const [counts, setCounts] = useState<Partial<Record<PbacKey, number>>>(() => fromItems(saved?.pbac_items));
+  const [pain, setPain] = useState(saved?.pain ?? 0);
+  const [sites, setSites] = useState<PainSite[]>((saved?.sites ?? []) as PainSite[]);
+  const [symptoms, setSymptoms] = useState<string[]>(saved?.symptoms ?? []);
+  const [impact, setImpact] = useState<Impact>((saved?.impact as Impact | undefined) ?? "none");
+  const [sleep, setSleep] = useState(saved?.sleep_h == null ? "" : String(saved.sleep_h));
+  const [note, setNote] = useState(saved?.note ?? "");
   const [parsed, setParsed] = useState<string | null>(null);
   const [result, setResult] = useState<{ flags: Card[]; crisis: boolean } | null>(null);
   const [saving, startSave] = useTransition();
@@ -115,6 +138,7 @@ export function LogForm({ date, isToday, dateLabel, yearCounts, locale }: { date
       <h2 id="log-form-title" style={{ fontSize: 18 }}>
         {isToday ? t("log.formToday", { date: dateLabel }) : t("log.formDay", { date: dateLabel })}
       </h2>
+      {saved && <p className="xs dim">{t("log.editing")}</p>}
 
       <div ref={resultRef} tabIndex={-1} aria-live="assertive" style={{ outline: "none" }}>
         {result && (
