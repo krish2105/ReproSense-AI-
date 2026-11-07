@@ -1,0 +1,44 @@
+name: mobile
+# The phone app (docs/21, apps/mobile): lint, types, unit tests, and a check that the files it copies from the web app
+# (API types, messages, tokens, shared helpers) are current. Runs when the app or one of those web files changes.
+on:
+  push:
+    paths:
+      - "apps/mobile/**"
+      - "apps/web/messages/**"
+      - "apps/web/src/lib/**"
+      - "apps/web/src/app/globals.css"
+      - "apps/web/public/demo/**"
+      - ".github/workflows/mobile.yml"
+  pull_request:
+    paths:
+      - "apps/mobile/**"
+      - "apps/web/messages/**"
+      - "apps/web/src/lib/**"
+      - "apps/web/src/app/globals.css"
+      - "apps/web/public/demo/**"
+      - ".github/workflows/mobile.yml"
+
+jobs:
+  mobile:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: apps/mobile/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Copies shared with the web app are current (types, messages, tokens, helpers)
+        run: npm run sync:check
+      - name: Lint (includes the no left/right layout rule)
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Unit tests (API client, safety and crisis answers, drafts, storage, QR, charts)
+        run: npm test -- --ci

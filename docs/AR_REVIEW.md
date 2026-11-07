@@ -331,6 +331,49 @@ in crisis or in an emergency. Edit them in `assistant.py` (`URGENT_TEXT`, `MEDIC
 | --- | --- | --- | --- |
 | `trust…r7.ours` | This demo holds fictional data only, on services without a UAE region. Production will run in a UAE cloud region (AWS Middle East (UAE) or Azure UAE North) with backups and disaster recovery in the UAE, a UAE-hosted model or no model, and support access from inside the UAE. | هذا العرض يحتوي بيانات خيالية فقط، على خدمات ليست لها منطقة في الإمارات. سيعمل الإنتاج في منطقة سحابية داخل الإمارات (AWS الشرق الأوسط (الإمارات) أو Azure الإمارات الشمالية) مع نسخ احتياطية وتعافٍ من الكوارث داخل الإمارات، وبنموذج مستضاف في الإمارات أو دون نموذج، ودعم فني من داخل الإمارات. | |
 
+## Phone app strings (`apps/mobile/src/i18n/mobile.ar.json`, added 6 Nov)
+
+Words only the phone app needs: the app lock, the clinic QR scanner, the language switch, the share link and the demo
+reset. Every other string on the phone comes from `apps/web/messages/ar.json` (the rows above). Edit the phone
+strings in `apps/mobile/src/i18n/mobile.ar.json`.
+
+| Key | English | Arabic | OK? |
+| --- | --- | --- | --- |
+| `mobile.unlock` | Unlock | فتح القفل | |
+| `mobile.locked` | ReproSense is locked | ReproSense مقفل | |
+| `mobile.back` | Back | رجوع | |
+| `mobile.more` | More | المزيد | |
+| `mobile.lockTitle` | App lock | قفل التطبيق | |
+| `mobile.lockBody` | Ask for Face ID, a fingerprint or your phone's passcode each time ReproSense opens. Off by default. | اطلبي بصمة الوجه أو بصمة الإصبع أو رمز الهاتف في كل مرة يُفتح فيها ReproSense. القفل متوقف افتراضياً. | |
+| `mobile.lockOn` | Turn on app lock | تفعيل قفل التطبيق | |
+| `mobile.lockOff` | Turn off app lock | إيقاف قفل التطبيق | |
+| `mobile.lockIsOn` | App lock is on. | قفل التطبيق مفعّل. | |
+| `mobile.lockIsOff` | App lock is off. | قفل التطبيق متوقف. | |
+| `mobile.lockUnavailable` | This phone has no Face ID, fingerprint or passcode set up, or the check was cancelled, so the lock is still off. | لا توجد بصمة وجه أو بصمة إصبع أو رمز مُعدّ على هذا الهاتف، أو أُلغي التحقق، لذلك ما زال القفل متوقفاً. | |
+| `mobile.about` | About | حول التطبيق | |
+| `mobile.trust` | Trust centre (opens the website) | مركز الثقة (يفتح الموقع) | |
+| `mobile.status` | Team scorecard and live status (opens the website) | بطاقة أداء الفريق والحالة المباشرة (يفتح الموقع) | |
+| `mobile.pdfReady` | The PDF is ready. Choose where to save or send it. | ملف PDF جاهز. اختاري مكان حفظه أو إرساله. | |
+| `mobile.pdfFailed` | The PDF didn't download: {detail} | لم يُنزَّل ملف PDF: {detail} | |
+| `mobile.exportReady` | Your data is ready. Choose where to save it. | بياناتك جاهزة. اختاري مكان حفظها. | |
+| `mobile.dayTitle` | Logged days | الأيام المسجلة | |
+| `mobile.pick` | Pick a woman to open her app | اختاري امرأة لفتح تطبيقها | |
+| `mobile.resetDone` | Demo data reset. Every fictional record is back where it started. | تمت إعادة ضبط البيانات التجريبية. عادت كل السجلات الخيالية إلى بدايتها. | |
+| `mobile.resetAsk` | Reset the demo data? | إعادة ضبط البيانات التجريبية؟ | |
+| `mobile.resetBody` | Every fictional record goes back to its starting point, and records started with Join are deleted. | تعود كل السجلات الخيالية إلى نقطة البداية، وتُحذف السجلات التي بدأت من صفحة الانضمام. | |
+| `mobile.cancel` | Cancel | إلغاء | |
+| `mobile.scanAction` | Scan a clinic's QR code | امسحي رمز QR الخاص بالعيادة | |
+| `mobile.scanTitle` | Point the camera at the clinic's QR code | وجّهي الكاميرا نحو رمز QR الخاص بالعيادة | |
+| `mobile.scanAllow` | Allow the camera | السماح باستخدام الكاميرا | |
+| `mobile.scanNoCamera` | The camera is off for ReproSense, so the code can't be read. You can still start a record without a clinic. | الكاميرا غير مفعّلة لتطبيق ReproSense، لذلك لا يمكن قراءة الرمز. يمكنك بدء سجل من دون عيادة. | |
+| `mobile.scanInvalid` | That isn't a ReproSense clinic code. Try the patient QR code at the clinic desk. | هذا ليس رمز عيادة من ReproSense. جرّبي رمز QR المخصص للمراجعات عند مكتب الاستقبال. | |
+| `mobile.noClinic` | Join without a clinic | الانضمام من دون عيادة | |
+| `mobile.sharedLink` | Link for your clinic | الرابط الخاص بعيادتك | |
+| `mobile.chooseDate` | Choose the date | اختاري التاريخ | |
+| `mobile.clearDate` | Clear the date | مسح التاريخ | |
+| `mobile.hideTable` | Hide the table | إخفاء الجدول | |
+| `mobile.reopen` | Close and reopen ReproSense to finish switching the layout direction. | أغلقي ReproSense وافتحيه مرة أخرى لإكمال تغيير اتجاه الصفحة. | |
+
 ## Flagged terms: every occurrence (QUESTIONS #49, prepared 6 Nov for #23)
 Each row uses نزيف, جلط… or إغراق. Some are right (bleeding in pregnancy is a warning sign); others describe ordinary
 period days and need a period word. The reviewer decides each one; nothing here has been changed yet.

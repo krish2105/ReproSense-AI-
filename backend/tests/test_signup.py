@@ -152,3 +152,12 @@ def test_periods_entered_after_joining_become_cycles(client, reseed):
     patterns = {c["observation_id"] for c in client.get("/v1/insights").json()["cards"]}
     assert "OBS_IRREGULAR_CYCLES" not in patterns  # regular 28-day cycles are not called irregular
     fresh(client)
+
+
+def test_signup_returns_a_bearer_token_for_the_phone_app(client, reseed):
+    r = fresh(client).post("/v1/demo/signup", json={**BASE, "life_stage": "periods"})
+    assert r.status_code == 200, r.text
+    token = r.json()["token"]
+    client.cookies.clear()  # the phone app sends no cookie, only the bearer header
+    me = client.get("/v1/demo/whoami", headers={"Authorization": f"Bearer {token}"})
+    assert me.status_code == 200 and me.json()["user_id"] == r.json()["user_id"]
