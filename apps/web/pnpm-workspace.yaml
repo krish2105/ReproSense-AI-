@@ -3,8 +3,3 @@
 allowBuilds:
   '@parcel/watcher': false
   '@swc/core': false
-
-# Issue #57: next 15.5.29 pins postcss 8.4.31 (2 high, 2 moderate advisories). pnpm 12 reads overrides here, not
-# from package.json. Drop this once Next 16 (#44) lands: it already requires postcss 8.5.23.
-overrides:
-  postcss: '^8.5.23'
