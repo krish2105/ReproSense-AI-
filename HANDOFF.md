@@ -8,6 +8,10 @@ code freeze Sat 21 Nov 18:00 · showcase Sun 22 Nov, DOH Incubator, Masdar City.
 ---
 
 ## 0. Left for Atharva (from Krishna, 6 Nov 2026, late night)
+**Now (6 Nov evening): start with `docs/18_ROADMAP_TO_95.md`.** It holds the order of work: cards A0–D2 with prompts
+for Claude Code (Opus 5.5), the calendar to 22 Nov and the targets line by line. Issues #41–#47 and #57 are new.
+Android and iOS apps: `docs/21_MOBILE_APPS_ROADMAP.md` (issues #50–#56, after the showcase). Latest rescore: `docs/22_RESCORE.md`. Items 1–2
+below are done (#33). Item 3 is card B2. Q48 and Q53 are fixed in PR #40, waiting for Krishna's approval.
 **Full plan to 95+:** `docs/17_PLAN_TO_95.md`, tracked on GitHub in issue #32 (issues #21–#31, assigned to Atharva).
 Branch `fix/judge-findings` is pushed, all tests green locally (backend, web unit, Playwright 106 passed). Not merged yet.
 1. **Docs with the round-5 numbers.** Held-out round 5 (132 questions by new writers, written after the review fixes,
