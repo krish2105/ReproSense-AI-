@@ -423,3 +423,20 @@ Note that two impacts are in her first-person voice, as on the log form: غبت�
 
 "{n} من آخر 90 يوماً" reads right for any n. Nearby sentences in `copy.py` still put a fixed يوماً, أيام, أسابيع or أشهر after a
 number that changes, which is wrong for some values (2, 3–10, 11+): a follow-up for the native review (#23).
+
+## Persona names in Arabic script (7 Nov rescore, draft, not yet reviewed)
+Arabic screens wrote the fictional personas' names in Latin script ("مرحباً Noura", "فتح سجلّ Mariam"), while the landing
+CTA already said نورة. `firstName(alias, "ar")` in `apps/web/src/lib/format.ts` now gives the Arabic spelling on the
+greeting, the landing stage cards, the demo roster and the stage switch. A joined record's own name stays as she typed it.
+The doctor report keeps the full Latin alias with its initial ("Noura A.").
+
+| Name | Arabic | OK |
+| --- | --- | --- |
+| Amina | أمينة | |
+| Fatima | فاطمة | |
+| Hessa | حصة | |
+| Layla | ليلى | |
+| Mariam | مريم | |
+| Noura | نورة | |
+| Priya | بريا | |
+| Sara | سارة | |
