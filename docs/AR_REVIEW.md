@@ -412,3 +412,10 @@ there must be copied to `AR_FLOW`, `AR_SYMPTOM` and `AR_IMPACT`. These are the s
 
 Example line: `28 نوفمبر · نزول متوسط، ألم 7/10، PBAC 11، نشاط أقل من المعتاد` (was `نزول medium, … reduced activity`).
 Note that two impacts are in her first-person voice, as on the log form: غبتُ عن العمل أو الدراسة، بقيتُ في السرير.
+
+## Log form: reopening a saved day (7 Nov rescore, draft Arabic, not yet reviewed)
+Shown above the log form when she already saved that day; her answers are filled in so a second save adds to them.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `log.editing` | You saved this day already. Your answers are filled in, so add to them and save again. | حفظتِ هذا اليوم من قبل. إجاباتكِ معبّأة، فأضيفي إليها واحفظي مرة أخرى. | |
