@@ -17,6 +17,28 @@ Blockers / questions:
 
 ---
 
+## 2026-11-07 (late night) — Gate G2 approvals and Atharva's handoff steps 1–4 — Krishna with Claude Code
+Done (Krishna approved each in session; recorded on each PR):
+- **#82** A4e wording (OBS_IRREGULAR_CYCLES next steps) and **#86** guard gaps and urgent citations: approved and merged.
+  #86 re-checked locally on one test database: 702 eval questions, 0 routing, 0 answer-text, 180 citation changes
+  (124 crisis, 56 after-birth), as its PR said.
+- **QUESTIONS #60 decided: G3 is a delta rule** (#92): with the model, crisis ≥ 27/30 on round 5 and no new everyday
+  routes; diagnosis, medicine and everyday targets move to word-check changes measured once on a fresh round 6.
+- **#93 (4a)** red flags read every row for a date together: heavy flow and dizziness in two rows on one date now raise RF1.
+- **#94 (4b)** model calls in one request share a 10 s budget under the web's 15 s limit; one call 8 s with 1 retry
+  (was 30 s with 2). With a 4 s-per-call model stub Home took 8.0 s on main, now under 4.5 s with Sara's red flag shown.
+- **#95 (4c, Q59)** a possible pregnancy with severe pain ("my period pain is severe", ألم شديد) reaches the pregnancy
+  998 reply; RF2 cites NG126. 702 eval: 1 routing change, a fix in development round 4 (h4-050); round 5 unchanged.
+- **#96 (4e)** demo reset loads schema, data and index in one transaction: 37 of 39 reads saw an empty demo on main,
+  none now (6 runs).
+- Not done: **4d** (widen the NG194 and NG126 summaries) needs a judged answer round and a clinician check against NICE;
+  **4f** items stay with the clinical advisor; **B2** needs the API key; deploy needs the accounts.
+Tests: backend 357/357 pass locally with #93–#96 combined (CI per PR)
+Senior-judge score: not rerun in this session; the last rescore is the 7 Nov late entry (Jury 72).
+Next:
+- Deploy (Supabase, Render, Vercel), smoke e2e, uptime check; B2 under the delta rule once the key is in `.env`.
+- Decide which urgent reply fits an unconfirmed possible pregnancy (maternity unit or emergency department), with the advisor.
+
 ## 2026-11-07 (night) — A4e: irregular-cycles next steps (#43 e, waits for Krishna's G2 OK) — Atharva with Claude Code
 Done:
 - `OBS_IRREGULAR_CYCLES` now leads with "Consider discussing your irregular cycles with a gynaecologist or family doctor." The
