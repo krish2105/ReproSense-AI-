@@ -145,6 +145,23 @@ jobs:
           python3 data/synthetic/generate_synthetic.py
           git diff --exit-code data/synthetic/output
 
+  # Safety case (docs/safety/CHANGE_LOG.md): a PR that changes clinical logic adds its row to the change log.
+  change-log:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Clinical logic changes come with a CHANGE_LOG row
+        run: |
+          changed=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD")
+          if echo "$changed" | grep -qxE 'rules/clinical_rules\.yaml|backend/app/rules/features\.py|backend/app/agents/safety\.py' \
+             && ! echo "$changed" | grep -qx 'docs/safety/CHANGE_LOG.md'; then
+            echo "::error::This PR changes clinical logic. Add its row to docs/safety/CHANGE_LOG.md (see 'To add a row' there)."
+            exit 1
+          fi
+
   gitleaks:
     runs-on: ubuntu-latest
     steps:
