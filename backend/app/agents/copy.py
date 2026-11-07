@@ -165,27 +165,90 @@ def questions(rule_id: str, lang: str = "en") -> list[str]:
     return ar if lang == "ar" else en
 
 
+# Arabic for the values a log or event can hold (issue #67): the same words as the log form (apps/web/messages/ar.json:
+# flows, symptoms, impacts, analytics.events), keyed by the API's values (app/api/patient.py). AR-REVIEW
+AR_FLOW = {"spotting": "تبقيع", "light": "خفيف", "medium": "متوسط", "heavy": "غزير"}
+AR_SYMPTOM = {
+    "cramps": "تقلصات",
+    "bloating": "انتفاخ",
+    "fatigue": "تعب",
+    "headache": "صداع",
+    "breast tenderness": "ألم في الثدي",
+    "low mood": "مزاج منخفض",
+    "back pain": "ألم في الظهر",
+    "cravings": "رغبة شديدة في الأكل",
+    "acne": "حب الشباب",
+    "excess hair growth": "نمو زائد للشعر",
+    "scalp hair thinning": "ترقق شعر الرأس",
+    "flooding": "نزيف متدفق",
+    "pain with bowel movements": "ألم عند التبرز",
+    "pain passing urine": "ألم عند التبول",
+    "dizziness": "دوخة",
+    "fainting": "إغماء",
+    "fever": "حمى",
+    "hot flushes": "هبات ساخنة",
+    "night sweats": "تعرق ليلي",
+    "nausea": "غثيان",
+    "anxiety": "قلق",
+    "insomnia": "صعوبة في النوم",
+    "poor sleep": "نوم سيئ",
+    "sudden severe pain": "ألم شديد مفاجئ",
+    "severe abdominal pain": "ألم شديد في البطن",
+    "reduced baby movements": "قلة حركة الجنين",
+    "severe headache": "صداع شديد",
+    "vision changes": "تغيّر في الرؤية",
+    "bleeding": "نزيف",
+    "heartburn": "حرقة المعدة",
+    "clots larger than a coin": "جلطات أكبر من قطعة نقدية",
+}
+AR_IMPACT = {
+    "reduced activity": "نشاط أقل من المعتاد",
+    "missed work or study": "غبتُ عن العمل أو الدراسة",
+    "stayed in bed": "بقيتُ في السرير",
+}
+AR_EVENT = {
+    "pregnancy_confirmed": "تأكيد الحمل",
+    "antenatal_visit": "زيارة متابعة الحمل",
+    "gdm_diagnosis": "تسجيل سكري الحمل",
+    "delivery": "الولادة",
+    "lab_test": "فحص مخبري",
+    "breastfeeding": "الرضاعة الطبيعية",
+    "ttc_started": "بدء محاولة الحمل",
+    "appointment_planned": "موعد مخطط له",
+}
+
+
+def _ar(value: str, table: dict, fallback: str) -> str:
+    """The Arabic word for a logged value; a value we have no word for yet shows a neutral word, never English."""
+    return table.get(str(value).replace("_", " ").lower(), table.get(str(value), fallback))
+
+
 def entry_text(e: dict, lang: str = "en") -> str:
     """Short description of a log or event used in 'Why we noticed' chips."""
     day = _fmt_day(str(e["date"]), lang)
+    ar = lang == "ar"
     if "type" in e:  # event
         t = e["type"].replace("_", " ")
         d = e.get("details") or {}
         if e["type"] == "questionnaire":
-            return f"{day} · {d.get('tool')} total {d.get('total')}"
-        return f"{day} · {t}"
+            return (
+                f"{day} · {d.get('tool')}: المجموع {d.get('total')}"
+                if ar
+                else f"{day} · {d.get('tool')} total {d.get('total')}"
+            )
+        return f"{day} · {AR_EVENT.get(e['type'], 'حدث')}" if ar else f"{day} · {t}"
     bits = []
     if e.get("flow") and e["flow"] != "none":
-        bits.append(f"{e['flow']} flow" if lang == "en" else f"نزول {e['flow']}")
+        bits.append(f"نزول {_ar(e['flow'], AR_FLOW, 'مسجّل')}" if ar else f"{e['flow']} flow")
     if e.get("pain"):
-        bits.append(f"pain {e['pain']}/10" if lang == "en" else f"ألم {e['pain']}/10")
+        bits.append(f"ألم {e['pain']}/10" if ar else f"pain {e['pain']}/10")
     if e.get("pbac"):
         bits.append(f"PBAC {e['pbac']}")
     syms = [s for s in e.get("symptoms", []) if s not in ("cravings",)][:3]
-    bits += syms
+    bits += [_ar(s, AR_SYMPTOM, "عرض آخر") for s in syms] if ar else syms
     if e.get("impact") and e["impact"] != "none":
-        bits.append(e["impact"])
-    return f"{day} · " + ", ".join(bits) if bits else day
+        bits.append(_ar(e["impact"], AR_IMPACT, "أثّر على يومها") if ar else e["impact"])
+    return f"{day} · " + ("، " if ar else ", ").join(bits) if bits else day
 
 
 # ---------- clinician voice (QUESTIONS #41) ----------

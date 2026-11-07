@@ -371,7 +371,8 @@ period days and need a period word. The reviewer decides each one; nothing here 
 
 Outside `ar.json` (same terms):
 - `backend/app/agents/assistant.py` lines 97, 99, 101, 110, 124, 127
-- `backend/app/agents/copy.py` lines 43, 51
+- `backend/app/agents/copy.py` lines 43, 51, and 183, 200, 202 (`AR_SYMPTOM` repeats `symptoms.flooding`,
+  `symptoms.bleeding` and `symptoms.clots_larger_than_a_coin` for the evidence lines, #67: change both together)
 - `rules/translations_ar.yaml` lines 4, 8, 14, 33, 34, 49, 62
 
 ## One count everywhere: days logged (#43 a, draft Arabic reusing the landing page's يوماً مُسجَّلاً, not yet reviewed)
@@ -380,3 +381,24 @@ Outside `ar.json` (same terms):
 | `home.record` | {count} days logged · record strength: {strength} | {count} يوماً مُسجَّلاً · قوة السجلّ: {strength} | |
 | `insights.strengthDetail` | {cycles, plural, one {# cycle} other {# cycles}} logged · {days} days logged | {cycles, plural, one {دورة واحدة مُسجَّلة} two {دورتان مُسجَّلتان} few {# دورات مُسجَّلة} many {# دورة مُسجَّلة} other {# دورة مُسجَّلة}} · {days} يوماً مُسجَّلاً | |
 | `clinic.sharedNote` | {count} days logged · shared with consent · fictional | {count} يوماً مُسجَّلاً · بموافقتها · بيانات خيالية | |
+
+## Evidence lines on pattern cards (#67, draft Arabic, not yet reviewed)
+The "why we noticed" lines under each card (`backend/app/agents/copy.py`, `entry_text`) now give logged values in
+Arabic. Flows, symptoms and impacts reuse the log form's words above (`flows.*`, `symptoms.*`, `impacts.*`), so a fix
+there must be copied to `AR_FLOW`, `AR_SYMPTOM` and `AR_IMPACT`. These are the strings that are new:
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `AR_SYMPTOM["poor sleep"]` | poor sleep | نوم سيئ | |
+| `AR_EVENT.lab_test` | lab test | فحص مخبري | |
+| `AR_EVENT.breastfeeding` | breastfeeding | الرضاعة الطبيعية | |
+| `AR_EVENT.ttc_started` | started trying to conceive | بدء محاولة الحمل | |
+| `AR_EVENT.appointment_planned` | appointment planned | موعد مخطط له | |
+| questionnaire line | 1 Feb · EPDS total 12 | 1 فبراير · EPDS: المجموع 12 | |
+| fallback, unknown flow | (flow) | نزول مسجّل | |
+| fallback, unknown symptom | (symptom) | عرض آخر | |
+| fallback, unknown impact | (impact) | أثّر على يومها | |
+| fallback, unknown event | (event) | حدث | |
+
+Example line: `28 نوفمبر · نزول متوسط، ألم 7/10، PBAC 11، نشاط أقل من المعتاد` (was `نزول medium, … reduced activity`).
+Note that two impacts are in her first-person voice, as on the log form: غبتُ عن العمل أو الدراسة، بقيتُ في السرير.
