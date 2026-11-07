@@ -49,6 +49,19 @@ GENERIC = {
     "bring": ["This ReproSense summary", "A list of pain relief or medicines you tried", "Any previous test results"],
     "bring_ar": ["ملخص ReproSense هذا", "قائمة المسكنات أو الأدوية التي جربتها", "أي نتائج فحوص سابقة"],
 }
+# The generic message is written as her ("a pattern I noticed in my record: ..."), but some card titles speak to her
+# ("Your cycle lengths...", "دوراتك"). These patterns get their name in her own voice (issue #66). AR-REVIEW
+OWN_VOICE = {
+    "OBS_IRREGULAR_CYCLES": ("my cycle lengths have been irregular", "أطوال دوراتي كانت غير منتظمة"),
+    "OBS_SEVERE_CYCLICAL_PAIN": (
+        "my period pain has been severe and is affecting my daily life",
+        "ألم الدورة كان شديداً ويؤثر على حياتي اليومية",
+    ),
+    "OBS_POSTPARTUM_MOOD": (
+        "my mood check suggests talking to someone",
+        "فحص المزاج يشير إلى أن الحديث مع أحد قد يفيدني",
+    ),
+}
 
 
 def draft(hit: Hit, ev: Evaluation, clinic_name: str) -> dict:
@@ -62,6 +75,8 @@ def draft(hit: Hit, ev: Evaluation, clinic_name: str) -> dict:
         "title": hit.title.lower(),
     }
     title_ar = (cp.ar_rules().get(hit.rule_id) or {}).get("title", hit.title)
+    if hit.rule_id in OWN_VOICE:
+        vals["title"], title_ar = OWN_VOICE[hit.rule_id]
     return {
         "rule_id": hit.rule_id,
         "to": f"{t['to']}, {clinic_name}",
