@@ -10,7 +10,7 @@ export const SOURCES = {
   nhs_pregnancy_urgent: {
     id: "nhs_pregnancy_urgent",
     title: "NHS: Signs and symptoms in pregnancy you should not ignore",
-    url: "https://www.nhs.uk/pregnancy/related-conditions/common-symptoms/",
+    url: "https://www.nhs.uk/pregnancy/common-symptoms/",
   },
   nice_ng201: { id: "nice_ng201", title: "NICE NG201 Antenatal care", url: "https://www.nice.org.uk/guidance/ng201" },
   nice_cg192: { id: "nice_cg192", title: "NICE CG192 Antenatal and postnatal mental health", url: "https://www.nice.org.uk/guidance/cg192" },
