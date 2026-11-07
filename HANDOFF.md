@@ -1,6 +1,6 @@
 # HANDOFF — ReproSense AI (read this before anything else)
 
-Written 5 Nov 2026; section 0 updated 7 Nov 2026 (evening) for the next person or Claude Code session.
+Written 5 Nov 2026; section 0 updated 7 Nov 2026 (night) for the next person or Claude Code session.
 Repo: https://github.com/krish2105/ReproSense-AI- (public). Branch `main`.
 Hackathon: HealthX Ajyal (DoH Abu Dhabi). Apply by **Sat 14 Nov 23:59 GST** · selection Mon 16 Nov · build 17–21 Nov ·
 code freeze Sat 21 Nov 18:00 · showcase Sun 22 Nov, DOH Incubator, Masdar City.
@@ -38,6 +38,10 @@ section, then `CLAUDE.md`, then `docs/18_ROADMAP_TO_95.md` (the order of work, c
 | #78 | New README: product, safety, architecture, measured results, setup, limitations |
 | #79 | Severe-bleeding gap: "severe bleeding", "bleeding really badly", "lots of blood", "haemorrhaging" and Arabic نزيف حاد / شديد / قوي, أنزف بقوة, دم كثير count as the heavy half of RF1 (block `severe bleeding gap` in `backend/app/agents/safety.py`; 26 probes in `test_safety_routing.py`). 0 routing changes across all 702 eval questions. G2 approved by Krishna |
 | #48, #75, #74, #77 | docs/18 roadmap; Atharva's A9 safety case, A5 sources (NICE NG126, crisis, period pain) and A10 venture pack |
+| #83 | Hazard-log actions from the 7 Nov night rescore: on the crisis path, Patterns and the check-in reply keep her other red flags (never RF4 or the mood card, no score); the log form reopens the day's saved entry, so a second save adds to it instead of replacing it (`tests/test_hazard_actions.py`, `e2e/hazards.spec.ts`) |
+| #84 | Truth: a converted lab value keeps its range in the same unit and the H/L flag is set in the printed unit; "<5" stays "<5"; the pain card names the bed days it counts (`tests/test_truth_fixes.py`) |
+| #85 | Arabic screens write the fictional personas' names in Arabic script (`firstName(alias, "ar")` in `apps/web/src/lib/format.ts`) |
+| #87 | Full e2e on main (3 runs in a row green), senior-judge rescore (Jury 72, MVP 76, SaaS 72, Clinical safety 26/35, Women's experience 27/35; PROGRESS.md), CHANGE_LOG rows for #71 and #79, CI `change-log` job, deck team line |
 Also on 7 Nov: Krishna submitted his HealthX Ajyal application (via Outlook) and emailed the organisers (Upstart Bar's
 info address, from his Gmail) the four questions in `docs/drafts/44-organiser-email.md`, including whether entering the
 Future Health challenge as well is allowed.
@@ -54,11 +58,12 @@ Future Health challenge as well is allowed.
 6. **Sat 14 Nov 23:59:** applications close. Confirm Atharva applied with team name **ReproSense**.
 7. **Mon 16 Nov:** tag `pre-selection-2026-11-16` before any build-week commit (docs/15).
 
-### Open PRs (7 Nov evening)
-Atharva merged #74 (A5: NICE NG126 and crisis sources, after resolving the `docs/AR_REVIEW.md` conflict) and #77 (A10:
-venture pack) on 7 Nov evening. Still open:
+### Open PRs (7 Nov night)
+Atharva merged #74 and #77 on 7 Nov evening, and #83, #84, #85 and #87 that night (main CI green after each). Still open:
 | PR | Owner | State |
 | --- | --- | --- |
+| #82 A4e next-step wording (rules YAML) | Atharva | **Krishna: G2 approval**, then merge. Carries its own CHANGE_LOG row; women-care and CHO reviews applied |
+| #86 Guard gaps and urgent citations | Atharva | **Krishna: G2 approval**. 0 routing and 0 answer-text changes over the 702 eval questions. The NG194/NG126 summary gap it describes needs its own judged PR |
 | #72 Next 16 | Atharva | Do **not** merge before 17 Nov, and only after 3 green e2e runs |
 | #68 Phone app (Expo) | Krishna | Build-week / post-showcase work (docs/21). The main checkout is on this branch |
 | #58 Rescore and mobile roadmap | Krishna | Docs; review and merge or close |
@@ -67,7 +72,8 @@ venture pack) on 7 Nov evening. Still open:
 - **Word checks do not read time** (not new, seen while fixing #79): "I had a bad bleeding scare last year, now I'm just dizzy from the heat" gets the 998 reply, and so does the same message with "heavy" on `main` before #79. It errs towards showing 998. A fix is a separate safety change (G2).
 - **"bleed a lot" with unrelated dizziness:** "is it bad if I bleed a lot on day one? I sometimes feel dizzy when I stand" routes to 998 through the existing `_HEAVY_FIX` pattern. Raise with the clinical advisor.
 - **React hydration error #418 on `/clinic`** still fails an e2e run now and then (seen on PR #71's first run; a re-run
-  passed). docs/17 target: find the cause, CI green 3 runs in a row.
+  passed). docs/17 target: find the cause, CI green 3 runs in a row. On 7 Nov night the full suite passed 3 runs in a row
+  locally with no #418 (PROGRESS.md). The cause stays the React canary in Next 15.5; Next 16 is PR #72.
 - **Arabic copy** (including the new #65–#67 strings) is a draft until the native review (#23).
 
 ### Local setup notes (Krishna's Mac)
@@ -76,7 +82,7 @@ venture pack) on 7 Nov evening. Still open:
   fails with "NOTES_KEY is not set". Never copy another checkout's `.env`.
 - Run `make seed` only from the checkout whose `.env` will serve the dev database: it reseeds `reprosense` with
   that checkout's NOTES_KEY. Tests seed `reprosense_test` by themselves.
-- `make test` takes about 20 s once warm (the first run in a new venv is slower). Expect **306 passed** on `main` (7 Nov, after #79).
+- `make test` takes about 20 s once warm (the first run in a new venv is slower). Expect **313 passed** on `main` (7 Nov night, after #83 and #84). CI's e2e: 118 passed, 8 skipped by design.
 - The desktop preview launcher cannot start servers from `~/Downloads` (macOS privacy). Start servers with a background
   shell instead, for example
   `cd backend && DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib uv run uvicorn app.main:app --port 8010`, then open the URL.

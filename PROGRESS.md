@@ -82,6 +82,8 @@ Next (the judge's points per hour):
 - Atharva:
   - Send the advisor, clinician and manager messages (A8). Both trackers are still empty, and this is the only route to
     the ~17 people points.
+Merged the same night: #83, #84, #85, #87. Main CI was green after each: backend 313 passed, e2e 118 passed and 8 skipped.
+#82 and #86 wait for Krishna (G2).
 Not done tonight, and why:
 - The ferritin next step contradicts NG88 (`clinical_rules.yaml:133`): an advisor decision (Q35, Q49).
 - The model timeout (30 s × 2 retries) is longer than the web's 15 s limit. It is latent while the model is off; fix it
