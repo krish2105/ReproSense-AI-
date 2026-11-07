@@ -2,7 +2,7 @@
 
 Legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 
-Last updated: 2026-11-07, night (e2e 3 runs in a row green on `main`; rescore 72/100; fixes from the rescore: #83–#85 merged, #82 and #86 wait for Krishna's G2 approval; deploy waits for Krishna's accounts). Repo: https://github.com/krish2105/ReproSense-AI-
+Last updated: 2026-11-07, late night (main `bd2de0f`: fixes from two rescores merged; #82 and #86 wait for Krishna's G2 approval; deploy waits for Krishna's accounts). Repo: https://github.com/krish2105/ReproSense-AI-
 
 **Owners.** Krishna (`krish2105`): backend, AI, data, security, deploy. Atharva (`mercydeez`): web app (design + frontend).
 Yash (`Yashpetkar7`, invite pending): not assigned yet.
@@ -35,6 +35,12 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 | Generate images with IMAGE_PROMPTS_CHATGPT.md | ✅ 37 images + 1 duplicate placed in public/images; see ASSET_INTEGRATION_REPORT.md |
 | Body-map tap points calibrated to the real art (mockup) | ✅ verified at 320/375/768/1280, front + back |
 | Hackathon rules re-checked on the official page (upstartbar.com/ajyal) | ✅ 5 Nov; building may start when selection is announced on 16 Nov |
+
+## Verified numbers (7 Nov late night, main `bd2de0f`)
+- Web e2e, local, runs 10–12: run 11 had 118 passed and 8 skipped. Runs 10 and 12 each failed one test, and only on React #418 (`/admin` in the demo path; `/app` in the join test, after which its serial block left 2 tests unrun); every other test passed. That is not 3 in a row. On the new code #418 hit 3 of 6 runs (`/clinic`, `/admin`, `/app`, all desktop), against 0 of 3 on `31ca72d`. A dev-server repeat of the demo-path, join and screens specs (135 test runs) logged no hydration mismatch, which fits the documented production-only race in Next 15.5's React canary. The fix path stays Next 16 (#72, from 17 Nov)
+- Lighthouse, mobile, signed in: **100 / 100 / 100** on `/app`, `/app/insights`, `/app/assistant`, `/app/report`, `/clinic`
+- Backend (CI, Linux): **318 passed**
+- Second rescore: Jury **72**, MVP **76.5**, SaaS **72**, Clinical safety **26.5/35**, Women's experience **27.5/35**, Trust **7/7**
 
 ## Verified numbers (7 Nov night, local, main `31ca72d`)
 - Web e2e (production build, API from the Linux Docker image in CI's demo-safe setup, no retries): **114 passed, 8 skipped,

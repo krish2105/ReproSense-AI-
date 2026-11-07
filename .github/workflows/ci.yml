@@ -156,7 +156,7 @@ jobs:
       - name: Clinical logic changes come with a CHANGE_LOG row
         run: |
           changed=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD")
-          if echo "$changed" | grep -qxE 'rules/clinical_rules\.yaml|backend/app/rules/features\.py|backend/app/agents/safety\.py' \
+          if echo "$changed" | grep -qxE 'rules/clinical_rules\.yaml|backend/app/rules/(features|engine|expr)\.py|backend/app/agents/(safety|assistant)\.py|backend/app/config\.py' \
              && ! echo "$changed" | grep -qx 'docs/safety/CHANGE_LOG.md'; then
             echo "::error::This PR changes clinical logic. Add its row to docs/safety/CHANGE_LOG.md (see 'To add a row' there)."
             exit 1
