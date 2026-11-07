@@ -146,12 +146,12 @@ DIAGNOSIS = [
     r"\bprobability\b",
     r"\bpercent(age)? chance\b",
     r"\bhow likely\b",
-    r"\bis it (pcos|endometriosis|cancer|diabetes)\b",
+    r"\bis it (pcos|pmos|endometriosis|cancer|diabetes)\b",
     r"\bdo i suffer from\b",
     r"\bwhich (disease|condition) do i\b",
     r"\b(could|might|may) i (have|be having|be suffering)\b",
     r"\b(could|might|can) (this|it|these|that|my symptoms?) (be|mean|indicate)\b",
-    r"\bis (this|that|it) (a sign of |signs of )?(pcos|endometriosis|cancer|diabetes|infertility|a miscarriage|miscarriage|an? ectopic|menopause|thyroid)\b",
+    r"\bis (this|that|it) (a sign of |signs of )?(pcos|pmos|endometriosis|cancer|diabetes|infertility|a miscarriage|miscarriage|an? ectopic|menopause|thyroid)\b",
     r"\b(do|does) (my|these|this|those) (symptoms?|results?|cycles?|periods?) mean\b",
     r"\b(does|do) (this|that|it) mean (i|i'm|i am)\b",
     r"\bwhat('s| is) wrong with me\b",
@@ -276,7 +276,7 @@ def _extractive(q: str, passages, lang: str, max_sents: int = 3) -> tuple[list[d
     why = bool(_WHY & set(re.findall(r"\w+", normalise(q))) or terms & _CAUSE)
     cands = []
     for rank, p in enumerate(passages):
-        if p.lang != lang:
+        if p.lang != lang or not sources()[p.source_id].quote:
             continue
         for s in _SENT.split(p.text):
             words = set(tokens(s))

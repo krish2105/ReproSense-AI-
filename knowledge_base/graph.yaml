@@ -18,7 +18,7 @@ nodes:
     criteria: ["Period pain affecting daily activities", "Pain not helped by first treatments"]
     tests: ["Examination", "Ultrasound or MRI"]
     timing: "Book a gynaecology appointment"
-    sources: [nice_endometriosis_ng73, eshre_endometriosis_2022, acog_dysmenorrhea]
+    sources: [nice_endometriosis_ng73, eshre_endometriosis_2022]
   - rule: OBS_CYCLICAL_BOWEL_BLADDER_PAIN
     condition: "Cyclical bowel or bladder pain"
     criteria: ["Painful bowel movements or pain passing urine around periods"]

@@ -3,11 +3,11 @@ id: nhs_pcos
 note: Our own summary. Arabic section: AR-REVIEW.
 ---
 ## en
-The NHS page on polycystic ovary syndrome lists common signs: irregular periods or no periods, difficulty getting pregnant, excess hair growth on the face, chest or back, thinning hair on the head, oily skin or acne, and weight gain.
+The NHS page on polycystic ovary syndrome (PCOS, which the NHS now calls PMOS) lists common signs: irregular or infrequent periods, difficulty getting pregnant, excess hair growth, thinning hair, oily skin or acne, and weight gain.
 
-It advises seeing a GP if you notice these signs, or if you are trying to get pregnant and it is not happening. A doctor may suggest blood tests to check hormone levels and an ultrasound scan.
+It advises seeing a GP if you notice these signs. For PCOS, a doctor may suggest blood tests to check hormone levels and an ultrasound scan.
 
 Symptoms can be managed with lifestyle changes and treatments, and a doctor can explain the options that suit you.
 
 ## ar
-تذكر صفحة الخدمة الصحية البريطانية عن متلازمة تكيّس المبايض علامات شائعة: دورات غير منتظمة أو غيابها، وصعوبة الحمل، ونمو شعر زائد في الوجه أو الصدر أو الظهر، وتساقط شعر الرأس، والبشرة الدهنية أو حب الشباب. تنصح بمراجعة الطبيب عند ملاحظة هذه العلامات، وقد يطلب الطبيب تحاليل دم وأشعة صوتية.
+تذكر صفحة الخدمة الصحية البريطانية عن متلازمة تكيّس المبايض (PCOS، وتسميها الآن PMOS) علامات شائعة: دورات غير منتظمة أو متباعدة، وصعوبة الحمل، ونمو شعر زائد، وتساقط شعر الرأس، والبشرة الدهنية أو حب الشباب، وزيادة الوزن. تنصح بمراجعة الطبيب عند ملاحظة هذه العلامات، وقد يطلب الطبيب لمتلازمة تكيّس المبايض تحاليل دم وأشعة صوتية.
