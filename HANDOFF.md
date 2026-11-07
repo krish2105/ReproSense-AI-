@@ -63,11 +63,11 @@ venture pack) on 7 Nov evening. Still open:
 | #58 Rescore and mobile roadmap | Krishna | Docs; review and merge or close |
 
 ### Known gaps found 7 Nov, not fixed yet
-- **"Severe bleeding" wordings:** "severe bleeding", "bleeding really badly", "lots of blood" and Arabic نزيف حاد / شديد /
-  قوي, with dizziness, get `urgent: None` from the word checks (the heavy half of RF1 has no such wording). Fix the same
-  way as #71: failing probes first in `test_safety_routing.py`, adjacency-based patterns (never a bare "severe" or
-  "شديد", which would catch pain), `make test`, 0 routing changes across the 702 eval questions. Safety logic: Krishna
-  approves.
+- **"Severe bleeding" wordings: fixed on branch `fix/severe-bleeding-urgent`, PR open and waiting for Krishna's G2
+  approval (not merged).** "severe bleeding", "bleeding really badly", "lots of blood" and Arabic نزيف حاد / شديد / قوي,
+  with dizziness, got `urgent: None`. The fix adds adjacency-based cues (never a bare "severe" or «شديد»), 26 probes,
+  306 tests passing and 0 routing changes across the 702 eval questions. A past event ("bad bleeding last year") still
+  routes to 998, the same as the existing "heavy" wording.
 - **React hydration error #418 on `/clinic`** still fails an e2e run now and then (seen on PR #71's first run; a re-run
   passed). docs/17 target: find the cause, CI green 3 runs in a row.
 - **Arabic copy** (including the new #65–#67 strings) is a draft until the native review (#23).

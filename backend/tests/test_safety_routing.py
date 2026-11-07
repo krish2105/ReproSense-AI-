@@ -124,3 +124,59 @@ def test_the_crisis_message_covers_harm_already_done():
 def test_the_after_birth_message_fits_a_pregnancy_loss():
     en = assistant.URGENT_TEXT["en"]["postnatal"]
     assert "pregnancy loss" in en and not en.startswith("After birth")
+
+
+# "Severe bleeding" gap (found 7 Nov, HANDOFF.md section 0): women say how bad the bleeding is as severe, really bad or
+# lots of blood rather than "heavy". With dizziness or fainting that is RF1, but these got `urgent: None`. The new cues
+# only count next to a bleeding word, never a bare "severe" or «شديد», because severe period pain is not bleeding.
+SEVERE_BLEED_URGENT = [
+    ("severe bleeding and I feel dizzy", "en"),
+    ("I'm bleeding really badly and feel faint", "en"),
+    ("there's lots of blood and I'm light-headed", "en"),
+    ("نزيف حاد وأشعر بدوخة", "ar"),  # severe bleeding and I feel dizzy
+    ("عندي نزيف شديد وأحس إني بيغمى علي", "ar"),  # I have severe bleeding and feel I'm about to faint
+]
+
+
+@pytest.mark.parametrize("q,lang", SEVERE_BLEED_URGENT)
+def test_severe_bleeding_with_fainting_gets_the_998_reply_first(q, lang):
+    out = assistant.answer(q, lang)
+    message = assistant.URGENT_TEXT[lang]["bleed"]
+    assert out["urgent"] == {"kind": "bleed", "message": message, "number": "998"}
+    assert out["answer"].startswith(message)
+    assert out["citations"][0]["source_id"] == "nhs_heavy_periods"
+
+
+@pytest.mark.parametrize(
+    "q,expected",
+    [
+        # each wording of the heavy half, with dizziness or fainting
+        ("so much blood, I nearly passed out", "bleed"),
+        ("bad bleeding today and I feel dizzy", "bleed"),
+        ("I think I'm haemorrhaging and I feel faint", "bleed"),
+        ("bleeding severely and dizzy", "bleed"),
+        ("a lot of blood is coming out and I feel faint", "bleed"),
+        ("أنزف بقوة وأشعر بدوار", "bleed"),  # I'm bleeding hard and feel dizzy
+        ("دم كثير وأحس بدوخة", "bleed"),  # a lot of blood and I feel dizzy
+        ("نزيف قوي ودايخة", "bleed"),  # strong bleeding and dizzy
+        # pregnancy and after-birth contexts keep their own urgent kind
+        ("I'm 10 weeks pregnant with severe bleeding and I feel faint", "pregnancy"),
+        ("had my baby 4 days ago, bleeding really badly and dizzy", "postnatal"),
+        # severe pain is not bleeding: a bare "severe" or «شديد» must not count as the heavy half
+        ("severe period pain and I feel dizzy", "answer"),
+        ("ألم شديد في الدورة وأحس بدوخة", "answer"),  # severe period pain and I feel dizzy
+        ("I had a severe headache and felt dizzy during my period", "answer"),
+        # the heavy half alone, and bleeding that is not from the womb, stay answers
+        ("Is severe bleeding during a period normal?", "answer"),
+        ("نزيف حاد في الدورة، هل هذا طبيعي؟", "answer"),  # severe period bleeding, is that normal?
+        ("my nose is bleeding badly and I feel dizzy", "answer"),
+        # blood tests, blood donation and cuts are not RF1, even when the bleeding cue is in another clause
+        ("I gave blood today, lots of blood, and now I feel dizzy", "answer"),
+        ("they took a lot of blood for tests and I felt faint", "answer"),
+        ("I cut my finger, it's bleeding badly and I feel faint", "answer"),
+        ("سحبوا دم كثير للتحليل وحسيت بدوخة", "answer"),  # they took a lot of blood for tests and I felt dizzy
+        ("جرحت إصبعي ونزيف قوي وأحس بدوخة", "answer"),  # I cut my finger, strong bleeding, I feel dizzy
+    ],
+)
+def test_severe_bleeding_wordings_need_both_halves_of_rf1(q, expected):
+    assert route(q) == expected
