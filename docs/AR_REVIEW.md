@@ -419,4 +419,5 @@ Note that two impacts are in her first-person voice, as on the log form: غبت�
 
 | Key | English | Arabic | OK |
 | --- | --- | --- | --- |
+| `OBS_IRREGULAR_CYCLES.next_steps[0]` | Consider discussing your irregular cycles with a gynaecologist or family doctor. | فكّري في مناقشة دوراتك غير المنتظمة مع طبيبة نساء أو طبيب أسرة. | |
 | `OBS_IRREGULAR_CYCLES.next_steps[1]` | Keep logging the day each period starts. Each new cycle makes the pattern clearer. | استمري في تسجيل يوم بدء كل دورة. كل دورة جديدة تجعل النمط أوضح. | |

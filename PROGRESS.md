@@ -19,9 +19,9 @@ Blockers / questions:
 
 ## 2026-11-07 (night) — A4e: irregular-cycles next steps (#43 e, waits for Krishna's G2 OK) — Atharva with Claude Code
 Done:
-- `OBS_IRREGULAR_CYCLES` now leads with "Consider discussing this pattern with a gynaecologist or family doctor." The
+- `OBS_IRREGULAR_CYCLES` now leads with "Consider discussing your irregular cycles with a gynaecologist or family doctor." The
   logging step reads "Keep logging the day each period starts. Each new cycle makes the pattern clearer." (text from
-  docs/18 card A4e). It no longer tells Noura, who has 7 cycles, that the pattern is clearer with 6, and the banned
+  docs/18 card A4e; the women-care-lead review named the pattern in step 1, because home shows the step without the card title). It no longer tells Noura, who has 7 cycles, that the pattern is clearer with 6, and the banned
   dash is gone. Arabic reordered to match; the new Arabic line is in docs/AR_REVIEW.md for the native review.
 - Test written first and watched failing: `test_api.py::test_noura_recommendation_leads_with_the_doctor_step`.
 Tests: backend 306 passed + the PDF test, which needs GTK and fails only on Windows (CI runs it on Linux)
