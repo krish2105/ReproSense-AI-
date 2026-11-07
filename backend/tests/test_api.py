@@ -35,6 +35,17 @@ def test_noura_home_dashboard(client):
     assert len(r["day_pills"]) == 7 and r["recommendations"]
 
 
+def test_noura_recommendation_leads_with_the_doctor_step(client):
+    # Card A4e (#43 e): she has 7 cycles, so "clearer with 6 or more cycles" was wrong as her first step.
+    en = client.get("/v1/me/home", headers=login(client, "noura")).json()["recommendations"][0]
+    assert en["text"] == "Consider discussing your irregular cycles with a gynaecologist or family doctor."
+    ar = client.get("/v1/me/home?lang=ar", headers=login(client, "noura")).json()["recommendations"][0]
+    assert ar["text"] == "فكّري في مناقشة دوراتك غير المنتظمة مع طبيبة نساء أو طبيب أسرة."
+    steps = client.get("/v1/insights", headers=login(client, "noura")).json()["cards"]
+    irregular = next(c for c in steps if c["observation_id"] == "OBS_IRREGULAR_CYCLES")["what_to_consider"]
+    assert not any("—" in s or "6 or more" in s for s in irregular)
+
+
 def test_hessa_and_fatima_stage_arcs(client):
     h = client.get("/v1/me/home", headers=login(client, "hessa")).json()
     assert h["status"] == {**h["status"], "mode": "pregnancy", "week": 24}
