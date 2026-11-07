@@ -28,13 +28,13 @@ test.describe("hazard log actions", () => {
     const form = page.getByRole("form", { name: /Log today/ });
     await form.getByRole("group", { name: en.log.flow }).getByRole("button", { name: en.flows.heavy }).click();
     await form.getByRole("button", { name: en.log.saveToday }).click();
-    await expect(page.getByText(en.log.saved)).toBeVisible();
+    await expect(page.getByText(en.log.saved).first()).toBeVisible(); // the toast and its live-region copy
 
     await page.reload();
     await expect(form.getByText(en.log.editing)).toBeVisible();
     await expect(form.getByRole("group", { name: en.log.flow }).getByRole("button", { name: en.flows.heavy })).toHaveAttribute("aria-pressed", "true");
     await form.getByRole("group", { name: en.log.symptomsTitle }).getByRole("button", { name: en.symptoms.dizziness }).click();
     await form.getByRole("button", { name: en.log.saveToday }).click();
-    await expect(page.getByText(en.urgent.action)).toBeVisible(); // heavy flow + dizziness on one day = RF1
+    await expect(page.getByText(en.urgent.action).first()).toBeVisible(); // heavy flow + dizziness on one day = RF1
   });
 });
