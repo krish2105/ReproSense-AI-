@@ -489,6 +489,7 @@
     "none": "None",
     "formToday": "Log today, {date}",
     "formDay": "Log {date}",
+    "editing": "You already saved this day. Your answers are below. Change anything you need, then save again.",
     "flow": "Flow",
     "pbacTitle": "Bleeding score (pictorial chart): {score}",
     "pbacHint": "Count what you used today. Over a whole period, 100 or more on this chart gynaecologists use suggests heavy bleeding.",

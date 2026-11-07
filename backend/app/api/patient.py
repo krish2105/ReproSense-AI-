@@ -387,9 +387,11 @@ def insights(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         audit.record(cur, actor, "view_insights", actor.user_id, "insights")
     out = run(b, lang=lang)
     ev = out["evaluation"]
+    crisis = bool(out.get("crisis"))
+    flags, obs = views.display_cards(out["cards"], crisis)  # crisis: no self-harm or mood card, other red flags stay
     return {
-        "cards": out["cards"],
-        "crisis": bool(out.get("crisis")),
+        "cards": flags + obs,
+        "crisis": crisis,
         "trace": out["trace"],
         "record_strength": ev.features.values.get("record_strength"),
         "cycles_logged": ev.features.values.get("cycles_logged"),

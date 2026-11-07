@@ -121,6 +121,9 @@ def timeline(bundle: dict, ref: date, months: int = 12) -> dict:
                 "sites": lg.get("pain_sites", []),
                 "mood": lg.get("mood"),
                 "note": lg.get("note", ""),
+                "sleep_h": lg.get("sleep_h"),
+                "pbac_items": lg.get("pbac_items"),
+                "source": lg.get("source"),
             }
             for lg in logs
         ],
