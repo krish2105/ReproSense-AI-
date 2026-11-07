@@ -40,14 +40,24 @@ def sanitise(text: str) -> tuple[str, int]:
 
 
 def _normalise(code: str, value: float, unit: str | None) -> tuple[float, str, str | None]:
+    """The divisor to the canonical unit, that unit, and a note. The value and its printed range both use the divisor."""
     u = (unit or "").strip()
     if code in ("OGTT2H", "FPG") and u.lower() == "mg/dl":
-        return round(value / 18.0, 1), "mmol/L", f"converted from {value} mg/dL"
+        return 18.0, "mmol/L", f"converted from {value} mg/dL"
     if code == "HGB" and u.lower() == "g/l":
-        return round(value / 10.0, 1), "g/dL", f"converted from {value} g/L"
+        return 10.0, "g/dL", f"converted from {value} g/L"
     if code == "FERR" and u.lower() == "µg/l":
-        return value, "ng/mL", "µg/L equals ng/mL"
-    return value, u or dict((c, cu) for c, _, cu in TESTS)[code], None
+        return 1.0, "ng/mL", "µg/L equals ng/mL"
+    return 1.0, u or dict((c, cu) for c, _, cu in TESTS)[code], None
+
+
+def _flag(cmp: str, value: float, lo: float | None, hi: float | None) -> str:
+    """H or L from the range. A value printed as "<5" or ">100" is a bound: flag it only when the bound settles it."""
+    if cmp == "<":
+        return "L" if lo is not None and value <= lo else ""
+    if cmp == ">":
+        return "H" if hi is not None and value >= hi else ""
+    return "H" if hi is not None and value > hi else "L" if lo is not None and value < lo else ""
 
 
 def extract(text: str) -> dict:
@@ -63,8 +73,12 @@ def extract(text: str) -> dict:
         code = next((c for c, pats, _ in TESTS if any(re.search(p, name, re.I) for p in pats)), None)
         if not code:
             continue
-        raw = r.group("value").lstrip("<>")
-        value, unit, note = _normalise(code, float(raw), r.group("unit"))
+        raw = r.group("value")
+        cmp = raw[0] if raw[0] in "<>" else ""
+        num = float(raw.lstrip("<>"))
+        div, unit, note = _normalise(code, num, r.group("unit"))
+        num = round(num / div, 1) if div != 1.0 else num
+        value = f"{cmp}{num:g}" if cmp else num  # "<5" stays "<5": it is saved as text, never as exactly 5
         lo = hi = None
         ref = (r.group("ref") or "").replace(" ", "")
         if "-" in ref:
@@ -73,11 +87,9 @@ def extract(text: str) -> dict:
             hi = float(ref[1:])
         elif ref.startswith(">"):
             lo = float(ref[1:])
-        if note and "converted" in note and code in ("OGTT2H", "FPG"):
-            lo, hi = (round(x / 18.0, 1) if x is not None else None for x in (lo, hi))
-        flag = r.group("flag") or (
-            "H" if hi is not None and value > hi else "L" if lo is not None and value < lo else ""
-        )
+        if div != 1.0:
+            lo, hi = (round(x / div, 1) if x is not None else None for x in (lo, hi))
+        flag = r.group("flag") or _flag(cmp, num, lo, hi)
         rows.append(
             {
                 "code": code,

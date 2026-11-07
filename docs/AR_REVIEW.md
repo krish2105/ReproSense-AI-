@@ -412,3 +412,11 @@ there must be copied to `AR_FLOW`, `AR_SYMPTOM` and `AR_IMPACT`. These are the s
 
 Example line: `28 نوفمبر · نزول متوسط، ألم 7/10، PBAC 11، نشاط أقل من المعتاد` (was `نزول medium, … reduced activity`).
 Note that two impacts are in her first-person voice, as on the log form: غبتُ عن العمل أو الدراسة، بقيتُ في السرير.
+
+## Pain card: days counted (7 Nov rescore, draft Arabic, not yet reviewed)
+`OBS_SEVERE_CYCLICAL_PAIN` counts days she logged "missed work or study" and days she logged "stayed in bed"
+(`IMPACT_DAYS` in `backend/app/rules/features.py`). The sentence now names both (`backend/app/agents/copy.py`).
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `detail.OBS_SEVERE_CYCLICAL_PAIN` | …and you logged missing work or study, or staying in bed, on {n} days in the last 90 days. | …وسجّلتِ الغياب عن العمل أو الدراسة أو البقاء في السرير في {n} أيام خلال آخر 90 يوماً. | |
