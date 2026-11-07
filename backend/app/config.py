@@ -25,6 +25,11 @@ class Settings(BaseSettings):
     llm_provider: str = "auto"  # auto | claude | none  (auto = claude if a key is present)
     anthropic_api_key: str = ""
     llm_model: str = "claude-opus-5-5"
+    # Model time limits. The web gives up on an API call after 15 s (apps/web/src/lib/api/server.ts), so every model
+    # call inside one API request shares one budget; past it the deterministic template answers (step 4b, 7 Nov).
+    llm_request_budget_s: float = 10.0
+    llm_timeout_s: float = 8.0  # one call, outside a request too (make safety-eval)
+    llm_max_retries: int = 1
     embeddings_provider: str = "hashing"  # hashing (built in) — see QUESTIONS #14
     cookie_secure: bool = False  # true when served over HTTPS (Render/Vercel); local http stays false
     seed_if_empty: bool = False  # first boot on a fresh hosted database: load the synthetic demo data (DEMO_MODE only)

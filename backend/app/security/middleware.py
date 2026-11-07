@@ -57,3 +57,20 @@ class RateLimit(BaseHTTPMiddleware):
             )
         q.append(now)
         return await call_next(request)
+
+
+class ModelBudget:
+    """Gives every API request one time budget for all its model calls (app.ai.llm.request_budget).
+
+    Plain ASGI, so the budget is set in the same context the endpoint (and its thread pool) runs in."""
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            return await self.app(scope, receive, send)
+        from app.ai.llm import request_budget
+
+        with request_budget(get_settings().llm_request_budget_s):
+            await self.app(scope, receive, send)

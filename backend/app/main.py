@@ -14,7 +14,7 @@ from app.ai.llm import get_llm
 from app.api import admin, assistant, clinic, demo, patient, quality, reports
 from app.config import get_settings
 from app.db import SYSTEM, session
-from app.security.middleware import RateLimit, SecurityHeaders
+from app.security.middleware import ModelBudget, RateLimit, SecurityHeaders
 
 s = get_settings()
 log = logging.getLogger("reprosense")
@@ -47,6 +47,7 @@ app = FastAPI(
     description="Non-diagnostic reproductive health record. Synthetic demo data only.",
     lifespan=lifespan,
 )
+app.add_middleware(ModelBudget)  # one model time budget per request (step 4b)
 app.add_middleware(RateLimit)
 app.add_middleware(SecurityHeaders)
 app.add_middleware(
