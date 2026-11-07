@@ -41,6 +41,7 @@ section, then `CLAUDE.md`, then `docs/18_ROADMAP_TO_95.md` (the order of work, c
 | #83 | Hazard-log actions from the 7 Nov night rescore: on the crisis path, Patterns and the check-in reply keep her other red flags (never RF4 or the mood card, no score); the log form reopens the day's saved entry, so a second save adds to it instead of replacing it (`tests/test_hazard_actions.py`, `e2e/hazards.spec.ts`) |
 | #84 | Truth: a converted lab value keeps its range in the same unit and the H/L flag is set in the printed unit; "<5" stays "<5"; the pain card names the bed days it counts (`tests/test_truth_fixes.py`) |
 | #85 | Arabic screens write the fictional personas' names in Arabic script (`firstName(alias, "ar")` in `apps/web/src/lib/format.ts`) |
+| #89, #90 | Arabic counted nouns agree with the number; the server sets the lab flag from the confirmed value, one-sided ranges print with their sign, a log save keeps her mood, Arabic screens show persona names and roster stories in Arabic |
 | #87 | Full e2e on main (3 runs in a row green), senior-judge rescore (Jury 72, MVP 76, SaaS 72, Clinical safety 26/35, Women's experience 27/35; PROGRESS.md), CHANGE_LOG rows for #71 and #79, CI `change-log` job, deck team line |
 Also on 7 Nov: Krishna submitted his HealthX Ajyal application (via Outlook) and emailed the organisers (Upstart Bar's
 info address, from his Gmail) the four questions in `docs/drafts/44-organiser-email.md`, including whether entering the
@@ -59,7 +60,7 @@ Future Health challenge as well is allowed.
 7. **Mon 16 Nov:** tag `pre-selection-2026-11-16` before any build-week commit (docs/15).
 
 ### Open PRs (7 Nov night)
-Atharva merged #74 and #77 on 7 Nov evening, and #83, #84, #85 and #87 that night (main CI green after each). Still open:
+Atharva merged #74 and #77 on 7 Nov evening, then #83, #84, #85, #87, #88, #89 and #90 that night (main CI green after each). #82 and #86 both add a CHANGE_LOG row at the same place: whichever merges second needs a one-line conflict fix. Still open:
 | PR | Owner | State |
 | --- | --- | --- |
 | #82 A4e next-step wording (rules YAML) | Atharva | **Krishna: G2 approval**, then merge. Carries its own CHANGE_LOG row; women-care and CHO reviews applied |
@@ -73,7 +74,9 @@ Atharva merged #74 and #77 on 7 Nov evening, and #83, #84, #85 and #87 that nigh
 - **"bleed a lot" with unrelated dizziness:** "is it bad if I bleed a lot on day one? I sometimes feel dizzy when I stand" routes to 998 through the existing `_HEAVY_FIX` pattern. Raise with the clinical advisor.
 - **React hydration error #418 on `/clinic`** still fails an e2e run now and then (seen on PR #71's first run; a re-run
   passed). docs/17 target: find the cause, CI green 3 runs in a row. On 7 Nov night the full suite passed 3 runs in a row
-  locally with no #418 (PROGRESS.md). The cause stays the React canary in Next 15.5; Next 16 is PR #72.
+  locally with no #418, but later that night on the new main #418 hit 3 of 6 runs (`/clinic`, `/admin`, `/app`, desktop
+  only). A dev server showed no mismatch in 135 test runs (PROGRESS.md). The cause stays the React canary in Next 15.5;
+  Next 16 is PR #72: run its 3 green e2e runs on 17 Nov before merging (C0).
 - **Arabic copy** (including the new #65–#67 strings) is a draft until the native review (#23).
 
 ### Local setup notes (Krishna's Mac)
@@ -82,7 +85,7 @@ Atharva merged #74 and #77 on 7 Nov evening, and #83, #84, #85 and #87 that nigh
   fails with "NOTES_KEY is not set". Never copy another checkout's `.env`.
 - Run `make seed` only from the checkout whose `.env` will serve the dev database: it reseeds `reprosense` with
   that checkout's NOTES_KEY. Tests seed `reprosense_test` by themselves.
-- `make test` takes about 20 s once warm (the first run in a new venv is slower). Expect **313 passed** on `main` (7 Nov night, after #83 and #84). CI's e2e: 118 passed, 8 skipped by design.
+- `make test` takes about 20 s once warm (the first run in a new venv is slower). Expect **318 passed** on `main` (7 Nov late night, `bd2de0f`). CI's e2e: 118 passed, 8 skipped by design.
 - The desktop preview launcher cannot start servers from `~/Downloads` (macOS privacy). Start servers with a background
   shell instead, for example
   `cd backend && DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib uv run uvicorn app.main:app --port 8010`, then open the URL.

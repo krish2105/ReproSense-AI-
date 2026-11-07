@@ -17,6 +17,60 @@ Blockers / questions:
 
 ---
 
+## 2026-11-07 (late night) — Second rescore, fixes, final e2e and Lighthouse — Atharva with Claude Code
+**Merged after the first rescore:** #83, #84, #85, #87, #88, #89 (Arabic counted nouns agree with the number), #90:
+- The server sets the lab flag from the value she confirms.
+- One-sided ranges print as "< 5.6".
+- A log save keeps the mood she tapped.
+- Persona names and roster stories show in Arabic on Arabic screens.
+
+Main CI was green after every merge. Backend is 318 passed on Linux.
+
+**Second senior-judge rescore (main `d6b298a`, before #90; values from `31ca72d` in brackets):**
+
+| Scorecard | Score | Moved by |
+| --- | --- | --- |
+| Jury | **72** (72) | No change: every criterion now waits on people or the deploy |
+| Real MVP | **76.5** (76) | Arabic 7 (#85, #89) |
+| Real SaaS | **72** (72) | No change: build-week work (C1, C2, C6) |
+| Clinical safety | **26.5/35** (26) | Crisis path 3.5 (#83 keeps other red flags on Patterns and the check-in reply) |
+| Women's experience | **27.5/35** (27) | Arabic 3 (#85, #89) |
+| Trust pack | **7/7** | Kept. Grounded answers live at 100% (30/30) |
+
+#90 then fixed four of the judge's new defects: the stale lab flag, the "–5.6" range, the mood erased by a log save, and
+Latin names and English stories on Arabic screens. The judge did not re-score after #90.
+
+**e2e (production build; API from the Linux image in CI's demo-safe setup; no retries):**
+- On `d6b298a`:
+  - Run 7 failed with React #418 on `/clinic` in the desktop demo path. This is the documented hydration flake from the
+    React canary in Next 15.5; Next 16 is PR #72, and no PR tonight touched `/clinic`.
+  - Runs 8 and 9 had 118 passed and 8 skipped each.
+- **Final main `bd2de0f`, runs 10–12: run 11 had 118 passed and 8 skipped. Runs 10 and 12 each failed one test, and only on React #418 (`/admin` in the demo path; `/app` in the join test, after which its serial block left 2 tests unrun); every other test passed. That is not 3 in a row. On the new code #418 hit 3 of 6 runs (`/clinic`, `/admin`, `/app`, all desktop), against 0 of 3 on `31ca72d`. A dev-server repeat of the demo-path, join and screens specs (135 test runs) logged no hydration mismatch, which fits the documented production-only race in Next 15.5's React canary. The fix path stays Next 16 (#72, from 17 Nov)**
+- Tonight's full runs on a quiet machine total 9: 3 on `31ca72d`, 3 on `d6b298a`, 3 on `bd2de0f`. One of them hit #418.
+
+**Lighthouse, mobile, signed in (local production build, `d6b298a`):** 100 / 100 / 100 (performance / accessibility /
+best practices) on `/app`, `/app/insights`, `/app/assistant`, `/app/report` and `/clinic`. #90 changes only text and the
+lab flag.
+
+**Governance (this PR):**
+- The CI `change-log` job and the CHANGE_LOG scope now also cover `engine.py`, `expr.py`, `assistant.py` and `config.py`.
+  #86 already carries its row.
+- The hazard-log rows now say what was fixed and what remains.
+- QUESTIONS #60: G3 and B2 cannot pass as written, because the model can only add routes, so everyday cannot reach 48/50.
+  The delta-rule proposal waits for Krishna.
+
+**Waits for Krishna (gate G2):**
+- #82 (A4e wording).
+- #86 (guard gaps and urgent citations).
+- The server-side same-day merge (`engine.py`).
+- An atomic demo reset (schema and RLS).
+- QUESTIONS #60.
+
+Merging #82 and #86 is the cheapest score left: about +1.5 Clinical safety and +0.5 Women's experience.
+
+**Needs people:** deploy (A7, Mon 9 Nov), clinical advisor (A8, B6), interviews and a letter of intent (B4, B7), usability
+sessions (B5), native Arabic review (B3), rehearsals (B10). Per the judge, these hold the remaining ~20 jury points.
+
 ## 2026-11-07 (night) — Full e2e, senior-judge rescore, fixes from the rescore — Atharva with Claude Code
 **Build and e2e on main (`31ca72d`, Windows, Chrome, production build, no retries):**
 - `pnpm build` passes (22 routes).
