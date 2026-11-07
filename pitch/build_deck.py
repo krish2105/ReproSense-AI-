@@ -19,7 +19,7 @@ from datetime import date
 from pathlib import Path
 
 # Fill these only with true facts before the pitch. A value left as None hides its line (judge panel, 6 Nov 2026).
-TEAM = None  # e.g. "Krishna (tech) · Atharva (product) · Yash (regulatory) · Dr … (clinical advisor)"
+TEAM = "Krishna Mathur (tech, AI and safety logic) · Atharva Soundankar (product, web and venture)"  # add the advisor only once one has agreed
 EVIDENCE = None  # e.g. "6 clinicians and 3 clinic managers interviewed · letter of intent from … Clinic"
 IMAGE_TOOL = "ChatGPT"  # ASSET_INTEGRATION_REPORT.md: "AI-generated images (ChatGPT)"
 

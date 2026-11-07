@@ -134,9 +134,9 @@ limitations). Rounds 1–4 (510 questions) are development sets used to improve 
 
 | Suite | Count |
 | --- | --- |
-| Backend (pytest): rules, API, RLS, safety routing, assistant eval, PDF, FHIR, security | 280 tests |
+| Backend (pytest): rules, API, RLS, safety routing, assistant eval, PDF, FHIR, security | 306 tests |
 | Web unit tests (Vitest) | 14 files |
-| End-to-end (Playwright): demo path, screens, safety, 3D fallbacks, API-down states | 9 specs, 18 tests |
+| End-to-end (Playwright): demo path, screens, safety, 3D fallbacks, API-down states | 9 specs, 61 tests per viewport (desktop and phone); 114 run, 8 skip by design |
 
 CI runs on every pull request: backend lint and tests, web lint, typecheck, unit tests and build, end-to-end tests, a check that
 the synthetic data generator is byte-identical for its seed, a secret scan (gitleaks) and the API container build.
