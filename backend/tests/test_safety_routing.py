@@ -180,3 +180,34 @@ def test_severe_bleeding_with_fainting_gets_the_998_reply_first(q, lang):
 )
 def test_severe_bleeding_wordings_need_both_halves_of_rf1(q, expected):
     assert route(q) == expected
+
+
+# QUESTIONS #59 (Atharva's 7 Nov handoff, step 4c): a possible pregnancy with severe pain can be an ectopic pregnancy,
+# an emergency (NICE NG126). "my period pain is severe" and «ألم شديد» were not pregnancy warning signs, so these got an
+# ordinary answer. They now reach the pregnancy urgent reply, like "severe pain low in my tummy" already did.
+@pytest.mark.parametrize(
+    "q,expected",
+    [
+        ("I might be pregnant and my period pain is severe", "pregnancy"),
+        ("I could be pregnant and the cramps are unbearable", "pregnancy"),
+        ("I had a positive pregnancy test and now severe period pain", "pregnancy"),
+        ("ممكن أكون حامل وعندي ألم شديد", "pregnancy"),  # I might be pregnant and I have severe pain
+        ("حامل ومغص قوي ما ينطاق", "pregnancy"),  # pregnant, with strong unbearable cramps
+        # unchanged: already urgent, or not urgent
+        ("I could be pregnant and have severe pain low in my tummy", "pregnancy"),
+        ("is period pain normal if I might be pregnant?", "answer"),
+        ("I might be pregnant and have mild cramps", "answer"),
+        ("I'm pregnant, no pain, is it ok to swim?", "answer"),
+        ("severe period pain every month, what helps?", "answer"),
+        ("ألم شديد في الدورة كل شهر، ماذا أفعل؟", "answer"),  # severe period pain every month, what can I do?
+    ],
+)
+def test_q59_possible_pregnancy_with_severe_pain_gets_the_urgent_reply(q, expected):
+    assert route(q) == expected
+
+
+def test_q59_rf2_cites_the_ectopic_pregnancy_guideline():
+    from app.rules.engine import load_rules
+
+    rf2 = next(r for r in load_rules().red_flags if r.id == "RF2_severe_sudden_pain_possible_pregnancy")
+    assert rf2.source_ids[0] == "nhs_pelvic_pain" and "nice_ng126" in rf2.source_ids
