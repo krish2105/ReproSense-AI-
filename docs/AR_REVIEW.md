@@ -456,3 +456,31 @@ The doctor report keeps the full Latin alias with its initial ("Noura A.").
 | Noura | نورة | |
 | Priya | بريا | |
 | Sara | سارة | |
+
+## Counted nouns on pattern cards (7 Nov night, draft Arabic, not yet reviewed)
+The "why we noticed" sentences put a fixed أيام / يوماً / أسابيع / أشهر after a number that changes, which was wrong at 2 and
+at 11 or more. `_ar_n` in `backend/app/agents/copy.py` now picks the form: 1 يوم واحد · 2 يومين · 3–10 أيام · 11+ يوماً
+(the same for أسبوع and شهر). Day counts out of 90 read "{n} من آخر 90 يوماً", which is right for any n.
+
+| Sentence | Arabic now | OK |
+| --- | --- | --- |
+| Acne or hair growth, fatigue, hot flushes | …في {n} من آخر 90 يوماً… | |
+| Longest period | …وأطول دورة استمرت يومين / 8 أيام / 12 يوماً. | |
+| Last period started | …قبل 95 يوماً. | |
+| Weeks since the birth (glucose test, mood check) | …قبل / بعد أسبوعين / 9 أسابيع / 12 أسبوعاً… | |
+| Months trying to conceive | …منذ 14 شهراً… | |
+
+## Demo roster stories and names (second 7 Nov rescore, draft Arabic, not yet reviewed)
+The Arabic demo roster showed each fictional woman's story in English and her name as "Noura A.". Stories now come from
+`demo.stories.*`, and names, initials and her Arabic report use `shownName` (the Arabic first name).
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `demo.stories.amina` | Regular cycles, mild cramps. Shows the calm state of the app. | دورات منتظمة وتقلصات خفيفة. تُظهر حالة التطبيق الهادئة. | |
+| `demo.stories.fatima` | Gave birth 9 weeks ago after gestational diabetes; no glucose test logged since. | وضعت مولودها قبل 9 أسابيع بعد سكري الحمل، ولم يُسجَّل فحص سكر منذ ذلك الحين. | |
+| `demo.stories.hessa` | 24 weeks pregnant with her first baby; the glucose screening window (24-28 weeks) is open and not yet booked. | حامل في الأسبوع 24 بطفلها الأول؛ موعد فحص السكر (من الأسبوع 24 إلى 28) متاح ولم يُحجز بعد. | |
+| `demo.stories.layla` | Periods have become unpredictable over the past year, with hot flushes and night sweats most weeks. | أصبحت الدورة غير متوقعة خلال العام الماضي، مع هبّات ساخنة وتعرّق ليلي في معظم الأسابيع. | |
+| `demo.stories.mariam` | Trying to conceive for 7 months with regular cycles; wants to know when to ask for help. | تحاول الحمل منذ 7 أشهر ودوراتها منتظمة؛ تريد أن تعرف متى تطلب المساعدة. | |
+| `demo.stories.noura` | Long and irregular cycles with acne and excess hair growth logged often. | دورات طويلة وغير منتظمة، وتسجّل حب الشباب ونمو الشعر الزائد كثيراً. | |
+| `demo.stories.priya` | Severe period pain each month, missing work, pain with bowel movements during periods. | ألم شديد في الدورة كل شهر، وغياب عن العمل، وألم أثناء التبرز في أيام الدورة. | |
+| `demo.stories.sara` | Long, very heavy periods with clots; one recent day of dizziness (red-flag demo). | دورات طويلة وغزيرة جداً مع جلطات، ويوم دوخة واحد مؤخراً (عرض علامة الخطر). | |

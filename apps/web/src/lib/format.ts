@@ -43,6 +43,12 @@ const AR_NAMES: Readonly<Record<string, string>> = {
   Sara: "سارة",
 };
 
+/** Her name as a screen shows it: "Noura A." in English; on Arabic screens a persona's Arabic first name ("نورة"). */
+export function shownName(alias: string, locale?: string): string {
+  const ar = locale === "ar" ? AR_NAMES[firstName(alias)] : undefined;
+  return ar ?? displayName(alias);
+}
+
 /** "Noura A. (fictional)" → "Noura"; on Arabic screens a persona's name is written in Arabic ("نورة"). */
 export function firstName(alias: string, locale?: string): string {
   const name = displayName(alias).split(/\s+/)[0] ?? alias;
