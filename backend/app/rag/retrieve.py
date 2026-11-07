@@ -18,6 +18,7 @@ GLOSSARY = {  # Arabic term (normalised) -> English expansion. AR-REVIEW
     "المبايض": "ovary ovaries pcos",
     "متلازمه": "syndrome",
     "الدوره": "period cycle",
+    "غياب": "absent missed periods",
     "دوره": "period cycle",
     "الدورات": "cycles periods",
     "منتظمه": "regular irregular",
@@ -147,10 +148,8 @@ class Passage:
 
 
 def search(
-    q: str, k: int = 4, lang: str | None = None, source_ids: list[str] | None = None, pool: int = 30
+    q: str, k: int = 4, lang: str | None = None, source_ids: list[str] | None = None, pool: int = 20
 ) -> list[Passage]:
-    # pool: candidates taken from each ranking before fusion. 20 was set for 93 chunks; with ~104 the Arabic chunk on
-    # absent periods fell to place 20 for "ما أسباب غياب الدورة؟" (ar13), just outside, so 30 keeps headroom.
     eq = expand_query(q)
     terms = sorted(query_terms(q))
     raw = sorted({w for w in WORD.findall(normalise(eq)) if len(w) > 2 and w not in _EN_STOP})

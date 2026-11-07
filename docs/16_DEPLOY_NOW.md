@@ -35,7 +35,7 @@ PDFs included).
    synthetic data; the log shows `first boot: seeded {'personas': 8, ...}`. A restart never reseeds a database that
    already has the personas.
    **After a deploy that changes `knowledge_base/` or `data/synthetic/`**, open Demo people → Reset demo data (as admin): it reloads the personas and rebuilds the assistant's index. Until then the live API answers from the old index; a source removed from `sources.yaml` is skipped, never cited.
-4. Check `https://<your-api>.onrender.com/readyz`: `"personas": 8`, `"kb_chunks": 93`, `"demo_mode": true`.
+4. Check `https://<your-api>.onrender.com/readyz`: `"personas": 8`, `"kb_chunks": 100`, `"demo_mode": true`.
 5. Free instances sleep after about 15 minutes idle (docs/08 rule 7). For the showcase, switch to a paid instance for the
    day or open `/healthz` 10 minutes before you present.
 

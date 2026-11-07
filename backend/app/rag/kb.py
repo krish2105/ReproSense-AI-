@@ -32,7 +32,9 @@ class Chunk:
 @lru_cache
 def sources() -> dict[str, Source]:
     return {
-        s["id"]: Source(s["id"], s["title"], s["url"], s.get("publisher", ""), s.get("answers", True), s.get("quote", True))
+        s["id"]: Source(
+            s["id"], s["title"], s["url"], s.get("publisher", ""), s.get("answers", True), s.get("quote", True)
+        )
         for s in yaml.safe_load(SOURCES_PATH.read_text())
     }
 
