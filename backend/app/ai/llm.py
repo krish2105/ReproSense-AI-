@@ -8,6 +8,12 @@ import hashlib
 import json
 import logging
 import re
+import time
+from collections.abc import Iterator
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import TimeoutError as FuturesTimeout
+from contextlib import contextmanager
+from contextvars import ContextVar
 from pathlib import Path
 from typing import Protocol
 
@@ -15,6 +21,26 @@ from app.config import get_settings
 
 log = logging.getLogger("reprosense.llm")
 CACHE_DIR = Path(__file__).parent / "cache"
+
+# One time budget for all model calls inside one API request (set by app.security.middleware.ModelBudget).
+_DEADLINE: ContextVar[float | None] = ContextVar("llm_deadline", default=None)
+_POOL = ThreadPoolExecutor(max_workers=8, thread_name_prefix="llm")
+MIN_CALL_S = 0.5  # with less time left than this, do not start a model call
+
+
+@contextmanager
+def request_budget(seconds: float) -> Iterator[None]:
+    token = _DEADLINE.set(time.monotonic() + seconds)
+    try:
+        yield
+    finally:
+        _DEADLINE.reset(token)
+
+
+def budget_left() -> float | None:
+    """Seconds left in this request's model budget, or None outside a request (no limit beyond the call timeout)."""
+    deadline = _DEADLINE.get()
+    return None if deadline is None else deadline - time.monotonic()
 
 
 class LLM(Protocol):
@@ -63,7 +89,8 @@ class ClaudeProvider:
         import anthropic
 
         self._anthropic = anthropic
-        self.client = anthropic.Anthropic(api_key=api_key, max_retries=2, timeout=30.0)
+        s = get_settings()
+        self.client = anthropic.Anthropic(api_key=api_key, max_retries=s.llm_max_retries, timeout=s.llm_timeout_s)
         self.model = model
 
     def complete_json(self, system: str, user: str, max_tokens: int = 2000) -> dict | None:
@@ -95,11 +122,37 @@ class ClaudeProvider:
         if resp.stop_reason == "max_tokens":
             log.warning("LLM reply cut at max_tokens=%s; using template", max_tokens)
             return None
-        text ="".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
+        text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
         value = _parse_json(text)
         if value is not None:
             cache_put(system, user, value)
         return value
+
+
+class Budgeted:
+    """Runs a provider's call inside the request's model budget. Past the budget it returns None, so the caller uses
+    its deterministic template and Home never waits past the web's limit with a red-flag card hidden behind it."""
+
+    def __init__(self, inner: LLM):
+        self.inner = inner
+        self.name = inner.name
+
+    def complete_json(self, system: str, user: str, max_tokens: int = 2000) -> dict | None:
+        cached = cache_get(system, user)
+        if cached is not None:
+            return cached
+        left = budget_left()
+        if left is None:
+            return self.inner.complete_json(system, user, max_tokens)
+        if left < MIN_CALL_S:
+            log.warning("model budget for this request is spent; using template")
+            return None
+        future = _POOL.submit(self.inner.complete_json, system, user, max_tokens)
+        try:
+            return future.result(timeout=left)
+        except FuturesTimeout:
+            log.warning("model call ran past this request's budget; using template")
+            return None
 
 
 def get_llm() -> LLM:
@@ -108,5 +161,5 @@ def get_llm() -> LLM:
     if use == "auto":
         use = "claude" if s.anthropic_api_key else "none"
     if use == "claude" and s.anthropic_api_key:
-        return ClaudeProvider(s.anthropic_api_key, s.llm_model)
+        return Budgeted(ClaudeProvider(s.anthropic_api_key, s.llm_model))
     return NoLLM()

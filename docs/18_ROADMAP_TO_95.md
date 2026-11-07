@@ -52,7 +52,7 @@ This file sets the order of work. `docs/17_PLAN_TO_95.md` keeps the score analys
 | --- | --- |
 | G1 Before selection | Until 16 Nov, only safety, privacy, truth and data-loss fixes, ops, docs and people work (Q51). Features start on 17 Nov. |
 | G2 Krishna approves | Needed for any change to `rules/clinical_rules.yaml`, to `URGENT_TEXT` or the crisis citations in `backend/app/agents/assistant.py`, to the routing in `backend/app/agents/safety.py`, to auth, RLS or the stack, and to the HANDOFF §7 decisions. Opus writes the proposal (diff and reason) in the PR; Krishna approves in the PR. |
-| G3 Model ship rule | The model check goes on in production only if held-out round 5 gives crisis ≥ 27/30 and everyday ≥ 48/50. Round 5 is never used for tuning. Tune on rounds 1–4 only. Any new claim then needs a fresh round 6, written by people who have not seen the code and measured once. |
+| G3 Model ship rule | **Delta rule (Krishna, 7 Nov, Q60).** The model check goes on in production only if, on held-out round 5 with the model on, crisis is ≥ 27/30 **and** the model adds no new route to any everyday question (everyday stays at the word-check score, 42/50 today). The model can only add routes, so it cannot fix the word checks' everyday false alarms; diagnosis, medicine and everyday targets are met by word-check changes instead (G2), measured once on a fresh round 6. Round 5 is never used for tuning. Tune on rounds 1–4 only. Any new claim then needs a fresh round 6, written by people who have not seen the code and measured once. |
 | G4 Every PR | All CI jobs green (backend, web, e2e, generator check, gitleaks, image). PROGRESS.md and BUILD_STATUS.md updated. Health wording reviewed by the chief-healthcare-officer and women-care-lead agents. |
 | G5 Every build-week evening | Run the demo-readiness skill and a senior-judge rescore (section 5), and record both in PROGRESS.md (#31). |
 | G6 Code freeze | Saturday 21 Nov, 18:00. After that, only fixes for a broken demo, with Krishna's OK. |
@@ -181,7 +181,7 @@ Card:
 | --- | --- | --- | --- |
 | 1 Red flags: 6 rules, 998 first, recall 100% | 4.5 | 5 | RF2 fires without a fever (Q53, PR #40) → A1–A2 |
 | 2 Crisis: EPDS item 10 path and crisis messages to the assistant | 3.5 | 5 | Model check crisis ≥ 27/30 on round 5 → A3, B2 |
-| 3 Assistant routing on held-out questions | 3 | 5 | With the model: emergencies ≥ 30/32, diagnosis ≥ 9/10, medicine ≥ 9/10, everyday ≥ 48/50 → B2 |
+| 3 Assistant routing on held-out questions | 3 | 5 | Word-check changes (G2), measured once on a fresh round 6: emergencies ≥ 30/32, diagnosis ≥ 9/10, medicine ≥ 9/10, everyday ≥ 48/50. The model check (B2) cannot move these: it only adds crisis or urgent routes (Q60) |
 | 4 Non-diagnostic language and guards | 4.5 | 5 | Keep the banned-phrase tests and guards; review copy again after the Arabic pass |
 | 5 Sources | 4.5 | 5 | NG126 and an overdose source added; every link checked live with an access date → A5 |
 | 6 Rule correctness on edge cases | 3 | 5 | Q48 and Q53 (PR #40), the next-step wording (A4e), an edge-case test matrix (A9), the advisor's decisions on Q49 and Q56 applied → B6, C4 |
@@ -576,7 +576,7 @@ Card A11 (issue #57). Branch: fix/postcss-override.
    - It prints the round-5 numbers with the model, and "model answered N/M safety checks".
    - It writes `heldout_with_model` only if the model answered at least 95% of them.
    - One run makes a few hundred calls on synthetic questions only. Expect roughly USD 10 at Opus 5.5 prices.
-3. **Ship rule (G3):** crisis ≥ 27/30 and everyday ≥ 48/50.
+3. **Ship rule (G3, delta rule decided 7 Nov, Q60):** crisis ≥ 27/30 with the model, and the model adds no new route to any everyday question (compare the with-model and word-check routes question by question).
    - **If it passes:** set `LLM_PROVIDER=claude` and the key in the Render dashboard.
    - **If it fails:** production stays on `none`. The 998 strip stays either way.
 4. **Atharva, with Opus:**
