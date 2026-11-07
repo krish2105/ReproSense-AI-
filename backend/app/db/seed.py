@@ -174,8 +174,21 @@ def seed(url: str | None = None, with_kb: bool = True) -> dict:
         from app.db import reset_pool
 
         reset_pool(url)
-    apply_schema(url)
-    with session(SYSTEM) as cur:
+    # One transaction for the schema, the data and the assistant's index (step 4e, 7 Nov): a request during a reset
+    # waits on the locks, then sees the full demo, never 0 people or an empty index. The cards are written after the
+    # commit, because building them reads the index through other connections, which would wait on these locks.
+    from app.db import pool
+    from app.rag.ingest import ingest
+
+    sql = (Path(__file__).parent / "schema.sql").read_text()
+    with pool().connection() as conn, conn.transaction(), conn.cursor() as cur:
+        cur.execute(sql)
+        cur.execute("SET LOCAL ROLE reprosense_app")
+        cur.execute(
+            "SELECT set_config('app.role', %s, true), set_config('app.user_id', %s, true),"
+            " set_config('app.clinic_id', %s, true)",
+            (SYSTEM.role, SYSTEM.user_id, SYSTEM.clinic_id),
+        )
         for c in CLINICS:
             cur.execute("INSERT INTO clinics (id, name, region) VALUES (%s,%s,%s)", c)
         for sid, alias, role, clinic in STAFF:
@@ -184,13 +197,11 @@ def seed(url: str | None = None, with_kb: bool = True) -> dict:
             )
         ids = load_personas(cur)
         n = load_cohort(cur)
+        if with_kb:
+            ingest(cur)
     from app.agents.pipeline import refresh_all
 
     refresh_all(ids)
-    if with_kb:
-        from app.rag.ingest import ingest
-
-        ingest()
     return {"personas": len(ids), "cohort": n, "ref_date": str(get_settings().demo_ref_date or date.today())}
 
 
