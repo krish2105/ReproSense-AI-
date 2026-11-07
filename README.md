@@ -50,7 +50,7 @@ These rules are enforced in code and tests, not only in documentation ([CLAUDE.m
    (6 red flags, 12 observations), each with its source. An output guard blocks diagnostic wording.
 2. **Red flags first.** Red-flag rules run before anything else and show 998 guidance. An EPDS item 10 answer above 0
    opens the crisis path, never a pattern card.
-3. **Every answer cites a source** from [`knowledge_base/sources.yaml`](knowledge_base/sources.yaml) (28 sources, each
+3. **Every answer cites a source** from [`knowledge_base/sources.yaml`](knowledge_base/sources.yaml) (31 sources, each
    summarised in our own words). No source found: it says so instead of guessing.
 4. **Agents ask first.** The care navigator drafts; she approves.
 5. **Privacy.** Row-level security in Postgres, consent checks for clinician access, encrypted free-text notes,
@@ -134,7 +134,7 @@ limitations). Rounds 1–4 (510 questions) are development sets used to improve 
 
 | Suite | Count |
 | --- | --- |
-| Backend (pytest): rules, API, RLS, safety routing, assistant eval, PDF, FHIR, security | 273 tests |
+| Backend (pytest): rules, API, RLS, safety routing, assistant eval, PDF, FHIR, security | 280 tests |
 | Web unit tests (Vitest) | 14 files |
 | End-to-end (Playwright): demo path, screens, safety, 3D fallbacks, API-down states | 9 specs, 18 tests |
 

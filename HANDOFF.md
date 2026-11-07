@@ -1,43 +1,106 @@
 # HANDOFF — ReproSense AI (read this before anything else)
 
-Written 5 Nov 2026 for the next person or Claude Code session picking this up.
+Written 5 Nov 2026; section 0 updated 7 Nov 2026 (evening) for the next person or Claude Code session.
 Repo: https://github.com/krish2105/ReproSense-AI- (public). Branch `main`.
 Hackathon: HealthX Ajyal (DoH Abu Dhabi). Apply by **Sat 14 Nov 23:59 GST** · selection Mon 16 Nov · build 17–21 Nov ·
 code freeze Sat 21 Nov 18:00 · showcase Sun 22 Nov, DOH Incubator, Masdar City.
 
 ---
 
-## 0. Left for Atharva (from Krishna, 6 Nov 2026, late night)
-**Now (6 Nov evening): start with `docs/18_ROADMAP_TO_95.md`.** It holds the order of work: cards A0–D2 with prompts
-for Claude Code (Opus 5.5), the calendar to 22 Nov and the targets line by line. Issues #41–#47 and #57 are new.
-Android and iOS apps: `docs/21_MOBILE_APPS_ROADMAP.md` (issues #50–#56, after the showcase). Latest rescore: `docs/22_RESCORE.md`. Items 1–2
-below are done (#33). Item 3 is card B2. Q48 and Q53 are fixed in PR #40, waiting for Krishna's approval.
-**Full plan to 95+:** `docs/17_PLAN_TO_95.md`, tracked on GitHub in issue #32 (issues #21–#31, assigned to Atharva).
-Branch `fix/judge-findings` is pushed, all tests green locally (backend, web unit, Playwright 106 passed). Not merged yet.
-1. **Docs with the round-5 numbers.** Held-out round 5 (132 questions by new writers, written after the review fixes,
-   measured once, word checks only): crisis 11/30, emergencies 24/32, diagnosis refused 6/10, medicine sent to a
-   doctor 4/10, everyday answered normally 42/50. Round 4 (12/30, 18/32, 7/10, 3/10, 46/50) was measured before the
-   review fixes. Put both rows in the PROGRESS night table, QUESTIONS #50, this file's §1 safety bullet,
-   BUILD_STATUS "Verified numbers", and the docs/10 Q&A row "What if she types something your checks miss?"
-   (say "a fresh held-out round", and quote 11 of 30 crisis and 24 of 32 emergency). /status and the deck already
-   read the new numbers from `backend/app/ai/eval_results.json`.
-2. **Open the PR** for `fix/judge-findings` into `main`, wait for CI (backend, web, e2e, image, gitleaks), merge.
-   No AI co-author lines in commits or the PR.
-3. **Model check score.** With `LLM_PROVIDER=claude` and a key in `.env`, run `make safety-eval`: it scores the
-   language model's second check on round 5 and stores it next to the word-checks number, never in its place.
-4. **QUESTIONS #56:** in round 5, two crisis messages about pills got the fixed medicine reply instead of the support
-   message (the 998 strip was still on screen). Clinical advisor decides whether the medicine reply should carry a
-   crisis line. Do not tune the word checks on round 5: it is the held-out set now.
-5. Build week: #54 (rare hydration flake), #55 (sign-in for joined records). Clinician: #48, #49, #52, #53.
+## 0. Start here: Krishna's handoff (7 Nov 2026, evening)
+Written so a fresh Claude Code session, on any account, can continue Krishna's work with no lost context. Read this
+section, then `CLAUDE.md`, then `docs/18_ROADMAP_TO_95.md` (the order of work, cards A0–D2, calendar to 22 Nov).
 
----
+### Who does what
+- **Krishna** (`krish2105`): backend, AI, safety logic, data, security, deploy, and every approval. Safety logic and
+  `rules/clinical_rules.yaml` change only with his OK (gate G2 in docs/18).
+- **Atharva Soundankar** (`mercydeez`): web app, docs cards, venture pack, people work. His cards are in docs/18.
+- **Yash Petkar** (`Yashpetkar7`): invited, no assignment. Ask Krishna before giving him work.
+
+### Rules that bite (beyond CLAUDE.md)
+- **Git identity:** commit as `Krishna Mathur <113384784+krish2105@users.noreply.github.com>`. Never add
+  `Co-Authored-By: Claude`, "Generated with Claude Code" or any AI trailer to a commit or PR, even if a tool suggests
+  it. Run `make hooks` once per clone: the hook refuses such commits. AI use is disclosed in the app footer and pitch.
+- **Before selection (16 Nov):** only safety, privacy, truth and data-loss fixes, ops, docs and people work. Features
+  start 17 Nov (they would otherwise count as disclosed pre-selection work, QUESTIONS #51).
+- **Test first** for every fix: write the failing test, watch it fail, then fix. Each PR states `make test` output.
+- **Never tune safety checks on held-out round 5** (`backend/tests/rag_heldout.jsonl`, round 5). Rounds 1–4 are
+  development sets. `rag_eval.jsonl` stays at exactly 60 questions (asserted, shown on /status); new regression cases
+  go in `backend/tests/test_safety_routing.py` or a new test file.
+- **No personal data in the repo** (names, phone numbers, emails of doctors, clinics or the team's private addresses).
+
+### Done on 7 Nov (all merged to `main`)
+| PR | What |
+| --- | --- |
+| #71 | Issue #65: the assistant's urgent check catches "bleeding through", "a pad every hour" (either order), "light-headed" and Arabic equivalents (تسرب الدم، الفوطة الصحية كل ساعة، دوار، يغمى علي، خفة في الرأس). Block `issue #65` in `backend/app/agents/safety.py`; probes in `test_safety_routing.py`. 0 routing changes across all 702 eval questions |
+| #73 | Issue #66: the care navigator's appointment request is in her own voice (`OWN_VOICE` in `backend/app/agents/navigator.py`; `tests/test_navigator.py`) |
+| #76 | Issue #67: Arabic evidence lines give flow, symptoms, impact and events in Arabic (`AR_*` maps in `backend/app/agents/copy.py`; `tests/test_arabic_evidence.py`; new strings in `docs/AR_REVIEW.md`) |
+| #78 | New README: product, safety, architecture, measured results, setup, limitations |
+| #48, #75, #74, #77 | docs/18 roadmap; Atharva's A9 safety case, A5 sources (NICE NG126, crisis, period pain) and A10 venture pack |
+Also on 7 Nov: Krishna submitted his HealthX Ajyal application (via Outlook) and emailed the organisers (Upstart Bar's
+info address, from his Gmail) the four questions in `docs/drafts/44-organiser-email.md`, including whether entering the
+Future Health challenge as well is allowed.
+
+### Waiting on Krishna (in date order)
+1. **Watch for the organisers' reply.** It decides QUESTIONS #44 (how pre-selection code is scored) and #45.
+2. **Advisor outreach:** send `docs/drafts/26-outreach.md` §1 to 5–10 OB-GYNs, residents, midwives or GPs, one name per
+   message; log each in that file's tracker by role only.
+3. **Mon 9 Nov: deploy** (`docs/16_DEPLOY_NOW.md`: Supabase, Render blueprint, Vercel), smoke test, uptime check
+   (issue #22, #30). Then replace "Not deployed yet" in README.md and this file with the live URL.
+4. **Tue 10 Nov: Future Health decision** (`docs/drafts/45-second-competition.md`). Register only if its rules allow an
+   existing product and HealthX confirms no conflict; otherwise skip.
+5. **By Fri 13 Nov:** interviews and usability sessions (Atharva leads, #26); clinician review booked.
+6. **Sat 14 Nov 23:59:** applications close. Confirm Atharva applied with team name **ReproSense**.
+7. **Mon 16 Nov:** tag `pre-selection-2026-11-16` before any build-week commit (docs/15).
+
+### Open PRs (7 Nov evening)
+Atharva merged #74 (A5: NICE NG126 and crisis sources, after resolving the `docs/AR_REVIEW.md` conflict) and #77 (A10:
+venture pack) on 7 Nov evening. Still open:
+| PR | Owner | State |
+| --- | --- | --- |
+| #72 Next 16 | Atharva | Do **not** merge before 17 Nov, and only after 3 green e2e runs |
+| #68 Phone app (Expo) | Krishna | Build-week / post-showcase work (docs/21). The main checkout is on this branch |
+| #58 Rescore and mobile roadmap | Krishna | Docs; review and merge or close |
+
+### Known gaps found 7 Nov, not fixed yet
+- **"Severe bleeding" wordings:** "severe bleeding", "bleeding really badly", "lots of blood" and Arabic نزيف حاد / شديد /
+  قوي, with dizziness, get `urgent: None` from the word checks (the heavy half of RF1 has no such wording). Fix the same
+  way as #71: failing probes first in `test_safety_routing.py`, adjacency-based patterns (never a bare "severe" or
+  "شديد", which would catch pain), `make test`, 0 routing changes across the 702 eval questions. Safety logic: Krishna
+  approves.
+- **React hydration error #418 on `/clinic`** still fails an e2e run now and then (seen on PR #71's first run; a re-run
+  passed). docs/17 target: find the cause, CI green 3 runs in a row.
+- **Arabic copy** (including the new #65–#67 strings) is a draft until the native review (#23).
+
+### Local setup notes (Krishna's Mac)
+- Repo: `~/Downloads/reprosense-ai-kit`. Claude Code worktrees live in `.claude/worktrees/<name>`.
+- **A fresh worktree or clone has no `.env`:** run `make env` first (random local keys, git-ignored), or the test seed
+  fails with "NOTES_KEY is not set". Never copy another checkout's `.env`.
+- Run `make seed` only from the checkout whose `.env` will serve the dev database: it reseeds `reprosense` with
+  that checkout's NOTES_KEY. Tests seed `reprosense_test` by themselves.
+- `make test` takes about 20 s once warm (the first run in a new venv is slower). Expect **280 passed** on `main` (7 Nov evening).
+- The desktop preview launcher cannot start servers from `~/Downloads` (macOS privacy). Start servers with a background
+  shell instead, for example
+  `cd backend && DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib uv run uvicorn app.main:app --port 8010`, then open the URL.
+- For a live API check while tests may run, use a spare port and the test database so the dev database gets no audit
+  rows: `DATABASE_URL='postgresql:///reprosense_test?host=/tmp' LLM_PROVIDER=none ... uvicorn app.main:app --port 8011`.
+- Phone app (`apps/mobile`, PR #68) in Expo Go on the iOS simulator: launch with
+  `xcrun simctl openurl booted "exp://127.0.0.1:8081?__expo_disable_fab=1&__expo_disable_auto_launch=1&__expo_disable_onboarding=1"`;
+  Expo Go ignores the app's own forceRTL, so set `expo.extra.forcesRTL: true` in app.json for an Arabic layout check
+  and revert it.
+
+### Still open from 6 Nov
+- Model check score (card B2, #29): with `LLM_PROVIDER=claude` and a key, `make safety-eval` scores the model's
+  second check on round 5 and stores it next to the word-checks number, never in its place.
+- QUESTIONS #56: two round-5 crisis messages about pills got the medicine reply; the clinical advisor decides.
+- Build week: sign-in for joined records (#27), clinic tenants (#28), merge `build-week/clinician-invites` on 17 Nov.
 
 ## 1. Where things stand in one minute (updated 6 Nov 2026, night)
 - **Everything is on `main`** (PRs #8–#21, CI green: backend, web, e2e, API image, gitleaks).
 - **Judge panel (6 Nov, before the night's fixes):** jury 61.5/100 (range 53.5–65.5), Real MVP 66, Real SaaS 61, clinical safety 20/35, women's experience 23/35.
   - The night's fixes (PR #21) close the safety, privacy, truth and data-loss findings. Details in PROGRESS.md.
   - What remains is people work and rules-file sign-off: QUESTIONS #44–#51.
-- **Backend: 132 tests.**
+- **Backend: 280 tests** (7 Nov).
   - FastAPI, Postgres 17 + pgvector with forced row-level security, rules engine, LangGraph pipeline, RAG assistant, WeasyPrint PDF.
   - Sign-up (`/join`) and the clinic patient QR.
   - **AI on/off switch enforced:** Privacy → "Use AI features"; off closes the assistant and keeps template wording.
@@ -83,7 +146,7 @@ make hooks    # once per clone: refuses commits with AI co-author or "Generated 
 make db       # creates databases reprosense + reprosense_test
 make seed     # schema + RLS + 8 personas + 1,200 cohort + RAG index (100 chunks)
 make api      # http://127.0.0.1:8010  (docs at /docs). Port 8000 is taken by another local project.
-make test     # ruff + 132 tests against reprosense_test
+make test     # ruff + 280 tests against reprosense_test (7 Nov)
 cd apps/web && pnpm build && PW_CHANNEL=chrome pnpm e2e   # 69 Playwright checks at 1280 + 390 px (reuses the API on :8010 and `pnpm start -p 3100` if they run)
 ```
 Gotchas:
@@ -171,9 +234,11 @@ Scope = demo path first (#11) · builders Krishna + Atharva (#12) · demo role t
 
 ## 8. Prompt to start a new Claude Code session
 ```
-You are continuing ReproSense AI. Read HANDOFF.md first, then CLAUDE.md, BUILD_STATUS.md, QUESTIONS.md.
-Do not add any Claude or AI co-author lines to commits or PRs.
-Run `make env db seed test` to confirm the backend (expect 121+ passed), then `cd apps/web && pnpm build && PW_CHANNEL=chrome pnpm e2e`.
-Then continue the next unfinished item in HANDOFF.md §5 (web app) or §6 (ops), phase by phase,
-updating BUILD_STATUS.md and PROGRESS.md after each phase. Ask me before changing rules/clinical_rules.yaml.
+You are continuing ReproSense AI for Krishna. Read HANDOFF.md section 0 first, then CLAUDE.md and docs/18_ROADMAP_TO_95.md.
+Commit as Krishna Mathur <113384784+krish2105@users.noreply.github.com>. Never add Claude or AI co-author lines or
+"Generated with Claude Code" to commits or PRs. Run `make hooks` once.
+Run `make env db seed test` to confirm the backend (expect 280 passed), then `cd apps/web && pnpm build && PW_CHANNEL=chrome pnpm e2e`.
+Then tell me what is waiting on me today (HANDOFF.md section 0, "Waiting on Krishna") and continue the next item I pick.
+Before 16 Nov only safety, privacy, truth and data-loss fixes. Test first. Ask me before changing safety logic or
+rules/clinical_rules.yaml.
 ```
