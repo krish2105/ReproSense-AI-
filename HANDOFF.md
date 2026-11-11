@@ -43,6 +43,9 @@ section, then `CLAUDE.md`, then `docs/18_ROADMAP_TO_95.md` (the order of work, c
 | #85 | Arabic screens write the fictional personas' names in Arabic script (`firstName(alias, "ar")` in `apps/web/src/lib/format.ts`) |
 | #89, #90 | Arabic counted nouns agree with the number; the server sets the lab flag from the confirmed value, one-sided ranges print with their sign, a log save keeps her mood, Arabic screens show persona names and roster stories in Arabic |
 | #87 | Full e2e on main (3 runs in a row green), senior-judge rescore (Jury 72, MVP 76, SaaS 72, Clinical safety 26/35, Women's experience 27/35; PROGRESS.md), CHANGE_LOG rows for #71 and #79, CI `change-log` job, deck team line |
+| #82, #86 | Approved by Krishna (G2) and merged: A4e irregular-cycles next steps; the guard blocks hedged and Gulf/diacritised Arabic diagnostic wording, and urgent replies cite sources that cover their text (702 eval: 0 routing, 0 answer-text, 180 citation changes) |
+| #92 | QUESTIONS #60 decided: gate G3 is a delta rule (with the model, crisis ≥ 27/30 on round 5 and no new everyday routes) |
+| #93, #94, #95, #96 | Atharva's handoff steps 4a–4c and 4e, approved by Krishna (G2): same-day red flags across rows; one 10 s model budget per request; possible pregnancy with severe pain reaches the 998 reply and RF2 cites NG126 (Q59); demo reset in one transaction |
 Also on 7 Nov: Krishna submitted his HealthX Ajyal application (via Outlook) and emailed the organisers (Upstart Bar's
 info address, from his Gmail) the four questions in `docs/drafts/44-organiser-email.md`, including whether entering the
 Future Health challenge as well is allowed.
@@ -59,17 +62,18 @@ Future Health challenge as well is allowed.
 6. **Sat 14 Nov 23:59:** applications close. Confirm Atharva applied with team name **ReproSense**.
 7. **Mon 16 Nov:** tag `pre-selection-2026-11-16` before any build-week commit (docs/15).
 
-### Open PRs (7 Nov night)
+### Open PRs (7 Nov, late night)
 Atharva merged #74 and #77 on 7 Nov evening, then #83, #84, #85, #87, #88, #89 and #90 that night (main CI green after each). #82 and #86 both add a CHANGE_LOG row at the same place: whichever merges second needs a one-line conflict fix. Still open:
 | PR | Owner | State |
 | --- | --- | --- |
-| #82 A4e next-step wording (rules YAML) | Atharva | **Krishna: G2 approval**, then merge. Carries its own CHANGE_LOG row; women-care and CHO reviews applied |
-| #86 Guard gaps and urgent citations | Atharva | **Krishna: G2 approval**. 0 routing and 0 answer-text changes over the 702 eval questions. The NG194/NG126 summary gap it describes needs its own judged PR |
 | #72 Next 16 | Atharva | Do **not** merge before 17 Nov, and only after 3 green e2e runs |
 | #68 Phone app (Expo) | Krishna | Build-week / post-showcase work (docs/21). The main checkout is on this branch |
 | #58 Rescore and mobile roadmap | Krishna | Docs; review and merge or close |
 
 ### Known gaps found 7 Nov, not fixed yet
+- **Found by the 7 Nov late-night rescore (PROGRESS.md):** Q59 still misses a late or missed period with severe pain in the assistant (Home's RF2 catches it); the guard still passes "your results suggest PCOS" and «يبدو أنك مصابة»; budget fallbacks from #94 are not counted; and the live Vercel site tells judges to run `make api` until the API is deployed.
+- **After-birth reply sources (4d):** the after-birth urgent reply still says things its cited NG194 and NG126 summaries do not contain. Widening them moved 145 of 702 answers in a first try, so it needs a judged answer round (card A5) and a clinician check against NICE.
+- **Possible (unconfirmed) pregnancy with severe pain** now gets the pregnancy reply ("go to your maternity unit"), as similar wordings already did (#95). The sudden-pain reply ("nearest emergency department") may fit a possible ectopic better: a decision for the clinical advisor.
 - **Word checks do not read time** (not new, seen while fixing #79): "I had a bad bleeding scare last year, now I'm just dizzy from the heat" gets the 998 reply, and so does the same message with "heavy" on `main` before #79. It errs towards showing 998. A fix is a separate safety change (G2).
 - **"bleed a lot" with unrelated dizziness:** "is it bad if I bleed a lot on day one? I sometimes feel dizzy when I stand" routes to 998 through the existing `_HEAVY_FIX` pattern. Raise with the clinical advisor.
 - **React hydration error #418 on `/clinic`** still fails an e2e run now and then (seen on PR #71's first run; a re-run
@@ -85,7 +89,7 @@ Atharva merged #74 and #77 on 7 Nov evening, then #83, #84, #85, #87, #88, #89 a
   fails with "NOTES_KEY is not set". Never copy another checkout's `.env`.
 - Run `make seed` only from the checkout whose `.env` will serve the dev database: it reseeds `reprosense` with
   that checkout's NOTES_KEY. Tests seed `reprosense_test` by themselves.
-- `make test` takes about 20 s once warm (the first run in a new venv is slower). Expect **318 passed** on `main` (7 Nov late night, `bd2de0f`). CI's e2e: 118 passed, 8 skipped by design.
+- `make test` takes about 20 s once warm (the first run in a new venv is slower). Expect **358 passed** on `main` (7 Nov, late night, `5feb506`). CI's e2e: 118 passed, 8 skipped by design.
 - The desktop preview launcher cannot start servers from `~/Downloads` (macOS privacy). Start servers with a background
   shell instead, for example
   `cd backend && DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib uv run uvicorn app.main:app --port 8010`, then open the URL.
@@ -244,7 +248,7 @@ Scope = demo path first (#11) · builders Krishna + Atharva (#12) · demo role t
 You are continuing ReproSense AI for Krishna. Read HANDOFF.md section 0 first, then CLAUDE.md and docs/18_ROADMAP_TO_95.md.
 Commit as Krishna Mathur <113384784+krish2105@users.noreply.github.com>. Never add Claude or AI co-author lines or
 "Generated with Claude Code" to commits or PRs. Run `make hooks` once.
-Run `make env db seed test` to confirm the backend (expect 306 passed), then `cd apps/web && pnpm build && PW_CHANNEL=chrome pnpm e2e`.
+Run `make env db seed test` to confirm the backend (expect 358 passed), then `cd apps/web && pnpm build && PW_CHANNEL=chrome pnpm e2e`.
 Then tell me what is waiting on me today (HANDOFF.md section 0, "Waiting on Krishna") and continue the next item I pick.
 Before 16 Nov only safety, privacy, truth and data-loss fixes. Test first. Ask me before changing safety logic or
 rules/clinical_rules.yaml.
