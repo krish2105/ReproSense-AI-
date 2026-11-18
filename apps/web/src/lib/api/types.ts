@@ -310,6 +310,11 @@ export interface ParseResult {
   pain: number | null;
   matched: string[];
   confirm: string;
+  /** "model" only when her AI switch is on and a model is configured (build week K2) */
+  read_by?: "rules" | "model";
+  /** from the word checks on her own words, never from the model; shown before she saves */
+  urgent?: { kind: string; message: string; number: "998"; sources: string[] } | null;
+  crisis?: boolean;
 }
 
 /** GET /v1/analytics?months=3|6|12 */
