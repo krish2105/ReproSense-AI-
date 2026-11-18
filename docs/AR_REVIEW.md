@@ -756,3 +756,19 @@ Shown on Lab reports when no AI model is configured, or she switched AI off. Fem
 | `documents.photoOffAi` | Reading a photo uses AI, which is off in your Privacy settings. Upload the PDF or text version, or turn AI on in | قراءة الصورة تستخدم الذكاء الاصطناعي، وهو متوقف في إعدادات الخصوصية. ارفعي نسخة PDF أو النص، أو فعّلي الذكاء الاصطناعي من | |
 | `documents.photoPrivacyLink` | Privacy | الخصوصية | |
 | `documents.introNoPhoto` | Upload a lab report as a PDF or text file. We read the values; you check each one against your paper copy, then confirm. Nothing is saved until you confirm. | ارفعي تقرير المختبر بصيغة PDF أو ملف نصي. نقرأ القيم، وتتحققين من كل قيمة مقابل النسخة الورقية ثم تؤكدين. لا يُحفظ شيء قبل تأكيدكِ. | |
+
+## Installable web app (build week A6, 18 Nov, draft Arabic, not yet reviewed)
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `pwa.title` | Use it like an app | استخدميه كتطبيق | |
+| `pwa.install` | Add to home screen | إضافة إلى الشاشة الرئيسية | |
+| `pwa.installed` | Installed. It opens from your home screen like any app. | تم التثبيت. يفتح من شاشتك الرئيسية مثل أي تطبيق. | |
+| `pwa.iosHint` | On iPhone: tap Share, then Add to Home Screen. | على iPhone: اضغطي «مشاركة» ثم «إضافة إلى الشاشة الرئيسية». | |
+| `pwa.browserHint` | In your browser's menu, choose Install app or Add to home screen. | من قائمة المتصفح اختاري «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية». | |
+| `pwa.remindersOn` | Remind me to log each day | ذكّريني بالتسجيل كل يوم | |
+| `pwa.remindersOff` | Turn reminders off | إيقاف التذكيرات | |
+| `pwa.remindersBlocked` | Notifications are blocked for this site. You can allow them in your browser's settings. | الإشعارات محظورة لهذا الموقع. يمكنك السماح بها من إعدادات المتصفح. | |
+| `pwa.remindersPrivacy` | Reminders say only “A moment to log today?”, never anything about your health. | التذكيرات تقول فقط «لحظة لتسجيل يومك؟»، ولا تذكر شيئًا عن صحتك. | |
+| `pwa.remindersDaily` | Reminders are on: about once a day, even when the app is closed. | التذكيرات مفعّلة: مرة تقريبًا كل يوم، حتى عندما يكون التطبيق مغلقًا. | |
+| `pwa.remindersOpen` | Reminders are on, but this browser cannot send them while ReproSense is closed. Installed on an Android phone, it reminds you daily. | التذكيرات مفعّلة، لكن هذا المتصفح لا يستطيع إرسالها عندما يكون ReproSense مغلقًا. عند تثبيته على هاتف Android يذكّرك يوميًا. | |
+| `public/offline.html` | You're offline · In an emergency, call 998. · Try again | أنتِ غير متصلة بالإنترنت · في حالات الطوارئ اتصلي بالرقم 998. · حاولي مجددًا | static file |
