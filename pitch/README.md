@@ -31,3 +31,17 @@ cd apps/web && PW_CHANNEL=chrome node scripts/pitch-shots.mjs   # screenshots of
 python3 pitch/build_deck.py                           # deck.html from the data
 cd apps/web && PW_CHANNEL=chrome node scripts/pitch-pdf.mjs     # the PDF backup
 ```
+
+## The 3-slide submission deck (build week Y5)
+The organisers ask for a 3-slide PDF or PPT plus an MP4 demo, submitted at programs.upstartbar.com by Sun 22 Nov 15:15.
+`ReproSense-submission.pptx` and `ReproSense-submission.pdf`: problem (Abu Dhabi evidence, every number with its source),
+solution (what we built, how the AI is checked, why it beats a period tracker) and roadmap (milestones from docs/19,
+who pays, what we need, the pilot measure, the team). Speaker notes carry the talk track. Built by
+`build_submission_deck.js` (pptxgenjs, Calibri, the E · Mauve Pro palette), so edit the script and rebuild rather than
+editing the PPTX by hand:
+```
+npm i pptxgenjs@3.12.0                                # once, anywhere on NODE_PATH
+node pitch/build_submission_deck.js                   # writes pitch/ReproSense-submission.pptx
+soffice --headless --convert-to pdf --outdir pitch pitch/ReproSense-submission.pptx   # the PDF
+```
+The slide-2 picture is `img/noura-insights.jpg` (fictional persona, demo badge visible).
