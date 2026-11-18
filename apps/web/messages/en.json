@@ -1591,6 +1591,16 @@
     },
     "goneBody": "Ask your clinic admin for a new invite."
   },
+  "ring3d": {
+    "title": "Your 40 weeks and the 12 after",
+    "hint": "Raised weeks are behind you; the bead is this week. Tap a raised band, or a row below, to see when a check is due and its source.",
+    "weeks": "Weeks {from}–{to} of pregnancy",
+    "after": "Weeks {from}–{to} after the birth",
+    "nowPregnancy": "Week {week} of 40",
+    "nowAfter": "Week {week} after the birth",
+    "list": "What is due when",
+    "legendAfter": "12 weeks after the birth"
+  },
   "pwa": {
     "title": "Use it like an app",
     "install": "Add to home screen",

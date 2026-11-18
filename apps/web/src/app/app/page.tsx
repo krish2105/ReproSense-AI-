@@ -21,6 +21,8 @@ import { apiServer } from "@/lib/api/server";
 import type { AuthMe, HomeResponse } from "@/lib/api/types";
 import { firstName, formatDate, isolate, shownName } from "@/lib/format";
 import { requireRole } from "@/lib/session";
+import { PregnancyRingSection } from "@/components/home/PregnancyRingSection";
+import { pregnancyRing } from "@/components/home/pregnancyRing";
 import { AppHint } from "@/components/pwa/AppHint";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -75,6 +77,32 @@ export default async function Home() {
         {h.status.mode === "pregnancy" && <PregnancyArc status={h.status} />}
         {h.status.mode === "pregnancy" && <PregnancyWarning />}
         {h.status.mode === "after_birth" && <AfterBirthArc status={h.status} />}
+        {(h.status.mode === "pregnancy" || h.status.mode === "after_birth") &&
+          (() => {
+            const ring = pregnancyRing(h.status, h.postnatal);
+            const weeks = (from: number, to: number) =>
+              from > 40 ? t("ring3d.after", { from: from - 40, to: to - 40 }) : t("ring3d.weeks", { from, to });
+            return (
+              <PregnancyRingSection
+                segments={ring.segments}
+                now={ring.now}
+                items={ring.milestones.map((m) => ({
+                  ...m,
+                  label: m.key === "glucose_screen" ? t("arc.window", { from: m.from, to: m.to }) : t(`postnatal.steps.${m.key}`),
+                  when: weeks(m.from, m.to),
+                  statusLabel: m.status ? t(`postnatal.status.${m.status}`) : null,
+                }))}
+                text={{
+                  title: t("ring3d.title"),
+                  hint: t("ring3d.hint"),
+                  now: ring.now > 40 ? t("ring3d.nowAfter", { week: ring.now - 40 }) : t("ring3d.nowPregnancy", { week: ring.now }),
+                  sources: t("home.sources"),
+                  list: t("ring3d.list"),
+                  legend: { t1: t("arc.t1"), t2: t("arc.t2"), t3: t("arc.t3"), after: t("ring3d.legendAfter") },
+                }}
+              />
+            );
+          })()}
 
         <ButtonLink href="/app/log" size="wide">
           {t("home.logButton")}
