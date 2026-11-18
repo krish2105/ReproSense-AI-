@@ -6,7 +6,7 @@ import { LangToggle } from "./LangToggle";
 import { NavLinks, type NavItem } from "./NavLinks";
 import { ThemeToggle } from "./ThemeToggle";
 
-export type HeaderVariant = "site" | "patient" | "clinic" | "admin";
+export type HeaderVariant = "site" | "patient" | "clinic" | "admin" | "clinicAdmin";
 
 /** Glass pill header from the mockup (.top / .brand / .nav / .util). Each area gets its own nav (CLAUDE.md rule 9). */
 export function SiteHeader({ variant, extra }: { variant: HeaderVariant; extra?: ReactNode }) {
@@ -18,12 +18,14 @@ export function SiteHeader({ variant, extra }: { variant: HeaderVariant; extra?:
     app: { href: "/app", label: t("nav.app") },
     clinic: { href: "/clinic", label: t("nav.clinic") },
     admin: { href: "/admin", label: t("nav.admin") },
+    clinicAdmin: { href: "/clinic-admin", label: t("nav.clinicAdmin") },
   };
   const byVariant: Record<HeaderVariant, NavItem[]> = {
     site: [all.product!, all.demo!, all.app!, all.clinic!, all.admin!, all.status!],
     patient: [all.demo!, all.app!],
     clinic: [all.demo!, all.clinic!],
     admin: [all.demo!, all.admin!],
+    clinicAdmin: [all.demo!, all.clinicAdmin!],
   };
   return (
     <header className={variant === "site" ? "top top-site" : "top"}>
