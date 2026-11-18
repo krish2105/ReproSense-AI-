@@ -688,6 +688,8 @@ export interface AuthMe {
 export interface PhotoReading {
   available: boolean;
   reason: "no_model" | "ai_off" | null;
+}
+
 /** Clinic onboarding (K4, PR #109): /v1/clinic-admin/* for a clinic admin, /v1/clinic-invites/* public. */
 export interface ClinicRef {
   id: string;
