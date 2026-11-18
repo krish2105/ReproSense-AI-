@@ -805,7 +805,10 @@
       "confirmed": "Confirmed"
     },
     "showText": "Show the text we read",
-    "hideText": "Hide the text"
+    "hideText": "Hide the text",
+    "photoOffModel": "Reading a photo of a report needs the AI model, which isn't switched on in this demo. Upload the PDF or text version instead.",
+    "photoOffAi": "Reading a photo uses AI, which is off in your Privacy settings. Upload the PDF or text version, or turn AI on in",
+    "photoPrivacyLink": "Privacy"
   },
   "privacy": {
     "metaTitle": "Privacy",

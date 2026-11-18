@@ -413,16 +413,37 @@ PHOTO_TYPES = {"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png", "w
 ASK_FOR_PDF = "Please upload the PDF or text version of the report instead."
 
 
+def _photo_model():
+    """The configured model if it can read images, else None."""
+    from app.ai import llm
+
+    model = llm.get_llm()
+    if getattr(model, "name", "none") == "none" or not hasattr(model, "complete_json_image"):
+        return None
+    return model if getattr(model, "supports_images", True) else None
+
+
+@router.get("/documents/photo")
+def photo_reading(actor: Actor = Depends(patient)):
+    """Whether a photographed report can be read right now, so the page offers the photo button only when it works
+    (rule 8). `no_model`: no model that reads images is configured (the live demo without an AI key). `ai_off`: she
+    switched AI off in Privacy. Either way the PDF and text upload still work."""
+    with session(actor) as cur:
+        if not ai_allowed(cur, actor.user_id):
+            return {"available": False, "reason": "ai_off"}
+    if _photo_model() is None:
+        return {"available": False, "reason": "no_model"}
+    return {"available": True, "reason": None}
+
+
 def _read_photo(data: bytes, mime: str, actor: Actor) -> str:
     """A photographed lab report, transcribed by the model (build week). Her AI choice in Privacy is checked first,
     so with AI off the photo is never sent anywhere. Only the transcription is kept (encrypted); the photo is not."""
-    from app.ai import llm
-
     with session(actor) as cur:
         if not ai_allowed(cur, actor.user_id):
             raise HTTPException(403, f"Reading a photo uses AI, which is off in your Privacy settings. {ASK_FOR_PDF}")
-    model = llm.get_llm()
-    if not hasattr(model, "complete_json_image") or not getattr(model, "supports_images", True):
+    model = _photo_model()
+    if model is None:
         raise HTTPException(415, f"Photo reading needs the AI model, which isn't switched on here. {ASK_FOR_PDF}")
     reading = model.complete_json_image(docs.PHOTO_SYSTEM, docs.PHOTO_USER, data, mime, 1500)
     text = docs.photo_text(reading) if isinstance(reading, dict) else ""

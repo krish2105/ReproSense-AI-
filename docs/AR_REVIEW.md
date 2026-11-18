@@ -693,3 +693,12 @@ A record she started on /join can be opened again on another device with a passk
 | `signin.fromDemo` | Sign in to my record | الدخول إلى سجلي | |
 | email (API) subject | Your ReproSense sign-in code | رمز الدخول إلى ReproSense | |
 | email (API) body | Your code is {code}. It works for 10 minutes, once. If you did not ask for it, you can ignore this email. | رمزك هو {code}. يعمل لمدة 10 دقائق ولمرة واحدة. إذا لم تطلبيه، يمكنك تجاهل هذه الرسالة. | |
+
+## Photo reading off (18 Nov, draft Arabic, not yet reviewed)
+Shown on Lab reports when no AI model is configured, or she switched AI off. Feminine address.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `documents.photoOffModel` | Reading a photo of a report needs the AI model, which isn't switched on in this demo. Upload the PDF or text version instead. | قراءة صورة التقرير تحتاج إلى نموذج الذكاء الاصطناعي، وهو غير مفعّل في هذا العرض. ارفعي نسخة PDF أو النص بدلاً منها. | |
+| `documents.photoOffAi` | Reading a photo uses AI, which is off in your Privacy settings. Upload the PDF or text version, or turn AI on in | قراءة الصورة تستخدم الذكاء الاصطناعي، وهو متوقف في إعدادات الخصوصية. ارفعي نسخة PDF أو النص، أو فعّلي الذكاء الاصطناعي من | |
+| `documents.photoPrivacyLink` | Privacy | الخصوصية | |

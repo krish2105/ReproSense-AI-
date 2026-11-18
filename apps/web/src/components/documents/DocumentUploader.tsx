@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toast";
 import { ApiError, errorDetail } from "@/lib/api/errors";
 import { apiClient } from "@/lib/api/client";
-import type { DocumentUpload, ExtractedRow } from "@/lib/api/types";
+import type { DocumentUpload, ExtractedRow, PhotoReading } from "@/lib/api/types";
 import { formatDate } from "@/lib/format";
 import { TableScroll } from "@/components/ui/TableScroll";
 
@@ -15,7 +15,10 @@ type Row = ExtractedRow & { keep: boolean };
 
 /** Upload a file or take a photo → read (a photo is read by the AI model) → she checks and edits every value →
  * confirm (nothing is saved before she confirms; the photo itself is not kept). */
-export function DocumentUploader({ demoFile }: { demoFile?: string }) {
+const ALL_TYPES = ".pdf,.txt,.png,.jpg,.jpeg,.webp,application/pdf,text/plain,image/png,image/jpeg,image/webp";
+const TEXT_TYPES = ".pdf,.txt,application/pdf,text/plain";
+
+export function DocumentUploader({ demoFile, photo }: { demoFile?: string; photo: PhotoReading }) {
   const t = useTranslations("documents");
   const locale = useLocale() === "ar" ? "ar" : "en";
   const router = useRouter();
@@ -84,7 +87,7 @@ export function DocumentUploader({ demoFile }: { demoFile?: string }) {
           ref={input}
           id={`${id}-f`}
           type="file"
-          accept=".pdf,.txt,.png,.jpg,.jpeg,.webp,application/pdf,text/plain,image/png,image/jpeg,image/webp"
+          accept={photo.available ? ALL_TYPES : TEXT_TYPES}
           className="sr-only"
           onChange={(e) => {
             const f = e.target.files?.[0];
@@ -92,28 +95,34 @@ export function DocumentUploader({ demoFile }: { demoFile?: string }) {
             e.target.value = "";
           }}
         />
-        <label htmlFor={`${id}-c`} className="sr-only">
-          {t("photoLabel")}
-        </label>
-        <input
-          ref={camera}
-          id={`${id}-c`}
-          type="file"
-          accept="image/png,image/jpeg,image/webp"
-          capture="environment"
-          className="sr-only"
-          onChange={(e) => {
-            const f = e.target.files?.[0];
-            if (f) upload(f);
-            e.target.value = "";
-          }}
-        />
+        {photo.available && (
+          <>
+            <label htmlFor={`${id}-c`} className="sr-only">
+              {t("photoLabel")}
+            </label>
+            <input
+              ref={camera}
+              id={`${id}-c`}
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              capture="environment"
+              className="sr-only"
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (f) upload(f);
+                e.target.value = "";
+              }}
+            />
+          </>
+        )}
         <Button variant="outline" pending={pending} onClick={() => input.current?.click()}>
           {t("choose")}
         </Button>
-        <Button variant="outline" pending={pending} onClick={() => camera.current?.click()}>
-          {t("photo")}
-        </Button>
+        {photo.available && (
+          <Button variant="outline" pending={pending} onClick={() => camera.current?.click()}>
+            {t("photo")}
+          </Button>
+        )}
         {demoFile && (
           <Button pending={pending} onClick={useDemo}>
             {t("demo")}

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { DocumentUploader } from "@/components/documents/DocumentUploader";
 import { Tag } from "@/components/ui/Tag";
 import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
-import type { DocumentRow } from "@/lib/api/types";
+import type { DocumentRow, PhotoReading } from "@/lib/api/types";
 import { formatDate } from "@/lib/format";
 import { requireRole } from "@/lib/session";
 
@@ -20,14 +21,25 @@ export default async function DocumentsPage() {
   const raw = await getLocale();
   const locale = isLocale(raw) ? raw : "en";
   const t = await getTranslations("documents");
-  const docs = await apiServer<DocumentRow[]>("/documents");
+  const [docs, photo] = await Promise.all([apiServer<DocumentRow[]>("/documents"), apiServer<PhotoReading>("/documents/photo")]);
   return (
     <div className="app-col">
       <h1 style={{ fontSize: 22, textAlign: "center" }}>{t("title")}</h1>
       <p className="s dim" style={{ textAlign: "center" }}>
         {t("intro")}
       </p>
-      <DocumentUploader demoFile={me.user_id === "fatima" ? "/demo/fatima_postnatal_ogtt.txt" : undefined} />
+      <DocumentUploader photo={photo} demoFile={me.user_id === "fatima" ? "/demo/fatima_postnatal_ogtt.txt" : undefined} />
+      {!photo.available && (
+        <p className="xs dim" style={{ textAlign: "center" }} data-testid="photo-off">
+          {photo.reason === "ai_off" ? (
+            <>
+              {t("photoOffAi")} <Link href="/app/privacy">{t("photoPrivacyLink")}</Link>
+            </>
+          ) : (
+            t("photoOffModel")
+          )}
+        </p>
+      )}
       <section className="box" aria-labelledby="docs-list">
         <h2 id="docs-list" style={{ fontSize: 16 }}>
           {t("listTitle")}
