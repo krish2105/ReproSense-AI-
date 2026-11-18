@@ -73,3 +73,9 @@ nodes:
     tests: ["Pregnancy test first", "Doctor's assessment"]
     timing: "Soon"
     sources: [nhs_absent_periods]
+  - rule: OBS_RAISED_BLOOD_PRESSURE
+    condition: "Raised blood pressure in pregnancy or after birth (needs rechecking; one reading is not a diagnosis)"
+    criteria: ["Latest reading 140/90 or higher in pregnancy or the 6 weeks after birth, no warning symptoms logged"]
+    tests: ["Repeat blood pressure", "Assessment by the maternity team"]
+    timing: "Today (NICE NG201: a first raised reading after 20 weeks within 24 hours)"
+    sources: [nice_ng133, nice_ng201]

@@ -552,6 +552,200 @@ reader also learned Gulf Arabic phrases (ما رحت الدوام، تنقيط،
 | `log.voiceError` | That wasn't caught. Try again, or type instead. | لم نتمكّن من التقاط ذلك. حاولي مرة أخرى، أو اكتبي بدلاً من ذلك. | |
 | `log.readByAi` | Read with AI from your words. | قُرئت كلماتكِ بالذكاء الاصطناعي. | |
 | `log.urgentFromWords` | What you described may need urgent care | ما وصفتِه قد يحتاج رعاية عاجلة | |
+
+## Pre-visit brief (build week K3, 18 Nov, draft Arabic, not yet reviewed)
+"Before your visit" on her report page: what changed since her last visit, from her own entries. Screen strings are in
+`apps/web/messages/ar.json` (`brief.*`); the brief's own sentences are templates in `backend/app/services/previsit.py`
+(`T`, `CARE_STEP`), filled with her numbers and dates. Feminine address on her screen; the clinician view is English.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `brief.title` | Before your visit | قبل زيارتك | |
+| `brief.clinicTitle` | Since the last visit | منذ الزيارة الأخيرة | |
+| `brief.since.shared_report` | What changed since {date}, when you last shared your report. | ما الذي تغيّر منذ {date}، حين شاركتِ تقريرك آخر مرة. | |
+| `brief.since.clinician_review` | What changed since {date}, when your clinic last reviewed your record. | ما الذي تغيّر منذ {date}، حين راجعت عيادتك سجلّك آخر مرة. | |
+| `brief.since.default_90_days` | What changed in the last 90 days, since {date}. No visit is recorded yet. | ما الذي تغيّر في آخر 90 يوماً، منذ {date}. لا توجد زيارة مسجّلة بعد. | |
+| `brief.clinicSince.shared_report` | Since {date}, when she last shared a report. | منذ {date}، حين شاركت تقريراً آخر مرة. | |
+| `brief.clinicSince.clinician_review` | Since {date}, the clinic's last review. | منذ {date}، آخر مراجعة من العيادة. | |
+| `brief.clinicSince.default_90_days` | The last 90 days, since {date}. No visit recorded yet. | آخر 90 يوماً، منذ {date}. لا توجد زيارة مسجّلة بعد. | |
+| `brief.groups.urgent` | Urgent | عاجل | |
+| `brief.groups.patterns` | Patterns in the entries | أنماط في الإدخالات | |
+| `brief.groups.cycle` | Cycles and pain | الدورات والألم | |
+| `brief.groups.labs` | Lab results since then | نتائج التحاليل منذ ذلك الحين | |
+| `brief.groups.care` | Care steps | خطوات الرعاية | |
+| `brief.groups.questions` | Your questions for the doctor | أسئلتك للطبيبة | |
+| `brief.groups.clinicQuestions` | Her questions | أسئلتها | |
+| `brief.status.urgent` | Urgent | عاجل | |
+| `brief.status.new` | New | جديد | |
+| `brief.status.ongoing` | Still there | ما زال موجوداً | |
+| `brief.status.resolved` | No longer seen | لم يعد ظاهراً | |
+| `brief.status.done` | Done | تمّ | |
+| `brief.status.booked` | Booked | محجوز | |
+| `brief.status.due` | Due | مستحق | |
+| `brief.status.H` | Above range | أعلى من المدى | |
+| `brief.status.L` | Below range | أقل من المدى | |
+| `brief.entries` | Entries behind this line | الإدخالات وراء هذا السطر | |
+| `brief.more` | and {n} more | و{n} غيرها | |
+| `brief.empty` | Nothing new logged since {date}. | لم يُسجَّل شيء جديد منذ {date}. | |
+| `brief.template` | Written from your entries by fixed rules. Not a diagnosis. | كُتب من إدخالاتك بقواعد ثابتة. ليس تشخيصاً. | |
+| `brief.clinicTemplate` | Built from her entries by fixed rules. Not a diagnosis. | مبني على إدخالاتها بقواعد ثابتة. ليس تشخيصاً. | |
+| `brief.model` | Reworded by AI, then checked against your entries: {n, plural, =0 {nothing removed} one {# unsupported sentence removed} other {# unsupported sentences removed}}. Not a diagnosis. | أعاد الذكاء الاصطناعي صياغته، ثم طابقناه مع إدخالاتك: {n, plural, =0 {لم يُحذف شيء} one {حُذفت جملة واحدة غير مدعومة} two {حُذفت جملتان غير مدعومتين} few {حُذفت # جمل غير مدعومة} other {حُذفت # جملة غير مدعومة}}. ليس تشخيصاً. | |
+| `brief.clinicModel` | Reworded by AI, then checked against her entries: {n, plural, =0 {nothing removed} one {# unsupported sentence removed} other {# unsupported sentences removed}}. Not a diagnosis. | أعاد الذكاء الاصطناعي صياغته، ثم طابقناه مع إدخالاتها: {n, plural, =0 {لم يُحذف شيء} one {حُذفت جملة واحدة غير مدعومة} two {حُذفت جملتان غير مدعومتين} few {حُذفت # جمل غير مدعومة} other {حُذفت # جملة غير مدعومة}}. ليس تشخيصاً. | |
+| `T.new` | New since the last visit: {title}. | جديد منذ الزيارة الأخيرة: {title}. | |
+| `T.ongoing` | Still in the record: {title}. | ما زال في السجل: {title}. | |
+| `T.resolved` | No longer seen in the entries: {title}. | لم يعد ظاهراً في الإدخالات: {title}. | |
+| `T.cycles_ended` | Cycles that ended since the last visit: {since} days. | الدورات التي انتهت منذ الزيارة الأخيرة: {since} {unit}. | |
+| `T.cycles_before` | Before that they were {lo} to {hi} days. | قبل ذلك كانت بين {lo} و{hi} يوماً. | |
+| `T.cycles_before_one` | Before that, one cycle of {lo} days. | قبل ذلك، دورة واحدة طولها {lo} يوماً. | |
+| `T.longest` | {n} days is the longest cycle in the record. | {n} يوماً هي أطول دورة في السجل. | |
+| `T.shortest` | {n} days is the shortest cycle in the record. | {n} يوماً هي أقصر دورة في السجل. | |
+| `T.period_started` | A period started on {date}. | بدأت دورة في {date}. | |
+| `T.no_period` | No new period start logged since the last visit. The last one started on {date}. | لم يُسجَّل بدء دورة جديدة منذ الزيارة الأخيرة. بدأت آخر دورة في {date}. | |
+| `T.pain_since` | Highest pain logged since the last visit: {pain} out of 10 on {date}. | أعلى ألم مسجّل منذ الزيارة الأخيرة: {pain} من 10 في {date}. | |
+| `T.pain_before` | In the 6 months before it, the highest was {pain} out of 10. | في الأشهر الستة التي سبقتها كان الأعلى {pain} من 10. | |
+| `T.pain_none` | No pain logged since the last visit. | لم يُسجَّل أي ألم منذ الزيارة الأخيرة. | |
+| `T.impact` | Missed work or study, or stayed in bed, on {n} since the last visit. | سُجّل الغياب عن العمل أو الدراسة أو البقاء في السرير في {n} منذ الزيارة الأخيرة. | |
+| `T.lab` | {test}: {value} on {date}, {where}. | {test}: {value} في {date}، {where}. | |
+| `T.lab_no_range` | {test}: {value} on {date}. | {test}: {value} في {date}. | |
+| `T.above` | above the lab's range ({range}) | أعلى من مدى المختبر ({range}) | |
+| `T.below` | below the lab's range ({range}) | أقل من مدى المختبر ({range}) | |
+| `T.within` | within the lab's range ({range}) | ضمن مدى المختبر ({range}) | |
+| `T.care_done` | Done since the last visit: {step}. | تمّ منذ الزيارة الأخيرة: {step}. | |
+| `T.care_booked` | Booked: {step}. | محجوز: {step}. | |
+| `T.care_due` | Still due: {step}. | ما زال مستحقاً: {step}. | |
+| `T.care_due_by` | Still due: {step}, by {date}. | ما زال مستحقاً: {step}، قبل {date}. | |
+| `CARE_STEP.postpartum_glucose_test` | the glucose test after birth (OGTT) | فحص تحمّل السكر بعد الولادة (OGTT) | |
+| `CARE_STEP.pregnancy_glucose_screen` | the pregnancy glucose test (24–28 weeks) | فحص سكر الحمل (الأسبوع 24–28) | |
+
+## Her own sign-in: passkeys and email code (K5, build week 18 Nov, draft Arabic, not yet reviewed)
+A record she started on /join can be opened again on another device with a passkey (مفتاح المرور, the term Apple and Google use in Arabic) or a 6-digit email code. The sign-in email itself is sent by the API (`backend/app/security/email.py`) with both languages in one message.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `home.signinTitle` | Open this record on another device | افتحي هذا السجل على جهاز آخر | |
+| `home.signinBody` | Add a passkey so your record opens again after this session, on this phone or another one. | أضيفي مفتاح مرور ليُفتح سجلك مجدداً بعد هذه الجلسة، على هذا الهاتف أو على جهاز آخر. | |
+| `home.signinAction` | Add a passkey | إضافة مفتاح مرور | |
+| `privacy.actions.sign_in` | signed in | سجّل الدخول | |
+| `privacy.actions.sign_in_failed` | a sign-in attempt failed | محاولة دخول لم تنجح | |
+| `privacy.actions.passkey_added` | added a passkey | أضاف مفتاح مرور | |
+| `privacy.actions.passkey_removed` | removed a passkey | أزال مفتاح مرور | |
+| `privacy.actions.email_linked` | linked an email address | ربط بريداً إلكترونياً | |
+| `privacy.actions.email_unlinked` | unlinked the email address | ألغى ربط البريد الإلكتروني | |
+| `privacy.signin.title` | Sign in on other devices | الدخول من أجهزة أخرى | |
+| `privacy.signin.body` | Add a passkey to open this record again, on this device or another one. Face ID, a fingerprint or the phone PIN unlocks it, and that check never leaves your device. | أضيفي مفتاح مرور لتفتحي هذا السجل مجدداً، على هذا الجهاز أو على جهاز آخر. تفتحه بصمة الوجه أو بصمة الإصبع أو رمز قفل الهاتف، ولا يغادر هذا التحقق جهازك أبداً. | |
+| `privacy.signin.demoPerson` | Demo people open with one tap on the demo page. Start your own record to add a passkey. | تُفتح الشخصيات التجريبية بلمسة واحدة من صفحة العرض التجريبي. أنشئي سجلك الخاص لتضيفي مفتاح مرور. | |
+| `privacy.signin.startRecord` | Start my own record | إنشاء سجلي الخاص | |
+| `privacy.signin.passkeysLabel` | Your passkeys | مفاتيح المرور الخاصة بك | |
+| `privacy.signin.none` | No passkey yet. Without a passkey or a linked email, this record opens only in this browser until the session ends. | لا يوجد مفتاح مرور بعد. من دون مفتاح مرور أو بريد مرتبط، يُفتح هذا السجل في هذا المتصفح فقط حتى تنتهي الجلسة. | |
+| `privacy.signin.passkeyOn` | Passkey on {device} | مفتاح مرور على {device} | |
+| `privacy.signin.passkey` | Passkey | مفتاح مرور | |
+| `privacy.signin.addedOn` | Added {date} | أُضيف في {date} | |
+| `privacy.signin.lastUsed` | last used {date} | آخر استخدام {date} | |
+| `privacy.signin.add` | Add a passkey | إضافة مفتاح مرور | |
+| `privacy.signin.addedToast` | Passkey added. Next time, choose “Sign in to my record”. | تمت إضافة مفتاح المرور. في المرة القادمة اختاري «الدخول إلى سجلي». | |
+| `privacy.signin.remove` | Remove | إزالة | |
+| `privacy.signin.removeTitle` | Remove this passkey? | إزالة مفتاح المرور هذا؟ | |
+| `privacy.signin.removeBody` | This device will no longer open your record. If it is your only way in, add another passkey or link an email first. | لن يفتح هذا الجهاز سجلك بعد الآن. إذا كان طريقك الوحيد للدخول، فأضيفي مفتاح مرور آخر أو اربطي بريداً إلكترونياً أولاً. | |
+| `privacy.signin.removeConfirm` | Remove passkey | إزالة مفتاح المرور | |
+| `privacy.signin.removed` | Passkey removed. | أُزيل مفتاح المرور. | |
+| `privacy.signin.emailTitle` | Email code (backup) | رمز البريد الإلكتروني (احتياطي) | |
+| `privacy.signin.emailLinked` | An email address is linked. We keep only a one-way code made from it, never the address itself, so it is not shown here. | يوجد بريد إلكتروني مرتبط. لا نحتفظ إلا برمز أحادي الاتجاه مشتق منه، لا بالعنوان نفسه، لذلك لا يظهر هنا. | |
+| `privacy.signin.emailNone` | Link an email address to get a 6-digit sign-in code when your passkey is not with you. | اربطي بريداً إلكترونياً لتحصلي على رمز دخول من 6 أرقام عندما لا يكون مفتاح المرور معك. | |
+| `privacy.signin.emailOff` | Email codes are off on this demo server. A passkey works without them. | رموز البريد الإلكتروني متوقفة على خادم العرض التجريبي هذا. يعمل مفتاح المرور من دونها. | |
+| `privacy.signin.emailLabel` | Email address | البريد الإلكتروني | |
+| `privacy.signin.sendCode` | Send a code to link it | إرسال رمز لربطه | |
+| `privacy.signin.codeSent` | We sent a 6-digit code to that address. Enter it below. | أرسلنا رمزاً من 6 أرقام إلى هذا العنوان. أدخليه أدناه. | |
+| `privacy.signin.codeLabel` | 6-digit code | الرمز المكوّن من 6 أرقام | |
+| `privacy.signin.link` | Link this email | ربط هذا البريد | |
+| `privacy.signin.linked` | Email linked. You can now sign in with a code. | تم ربط البريد. يمكنك الآن الدخول برمز. | |
+| `privacy.signin.unlink` | Unlink email | إلغاء ربط البريد | |
+| `privacy.signin.unlinked` | Email unlinked. | أُلغي ربط البريد. | |
+| `privacy.signin.keep` | Keep it | الإبقاء عليه | |
+| `privacy.signin.linkedTag` | Linked | مرتبط | |
+| `signin.metaTitle` | Sign in to my record | الدخول إلى سجلي | |
+| `signin.title` | Sign in to my record | الدخول إلى سجلي | |
+| `signin.lede` | For a record you started yourself. Open it on this phone or another device with your passkey. | للسجل الذي أنشأتِه بنفسك. افتحيه على هذا الهاتف أو على جهاز آخر بمفتاح المرور الخاص بك. | |
+| `signin.passkeyTitle` | Use a passkey | استخدام مفتاح مرور | |
+| `signin.passkeyBody` | Your phone or laptop asks for Face ID, a fingerprint or its PIN. That check stays on your device. We keep only a key that proves it is you. | يطلب هاتفك أو حاسوبك بصمة الوجه أو بصمة الإصبع أو رمز القفل. يبقى هذا التحقق على جهازك، ولا نحتفظ إلا بمفتاح يثبت أنكِ أنتِ. | |
+| `signin.passkeyButton` | Use a passkey | استخدام مفتاح المرور | |
+| `signin.passkeyPending` | Waiting for your device… | بانتظار جهازك… | |
+| `signin.emailTitle` | No passkey on this device? | لا يوجد مفتاح مرور على هذا الجهاز؟ | |
+| `signin.emailBody` | Get a 6-digit code at the email address you linked in Privacy. It works for 10 minutes. | احصلي على رمز من 6 أرقام على البريد الإلكتروني الذي ربطتِه في صفحة الخصوصية. يعمل الرمز لمدة 10 دقائق. | |
+| `signin.emailLabel` | Email address | البريد الإلكتروني | |
+| `signin.sendCode` | Send me a code | إرسال رمز إليّ | |
+| `signin.sent` | If this address is linked to a record, a code is on its way. Check your inbox and spam folder. | إذا كان هذا العنوان مرتبطاً بسجل، فالرمز في طريقه إليك. تحققي من صندوق الوارد ومجلد الرسائل غير المرغوب فيها. | |
+| `signin.codeLabel` | 6-digit code | الرمز المكوّن من 6 أرقام | |
+| `signin.codeHint` | The code works once, for 10 minutes. | يعمل الرمز مرة واحدة ولمدة 10 دقائق. | |
+| `signin.verify` | Sign in with the code | الدخول بالرمز | |
+| `signin.resend` | Send a new code | إرسال رمز جديد | |
+| `signin.otherAddress` | Use another address | استخدام عنوان آخر | |
+| `signin.signedIn` | Signed in. Opening your record… | تم الدخول. جارٍ فتح سجلك… | |
+| `signin.problem.cancelled` | The passkey prompt was closed. Try again when you are ready. | أُغلقت نافذة مفتاح المرور. حاولي مرة أخرى عندما تكونين مستعدة. | |
+| `signin.problem.unsupported` | This browser can't use passkeys. Try an up-to-date browser on your phone or laptop. | لا يدعم هذا المتصفح مفاتيح المرور. جرّبي متصفحاً حديثاً على هاتفك أو حاسوبك. | |
+| `signin.problem.already` | This device already holds a passkey for your record. | يحمل هذا الجهاز مفتاح مرور لسجلك بالفعل. | |
+| `signin.problem.failed` | That didn't work: {detail} | لم ينجح ذلك: {detail} | |
+| `signin.noRecordTitle` | No record yet? | ليس لكِ سجل بعد؟ | |
+| `signin.noRecordBody` | Start one in two minutes, or open one of the fictional demo people with one tap. | أنشئي سجلاً في دقيقتين، أو افتحي إحدى الشخصيات التجريبية الخيالية بلمسة واحدة. | |
+| `signin.startRecord` | Start my own record | إنشاء سجلي الخاص | |
+| `signin.openDemo` | Open a demo person | فتح شخصية تجريبية | |
+| `signin.demoNote` | This is a demo. Demo records and their passkeys are deleted at the next demo reset. | هذا عرض تجريبي. تُحذف السجلات التجريبية ومفاتيح المرور الخاصة بها عند إعادة ضبط العرض التجريبي التالية. | |
+| `signin.fromDemoBody` | Started a record on another device? Open it again with your passkey. | أنشأتِ سجلاً على جهاز آخر؟ افتحيه مجدداً بمفتاح المرور. | |
+| `signin.fromDemo` | Sign in to my record | الدخول إلى سجلي | |
+| email (API) subject | Your ReproSense sign-in code | رمز الدخول إلى ReproSense | |
+| email (API) body | Your code is {code}. It works for 10 minutes, once. If you did not ask for it, you can ignore this email. | رمزك هو {code}. يعمل لمدة 10 دقائق ولمرة واحدة. إذا لم تطلبيه، يمكنك تجاهل هذه الرسالة. | |
+
+## Blood pressure in pregnancy and after birth (build week K6, 18 Nov, draft Arabic, not yet reviewed)
+The blood-pressure log, its urgent card RF7 and the "have it rechecked today" card (NICE NG133). Feminine address on her
+screens; `bp.clinicTitle` and `bp.clinicIntro` are in clinician voice. Numbers stay in Western digits and read left to
+right ("165/100"). The knowledge-base summary `knowledge_base/summaries/nice_ng133.md` also has an Arabic section.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `symptoms.sudden_swelling` | Sudden swelling of face, hands or feet | تورّم مفاجئ في الوجه أو اليدين أو القدمين | |
+| `bp.title` | Blood pressure | ضغط الدم | |
+| `bp.intro` | For pregnancy and the 12 weeks after birth. Type the top two numbers from your monitor (SYS and DIA), not the pulse. | أثناء الحمل وفي الأسابيع الاثني عشر بعد الولادة. اكتبي الرقمين العلويين من الجهاز (SYS وDIA)، وليس النبض. | |
+| `bp.systolic` | Top number (SYS) | الرقم العلوي (SYS) | |
+| `bp.diastolic` | Bottom number (DIA) | الرقم السفلي (DIA) | |
+| `bp.unit` | mmHg | ملم زئبقي | |
+| `bp.time` | Time (optional) | الوقت (اختياري) | |
+| `bp.rangeHint` | Top number 70 to 250, bottom number 40 to 150, in mmHg. | الرقم الأعلى من 70 إلى 250، والرقم الأدنى من 40 إلى 150، بالملّيمتر الزئبقي. | |
+| `bp.orderError` | The top number must be higher than the bottom number. | يجب أن يكون الرقم الأعلى أكبر من الرقم الأدنى. | |
+| `bp.save` | Save reading for {date} | احفظي القراءة ليوم {date} | |
+| `bp.saveToday` | Save today's reading | احفظي قراءة اليوم | |
+| `bp.saved` | Reading saved: {reading} mmHg | حُفظت القراءة: {reading} ملم زئبقي | |
+| `bp.saveFailed` | The reading was not saved: {detail} | لم تُحفظ القراءة: {detail} | |
+| `bp.urgentHeading` | Urgent guidance after your reading | إرشادات عاجلة بعد قراءتك | |
+| `bp.recheckTitle` | Ask for this reading to be rechecked today | اطلبي إعادة فحص ضغطك اليوم | |
+| `bp.recheckBody` | {reading} mmHg is 140/90 or higher. One reading is not a diagnosis, but it needs a second check. Contact your maternity unit or doctor today. | القراءة {reading} ملم زئبقي تساوي 140/90 أو أعلى. قراءة واحدة ليست تشخيصاً، لكنها تحتاج فحصاً ثانياً. تواصلي مع وحدة الولادة أو طبيبتك اليوم. | |
+| `bp.warn` | Call 998 or go to your maternity unit now if you get a severe headache, problems with vision, severe pain just below the ribs, vomiting, or sudden swelling of the face, hands or feet. | اتصلي بالرقم 998 أو توجهي إلى وحدة الولادة الآن إذا شعرتِ بصداع شديد، أو اضطراب في الرؤية، أو ألم شديد أسفل الأضلاع مباشرة، أو قيء، أو تورّم مفاجئ في الوجه أو اليدين أو القدمين. | |
+| `bp.dayTitle` | Readings on {date} | القراءات في {date} | |
+| `bp.dayNone` | No reading on this day yet. | لا توجد قراءة في هذا اليوم بعد. | |
+| `bp.reading` | {reading} mmHg | {reading} ملم زئبقي | |
+| `bp.at` | {date} at {time} | {date} الساعة {time} | |
+| `bp.homeLatest` | Latest reading, {when} | آخر قراءة، {when} | |
+| `bp.homeNone` | No reading yet. Log one after each check, or at home if your midwife or doctor asked you to. | لا توجد قراءة بعد. سجّلي قراءة بعد كل فحص، أو في المنزل إذا طلبت منك القابلة أو الطبيبة ذلك. | |
+| `bp.homeAction` | Log a reading | سجّلي قراءة | |
+| `bp.tableTitle` | Blood pressure readings | قراءات ضغط الدم | |
+| `bp.tableSummary` | Readings in this period: {count}. Readings of 140/90 or higher are marked. | عدد القراءات في هذه الفترة: {count}. القراءات 140/90 أو أعلى مُعلَّمة. | |
+| `bp.colDate` | Date | التاريخ | |
+| `bp.colTime` | Time | الوقت | |
+| `bp.colReading` | Reading (mmHg) | القراءة (ملم زئبقي) | |
+| `bp.colNote` | Note | ملاحظة | |
+| `bp.noteRaised` | Raised: 140/90 or higher | مرتفع: 140/90 أو أعلى | |
+| `bp.noteSevere` | Very high: 160/110 or higher | مرتفع جداً: 160/110 أو أعلى | |
+| `bp.clinicTitle` | Blood pressure (her home readings) | ضغط الدم (قراءاتها المنزلية) | |
+| `bp.clinicIntro` | Readings she logged: {count}, newest first. Marks follow NICE NG133. | عدد القراءات التي سجّلتها: {count}، الأحدث أولاً. العلامات وفق NICE NG133. | |
+| `bp.rangeHigh` | If your monitor really shows a number this high, call 998 now. | إذا كان الجهاز يُظهر فعلاً رقماً بهذا الارتفاع، اتصلي بالرقم 998 الآن. | |
+| `RF7_HIGH_BLOOD_PRESSURE` title (`backend/app/agents/copy.py` RF_TITLES) | This blood pressure reading needs urgent care | قراءة ضغط الدم هذه تحتاج رعاية عاجلة | |
+| `RF7_HIGH_BLOOD_PRESSURE` message (`rules/translations_ar.yaml`) | Call 998 or go to your maternity unit now. In pregnancy and the 6 weeks after birth, a blood pressure of 160/110 or higher, or 140/90 or higher with a severe headache, vision changes or sudden swelling, needs urgent checking. | اتصلي بالرقم 998 أو توجهي إلى وحدة الولادة الآن. أثناء الحمل وفي الأسابيع الستة بعد الولادة، ضغط الدم 160/110 أو أعلى، أو 140/90 أو أعلى مع صداع شديد أو تغيّر في الرؤية أو تورّم مفاجئ، يحتاج فحصاً عاجلاً. | |
+| `OBS_RAISED_BLOOD_PRESSURE` title | Your latest blood pressure reading was raised | آخر قراءة لضغط الدم كانت مرتفعة | |
+| `OBS_RAISED_BLOOD_PRESSURE` explains | NICE counts a blood pressure of 140/90 or higher as raised (hypertension) in pregnancy and after birth. NICE antenatal care guidance asks that a first raised reading after 20 weeks is checked by a maternity team within 24 hours. One reading is not a diagnosis; it needs rechecking. | تعدّ إرشادات NICE ضغط الدم 140/90 أو أعلى ارتفاعاً في ضغط الدم أثناء الحمل وبعد الولادة. وتطلب إرشادات NICE لرعاية الحمل أن يفحص فريق الولادة أول قراءة مرتفعة بعد الأسبوع 20 خلال 24 ساعة. قراءة واحدة ليست تشخيصاً، لكنها تحتاج إعادة قياس. | |
+| `OBS_RAISED_BLOOD_PRESSURE` next steps | Contact your maternity unit or doctor today to have it rechecked. / Call 998 or go to your maternity unit now if you get a severe headache, problems with vision, severe pain just below the ribs, vomiting, or sudden swelling of the face, hands or feet. / Bring your readings, with their dates and times, to the appointment. | تواصلي مع وحدة الولادة أو طبيبتك اليوم لإعادة قياس الضغط. / اتصلي بالرقم 998 أو توجهي إلى وحدة الولادة الآن إذا شعرتِ بصداع شديد، أو اضطراب في الرؤية، أو ألم شديد أسفل الأضلاع مباشرة، أو قيء، أو تورّم مفاجئ في الوجه أو اليدين أو القدمين. / أحضري قراءاتك مع تواريخها وأوقاتها إلى الموعد. | |
+| `OBS_RAISED_BLOOD_PRESSURE` detail (`copy.py`) | Your latest reading was {sys}/{dia} mmHg. | كانت آخر قراءة لضغط الدم {sys}/{dia} ملم زئبقي. | |
+| `OBS_RAISED_BLOOD_PRESSURE` questions (`copy.py`) | Can my blood pressure be rechecked today? / How often should I check it, and which numbers mean I call you? | هل يمكن إعادة قياس ضغط الدم لي اليوم؟ / كم مرة يجب أن أقيسه، وما الأرقام التي تعني أن أتصل بكم؟ | |
+| "Why we noticed" chip for a reading (`copy.py` entry_text) | 22 Nov 08:15 · blood pressure 165/100 mmHg | 22 نوفمبر 08:15 · ضغط الدم 165/100 ملم زئبقي | |
+| Care navigator draft (`navigator.py`) | Hello, my blood pressure reading was {bp} mmHg. Could it be rechecked today, please? Thank you. | مرحباً، كانت قراءة ضغط الدم لديّ {bp} ملم زئبقي. هل يمكن إعادة قياسه اليوم من فضلكم؟ شكراً لكم. | |
+| Navigator: what to bring | Your blood pressure readings with their dates and times / Your pregnancy record or discharge summary / This ReproSense summary | قراءات ضغط الدم مع تواريخها وأوقاتها / سجل الحمل أو ملخص الخروج من المستشفى / ملخص ReproSense هذا | |
 ## Judge guided tour (build week A2, 18 Nov, draft Arabic, not yet reviewed)
 Addressed to a judge, so the imperative is masculine/neutral (the patient app addresses her in the feminine).
 

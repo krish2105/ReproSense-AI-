@@ -3,10 +3,11 @@ import Image from "next/image";
 import { cookies } from "next/headers";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ConsentToggles, DeleteData, DiscreetToggle, FhirCheck } from "@/components/privacy/PrivacyActions";
+import { SignInMethods } from "@/components/privacy/SignInMethods";
 import { Box } from "@/components/ui/Box";
 import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
-import type { PrivacyResponse } from "@/lib/api/types";
+import type { AuthMe, PrivacyResponse } from "@/lib/api/types";
 import { formatDate } from "@/lib/format";
 import { requireRole } from "@/lib/session";
 
@@ -21,7 +22,7 @@ export default async function PrivacyPage() {
   const raw = await getLocale();
   const locale = isLocale(raw) ? raw : "en";
   const t = await getTranslations("privacy");
-  const p = await apiServer<PrivacyResponse>("/privacy");
+  const [p, me] = await Promise.all([apiServer<PrivacyResponse>("/privacy"), apiServer<AuthMe>("/auth/me")]);
   const discreet = (await cookies()).get("rs_discreet")?.value === "1";
   const time = new Intl.DateTimeFormat(locale === "ar" ? "ar-AE-u-nu-latn" : "en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Dubai" });
   return (
@@ -41,6 +42,13 @@ export default async function PrivacyPage() {
             <li key={i}>{t(`promises.${i}`)}</li>
           ))}
         </ul>
+      </Box>
+
+      <Box id="sign-in" aria-labelledby="sign-in-title">
+        <h2 id="sign-in-title" style={{ fontSize: 16 }}>
+          {t("signin.title")}
+        </h2>
+        <SignInMethods me={me} locale={locale} />
       </Box>
 
       <Box>

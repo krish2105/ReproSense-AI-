@@ -1959,6 +1959,36 @@
       "flag": ""
     }
   ],
+  "bp_readings": [
+    {
+      "id": "hessa-bp01",
+      "date": "2026-08-16",
+      "time": null,
+      "systolic": 112,
+      "diastolic": 70
+    },
+    {
+      "id": "hessa-bp02",
+      "date": "2026-09-02",
+      "time": null,
+      "systolic": 114,
+      "diastolic": 72
+    },
+    {
+      "id": "hessa-bp03",
+      "date": "2026-10-27",
+      "time": null,
+      "systolic": 116,
+      "diastolic": 74
+    },
+    {
+      "id": "hessa-bp04",
+      "date": "2026-11-20",
+      "time": "08:10",
+      "systolic": 118,
+      "diastolic": 76
+    }
+  ],
   "features": {
     "years_since_menarche": 16,
     "cycles_logged": 6,
@@ -2004,7 +2034,9 @@
     "epds_latest_total": null,
     "epds_item10": 0,
     "mrs_latest_total": null,
-    "on_hormonal_contraception": false
+    "on_hormonal_contraception": false,
+    "bp_severe_in_window": false,
+    "bp_latest_raised": false
   },
   "expected_observations": [
     "CARE_PREGNANCY_GLUCOSE_SCREEN"

@@ -240,7 +240,7 @@ ul.plain{margin:0;padding-inline-start:18px;font-size:14px;color:var(--ink-2)}
 .seg button{border:1px solid var(--rule-2);background:var(--sheet);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--plum);color:var(--plum-ink);border-color:var(--plum)}
 input[type=range]{accent-color:var(--accent);width:100%}
-textarea,input[type=text],select{border:1px solid var(--rule-2);background:var(--sheet);border-radius:16px;padding:10px 12px;width:100%}
+textarea,input[type=text],input[type=email],select{border:1px solid var(--rule-2);background:var(--sheet);border-radius:16px;padding:10px 12px;width:100%}
 .pbac{display:grid;grid-template-columns:1fr auto;gap:8px 10px;align-items:center;font-size:14px}
 .step{display:inline-flex;align-items:center;gap:2px;background:var(--tint);border-radius:999px;padding:2px}
 .step button{border:0;background:var(--sheet);width:28px;height:28px;border-radius:50%;cursor:pointer;font-weight:700}
@@ -598,6 +598,12 @@ a.prow{text-decoration:none;color:inherit}
 .join-share input{width:20px;height:20px;margin-top:2px;accent-color:var(--plum);flex:none}
 .join input[type=number],.join input[type=date]{border:1px solid var(--rule-2);background:var(--sheet);border-radius:16px;padding:10px 12px}
 .join input[type=date]{width:min(240px,100%)}
+/* Her own sign-in (K5): /signin and the sign-in box in Privacy */
+.signin-part{display:flex;flex-direction:column;gap:8px}
+.signin-h{font-size:16px}
+.signin-form{display:flex;flex-direction:column;gap:12px}
+input.signin-code{font-variant-numeric:tabular-nums;letter-spacing:.3em;width:min(200px,100%)}
+.signin-list{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:8px}
 .invite{display:flex;flex-direction:column;gap:6px;margin-top:18px;padding-top:16px;border-top:1px solid var(--rule)}
 .invite-row{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
 .invite-qr{width:120px;height:120px;flex:none;border-radius:12px;overflow:hidden;background:var(--tint)}
@@ -623,6 +629,10 @@ a:has(> .link-pending.is-on){opacity:.65;cursor:progress}
 ol.trace > li{padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0;background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);box-shadow:var(--shadow-s)}
 }
 
+/* Pre-visit brief (K3): one line per fact, the entries behind it underneath */
+.brief-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.brief-list > li{display:flex;flex-direction:column;gap:6px;min-width:0}
+.brief-list > li:not(.obs) + li:not(.obs){border-top:1px solid var(--rule);padding-top:12px}
 /* Judge tour (A2): a small card, never a page overlay, so every real button stays usable. Above the floating tab bar
    on phones; inline-end corner on wide screens (right in English, left in Arabic). */
 .tour{position:fixed;z-index:40;inset-inline:12px;bottom:calc(96px + env(safe-area-inset-bottom,0px));padding:16px 18px;display:flex;flex-direction:column;gap:8px;background:var(--sheet);box-shadow:var(--shadow)}
