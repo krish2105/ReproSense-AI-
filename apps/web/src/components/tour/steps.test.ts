@@ -4,13 +4,15 @@ import en from "../../../messages/en.json" with { type: "json" };
 import { move, onStepPage, TOUR_STEPS } from "./steps";
 
 describe("judge tour steps", () => {
-  it("walks the demo path in order: people, her app, clinician, network", () => {
+  it("walks the demo path in order: people, her app, after the birth, clinician, network", () => {
     expect(TOUR_STEPS.map((s) => s.path)).toEqual([
       "/demo",
       "/app",
+      "/app/log",
       "/app/insights",
       "/app/assistant",
       "/app/report",
+      "/app",
       "/clinic",
       "/clinic/patients/fatima",
       "/admin",
@@ -19,7 +21,7 @@ describe("judge tour steps", () => {
 
   it("signs in as the right person for each area (patient, clinician and admin views stay separate)", () => {
     for (const s of TOUR_STEPS) {
-      if (s.path.startsWith("/app")) expect(s.as).toEqual({ persona: "noura" });
+      if (s.path.startsWith("/app")) expect(s.as).toEqual({ persona: s.key === "afterBirth" ? "fatima" : "noura" });
       if (s.path.startsWith("/clinic")) expect(s.as).toEqual({ role: "clinician" });
       if (s.path.startsWith("/admin")) expect(s.as).toEqual({ role: "admin" });
     }

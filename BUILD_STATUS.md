@@ -2,7 +2,8 @@
 
 Legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 
-Last updated: 2026-11-07, late night (Krishna approved and merged #82, #86 and #92–#96: G2 safety fixes 4a–4c and 4e, the G3 delta rule; deploy waits for the accounts, B2 for the API key). Repo: https://github.com/krish2105/ReproSense-AI-
+Last updated: 2026-11-19 (build week day 3: K1–K7, A1–A8, the iOS app and Next 16 are merged and live; no PRs open; senior-judge rescore 73/100, PROGRESS.md). Repo: https://github.com/krish2105/ReproSense-AI-
+Live: web https://reprosense.vercel.app (Next 16) · API https://reprosense-api.onrender.com (Render free tier, sleeps; live AI off until `OPENROUTER_API_KEY` is set).
 
 **Owners.** Krishna (`krish2105`): backend, AI, data, security, deploy. Atharva (`mercydeez`): web app (design + frontend).
 Yash (`Yashpetkar7`, invite pending): not assigned yet.
@@ -18,8 +19,25 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 | 5 | Clinician + admin dashboards | ✅ | Krishna (API ✅) · Atharva (UI, built by Krishna) | care gap closes live in the demo | Done 5 Nov: clinic list (consented only, most urgent first) + follow-ups due; patient record (SBAR, red flags, follow-ups with book/done/reopen and a reminder draft, Ask the record with dated evidence, charts, patterns with evidence, labs, her questions, visit note, mark reviewed); consent gate for Amina; admin (KPIs, live demo follow-ups, funnel, regions, fairness tables, ROI with stated assumptions, audit chain check, 10-second refresh). Verified: closing Fatima's gap moved closed 101→102, rate 40.4→40.8%, open 88→87. |
 | 6 | Life stages + agents v4 | ✅ | Krishna (API ✅) · Atharva (UI, built by Krishna) | every life stage opens from the stage switch; navigator draft needs approval; FHIR bundle validates | Done 5 Nov: stage switch for all five stages and the navigator (Phase 2); EPDS check-in with the standard items and citation (crisis → support only, no score; Arabic items pending the validated version, QUESTIONS #40); lab reports (upload, editable extraction, confirm; Fatima's demo OGTT closes her follow-up); privacy centre (choices, who saw my data, stored counts, JSON export, FHIR check: 9 resources, no validation errors, discreet mode, delete with confirmation). Not built: wearables, Ramadan mode (needs a source). |
 | 7 | Polish (R3F, dark, Arabic RTL, states, a11y, images) | ✅ | Atharva (built by Krishna) | Lighthouse ≥ 90, zero console errors, 3D fallback works | Done 6 Nov: landing on Noura's live record (her phone tilting over a React Three Fiber ring of her cycle days; year spiral beside the cycle ledger; stage cards, evidence, trace, model, promises), `/admin` follow-ups by region in 3D with a flat chart and the table, `/status`, robots.txt. Lighthouse 100/100/100/100 on mobile and desktop (two runs each); reduced motion and no-WebGL show the posters (checked in Chrome); zero console errors. Arabic still needs the native review (AR-REVIEW). All 37 images are in `apps/web/public/images`. |
-| 8 | Security pass | 🟨 | Krishna | docs/07 checklist fully ticked | Done: forced RLS with tests, append-only hash-chained audit log, AES-GCM notes and documents, headers, rate limits, CORS, input validation, PII redaction, injection stripping, gitleaks in CI. Not yet: passkeys (stretch), web CSP, dependency scanning. |
-| 9 | Ship (deploy, reset, video, pitch) | 🟨 | Krishna + Atharva | senior-judge ≥ 90/100 | Done: demo reset endpoint; Playwright e2e of the 3-minute path in CI (6 Nov: 69 checks at 1280 and 390 px, every key screen in EN/AR/dark through axe, 998 red flag, 3D fallbacks, zero console errors). Not done: deploy, backup video, pitch. |
+| 8 | Security pass | 🟨 | Krishna | docs/07 checklist fully ticked | Done: forced RLS with tests, append-only hash-chained audit log, AES-GCM notes and documents, headers, rate limits, CORS, input validation, PII redaction, injection stripping, gitleaks in CI. Passkeys with an email-code backup (K5, #113). Not yet: web CSP, dependency scanning. |
+| 9 | Ship (deploy, reset, video, pitch) | 🟨 | Krishna + Atharva | senior-judge ≥ 90/100 | Done: demo reset endpoint; Playwright e2e of the 3-minute path in CI (6 Nov: 69 checks at 1280 and 390 px, every key screen in EN/AR/dark through axe, 998 red flag, 3D fallbacks, zero console errors). Deployed 18 Nov (Vercel + Render + Render Postgres, uptime ping every 10 min). Not done: the 3-slide submission deck and the MP4 (due 22 Nov 15:15), backup video, a paid Render instance for the showcase. |
+
+## Build week (17–21 Nov, freeze Sat 21 Nov 18:00)
+
+| Card | What | Status | PR |
+| --- | --- | --- | --- |
+| K1 | Postnatal 6-week pathway (DoH standard), "I had this" | ✅ | #107 |
+| K2 | Voice logging, English and Arabic | ✅ | #108 |
+| K3 | Pre-visit brief "Before your visit" | ✅ | #111 |
+| K4 | Clinic onboarding API (clinic admin, invites, export) | ✅ | #109 |
+| K5 | Her own sign-in: passkeys, email code | ✅ | #113 |
+| K6 | Blood-pressure log and RF7 warning, pregnancy and 12 weeks after birth (G2) | ✅ | #116, #118 |
+| K7 | Model safety scoring workflow | 🟨 merged; score waits for the AI key | #110 |
+| A1–A8 | 3D body map, judge tour, clinic admin screens, year in 3D, read aloud, installable app, 3D pregnancy ring, polish | ✅ | #112, #115, #117, #120, #122, #123, #124, #127 |
+| iOS | Expo phone app on the live API, clinician view, postnatal, BP, brief; Simulator and iPhone verified | ✅ | #125, #126 |
+| Next 16 | Upgrade after 3 green e2e runs | ✅ | #72 |
+| Y1–Y6 | Preconception checklist, phone testing, ROI page, family view, MP4 and 3-slide deck, rehearsals | ⬜ not started | |
+| D1–D6 | Baby schedule, feeding log, discharge reader, reminders, Arabic-first pass, mother–baby board | ⬜ not started | |
 
 ## State audit (build week A8, 18 Nov)
 Every route's empty, loading and error state (C7 step 4). Loading: no route `loading.tsx` on purpose. With Next 15.5

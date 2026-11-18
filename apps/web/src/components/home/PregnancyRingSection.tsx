@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { webglAvailable } from "@/components/landing/webgl";
 import { Tag } from "@/components/ui/Tag";
 import type { Tone } from "@/lib/rules";
@@ -17,24 +17,28 @@ export interface RingItem extends RingMilestone {
 const TONE: Record<NonNullable<RingMilestone["status"]>, Tone> = { done: "ok", due: "soon", upcoming: "info", not_recorded: "info" };
 
 /** Her pregnancy and the 12 weeks after the birth on a 3D ring (A7). Shown only with WebGL and motion allowed, when
- *  it nears the screen; the 2D arc above stays for everyone. The list under the ring carries every milestone for
- *  keyboard and screen readers; tapping a band on the ring or its row shows when it is due and its sources. */
+ *  it nears the screen; otherwise `fallback` (the 2D arc) shows in its place, so Home never draws the same weeks twice.
+ *  The list under the ring carries every milestone for keyboard and screen readers. It starts folded, because the
+ *  postnatal card below lists the same steps with their actions; tapping a band on the ring opens it at that row. */
 export function PregnancyRingSection({
   segments,
   now,
   items,
   text,
+  fallback,
 }: {
   segments: { week: number; kind: SegmentKind }[];
   now: number;
   items: RingItem[];
   text: { title: string; hint: string; now: string; sources: string; list: string; legend: Record<SegmentKind, string> };
+  fallback?: ReactNode;
 }) {
   const box = useRef<HTMLDivElement>(null);
   const [can3d, setCan3d] = useState(false);
   const [reduced, setReduced] = useState(true);
   const [ready, setReady] = useState(false);
   const [selected, setSelected] = useState<string | null>(items.find((i) => i.status === "due" || i.status === null)?.key ?? null);
+  const [listOpen, setListOpen] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -59,8 +63,13 @@ export function PregnancyRingSection({
 
   const show = can3d && !reduced;
   const pick = (key: string) => setSelected((s) => (s === key ? null : key));
+  const pickOnRing = (key: string) => {
+    setListOpen(true);
+    pick(key);
+  };
   return (
     <div ref={box}>
+      {!show && fallback}
       {show && (
         <section className="box" aria-labelledby="ring3d-title" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <h2 id="ring3d-title" style={{ fontSize: 17 }}>
@@ -68,7 +77,7 @@ export function PregnancyRingSection({
           </h2>
           <p className="xs faint">{text.hint}</p>
           <div className="ring3d" data-3d={ready ? "ready" : "loading"}>
-            <PregnancyRing3D segments={segments} now={now} milestones={items} selected={selected} onPick={pick} onReady={() => setReady(true)} />
+            <PregnancyRing3D segments={segments} now={now} milestones={items} selected={selected} onPick={pickOnRing} onReady={() => setReady(true)} />
             <span className="ring3d-now" aria-hidden="true">
               {text.now}
             </span>
@@ -82,6 +91,8 @@ export function PregnancyRingSection({
             ))}
           </ul>
           <p className="sr-only">{text.now}</p>
+          <details className="ring3d-more" open={listOpen} onToggle={(e) => setListOpen(e.currentTarget.open)}>
+            <summary className="s">{text.list}</summary>
           <ul className="ring3d-list" aria-label={text.list}>
             {items.map((i) => (
               <li key={i.key}>
@@ -106,6 +117,7 @@ export function PregnancyRingSection({
               </li>
             ))}
           </ul>
+          </details>
         </section>
       )}
     </div>
