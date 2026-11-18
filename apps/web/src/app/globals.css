@@ -639,3 +639,18 @@ ol.trace > li{padding:20px;display:flex;flex-direction:column;gap:10px;min-width
 .brief-list > li{display:flex;flex-direction:column;gap:6px;min-width:0}
 .brief-list > li:not(.obs) + li:not(.obs){border-top:1px solid var(--rule);padding-top:12px}
 .bodymap[data-3d="loading"] img{pointer-events:none}
+/* Judge tour (A2): a small card, never a page overlay, so every real button stays usable. Above the floating tab bar
+   on phones; inline-end corner on wide screens (right in English, left in Arabic). */
+.tour{position:fixed;z-index:40;inset-inline:12px;bottom:calc(96px + env(safe-area-inset-bottom,0px));padding:16px 18px;display:flex;flex-direction:column;gap:8px;background:var(--sheet);box-shadow:var(--shadow)}
+.tour h2{font-size:17px;outline:none}
+.tour-x{border:0;background:none;color:var(--ink-2);font-size:22px;line-height:1;width:32px;height:32px;border-radius:50%;cursor:pointer}
+.tour-x:hover{background:var(--tint)}
+.tour-acts{display:flex;justify-content:space-between;gap:8px}
+.tour-dots{display:flex;gap:5px}
+.tour-dots i{width:6px;height:6px;border-radius:50%;background:var(--rule-2)}
+.tour-dots i.on{background:var(--accent);width:16px;border-radius:3px}
+@media (min-width:768px){.tour{inset-inline:auto 24px;bottom:24px;width:360px}}
+html.touring body{padding-bottom:min(60vh,520px)}
+.tour-on{outline:3px solid var(--accent);outline-offset:3px;border-radius:var(--r2,16px);scroll-margin:120px}
+@media (prefers-reduced-motion:no-preference){.tour-on{animation:tour-pulse 1.6s ease-in-out 3}}
+@keyframes tour-pulse{50%{outline-offset:7px}}
