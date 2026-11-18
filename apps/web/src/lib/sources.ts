@@ -19,4 +19,10 @@ export const SOURCES = {
     url: "https://www.nice.org.uk/guidance/ng133",
   },
   nice_cg192: { id: "nice_cg192", title: "NICE CG192 Antenatal and postnatal mental health", url: "https://www.nice.org.uk/guidance/cg192" },
+  ada_standards_pregnancy: {
+    id: "ada_standards_pregnancy",
+    title: "ADA Standards of Care in Diabetes — Management of Diabetes in Pregnancy (current year)",
+    url: "https://diabetesjournals.org/care",
+  },
+  nice_ng3: { id: "nice_ng3", title: "NICE NG3 Diabetes in pregnancy", url: "https://www.nice.org.uk/guidance/ng3" },
 } as const satisfies Record<string, SourceRef>;
