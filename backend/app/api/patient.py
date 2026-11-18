@@ -4,11 +4,13 @@ from __future__ import annotations
 
 import json
 import re
+import secrets
 from datetime import date
+from datetime import time as clock_time
 from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from app.agents import navigator
 from app.agents.pipeline import cards_for, persist, run
@@ -18,8 +20,8 @@ from app.rules.engine import evaluate, load_rules
 from app.security import audit
 from app.security.auth import require
 from app.security.crypto import decrypt, encrypt
+from app.services import blood_pressure, fhir, lognote, postnatal, previsit, views
 from app.services import documents as docs
-from app.services import fhir, lognote, postnatal, previsit, views
 from app.services.patient_data import ai_allowed, apply_period_log, load_bundle
 from app.services.vocab import SYMPTOMS
 
@@ -129,6 +131,7 @@ def home(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         "record_strength": ev.features.values.get("record_strength"),
         "days_logged": views.days_logged(b),
         "postnatal": postnatal.pathway(b, ref()),  # her first 6 weeks after a birth (DoH Postnatal Care Standard)
+        "blood_pressure": blood_pressure.summary(b, ref()),  # K6: pregnancy and the 12 weeks after birth
     }
 
 
@@ -278,6 +281,51 @@ def create_log(body: LogIn, actor: Actor = Depends(patient)):
         "red_flags": views.display_cards(out["cards"], crisis)[0],
         "crisis": crisis,
         "patterns": [h.rule_id for h in ev.observations],
+    }
+
+
+class BloodPressureIn(BaseModel):
+    """One reading (build week K6). The plausible range refuses typing slips only; a very high reading is accepted."""
+
+    model_config = ConfigDict(extra="forbid")
+    date: date
+    time: clock_time | None = None
+    systolic: int = Field(..., ge=blood_pressure.SYSTOLIC[0], le=blood_pressure.SYSTOLIC[1])
+    diastolic: int = Field(..., ge=blood_pressure.DIASTOLIC[0], le=blood_pressure.DIASTOLIC[1])
+
+    @model_validator(mode="after")
+    def systolic_above_diastolic(self):
+        if self.systolic <= self.diastolic:
+            raise ValueError("the top number (systolic) must be higher than the bottom number (diastolic)")
+        return self
+
+
+@router.post("/bp")
+def create_bp_reading(body: BloodPressureIn, lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
+    """Save a reading, re-run the rules (red flags first) and return any urgent card at once, like a log save, in her
+    screen's language (the stored cards stay in English, as after any save)."""
+    if body.date > ref():
+        raise HTTPException(422, "You can't log a reading for a future day.")
+    with session(actor) as cur:
+        if not blood_pressure.eligible(_bundle(cur, actor), ref()):
+            raise HTTPException(422, "Blood pressure can be logged in pregnancy and in the 12 weeks after birth.")
+        rid = f"{actor.user_id}-bp-{secrets.token_hex(5)}"
+        cur.execute(
+            "INSERT INTO bp_readings (id, profile_id, date, time, systolic, diastolic, source)"
+            " VALUES (%s,%s,%s,%s,%s,%s,'app')",
+            (rid, actor.user_id, body.date, body.time, body.systolic, body.diastolic),
+        )
+        audit.record(cur, actor, "create_bp_reading", actor.user_id, rid)
+    out = _refresh(actor)
+    crisis = bool(out.get("crisis"))
+    cards = out["cards"] if lang == "en" else cards_for(out["bundle"], lang)[0]
+    reading = next(r for r in out["bundle"]["bp_readings"] if r["id"] == rid)
+    return {
+        "id": rid,
+        "reading": reading,
+        "red_flags": views.display_cards(cards, crisis)[0],
+        "crisis": crisis,
+        "patterns": [h.rule_id for h in out["evaluation"].observations],
     }
 
 
@@ -543,7 +591,7 @@ def privacy(actor: Actor = Depends(patient)):
         )
         log = cur.fetchall()
         counts = {}
-        for t in ("daily_logs", "events", "lab_results", "documents", "reports", "shares"):
+        for t in ("daily_logs", "bp_readings", "events", "lab_results", "documents", "reports", "shares"):
             cur.execute(f"SELECT count(*) AS n FROM {t} WHERE profile_id=%s", (actor.user_id,))  # noqa: S608 (fixed table list)
             counts[t] = cur.fetchone()["n"]
     return {
@@ -627,6 +675,7 @@ def delete_my_data(actor: Actor = Depends(patient)):
             "lab_results",
             "documents",
             "events",
+            "bp_readings",
             "daily_logs",
             "cycles",
         ):

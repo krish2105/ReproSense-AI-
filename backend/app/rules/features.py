@@ -181,6 +181,15 @@ def compute(bundle: dict, ref: date) -> FeatureSet:
     )
     fs.put("possible_pregnancy", possible, why if possible else [])
 
+    # blood pressure (build week K6): her latest reading, for the "recheck today" card. The thresholds live in
+    # rules/clinical_rules.yaml; this only reports the numbers and the reading they came from.
+    bp = sorted(bundle.get("bp_readings", []), key=lambda r: (str(r["date"]), str(r.get("time") or "")))
+    latest = bp[-1] if bp else None
+    latest_ids = [latest["id"]] if latest else []
+    fs.put("bp_latest_systolic", latest["systolic"] if latest else None, latest_ids)
+    fs.put("bp_latest_diastolic", latest["diastolic"] if latest else None, latest_ids)
+    fs.put("bp_latest_days_ago", (ref - _d(latest["date"])).days if latest else None, latest_ids)
+
     # display-only helpers (never used to claim a condition)
     fs.put("cycle_change_point", change_point(lengths))
     supporting = sum(len(v) for v in fs.evidence.values())
@@ -215,7 +224,17 @@ DAY_SYMPTOMS = {
     "reduced_fetal_movements_today": lambda lg: "reduced baby movements" in lg.get("symptoms", []),
     "severe_headache_today": lambda lg: "severe headache" in lg.get("symptoms", []),
     "vision_change_today": lambda lg: "vision changes" in lg.get("symptoms", []),
+    "sudden_swelling_today": lambda lg: "sudden swelling" in lg.get("symptoms", []),
 }
+# Day-level blood pressure (build week K6): one reading's numbers. The engine checks a red flag against each reading of
+# a day in turn (with that day's symptoms), so "a reading at or above X" means one real reading, never the systolic of
+# one and the diastolic of another; 0 stands for "no reading that day". The thresholds live in the rules file.
+DAY_BP = ("bp_systolic_today", "bp_diastolic_today")
+NO_READING = {"bp_systolic_today": 0, "bp_diastolic_today": 0}
+
+
+def reading_values(r: dict) -> dict[str, int]:
+    return {"bp_systolic_today": int(r["systolic"]), "bp_diastolic_today": int(r["diastolic"])}
 
 
 def day_context(log: dict) -> dict[str, bool]:

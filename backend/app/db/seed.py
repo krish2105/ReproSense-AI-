@@ -29,6 +29,7 @@ STAFF = [
     ("cadmin-01", "Clinic admin, Seaside Women's Clinic (fictional)", "clinic_admin", DEMO_CLINIC),
     ("cadmin-02", "Clinic admin, North Island Women's Clinic (fictional)", "clinic_admin", "clinic_north"),
 ]
+NEWEST_TABLES = ("clinic_invites", "bp_readings")  # seed_if_empty: a database without these predates the code
 NOT_SHARING = {"amina"}  # shows the consent gate: Amina has not shared with a clinic
 
 
@@ -124,6 +125,12 @@ def load_personas(cur) -> list[str]:
             cur.execute(
                 "INSERT INTO events (id, profile_id, type, date, details) VALUES (%s,%s,%s,%s,%s)",
                 (e["id"], p["id"], e["type"], e["date"], json.dumps(e.get("details", {}))),
+            )
+        for bp in d.get("bp_readings", []):
+            cur.execute(
+                "INSERT INTO bp_readings (id, profile_id, date, time, systolic, diastolic, source)"
+                " VALUES (%s,%s,%s,%s,%s,%s,'seed')",
+                (bp["id"], p["id"], bp["date"], bp.get("time"), bp["systolic"], bp["diastolic"]),
             )
         for lab in d["labs"]:
             cur.execute(
@@ -226,7 +233,14 @@ def seed_if_empty(url: str | None = None) -> dict | None:
     or holds no personas, so a restart never wipes a demo in progress. Returns what seed() loaded, or None."""
     with psycopg.connect(url or get_settings().database_url, autocommit=True) as conn:
         exists = conn.execute("SELECT to_regclass('public.profiles') IS NOT NULL").fetchone()[0]
+        # A table added since this database was seeded (bp_readings, build week K6): the old schema would fail every
+        # read of her record, so the demo is seeded again with the current schema.
+        current = all(
+            conn.execute("SELECT to_regclass(%s) IS NOT NULL", (f"public.{t}",)).fetchone()[0] for t in NEWEST_TABLES
+        )
     people = 0
+    if exists and not current:
+        return seed(url)
     if exists:
         # Count through the app's system session: profiles has FORCED RLS, so a non-superuser owner sees no rows.
         if url:
