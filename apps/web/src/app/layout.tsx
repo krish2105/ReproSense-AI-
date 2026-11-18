@@ -8,6 +8,7 @@ import { ToastProvider } from "@/components/ui/Toast";
 import { clientMessages } from "@/i18n/client-messages";
 import { dirOf, isLocale, defaultLocale } from "@/i18n/config";
 import "./globals.css";
+import { RegisterSW } from "@/components/pwa/RegisterSW";
 
 // Self-hosted (src/app/fonts, SIL Open Font License 1.1): the build never calls Google Fonts, so CI and deploys
 // cannot fail on its responses. Same files, weights and subsets that next/font/google used to fetch. Font loader options
@@ -107,6 +108,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <NextIntlClientProvider messages={await clientMessages()}>
           <ToastProvider>
             <SkipLink />
+            <RegisterSW />
             {children}
           </ToastProvider>
         </NextIntlClientProvider>

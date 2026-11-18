@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Offline · ReproSense</title>
+<style>
+  /* Self-contained on purpose (A6): served by the service worker with no connection, so no scripts or fonts. */
+  :root{--paper:#F6F1F4;--sheet:#FFFFFF;--ink:#2E2233;--ink2:#6E5D73;--plum:#4B3653;--plum-ink:#FFFFFF;--rule:#EEE5EF}
+  @media (prefers-color-scheme:dark){:root{--paper:#17111A;--sheet:#221A27;--ink:#F6EFF7;--ink2:#C9BACD;--plum:#EBD7F0;--plum-ink:#2A1D30;--rule:#33283A}}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Arabic",sans-serif;display:grid;place-items:center;min-height:100vh;padding:16px;box-sizing:border-box}
+  *{box-sizing:border-box}
+  main{max-width:520px;width:100%;background:var(--sheet);border:1px solid var(--rule);border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:14px}
+  h1{font-size:24px;margin:0}
+  p{margin:0;color:var(--ink2)}
+  .urgent{color:var(--ink);font-weight:600}
+  a{align-self:flex-start;background:var(--plum);color:var(--plum-ink);text-decoration:none;font-weight:700;padding:10px 18px;border-radius:999px}
+  hr{border:0;border-top:1px solid var(--rule);margin:4px 0}
+  [dir=rtl] a{align-self:flex-end}
+</style>
+</head>
+<body>
+<main>
+  <section>
+    <h1>You're offline</h1>
+    <p>This page needs a connection. ReproSense never keeps your entries on this device, so your record opens again when you are back online.</p>
+    <p class="urgent">In an emergency, call 998.</p>
+  </section>
+  <hr>
+  <section dir="rtl" lang="ar">
+    <h1>أنتِ غير متصلة بالإنترنت</h1>
+    <p>هذه الصفحة تحتاج إلى اتصال. لا يحتفظ ReproSense بإدخالاتك على هذا الجهاز، لذلك يفتح سجلك مجددًا عند عودة الاتصال.</p>
+    <p class="urgent">في حالات الطوارئ اتصلي بالرقم 998.</p>
+  </section>
+  <a href="/demo">Try again · حاولي مجددًا</a>
+  <p style="font-size:12px">Demo data is fictional · بيانات العرض خيالية</p>
+</main>
+</body>
+</html>
