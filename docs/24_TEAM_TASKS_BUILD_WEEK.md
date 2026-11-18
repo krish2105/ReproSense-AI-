@@ -1,4 +1,4 @@
-# 24 · Who builds what in build week, with Claude Code prompts (Krishna, Atharva, Yash)
+# 24 · Who builds what in build week, with Claude Code prompts (Krishna, Atharva, Yash, Dareen)
 
 Written 18 Nov 2026 by Krishna. The features and why they score are in `docs/23_BUILD_WEEK_FEATURES.md`. **Code freeze:
 Sat 21 Nov 18:00.** Submission on Sun 22 Nov by 15:15: a 3-slide PDF or PPT and an MP4 demo. Live demo:
@@ -14,7 +14,15 @@ task below is its own branch and pull request, opened by the person who owns it.
 | **2 · Thu 19 – Fri 20** | K3 Pre-visit AI brief · K4 Clinic onboarding API | A3 Clinic onboarding and admin screens (with K4) · A4 Her year in 3D · A5 Read-aloud | Y3 Pilot ROI page · Y4 Family support view |
 | **3 · Fri 20 – Sat 21** | K5 Her own sign-in (passkey + email code) · K6 Blood-pressure log and warning (G2) · K7 Scored model safety check (needs the key) | A6 Installable web app (PWA) · A7 3D pregnancy and fourth-trimester ring · A8 Motion and polish, release | Y5 MP4 demo and 3-slide deck · Y6 Rehearsals and backup |
 
+**Wave 4 · Dareen (Wed 18 – Sat 21, freeze 18:00):** the **mother–baby link**, closing the theme's "newborn and
+early-childhood" half, plus native Arabic. D1 Baby's first-year schedule · D2 Feeding and breastfeeding log · D3 AI
+hospital-discharge reader · D4 Reminder centre · D5 Arabic-first pass (native review and Gulf Arabic assistant probes)
+· D6 Mother–baby clinic board with fair analytics. Dareen is the team's Abu Dhabi university student and a native
+Arabic speaker; she builds with Claude Code and opens her own PRs.
+
 Krishna's tasks are built with Claude Code on his account. Each person ticks their boxes in their own GitHub issue.
+Order for Dareen: D5 can start at once; D1 and D4 build on K1 (the postnatal pathway, `backend/app/services/postnatal.py`)
+and D3 on the lab-photo reader (#102, `_read_photo` in `backend/app/api/patient.py`).
 
 ## How to use a prompt
 1. `git checkout main && git pull`, then `make env db seed test` once (expect about 380 passed) and `make hooks`.
@@ -233,4 +241,87 @@ programs.upstartbar.com on 22 Nov before 15:15.
 Task Y6: three timed rehearsals of the 3-minute pitch plus 3-minute Q&A (docs/drafts/26-rehearsal-cards.md, the Q&A in
 docs/10), one with the live link on a phone. Keep the backup MP4 on two laptops and a USB stick. Write the morning
 checklist for 22 Nov (arrive 09:30, Emirates IDs, laptops and chargers).
+```
+
+---
+
+## Wave 4 · Dareen: the mother–baby link and native Arabic (Wed 18 – Sat 21 Nov, freeze 18:00)
+
+The theme asks for "women's health and maternal, **newborn and early-childhood** outcomes"; until now ReproSense
+covered the mother only. Each task below is new build-week work with its own branch and PR. Newborn content is
+information and scheduling only: no diagnosis of the baby, no dosing, "ask your baby's doctor" for anything else, and
+every item cites an official source (MOHAP / DoH / NHS / NICE / WHO) added to `knowledge_base/sources.yaml` with a
+summary in our own words. Anything that adds an urgent warning for the baby is a new red-flag rule: gate G2 (Krishna's
+approval, CHANGE_LOG row, clinician sign-off before real use).
+
+### D1 · Baby's first-year schedule (Dareen) · branch `feat/baby-schedule`
+```text
+Task D1: a "Baby's first year" schedule linked to the mother's record after a birth (persona Fatima, baby born 20 Sep
+2026). Steps: the newborn checks in DoH's Postnatal Care Program Standard (with the mother's checks), and the UAE
+national immunisation schedule from birth to 12 months, each with its window, status (done, due, upcoming, not
+recorded, never "missed") and source. First find and add the official sources (the MOHAP/DoH national immunisation
+schedule for the UAE; quote the document name, date and link in the PR) to knowledge_base/sources.yaml with
+answers: false and summaries in English and Arabic in our own words. Backend: a service like
+backend/app/services/postnatal.py (read it) that computes the schedule from the birth date; she can mark a step done
+("baby had this"); a baby has no name in the data, only "your baby". Web: a "Baby's first year" card on Home and a
+page with the timeline, English and Arabic, light and dark, 390 and 1280 px. The clinician sees the schedule status.
+Tests first: windows from a birth date, statuses, sources exist, Arabic, the API, and a Playwright spec.
+```
+
+### D2 · Feeding and breastfeeding log (Dareen) · branch `feat/feeding-log`
+```text
+Task D2: a quick feeding log after a birth: breastfeeding, expressed milk or formula, and how it went (latch worries,
+pain, enough wet nappies), in one tap each, plus sourced support tips from DoH's Postnatal Care Program Standard
+(3.1.3.3 promotes exclusive breastfeeding and support) and the NHS. Show a simple daily summary chart (mauve-charts
+skill). Information only: never advice on formula amounts or medicines, never a diagnosis; "talk to your midwife,
+nurse or doctor" when she logs a worry. If you want an urgent warning (for example a baby under 3 months with a
+fever), stop and ask Krishna: that is a new red-flag rule (gate G2). English and Arabic. Tests first, and a Playwright
+spec for logging a feed.
+```
+
+### D3 · AI hospital-discharge reader (Dareen) · branch `feat/discharge-reader`
+```text
+Task D3: she photographs her hospital discharge summary and the AI reads the key facts so her after-birth pathway
+(K1) and the baby schedule (D1) start from the right dates: discharge date, birth date, mode of birth, gestational
+diabetes in pregnancy (yes/no), and the baby's birth weight. Reuse the lab-photo path (#102): _read_photo in
+backend/app/api/patient.py, OpenRouterProvider.complete_json_image in backend/app/ai/llm.py, and the "model only
+transcribes, our code validates" pattern in backend/app/services/documents.py (photo_text). Every value is checked by
+code (real dates, not in the future, after pregnancy) and shown to her to confirm before anything is saved; she can
+edit or drop each one; the photo itself is not kept. Her AI switch off: nothing is sent. Saved facts become events
+(hospital_discharge, delivery) so the pathway uses the real discharge date. Tests first with a fake vision model
+(see backend/tests/test_lab_photo.py), English and Arabic, and a Playwright spec with the API stubbed.
+```
+
+### D4 · Reminder centre (Dareen) · branch `feat/reminders`
+```text
+Task D4: one reminder centre for everything that is due: her postnatal steps (K1), the glucose test, the baby's
+schedule (D1), and the pregnancy glucose screen. A "Reminders" page and a bell on Home with the count due this week;
+each reminder links to the step and its source and can be snoozed or marked done. Reminders never send anything on
+their own: they can be added to her phone calendar (an .ics file) or, once the installable app exists (A6), shown as a
+notification she turned on herself. English and Arabic (Arabic dates and numbers correct). Tests first for what is
+due when, snoozing and the .ics file; a Playwright spec.
+```
+
+### D5 · Arabic-first pass (Dareen) · branch `feat/arabic-first`
+```text
+Task D5: you are the team's native Arabic speaker. 1) Review docs/AR_REVIEW.md row by row, safety replies first: fix
+meaning, tone (warm, direct, feminine address where the screen is hers) and medical terms, and decide every
+"flagged term" (نزيف, جلطات, إغراق) in its section; change apps/web/messages/ar.json, rules/translations_ar.yaml and the
+backend Arabic strings to match, and fill the OK column. 2) Walk every screen in Arabic at 390 px and fix right-to-left
+layout bugs, numbers and dates. 3) Write 30 new Gulf and standard Arabic assistant questions the way women really ask
+(everyday, urgent, crisis, medicine, diagnosis requests) as regression probes in backend/tests/test_safety_routing.py
+(never in rag_heldout.jsonl round 5), and report which routes fail. Changes to safety wording or routing go to Krishna
+(gate G2). Tests and screenshots in the PR.
+```
+
+### D6 · Mother–baby clinic board with fair analytics (Dareen) · branch `feat/mother-baby-board`
+```text
+Task D6: on the clinic network page (/admin) add a "Mother and baby follow-up" board: across the synthetic cohort and
+the live demo women, how many postnatal checks (K1) and baby schedule steps (D1) are done, due or not recorded, by
+region and by clinic, with small numbers suppressed (fewer than 10 shown as "fewer than 10", like the existing
+regions view) and a fairness view (completion by nationality group and age band, no individual rows). Extend
+data/synthetic/generate_synthetic.py if needed (synthetic-data-realism skill; the generator must stay byte-identical
+for its seed, so regenerate and commit its output, and make sure CI's generator-check passes). mauve-charts for the
+charts; English and Arabic. This is the PureHealth and DoH story: care gaps closing for mothers and babies. Tests
+first for the counts and the suppression.
 ```

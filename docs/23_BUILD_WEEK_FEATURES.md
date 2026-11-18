@@ -47,6 +47,18 @@ sentence cites a source; red flags first with 998.
 | **Installable web app** (PWA): installs on a phone, works offline, reminders | The phone app this week (Expo PR #68 stays for after the event) |
 | Polish pass, **MP4 demo** (automated recording), **3-slide deck** (problem, solution, roadmap) | Submission |
 
+## Wave 4 · Dareen (18–21 Nov): the mother–baby link and native Arabic
+| Feature | Notes |
+| --- | --- |
+| **Baby's first-year schedule**: newborn checks and the UAE immunisation schedule, sourced | Closes the theme's newborn and early-childhood half |
+| **Feeding and breastfeeding log** with sourced support | DoH Postnatal Standard 3.1.3.3 |
+| **AI hospital-discharge reader**: photo of the discharge summary, the model reads, she confirms | Innovation; feeds K1 and D1 with real dates |
+| **Reminder centre**: everything due, calendar file or a notification she turned on | MVP |
+| **Arabic-first pass**: native review, RTL fixes, 30 Gulf Arabic probes | Women's experience, DoH judge |
+| **Mother–baby clinic board** with fair, small-number-suppressed analytics | Venture: PureHealth and DoH story |
+
+Prompts: docs/24 (Wave 4). Strict scorecard and projection: docs/25.
+
 ## Waiting on people
 - OpenRouter key: sign-in codes to Krishna's registered email are not arriving; a teammate can claim it, or ask Adnan.
 - An email-service key for the sign-in backup (Krishna adds it in Render).
