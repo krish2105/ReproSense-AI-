@@ -89,6 +89,10 @@ jobs:
       ANTHROPIC_API_KEY: demo-safe-ci-not-a-key
       ANTHROPIC_BASE_URL: http://127.0.0.1:9
       E2E_DEMO_SAFE: "1"
+      # Every browser test signs in from 127.0.0.1, so they share one rate-limit bucket; with ~150 tests the default
+      # 120/min was reached (429 on demo login). Raised for this job only; the live API keeps its limits.
+      RATE_LIMIT_PER_MIN: "1200"
+      RATE_LIMIT_SENSITIVE_PER_MIN: "200"
       API_URL: http://127.0.0.1:8010
       ALLOWED_ORIGINS: http://localhost:3100
     steps:
