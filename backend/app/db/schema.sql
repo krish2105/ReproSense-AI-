@@ -18,7 +18,8 @@ EXCEPTION WHEN insufficient_privilege THEN
   RAISE NOTICE 'reprosense_app was not granted to %: it must already be allowed to SET ROLE reprosense_app', current_user;
 END $$;
 
-DROP TABLE IF EXISTS clinic_invites, audit_log, kb_chunks, cohort_members, navigator_drafts, clinic_reviews, care_gaps, shares, reports,
+-- The sign-in tables (sign_in.sql, applied after this file) go too: a demo reset clears every joined record.
+DROP TABLE IF EXISTS email_codes, auth_challenges, sign_in_emails, passkeys, clinic_invites, audit_log, kb_chunks, cohort_members, navigator_drafts, clinic_reviews, care_gaps, shares, reports,
   observations, documents, lab_results, bp_readings, events, daily_logs, cycles, consents, profiles, clinics CASCADE;
 
 CREATE OR REPLACE FUNCTION app_role() RETURNS text LANGUAGE sql STABLE AS $$ SELECT coalesce(current_setting('app.role', true), '') $$;

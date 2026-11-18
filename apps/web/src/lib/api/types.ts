@@ -538,6 +538,33 @@ export interface ClinicRecord {
   bp_readings: BpReading[]; // newest first
   days_logged: number;
   visit_note_draft: string;
+  previsit_brief: PrevisitBrief;
+}
+/** One line of the pre-visit brief: a fact from her entries, with the entries behind it (K3). */
+export interface BriefLine {
+  id: string;
+  kind: "red_flag" | "pattern" | "cycle" | "pain" | "lab" | "care_step" | "question";
+  status: "urgent" | "new" | "ongoing" | "resolved" | "done" | "booked" | "due" | "H" | "L" | null;
+  rule_id: string | null;
+  text: string;
+  evidence: Evidence[];
+  evidence_total: number;
+  sources: Source[];
+  written_by: string;
+  due_date?: string | null;
+}
+/** GET /v1/brief?lang= (her) and ClinicRecord.previsit_brief (clinician): "what changed since the last visit" */
+export interface PrevisitBrief {
+  since: string;
+  since_basis: "shared_report" | "clinician_review" | "default_90_days";
+  ref_date: string;
+  lang: "en" | "ar";
+  audience: "patient" | "clinician";
+  crisis: boolean;
+  ai_on: boolean;
+  written_by: string;
+  dropped_sentences: number;
+  lines: BriefLine[];
 }
 /** POST /v1/clinic/patients/{id}/ask — answers only from her entries */
 export interface RecordAnswer {
@@ -637,4 +664,22 @@ export interface PrivacyResponse {
 export interface FhirExport {
   bundle: { resourceType: string; type: string; entry?: unknown[] };
   validation_errors: string[];
+}
+
+/** POST /v1/auth/passkey/login/verify and /v1/auth/email/verify: her own record, signed in (K5) */
+export interface SignedIn {
+  role: "patient";
+  user_id: string;
+}
+/** GET /v1/auth/methods: what the sign-in page offers (the email code needs a configured provider) */
+export interface AuthMethods {
+  passkey: boolean;
+  email: boolean;
+}
+/** GET /v1/auth/me: her sign-in methods, for Privacy. Never the address itself. */
+export interface AuthMe {
+  own_record: boolean; // a record she started on /join (demo people open with one tap instead)
+  passkeys: { id: number; label: string | null; created_at: string; last_used_at: string | null }[];
+  email_linked: boolean;
+  email_available: boolean;
 }
