@@ -403,7 +403,7 @@ dialog.dlg .dlg-head h2{font-size:20px}
 .icon-btn:hover{border-color:var(--ink-3);color:var(--ink)}
 
 /* Skeleton blocks: the same shapes as the content they stand in for. */
-.skel{background:var(--tint);border-radius:14px;animation:skel 1.4s ease-in-out infinite}
+.skel{background:var(--rule-2);border-radius:14px;animation:skel 1.4s ease-in-out infinite}
 @keyframes skel{0%,100%{opacity:1}50%{opacity:.55}}
 
 /* Empty and error states. */
@@ -669,3 +669,5 @@ html.touring body{padding-bottom:min(60vh,520px)}
 .ring3d-list button{width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;text-align:start;border:1px solid var(--rule);background:var(--paper);border-radius:14px;padding:10px 12px;cursor:pointer;color:var(--ink)}
 .ring3d-list button[aria-pressed="true"]{border-color:var(--plum);box-shadow:0 0 0 1px var(--plum) inset}
 .ring3d-list button .xs{flex-basis:100%}
+/* Page transitions (A8): each page fades in; prefers-reduced-motion switches every animation off above. */
+.page-in{animation:in .28s ease-out}
