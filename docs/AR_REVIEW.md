@@ -496,3 +496,43 @@ She can now photograph a lab report; the AI model reads it and she checks every 
 | `documents.intro` (changed) | Upload a lab report as a PDF or text file, or take a photo of it. … | ارفعي تقرير المختبر بصيغة PDF أو ملف نصي، أو صوّريه. … | |
 | `documents.fileLabel` (changed) | Lab report file (PDF, text or photo) | ملف تقرير المختبر (PDF أو نص أو صورة) | |
 | `documents.noRows` (changed) | No lab values were recognised. Try the PDF or text version of the report, or a sharper photo of the results page. | لم نتعرّف على قيم مختبر. جرّبي النسخة النصية أو PDF من التقرير، أو صورة أوضح لصفحة النتائج. | |
+
+## Postnatal 6-week pathway (build week K1, 18 Nov, draft Arabic, not yet reviewed)
+Her first 6 weeks after a birth, following DoH Abu Dhabi's Postnatal Care Program Standard. Feminine address on her
+card; the `clinic.*` rows are in clinician voice. The two knowledge-base summaries
+(`knowledge_base/summaries/doh_postnatal_standard_2025.md`, `doh_postnatal_programme_2025.md`) also have Arabic sections.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `postnatal.eyebrow` | After the birth | بعد الولادة | |
+| `postnatal.title` | Your first 6 weeks | أسابيعكِ الستة الأولى | |
+| `postnatal.intro` | The checks DoH Abu Dhabi's postnatal standard sets after a birth. Your clinic books them; tap “I had this” for a check you had. | المتابعات التي تحددها معايير دائرة الصحة – أبوظبي لرعاية ما بعد الولادة. تحجزها عيادتكِ؛ اضغطي «حصلتُ عليها» لأي متابعة تمت. | |
+| `postnatal.progress` | {done} of {total} done | تم {done} من {total} | |
+| `postnatal.window` | {from} to {to} | من {from} إلى {to} | |
+| `postnatal.doneOn` | Done {date} | تمت في {date} | |
+| `postnatal.assumed` | We assumed you left hospital on {date}, 2 days after the birth. | افترضنا أنكِ خرجتِ من المستشفى في {date}، بعد يومين من الولادة. | |
+| `postnatal.steps.teleconsult` | Check-in call or home visit, 2–3 days after you left hospital | مكالمة متابعة أو زيارة منزلية بعد يومين إلى ثلاثة أيام من خروجكِ من المستشفى | |
+| `postnatal.steps.visit_2w` | Visit 7–14 days after you left hospital | زيارة بعد 7 إلى 14 يوماً من خروجكِ من المستشفى | |
+| `postnatal.steps.mood` | Mood check, 10–14 days after the birth | فحص المزاج بعد 10 إلى 14 يوماً من الولادة | |
+| `postnatal.steps.visit_6w` | Visit at 6 weeks after the birth | زيارة بعد 6 أسابيع من الولادة | |
+| `postnatal.steps.glucose_test` | Glucose test after gestational diabetes, 4–12 weeks after the birth | فحص السكر بعد سكري الحمل، بعد 4 إلى 12 أسبوعاً من الولادة | |
+| `postnatal.status.done` | Done | تمت | |
+| `postnatal.status.due` | Due now | مستحقة الآن | |
+| `postnatal.status.upcoming` | Coming up | قادمة | |
+| `postnatal.status.not_recorded` | Not recorded | غير مسجّلة | |
+| `postnatal.record` | I had this | حصلتُ عليها | |
+| `postnatal.recordTitle` | What date was this check? | في أي تاريخ كانت هذه المتابعة؟ | |
+| `postnatal.dateLabel` | Date of this check | تاريخ هذه المتابعة | |
+| `postnatal.save` | Save | حفظ | |
+| `postnatal.cancel` | Cancel | إلغاء | |
+| `postnatal.saved` | Saved. Your pathway was updated. | تم الحفظ. حُدّثت خطة متابعتكِ. | |
+| `postnatal.saveFailed` | It wasn't saved: {detail} | لم يتم الحفظ: {detail} | |
+| `postnatal.moodAction` | Do the mood check | إجراء فحص المزاج | |
+| `postnatal.note` | These are care steps, not a diagnosis. If anything worries you, call your clinic; in an emergency call 998. | هذه خطوات رعاية وليست تشخيصاً. إذا أقلقكِ أي شيء فاتصلي بعيادتكِ، وفي الحالات الطارئة اتصلي بالرقم 998. | |
+| `postnatal.clinic.title` | After-birth pathway (DoH Postnatal Care Standard) | مسار ما بعد الولادة (معايير دائرة الصحة لرعاية ما بعد الولادة) | |
+| `postnatal.clinic.intro` | {done} of {total} steps recorded, {weeks} weeks after the birth. Status comes from her entries: “not recorded” means nothing was logged, not that it did not happen. | سُجّلت {done} من {total} خطوات، بعد {weeks} أسابيع من الولادة. الحالة مأخوذة من إدخالاتها: «غير مسجّلة» تعني أنه لم يُسجَّل شيء، لا أنها لم تحدث. | |
+| `postnatal.clinic.steps.teleconsult` | Teleconsultation or home visit, days 2–3 after discharge | استشارة عن بُعد أو زيارة منزلية، اليومان 2–3 بعد الخروج | |
+| `postnatal.clinic.steps.visit_2w` | Visit, days 7–14 after discharge | زيارة، الأيام 7–14 بعد الخروج | |
+| `postnatal.clinic.steps.mood` | Maternal blues assessment (EPDS), 10–14 days | تقييم تقلّب المزاج (مقياس إدنبرة)، 10–14 يوماً | |
+| `postnatal.clinic.steps.visit_6w` | 6-week postnatal visit | زيارة ما بعد الولادة في الأسبوع السادس | |
+| `postnatal.clinic.steps.glucose_test` | OGTT 4–12 weeks after birth (after GDM) | اختبار تحمّل الجلوكوز بعد 4–12 أسبوعاً من الولادة (بعد سكري الحمل) | |
