@@ -551,6 +551,8 @@ export interface DocumentUpload {
   sample_date: string | null;
   injection_lines_removed: number;
   message: string;
+  /** "photo": read from a photo by the AI model (build week); "file": a PDF or text file. */
+  source?: "file" | "photo";
 }
 /** GET /v1/documents */
 export interface DocumentRow {

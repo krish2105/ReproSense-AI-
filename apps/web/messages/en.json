@@ -763,9 +763,12 @@
   "documents": {
     "metaTitle": "Lab reports",
     "title": "Lab reports",
-    "intro": "Upload a lab report as a PDF or text file. We read the values; you check each one against your paper copy, then confirm. Nothing is saved until you confirm.",
+    "intro": "Upload a lab report as a PDF or text file, or take a photo of it. We read the values; you check each one against your paper copy, then confirm. Nothing is saved until you confirm.",
     "choose": "Choose a file",
-    "fileLabel": "Lab report file (PDF or text)",
+    "photo": "Take a photo of a report",
+    "photoLabel": "Photo of a lab report",
+    "photoNote": "Read from your photo by AI. Check each value against your paper report before you confirm. The photo itself is not kept.",
+    "fileLabel": "Lab report file (PDF, text or photo)",
     "demo": "Use the demo lab report (fictional)",
     "reading": "Reading the report",
     "uploadFailed": "The report wasn't read: {detail}",
@@ -782,7 +785,7 @@
     "confirm": "Confirm and save",
     "confirmed": "{n, plural, =0 {Nothing was saved.} one {# result saved. Your record was checked again.} other {# results saved. Your record was checked again.}}",
     "confirmFailed": "The results weren't saved: {detail}",
-    "noRows": "No lab values were recognised in this file. Check that it is the text or PDF version of the report.",
+    "noRows": "No lab values were recognised. Try the PDF or text version of the report, or a sharper photo of the results page.",
     "listTitle": "Your reports",
     "none": "No reports uploaded yet.",
     "status": {

@@ -26,6 +26,7 @@ CACHE_DIR = Path(__file__).parent / "cache"
 _DEADLINE: ContextVar[float | None] = ContextVar("llm_deadline", default=None)
 _POOL = ThreadPoolExecutor(max_workers=8, thread_name_prefix="llm")
 MIN_CALL_S = 0.5  # with less time left than this, do not start a model call
+PHOTO_TIMEOUT_S = 14.0  # reading a photo: under the web's 15 s limit for one API call
 
 
 @contextmanager
@@ -75,6 +76,7 @@ def _parse_json(text: str) -> dict | None:
 
 class NoLLM:
     name = "none"
+    supports_images = False
 
     def complete_json(self, system: str, user: str, max_tokens: int = 2000) -> dict | None:
         return cache_get(system, user)  # demo-safe: answers cached from an earlier Claude run, if any
@@ -84,6 +86,7 @@ class ClaudeProvider:
     """Claude via the official Anthropic SDK. Refusal fallbacks are enabled (server-side, routed by category)."""
 
     name = "claude"
+    supports_images = False  # this build sends photos through OpenRouter only
 
     def __init__(self, api_key: str, model: str):
         import anthropic
@@ -135,6 +138,7 @@ class OpenRouterProvider:
     key travels only in the Authorization header; synthetic, redacted text only."""
 
     name = "openrouter"
+    supports_images = True
     URL = "https://openrouter.ai/api/v1/chat/completions"
 
     def __init__(self, api_key: str, model: str, client=None):
@@ -154,13 +158,31 @@ class OpenRouterProvider:
         cached = cache_get(system, user)
         if cached is not None:
             return cached
+        return self._send(system, user, user, max_tokens)
+
+    def complete_json_image(
+        self, system: str, user: str, image: bytes, mime: str, max_tokens: int = 2000
+    ) -> dict | None:
+        """The same call with one image (a photographed lab report), sent as a base64 data URL."""
+        import base64
+
+        key = user + "\x00" + hashlib.sha256(image).hexdigest()
+        cached = cache_get(system, key)
+        if cached is not None:
+            return cached
+        url = f"data:{mime};base64,{base64.b64encode(image).decode()}"
+        content = [{"type": "text", "text": user}, {"type": "image_url", "image_url": {"url": url}}]
+        return self._send(system, content, key, max_tokens, timeout=PHOTO_TIMEOUT_S)
+
+    def _send(self, system: str, content, cache_key: str, max_tokens: int, timeout: float | None = None) -> dict | None:
         body = {
             "model": self.model,
             "max_tokens": max_tokens,
-            "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
+            "messages": [{"role": "system", "content": system}, {"role": "user", "content": content}],
         }
         try:
-            resp = self.client.post(self.URL, json=body, headers=self._headers)
+            extra = {"timeout": timeout} if timeout else {}
+            resp = self.client.post(self.URL, json=body, headers=self._headers, **extra)
         except self._httpx.HTTPError as e:
             log.warning("OpenRouter unreachable (%s); using template", type(e).__name__)
             return None
@@ -178,7 +200,7 @@ class OpenRouterProvider:
             return None
         value = _parse_json(text)
         if value is not None:
-            cache_put(system, user, value)
+            cache_put(system, cache_key, value)
         return value
 
 
@@ -189,6 +211,7 @@ class Budgeted:
     def __init__(self, inner: LLM):
         self.inner = inner
         self.name = inner.name
+        self.supports_images = getattr(inner, "supports_images", False)
 
     def complete_json(self, system: str, user: str, max_tokens: int = 2000) -> dict | None:
         cached = cache_get(system, user)
@@ -206,6 +229,14 @@ class Budgeted:
         except FuturesTimeout:
             log.warning("model call ran past this request's budget; using template")
             return None
+
+    def complete_json_image(
+        self, system: str, user: str, image: bytes, mime: str, max_tokens: int = 2000
+    ) -> dict | None:
+        """Reading a photo is the request's only model call and she is waiting for it, so it gets its own timeout
+        (the provider's) rather than the shared page budget. A provider without image support returns None."""
+        read = getattr(self.inner, "complete_json_image", None)
+        return read(system, user, image, mime, max_tokens) if read else None
 
 
 def get_llm() -> LLM:
