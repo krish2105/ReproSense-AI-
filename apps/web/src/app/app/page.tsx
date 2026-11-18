@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AfterBirthArc, CycleArc, PregnancyArc } from "@/components/charts/Arc";
+import { BloodPressureCard } from "@/components/home/BloodPressureCard";
 import { DayPills } from "@/components/home/DayPills";
 import { MoodRow } from "@/components/home/MoodRow";
 import { NavigatorCard } from "@/components/home/NavigatorCard";
@@ -91,6 +92,8 @@ export default async function Home() {
         )}
 
         {h.postnatal && !h.crisis && <PostnatalCard p={h.postnatal} refDate={h.ref_date} />}
+
+        {h.blood_pressure.eligible && !h.crisis && <BloodPressureCard bp={h.blood_pressure} locale={locale} />}
 
         {soon && <NavigatorCard key={`${h.profile.id}-${soon.observation_id}`} card={soon} dueDate={gap?.due_date} latest={latestDraft} />}
 

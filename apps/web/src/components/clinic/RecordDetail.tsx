@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { BriefSection } from "@/components/brief/BriefSection";
 import { BarsChart, CycleLengthChart } from "@/components/charts/AnalyticsCharts";
+import { BpReadingsTable } from "@/components/charts/BpReadingsTable";
 import { TraceButton } from "@/components/insights/CardActions";
 import { SourceLinks } from "@/components/safety/SourceLinks";
 import { Tag } from "@/components/ui/Tag";
@@ -111,6 +112,19 @@ export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Loc
           <SourceLinks
             sources={[...new Map(r.postnatal.steps.flatMap((s) => s.source_links).map((l) => [l.source_id, l])).values()]}
           />
+        </section>
+      )}
+
+      {r.bp_readings.length > 0 && (
+        <section aria-labelledby="bp-c" data-testid="clinic-bp">
+          <h2 id="bp-c" style={{ fontSize: 17 }}>
+            {t("bp.clinicTitle")}
+          </h2>
+          <p className="xs faint" style={{ margin: "4px 0 8px" }}>
+            {t("bp.clinicIntro", { count: r.bp_readings.length })}
+          </p>
+          <BpReadingsTable readings={r.bp_readings} locale={locale} label={t("bp.clinicTitle")} />
+          <SourceLinks sources={[SOURCES.nice_ng133]} />
         </section>
       )}
 

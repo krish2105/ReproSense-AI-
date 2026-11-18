@@ -40,6 +40,22 @@ TEMPLATES = {
         ],
         "bring_ar": ["سجل دوراتك (هذا التقرير)", "أي نتائج فحوص سابقة", "قائمة الأدوية والمكملات"],
     },
+    "OBS_RAISED_BLOOD_PRESSURE": {  # K6: the card asks her to have the reading rechecked today. AR-REVIEW
+        "to": "Maternity unit",
+        "subject": "Request: blood pressure recheck today",
+        "en": "Hello, my blood pressure reading was {bp} mmHg. Could it be rechecked today, please? Thank you.",
+        "ar": "مرحباً، كانت قراءة ضغط الدم لديّ {bp} ملم زئبقي. هل يمكن إعادة قياسه اليوم من فضلكم؟ شكراً لكم.",
+        "bring": [
+            "Your blood pressure readings with their dates and times",
+            "Your pregnancy record or discharge summary",
+            "This ReproSense summary",
+        ],
+        "bring_ar": [
+            "قراءات ضغط الدم مع تواريخها وأوقاتها",
+            "سجل الحمل أو ملخص الخروج من المستشفى",
+            "ملخص ReproSense هذا",
+        ],
+    },
 }
 GENERIC = {
     "to": "Gynaecology clinic",
@@ -73,6 +89,7 @@ def draft(hit: Hit, ev: Evaluation, clinic_name: str) -> dict:
         "age": f.get("age"),
         "ttc": f.get("ttc_months"),
         "title": hit.title.lower(),
+        "bp": f"{f.get('bp_latest_systolic')}/{f.get('bp_latest_diastolic')}",
     }
     title_ar = (cp.ar_rules().get(hit.rule_id) or {}).get("title", hit.title)
     if hit.rule_id in OWN_VOICE:

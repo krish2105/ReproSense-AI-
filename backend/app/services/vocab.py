@@ -30,5 +30,6 @@ SYMPTOMS = {
     "severe headache",
     "vision changes",
     "bleeding",
+    "sudden swelling",  # of the face, hands or feet (NICE NG133 1.1.1); read by RF7 with a blood-pressure reading
 }
 IMPACTS = ("none", "reduced activity", "missed work or study", "stayed in bed")
