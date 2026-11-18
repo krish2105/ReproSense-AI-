@@ -11,7 +11,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.ai.llm import get_llm
-from app.api import admin, assistant, auth, clinic, demo, patient, quality, reports
+from app.api import admin, assistant, auth, clinic, clinic_admin, demo, patient, quality, reports
 from app.config import get_settings
 from app.db import SYSTEM, session
 from app.security.middleware import ModelBudget, RateLimit, SecurityHeaders
@@ -71,6 +71,8 @@ for r in (
     reports.router,
     clinic.router,
     admin.router,
+    clinic_admin.router,
+    clinic_admin.invites_router,
     quality.router,
 ):
     app.include_router(r)

@@ -25,6 +25,9 @@ DEMO_CLINIC = "clinic_corniche"
 STAFF = [
     ("clin-01", "Dr. Example (fictional)", "clinician", DEMO_CLINIC),
     ("admin-01", "Clinic network admin (fictional)", "admin", DEMO_CLINIC),
+    # K4: one admin per clinic. The demo opens the first; the second shows that a clinic sees only itself.
+    ("cadmin-01", "Clinic admin, Seaside Women's Clinic (fictional)", "clinic_admin", DEMO_CLINIC),
+    ("cadmin-02", "Clinic admin, North Island Women's Clinic (fictional)", "clinic_admin", "clinic_north"),
 ]
 NOT_SHARING = {"amina"}  # shows the consent gate: Amina has not shared with a clinic
 

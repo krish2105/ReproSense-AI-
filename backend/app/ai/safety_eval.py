@@ -8,9 +8,11 @@ for the word checks and for the model check.
 
     uv run python -m app.ai.safety_eval
 
-Without a model key this measures the word checks alone, the number CI records. With LLM_PROVIDER=claude and a key
-(synthetic questions only, as the hackathon rules allow) it also runs the model's second check, and writes the result
-to app/ai/eval_results.json under "heldout_with_model", next to the word-checks number, never in its place.
+Without a model key this measures the word checks alone, the number CI records. With a model key (LLM_PROVIDER=claude
+with ANTHROPIC_API_KEY, or LLM_PROVIDER=openrouter with OPENROUTER_API_KEY; synthetic questions only, as the hackathon
+rules allow) it also runs the model's second check, and writes the result to app/ai/eval_results.json under
+"heldout_with_model", next to the word-checks number, never in its place. The model-safety-eval GitHub workflow runs
+this with the repository secret and opens a PR with the result (build week K7, docs/26_MODEL_SAFETY_SCORE.md).
 """
 
 from __future__ import annotations

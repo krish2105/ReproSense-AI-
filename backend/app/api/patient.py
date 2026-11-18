@@ -19,43 +19,12 @@ from app.security import audit
 from app.security.auth import require
 from app.security.crypto import decrypt, encrypt
 from app.services import documents as docs
-from app.services import fhir, views
+from app.services import fhir, lognote, postnatal, views
 from app.services.patient_data import ai_allowed, apply_period_log, load_bundle
+from app.services.vocab import SYMPTOMS
 
 router = APIRouter(prefix="/v1", tags=["patient"])
 patient = require("patient")
-FLOWS = ("none", "spotting", "light", "medium", "heavy")
-SYMPTOMS = {
-    "cramps",
-    "bloating",
-    "fatigue",
-    "headache",
-    "breast tenderness",
-    "low mood",
-    "back pain",
-    "cravings",
-    "acne",
-    "excess hair growth",
-    "scalp hair thinning",
-    "flooding",
-    "pain with bowel movements",
-    "pain passing urine",
-    "dizziness",
-    "fainting",
-    "fever",
-    "hot flushes",
-    "night sweats",
-    "nausea",
-    "anxiety",
-    "insomnia",
-    "sudden severe pain",
-    "severe abdominal pain",
-    "reduced baby movements",
-    "severe headache",
-    "vision changes",
-    "bleeding",
-}
-IMPACTS = ("none", "reduced activity", "missed work or study", "stayed in bed")
 SITES = {"lower abdomen", "upper abdomen", "left pelvis", "right pelvis", "lower back"}
 
 
@@ -159,7 +128,36 @@ def home(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         "today_mood": today.get("mood") if today else None,
         "record_strength": ev.features.values.get("record_strength"),
         "days_logged": views.days_logged(b),
+        "postnatal": postnatal.pathway(b, ref()),  # her first 6 weeks after a birth (DoH Postnatal Care Standard)
     }
+
+
+class PostnatalCheckIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    date: date
+
+
+@router.post("/postnatal/{step}")
+def record_postnatal_check(step: str, body: PostnatalCheckIn, actor: Actor = Depends(patient)):
+    """She records a postnatal check she had ("I had this"). Only the checks done by her care team; the mood check
+    comes from her EPDS and the glucose test from a confirmed lab result."""
+    if step not in postnatal.CHECK_STEPS:
+        raise HTTPException(422, "Only the teleconsultation and the 2-week and 6-week visits can be recorded here.")
+    with session(actor) as cur:
+        b = _bundle(cur, actor)
+        p = postnatal.pathway(b, ref())
+        if not p:
+            raise HTTPException(404, "There is no birth in the last 12 weeks in your record.")
+        if not date.fromisoformat(p["birth_date"]) <= body.date <= ref():
+            raise HTTPException(422, "The date must be between the birth and today.")
+        cur.execute(
+            "INSERT INTO events (id, profile_id, type, date, details) VALUES (%s,%s,'postnatal_check',%s,%s)"
+            " ON CONFLICT (id) DO UPDATE SET date=EXCLUDED.date, details=EXCLUDED.details",
+            (f"{actor.user_id}-pn-{step}", actor.user_id, body.date, json.dumps({"step": step, "source": "her entry"})),
+        )
+        audit.record(cur, actor, "postnatal_check", actor.user_id, f"postnatal:{step}")
+        b = _bundle(cur, actor)
+    return postnatal.pathway(b, ref())
 
 
 @router.get("/timeline")
@@ -285,79 +283,19 @@ def create_log(body: LogIn, actor: Actor = Depends(patient)):
 
 class ParseIn(BaseModel):
     text: str = Field(..., min_length=1, max_length=600)
-
-
-NL = [  # natural-language symptom capture (deterministic; shown for confirmation before saving)
-    (r"cramp", "symptoms", "cramps"),
-    (r"bloat", "symptoms", "bloating"),
-    (r"tired|exhaust|fatigue", "symptoms", "fatigue"),
-    (r"headache", "symptoms", "headache"),
-    (r"acne|spots|pimple", "symptoms", "acne"),
-    (r"hair (growth|on my (chin|face))|facial hair", "symptoms", "excess hair growth"),
-    (r"flood|soak|leak(ed)? through", "symptoms", "flooding"),
-    (r"dizz|light ?headed", "symptoms", "dizziness"),
-    (r"faint", "symptoms", "fainting"),
-    (r"poo|bowel|toilet hurt|pain when i (go|went)", "symptoms", "pain with bowel movements"),
-    (r"hot flush|hot flash", "symptoms", "hot flushes"),
-    (r"night sweat", "symptoms", "night sweats"),
-    (r"low mood|sad|down|teary", "symptoms", "low mood"),
-    (r"back (pain|ache)", "symptoms", "back pain"),
-    (r"fever|temperature", "symptoms", "fever"),
-    (r"nause|sick to my stomach", "symptoms", "nausea"),
-    (r"missed (work|school|uni|class)|called in sick|couldn'?t go to (work|school)", "impact", "missed work or study"),
-    (r"stayed in bed|couldn'?t get out of bed", "impact", "stayed in bed"),
-    (r"heavy (flow|period|bleed)|bleeding a lot", "flow", "heavy"),
-    (r"spotting", "flow", "spotting"),
-    (r"light (flow|period)", "flow", "light"),
-    (r"تقلصات|مغص", "symptoms", "cramps"),
-    (r"انتفاخ", "symptoms", "bloating"),
-    (r"تعب|إرهاق|ارهاق", "symptoms", "fatigue"),
-    (r"صداع", "symptoms", "headache"),
-    (r"حب الشباب|حبوب", "symptoms", "acne"),
-    (r"دوخة|دوار", "symptoms", "dizziness"),
-    (r"غياب عن العمل|لم أذهب إلى العمل|غبت عن", "impact", "missed work or study"),
-    (r"نزيف غزير|غزيرة", "flow", "heavy"),
-    (r"هبات ساخنة|هبّات", "symptoms", "hot flushes"),
-    (r"ظهري|الظهر", "symptoms", "back pain"),
-]
-WORD_NUM = {
-    "one": 1,
-    "two": 2,
-    "three": 3,
-    "four": 4,
-    "five": 5,
-    "six": 6,
-    "seven": 7,
-    "eight": 8,
-    "nine": 9,
-    "ten": 10,
-}
+    lang: Literal["en", "ar"] = "en"
 
 
 @router.post("/logs/parse")
 def parse_note(body: ParseIn, actor: Actor = Depends(patient)):
-    t = body.text.lower()
-    out: dict = {"symptoms": [], "flow": None, "impact": None, "pain": None, "matched": []}
-    for pat, field, value in NL:
-        if re.search(pat, t):
-            out["matched"].append(value)
-            if field == "symptoms":
-                out["symptoms"].append(value)
-            else:
-                out[field] = value
-    m = re.search(r"(\d{1,2})\s*(?:/|out of)\s*10", t) or re.search(r"pain (?:of |at |was )?(\d{1,2})\b", t)
-    if m and 0 <= int(m.group(1)) <= 10:
-        out["pain"] = int(m.group(1))
-    else:
-        m = re.search(r"\b(" + "|".join(WORD_NUM) + r") out of ten\b", t)
-        if m:
-            out["pain"] = WORD_NUM[m.group(1)]
-    if out["pain"] is None and re.search(r"so bad|unbearable|worst|agony|excruciating|شديد جدا|لا يحتمل", t):
-        out["pain"] = 8
-        out["matched"].append("pain about 8/10 (from 'so bad'): please adjust")
-    out["symptoms"] = list(dict.fromkeys(out["symptoms"]))
-    out["confirm"] = "Check these fields, change anything that's wrong, then save."
-    return out
+    """Typed or spoken words to log fields, shown for her to check; nothing is saved here (build week K2). The model
+    reads only when her AI switch is on; red flags come from the word checks, never from the model."""
+    from app.ai import llm
+
+    with session(actor) as cur:
+        allowed = ai_allowed(cur, actor.user_id)
+    model = llm.get_llm() if allowed else None
+    return lognote.parse(body.text, model if model is not None and model.name != "none" else None, body.lang)
 
 
 class MoodIn(BaseModel):

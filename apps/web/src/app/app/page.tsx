@@ -5,6 +5,7 @@ import { DayPills } from "@/components/home/DayPills";
 import { MoodRow } from "@/components/home/MoodRow";
 import { NavigatorCard } from "@/components/home/NavigatorCard";
 import { PatternSummary } from "@/components/home/PatternSummary";
+import { PostnatalCard } from "@/components/home/PostnatalCard";
 import { Recommendations } from "@/components/home/Recommendations";
 import { StageSwitch } from "@/components/home/StageSwitch";
 import { isTabReady } from "@/components/chrome/tabs";
@@ -88,6 +89,8 @@ export default async function Home() {
             </ButtonLink>
           </Box>
         )}
+
+        {h.postnatal && !h.crisis && <PostnatalCard p={h.postnatal} refDate={h.ref_date} />}
 
         {soon && <NavigatorCard key={`${h.profile.id}-${soon.observation_id}`} card={soon} dueDate={gap?.due_date} latest={latestDraft} />}
 

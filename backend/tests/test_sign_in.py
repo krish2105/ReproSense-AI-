@@ -237,6 +237,8 @@ def test_demo_personas_stay_one_tap_and_cannot_add_sign_in_methods(client):
     assert client.post("/v1/auth/email/link/start", headers=h, json={"email": EMAIL}).status_code == 403
     staff = login(client, role="clinician")
     assert client.post("/v1/auth/passkey/register/options", headers=staff).status_code == 403
+    cadmin = login(client, role="clinic_admin")
+    assert client.post("/v1/auth/passkey/register/options", headers=cadmin).status_code == 403
 
 
 def test_export_and_delete_work_after_signing_in(client):
@@ -425,6 +427,9 @@ def test_row_level_security_keeps_passkeys_to_their_owner(client):
         assert cur.fetchone()["n"] == 0  # staff never see how she signs in
         cur.execute("SELECT count(*) AS n FROM email_codes")
         assert cur.fetchone()["n"] == 0
+    with session(Actor("clinic_admin", "cadmin-01", "clinic_corniche")) as cur:
+        cur.execute("SELECT count(*) AS n FROM passkeys")
+        assert cur.fetchone()["n"] == 0  # nor the clinic admin (K4)
 
 
 def test_a_configured_key_turns_the_email_option_on_and_a_provider_error_logs_no_address(client, monkeypatch, caplog):

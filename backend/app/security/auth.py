@@ -13,6 +13,7 @@ from app.db import Actor
 
 COOKIE = "rs_token"
 ALG = "HS256"
+ROLES = ("patient", "clinician", "admin", "clinic_admin")
 
 
 def create_token(user_id: str, role: str, clinic_id: str = "") -> str:
@@ -35,7 +36,7 @@ def decode(token: str) -> Actor:
         c = jwt.decode(token, get_settings().demo_token_secret, algorithms=[ALG], audience="reprosense-demo")
     except jwt.PyJWTError as e:
         raise HTTPException(401, "Your demo session has expired. Open /demo to pick a person again.") from e
-    if c.get("role") not in ("patient", "clinician", "admin"):
+    if c.get("role") not in ROLES:
         raise HTTPException(401, "Unknown role")
     return Actor(c["role"], c["sub"], c.get("clinic_id", ""))
 
