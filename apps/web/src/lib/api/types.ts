@@ -249,6 +249,35 @@ export interface Postnatal {
   total: number;
 }
 
+/** One blood-pressure reading (build week K6; POST /v1/bp). time is "HH:MM" or null. */
+export interface BpReading {
+  id: string;
+  date: string;
+  time: string | null;
+  systolic: number;
+  diastolic: number;
+  source: string;
+}
+export interface BpBody {
+  date: string;
+  time?: string | null;
+  systolic: number;
+  diastolic: number;
+}
+export interface BpResult {
+  id: string;
+  reading: BpReading;
+  red_flags: Card[];
+  crisis: boolean;
+  patterns: string[];
+}
+/** GET /v1/me/home .blood_pressure: she can log while pregnant and for 12 weeks after a birth. */
+export interface BpSummary {
+  eligible: boolean;
+  latest: BpReading | null;
+  recent: BpReading[]; // newest first
+}
+
 export interface HomeResponse {
   profile: {
     id: string;
@@ -276,6 +305,7 @@ export interface HomeResponse {
   record_strength: "strong" | "building" | "early";
   days_logged: number; // distinct dates with a daily log (same number on home, Patterns, clinician)
   postnatal: Postnatal | null;
+  blood_pressure: BpSummary;
 }
 
 /** POST /v1/logs */
@@ -377,6 +407,8 @@ export interface TimelineResponse {
   days: TimelineDay[];
   events: TimelineEvent[];
   labs: LabResult[];
+  bp_readings: BpReading[]; // oldest first, within the range
+  bp_eligible: boolean;
 }
 
 // ---------------- Phase 3: patterns and the assistant ----------------
@@ -503,6 +535,7 @@ export interface ClinicRecord {
   timeline: TimelineResponse;
   her_questions: string[];
   postnatal: Postnatal | null;
+  bp_readings: BpReading[]; // newest first
   days_logged: number;
   visit_note_draft: string;
 }

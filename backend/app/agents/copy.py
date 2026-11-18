@@ -56,6 +56,10 @@ RF_TITLES = {  # short urgent titles; the full message comes from the rules file
         "These signs after birth need urgent care",
         "هذه العلامات بعد الولادة تحتاج رعاية عاجلة",
     ),
+    "RF7_HIGH_BLOOD_PRESSURE": (  # K6 (NICE NG133). AR-REVIEW
+        "This blood pressure reading needs urgent care",
+        "قراءة ضغط الدم هذه تحتاج رعاية عاجلة",
+    ),
 }
 
 
@@ -99,6 +103,7 @@ def detail(rule_id: str, v: dict, f: dict, lang: str = "en", entry_date: str | N
         "CARE_PREGNANCY_GLUCOSE_SCREEN": f"You are {f.get('pregnancy_weeks')} weeks pregnant and no glucose test in this pregnancy is recorded yet.",
         "OBS_POSTPARTUM_MOOD": f"Your latest mood check (EPDS) total was {f.get('epds_latest_total')}, {f.get('weeks_since_delivery')} weeks after birth.",
         "OBS_PERIMENOPAUSE_SYMPTOMS": f"You logged hot flushes or night sweats on {f.get('vasomotor_days_90')} days in the last 90 days.",
+        "OBS_RAISED_BLOOD_PRESSURE": f"Your latest reading was {f.get('bp_latest_systolic')}/{f.get('bp_latest_diastolic')} mmHg.",
     }
     ar = {
         "OBS_IRREGULAR_CYCLES": f"{f.get('irregular_cycle_count_6')} من آخر {len(lens)} دورات كانت أقصر من 21 يوماً أو أطول من 35 يوماً (تراوحت بين {rng} يوماً).",
@@ -113,6 +118,7 @@ def detail(rule_id: str, v: dict, f: dict, lang: str = "en", entry_date: str | N
         "CARE_PREGNANCY_GLUCOSE_SCREEN": f"أنتِ في الأسبوع {f.get('pregnancy_weeks')} من الحمل ولا يوجد فحص سكر مسجّل في هذا الحمل بعد.",
         "OBS_POSTPARTUM_MOOD": f"كان مجموع آخر فحص للمزاج (EPDS) {f.get('epds_latest_total')}، بعد {_ar_n(f.get('weeks_since_delivery'), *WEEKS_AR)} من الولادة.",
         "OBS_PERIMENOPAUSE_SYMPTOMS": f"سجّلتِ الهبّات الساخنة أو التعرق الليلي في {f.get('vasomotor_days_90')} من آخر 90 يوماً.",
+        "OBS_RAISED_BLOOD_PRESSURE": f"كانت آخر قراءة لضغط الدم {f.get('bp_latest_systolic')}/{f.get('bp_latest_diastolic')} ملم زئبقي.",
     }
     if rule_id.startswith("RF"):
         when = _fmt_day(entry_date, lang) if entry_date else ""
@@ -175,6 +181,13 @@ QUESTIONS = {  # consultation prep: ranked questions tied to the pattern (EN, AR
         ],
         ["ما خيارات العلاج التي قد تساعد في الهبّات الساخنة والنوم؟", "ما فوائد ومخاطر كل خيار؟"],
     ),
+    "OBS_RAISED_BLOOD_PRESSURE": (
+        [
+            "Can my blood pressure be rechecked today?",
+            "How often should I check it, and which numbers mean I call you?",
+        ],
+        ["هل يمكن إعادة قياس ضغط الدم لي اليوم؟", "كم مرة يجب أن أقيسه، وما الأرقام التي تعني أن أتصل بكم؟"],
+    ),
 }
 
 
@@ -215,6 +228,7 @@ AR_SYMPTOM = {
     "reduced baby movements": "قلة حركة الجنين",
     "severe headache": "صداع شديد",
     "vision changes": "تغيّر في الرؤية",
+    "sudden swelling": "تورّم مفاجئ في الوجه أو اليدين أو القدمين",
     "bleeding": "نزيف",
     "heartburn": "حرقة المعدة",
     "clots larger than a coin": "جلطات أكبر من قطعة نقدية",
@@ -242,9 +256,13 @@ def _ar(value: str, table: dict, fallback: str) -> str:
 
 
 def entry_text(e: dict, lang: str = "en") -> str:
-    """Short description of a log or event used in 'Why we noticed' chips."""
+    """Short description of a log, event or blood-pressure reading used in 'Why we noticed' chips."""
     day = _fmt_day(str(e["date"]), lang)
     ar = lang == "ar"
+    if "systolic" in e:  # a blood-pressure reading (K6); Western digits, as everywhere else in the app
+        at = f" {e['time']}" if e.get("time") else ""
+        bp = f"{e['systolic']}/{e['diastolic']}"
+        return f"{day}{at} · ضغط الدم {bp} ملم زئبقي" if ar else f"{day}{at} · blood pressure {bp} mmHg"
     if "type" in e:  # event
         t = e["type"].replace("_", " ")
         d = e.get("details") or {}
@@ -279,6 +297,10 @@ CLINICIAN = {
     "RF4_SELF_HARM_THOUGHTS": ("Red flag: self-harm thoughts reported (EPDS item 10)", []),
     "RF5_PREGNANCY_WARNING_SIGNS": ("Red flag: pregnancy warning signs", []),
     "RF6_POSTPARTUM_WARNING_SIGNS": ("Red flag: after-birth warning signs", []),
+    "RF7_HIGH_BLOOD_PRESSURE": (
+        "Red flag: BP 160/110 or higher, or 140/90 or higher with headache, visual change or swelling (NICE NG133)",
+        [],
+    ),
     "OBS_IRREGULAR_CYCLES": (
         "Irregular cycle lengths",
         ["Review the cycle history; causes include stress, thyroid changes, weight change and PCOS."],
@@ -321,6 +343,12 @@ CLINICIAN = {
         "Symptoms that often come with perimenopause",
         ["Consider discussing symptoms and treatment options; her symptom calendar is in the record."],
     ),
+    "OBS_RAISED_BLOOD_PRESSURE": (
+        "Latest BP 140/90 or higher, no warning symptoms logged on the same day",
+        [
+            "Recheck her blood pressure today (NICE NG201 1.2.26: a first raised reading after 20 weeks within 24 hours)."
+        ],
+    ),
 }
 
 
@@ -349,4 +377,6 @@ def clinician_detail(rule_id: str, f: dict) -> str:
         "CARE_PREGNANCY_GLUCOSE_SCREEN": f"{f.get('pregnancy_weeks')} weeks pregnant; no glucose test in this pregnancy recorded.",
         "OBS_POSTPARTUM_MOOD": f"Latest EPDS total {f.get('epds_latest_total')}, {f.get('weeks_since_delivery')} weeks after birth.",
         "OBS_PERIMENOPAUSE_SYMPTOMS": f"Hot flushes or night sweats logged on {f.get('vasomotor_days_90')} of the last 90 days.",
+        "OBS_RAISED_BLOOD_PRESSURE": f"Latest home reading {f.get('bp_latest_systolic')}/{f.get('bp_latest_diastolic')} mmHg, "
+        + ("today." if f.get("bp_latest_days_ago") == 0 else f"{f.get('bp_latest_days_ago')} days ago."),
     }.get(rule_id, "")

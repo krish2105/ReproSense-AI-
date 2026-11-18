@@ -42,6 +42,7 @@ export const MORE_SYMPTOMS = [
   "reduced baby movements",
   "severe headache",
   "vision changes",
+  "sudden swelling",
   "bleeding",
 ] as const;
 export const ALL_SYMPTOMS: readonly string[] = [...COMMON_SYMPTOMS, ...MORE_SYMPTOMS];
