@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { BriefSection } from "@/components/brief/BriefSection";
 import { BarsChart, CycleLengthChart } from "@/components/charts/AnalyticsCharts";
 import { TraceButton } from "@/components/insights/CardActions";
 import { SourceLinks } from "@/components/safety/SourceLinks";
@@ -81,6 +82,8 @@ export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Loc
           <span dir="auto">{r.sbar.recommendation.join(" ")}</span>
         </div>
       </section>
+
+      {r.previsit_brief && <BriefSection brief={r.previsit_brief} locale={locale} audience="clinician" />}
 
       {r.care_gaps.length > 0 && <CareGaps gaps={r.care_gaps} />}
 

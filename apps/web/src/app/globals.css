@@ -622,3 +622,8 @@ a:has(> .link-pending.is-on){opacity:.65;cursor:progress}
 .stage img{border-radius:50%}
 ol.trace > li{padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0;background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);box-shadow:var(--shadow-s)}
 }
+
+/* Pre-visit brief (K3): one line per fact, the entries behind it underneath */
+.brief-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.brief-list > li{display:flex;flex-direction:column;gap:6px;min-width:0}
+.brief-list > li:not(.obs) + li:not(.obs){border-top:1px solid var(--rule);padding-top:12px}

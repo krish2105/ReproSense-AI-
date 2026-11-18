@@ -1307,5 +1307,46 @@
         "glucose_test": "OGTT 4–12 weeks after birth (after GDM)"
       }
     }
+  },
+  "brief": {
+    "title": "Before your visit",
+    "clinicTitle": "Since the last visit",
+    "since": {
+      "shared_report": "What changed since {date}, when you last shared your report.",
+      "clinician_review": "What changed since {date}, when your clinic last reviewed your record.",
+      "default_90_days": "What changed in the last 90 days, since {date}. No visit is recorded yet."
+    },
+    "clinicSince": {
+      "shared_report": "Since {date}, when she last shared a report.",
+      "clinician_review": "Since {date}, the clinic's last review.",
+      "default_90_days": "The last 90 days, since {date}. No visit recorded yet."
+    },
+    "groups": {
+      "urgent": "Urgent",
+      "patterns": "Patterns in the entries",
+      "cycle": "Cycles and pain",
+      "labs": "Lab results since then",
+      "care": "Care steps",
+      "questions": "Your questions for the doctor",
+      "clinicQuestions": "Her questions"
+    },
+    "status": {
+      "urgent": "Urgent",
+      "new": "New",
+      "ongoing": "Still there",
+      "resolved": "No longer seen",
+      "done": "Done",
+      "booked": "Booked",
+      "due": "Due",
+      "H": "Above range",
+      "L": "Below range"
+    },
+    "entries": "Entries behind this line",
+    "more": "and {n} more",
+    "empty": "Nothing new logged since {date}.",
+    "template": "Written from your entries by fixed rules. Not a diagnosis.",
+    "clinicTemplate": "Built from her entries by fixed rules. Not a diagnosis.",
+    "model": "Reworded by AI, then checked against your entries: {n, plural, =0 {nothing removed} one {# unsupported sentence removed} other {# unsupported sentences removed}}. Not a diagnosis.",
+    "clinicModel": "Reworded by AI, then checked against her entries: {n, plural, =0 {nothing removed} one {# unsupported sentence removed} other {# unsupported sentences removed}}. Not a diagnosis."
   }
 }
