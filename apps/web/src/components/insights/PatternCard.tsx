@@ -6,6 +6,8 @@ import type { Card, TraceStep } from "@/lib/api/types";
 import type { Locale } from "@/i18n/config";
 import { formatDayMonth } from "@/lib/format";
 import { DraftButton, TraceButton } from "./CardActions";
+import { ReadAloud } from "@/components/ui/ReadAloud";
+import { cardText } from "@/lib/readAloud";
 
 const STRENGTH: Record<string, number> = { early: 1, building: 2, strong: 4 };
 
@@ -74,7 +76,10 @@ export async function PatternCard({
           </span>
           {t("insights.strengthDetail", { cycles, days })}
         </span>
-        <TraceButton card={card} trace={trace} version={version} />
+        <span style={{ display: "inline-flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+          <ReadAloud text={cardText(card, t("home.sources"))} what={card.title} />
+          <TraceButton card={card} trace={trace} version={version} />
+        </span>
       </div>
       {card.what_to_consider.length > 0 && (
         <details>
