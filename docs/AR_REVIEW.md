@@ -746,3 +746,14 @@ right ("165/100"). The knowledge-base summary `knowledge_base/summaries/nice_ng1
 | "Why we noticed" chip for a reading (`copy.py` entry_text) | 22 Nov 08:15 · blood pressure 165/100 mmHg | 22 نوفمبر 08:15 · ضغط الدم 165/100 ملم زئبقي | |
 | Care navigator draft (`navigator.py`) | Hello, my blood pressure reading was {bp} mmHg. Could it be rechecked today, please? Thank you. | مرحباً، كانت قراءة ضغط الدم لديّ {bp} ملم زئبقي. هل يمكن إعادة قياسه اليوم من فضلكم؟ شكراً لكم. | |
 | Navigator: what to bring | Your blood pressure readings with their dates and times / Your pregnancy record or discharge summary / This ReproSense summary | قراءات ضغط الدم مع تواريخها وأوقاتها / سجل الحمل أو ملخص الخروج من المستشفى / ملخص ReproSense هذا | |
+
+## Read aloud (build week A5, 18 Nov, draft Arabic, not yet reviewed)
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `chrome.read.play` | Read aloud | قراءة بصوت عالٍ | |
+| `chrome.read.pause` | Pause | إيقاف مؤقت | |
+| `chrome.read.resume` | Resume | متابعة | |
+| `chrome.read.stop` | Stop | إيقاف | |
+| `chrome.read.group` | Read aloud: {what} | قراءة بصوت عالٍ: {what} | |
+| `chrome.read.playing` | Reading aloud | تجري القراءة | |
+| `chrome.read.paused` | Paused | متوقفة مؤقتًا | |
