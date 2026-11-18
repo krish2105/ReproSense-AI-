@@ -41,7 +41,11 @@ services:
         value: "true"
       - key: SEED_IF_EMPTY # loads the synthetic demo data on the first boot only
         value: "true"
-      - key: LLM_PROVIDER # "none" keeps answers extractive and repeatable; "auto" uses ANTHROPIC_API_KEY if set
-        value: none
+      - key: LLM_PROVIDER # "auto": Claude if ANTHROPIC_API_KEY is set, else OpenRouter if OPENROUTER_API_KEY is set, else none
+        value: auto
       - key: ANTHROPIC_API_KEY
         sync: false
+      - key: OPENROUTER_API_KEY # the hackathon credits (programs.upstartbar.com); Krishna sets it in the dashboard
+        sync: false
+      - key: OPENROUTER_MODEL # one of the models the credits allow
+        value: anthropic/claude-sonnet-4.5

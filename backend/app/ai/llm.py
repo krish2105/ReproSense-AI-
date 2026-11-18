@@ -129,6 +129,59 @@ class ClaudeProvider:
         return value
 
 
+class OpenRouterProvider:
+    """A model through OpenRouter (the hackathon's AI credits), in the OpenAI chat-completions format. Same contract as
+    ClaudeProvider: any error, refusal, cut-off or non-JSON reply returns None, so the caller's template answers. The
+    key travels only in the Authorization header; synthetic, redacted text only."""
+
+    name = "openrouter"
+    URL = "https://openrouter.ai/api/v1/chat/completions"
+
+    def __init__(self, api_key: str, model: str, client=None):
+        import httpx
+
+        s = get_settings()
+        self.model = model
+        self._httpx = httpx
+        self.client = client or httpx.Client(timeout=s.llm_timeout_s)
+        self._headers = {
+            "Authorization": f"Bearer {api_key}",
+            "HTTP-Referer": "https://reprosense.vercel.app",
+            "X-Title": "ReproSense (HealthX Ajyal, synthetic data)",
+        }
+
+    def complete_json(self, system: str, user: str, max_tokens: int = 2000) -> dict | None:
+        cached = cache_get(system, user)
+        if cached is not None:
+            return cached
+        body = {
+            "model": self.model,
+            "max_tokens": max_tokens,
+            "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
+        }
+        try:
+            resp = self.client.post(self.URL, json=body, headers=self._headers)
+        except self._httpx.HTTPError as e:
+            log.warning("OpenRouter unreachable (%s); using template", type(e).__name__)
+            return None
+        if resp.status_code != 200:
+            log.warning("OpenRouter error %s; using template", resp.status_code)
+            return None
+        try:
+            choice = resp.json()["choices"][0]
+            text = choice["message"]["content"] or ""
+        except (ValueError, KeyError, IndexError, TypeError):
+            log.warning("OpenRouter reply had no message; using template")
+            return None
+        if choice.get("finish_reason") == "length":
+            log.warning("OpenRouter reply cut at max_tokens=%s; using template", max_tokens)
+            return None
+        value = _parse_json(text)
+        if value is not None:
+            cache_put(system, user, value)
+        return value
+
+
 class Budgeted:
     """Runs a provider's call inside the request's model budget. Past the budget it returns None, so the caller uses
     its deterministic template and Home never waits past the web's limit with a red-flag card hidden behind it."""
@@ -159,7 +212,9 @@ def get_llm() -> LLM:
     s = get_settings()
     use = s.llm_provider
     if use == "auto":
-        use = "claude" if s.anthropic_api_key else "none"
+        use = "claude" if s.anthropic_api_key else "openrouter" if s.openrouter_api_key else "none"
     if use == "claude" and s.anthropic_api_key:
         return Budgeted(ClaudeProvider(s.anthropic_api_key, s.llm_model))
+    if use == "openrouter" and s.openrouter_api_key:
+        return Budgeted(OpenRouterProvider(s.openrouter_api_key, s.openrouter_model))
     return NoLLM()
