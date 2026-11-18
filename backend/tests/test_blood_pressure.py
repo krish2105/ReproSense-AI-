@@ -9,7 +9,8 @@ Thresholds come from NICE NG133 Hypertension in pregnancy (2019), checked 18 Nov
 NICE NG201 1.2.26 and 1.2.27 (antenatal care) set the timing: a first reading of 140/90 or higher after 20 weeks is
 seen within 24 hours, 160/110 or higher the same day.
 
-RF7 is evaluated with the other red flags, first. It applies in pregnancy and up to 6 weeks after birth.
+RF7 is evaluated with the other red flags, first. It applies in pregnancy and for the 12 weeks after birth, the same
+window in which she can log a reading (Q62, Krishna, 18 Nov: extended from 6 weeks).
 """
 
 import copy
@@ -150,19 +151,24 @@ def test_a_reading_older_than_the_red_flag_window_does_not_fire():
     assert RF7 not in _hits(_with("hessa", (170, 112, old)))
 
 
-# ---------- only in pregnancy or up to 6 weeks after birth ----------
+# ---------- only in pregnancy or the 12 weeks after birth ----------
 def test_not_for_someone_who_is_not_pregnant_or_after_birth():
     hits = _hits(_with("noura", (170, 112), symptoms=["severe headache"]))
     assert RF7 not in hits and OBS not in hits
 
 
-def test_not_at_9_weeks_after_birth():
-    assert RF7 not in _hits(_with("fatima", (170, 112)))  # Fatima gave birth on 20 Sep, 9 weeks before the demo date
+def test_a_severe_reading_at_9_weeks_after_birth_gets_the_urgent_card():
+    assert RF7 in _hits(_with("fatima", (170, 112)))  # Fatima gave birth on 20 Sep, 9 weeks before the demo date
 
 
-@pytest.mark.parametrize("days, fires", [(20, True), (42, True), (48, True), (49, False)])
-def test_after_birth_up_to_the_end_of_week_6(days, fires):
+@pytest.mark.parametrize("days, fires", [(20, True), (49, True), (83, True), (84, False)])
+def test_after_birth_for_as_long_as_she_can_log_a_reading(days, fires):
     assert (RF7 in _hits(_with("fatima", (165, 100), delivered_days_ago=days))) is fires
+
+
+@pytest.mark.parametrize("days, fires", [(49, True), (83, True), (84, False)])
+def test_the_recheck_card_follows_the_same_12_weeks(days, fires):
+    assert (OBS in _hits(_with("fatima", (145, 92), delivered_days_ago=days))) is fires
 
 
 def test_no_persona_triggers_the_blood_pressure_rules_by_default():
