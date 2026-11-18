@@ -96,7 +96,7 @@ export function SpiralSection({ cycles }: { cycles: SpiralCycle[] }) {
           </TableScroll>
         ) : show3d && visible ? (
           <>
-            <YearSpiral3D cycles={cycles} animate={!reduced} />
+            <YearSpiral3D beads={beadsOf(cycles)} loops={cycles.length} animate={!reduced} />
             <span className="hint" aria-hidden="true">
               {t("spiralHint")}
             </span>

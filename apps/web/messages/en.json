@@ -614,6 +614,9 @@
     "yearTitle": "Your year, day by day",
     "yearCaption": "Each dot is a logged day. Filled: bleeding. Ring: pain 7 or more. Diamond: an event.",
     "yearSummary": "{logged} days logged in the last {months} months, {bleed} with bleeding.",
+    "year3dTitle": "Your year in 3D",
+    "year3dHint": "One loop per cycle, one bead per day you logged. Rings mark pain 7 or more; diamonds mark events. Drag to turn, tap a bead to open that day.",
+    "year3dLabel": "3D view of {days} logged days over {loops} cycles, {rings} with pain 7 or more. The year chart below shows the same days.",
     "events": {
       "pregnancy_confirmed": "Pregnancy confirmed",
       "antenatal_visit": "Antenatal visit",
