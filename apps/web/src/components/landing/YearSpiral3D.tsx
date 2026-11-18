@@ -87,6 +87,8 @@ function Instances<T extends SpiralPoint>({
 function Fit() {
   const { camera, size, invalidate } = useThree();
   useEffect(() => {
+    // three.js cameras are mutable objects: react-three-fiber expects zoom to be set in an effect, then the matrix updated.
+    // eslint-disable-next-line react-hooks/immutability
     camera.zoom = Math.min(1, size.width / size.height / 1.15);
     camera.updateProjectionMatrix();
     invalidate();
