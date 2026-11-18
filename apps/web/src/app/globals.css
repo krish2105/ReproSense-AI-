@@ -488,6 +488,11 @@ a.dp.now{color:var(--plum-ink)}
 .bm-glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(211,95,168,.7),rgba(211,95,168,0));z-index:1;pointer-events:none}
 .bm-pt{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;border:3px solid rgba(255,255,255,.9);background:rgba(75,54,83,.25);cursor:pointer;z-index:2}
 .bm-pt[aria-pressed="true"]{border-color:var(--plum);background:var(--accent)}
+.bm-list{justify-content:center}
+.bm-list button{display:inline-flex;align-items:center;gap:6px;color:var(--ink);min-height:32px}
+.bm-list button[aria-pressed="true"]{background:var(--plum);color:var(--plum-ink);border-color:var(--plum)}
+.bm-list button[aria-pressed="true"] .faint{color:inherit;opacity:.8}
+.bm-list i{width:10px;height:10px;border-radius:50%;flex:none;box-shadow:0 0 0 1px var(--rule-2)}
 @media (max-width:360px){.bodymap{min-width:0}.bm-pt{width:26px;height:26px;margin:-13px 0 0 -13px}}
 
 /* Calendar: days are links. deviation: period days use dark text on magenta (white on #D35FA8 is 3.5:1, below AA). */
@@ -633,6 +638,22 @@ ol.trace > li{padding:20px;display:flex;flex-direction:column;gap:10px;min-width
 .brief-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
 .brief-list > li{display:flex;flex-direction:column;gap:6px;min-width:0}
 .brief-list > li:not(.obs) + li:not(.obs){border-top:1px solid var(--rule);padding-top:12px}
+.bodymap[data-3d="loading"] img{pointer-events:none}
+/* Judge tour (A2): a small card, never a page overlay, so every real button stays usable. Above the floating tab bar
+   on phones; inline-end corner on wide screens (right in English, left in Arabic). */
+.tour{position:fixed;z-index:40;inset-inline:12px;bottom:calc(96px + env(safe-area-inset-bottom,0px));padding:16px 18px;display:flex;flex-direction:column;gap:8px;background:var(--sheet);box-shadow:var(--shadow)}
+.tour h2{font-size:17px;outline:none}
+.tour-x{border:0;background:none;color:var(--ink-2);font-size:22px;line-height:1;width:32px;height:32px;border-radius:50%;cursor:pointer}
+.tour-x:hover{background:var(--tint)}
+.tour-acts{display:flex;justify-content:space-between;gap:8px}
+.tour-dots{display:flex;gap:5px}
+.tour-dots i{width:6px;height:6px;border-radius:50%;background:var(--rule-2)}
+.tour-dots i.on{background:var(--accent);width:16px;border-radius:3px}
+@media (min-width:768px){.tour{inset-inline:auto 24px;bottom:24px;width:360px}}
+html.touring body{padding-bottom:min(60vh,520px)}
+.tour-on{outline:3px solid var(--accent);outline-offset:3px;border-radius:var(--r2,16px);scroll-margin:120px}
+@media (prefers-reduced-motion:no-preference){.tour-on{animation:tour-pulse 1.6s ease-in-out 3}}
+@keyframes tour-pulse{50%{outline-offset:7px}}
 /* Clinic admin (A3) */
 .ca-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;align-items:start}
 .ca-grid > section{display:flex;flex-direction:column}

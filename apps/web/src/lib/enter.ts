@@ -7,5 +7,5 @@ export function enterAs(path: string): void {
 
 /** Areas behind a demo sign-in. Links into them from public pages must not prefetch (see enterAs). */
 export function isSignedInArea(href: string): boolean {
-  return /^\/(app|clinic|admin)(\/|$|\?)/.test(href);
+  return /^\/(app|clinic|admin|clinic-admin)(\/|$|\?)/.test(href);
 }

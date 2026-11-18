@@ -61,9 +61,12 @@ test("a pending invite can be withdrawn, and its link then says so", async ({ pa
 
 test("the clinic admin area is its own role", async ({ page }) => {
   await signIn(page, { persona: "noura" });
+  // Opening the staff area switches the demo session to the clinic admin in one tap (header fix, 18 Nov); her app is
+  // then closed to this session, so the two roles never share one.
   await page.goto("/clinic-admin");
-  await expect(page).toHaveURL(/\/demo\?need=clinic_admin$/);
-  await expect(page.getByText(en.demo.need.clinic_admin)).toBeVisible();
+  await expect(page).toHaveURL(/\/clinic-admin$/);
+  await page.goto("/app");
+  await expect(page).toHaveURL(/\/demo\?need=patient$/);
   await page.goto("/clinic-invite/not-a-real-token-at-all-000000");
   await expect(page.getByRole("heading", { level: 1, name: en.clinicInvite.gone.unknown })).toBeVisible();
 });
