@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import csv
 import json
+import time
 from datetime import date
 from pathlib import Path
 
@@ -192,18 +193,18 @@ def load_cohort(cur) -> int:
     return n
 
 
-def seed(url: str | None = None, with_kb: bool = True) -> dict:
-    if url:
-        from app.db import reset_pool
+# A request that writes the audit log takes the chain's advisory lock and then table locks; the reset holds table locks
+# and may then need that lock, so Postgres can cancel the reset with a deadlock (CI e2e, 19 Nov). The reset is one
+# transaction, so it rolls back cleanly and is tried again.
+RESET_ATTEMPTS = 3
+RETRY_PAUSE_S = 0.3
 
-        reset_pool(url)
-    # One transaction for the schema, the data and the assistant's index (step 4e, 7 Nov): a request during a reset
-    # waits on the locks, then sees the full demo, never 0 people or an empty index. The cards are written after the
-    # commit, because building them reads the index through other connections, which would wait on these locks.
+
+def _load_demo(sql: str, with_kb: bool) -> tuple[list[str], int]:
+    """Schema, data and the assistant's index in one transaction; returns the persona ids and the cohort size."""
     from app.db import pool
     from app.rag.ingest import ingest
 
-    sql = schema_sql()
     with pool().connection() as conn, conn.transaction(), conn.cursor() as cur:
         cur.execute(sql)
         cur.execute("SET LOCAL ROLE reprosense_app")
@@ -222,6 +223,26 @@ def seed(url: str | None = None, with_kb: bool = True) -> dict:
         n = load_cohort(cur)
         if with_kb:
             ingest(cur)
+    return ids, n
+
+
+def seed(url: str | None = None, with_kb: bool = True) -> dict:
+    if url:
+        from app.db import reset_pool
+
+        reset_pool(url)
+    # One transaction for the schema, the data and the assistant's index (step 4e, 7 Nov): a request during a reset
+    # waits on the locks, then sees the full demo, never 0 people or an empty index. The cards are written after the
+    # commit, because building them reads the index through other connections, which would wait on these locks.
+    sql = schema_sql()
+    for attempt in range(1, RESET_ATTEMPTS + 1):
+        try:
+            ids, n = _load_demo(sql, with_kb)
+            break
+        except psycopg.errors.DeadlockDetected:
+            if attempt == RESET_ATTEMPTS:
+                raise
+            time.sleep(RETRY_PAUSE_S * attempt)
     from app.agents.pipeline import refresh_all
 
     refresh_all(ids)
