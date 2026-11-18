@@ -17,6 +17,24 @@ Blockers / questions:
 
 ---
 
+## 2026-11-18 — Build week K4: clinic onboarding API — Krishna with Claude Code
+Done:
+- New role `clinic_admin` (one clinic). Demo login in one tap (`cadmin-01`, Seaside Women's Clinic, fictional); a second
+  admin (`cadmin-02`, North Island) is seeded to show that a clinic sees only itself. Staff logins now open the seeded
+  person by id, never someone who joined later.
+- Single-use clinician invites (`clinic_invites`, only the token's sha256 stored): create, list (pending, accepted,
+  expired, revoked), withdraw; accept with a display name makes a fictional clinician bound to that clinic; used,
+  withdrawn or expired links answer 410.
+- The clinic's team, its dashboard (follow-ups open, booked, done; PC008 glucose part; shared records) and a CSV export
+  of follow-up counts with no names or ids; counts under 10 blank, with complementary suppression.
+- Row-level security: invites and staff rows per clinic; the cohort per clinic for clinicians and clinic admins; figures
+  from two SECURITY DEFINER count functions gated on the role and clinic. Every action is in the audit chain.
+- Tests first: `backend/tests/test_clinic_onboarding.py` (17).
+Tests: backend 393 passed
+Next:
+- A3 (Atharva): the clinic-admin screens and the `/clinic-invite/<token>` join page, from the shapes in the PR.
+- After deploy: press the demo reset once so the live database gets the new table and role.
+
 ## 2026-11-07 (night) — A4e: irregular-cycles next steps (#43 e, waits for Krishna's G2 OK) — Atharva with Claude Code
 Done:
 - `OBS_IRREGULAR_CYCLES` now leads with "Consider discussing your irregular cycles with a gynaecologist or family doctor." The
