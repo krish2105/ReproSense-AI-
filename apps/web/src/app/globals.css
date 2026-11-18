@@ -488,6 +488,11 @@ a.dp.now{color:var(--plum-ink)}
 .bm-glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(211,95,168,.7),rgba(211,95,168,0));z-index:1;pointer-events:none}
 .bm-pt{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;border:3px solid rgba(255,255,255,.9);background:rgba(75,54,83,.25);cursor:pointer;z-index:2}
 .bm-pt[aria-pressed="true"]{border-color:var(--plum);background:var(--accent)}
+.bm-list{justify-content:center}
+.bm-list button{display:inline-flex;align-items:center;gap:6px;color:var(--ink);min-height:32px}
+.bm-list button[aria-pressed="true"]{background:var(--plum);color:var(--plum-ink);border-color:var(--plum)}
+.bm-list button[aria-pressed="true"] .faint{color:inherit;opacity:.8}
+.bm-list i{width:10px;height:10px;border-radius:50%;flex:none;box-shadow:0 0 0 1px var(--rule-2)}
 @media (max-width:360px){.bodymap{min-width:0}.bm-pt{width:26px;height:26px;margin:-13px 0 0 -13px}}
 
 /* Calendar: days are links. deviation: period days use dark text on magenta (white on #D35FA8 is 3.5:1, below AA). */
@@ -633,3 +638,4 @@ ol.trace > li{padding:20px;display:flex;flex-direction:column;gap:10px;min-width
 .brief-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
 .brief-list > li{display:flex;flex-direction:column;gap:6px;min-width:0}
 .brief-list > li:not(.obs) + li:not(.obs){border-top:1px solid var(--rule);padding-top:12px}
+.bodymap[data-3d="loading"] img{pointer-events:none}

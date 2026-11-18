@@ -756,3 +756,9 @@ Shown on Lab reports when no AI model is configured, or she switched AI off. Fem
 | `documents.photoOffAi` | Reading a photo uses AI, which is off in your Privacy settings. Upload the PDF or text version, or turn AI on in | قراءة الصورة تستخدم الذكاء الاصطناعي، وهو متوقف في إعدادات الخصوصية. ارفعي نسخة PDF أو النص، أو فعّلي الذكاء الاصطناعي من | |
 | `documents.photoPrivacyLink` | Privacy | الخصوصية | |
 | `documents.introNoPhoto` | Upload a lab report as a PDF or text file. We read the values; you check each one against your paper copy, then confirm. Nothing is saved until you confirm. | ارفعي تقرير المختبر بصيغة PDF أو ملف نصي. نقرأ القيم، وتتحققين من كل قيمة مقابل النسخة الورقية ثم تؤكدين. لا يُحفظ شيء قبل تأكيدكِ. | |
+## 3D body pain map (build week A1, 18 Nov, draft Arabic, not yet reviewed)
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `log.heat3d` | Tap a region to mark it. Deeper colour means more painful days in the last 3 months. | اضغطي على منطقة لتحديدها. اللون الأعمق يعني أيامًا مؤلمة أكثر خلال آخر 3 أشهر. | |
+| `log.sitesList` | Pain locations | أماكن الألم | |
+| `log.siteRecent` | {count} days in 3 months | {count} أيام/يوم خلال 3 أشهر (plural forms) | |
