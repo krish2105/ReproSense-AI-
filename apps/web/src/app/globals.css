@@ -622,3 +622,11 @@ a:has(> .link-pending.is-on){opacity:.65;cursor:progress}
 .stage img{border-radius:50%}
 ol.trace > li{padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0;background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);box-shadow:var(--shadow-s)}
 }
+
+/* Clinic admin (A3) */
+.ca-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;align-items:start}
+.ca-grid > section{display:flex;flex-direction:column}
+.ca-list{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:8px}
+.ca-list li{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--rule);border-radius:14px;background:var(--paper)}
+.ca-list li > b + span{display:block}
+@media (max-width:860px){.ca-grid{grid-template-columns:1fr}}
