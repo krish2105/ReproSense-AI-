@@ -12,7 +12,7 @@ import pytest
 from conftest import login
 
 from app.agents import copy as cp
-from app.api.patient import FLOWS, IMPACTS, SYMPTOMS
+from app.services.vocab import FLOWS, IMPACTS, SYMPTOMS
 
 ALLOWED_LATIN = {"PBAC", "EPDS", "MRS", "PHQ", "GAD"}
 EVENT_TYPES = [

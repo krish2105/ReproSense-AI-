@@ -536,3 +536,19 @@ card; the `clinic.*` rows are in clinician voice. The two knowledge-base summari
 | `postnatal.clinic.steps.mood` | Maternal blues assessment (EPDS), 10–14 days | تقييم تقلّب المزاج (مقياس إدنبرة)، 10–14 يوماً | |
 | `postnatal.clinic.steps.visit_6w` | 6-week postnatal visit | زيارة ما بعد الولادة في الأسبوع السادس | |
 | `postnatal.clinic.steps.glucose_test` | OGTT 4–12 weeks after birth (after GDM) | اختبار تحمّل الجلوكوز بعد 4–12 أسبوعاً من الولادة (بعد سكري الحمل) | |
+
+## Voice logging (build week K2, 18 Nov, draft Arabic, not yet reviewed)
+She can speak instead of typing on the log screen; the browser listens in Arabic (ar-AE) or English. The rule-based
+reader also learned Gulf Arabic phrases (ما رحت الدوام، تنقيط، لوعة، دايخة، ٦ من ١٠); please check they read naturally.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `log.voiceStart` | Say it instead | قوليها بصوتك | |
+| `log.voiceStop` | Stop and fill the form | توقّفي واملئي النموذج | |
+| `log.voiceListening` | Listening. Speak in English or Arabic. | نستمع إليكِ. تحدّثي بالعربية أو الإنجليزية. | |
+| `log.voiceHeard` | Heard: {text} | سمعنا: {text} | |
+| `log.voiceNote` | Your browser turns your voice into text (some browsers use their own online service for this). Only the text is kept, never a recording. | يحوّل متصفحكِ صوتكِ إلى نص (بعض المتصفحات تستخدم خدمتها الخاصة عبر الإنترنت لذلك). نحتفظ بالنص فقط، ولا نحتفظ بأي تسجيل. | |
+| `log.voiceBlocked` | The microphone is blocked. Allow it in your browser settings, or type instead. | الميكروفون محجوب. اسمحي به من إعدادات المتصفح، أو اكتبي بدلاً من ذلك. | |
+| `log.voiceError` | That wasn't caught. Try again, or type instead. | لم نتمكّن من التقاط ذلك. حاولي مرة أخرى، أو اكتبي بدلاً من ذلك. | |
+| `log.readByAi` | Read with AI from your words. | قُرئت كلماتكِ بالذكاء الاصطناعي. | |
+| `log.urgentFromWords` | What you described may need urgent care | ما وصفتِه قد يحتاج رعاية عاجلة | |
