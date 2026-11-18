@@ -40,6 +40,7 @@ class Settings(BaseSettings):
     rate_limit_per_min: int = 120
     rate_limit_sensitive_per_min: int = 20  # assistant + uploads
     red_flag_window_days: int = 14  # QUESTIONS #17 default (needs clinician sign-off)
+    log_level: str = "INFO"  # the API's JSON logs (app/observability.py); no clinical meaning
     # Her own sign-in (K5). Passkeys: the relying party is the web app's host. Empty = the host of the first
     # ALLOWED_ORIGINS entry, and the accepted origins = ALLOWED_ORIGINS. No clinical meaning.
     webauthn_rp_id: str = ""

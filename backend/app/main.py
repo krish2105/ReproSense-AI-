@@ -14,9 +14,11 @@ from app.ai.llm import get_llm
 from app.api import admin, assistant, auth, clinic, clinic_admin, demo, patient, quality, reports
 from app.config import get_settings
 from app.db import SYSTEM, session
+from app.observability import RequestContext, setup_logging
 from app.security.middleware import ModelBudget, RateLimit, SecurityHeaders
 
 s = get_settings()
+setup_logging(s.log_level)
 log = logging.getLogger("reprosense")
 
 
@@ -62,7 +64,9 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE"],
     allow_headers=["content-type", "authorization"],
+    expose_headers=["x-request-id"],
 )
+app.add_middleware(RequestContext)  # outermost: every response, even a refusal or a crash, gets an ID and a log line
 for r in (
     demo.router,
     auth.router,
