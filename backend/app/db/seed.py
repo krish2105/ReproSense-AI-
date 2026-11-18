@@ -37,8 +37,21 @@ def age_range(age: int) -> str:
     return f"{lo}-{lo + 4}"
 
 
+def schema_sql() -> str:
+    """The whole schema: the health record, then her sign-in tables (sign_in.sql)."""
+    here = Path(__file__).parent
+    return (here / "schema.sql").read_text() + "\n" + (here / "sign_in.sql").read_text()
+
+
+def ensure_sign_in_tables(url: str | None = None) -> None:
+    """At boot: a database seeded before K5 gains the sign-in tables without a demo reset. Safe to run again."""
+    with psycopg.connect(url or get_settings().database_url, autocommit=True) as conn:
+        if conn.execute("SELECT to_regclass('public.profiles') IS NOT NULL").fetchone()[0]:
+            conn.execute((Path(__file__).parent / "sign_in.sql").read_text())
+
+
 def apply_schema(url: str | None = None) -> None:
-    sql = (Path(__file__).parent / "schema.sql").read_text()
+    sql = schema_sql()
     with psycopg.connect(url or get_settings().database_url, autocommit=True) as conn:
         conn.execute(sql)
 
@@ -183,7 +196,7 @@ def seed(url: str | None = None, with_kb: bool = True) -> dict:
     from app.db import pool
     from app.rag.ingest import ingest
 
-    sql = (Path(__file__).parent / "schema.sql").read_text()
+    sql = schema_sql()
     with pool().connection() as conn, conn.transaction(), conn.cursor() as cur:
         cur.execute(sql)
         cur.execute("SET LOCAL ROLE reprosense_app")

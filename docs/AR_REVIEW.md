@@ -616,3 +616,80 @@ reader also learned Gulf Arabic phrases (ما رحت الدوام، تنقيط،
 | `T.care_due_by` | Still due: {step}, by {date}. | ما زال مستحقاً: {step}، قبل {date}. | |
 | `CARE_STEP.postpartum_glucose_test` | the glucose test after birth (OGTT) | فحص تحمّل السكر بعد الولادة (OGTT) | |
 | `CARE_STEP.pregnancy_glucose_screen` | the pregnancy glucose test (24–28 weeks) | فحص سكر الحمل (الأسبوع 24–28) | |
+
+## Her own sign-in: passkeys and email code (K5, build week 18 Nov, draft Arabic, not yet reviewed)
+A record she started on /join can be opened again on another device with a passkey (مفتاح المرور, the term Apple and Google use in Arabic) or a 6-digit email code. The sign-in email itself is sent by the API (`backend/app/security/email.py`) with both languages in one message.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `home.signinTitle` | Open this record on another device | افتحي هذا السجل على جهاز آخر | |
+| `home.signinBody` | Add a passkey so your record opens again after this session, on this phone or another one. | أضيفي مفتاح مرور ليُفتح سجلك مجدداً بعد هذه الجلسة، على هذا الهاتف أو على جهاز آخر. | |
+| `home.signinAction` | Add a passkey | إضافة مفتاح مرور | |
+| `privacy.actions.sign_in` | signed in | سجّل الدخول | |
+| `privacy.actions.sign_in_failed` | a sign-in attempt failed | محاولة دخول لم تنجح | |
+| `privacy.actions.passkey_added` | added a passkey | أضاف مفتاح مرور | |
+| `privacy.actions.passkey_removed` | removed a passkey | أزال مفتاح مرور | |
+| `privacy.actions.email_linked` | linked an email address | ربط بريداً إلكترونياً | |
+| `privacy.actions.email_unlinked` | unlinked the email address | ألغى ربط البريد الإلكتروني | |
+| `privacy.signin.title` | Sign in on other devices | الدخول من أجهزة أخرى | |
+| `privacy.signin.body` | Add a passkey to open this record again, on this device or another one. Face ID, a fingerprint or the phone PIN unlocks it, and that check never leaves your device. | أضيفي مفتاح مرور لتفتحي هذا السجل مجدداً، على هذا الجهاز أو على جهاز آخر. تفتحه بصمة الوجه أو بصمة الإصبع أو رمز قفل الهاتف، ولا يغادر هذا التحقق جهازك أبداً. | |
+| `privacy.signin.demoPerson` | Demo people open with one tap on the demo page. Start your own record to add a passkey. | تُفتح الشخصيات التجريبية بلمسة واحدة من صفحة العرض التجريبي. أنشئي سجلك الخاص لتضيفي مفتاح مرور. | |
+| `privacy.signin.startRecord` | Start my own record | إنشاء سجلي الخاص | |
+| `privacy.signin.passkeysLabel` | Your passkeys | مفاتيح المرور الخاصة بك | |
+| `privacy.signin.none` | No passkey yet. Without a passkey or a linked email, this record opens only in this browser until the session ends. | لا يوجد مفتاح مرور بعد. من دون مفتاح مرور أو بريد مرتبط، يُفتح هذا السجل في هذا المتصفح فقط حتى تنتهي الجلسة. | |
+| `privacy.signin.passkeyOn` | Passkey on {device} | مفتاح مرور على {device} | |
+| `privacy.signin.passkey` | Passkey | مفتاح مرور | |
+| `privacy.signin.addedOn` | Added {date} | أُضيف في {date} | |
+| `privacy.signin.lastUsed` | last used {date} | آخر استخدام {date} | |
+| `privacy.signin.add` | Add a passkey | إضافة مفتاح مرور | |
+| `privacy.signin.addedToast` | Passkey added. Next time, choose “Sign in to my record”. | تمت إضافة مفتاح المرور. في المرة القادمة اختاري «الدخول إلى سجلي». | |
+| `privacy.signin.remove` | Remove | إزالة | |
+| `privacy.signin.removeTitle` | Remove this passkey? | إزالة مفتاح المرور هذا؟ | |
+| `privacy.signin.removeBody` | This device will no longer open your record. If it is your only way in, add another passkey or link an email first. | لن يفتح هذا الجهاز سجلك بعد الآن. إذا كان طريقك الوحيد للدخول، فأضيفي مفتاح مرور آخر أو اربطي بريداً إلكترونياً أولاً. | |
+| `privacy.signin.removeConfirm` | Remove passkey | إزالة مفتاح المرور | |
+| `privacy.signin.removed` | Passkey removed. | أُزيل مفتاح المرور. | |
+| `privacy.signin.emailTitle` | Email code (backup) | رمز البريد الإلكتروني (احتياطي) | |
+| `privacy.signin.emailLinked` | An email address is linked. We keep only a one-way code made from it, never the address itself, so it is not shown here. | يوجد بريد إلكتروني مرتبط. لا نحتفظ إلا برمز أحادي الاتجاه مشتق منه، لا بالعنوان نفسه، لذلك لا يظهر هنا. | |
+| `privacy.signin.emailNone` | Link an email address to get a 6-digit sign-in code when your passkey is not with you. | اربطي بريداً إلكترونياً لتحصلي على رمز دخول من 6 أرقام عندما لا يكون مفتاح المرور معك. | |
+| `privacy.signin.emailOff` | Email codes are off on this demo server. A passkey works without them. | رموز البريد الإلكتروني متوقفة على خادم العرض التجريبي هذا. يعمل مفتاح المرور من دونها. | |
+| `privacy.signin.emailLabel` | Email address | البريد الإلكتروني | |
+| `privacy.signin.sendCode` | Send a code to link it | إرسال رمز لربطه | |
+| `privacy.signin.codeSent` | We sent a 6-digit code to that address. Enter it below. | أرسلنا رمزاً من 6 أرقام إلى هذا العنوان. أدخليه أدناه. | |
+| `privacy.signin.codeLabel` | 6-digit code | الرمز المكوّن من 6 أرقام | |
+| `privacy.signin.link` | Link this email | ربط هذا البريد | |
+| `privacy.signin.linked` | Email linked. You can now sign in with a code. | تم ربط البريد. يمكنك الآن الدخول برمز. | |
+| `privacy.signin.unlink` | Unlink email | إلغاء ربط البريد | |
+| `privacy.signin.unlinked` | Email unlinked. | أُلغي ربط البريد. | |
+| `privacy.signin.keep` | Keep it | الإبقاء عليه | |
+| `privacy.signin.linkedTag` | Linked | مرتبط | |
+| `signin.metaTitle` | Sign in to my record | الدخول إلى سجلي | |
+| `signin.title` | Sign in to my record | الدخول إلى سجلي | |
+| `signin.lede` | For a record you started yourself. Open it on this phone or another device with your passkey. | للسجل الذي أنشأتِه بنفسك. افتحيه على هذا الهاتف أو على جهاز آخر بمفتاح المرور الخاص بك. | |
+| `signin.passkeyTitle` | Use a passkey | استخدام مفتاح مرور | |
+| `signin.passkeyBody` | Your phone or laptop asks for Face ID, a fingerprint or its PIN. That check stays on your device. We keep only a key that proves it is you. | يطلب هاتفك أو حاسوبك بصمة الوجه أو بصمة الإصبع أو رمز القفل. يبقى هذا التحقق على جهازك، ولا نحتفظ إلا بمفتاح يثبت أنكِ أنتِ. | |
+| `signin.passkeyButton` | Use a passkey | استخدام مفتاح المرور | |
+| `signin.passkeyPending` | Waiting for your device… | بانتظار جهازك… | |
+| `signin.emailTitle` | No passkey on this device? | لا يوجد مفتاح مرور على هذا الجهاز؟ | |
+| `signin.emailBody` | Get a 6-digit code at the email address you linked in Privacy. It works for 10 minutes. | احصلي على رمز من 6 أرقام على البريد الإلكتروني الذي ربطتِه في صفحة الخصوصية. يعمل الرمز لمدة 10 دقائق. | |
+| `signin.emailLabel` | Email address | البريد الإلكتروني | |
+| `signin.sendCode` | Send me a code | إرسال رمز إليّ | |
+| `signin.sent` | If this address is linked to a record, a code is on its way. Check your inbox and spam folder. | إذا كان هذا العنوان مرتبطاً بسجل، فالرمز في طريقه إليك. تحققي من صندوق الوارد ومجلد الرسائل غير المرغوب فيها. | |
+| `signin.codeLabel` | 6-digit code | الرمز المكوّن من 6 أرقام | |
+| `signin.codeHint` | The code works once, for 10 minutes. | يعمل الرمز مرة واحدة ولمدة 10 دقائق. | |
+| `signin.verify` | Sign in with the code | الدخول بالرمز | |
+| `signin.resend` | Send a new code | إرسال رمز جديد | |
+| `signin.otherAddress` | Use another address | استخدام عنوان آخر | |
+| `signin.signedIn` | Signed in. Opening your record… | تم الدخول. جارٍ فتح سجلك… | |
+| `signin.problem.cancelled` | The passkey prompt was closed. Try again when you are ready. | أُغلقت نافذة مفتاح المرور. حاولي مرة أخرى عندما تكونين مستعدة. | |
+| `signin.problem.unsupported` | This browser can't use passkeys. Try an up-to-date browser on your phone or laptop. | لا يدعم هذا المتصفح مفاتيح المرور. جرّبي متصفحاً حديثاً على هاتفك أو حاسوبك. | |
+| `signin.problem.already` | This device already holds a passkey for your record. | يحمل هذا الجهاز مفتاح مرور لسجلك بالفعل. | |
+| `signin.problem.failed` | That didn't work: {detail} | لم ينجح ذلك: {detail} | |
+| `signin.noRecordTitle` | No record yet? | ليس لكِ سجل بعد؟ | |
+| `signin.noRecordBody` | Start one in two minutes, or open one of the fictional demo people with one tap. | أنشئي سجلاً في دقيقتين، أو افتحي إحدى الشخصيات التجريبية الخيالية بلمسة واحدة. | |
+| `signin.startRecord` | Start my own record | إنشاء سجلي الخاص | |
+| `signin.openDemo` | Open a demo person | فتح شخصية تجريبية | |
+| `signin.demoNote` | This is a demo. Demo records and their passkeys are deleted at the next demo reset. | هذا عرض تجريبي. تُحذف السجلات التجريبية ومفاتيح المرور الخاصة بها عند إعادة ضبط العرض التجريبي التالية. | |
+| `signin.fromDemoBody` | Started a record on another device? Open it again with your passkey. | أنشأتِ سجلاً على جهاز آخر؟ افتحيه مجدداً بمفتاح المرور. | |
+| `signin.fromDemo` | Sign in to my record | الدخول إلى سجلي | |
+| email (API) subject | Your ReproSense sign-in code | رمز الدخول إلى ReproSense | |
+| email (API) body | Your code is {code}. It works for 10 minutes, once. If you did not ask for it, you can ignore this email. | رمزك هو {code}. يعمل لمدة 10 دقائق ولمرة واحدة. إذا لم تطلبيه، يمكنك تجاهل هذه الرسالة. | |
