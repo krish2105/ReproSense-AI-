@@ -693,3 +693,10 @@ A record she started on /join can be opened again on another device with a passk
 | `signin.fromDemo` | Sign in to my record | الدخول إلى سجلي | |
 | email (API) subject | Your ReproSense sign-in code | رمز الدخول إلى ReproSense | |
 | email (API) body | Your code is {code}. It works for 10 minutes, once. If you did not ask for it, you can ignore this email. | رمزك هو {code}. يعمل لمدة 10 دقائق ولمرة واحدة. إذا لم تطلبيه، يمكنك تجاهل هذه الرسالة. | |
+
+## Her year in 3D (build week A4, 18 Nov, draft Arabic, not yet reviewed)
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `analytics.year3dTitle` | Your year in 3D | عامكِ بالأبعاد الثلاثة | |
+| `analytics.year3dHint` | One loop per cycle, one bead per day you logged. Rings mark pain 7 or more; diamonds mark events. Drag to turn, tap a bead to open that day. | حلقة لكل دورة وخرزة لكل يوم سجّلتِه. الحلقات تشير إلى ألم بدرجة 7 أو أكثر، والمعيّنات تشير إلى الأحداث. اسحبي للتدوير، واضغطي على خرزة لفتح ذلك اليوم. | |
+| `analytics.year3dLabel` | 3D view of {days} logged days over {loops} cycles, {rings} with pain 7 or more. The year chart below shows the same days. | عرض ثلاثي الأبعاد لـ {days} يومًا مسجّلًا عبر {loops} دورات، منها {rings} بألم 7 أو أكثر. يعرض مخطط العام أدناه الأيام نفسها. | |
