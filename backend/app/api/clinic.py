@@ -15,7 +15,7 @@ from app.db import Actor, session
 from app.rules.engine import evaluate
 from app.security import audit
 from app.security.auth import require
-from app.services import views
+from app.services import postnatal, views
 from app.services.patient_data import load_bundle
 
 router = APIRouter(prefix="/v1/clinic", tags=["clinic"])
@@ -88,6 +88,7 @@ def patient_view(pid: str, actor: Actor = Depends(clinician)):
         "timeline": views.timeline(b, ref, 12),
         "days_logged": views.days_logged(b),
         "her_questions": list(dict.fromkeys(q for c in cards for q in c.get("questions_for_doctor", [])))[:5],
+        "postnatal": postnatal.pathway(b, ref),
         "visit_note_draft": (review or {}).get("visit_note") or copilot.visit_note_draft(b, ev, ref),
     }
 
