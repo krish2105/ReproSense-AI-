@@ -2,6 +2,7 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import { useTranslations } from "use-intl";
+import { useI18n } from "@/i18n/i18n";
 import { api } from "@/api/client";
 import { ApiError } from "@/api/errors";
 import type { LoginResponse, PersonasResponse } from "@/api/types";
@@ -11,7 +12,7 @@ import { Card, Tag } from "@/components/ui/Card";
 import { Screen } from "@/components/ui/Screen";
 import { ErrorBox, Loading } from "@/components/ui/States";
 import { Txt } from "@/components/ui/Txt";
-import { displayName, regionKey } from "@/shared/format";
+import { firstName, regionKey, shownName } from "@/shared/format";
 
 /** Demo people: the eight fictional women. Picking one opens her app with a demo token. */
 export default function Demo() {
@@ -22,6 +23,7 @@ export default function Demo() {
   const m = useTranslations("mobile");
   const join = useTranslations("join");
   const { signInAs, signInAsClinician } = useSession();
+  const { locale } = useI18n();
   const [data, setData] = useState<PersonasResponse | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [opening, setOpening] = useState<string | null>(null);
@@ -106,7 +108,7 @@ export default function Demo() {
       {error ? <ErrorBox error={error} onRetry={load} /> : null}
       {!data && !error ? <Loading /> : null}
       {data?.personas.map((p) => {
-        const name = displayName(p.alias);
+        const name = shownName(p.alias, locale);
         const kind = p.rules === null ? "ok" : p.rules.some((r) => r.startsWith("RF")) ? "urgent" : p.rules.some((r) => r.startsWith("CARE")) ? "soon" : "discuss";
         return (
           <Card key={p.id}>
@@ -132,7 +134,7 @@ export default function Demo() {
                 </Txt>
               )}
             </View>
-            <Button label={t("open", { name: name.split(" ")[0] ?? name })} busy={opening === p.id} disabled={!!opening} onPress={() => void open(p.id)} />
+            <Button label={t("open", { name: firstName(p.alias, locale) })} busy={opening === p.id} disabled={!!opening} onPress={() => void open(p.id)} />
           </Card>
         );
       })}

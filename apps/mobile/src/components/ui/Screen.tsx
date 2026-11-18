@@ -98,6 +98,10 @@ export function Screen({
           gap: 16,
         }}
         keyboardShouldPersistTaps="handled"
+        // iOS: the keyboard's height is added to the scroll insets, so a focused box (the log note, a BP number) can
+        // scroll above the keyboard instead of hiding behind it; dragging the page down closes the keyboard.
+        automaticallyAdjustKeyboardInsets
+        keyboardDismissMode="interactive"
         refreshControl={onRefresh ? <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} tintColor={c.plum} /> : undefined}
       >
         <TopBar />

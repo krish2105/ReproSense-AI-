@@ -205,7 +205,7 @@ export default function Home() {
   if (!data) {
     return <Screen>{error ? <ErrorBox error={error} onRetry={() => void reload()} /> : <Loading />}</Screen>;
   }
-  const name = firstName(data.profile.alias);
+  const name = firstName(data.profile.alias, locale);
   const strength = t(`strength.${data.record_strength}`);
   const mode = data.status.mode;
   const soon = data.observations.find((o) => o.urgency === "soon");

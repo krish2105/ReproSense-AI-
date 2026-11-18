@@ -40,7 +40,12 @@ xcodebuild -downloadPlatform iOS
 ```
 
 Then build and open the app in the simulator (the first build takes a few minutes; it generates `ios/`, which is not
-committed):
+committed). CocoaPods needs a UTF-8 locale, or `pod install` stops with "Unicode Normalization not appropriate for
+ASCII-8BIT":
+
+```bash
+export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+```
 
 ```bash
 npx expo run:ios
@@ -136,9 +141,22 @@ npm run lint && npm run typecheck && npm test && npm run sync:check
 - **Before your visit (K3):** `GET /v1/brief`, from Home and More.
 - `src/shared/bp.ts` is now synced from the web (`apps/web/src/lib/bp.ts`).
 
-**Not verified yet:** on 18 Nov the build Mac had no full Xcode, so these screens have not been run in the iOS
-Simulator. Typecheck, lint, the 31 unit tests and `npx expo export --platform ios` (the full iOS JavaScript bundle)
-pass, and every API call above was checked against the live API.
+**Checked 18 Nov on the iPhone 17 Pro simulator (iOS 26.5, Xcode 27.2), Release build, live API:**
+- **Noura:** Demo people → Home → log a day (typed note filled the form, entry saved) → Patterns with evidence and
+  sources → AI Chat answer with three cited sources → doctor report PDF downloaded and opened in Preview → Before your
+  visit.
+- **Clinician view:** the patient list (red flags first) and Noura's summary (SBAR, patterns, brief).
+- **Hessa:** home with the pregnancy warning and 998, the blood-pressure card, and a reading saved.
+- **Fatima:** the first-6-weeks pathway, with the "I had this" date dialog.
+- **Arabic:** the whole layout right to left, with her name in Arabic.
+
+Found and fixed during that run:
+- A focused text box could sit behind the keyboard. `Screen` now uses iOS keyboard insets and drag-to-dismiss.
+- The blood-pressure hint said "mmHg" twice.
+- Arabic screens showed persona names in Latin script.
+
+The "Waking the demo server" screen was not seen in that run, because the API was already awake. It is covered by
+`wake.test.ts`.
 
 ## What was built first (6 Nov 2026)
 

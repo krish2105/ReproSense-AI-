@@ -135,7 +135,7 @@ export default function BloodPressure() {
             </View>
           </View>
           <Txt variant="xs" color={problem ? "urgent" : "faintText"} accessibilityLiveRegion="polite">
-            {problem === "order" ? t("orderError") : t("rangeHint")} {t("unit")}
+            {problem === "order" ? t("orderError") : t("rangeHint")}
           </Txt>
           {tooHigh && (
             <View style={{ gap: 8 }}>

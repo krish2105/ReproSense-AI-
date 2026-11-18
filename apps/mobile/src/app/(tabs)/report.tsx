@@ -18,7 +18,7 @@ import { Empty, ErrorBox, Loading } from "@/components/ui/States";
 import { Txt } from "@/components/ui/Txt";
 import { useApi } from "@/hooks/useApi";
 import { useI18n } from "@/i18n/i18n";
-import { displayName, formatDate, regionKey } from "@/shared/format";
+import { shownName, formatDate, regionKey } from "@/shared/format";
 import { useTheme } from "@/theme/theme";
 
 const detail = (e: unknown) => (e instanceof ApiError ? e.detail : e instanceof Error ? e.message : String(e));
@@ -70,7 +70,7 @@ function VisitSheet({
         <Txt variant="h1" accessibilityRole="header">
           {t("visitTitle")}
         </Txt>
-        <Txt variant="h2">{`${displayName(p.alias)}, ${p.age}`}</Txt>
+        <Txt variant="h2">{`${shownName(p.alias, locale)}, ${p.age}`}</Txt>
         <Card>
           {line("S", t("s"), titles ? t("sLine", { titles }) : t("sNone"))}
           {line("B", t("b"), `${t("bLine", { age: p.age, stage: stages(p.life_stage), logs: p.stats.logs })}${p.pregnancy_weeks > 0 ? ` ${t("bPreg", { weeks: p.pregnancy_weeks })}` : ""}`)}
@@ -247,7 +247,7 @@ export default function Report() {
             <Txt variant="xs" color="faintText">
               {t("generated", { date: formatDate(p.generated.slice(0, 10), locale) })}
             </Txt>
-            <Txt variant="small">{t("identity", { name: displayName(p.alias), age: p.age, region: regions(regionKey(p.region)) })}</Txt>
+            <Txt variant="small">{t("identity", { name: shownName(p.alias, locale), age: p.age, region: regions(regionKey(p.region)) })}</Txt>
             <Txt variant="small" color="ink2">
               {t("stage", { stage: stages(p.life_stage) })}
             </Txt>
