@@ -20,7 +20,7 @@ from app.security.auth import require
 from app.security.crypto import decrypt, encrypt
 from app.services import documents as docs
 from app.services import fhir, views
-from app.services.patient_data import apply_period_log, load_bundle
+from app.services.patient_data import ai_allowed, apply_period_log, load_bundle
 
 router = APIRouter(prefix="/v1", tags=["patient"])
 patient = require("patient")
@@ -459,23 +459,52 @@ def list_documents(actor: Actor = Depends(patient)):
         return cur.fetchall()
 
 
+PHOTO_TYPES = {"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png", "webp": "image/webp"}
+ASK_FOR_PDF = "Please upload the PDF or text version of the report instead."
+
+
+def _read_photo(data: bytes, mime: str, actor: Actor) -> str:
+    """A photographed lab report, transcribed by the model (build week). Her AI choice in Privacy is checked first,
+    so with AI off the photo is never sent anywhere. Only the transcription is kept (encrypted); the photo is not."""
+    from app.ai import llm
+
+    with session(actor) as cur:
+        if not ai_allowed(cur, actor.user_id):
+            raise HTTPException(403, f"Reading a photo uses AI, which is off in your Privacy settings. {ASK_FOR_PDF}")
+    model = llm.get_llm()
+    if not hasattr(model, "complete_json_image") or not getattr(model, "supports_images", True):
+        raise HTTPException(415, f"Photo reading needs the AI model, which isn't switched on here. {ASK_FOR_PDF}")
+    reading = model.complete_json_image(docs.PHOTO_SYSTEM, docs.PHOTO_USER, data, mime, 1500)
+    text = docs.photo_text(reading) if isinstance(reading, dict) else ""
+    if not text.strip():
+        raise HTTPException(
+            422, "We couldn't read this photo. Try a sharp, flat, well-lit photo of the results page, or the PDF."
+        )
+    return text
+
+
 @router.post("/documents")
 async def upload_document(file: UploadFile = File(...), actor: Actor = Depends(patient)):
     data = await file.read(10 * 1024 * 1024 + 1)
     if len(data) > 10 * 1024 * 1024:
         raise HTTPException(413, "Files up to 10 MB, please.")
     name = (file.filename or "upload").lower()
+    source = "file"
     if name.endswith(".pdf") or data[:4] == b"%PDF":
         text, mime = docs.pdf_text(data), "application/pdf"
     elif name.endswith((".txt", ".text")):
         text, mime = data.decode("utf-8", errors="replace"), "text/plain"
-    elif name.endswith((".png", ".jpg", ".jpeg")):
-        raise HTTPException(
-            415, "Photo reading (OCR) is not in this build yet. Please upload the PDF or text version of the report."
-        )
+    elif name.rsplit(".", 1)[-1] in PHOTO_TYPES:
+        mime, source = PHOTO_TYPES[name.rsplit(".", 1)[-1]], "photo"
+        text = _read_photo(data, mime, actor)
     else:
         raise HTTPException(415, "Please upload a PDF, PNG, JPG or TXT lab report.")
-    ext = docs.extract(text)
+    ext = {**docs.extract(text), "source": source}
+    if source == "photo":
+        ext["message"] = (
+            "Read from your photo by AI. Check each value against your paper report, then confirm. "
+            "Nothing is saved until you confirm, and the photo itself is not kept."
+        )
     with session(actor) as cur:
         cur.execute(
             "INSERT INTO documents (profile_id, filename, mime, text_enc, status, extraction) VALUES (%s,%s,%s,%s,'extracted',%s)"

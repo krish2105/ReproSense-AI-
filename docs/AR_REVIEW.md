@@ -484,3 +484,15 @@ The Arabic demo roster showed each fictional woman's story in English and her na
 | `demo.stories.noura` | Long and irregular cycles with acne and excess hair growth logged often. | دورات طويلة وغير منتظمة، وتسجّل حب الشباب ونمو الشعر الزائد كثيراً. | |
 | `demo.stories.priya` | Severe period pain each month, missing work, pain with bowel movements during periods. | ألم شديد في الدورة كل شهر، وغياب عن العمل، وألم أثناء التبرز في أيام الدورة. | |
 | `demo.stories.sara` | Long, very heavy periods with clots; one recent day of dizziness (red-flag demo). | دورات طويلة وغزيرة جداً مع جلطات، ويوم دوخة واحد مؤخراً (عرض علامة الخطر). | |
+
+## Lab report photos (build week 18 Nov, draft Arabic, not yet reviewed)
+She can now photograph a lab report; the AI model reads it and she checks every value before saving.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `documents.photo` | Take a photo of a report | تصوير تقرير | |
+| `documents.photoLabel` | Photo of a lab report | صورة تقرير المختبر | |
+| `documents.photoNote` | Read from your photo by AI. Check each value against your paper report before you confirm. The photo itself is not kept. | قرأ الذكاء الاصطناعي هذه القيم من صورتكِ. تحققي من كل قيمة مقابل التقرير الورقي قبل التأكيد. لا نحتفظ بالصورة نفسها. | |
+| `documents.intro` (changed) | Upload a lab report as a PDF or text file, or take a photo of it. … | ارفعي تقرير المختبر بصيغة PDF أو ملف نصي، أو صوّريه. … | |
+| `documents.fileLabel` (changed) | Lab report file (PDF, text or photo) | ملف تقرير المختبر (PDF أو نص أو صورة) | |
+| `documents.noRows` (changed) | No lab values were recognised. Try the PDF or text version of the report, or a sharper photo of the results page. | لم نتعرّف على قيم مختبر. جرّبي النسخة النصية أو PDF من التقرير، أو صورة أوضح لصفحة النتائج. | |
