@@ -756,6 +756,107 @@ Shown on Lab reports when no AI model is configured, or she switched AI off. Fem
 | `documents.photoOffAi` | Reading a photo uses AI, which is off in your Privacy settings. Upload the PDF or text version, or turn AI on in | قراءة الصورة تستخدم الذكاء الاصطناعي، وهو متوقف في إعدادات الخصوصية. ارفعي نسخة PDF أو النص، أو فعّلي الذكاء الاصطناعي من | |
 | `documents.photoPrivacyLink` | Privacy | الخصوصية | |
 | `documents.introNoPhoto` | Upload a lab report as a PDF or text file. We read the values; you check each one against your paper copy, then confirm. Nothing is saved until you confirm. | ارفعي تقرير المختبر بصيغة PDF أو ملف نصي. نقرأ القيم، وتتحققين من كل قيمة مقابل النسخة الورقية ثم تؤكدين. لا يُحفظ شيء قبل تأكيدكِ. | |
+## 3D body pain map (build week A1, 18 Nov, draft Arabic, not yet reviewed)
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `log.heat3d` | Tap a region to mark it. Deeper colour means more painful days in the last 3 months. | اضغطي على منطقة لتحديدها. اللون الأعمق يعني أيامًا مؤلمة أكثر خلال آخر 3 أشهر. | |
+| `log.sitesList` | Pain locations | أماكن الألم | |
+| `log.siteRecent` | {count} days in 3 months | {count} أيام/يوم خلال 3 أشهر (plural forms) | |
+
+## Judge guided tour (build week A2, 18 Nov, draft Arabic, not yet reviewed)
+Addressed to a judge, so the imperative is masculine/neutral (the patient app addresses her in the feminine).
+
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `tour.start` | Show me in 3 minutes | أرِني خلال 3 دقائق | |
+| `tour.startHint` | A guided walk through the demo for judges: 8 short steps. | جولة إرشادية في العرض للجنة التحكيم: 8 خطوات قصيرة. | |
+| `tour.label` | Guided tour | جولة إرشادية | |
+| `tour.progress` | Step {n} of {total} | الخطوة {n} من {total} | |
+| `tour.next` | Next | التالي | |
+| `tour.back` | Back | السابق | |
+| `tour.finish` | Finish | إنهاء | |
+| `tour.exit` | Exit tour | الخروج من الجولة | |
+| `tour.goHere` | Open this step | افتح هذه الخطوة | |
+| `tour.failed` | That step didn't open: {detail} | لم تُفتح هذه الخطوة: {detail} | |
+| `tour.done` | Tour finished. Everything you saw runs on fictional demo data. | انتهت الجولة. كل ما رأيته يعمل على بيانات عرض خيالية. | |
+| `tour.steps.people.title` | Eight fictional women | ثماني نساء خياليات | |
+| `tour.steps.people.body` | Every record here is synthetic. Next, we open Noura (27), who has logged irregular cycles and skin changes for a year. | كل سجل هنا مُصطنع. في الخطوة التالية نفتح سجل نورة (27 عامًا) التي سجّلت دورات غير منتظمة وتغيّرات في البشرة لمدة عام. | |
+| `tour.steps.home.title` | Her home screen | شاشتها الرئيسية | |
+| `tour.steps.home.body` | Her cycle on one arc, with today's day and her phases, built only from her own entries. | دورتها على قوس واحد، مع يوم اليوم ومراحلها، مبنية فقط من إدخالاتها. | |
+| `tour.steps.patterns.title` | Patterns, with their evidence | أنماط مع أدلتها | |
+| `tour.steps.patterns.body` | Each card names the pattern, the entries behind it, what to consider next and its source. Transparent rules decide: no diagnosis, no risk score. Try "How this was produced". | كل بطاقة تذكر النمط والإدخالات التي يستند إليها وما يمكن التفكير فيه بعد ذلك ومصدره. قواعد واضحة تقرّر: لا تشخيص ولا نسبة خطر. جرّب «كيف أُعدّت هذه البطاقة». | |
+| `tour.steps.assistant.title` | Ask the assistant | اسأل المساعد | |
+| `tour.steps.assistant.body` | Tap a suggested question. Every answer cites its sources; urgent words get the 998 guidance first. | اضغط على سؤال مقترح. كل إجابة تذكر مصادرها، والكلمات العاجلة تُظهر إرشادات الاتصال بالرقم 998 أولًا. | |
+| `tour.steps.report.title` | A doctor-ready report | تقرير جاهز للطبيب | |
+| `tour.steps.report.body` | Prepare a two-page PDF she can download, or share with her own clinic only after she agrees. | جهّز ملف PDF من صفحتين يمكنها تنزيله، أو مشاركته مع عيادتها فقط بعد موافقتها. | |
+| `tour.steps.clinic.title` | Now the clinician's view | الآن واجهة الطبيب | |
+| `tour.steps.clinic.body` | A separate area and role. The clinic sees only women who chose to share, red flags first. | قسم ودور منفصلان. لا ترى العيادة إلا النساء اللواتي اخترن المشاركة، والعلامات التحذيرية أولًا. | |
+| `tour.steps.gap.title` | Close a care gap | إغلاق فجوة في الرعاية | |
+| `tour.steps.gap.body` | Fatima had diabetes in pregnancy, so a glucose test after the birth is due. Mark the follow-up done here. | أُصيبت فاطمة بسكري الحمل، لذا يحين موعد فحص الجلوكوز بعد الولادة. سجّل المتابعة كمكتملة هنا. | |
+| `tour.steps.network.title` | The clinic network | شبكة العيادات | |
+| `tour.steps.network.body` | The follow-up you closed moves the DoH Jawda measure PC008 for the whole network, live. Only counts, never names. | المتابعة التي أغلقتها تحرّك مؤشر جودة دائرة الصحة PC008 للشبكة كلها مباشرةً. أعداد فقط، بلا أسماء. | |
+
+## Clinic onboarding and admin screens (build week A3, 18 Nov, draft Arabic, not yet reviewed)
+Staff-facing; the imperative is masculine/neutral.
+
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `clinicAdmin.metaTitle` | Clinic admin | إدارة العيادة | |
+| `clinicAdmin.intro` | Your clinic's own view ({region}): follow-ups, the after-birth glucose part of PC008, your team and clinician invites. Counts only, never names. | عرض عيادتك ({region}): المتابعات، وجزء فحص الجلوكوز بعد الولادة من مؤشر PC008، وفريقك ودعوات الأطباء. أعداد فقط، بلا أسماء. | |
+| `clinicAdmin.figsLabel` | This clinic's follow-ups | متابعات هذه العيادة | |
+| `clinicAdmin.open` | Follow-ups open | متابعات مفتوحة | |
+| `clinicAdmin.booked` | Booked | محجوزة | |
+| `clinicAdmin.done` | Done | مكتملة | |
+| `clinicAdmin.shared` | Records shared with you | سجلات مُشاركة معكم | |
+| `clinicAdmin.donePct` | {pct}% of all follow-ups | {pct}% من كل المتابعات | |
+| `clinicAdmin.fewer` | fewer than {k} | أقل من {k} | |
+| `clinicAdmin.figsNote` | Any group under {k} is hidden to protect small groups, and shown as “fewer than {k}”. | تُخفى أي مجموعة أقل من {k} لحماية المجموعات الصغيرة، وتظهر بعبارة «أقل من {k}». | |
+| `clinicAdmin.pc008Title` | After-birth glucose test (part of DoH Jawda PC008) | فحص الجلوكوز بعد الولادة (جزء من مؤشر جودة دائرة الصحة PC008) | |
+| `clinicAdmin.pc008Suppressed` | Fewer than {k} after-birth glucose follow-ups at this clinic, so no rate is shown yet. | أقل من {k} متابعات لفحص الجلوكوز بعد الولادة في هذه العيادة، لذلك لا تُعرض نسبة بعد. | |
+| `clinicAdmin.pc008Counts` | Done {done} · booked {booked} · open {open} | مكتملة {done} · محجوزة {booked} · مفتوحة {open} | |
+| `clinicAdmin.pc008Note` | A real PC008 rate needs the clinic's own claims and records; these are demo counts. | النسبة الحقيقية لمؤشر PC008 تحتاج إلى مطالبات العيادة وسجلاتها؛ هذه أعداد عرض تجريبي. | |
+| `clinicAdmin.inviteTitle` | Invite a clinician | دعوة طبيب | |
+| `clinicAdmin.inviteBody` | Each invite is a single-use link and QR for one clinician, who joins this clinic and sees only the women who chose to share with it. | كل دعوة رابط ورمز QR يُستخدمان مرة واحدة لطبيب واحد. ينضم إلى هذه العيادة ولا يرى إلا النساء اللواتي اخترن المشاركة معها. | |
+| `clinicAdmin.inviteNew` | Create an invite | إنشاء دعوة | |
+| `clinicAdmin.madeLabel` | New invite | دعوة جديدة | |
+| `clinicAdmin.madeTitle` | Shown only now: copy the link or let the clinician scan the QR. | تظهر الآن فقط: انسخ الرابط أو دع الطبيب يمسح رمز QR. | |
+| `clinicAdmin.madeNote` | Works once, until {date}. You can withdraw it below. | تعمل مرة واحدة حتى {date}. يمكنك سحبها أدناه. | |
+| `clinicAdmin.qrLabel` | QR code of the invite link | رمز QR لرابط الدعوة | |
+| `clinicAdmin.copy` | Copy link | نسخ الرابط | |
+| `clinicAdmin.copied` | Link copied | تم نسخ الرابط | |
+| `clinicAdmin.listTitle` | Invites | الدعوات | |
+| `clinicAdmin.listEmpty` | No invites yet. | لا توجد دعوات بعد. | |
+| `clinicAdmin.made` | Made {date} | أُنشئت {date} | |
+| `clinicAdmin.withdraw` | Withdraw | سحب | |
+| `clinicAdmin.withdrawn` | Invite withdrawn. The link no longer works. | سُحبت الدعوة. لم يعد الرابط يعمل. | |
+| `clinicAdmin.status.pending` | Waiting | بانتظار القبول | |
+| `clinicAdmin.status.accepted` | Joined | انضم | |
+| `clinicAdmin.status.expired` | Expired | منتهية | |
+| `clinicAdmin.status.revoked` | Withdrawn | مسحوبة | |
+| `clinicAdmin.teamTitle` | Your team | فريقك | |
+| `clinicAdmin.joinedInvite` | Joined by invite, {date} | انضم بدعوة، {date} | |
+| `clinicAdmin.joinedSeed` | Demo clinician | طبيب العرض التجريبي | |
+| `clinicAdmin.exportTitle` | Export follow-ups | تصدير المتابعات | |
+| `clinicAdmin.exportBody` | A CSV of counts by status, follow-up type and wide age group. No names, patient ids or record ids; groups under {k} are blank with the reason. | ملف CSV بالأعداد حسب الحالة ونوع المتابعة والفئة العمرية الواسعة. بلا أسماء أو أرقام مريضات أو سجلات؛ المجموعات الأقل من {k} فارغة مع ذكر السبب. | |
+| `clinicAdmin.export` | Download CSV | تنزيل CSV | |
+| `clinicAdmin.failed` | That didn't work: {detail} | لم ينجح ذلك: {detail} | |
+| `clinicAdmin.syntheticNote` | Synthetic cohort plus the live demo records shared with this clinic. All data is fictional. | مجموعة مُصطنعة إضافة إلى سجلات العرض المُشاركة مع هذه العيادة. كل البيانات خيالية. | |
+| `clinicInvite.metaTitle` | Clinic invite | دعوة العيادة | |
+| `clinicInvite.title` | Join {clinic} | انضم إلى {clinic} | |
+| `clinicInvite.intro` | You have been invited as a clinician ({region}). The link works once, until {date}. | تمت دعوتك كطبيب ({region}). يعمل الرابط مرة واحدة حتى {date}. | |
+| `clinicInvite.nameLabel` | Your name as colleagues will see it | اسمك كما سيراه زملاؤك | |
+| `clinicInvite.nameHint` | Up to 40 characters. This demo creates a fictional clinician account. | حتى 40 حرفًا. ينشئ هذا العرض حساب طبيب خيالي. | |
+| `clinicInvite.accept` | Join the clinic | الانضمام إلى العيادة | |
+| `clinicInvite.failed` | Not joined: {detail} | لم يتم الانضمام: {detail} | |
+| `clinicInvite.note` | After joining you see only the women who chose to share their record with this clinic. | بعد الانضمام لا ترى إلا النساء اللواتي اخترن مشاركة سجلهن مع هذه العيادة. | |
+| `clinicInvite.gone.accepted` | This invite has already been used | استُخدمت هذه الدعوة من قبل | |
+| `clinicInvite.gone.revoked` | The clinic withdrew this invite | سحبت العيادة هذه الدعوة | |
+| `clinicInvite.gone.expired` | This invite has expired | انتهت صلاحية هذه الدعوة | |
+| `clinicInvite.gone.unknown` | This invite link isn't valid | رابط الدعوة هذا غير صالح | |
+| `clinicInvite.goneBody` | Ask your clinic admin for a new invite. | اطلب دعوة جديدة من مسؤول عيادتك. | |
+| `chrome.nav.clinicAdmin` | Clinic admin | إدارة العيادة | |
+| `demo.openClinicAdmin` | Open clinic admin | فتح إدارة العيادة | |
+| `demo.need.clinic_admin` | Open the clinic admin to invite clinicians and see your clinic's figures. | افتح إدارة العيادة لدعوة الأطباء ورؤية أرقام عيادتك. | |
 ## Read aloud (build week A5, 18 Nov, draft Arabic, not yet reviewed)
 | Key | English | Arabic (draft) | Reviewer note |
 | --- | --- | --- | --- |
