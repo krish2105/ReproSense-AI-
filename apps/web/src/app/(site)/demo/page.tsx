@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("metaTitle") };
 }
 
-const NEEDS = ["patient", "clinician", "admin"] as const;
+const NEEDS = ["patient", "clinician", "admin", "clinic_admin"] as const;
 
 export default async function DemoPage({ searchParams }: { searchParams: Promise<{ need?: string }> }) {
   const t = await getTranslations("demo");
