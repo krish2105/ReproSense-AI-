@@ -14,9 +14,10 @@ is often missed. ReproSense turns the pieces into one explainable story that bot
 | Amina | 27 | Regular cycles, mild cramps | None (shows a calm, "all good, keep logging" state) |
 | Noura | 24 | Cycles 38–62 days, acne, excess hair growth logged | Irregular-cycle pattern + androgen-type symptom pattern → discuss PCOS evaluation |
 | Priya | 31 | Pain 7–9/10 each period, missed work 4 times, pain with bowel movements during periods | Severe cyclical pain pattern → discuss endometriosis evaluation |
-| Fatima | 33 | Gave birth 9 weeks ago, had gestational diabetes, no glucose test logged | Postpartum glucose test due (care gap) |
+| Fatima | 33 | Gave birth 9 weeks ago, had gestational diabetes, no glucose test logged; 3 ordinary blood-pressure readings after the birth (K6) | Postpartum glucose test due (care gap). Her readings are below 140/90, so no blood-pressure card |
 | Sara | 35 | Periods 8–10 days, flooding, clots (PBAC 158–161), one day dizziness logged | Heavy-bleeding pattern + **red flag** (urgent guidance) |
 | Mariam | 36 | Regular cycles, trying to conceive for 7 months | Fertility-check timing (ASRM ≥ 35 after 6 months; NICE NG257 2026) + preconception checklist |
+| Hessa | 29 | 24 weeks pregnant; 4 ordinary blood-pressure readings (3 antenatal visits, 1 at home on 20 Nov) | Pregnancy glucose screen due (care gap). Logging 160/110 or higher (or 140/90 or higher with a severe headache, vision changes or sudden swelling the same day) shows the 998 card RF7 first (K6, NICE NG133); 140/90 or higher alone shows "have it rechecked today" |
 
 ## Feature list with priority
 **P0 = must work in demo · P1 = should · P2 = stretch**

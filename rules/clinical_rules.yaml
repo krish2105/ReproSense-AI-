@@ -1,7 +1,7 @@
 # ReproSense clinical rules — the ONLY place observation logic lives.
 # Non-diagnostic. Each rule produces an observation "worth discussing", never a diagnosis.
 # Thresholds follow cited guidance; a clinician must review this file before any real-world use.
-# version: 0.2 (hackathon draft, 2026-11-05: pregnancy, after-birth mood, perimenopause, iron check) — reviewer: ________ (clinician name/date)
+# version: 0.2 (hackathon draft, 2026-11-05: pregnancy, after-birth mood, perimenopause, iron check; 2026-11-18: K6 blood pressure) — reviewer: ________ (clinician name/date)
 
 version: 0.2
 emergency_number_uae: "998"
@@ -38,6 +38,23 @@ red_flags:   # evaluated FIRST by the safety guardian; any hit shows an urgent c
     urgency: urgent
     message_en: "After birth, a severe headache with vision changes, very heavy bleeding or fever needs urgent care. Call 998."
     source_ids: [nice_ng194]
+  # K6 (build week, 18 Nov 2026), awaiting clinician sign-off; G2 approved by Krishna (build-week instruction).
+  # NICE NG133 Hypertension in pregnancy (2019), text checked 18 Nov 2026:
+  #   "Terms used": hypertension = 140 mmHg systolic or higher, or 90 mmHg diastolic or higher; severe hypertension =
+  #   160/110. Table 1 under rec 1.4.3: severe hypertension is admitted, and managed as hypertension once "BP falls below
+  #   160/110 mmHg", so 160/110 itself counts as severe (the "Terms used" line says "over 160 ... over 110"; we take the
+  #   lower, safer edge, as NG201 1.2.27 does: "160/110 mmHg or higher"). Rec 1.5.2: "sustained systolic blood pressure
+  #   of 160 mmHg or higher" is a concern that warrants admission. Rec 1.1.1: severe headache, problems with vision and
+  #   sudden swelling of the face, hands or feet are symptoms of pre-eclampsia; see a healthcare professional immediately.
+  # NICE NG201 1.2.27: severe hypertension (160/110 or higher) is referred to be seen the same day.
+  # NICE NG194 1.2.4: after birth, a persistent or severe headache needs medical advice without delay; 1.2.9 sends
+  #   hypertension after birth to NG133. "6 weeks" is the postnatal period (DoH Postnatal Care Program Standard, cited as doh_postnatal_standard_2025).
+  # One reading is checked at a time (app/rules/engine.py), with the symptoms logged on the same date.
+  - id: RF7_HIGH_BLOOD_PRESSURE   # 12 weeks after birth = the window she can log readings in (Q62, Krishna, 18 Nov)
+    when: "(pregnant or weeks_since_delivery < 12) and (bp_systolic_today >= 160 or bp_diastolic_today >= 110 or ((bp_systolic_today >= 140 or bp_diastolic_today >= 90) and (severe_headache_today or vision_change_today or sudden_swelling_today)))"
+    urgency: urgent
+    message_en: "Call 998 or go to your maternity unit now. In pregnancy and the 12 weeks after birth, a blood pressure of 160/110 or higher, or 140/90 or higher with a severe headache, vision changes or sudden swelling, needs urgent checking."
+    source_ids: [nice_ng133, nice_ng201, nice_ng194, doh_postnatal_standard_2025]
 
 observations:
   - id: OBS_IRREGULAR_CYCLES
@@ -165,6 +182,22 @@ observations:
       - "Any bleeding after periods have stopped for 12 months should be checked."
     urgency: discuss
     source_ids: [nice_ng23, mrs_heinemann_2004]
+
+  # K6 (build week, 18 Nov 2026), awaiting clinician sign-off. NICE NG133 "Terms used": 140/90 or higher is
+  # hypertension; rec 1.4.1: new hypertension in pregnancy is assessed in secondary care. NICE NG201 1.2.26: a first
+  # reading of 140/90 or higher after 20 weeks is seen in secondary care within 24 hours. Asking her to have it
+  # rechecked the same day after birth too is our choice (NG194 1.2.9 sends postnatal hypertension to NG133), listed in
+  # docs/safety/CHANGE_LOG.md for the clinician. Her latest reading in the last 14 days; never alongside RF7.
+  - id: OBS_RAISED_BLOOD_PRESSURE
+    title_en: "Your latest blood pressure reading was raised"
+    when: "(pregnant or weeks_since_delivery < 12) and bp_latest_days_ago <= 14 and (bp_latest_systolic >= 140 or bp_latest_diastolic >= 90) and not RF7_HIGH_BLOOD_PRESSURE"
+    explains: "NICE counts a blood pressure of 140/90 or higher as raised (hypertension) in pregnancy and after birth. NICE antenatal care guidance asks that a first raised reading after 20 weeks is checked by a maternity team within 24 hours. One reading is not a diagnosis; it needs rechecking."
+    next_steps_en:
+      - "Contact your maternity unit or doctor today to have it rechecked."
+      - "Call 998 or go to your maternity unit now if you get a severe headache, problems with vision, severe pain just below the ribs, vomiting, or sudden swelling of the face, hands or feet."
+      - "Bring your readings, with their dates and times, to the appointment."
+    urgency: soon
+    source_ids: [nice_ng133, nice_ng201]
 
 validated_questionnaires:   # shown as check-ins; scores feed rules, never shown as a diagnosis
   - {tool: PBAC, use: "bleeding amount per period", threshold: ">= 100 suggests heavy bleeding", source: pbac_higham_1990}

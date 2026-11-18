@@ -18,6 +18,7 @@ SENSITIVE = (
     "/v1/logs/parse",
     "/v1/demo/signup",
     "/v1/clinic-invites",
+    "/v1/auth/",
 )
 
 

@@ -1,12 +1,69 @@
 # 25 · Strict scorecard, 18 Nov 2026 (build week, day 2), and the projection after waves 1–4
 
+**Latest: 68/100 on 18 Nov night (section 0), up from 59 that morning.**
+
 Scored strictly by Claude Code on Krishna's request, from what is on `main` and live at https://reprosense.vercel.app on
 18 Nov evening, against the organisers' jury criteria (information session, 17 Nov) and eight specialist lenses.
 "Projected" assumes **every task in waves 1–4 (docs/24) ships, is live, the OpenRouter key is in Render, and the people
 work happens** (an advisor review, a few interviews or a small user study). If a wave slips, use the "now" column.
 Scores are judgements, not measurements; the reasons are what matter.
 
-## Facts this is based on
+## 0. Rescore, 18 Nov night (after Krishna's wave K1–K7 landed)
+Same rubric and the same strictness, from `main` at `9cd8b39` and the live site. The tables in sections 1–2 below are
+the morning scores ("now" there means 18 Nov morning); this section supersedes them.
+
+**What changed since the morning:** 9 build-week PRs merged with tests and live:
+- #101 OpenRouter provider and #102 lab-report photos.
+- K1 the DoH postnatal pathway (#107), K2 voice logging in Arabic and English (#108), K3 the pre-visit brief (#111),
+  K4 the clinic onboarding API (#109), K5 passkey and email-code sign-in (#113), K6 the blood-pressure log with the
+  NICE NG133 red flag (#116, extended to 12 weeks after birth in #118), and K7 the model safety scoring workflow (#110).
+
+Since selection, 39 commits are on GitHub (all by Krishna), with 512 backend tests and green CI. Still true:
+- Live AI is off (`llm: none`) until the OpenRouter key is in Render.
+- Atharva and Yash have no commits since selection, and Dareen has not accepted her invite.
+- There is no deck, MP4, letter of intent or interview.
+
+| Jury criterion (weight) | Morning | **Night** | Why |
+| --- | --- | --- | --- |
+| Venture potential (30) | 16 | **17** | Clinic tenants exist in the API (clinic admin, single-use invites, per-clinic dashboard and suppressed export), but there is no screen for them and still no validation or Nabta slide. |
+| Problem and health impact (20) | 15 | **17** | The maternal half of the theme is now real: DoH postnatal steps, and a blood-pressure warning in pregnancy and the 12 weeks after birth. The newborn and early-childhood half (D1, D2) is still absent. |
+| Innovation and evidence (20) | 12 | **14** | Voice logging, the verified pre-visit brief and passkeys are new. The model check can be scored in one click, but AI is off live and the check is unscored. |
+| Prototype and execution (20) | 11 | **15** | Visible build-week work: 9 PRs with tests, CI and e2e, all deployed. |
+| Team and pitch (10) | 5 | **5** | Three of four members show no build-week commits; no deck or video yet. |
+| **Total (100)** | **59** | **68** | Waves A, Y and D plus the key and the people work are worth about 14 more points (projection unchanged at about 82). |
+
+| Lens | Morning | Night | Biggest gap left |
+| --- | --- | --- | --- |
+| Senior hackathon judge | 59 | 68 | AI off live; teammates' work not visible |
+| CTO | 72 | 80 | Free Render tier (sleeps; database expires about 18 Dec); no ADHICS checklist |
+| CEO | 55 | 58 | No customer evidence; Nabta not positioned on a slide |
+| COO | 45 | 50 | No pilot operating plan; team bandwidth |
+| CMO | 60 | 61 | No user voice; no video |
+| Senior AI engineer | 68 | 72 | Generative AI off live; crisis recall 11/30 for the word checks; model check unscored |
+| AI engineer | 74 | 79 | No live model runs or speed numbers |
+| UI/UX | 74 | 78 | No judge tour; 3D only on landing and admin |
+| Real MVP | 52 | 64 | She can sign in on another device, speak a log and track blood pressure; no reminders, no real users |
+| Real SaaS | 38 | 48 | Tenants and invites in the API; no admin screens, billing or SLA |
+
+**What is left, by points at stake**
+1. **Krishna:**
+   - Add `OPENROUTER_API_KEY` in Render; also add it as a repository secret and run Actions → model-safety-eval.
+   - Get one letter of intent or written clinic interest, and do about 5 interviews.
+   - Add a "why not Nabta?" slide (section 5).
+   - Move to a paid Render instance for 22 Nov.
+   - Optional: `RESEND_API_KEY` and `EMAIL_FROM` for email codes.
+2. **Atharva (#103):** A3 clinic admin screens (the API is merged; shapes in #109), A1 3D body map, A2 judge tour, then
+   A6–A8.
+3. **Yash (#104):** Y1 planning-a-pregnancy checklist, Y2 phone testing of the new screens, Y5 the MP4 and the 3-slide
+   deck (required for submission), Y6 rehearsals.
+4. **Dareen (#106):** accept the invite. D1 the baby's first-year schedule and D2 the feeding log add the theme's
+   newborn half.
+5. **Clinician sign-off** (CHANGE_LOG, RULE_SIGNOFF): Q61 postnatal timing choices; Q62 a blood-pressure warning for a
+   severe reading at any stage.
+
+Deadlines: code freeze Sat 21 Nov 18:00; deck and MP4 at programs.upstartbar.com by Sun 22 Nov 15:15.
+
+## Facts this is based on (morning)
 - **Live since 18 Nov:** web on Vercel, API and a free Postgres on Render (Frankfurt), uptime pings every 10 minutes.
   The live demo path passed in English and Arabic (demo people, patterns with evidence, assistant with 3 citations,
   doctor PDF, clinician view, clinic network).

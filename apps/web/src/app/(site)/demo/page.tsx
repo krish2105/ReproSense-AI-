@@ -17,6 +17,7 @@ const NEEDS = ["patient", "clinician", "admin", "clinic_admin"] as const;
 export default async function DemoPage({ searchParams }: { searchParams: Promise<{ need?: string }> }) {
   const t = await getTranslations("demo");
   const tj = await getTranslations("join");
+  const tsi = await getTranslations("signin");
   const ts = await getTranslations("states");
   const locale = await getLocale();
   const { need } = await searchParams;
@@ -51,6 +52,12 @@ export default async function DemoPage({ searchParams }: { searchParams: Promise
         <p className="s dim">{tj("tryBody")}</p>
         <ButtonLink href="/join" variant="outline" size="sm" className="self-start">
           {tj("tryAction")}
+        </ButtonLink>
+        <p className="s dim" style={{ marginTop: 6 }}>
+          {tsi("fromDemoBody")}
+        </p>
+        <ButtonLink href="/signin" variant="outline" size="sm" className="self-start">
+          {tsi("fromDemo")}
         </ButtonLink>
       </section>
       <section aria-labelledby="staff-title" style={{ marginTop: 36 }}>

@@ -70,7 +70,6 @@
     "staffIntro": "The clinician sees only women who shared a report. The network admin sees follow-ups across clinics, without names.",
     "openClinic": "Open clinician view",
     "openAdmin": "Open clinic network",
-    "openClinicAdmin": "Open clinic admin",
     "reset": "Reset demo data",
     "resetDone": "Demo data reset. You're now signed in as the clinic network admin.",
     "need": {
@@ -91,7 +90,8 @@
       "noura": "Long and irregular cycles with acne and excess hair growth logged often.",
       "priya": "Severe period pain each month, missing work, pain with bowel movements during periods.",
       "sara": "Long, very heavy periods with clots; one recent day of dizziness (red-flag demo)."
-    }
+    },
+    "openClinicAdmin": "Open clinic admin"
   },
   "app": {
     "metaTitle": "Her app",
@@ -342,7 +342,10 @@
     "urgentTitle": "Needs attention now",
     "loggedOn": "Logged {date}",
     "sources": "Sources",
-    "dueBy": "Follow-up due by {date}"
+    "dueBy": "Follow-up due by {date}",
+    "signinTitle": "Open this record on another device",
+    "signinBody": "Add a passkey so your record opens again after this session, on this phone or another one.",
+    "signinAction": "Add a passkey"
   },
   "arc": {
     "cycleLabel": "Cycle day {day}",
@@ -470,6 +473,7 @@
     "reduced_baby_movements": "Fewer baby movements",
     "severe_headache": "Severe headache",
     "vision_changes": "Changes in vision",
+    "sudden_swelling": "Sudden swelling of face, hands or feet",
     "bleeding": "Bleeding",
     "heartburn": "Heartburn",
     "clots_larger_than_a_coin": "Clots larger than a coin"
@@ -871,6 +875,12 @@
       "care_gap_closed": "closed a follow-up",
       "care_gap_in_progress": "booked a follow-up",
       "care_gap_open": "reopened a follow-up",
+      "sign_in": "signed in",
+      "sign_in_failed": "a sign-in attempt failed",
+      "passkey_added": "added a passkey",
+      "passkey_removed": "removed a passkey",
+      "email_linked": "linked an email address",
+      "email_unlinked": "unlinked the email address",
       "other": "used your record"
     },
     "storedTitle": "What is stored",
@@ -904,7 +914,40 @@
     "deleted": "Your entries were deleted.",
     "deleteFailed": "Nothing was deleted: {detail}",
     "aiHint": "Off: the assistant closes and your cards use fixed wording. Your patterns and report stay the same, because rules find them.",
-    "noClinic": "Not linked to a clinic yet. Join from your clinic's invite to share with it."
+    "noClinic": "Not linked to a clinic yet. Join from your clinic's invite to share with it.",
+    "signin": {
+      "title": "Sign in on other devices",
+      "body": "Add a passkey to open this record again, on this device or another one. Face ID, a fingerprint or the phone PIN unlocks it, and that check never leaves your device.",
+      "demoPerson": "Demo people open with one tap on the demo page. Start your own record to add a passkey.",
+      "startRecord": "Start my own record",
+      "passkeysLabel": "Your passkeys",
+      "none": "No passkey yet. Without a passkey or a linked email, this record opens only in this browser until the session ends.",
+      "passkeyOn": "Passkey on {device}",
+      "passkey": "Passkey",
+      "addedOn": "Added {date}",
+      "lastUsed": "last used {date}",
+      "add": "Add a passkey",
+      "addedToast": "Passkey added. Next time, choose “Sign in to my record”.",
+      "remove": "Remove",
+      "removeTitle": "Remove this passkey?",
+      "removeBody": "This device will no longer open your record. If it is your only way in, add another passkey or link an email first.",
+      "removeConfirm": "Remove passkey",
+      "removed": "Passkey removed.",
+      "emailTitle": "Email code (backup)",
+      "emailLinked": "An email address is linked. We keep only a one-way code made from it, never the address itself, so it is not shown here.",
+      "emailNone": "Link an email address to get a 6-digit sign-in code when your passkey is not with you.",
+      "emailOff": "Email codes are off on this demo server. A passkey works without them.",
+      "emailLabel": "Email address",
+      "sendCode": "Send a code to link it",
+      "codeSent": "We sent a 6-digit code to that address. Enter it below.",
+      "codeLabel": "6-digit code",
+      "link": "Link this email",
+      "linked": "Email linked. You can now sign in with a code.",
+      "unlink": "Unlink email",
+      "unlinked": "Email unlinked.",
+      "keep": "Keep it",
+      "linkedTag": "Linked"
+    }
   },
   "more": {
     "title": "Your record",
@@ -1310,6 +1353,116 @@
         "glucose_test": "OGTT 4–12 weeks after birth (after GDM)"
       }
     }
+  },
+  "brief": {
+    "title": "Before your visit",
+    "clinicTitle": "Since the last visit",
+    "since": {
+      "shared_report": "What changed since {date}, when you last shared your report.",
+      "clinician_review": "What changed since {date}, when your clinic last reviewed your record.",
+      "default_90_days": "What changed in the last 90 days, since {date}. No visit is recorded yet."
+    },
+    "clinicSince": {
+      "shared_report": "Since {date}, when she last shared a report.",
+      "clinician_review": "Since {date}, the clinic's last review.",
+      "default_90_days": "The last 90 days, since {date}. No visit recorded yet."
+    },
+    "groups": {
+      "urgent": "Urgent",
+      "patterns": "Patterns in the entries",
+      "cycle": "Cycles and pain",
+      "labs": "Lab results since then",
+      "care": "Care steps",
+      "questions": "Your questions for the doctor",
+      "clinicQuestions": "Her questions"
+    },
+    "status": {
+      "urgent": "Urgent",
+      "new": "New",
+      "ongoing": "Still there",
+      "resolved": "No longer seen",
+      "done": "Done",
+      "booked": "Booked",
+      "due": "Due",
+      "H": "Above range",
+      "L": "Below range"
+    },
+    "entries": "Entries behind this line",
+    "more": "and {n} more",
+    "empty": "Nothing new logged since {date}.",
+    "template": "Written from your entries by fixed rules. Not a diagnosis.",
+    "clinicTemplate": "Built from her entries by fixed rules. Not a diagnosis.",
+    "model": "Reworded by AI, then checked against your entries: {n, plural, =0 {nothing removed} one {# unsupported sentence removed} other {# unsupported sentences removed}}. Not a diagnosis.",
+    "clinicModel": "Reworded by AI, then checked against her entries: {n, plural, =0 {nothing removed} one {# unsupported sentence removed} other {# unsupported sentences removed}}. Not a diagnosis."
+  },
+  "signin": {
+    "metaTitle": "Sign in to my record",
+    "title": "Sign in to my record",
+    "lede": "For a record you started yourself. Open it on this phone or another device with your passkey.",
+    "passkeyTitle": "Use a passkey",
+    "passkeyBody": "Your phone or laptop asks for Face ID, a fingerprint or its PIN. That check stays on your device. We keep only a key that proves it is you.",
+    "passkeyButton": "Use a passkey",
+    "passkeyPending": "Waiting for your device…",
+    "emailTitle": "No passkey on this device?",
+    "emailBody": "Get a 6-digit code at the email address you linked in Privacy. It works for 10 minutes.",
+    "emailLabel": "Email address",
+    "sendCode": "Send me a code",
+    "sent": "If this address is linked to a record, a code is on its way. Check your inbox and spam folder.",
+    "codeLabel": "6-digit code",
+    "codeHint": "The code works once, for 10 minutes.",
+    "verify": "Sign in with the code",
+    "resend": "Send a new code",
+    "otherAddress": "Use another address",
+    "signedIn": "Signed in. Opening your record…",
+    "problem": {
+      "cancelled": "The passkey prompt was closed. Try again when you are ready.",
+      "unsupported": "This browser can't use passkeys. Try an up-to-date browser on your phone or laptop.",
+      "already": "This device already holds a passkey for your record.",
+      "failed": "That didn't work: {detail}"
+    },
+    "noRecordTitle": "No record yet?",
+    "noRecordBody": "Start one in two minutes, or open one of the fictional demo people with one tap.",
+    "startRecord": "Start my own record",
+    "openDemo": "Open a demo person",
+    "demoNote": "This is a demo. Demo records and their passkeys are deleted at the next demo reset.",
+    "fromDemoBody": "Started a record on another device? Open it again with your passkey.",
+    "fromDemo": "Sign in to my record"
+  },
+  "bp": {
+    "title": "Blood pressure",
+    "intro": "For pregnancy and the 12 weeks after birth. Type the top two numbers from your monitor (SYS and DIA), not the pulse.",
+    "systolic": "Top number (SYS)",
+    "diastolic": "Bottom number (DIA)",
+    "unit": "mmHg",
+    "time": "Time (optional)",
+    "rangeHint": "Top number 70 to 250, bottom number 40 to 150, in mmHg.",
+    "orderError": "The top number must be higher than the bottom number.",
+    "save": "Save reading for {date}",
+    "saveToday": "Save today's reading",
+    "saved": "Reading saved: {reading} mmHg",
+    "saveFailed": "The reading was not saved: {detail}",
+    "urgentHeading": "Urgent guidance after your reading",
+    "recheckTitle": "Ask for this reading to be rechecked today",
+    "recheckBody": "{reading} mmHg is 140/90 or higher. One reading is not a diagnosis, but it needs a second check. Contact your maternity unit or doctor today.",
+    "warn": "Call 998 or go to your maternity unit now if you get a severe headache, problems with vision, severe pain just below the ribs, vomiting, or sudden swelling of the face, hands or feet.",
+    "dayTitle": "Readings on {date}",
+    "dayNone": "No reading on this day yet.",
+    "reading": "{reading} mmHg",
+    "at": "{date} at {time}",
+    "homeLatest": "Latest reading, {when}",
+    "homeNone": "No reading yet. Log one after each check, or at home if your midwife or doctor asked you to.",
+    "homeAction": "Log a reading",
+    "tableTitle": "Blood pressure readings",
+    "tableSummary": "Readings in this period: {count}. Readings of 140/90 or higher are marked.",
+    "colDate": "Date",
+    "colTime": "Time",
+    "colReading": "Reading (mmHg)",
+    "colNote": "Note",
+    "noteRaised": "Raised: 140/90 or higher",
+    "noteSevere": "Very high: 160/110 or higher",
+    "clinicTitle": "Blood pressure (her home readings)",
+    "clinicIntro": "Readings she logged: {count}, newest first. Marks follow NICE NG133.",
+    "rangeHigh": "If your monitor really shows a number this high, call 998 now."
   },
   "clinicAdmin": {
     "metaTitle": "Clinic admin",

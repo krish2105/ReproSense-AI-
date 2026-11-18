@@ -33,6 +33,10 @@ TOPICS = {  # question keywords -> entry filter
         r"flush|sweat|menopaus",
         lambda e: any(s in e.get("symptoms", []) for s in ("hot flushes", "night sweats")),
     ),
+    "blood_pressure": (  # K6: her blood-pressure readings
+        r"blood pressure|\bbp\b|pressure|hypertens|systolic|diastolic|pre-?eclampsia",
+        lambda e: "systolic" in e,
+    ),
     "pregnancy": (
         r"pregnan|antenatal|birth|deliver|glucose|ogtt|gdm|diabet",
         lambda e: (
@@ -45,7 +49,7 @@ TOPICS = {  # question keywords -> entry filter
 
 def ask_record(bundle: dict, question: str) -> dict:
     q = (question or "").lower()
-    entries = bundle["daily_logs"] + bundle["events"]
+    entries = bundle["daily_logs"] + bundle["events"] + bundle.get("bp_readings", [])
     matched_topics = [k for k, (pat, _) in TOPICS.items() if re.search(pat, q)]
     if "cycle" in q or "period" in q and not matched_topics:
         lens = [c["length_days"] for c in bundle["cycles"] if c.get("length_days")]
@@ -68,7 +72,7 @@ def ask_record(bundle: dict, question: str) -> dict:
     if not matched_topics:
         return {
             "answer": "I can only answer from her own entries. Try asking about pain, bleeding, cycles, mood, tiredness,"
-            " skin and hair, bowel or bladder symptoms, or pregnancy events.",
+            " skin and hair, bowel or bladder symptoms, blood pressure, or pregnancy events.",
             "evidence": [],
             "from_entries_only": True,
         }
@@ -116,6 +120,12 @@ def sbar(bundle: dict, ev: Evaluation, ref: date) -> dict:
         b_parts.append(f"currently {p.get('pregnancy_weeks')} weeks pregnant")
     if f.get("ttc_months"):
         b_parts.append(f"trying to conceive for {f['ttc_months']} months")
+    bp = sorted(bundle.get("bp_readings") or [], key=lambda r: (str(r["date"]), str(r.get("time") or "")))
+    if bp:
+        b_parts.append(
+            f"{len(bp)} home blood pressure reading{'s' if len(bp) > 1 else ''}, latest"
+            f" {bp[-1]['systolic']}/{bp[-1]['diastolic']} mmHg on {cp._fmt_day(str(bp[-1]['date']))}"
+        )
     flagged = [lab for lab in bundle["labs"] if lab.get("flag")]
     if flagged:
         b_parts.append(

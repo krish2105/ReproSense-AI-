@@ -17,6 +17,29 @@ Blockers / questions:
 
 ---
 
+## 2026-11-18 — Build week K6: blood-pressure log and urgent warning (G2) — Krishna with Claude Code
+Done:
+- She can log blood pressure (top/bottom mmHg, the calendar day, optional time) in pregnancy and for 12 weeks after a
+  birth: `POST /v1/bp` (plausible range 70–250 / 40–150, top above bottom, no future day; audited), table `bp_readings`
+  with forced RLS (her own rows; her clinic reads them with consent), in the bundle the rules engine reads.
+- New red flag `RF7_HIGH_BLOOD_PRESSURE`, run with the others first: in pregnancy or up to 6 weeks after birth, one
+  reading of 160/110 or higher, or 140/90 or higher with a severe headache, vision changes or sudden swelling logged the
+  same day (NICE NG133 "Terms used", Table 1 under 1.4.3, 1.5.2, 1.1.1; NG201 1.2.27). The engine checks each reading
+  on its own and the card cites only the reading(s) behind it. New "soon" card `OBS_RAISED_BLOOD_PRESSURE`: her latest
+  reading 140/90 or higher without RF7 → have it rechecked today (NG133; NG201 1.2.26). New symptom "sudden swelling".
+- NICE NG133 in the knowledge base (cite-only), summary in our own words (EN + AR). Hessa and Fatima carry ordinary
+  readings (generator, every line [OK]); no persona triggers the new rules.
+- Web: "Blood pressure" box on the log screen (urgent card first after saving), latest reading on home, readings table on
+  Patterns and in the clinician record, readings in the doctor PDF and the SBAR. EN + AR, light and dark, 390 px.
+- Chief-healthcare-officer and women-care-lead reviews applied (urgent wording "needs urgent care", full NG133 symptom
+  list in the warning, SYS/DIA labels and "not the pulse", word tags, 998 hint for a reading above the range).
+Tests: backend 439 passed (51 in `tests/test_blood_pressure.py`) · web lint, typecheck, 57 unit tests · e2e
+`e2e/blood-pressure.spec.ts` runs in CI
+UI slop check: pass (no gradients, no new radii or shadows, words beside every colour mark, one h1 per page)
+Blockers / questions:
+- Q62: RF7 stops at the end of week 6 after birth while logging runs to week 12 (both reviewers asked to extend RF7 to
+  12 weeks; left as specified for Krishna and the clinician to decide). Awaiting clinician sign-off (RULE_SIGNOFF).
+
 ## 2026-11-18 — Build week K4: clinic onboarding API — Krishna with Claude Code
 Done:
 - New role `clinic_admin` (one clinic). Demo login in one tap (`cadmin-01`, Seaside Women's Clinic, fictional); a second

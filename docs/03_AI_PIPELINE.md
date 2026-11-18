@@ -64,6 +64,8 @@ class PipelineState(BaseModel):
 | `gdm_history` + `weeks_since_delivery` + `postpartum_glucose_test_done` | from events/labs |
 | `pbac_by_cycle_6`, `pbac_max_6` | PBAC per period: pads light 1 / moderate 5 / soaked 20, clots small 1 / large 5 (Higham 1990) |
 | `ttc_months`, `age` | months trying to conceive; age for ASRM/NICE timing |
+| `bp_systolic_today`, `bp_diastolic_today` | one blood-pressure reading's numbers, checked one reading at a time with the symptoms logged that day (`sudden_swelling_today` is the symptom "sudden swelling"); 0 = no reading (K6, RF7) |
+| `bp_latest_systolic`, `bp_latest_diastolic`, `bp_latest_days_ago` | her latest reading and its age in days (K6, OBS_RAISED_BLOOD_PRESSURE) |
 | `record_strength` | cycles logged + supporting entries → strong / building / early (display only) |
 | `cycle_change_point` | largest step in mean cycle length between record halves (≥ 7 days shown) |
 
