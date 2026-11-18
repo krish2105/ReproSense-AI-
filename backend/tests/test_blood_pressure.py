@@ -248,7 +248,11 @@ def test_hessa_logs_165_over_100_and_the_998_card_comes_back_first(client, resee
     assert home["blood_pressure"]["latest"]["id"] == rid
     assert home["red_flags"][0]["observation_id"] == RF7
 
-    # Arabic: the card in Arabic with 998, the reading named in Arabic
+    # Arabic: the save answers in her screen's language, and home shows the card in Arabic with 998
+    ar_save = client.post(
+        "/v1/bp", params={"lang": "ar"}, json={"date": REF.isoformat(), "systolic": 120, "diastolic": 80}, headers=h
+    )
+    assert ar_save.json()["red_flags"][0]["title"] == "قراءة ضغط الدم هذه تحتاج رعاية عاجلة"
     ar = client.get("/v1/me/home", params={"lang": "ar"}, headers=h).json()["red_flags"][0]
     assert ar["observation_id"] == RF7
     assert "998" in ar["summary"] and "ضغط" in ar["summary"]
@@ -312,7 +316,9 @@ def test_after_birth_the_clinician_sees_fatimas_readings(client):
     assert len(rec["bp_readings"]) >= 2
     assert all({"date", "time", "systolic", "diastolic"} <= set(x) for x in rec["bp_readings"])
     assert "home blood pressure readings, latest 118/78 mmHg" in rec["sbar"]["background"]
-    ask = client.post("/v1/clinic/patients/fatima/ask", json={"question": "What has her blood pressure been?"}, headers=c)
+    ask = client.post(
+        "/v1/clinic/patients/fatima/ask", json={"question": "What has her blood pressure been?"}, headers=c
+    )
     assert [e["entry_id"] for e in ask.json()["evidence"]] == [x["id"] for x in rec["bp_readings"]][::-1]
 
 
@@ -346,4 +352,6 @@ def test_the_doctor_report_lists_her_readings():
     assert [r["id"] for r in pl["bp_readings"]][0] == "hessa-bp04"
     html = render_html(pl)
     assert "Blood pressure (her home readings" in html and "118/76 mmHg" in html
-    assert "Blood pressure" not in render_html(build_payload(PERSONAS["noura"], evaluate(PERSONAS["noura"], REF), [], REF))
+    assert "Blood pressure" not in render_html(
+        build_payload(PERSONAS["noura"], evaluate(PERSONAS["noura"], REF), [], REF)
+    )

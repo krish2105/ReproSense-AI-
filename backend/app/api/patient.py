@@ -301,8 +301,9 @@ class BloodPressureIn(BaseModel):
 
 
 @router.post("/bp")
-def create_bp_reading(body: BloodPressureIn, actor: Actor = Depends(patient)):
-    """Save a reading, re-run the rules (red flags first) and return any urgent card at once, like a log save."""
+def create_bp_reading(body: BloodPressureIn, lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
+    """Save a reading, re-run the rules (red flags first) and return any urgent card at once, like a log save, in her
+    screen's language (the stored cards stay in English, as after any save)."""
     if body.date > ref():
         raise HTTPException(422, "You can't log a reading for a future day.")
     with session(actor) as cur:
@@ -317,11 +318,12 @@ def create_bp_reading(body: BloodPressureIn, actor: Actor = Depends(patient)):
         audit.record(cur, actor, "create_bp_reading", actor.user_id, rid)
     out = _refresh(actor)
     crisis = bool(out.get("crisis"))
+    cards = out["cards"] if lang == "en" else cards_for(out["bundle"], lang)[0]
     reading = next(r for r in out["bundle"]["bp_readings"] if r["id"] == rid)
     return {
         "id": rid,
         "reading": reading,
-        "red_flags": views.display_cards(out["cards"], crisis)[0],
+        "red_flags": views.display_cards(cards, crisis)[0],
         "crisis": crisis,
         "patterns": [h.rule_id for h in out["evaluation"].observations],
     }

@@ -61,7 +61,7 @@ export function BloodPressureForm({
     const body: BpBody = { date, systolic: s, diastolic: d, time: time || null };
     startSave(async () => {
       try {
-        const r = await apiClient<BpResult>("/bp", { body });
+        const r = await apiClient<BpResult>(`/bp?lang=${locale}`, { body });
         const recheck = r.patterns.includes(RECHECK) && !r.red_flags.length ? r.reading : null;
         if (r.red_flags.length || r.crisis || recheck) {
           setResult({ flags: r.red_flags, crisis: r.crisis, recheck });
