@@ -627,3 +627,4 @@ a:has(> .link-pending.is-on){opacity:.65;cursor:progress}
 .stage img{border-radius:50%}
 ol.trace > li{padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0;background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);box-shadow:var(--shadow-s)}
 }
+.bodymap[data-3d="loading"] img{pointer-events:none}

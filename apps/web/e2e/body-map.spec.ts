@@ -20,6 +20,7 @@ test.describe("motion allowed", () => {
     await map.scrollIntoViewIfNeeded();
     const canvas = map.locator(".bodymap canvas");
     await expect(canvas).toBeVisible();
+    await expect(map.locator('.bodymap[data-3d="ready"]')).toBeVisible({ timeout: 30_000 }); // first frame drawn, poster gone
     await expect(map.locator(".bm-pt")).toHaveCount(0); // the 2D tap points are replaced, not doubled
     await expect(map).toContainText(en.log.heat3d);
 

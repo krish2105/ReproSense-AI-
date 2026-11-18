@@ -92,7 +92,7 @@ export function BodyMap({
           onToggle={(v) => setSide(v)}
         />
       </div>
-      <div ref={box} className="bodymap">
+      <div ref={box} className="bodymap" data-3d={show3d ? (ready ? "ready" : "loading") : undefined}>
         {show3d && heat && <BodyMap3D side={side} selected={selected} level={heat.level} onToggle={onToggle} onReady={() => setReady(true)} />}
         {show3d && ready ? null : imgFailed ? (
           <svg viewBox="0 0 300 400" width="100%" height="100%" aria-hidden="true" style={{ position: "absolute", inset: 0 }}>
