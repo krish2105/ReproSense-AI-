@@ -22,6 +22,8 @@ interface Quality {
     answer_language_match_pct: number;
     failures: { id: string }[];
     heldout?: Partial<Record<"crisis" | "urgent" | "refuse" | "medicine" | "answer", { pass: number; of: number }>> & { misses?: { id: string }[] };
+    /** the same held-out round with the language model's second check (build week K7); absent until it is run with a key */
+    heldout_with_model?: Partial<Record<"crisis" | "urgent" | "refuse" | "medicine" | "answer", { pass: number; of: number }>> & { model: string; round: number };
   } | null;
 }
 
@@ -192,6 +194,25 @@ export default async function StatusPage() {
               <p className="s dim" style={{ marginTop: 8 }}>
                 {t("heldoutAfter")}
               </p>
+              <h3 style={{ fontSize: 15, marginTop: 14 }}>{t("heldoutModelTitle")}</h3>
+              {e.heldout_with_model ? (
+                <>
+                  <p className="s dim" style={{ marginTop: 4 }}>
+                    {t("heldoutModelIntro", { model: e.heldout_with_model.model })}
+                  </p>
+                  <ul className="tier-list" style={{ marginTop: 8 }}>
+                    {(["crisis", "urgent", "refuse", "medicine", "answer"] as const).map((k) =>
+                      e.heldout_with_model?.[k] ? (
+                        <li key={k}>{t(`heldout.${k}`, { pass: e.heldout_with_model[k]!.pass, of: e.heldout_with_model[k]!.of })}</li>
+                      ) : null,
+                    )}
+                  </ul>
+                </>
+              ) : (
+                <p className="s dim" style={{ marginTop: 4 }}>
+                  {t("heldoutModelNone")}
+                </p>
+              )}
             </div>
           )}
         </section>

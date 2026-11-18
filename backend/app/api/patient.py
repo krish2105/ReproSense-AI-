@@ -19,7 +19,7 @@ from app.security import audit
 from app.security.auth import require
 from app.security.crypto import decrypt, encrypt
 from app.services import documents as docs
-from app.services import fhir, previsit, views
+from app.services import fhir, postnatal, previsit, views
 from app.services.patient_data import ai_allowed, apply_period_log, load_bundle
 
 router = APIRouter(prefix="/v1", tags=["patient"])
@@ -159,7 +159,36 @@ def home(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         "today_mood": today.get("mood") if today else None,
         "record_strength": ev.features.values.get("record_strength"),
         "days_logged": views.days_logged(b),
+        "postnatal": postnatal.pathway(b, ref()),  # her first 6 weeks after a birth (DoH Postnatal Care Standard)
     }
+
+
+class PostnatalCheckIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    date: date
+
+
+@router.post("/postnatal/{step}")
+def record_postnatal_check(step: str, body: PostnatalCheckIn, actor: Actor = Depends(patient)):
+    """She records a postnatal check she had ("I had this"). Only the checks done by her care team; the mood check
+    comes from her EPDS and the glucose test from a confirmed lab result."""
+    if step not in postnatal.CHECK_STEPS:
+        raise HTTPException(422, "Only the teleconsultation and the 2-week and 6-week visits can be recorded here.")
+    with session(actor) as cur:
+        b = _bundle(cur, actor)
+        p = postnatal.pathway(b, ref())
+        if not p:
+            raise HTTPException(404, "There is no birth in the last 12 weeks in your record.")
+        if not date.fromisoformat(p["birth_date"]) <= body.date <= ref():
+            raise HTTPException(422, "The date must be between the birth and today.")
+        cur.execute(
+            "INSERT INTO events (id, profile_id, type, date, details) VALUES (%s,%s,'postnatal_check',%s,%s)"
+            " ON CONFLICT (id) DO UPDATE SET date=EXCLUDED.date, details=EXCLUDED.details",
+            (f"{actor.user_id}-pn-{step}", actor.user_id, body.date, json.dumps({"step": step, "source": "her entry"})),
+        )
+        audit.record(cur, actor, "postnatal_check", actor.user_id, f"postnatal:{step}")
+        b = _bundle(cur, actor)
+    return postnatal.pathway(b, ref())
 
 
 @router.get("/timeline")
