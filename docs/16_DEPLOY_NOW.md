@@ -13,6 +13,12 @@ seeded 8 personas and 93 chunks, a restart did not reseed, and the full e2e suit
 PDFs included).
 
 ## 1. Database: Supabase (5 min)
+
+> **18 Nov: the showcase deploy uses a free Render Postgres instead** (Krishna's decision: the Supabase account had
+> reached its two free projects). `render.yaml` now creates the database `reprosense-db` next to the API in Frankfurt
+> and passes its connection string to the API, so skip this section and go to section 2. The free database expires
+> 30 days after creation. To move back to Supabase later, replace `DATABASE_URL` in `render.yaml` with `sync: false`
+> and paste the Supabase session-pooler URI.
 1. Create a project in **Frankfurt (eu-central-1)**. `render.yaml` puts the API in Frankfurt and
    `apps/web/vercel.json` puts the web functions in `fra1`, so all three sit together. Each page makes several
    API-to-database round trips, so a database on another continent makes every page slow. (Production moves to a
