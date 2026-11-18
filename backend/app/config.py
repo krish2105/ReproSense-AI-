@@ -22,9 +22,13 @@ class Settings(BaseSettings):
     demo_token_secret: str = ""  # HMAC key for demo role tokens; random per process if unset
     notes_key: str = ""  # base64 32-byte AES-GCM key for field-level encryption
     token_ttl_minutes: int = 720
-    llm_provider: str = "auto"  # auto | claude | none  (auto = claude if a key is present)
+    llm_provider: str = "auto"  # auto | claude | openrouter | none (auto: claude, else openrouter, if a key is set)
     anthropic_api_key: str = ""
     llm_model: str = "claude-opus-5-5"
+    # The hackathon's AI credits: an OpenRouter key limited to a few models (programs.upstartbar.com). The model id is
+    # one of those, e.g. "anthropic/claude-sonnet-4.5"; set OPENROUTER_MODEL to the one the credits allow.
+    openrouter_api_key: str = ""
+    openrouter_model: str = "anthropic/claude-sonnet-4.5"
     # Model time limits. The web gives up on an API call after 15 s (apps/web/src/lib/api/server.ts), so every model
     # call inside one API request shares one budget; past it the deterministic template answers (step 4b, 7 Nov).
     llm_request_budget_s: float = 10.0
