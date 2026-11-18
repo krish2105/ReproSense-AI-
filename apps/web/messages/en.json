@@ -809,7 +809,11 @@
       "confirmed": "Confirmed"
     },
     "showText": "Show the text we read",
-    "hideText": "Hide the text"
+    "hideText": "Hide the text",
+    "photoOffModel": "Reading a photo of a report needs the AI model, which isn't switched on in this demo. Upload the PDF or text version instead.",
+    "photoOffAi": "Reading a photo uses AI, which is off in your Privacy settings. Upload the PDF or text version, or turn AI on in",
+    "photoPrivacyLink": "Privacy",
+    "introNoPhoto": "Upload a lab report as a PDF or text file. We read the values; you check each one against your paper copy, then confirm. Nothing is saved until you confirm."
   },
   "privacy": {
     "metaTitle": "Privacy",

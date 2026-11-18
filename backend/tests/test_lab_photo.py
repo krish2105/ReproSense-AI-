@@ -141,3 +141,15 @@ def test_openrouter_sends_the_image_as_a_data_url(monkeypatch, tmp_path):
     parts = seen["body"]["messages"][1]["content"]
     assert parts[0] == {"type": "text", "text": "read it"}
     assert parts[1]["type"] == "image_url" and parts[1]["image_url"]["url"].startswith("data:image/png;base64,")
+
+
+# The photo button is only offered when a photo can be read (rule 8: no dead buttons). On the live demo with no model
+# configured, or with her AI switched off, the page hides it and says how to add the report instead.
+def test_photo_reading_is_offered_only_with_a_vision_model_and_her_ai_on(client, reseed, model, monkeypatch):
+    h = login(client, "fatima")
+    monkeypatch.setattr(llm, "get_llm", lambda: llm.NoLLM())
+    assert client.get("/v1/documents/photo", headers=h).json() == {"available": False, "reason": "no_model"}
+    model()
+    assert client.get("/v1/documents/photo", headers=h).json() == {"available": True, "reason": None}
+    assert client.patch("/v1/consents", headers=h, json={"purpose": "assistant", "granted": False}).status_code == 200
+    assert client.get("/v1/documents/photo", headers=h).json() == {"available": False, "reason": "ai_off"}
