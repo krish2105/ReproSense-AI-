@@ -536,3 +536,10 @@ card; the `clinic.*` rows are in clinician voice. The two knowledge-base summari
 | `postnatal.clinic.steps.mood` | Maternal blues assessment (EPDS), 10–14 days | تقييم تقلّب المزاج (مقياس إدنبرة)، 10–14 يوماً | |
 | `postnatal.clinic.steps.visit_6w` | 6-week postnatal visit | زيارة ما بعد الولادة في الأسبوع السادس | |
 | `postnatal.clinic.steps.glucose_test` | OGTT 4–12 weeks after birth (after GDM) | اختبار تحمّل الجلوكوز بعد 4–12 أسبوعاً من الولادة (بعد سكري الحمل) | |
+
+## 3D body pain map (build week A1, 18 Nov, draft Arabic, not yet reviewed)
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `log.heat3d` | Tap a region to mark it. Deeper colour means more painful days in the last 3 months. | اضغطي على منطقة لتحديدها. اللون الأعمق يعني أيامًا مؤلمة أكثر خلال آخر 3 أشهر. | |
+| `log.sitesList` | Pain locations | أماكن الألم | |
+| `log.siteRecent` | {count} days in 3 months | {count} أيام/يوم خلال 3 أشهر (plural forms) | |
