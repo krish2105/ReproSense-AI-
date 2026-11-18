@@ -1,7 +1,7 @@
 // Copied from apps/web/src/lib/api/types.ts by apps/mobile/scripts/sync-shared.mjs. Edit the web file, then run npm run sync.
 // Response shapes of the FastAPI service (backend/app/api/*). Checked field by field against live responses.
 
-export type Role = "patient" | "clinician" | "admin";
+export type Role = "patient" | "clinician" | "admin" | "clinic_admin";
 export type LifeStage = "periods" | "trying_to_conceive" | "pregnancy" | "after_birth" | "perimenopause";
 
 /** GET /v1/demo/personas */
@@ -29,7 +29,7 @@ export interface PersonasResponse {
 }
 
 /** POST /v1/demo/login */
-export type LoginBody = { persona: string; role?: "patient" } | { role: "clinician" | "admin" };
+export type LoginBody = { persona: string; role?: "patient" } | { role: "clinician" | "admin" | "clinic_admin" };
 export interface LoginResponse {
   role: Role;
   user_id: string;
@@ -689,4 +689,58 @@ export interface AuthMe {
 export interface PhotoReading {
   available: boolean;
   reason: "no_model" | "ai_off" | null;
+}
+
+/** Clinic onboarding (K4, PR #109): /v1/clinic-admin/* for a clinic admin, /v1/clinic-invites/* public. */
+export interface ClinicRef {
+  id: string;
+  name: string; // "Seaside Women's Clinic (fictional)"
+  region: string;
+}
+export type InviteStatus = "pending" | "accepted" | "expired" | "revoked";
+export interface InviteCreated {
+  id: number;
+  status: "pending";
+  token: string; // shown only once
+  join_path: string; // "/clinic-invite/<token>"
+  join_url: string;
+  qr_payload: string;
+  created_at: string;
+  expires_at: string;
+  clinic: ClinicRef;
+  note: string;
+}
+export interface InviteRow {
+  id: number;
+  status: InviteStatus;
+  created_at: string;
+  expires_at: string;
+  accepted_at: string | null;
+  revoked_at: string | null;
+  accepted_by: { id: string; alias: string } | null;
+}
+export interface InvitesResponse {
+  clinic_id: string;
+  invites: InviteRow[];
+}
+export interface TeamResponse {
+  clinic: ClinicRef;
+  clinicians: Array<{ id: string; alias: string; joined_at: string; joined_by_invite: boolean }>;
+}
+/** Counts under 10 (or blanked to protect a small group) are null: show "fewer than 10", never 0. */
+export interface ClinicDashboard {
+  clinic: ClinicRef;
+  is_synthetic: boolean;
+  k_min: number;
+  follow_ups: { open: number | null; booked: number | null; done: number | null; total: number | null; done_pct: number | null };
+  pc008_glucose: { due: number | null; booked: number | null; done: number | null; open: number | null; done_pct: number | null; suppressed: boolean; note: string };
+  shared_records: number | null;
+  team: { clinicians: number; pending_invites: number };
+  note: string;
+}
+export interface InvitePreview {
+  clinic: ClinicRef;
+  status: InviteStatus;
+  expires_at: string;
+  role: "clinician";
 }

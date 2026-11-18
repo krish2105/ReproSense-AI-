@@ -1,22 +1,15 @@
 name: mobile
 # The phone app (docs/21, apps/mobile): lint, types, unit tests, and a check that the files it copies from the web app
-# (API types, messages, tokens, shared helpers) are current. Runs when the app or one of those web files changes.
+# (API types, messages, tokens, shared helpers) are current. Runs when the phone app changes, so a web-only PR is never
+# blocked by the phone's copies; the next phone PR runs `npm run sync` (sync:check below fails until it does).
 on:
   push:
     paths:
       - "apps/mobile/**"
-      - "apps/web/messages/**"
-      - "apps/web/src/lib/**"
-      - "apps/web/src/app/globals.css"
-      - "apps/web/public/demo/**"
       - ".github/workflows/mobile.yml"
   pull_request:
     paths:
       - "apps/mobile/**"
-      - "apps/web/messages/**"
-      - "apps/web/src/lib/**"
-      - "apps/web/src/app/globals.css"
-      - "apps/web/public/demo/**"
       - ".github/workflows/mobile.yml"
 
 jobs:
