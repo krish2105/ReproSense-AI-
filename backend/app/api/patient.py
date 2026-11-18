@@ -13,9 +13,9 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from app.agents import navigator
-from app.agents.pipeline import cards_for, persist, run
+from app.agents.pipeline import cards_for, refresh, run
 from app.config import get_settings
-from app.db import SYSTEM, Actor, session
+from app.db import Actor, session
 from app.rules.engine import evaluate, load_rules
 from app.security import audit
 from app.security.auth import require
@@ -42,11 +42,11 @@ def _bundle(cur, actor: Actor) -> dict:
 
 
 def _refresh(actor: Actor) -> dict:
-    """Re-run the pipeline after new data and store observations/care gaps (system actor writes care gaps)."""
-    with session(SYSTEM) as cur:
-        b = load_bundle(cur, actor.user_id)
-        out = run(b)
-        persist(cur, actor.user_id, out)
+    """Re-run the pipeline after new data and store observations/care gaps (system actor writes care gaps).
+    `refresh` reads, runs with no connection held, then writes (app.db.session explains why)."""
+    out = refresh(actor.user_id)
+    if out is None:
+        raise HTTPException(404, "Record not found")
     return out
 
 
