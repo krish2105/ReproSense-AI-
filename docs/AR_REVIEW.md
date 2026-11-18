@@ -864,3 +864,14 @@ Staff-facing; the imperative is masculine/neutral.
 | `analytics.year3dTitle` | Your year in 3D | عامكِ بالأبعاد الثلاثة | |
 | `analytics.year3dHint` | One loop per cycle, one bead per day you logged. Rings mark pain 7 or more; diamonds mark events. Drag to turn, tap a bead to open that day. | حلقة لكل دورة وخرزة لكل يوم سجّلتِه. الحلقات تشير إلى ألم بدرجة 7 أو أكثر، والمعيّنات تشير إلى الأحداث. اسحبي للتدوير، واضغطي على خرزة لفتح ذلك اليوم. | |
 | `analytics.year3dLabel` | 3D view of {days} logged days over {loops} cycles, {rings} with pain 7 or more. The year chart below shows the same days. | عرض ثلاثي الأبعاد لـ {days} يومًا مسجّلًا عبر {loops} دورات، منها {rings} بألم 7 أو أكثر. يعرض مخطط العام أدناه الأيام نفسها. | |
+
+## Read aloud (build week A5, 18 Nov, draft Arabic, not yet reviewed)
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `chrome.read.play` | Read aloud | قراءة بصوت عالٍ | |
+| `chrome.read.pause` | Pause | إيقاف مؤقت | |
+| `chrome.read.resume` | Resume | متابعة | |
+| `chrome.read.stop` | Stop | إيقاف | |
+| `chrome.read.group` | Read aloud: {what} | قراءة بصوت عالٍ: {what} | |
+| `chrome.read.playing` | Reading aloud | تجري القراءة | |
+| `chrome.read.paused` | Paused | متوقفة مؤقتًا | |

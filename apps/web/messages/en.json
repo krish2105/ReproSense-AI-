@@ -35,7 +35,16 @@
     "tabsLabel": "Sections of her app",
     "footerTrust": "Trust centre",
     "footerPricing": "Pricing",
-    "footerLinks": "More about ReproSense"
+    "footerLinks": "More about ReproSense",
+    "read": {
+      "play": "Read aloud",
+      "pause": "Pause",
+      "resume": "Resume",
+      "stop": "Stop",
+      "group": "Read aloud: {what}",
+      "playing": "Reading aloud",
+      "paused": "Paused"
+    }
   },
   "tabs": {
     "home": "Home",
