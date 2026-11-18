@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
+import { BriefSection } from "@/components/brief/BriefSection";
 import { PrepareReport, ReportActions } from "@/components/report/ReportActions";
 import { ReportDoc } from "@/components/report/ReportDoc";
 import { Box } from "@/components/ui/Box";
 import { EmptyState } from "@/components/ui/States";
 import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
-import type { ReportRow, ShareRow } from "@/lib/api/types";
+import type { PrevisitBrief, ReportRow, ShareRow } from "@/lib/api/types";
 import { formatDate } from "@/lib/format";
 import { requireRole } from "@/lib/session";
 
@@ -15,13 +16,18 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("metaTitle") };
 }
 
-// Doctor report (HANDOFF §5 /app/report; mockup tReport, visitDialog): preview, PDF, consented share, visit mode.
+// Doctor report (HANDOFF §5 /app/report; mockup tReport, visitDialog): the pre-visit brief (K3), preview, PDF,
+// consented share, visit mode. The brief comes first, so she sees what changed before she shares.
 export default async function ReportPage() {
   await requireRole("patient");
   const raw = await getLocale();
   const locale = isLocale(raw) ? raw : "en";
   const t = await getTranslations("report");
-  const [report, shares] = await Promise.all([apiServer<ReportRow | null>("/reports/latest"), apiServer<ShareRow[]>("/shares")]);
+  const [report, shares, brief] = await Promise.all([
+    apiServer<ReportRow | null>("/reports/latest"),
+    apiServer<ShareRow[]>("/shares"),
+    apiServer<PrevisitBrief>("/brief", { query: { lang: locale } }),
+  ]);
   const now = Date.now(); // expiry is compared with the real clock (share links expire in real time)
   const forThis = report ? shares.filter((s) => s.report_id === report.id || !s.revoked_at) : shares;
 
@@ -31,6 +37,7 @@ export default async function ReportPage() {
       <p className="s dim" style={{ textAlign: "center" }}>
         {t("intro")}
       </p>
+      <BriefSection brief={brief} locale={locale} audience="patient" />
       {report ? (
         <>
           <div className="kv" style={{ alignItems: "center", flexWrap: "wrap" }}>

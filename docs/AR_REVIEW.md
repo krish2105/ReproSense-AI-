@@ -496,3 +496,67 @@ She can now photograph a lab report; the AI model reads it and she checks every 
 | `documents.intro` (changed) | Upload a lab report as a PDF or text file, or take a photo of it. … | ارفعي تقرير المختبر بصيغة PDF أو ملف نصي، أو صوّريه. … | |
 | `documents.fileLabel` (changed) | Lab report file (PDF, text or photo) | ملف تقرير المختبر (PDF أو نص أو صورة) | |
 | `documents.noRows` (changed) | No lab values were recognised. Try the PDF or text version of the report, or a sharper photo of the results page. | لم نتعرّف على قيم مختبر. جرّبي النسخة النصية أو PDF من التقرير، أو صورة أوضح لصفحة النتائج. | |
+
+## Pre-visit brief (build week K3, 18 Nov, draft Arabic, not yet reviewed)
+"Before your visit" on her report page: what changed since her last visit, from her own entries. Screen strings are in
+`apps/web/messages/ar.json` (`brief.*`); the brief's own sentences are templates in `backend/app/services/previsit.py`
+(`T`, `CARE_STEP`), filled with her numbers and dates. Feminine address on her screen; the clinician view is English.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `brief.title` | Before your visit | قبل زيارتك | |
+| `brief.clinicTitle` | Since the last visit | منذ الزيارة الأخيرة | |
+| `brief.since.shared_report` | What changed since {date}, when you last shared your report. | ما الذي تغيّر منذ {date}، حين شاركتِ تقريرك آخر مرة. | |
+| `brief.since.clinician_review` | What changed since {date}, when your clinic last reviewed your record. | ما الذي تغيّر منذ {date}، حين راجعت عيادتك سجلّك آخر مرة. | |
+| `brief.since.default_90_days` | What changed in the last 90 days, since {date}. No visit is recorded yet. | ما الذي تغيّر في آخر 90 يوماً، منذ {date}. لا توجد زيارة مسجّلة بعد. | |
+| `brief.clinicSince.shared_report` | Since {date}, when she last shared a report. | منذ {date}، حين شاركت تقريراً آخر مرة. | |
+| `brief.clinicSince.clinician_review` | Since {date}, the clinic's last review. | منذ {date}، آخر مراجعة من العيادة. | |
+| `brief.clinicSince.default_90_days` | The last 90 days, since {date}. No visit recorded yet. | آخر 90 يوماً، منذ {date}. لا توجد زيارة مسجّلة بعد. | |
+| `brief.groups.urgent` | Urgent | عاجل | |
+| `brief.groups.patterns` | Patterns in the entries | أنماط في الإدخالات | |
+| `brief.groups.cycle` | Cycles and pain | الدورات والألم | |
+| `brief.groups.labs` | Lab results since then | نتائج التحاليل منذ ذلك الحين | |
+| `brief.groups.care` | Care steps | خطوات الرعاية | |
+| `brief.groups.questions` | Your questions for the doctor | أسئلتك للطبيبة | |
+| `brief.groups.clinicQuestions` | Her questions | أسئلتها | |
+| `brief.status.urgent` | Urgent | عاجل | |
+| `brief.status.new` | New | جديد | |
+| `brief.status.ongoing` | Still there | ما زال موجوداً | |
+| `brief.status.resolved` | No longer seen | لم يعد ظاهراً | |
+| `brief.status.done` | Done | تمّ | |
+| `brief.status.booked` | Booked | محجوز | |
+| `brief.status.due` | Due | مستحق | |
+| `brief.status.H` | Above range | أعلى من المدى | |
+| `brief.status.L` | Below range | أقل من المدى | |
+| `brief.entries` | Entries behind this line | الإدخالات وراء هذا السطر | |
+| `brief.more` | and {n} more | و{n} غيرها | |
+| `brief.empty` | Nothing new logged since {date}. | لم يُسجَّل شيء جديد منذ {date}. | |
+| `brief.template` | Written from your entries by fixed rules. Not a diagnosis. | كُتب من إدخالاتك بقواعد ثابتة. ليس تشخيصاً. | |
+| `brief.clinicTemplate` | Built from her entries by fixed rules. Not a diagnosis. | مبني على إدخالاتها بقواعد ثابتة. ليس تشخيصاً. | |
+| `brief.model` | Reworded by AI, then checked against your entries: {n, plural, =0 {nothing removed} one {# unsupported sentence removed} other {# unsupported sentences removed}}. Not a diagnosis. | أعاد الذكاء الاصطناعي صياغته، ثم طابقناه مع إدخالاتك: {n, plural, =0 {لم يُحذف شيء} one {حُذفت جملة واحدة غير مدعومة} two {حُذفت جملتان غير مدعومتين} few {حُذفت # جمل غير مدعومة} other {حُذفت # جملة غير مدعومة}}. ليس تشخيصاً. | |
+| `brief.clinicModel` | Reworded by AI, then checked against her entries: {n, plural, =0 {nothing removed} one {# unsupported sentence removed} other {# unsupported sentences removed}}. Not a diagnosis. | أعاد الذكاء الاصطناعي صياغته، ثم طابقناه مع إدخالاتها: {n, plural, =0 {لم يُحذف شيء} one {حُذفت جملة واحدة غير مدعومة} two {حُذفت جملتان غير مدعومتين} few {حُذفت # جمل غير مدعومة} other {حُذفت # جملة غير مدعومة}}. ليس تشخيصاً. | |
+| `T.new` | New since the last visit: {title}. | جديد منذ الزيارة الأخيرة: {title}. | |
+| `T.ongoing` | Still in the record: {title}. | ما زال في السجل: {title}. | |
+| `T.resolved` | No longer seen in the entries: {title}. | لم يعد ظاهراً في الإدخالات: {title}. | |
+| `T.cycles_ended` | Cycles that ended since the last visit: {since} days. | الدورات التي انتهت منذ الزيارة الأخيرة: {since} {unit}. | |
+| `T.cycles_before` | Before that they were {lo} to {hi} days. | قبل ذلك كانت بين {lo} و{hi} يوماً. | |
+| `T.cycles_before_one` | Before that, one cycle of {lo} days. | قبل ذلك، دورة واحدة طولها {lo} يوماً. | |
+| `T.longest` | {n} days is the longest cycle in the record. | {n} يوماً هي أطول دورة في السجل. | |
+| `T.shortest` | {n} days is the shortest cycle in the record. | {n} يوماً هي أقصر دورة في السجل. | |
+| `T.period_started` | A period started on {date}. | بدأت دورة في {date}. | |
+| `T.no_period` | No new period start logged since the last visit. The last one started on {date}. | لم يُسجَّل بدء دورة جديدة منذ الزيارة الأخيرة. بدأت آخر دورة في {date}. | |
+| `T.pain_since` | Highest pain logged since the last visit: {pain} out of 10 on {date}. | أعلى ألم مسجّل منذ الزيارة الأخيرة: {pain} من 10 في {date}. | |
+| `T.pain_before` | In the 6 months before it, the highest was {pain} out of 10. | في الأشهر الستة التي سبقتها كان الأعلى {pain} من 10. | |
+| `T.pain_none` | No pain logged since the last visit. | لم يُسجَّل أي ألم منذ الزيارة الأخيرة. | |
+| `T.impact` | Missed work or study, or stayed in bed, on {n} since the last visit. | سُجّل الغياب عن العمل أو الدراسة أو البقاء في السرير في {n} منذ الزيارة الأخيرة. | |
+| `T.lab` | {test}: {value} on {date}, {where}. | {test}: {value} في {date}، {where}. | |
+| `T.lab_no_range` | {test}: {value} on {date}. | {test}: {value} في {date}. | |
+| `T.above` | above the lab's range ({range}) | أعلى من مدى المختبر ({range}) | |
+| `T.below` | below the lab's range ({range}) | أقل من مدى المختبر ({range}) | |
+| `T.within` | within the lab's range ({range}) | ضمن مدى المختبر ({range}) | |
+| `T.care_done` | Done since the last visit: {step}. | تمّ منذ الزيارة الأخيرة: {step}. | |
+| `T.care_booked` | Booked: {step}. | محجوز: {step}. | |
+| `T.care_due` | Still due: {step}. | ما زال مستحقاً: {step}. | |
+| `T.care_due_by` | Still due: {step}, by {date}. | ما زال مستحقاً: {step}، قبل {date}. | |
+| `CARE_STEP.postpartum_glucose_test` | the glucose test after birth (OGTT) | فحص تحمّل السكر بعد الولادة (OGTT) | |
+| `CARE_STEP.pregnancy_glucose_screen` | the pregnancy glucose test (24–28 weeks) | فحص سكر الحمل (الأسبوع 24–28) | |

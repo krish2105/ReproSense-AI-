@@ -475,6 +475,33 @@ export interface ClinicRecord {
   her_questions: string[];
   days_logged: number;
   visit_note_draft: string;
+  previsit_brief: PrevisitBrief;
+}
+/** One line of the pre-visit brief: a fact from her entries, with the entries behind it (K3). */
+export interface BriefLine {
+  id: string;
+  kind: "red_flag" | "pattern" | "cycle" | "pain" | "lab" | "care_step" | "question";
+  status: "urgent" | "new" | "ongoing" | "resolved" | "done" | "booked" | "due" | "H" | "L" | null;
+  rule_id: string | null;
+  text: string;
+  evidence: Evidence[];
+  evidence_total: number;
+  sources: Source[];
+  written_by: string;
+  due_date?: string | null;
+}
+/** GET /v1/brief?lang= (her) and ClinicRecord.previsit_brief (clinician): "what changed since the last visit" */
+export interface PrevisitBrief {
+  since: string;
+  since_basis: "shared_report" | "clinician_review" | "default_90_days";
+  ref_date: string;
+  lang: "en" | "ar";
+  audience: "patient" | "clinician";
+  crisis: boolean;
+  ai_on: boolean;
+  written_by: string;
+  dropped_sentences: number;
+  lines: BriefLine[];
 }
 /** POST /v1/clinic/patients/{id}/ask — answers only from her entries */
 export interface RecordAnswer {
