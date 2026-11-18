@@ -63,17 +63,34 @@ Or, without a native build, open it in Expo Go inside the simulator: `npx expo s
 In Expo Go, switching to Arabic changes the words straight away, but the right-to-left layout needs a development or
 Release build (see "Not done yet" below).
 
-### Your own iPhone as an installed app (a development or Release build)
+### Your own iPhone as an installed app (a Release build)
 
-Xcode signed in with your Apple ID (Xcode → Settings → Accounts); a free Apple ID works for 7 days at a time.
-1. Plug the iPhone in, unlock it, and turn on Settings → Privacy & Security → Developer Mode.
-2. Build and install it. A Release build carries its own JavaScript, so it runs without the Mac afterwards:
+You need Xcode signed in with your Apple ID (Xcode → Settings → Accounts); a free Apple ID works for 7 days at a time.
+A Release build carries its own JavaScript, so the phone needs no Mac afterwards.
+
+1. **Connect the iPhone.** Plug it in, unlock it, tap Trust This Computer, and turn on Settings → Privacy & Security →
+   Developer Mode.
+2. **Find the phone's UDID and your team ID:** `xcrun devicectl list devices` shows the UDID. Your team ID is the OU of
+   your "Apple Development" certificate.
+3. **Generate the project and build it for the phone:**
    ```bash
-   npx expo run:ios --device --configuration Release
+   export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 && npx expo prebuild --platform ios
    ```
-   Pick the iPhone from the list. If Xcode asks for a team, open `ios/ReproSense.xcworkspace`, choose your Personal
-   Team under Signing & Capabilities, and run the command again.
-3. The first time, trust the developer on the iPhone: Settings → General → VPN & Device Management.
+   ```bash
+   cd ios && xcodebuild -workspace ReproSense.xcworkspace -scheme ReproSense -configuration Release -destination "id=<udid>" -derivedDataPath build-device -allowProvisioningUpdates DEVELOPMENT_TEAM=<team id> CODE_SIGN_STYLE=Automatic build
+   ```
+   `npx expo run:ios --device --configuration Release` does the same in one step, and asks you to pick the phone and a
+   team.
+4. **Install it:**
+   ```bash
+   xcrun devicectl device install app --device <udid> build-device/Build/Products/Release-iphoneos/ReproSense.app
+   ```
+5. **The first time,** trust the developer on the iPhone: Settings → General → VPN & Device Management → your Apple
+   Development profile → Trust. Then open ReproSense.
+
+**Pods that are too old for Xcode 27:** some pods target iOS older than 15, and Xcode 27 refuses them in device builds
+(simulator builds still pass). `plugins/withPodDeploymentTarget.js` raises every pod to iOS 16.4 in the generated
+Podfile, so this works after any `expo prebuild`.
 
 ### Against a local API instead
 
