@@ -654,6 +654,13 @@ html.touring body{padding-bottom:min(60vh,520px)}
 .tour-on{outline:3px solid var(--accent);outline-offset:3px;border-radius:var(--r2,16px);scroll-margin:120px}
 @media (prefers-reduced-motion:no-preference){.tour-on{animation:tour-pulse 1.6s ease-in-out 3}}
 @keyframes tour-pulse{50%{outline-offset:7px}}
+/* Clinic admin (A3) */
+.ca-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;align-items:start}
+.ca-grid > section{display:flex;flex-direction:column}
+.ca-list{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:8px}
+.ca-list li{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--rule);border-radius:14px;background:var(--paper)}
+.ca-list li > b + span{display:block}
+@media (max-width:860px){.ca-grid{grid-template-columns:1fr}}
 
 /* Pregnancy and fourth-trimester ring (A7) */
 .ring3d{position:relative;height:300px;border-radius:var(--r2);overflow:hidden;cursor:grab;touch-action:pan-y}
