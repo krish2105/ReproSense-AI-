@@ -575,3 +575,21 @@ export interface FhirExport {
   bundle: { resourceType: string; type: string; entry?: unknown[] };
   validation_errors: string[];
 }
+
+/** POST /v1/auth/passkey/login/verify and /v1/auth/email/verify: her own record, signed in (K5) */
+export interface SignedIn {
+  role: "patient";
+  user_id: string;
+}
+/** GET /v1/auth/methods: what the sign-in page offers (the email code needs a configured provider) */
+export interface AuthMethods {
+  passkey: boolean;
+  email: boolean;
+}
+/** GET /v1/auth/me: her sign-in methods, for Privacy. Never the address itself. */
+export interface AuthMe {
+  own_record: boolean; // a record she started on /join (demo people open with one tap instead)
+  passkeys: { id: number; label: string | null; created_at: string; last_used_at: string | null }[];
+  email_linked: boolean;
+  email_available: boolean;
+}

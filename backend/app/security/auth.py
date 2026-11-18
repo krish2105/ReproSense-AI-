@@ -6,7 +6,7 @@ from __future__ import annotations
 from datetime import UTC, datetime, timedelta
 
 import jwt
-from fastapi import Depends, HTTPException, Request
+from fastapi import Depends, HTTPException, Request, Response
 
 from app.config import get_settings
 from app.db import Actor
@@ -57,3 +57,13 @@ def require(*roles: str):
         return actor
 
     return dep
+
+
+def set_session(response: Response, user_id: str, role: str, clinic_id: str) -> str:
+    """The httpOnly session cookie, the same for a demo tap, a passkey and an email code."""
+    s = get_settings()
+    token = create_token(user_id, role, clinic_id)
+    response.set_cookie(
+        COOKIE, token, httponly=True, samesite="lax", secure=s.cookie_secure, max_age=s.token_ttl_minutes * 60, path="/"
+    )
+    return token

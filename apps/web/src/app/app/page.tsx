@@ -16,7 +16,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import Link from "next/link";
 import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
-import type { HomeResponse } from "@/lib/api/types";
+import type { AuthMe, HomeResponse } from "@/lib/api/types";
 import { firstName, formatDate, isolate, shownName } from "@/lib/format";
 import { requireRole } from "@/lib/session";
 
@@ -38,6 +38,10 @@ export default async function Home() {
   const latestDraft = soon ? h.navigator_drafts.find((d) => d.rule_id === soon.observation_id && d.status !== "discarded") : undefined;
   const peri = h.observations.find((o) => o.observation_id === "OBS_PERIMENOPAUSE_SYMPTOMS");
   const vasomotor = peri ? Number(peri.values.vasomotor_days_90 ?? NaN) : NaN;
+  // A record she started herself opens only in this browser until she adds a way back in (K5). Demo people: never.
+  const ownRecord = h.profile.id.startsWith("guest-");
+  const signIn = ownRecord ? await apiServer<AuthMe>("/auth/me").catch(() => null) : null;
+  const noWayBack = signIn !== null && signIn.passkeys.length === 0 && !signIn.email_linked;
 
   return (
     <div className="home-grid">
@@ -86,6 +90,18 @@ export default async function Home() {
         )}
 
         {soon && <NavigatorCard key={`${h.profile.id}-${soon.observation_id}`} card={soon} dueDate={gap?.due_date} latest={latestDraft} />}
+
+        {noWayBack && !h.crisis && (
+          <Box>
+            <p className="label">{t("home.signinTitle")}</p>
+            <p className="s" style={{ margin: "4px 0 10px" }}>
+              {t("home.signinBody")}
+            </p>
+            <ButtonLink href="/app/privacy#sign-in" variant="outline" size="sm">
+              {t("home.signinAction")}
+            </ButtonLink>
+          </Box>
+        )}
       </div>
 
       <div className="home-col">

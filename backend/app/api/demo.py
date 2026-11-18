@@ -12,7 +12,8 @@ from pydantic import BaseModel, Field
 from app.config import get_settings
 from app.db import SYSTEM, Actor, session
 from app.security import audit
-from app.security.auth import COOKIE, create_token, current_actor, require
+from app.security.auth import COOKIE, current_actor, require
+from app.security.auth import set_session as _set_session
 from app.services.patient_data import apply_period_log
 
 router = APIRouter(prefix="/v1/demo", tags=["demo"])
@@ -44,20 +45,6 @@ def personas():
         ],
         "ref_date": get_settings().demo_ref_date.isoformat(),
     }
-
-
-def _set_session(response: Response, user_id: str, role: str, clinic_id: str) -> str:
-    token = create_token(user_id, role, clinic_id)
-    response.set_cookie(
-        COOKIE,
-        token,
-        httponly=True,
-        samesite="lax",
-        secure=get_settings().cookie_secure,
-        max_age=get_settings().token_ttl_minutes * 60,
-        path="/",
-    )
-    return token
 
 
 class LoginIn(BaseModel):
