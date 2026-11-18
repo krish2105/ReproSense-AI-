@@ -83,6 +83,14 @@ def healthz():
     return {"ok": True}
 
 
+@app.get("/v1/ping")
+def ping():
+    """Wake-up call from the public pages (the web proxies only /v1). A free Render instance sleeps after about 15
+    idle minutes and takes up to a minute to wake; the landing page calls this so it is awake by the time a judge picks
+    a demo person. No database, no data, no session."""
+    return {"ok": True}
+
+
 @app.get("/readyz")
 def readyz():
     with session(SYSTEM) as cur:
