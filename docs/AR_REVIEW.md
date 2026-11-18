@@ -795,3 +795,15 @@ Addressed to a judge, so the imperative is masculine/neutral (the patient app ad
 | `tour.steps.gap.body` | Fatima had diabetes in pregnancy, so a glucose test after the birth is due. Mark the follow-up done here. | أُصيبت فاطمة بسكري الحمل، لذا يحين موعد فحص الجلوكوز بعد الولادة. سجّل المتابعة كمكتملة هنا. | |
 | `tour.steps.network.title` | The clinic network | شبكة العيادات | |
 | `tour.steps.network.body` | The follow-up you closed moves the DoH Jawda measure PC008 for the whole network, live. Only counts, never names. | المتابعة التي أغلقتها تحرّك مؤشر جودة دائرة الصحة PC008 للشبكة كلها مباشرةً. أعداد فقط، بلا أسماء. | |
+
+## Pregnancy and fourth-trimester ring (build week A7, 18 Nov, draft Arabic, not yet reviewed)
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `ring3d.title` | Your 40 weeks and the 12 after | أسابيعك الأربعون والاثنا عشر بعدها | |
+| `ring3d.hint` | Raised weeks are behind you; the bead is this week. Tap a raised band, or a row below, to see when a check is due and its source. | الأسابيع المرتفعة مضت، والخرزة هي هذا الأسبوع. اضغطي على شريط مرتفع أو على سطر أدناه لمعرفة موعد الفحص ومصدره. | |
+| `ring3d.weeks` | Weeks {from}–{to} of pregnancy | الأسابيع {from}–{to} من الحمل | |
+| `ring3d.after` | Weeks {from}–{to} after the birth | الأسابيع {from}–{to} بعد الولادة | |
+| `ring3d.nowPregnancy` | Week {week} of 40 | الأسبوع {week} من 40 | |
+| `ring3d.nowAfter` | Week {week} after the birth | الأسبوع {week} بعد الولادة | |
+| `ring3d.list` | What is due when | ما يحين موعده ومتى | |
+| `ring3d.legendAfter` | 12 weeks after the birth | 12 أسبوعًا بعد الولادة | |
