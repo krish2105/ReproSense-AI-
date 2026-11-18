@@ -23,7 +23,7 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 
 ## State audit (build week A8, 18 Nov)
 Every route's empty, loading and error state (C7 step 4). Loading: one skeleton per area (`AreaLoading`, announced
-once to screen readers); error: the area's `error.tsx` (retry) or the root one; empty: checked on a brand-new joined
+once to screen readers) where it is safe; error: the area's `error.tsx` (retry) or the root one; empty: checked on a brand-new joined
 record (Huda, no logs) and on staff accounts with nothing to show. Offline (A6, PR #123): `/offline.html`.
 
 | Route | Empty | Loading | Error |
@@ -34,8 +34,8 @@ record (Huda, no logs) and on staff accounts with nothing to show. Offline (A6, 
 | `/clinic-invite/[token]` | Used, withdrawn, expired or unknown link each say so | site skeleton | `(site)/error.tsx` |
 | `/shared/[token]` | Revoked (doesn't open) and expired (410) messages | site skeleton | `(site)/error.tsx` |
 | `/status`, `/pricing`, `/trust` | Static content | site skeleton | `(site)/error.tsx` |
-| `/app` Home | New record: phase estimate note, "No pattern … right now", passkey prompt | app skeleton | `app/error.tsx` |
-| `/app/log` | "Nothing was logged on …", body map "No pain locations logged" | app skeleton | `app/error.tsx` |
+| `/app` Home | New record: phase estimate note, "No pattern … right now", passkey prompt | none: an area-level boundary kept the Calendar's blood-pressure save pending, so skeletons are per tab | `app/error.tsx` |
+| `/app/log` | "Nothing was logged on …", body map "No pain locations logged" | none (see Home) | `app/error.tsx` |
 | `/app/timeline` | EmptyState "No complete cycles", charts say no period reached the thresholds | app skeleton | `app/error.tsx` |
 | `/app/insights` | EmptyState "Nothing to discuss right now" with Log today | app skeleton | `app/error.tsx` |
 | `/app/assistant` | AI off: "The assistant is off" with a link to Privacy; on: suggested questions | app skeleton | `app/error.tsx` |
@@ -43,8 +43,8 @@ record (Huda, no logs) and on staff accounts with nothing to show. Offline (A6, 
 | `/app/documents` | "No reports uploaded yet"; photo option explains when AI is off | app skeleton | `app/error.tsx` |
 | `/app/privacy` | No viewers yet, "No passkey yet" | app skeleton | `app/error.tsx` |
 | `/app/checkin` | The questionnaire itself | app skeleton | `app/error.tsx` |
-| `/clinic` | EmptyState when no patient shares with the clinic | staff skeleton | `clinic/error.tsx` |
-| `/clinic/patients/[id]` | Consent gate (Amina), not-found for others | staff skeleton | `clinic/error.tsx` |
+| `/clinic` | EmptyState when no patient shares with the clinic | none on purpose: the record's tables (blood pressure, labs) stream and raced hydration (React #418) | `clinic/error.tsx` |
+| `/clinic/patients/[id]` | Consent gate (Amina), not-found for others | none (see `/clinic`) | `clinic/error.tsx` |
 | `/clinic-admin` | "No invites yet"; counts under 10 shown as "fewer than 10", PC008 says why it is hidden | staff skeleton | `clinic-admin/error.tsx` (added in A8) |
 | `/admin` | Always has the synthetic cohort | none on purpose: its tables stream, and a `loading.tsx` there brought back React #418 (guard in `screens.spec`) | `admin/error.tsx` |
 
