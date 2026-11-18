@@ -345,3 +345,16 @@ def test_days_logged_is_one_count_on_home_patterns_and_the_clinician_view(client
     patterns = client.get("/v1/insights", headers=h).json()["days_logged"]
     record = client.get("/v1/clinic/patients/noura", headers=login(client, role="clinician")).json()["days_logged"]
     assert home == patterns == record == expected
+
+
+def test_the_wake_up_ping_needs_no_session_and_returns_no_data(client):
+    r = client.get("/v1/ping")
+    assert r.status_code == 200 and r.json() == {"ok": True}
+
+
+def test_the_wake_up_ping_does_not_count_against_the_rate_limit(client, monkeypatch):
+    from app.config import get_settings
+
+    monkeypatch.setattr(get_settings(), "rate_limit_per_min", 2)
+    for _ in range(5):
+        assert client.get("/v1/ping").status_code == 200

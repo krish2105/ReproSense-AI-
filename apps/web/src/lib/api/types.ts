@@ -683,3 +683,9 @@ export interface AuthMe {
   email_linked: boolean;
   email_available: boolean;
 }
+
+/** GET /v1/documents/photo: whether a photographed report can be read right now. */
+export interface PhotoReading {
+  available: boolean;
+  reason: "no_model" | "ai_off" | null;
+}
