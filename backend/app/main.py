@@ -7,8 +7,10 @@ import binascii
 import logging
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+import psycopg
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from app.ai.llm import get_llm
 from app.api import admin, assistant, auth, clinic, clinic_admin, demo, patient, quality, reports
@@ -76,6 +78,13 @@ for r in (
     quality.router,
 ):
     app.include_router(r)
+
+
+@app.exception_handler(psycopg.errors.DataError)
+async def bad_value(request: Request, exc: psycopg.errors.DataError):
+    """A value the database cannot store (a malformed date, a number out of range) is the caller's mistake: 422."""
+    log.warning("rejected value on %s %s: %s", request.method, request.url.path, type(exc).__name__)
+    return JSONResponse({"detail": "One of the values is not valid. Please check it and try again."}, status_code=422)
 
 
 @app.get("/healthz")

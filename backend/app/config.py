@@ -40,6 +40,9 @@ class Settings(BaseSettings):
     rate_limit_per_min: int = 120
     rate_limit_sensitive_per_min: int = 20  # assistant + uploads
     red_flag_window_days: int = 14  # QUESTIONS #17 default (needs clinician sign-off)
+    # The demo reset rebuilds every table and anyone can press it on the public demo: one at a time, one per window.
+    demo_reset_cooldown_s: int = 60
+    max_pdf_pages: int = 30  # an uploaded lab report longer than this is refused (and would cost CPU to parse)
     # Her own sign-in (K5). Passkeys: the relying party is the web app's host. Empty = the host of the first
     # ALLOWED_ORIGINS entry, and the accepted origins = ALLOWED_ORIGINS. No clinical meaning.
     webauthn_rp_id: str = ""
