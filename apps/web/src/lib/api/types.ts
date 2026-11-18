@@ -226,6 +226,29 @@ export interface NavigatorDecision extends NavigatorDraft {
 }
 
 /** GET /v1/me/home?lang= */
+/** Her first 6 weeks after a birth (GET /v1/me/home .postnatal; DoH Postnatal Care Program Standard, May 2025). */
+export type PostnatalStepId = "teleconsult" | "visit_2w" | "mood" | "visit_6w" | "glucose_test";
+export interface PostnatalStep {
+  id: PostnatalStepId;
+  from: string;
+  to: string;
+  status: "done" | "due" | "upcoming" | "not_recorded";
+  done_on: string | null;
+  recordable: boolean;
+  sources: string[];
+  source_links: Source[];
+}
+export interface Postnatal {
+  birth_date: string;
+  discharge_date: string;
+  discharge_assumed: boolean;
+  days_since_birth: number;
+  weeks_since_birth: number;
+  steps: PostnatalStep[];
+  done: number;
+  total: number;
+}
+
 export interface HomeResponse {
   profile: {
     id: string;
@@ -252,6 +275,7 @@ export interface HomeResponse {
   today_mood: Mood | null;
   record_strength: "strong" | "building" | "early";
   days_logged: number; // distinct dates with a daily log (same number on home, Patterns, clinician)
+  postnatal: Postnatal | null;
 }
 
 /** POST /v1/logs */
@@ -478,6 +502,7 @@ export interface ClinicRecord {
   analytics: AnalyticsResponse;
   timeline: TimelineResponse;
   her_questions: string[];
+  postnatal: Postnatal | null;
   days_logged: number;
   visit_note_draft: string;
 }

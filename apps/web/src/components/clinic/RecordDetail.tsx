@@ -84,6 +84,33 @@ export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Loc
 
       {r.care_gaps.length > 0 && <CareGaps gaps={r.care_gaps} />}
 
+      {r.postnatal && (
+        <section aria-labelledby="pn-c" data-testid="clinic-postnatal">
+          <h2 id="pn-c" style={{ fontSize: 17 }}>
+            {t("postnatal.clinic.title")}
+          </h2>
+          <p className="xs faint" style={{ margin: "4px 0 8px" }}>
+            {t("postnatal.clinic.intro", { done: r.postnatal.done, total: r.postnatal.total, weeks: r.postnatal.weeks_since_birth })}
+          </p>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+            {r.postnatal.steps.map((s) => (
+              <li key={s.id} className="kv" style={{ gap: 8 }}>
+                <span className="s">
+                  {t(`postnatal.clinic.steps.${s.id}`)}{" "}
+                  <span className="xs faint" dir="ltr">
+                    {s.done_on ? formatDayMonth(s.done_on, locale) : `${formatDayMonth(s.from, locale)}–${formatDayMonth(s.to, locale)}`}
+                  </span>
+                </span>
+                <Tag tone={s.status === "done" ? "ok" : s.status === "due" ? "soon" : "info"}>{t(`postnatal.status.${s.status}`)}</Tag>
+              </li>
+            ))}
+          </ul>
+          <SourceLinks
+            sources={[...new Map(r.postnatal.steps.flatMap((s) => s.source_links).map((l) => [l.source_id, l])).values()]}
+          />
+        </section>
+      )}
+
       <AskRecord pid={r.profile.id} hasBirth={hasBirth(r)} />
 
       {(a.cycles.some((c) => c.length !== null) || a.cycles.length > 0) && (

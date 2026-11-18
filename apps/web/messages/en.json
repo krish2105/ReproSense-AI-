@@ -1262,5 +1262,47 @@
     "intendedBody": "ReproSense is a personal health record and consultation-preparation tool. A woman records her own cycles, symptoms, questionnaires and lab results. ReproSense organises them, shows where her entries meet published guideline thresholds that are worth discussing, and creates a summary she can choose to share with her clinic. It does not diagnose, treat, predict or prevent disease, does not give contraceptive advice, and does not replace a clinician's judgement. Clinicians see the entries and the guideline behind every item.",
     "data4": "In this demo, deleting removes your entries at once. UAE law asks health records to be kept for 25 years, so before any real data we will agree with the Department of Health how deletion and that rule work together.",
     "data5": "We do not connect to Malaffi. Only licensed facilities do, and DoH policy forbids copying Malaffi data into other systems. Her FHIR R4 export goes into her clinic's own system, which reports to Malaffi."
+  },
+  "postnatal": {
+    "eyebrow": "After the birth",
+    "title": "Your first 6 weeks",
+    "intro": "The checks DoH Abu Dhabi's postnatal standard sets after a birth. Your clinic books them; tap “I had this” for a check you had.",
+    "progress": "{done} of {total} done",
+    "window": "{from} to {to}",
+    "doneOn": "Done {date}",
+    "assumed": "We assumed you left hospital on {date}, 2 days after the birth.",
+    "steps": {
+      "teleconsult": "Check-in call or home visit, 2–3 days after you left hospital",
+      "visit_2w": "Visit 7–14 days after you left hospital",
+      "mood": "Mood check, 10–14 days after the birth",
+      "visit_6w": "Visit at 6 weeks after the birth",
+      "glucose_test": "Glucose test after gestational diabetes, 4–12 weeks after the birth"
+    },
+    "status": {
+      "done": "Done",
+      "due": "Due now",
+      "upcoming": "Coming up",
+      "not_recorded": "Not recorded"
+    },
+    "record": "I had this",
+    "recordTitle": "What date was this check?",
+    "dateLabel": "Date of this check",
+    "save": "Save",
+    "cancel": "Cancel",
+    "saved": "Saved. Your pathway was updated.",
+    "saveFailed": "It wasn't saved: {detail}",
+    "moodAction": "Do the mood check",
+    "note": "These are care steps, not a diagnosis. If anything worries you, call your clinic; in an emergency call 998.",
+    "clinic": {
+      "title": "After-birth pathway (DoH Postnatal Care Standard)",
+      "intro": "{done} of {total} steps recorded, {weeks} weeks after the birth. Status comes from her entries: “not recorded” means nothing was logged, not that it did not happen.",
+      "steps": {
+        "teleconsult": "Teleconsultation or home visit, days 2–3 after discharge",
+        "visit_2w": "Visit, days 7–14 after discharge",
+        "mood": "Maternal blues assessment (EPDS), 10–14 days",
+        "visit_6w": "6-week postnatal visit",
+        "glucose_test": "OGTT 4–12 weeks after birth (after GDM)"
+      }
+    }
   }
 }
