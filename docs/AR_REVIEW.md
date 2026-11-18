@@ -536,3 +536,16 @@ card; the `clinic.*` rows are in clinician voice. The two knowledge-base summari
 | `postnatal.clinic.steps.mood` | Maternal blues assessment (EPDS), 10–14 days | تقييم تقلّب المزاج (مقياس إدنبرة)، 10–14 يوماً | |
 | `postnatal.clinic.steps.visit_6w` | 6-week postnatal visit | زيارة ما بعد الولادة في الأسبوع السادس | |
 | `postnatal.clinic.steps.glucose_test` | OGTT 4–12 weeks after birth (after GDM) | اختبار تحمّل الجلوكوز بعد 4–12 أسبوعاً من الولادة (بعد سكري الحمل) | |
+
+## Voice logging (build week K2, 18 Nov, draft Arabic, not yet reviewed)
+
+The microphone button and its messages on the log screen. Feminine address.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `log.voiceStart` | Say your note | قولي ملاحظتك | |
+| `log.voiceStop` | Stop listening | إيقاف الاستماع | |
+| `log.voiceListening` | Listening. Say how today has been; nothing is saved until you press save. | نستمع الآن. قولي كيف كان يومك؛ لا يُحفظ شيء حتى تضغطي حفظ. | |
+| `log.voiceDenied` | The microphone is blocked. Allow it in your browser settings, or type your note. | الميكروفون محظور. اسمحي به من إعدادات المتصفح، أو اكتبي ملاحظتك. | |
+| `log.voiceError` | That wasn't heard clearly. Try again, or type your note. | لم يكن الصوت واضحاً. حاولي مرة أخرى، أو اكتبي ملاحظتك. | |
+| `log.readByModel` | Read with AI: check each field before you save. | قُرئت بالذكاء الاصطناعي: راجعي كل حقل قبل الحفظ. | |
