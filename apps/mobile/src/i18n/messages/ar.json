@@ -35,7 +35,16 @@
     "tabsLabel": "أقسام تطبيقها",
     "footerTrust": "مركز الثقة",
     "footerPricing": "الأسعار",
-    "footerLinks": "المزيد عن ReproSense"
+    "footerLinks": "المزيد عن ReproSense",
+    "read": {
+      "play": "قراءة بصوت عالٍ",
+      "pause": "إيقاف مؤقت",
+      "resume": "متابعة",
+      "stop": "إيقاف",
+      "group": "قراءة بصوت عالٍ: {what}",
+      "playing": "تجري القراءة",
+      "paused": "متوقفة مؤقتًا"
+    }
   },
   "tabs": {
     "home": "الرئيسية",
