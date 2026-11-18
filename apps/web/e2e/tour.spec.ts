@@ -6,9 +6,11 @@ const steps = en.tour.steps;
 const PATH: Array<[keyof typeof steps, RegExp]> = [
   ["people", /\/demo$/],
   ["home", /\/app$/],
+  ["log", /\/app\/log$/],
   ["patterns", /\/app\/insights$/],
   ["assistant", /\/app\/assistant$/],
   ["report", /\/app\/report$/],
+  ["afterBirth", /\/app$/],
   ["clinic", /\/clinic$/],
   ["gap", /\/clinic\/patients\/fatima$/],
   ["network", /\/admin$/],

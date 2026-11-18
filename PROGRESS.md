@@ -17,6 +17,44 @@ Blockers / questions:
 
 ---
 
+## 2026-11-19 — Build week: iOS app, Next 16, every open PR merged, rescore 73/100, judge's UI points — Krishna with Claude Code
+Done:
+- **Merged (all CI green, e2e included):**
+  - #125 and #126: the iOS app.
+  - #123 (A6), #127 (A8).
+  - #72: Next 16, after 3 green e2e runs in a row; it is live on Vercel.
+  - #58 and #97: docs.
+  - #68 is closed as superseded. No PRs are open.
+- **iOS app (`apps/mobile`):**
+  - Live API by default, behind a "Waking the demo server" screen.
+  - A clinician view as its own role, the postnatal steps, the BP log and the pre-visit brief, in EN/AR.
+  - Run end to end in the iOS Simulator. A signed Release build is installed on an iPhone 16 Pro (iOS 27.2).
+  - Xcode 27 device builds need the pod deployment-target plugin (#126).
+- **Senior-judge rescore on `main` 1de8833: 73/100** (68 on 18 Nov night):
+  - Venture 18, Impact 17, Innovation 15, Prototype 17, Pitch 6.
+  - UI/UX 83, CTO 83, real MVP 70, real SaaS 55.
+- **Fixes for the judge's UI points:**
+  - The judge tour now has 10 steps. It adds logging a day (voice and the 3D body map) and Fatima after the birth (postnatal steps, glucose test due, blood pressure).
+  - On Home, the 3D ring takes the 2D arc's place instead of repeating it.
+  - The ring's milestone list starts folded, because the postnatal card lists the same steps.
+  - BUILD_STATUS is brought up to date.
+- **UI slop check:** pass.
+  - No new colours, radii or fonts: one `details` summary in the plum accent.
+  - The tour copy says what she does and which screen shows it.
+  - Checked in the browser on a local build against the live API: tour steps 3 and 7 highlight the body map and the postnatal card, Fatima's Home draws the weeks once, and the folded list opens to its 5 steps.
+Next (by points at stake, docs/25 and the rescore):
+- **Krishna:**
+  - `OPENROUTER_API_KEY` in Render, then the model-safety-eval workflow (+3).
+  - A paid Render instance for 21–22 Nov.
+  - A clinic letter of interest, interviews and a Nabta line.
+- **Yash:** the 3-slide deck and the MP4 (required, due 22 Nov 15:15).
+- **Dareen (or Atharva):** D1 baby schedule and D2 feeding log (+3).
+- **A clinician:** sign off Q61, Q62 and RF7.
+Blockers / questions:
+- Yash and Dareen show no build-week work yet.
+
+---
+
 ## 2026-11-18 — Build week K6: blood-pressure log and urgent warning (G2) — Krishna with Claude Code
 Done:
 - She can log blood pressure (top/bottom mmHg, the calendar day, optional time) in pregnancy and for 12 weeks after a

@@ -1,7 +1,9 @@
 import { en, expect, signIn, test } from "./fixtures";
 
 // A7 · 3D pregnancy and fourth-trimester ring on Home: where she is now, what is due when, each with its sources on
-// tap (the list rows carry the same choices as the bands on the ring). Reduced motion keeps only the 2D arc. Read-only.
+// tap (the list rows carry the same choices as the bands on the ring). The ring replaces the 2D arc, so Home draws the
+// weeks once, and its list starts folded (the postnatal card lists the same steps). Reduced motion keeps only the 2D
+// arc. Read-only.
 const r = en.ring3d;
 
 async function webgl(page: import("@playwright/test").Page) {
@@ -22,6 +24,8 @@ test.describe("motion allowed", () => {
     await ring.scrollIntoViewIfNeeded();
     await expect(ring.locator('[data-3d="ready"]')).toBeVisible({ timeout: 30_000 });
     await expect(ring).toContainText("Week 24 of 40");
+    await expect(page.locator('main svg[role="img"]')).toHaveCount(0); // the 2D arc gives way to the ring
+    await ring.locator("summary").click(); // the list starts folded
     const row = ring.getByRole("list", { name: r.list }).getByRole("button", { name: /Glucose test window, weeks 24–28/ });
     await expect(row).toHaveAttribute("aria-pressed", "true"); // the due window opens first
     await expect(ring.getByRole("link", { name: "NICE NG3 Diabetes in pregnancy" })).toBeVisible();
@@ -49,6 +53,9 @@ test.describe("motion allowed", () => {
     await ring.scrollIntoViewIfNeeded();
     await expect(ring.locator('[data-3d="ready"]')).toBeVisible({ timeout: 30_000 });
     await expect(ring).toContainText("Week 9 after the birth");
+    await expect(page.locator('main svg[role="img"]')).toHaveCount(0);
+    await expect(ring.getByRole("list", { name: r.list })).toBeHidden(); // folded: the postnatal card below has the steps
+    await ring.locator("summary").click();
     const list = ring.getByRole("list", { name: r.list });
     await expect(list.getByRole("button")).toHaveCount(5);
     const glucose = list.getByRole("button", { name: new RegExp(en.postnatal.steps.glucose_test) });
@@ -69,6 +76,7 @@ test.describe("reduced motion", () => {
     await signIn(page, { persona: "hessa" });
     await page.goto("/app");
     await expect(page.getByText("Week 24").first()).toBeVisible();
+    await expect(page.locator('main svg[role="img"]').first()).toBeVisible(); // the 2D arc
     await expect(page.getByRole("region", { name: r.title })).toHaveCount(0);
     await expect(page.locator("canvas")).toHaveCount(0);
   });
