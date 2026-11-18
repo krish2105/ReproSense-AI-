@@ -17,7 +17,8 @@
       "app": "Her app",
       "clinic": "Clinician",
       "admin": "Clinic network",
-      "status": "Team scorecard"
+      "status": "Team scorecard",
+      "clinicAdmin": "Clinic admin"
     },
     "lang": {
       "toggle": "عربي",
@@ -74,7 +75,8 @@
     "need": {
       "patient": "Pick a woman below to open her app.",
       "clinician": "Open the clinician view to see the clinic's patients.",
-      "admin": "Open the clinic network to see follow-ups across clinics."
+      "admin": "Open the clinic network to see follow-ups across clinics.",
+      "clinic_admin": "Open the clinic admin to invite clinicians and see your clinic's figures."
     },
     "failed": "That didn't open: {detail}",
     "apiDownTitle": "The demo server isn't answering",
@@ -88,7 +90,8 @@
       "noura": "Long and irregular cycles with acne and excess hair growth logged often.",
       "priya": "Severe period pain each month, missing work, pain with bowel movements during periods.",
       "sara": "Long, very heavy periods with clots; one recent day of dizziness (red-flag demo)."
-    }
+    },
+    "openClinicAdmin": "Open clinic admin"
   },
   "app": {
     "metaTitle": "Her app",
@@ -1514,5 +1517,66 @@
         "body": "The follow-up you closed moves the DoH Jawda measure PC008 for the whole network, live. Only counts, never names."
       }
     }
+  },
+  "clinicAdmin": {
+    "metaTitle": "Clinic admin",
+    "intro": "Your clinic's own view ({region}): follow-ups, the after-birth glucose part of PC008, your team and clinician invites. Counts only, never names.",
+    "figsLabel": "This clinic's follow-ups",
+    "open": "Follow-ups open",
+    "booked": "Booked",
+    "done": "Done",
+    "shared": "Records shared with you",
+    "donePct": "{pct}% of all follow-ups",
+    "fewer": "fewer than {k}",
+    "figsNote": "Any group under {k} is hidden to protect small groups, and shown as “fewer than {k}”.",
+    "pc008Title": "After-birth glucose test (part of DoH Jawda PC008)",
+    "pc008Suppressed": "Fewer than {k} after-birth glucose follow-ups at this clinic, so no rate is shown yet.",
+    "pc008Counts": "Done {done} · booked {booked} · open {open}",
+    "pc008Note": "A real PC008 rate needs the clinic's own claims and records; these are demo counts.",
+    "inviteTitle": "Invite a clinician",
+    "inviteBody": "Each invite is a single-use link and QR for one clinician, who joins this clinic and sees only the women who chose to share with it.",
+    "inviteNew": "Create an invite",
+    "madeLabel": "New invite",
+    "madeTitle": "Shown only now: copy the link or let the clinician scan the QR.",
+    "madeNote": "Works once, until {date}. You can withdraw it below.",
+    "qrLabel": "QR code of the invite link",
+    "copy": "Copy link",
+    "copied": "Link copied",
+    "listTitle": "Invites",
+    "listEmpty": "No invites yet.",
+    "made": "Made {date}",
+    "withdraw": "Withdraw",
+    "withdrawn": "Invite withdrawn. The link no longer works.",
+    "status": {
+      "pending": "Waiting",
+      "accepted": "Joined",
+      "expired": "Expired",
+      "revoked": "Withdrawn"
+    },
+    "teamTitle": "Your team",
+    "joinedInvite": "Joined by invite, {date}",
+    "joinedSeed": "Demo clinician",
+    "exportTitle": "Export follow-ups",
+    "exportBody": "A CSV of counts by status, follow-up type and wide age group. No names, patient ids or record ids; groups under {k} are blank with the reason.",
+    "export": "Download CSV",
+    "failed": "That didn't work: {detail}",
+    "syntheticNote": "Synthetic cohort plus the live demo records shared with this clinic. All data is fictional."
+  },
+  "clinicInvite": {
+    "metaTitle": "Clinic invite",
+    "title": "Join {clinic}",
+    "intro": "You have been invited as a clinician ({region}). The link works once, until {date}.",
+    "nameLabel": "Your name as colleagues will see it",
+    "nameHint": "Up to 40 characters. This demo creates a fictional clinician account.",
+    "accept": "Join the clinic",
+    "failed": "Not joined: {detail}",
+    "note": "After joining you see only the women who chose to share their record with this clinic.",
+    "gone": {
+      "accepted": "This invite has already been used",
+      "revoked": "The clinic withdrew this invite",
+      "expired": "This invite has expired",
+      "unknown": "This invite link isn't valid"
+    },
+    "goneBody": "Ask your clinic admin for a new invite."
   }
 }
