@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { SkipLink } from "@/components/chrome/SkipLink";
+import { Tour } from "@/components/tour/Tour";
 import { ToastProvider } from "@/components/ui/Toast";
 import { clientMessages } from "@/i18n/client-messages";
 import { dirOf, isLocale, defaultLocale } from "@/i18n/config";
@@ -108,6 +109,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <ToastProvider>
             <SkipLink />
             {children}
+            <Tour />
           </ToastProvider>
         </NextIntlClientProvider>
       </body>
