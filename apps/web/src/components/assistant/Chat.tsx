@@ -9,6 +9,8 @@ import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
 import type { AskResponse } from "@/lib/api/types";
 import { parseAnswer } from "@/lib/answer";
+import { ReadAloud } from "@/components/ui/ReadAloud";
+import { answerText } from "@/lib/readAloud";
 
 interface Turn {
   id: string;
@@ -234,6 +236,7 @@ function Answer({ a, anchor }: { a: AskResponse; anchor: string }) {
         </ol>
       )}
       {!a.grounded && a.citations.length > 0 && <p className="xs faint">{t("notGrounded")}</p>}
+      {!urgent && <ReadAloud text={answerText(a, t("sources"))} what={t("copilot")} />}
     </div>
   );
 }

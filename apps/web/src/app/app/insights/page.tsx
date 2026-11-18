@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 // Patterns (HANDOFF §5 /app/insights; mockup tInsights, obsBlock, traceDialog). Red flags pinned first;
-// the crisis path replaces everything with support (CLAUDE.md rule 5).
+// the crisis path replaces the patterns with support (CLAUDE.md rule 5); other red flags stay, each needs its action.
 export default async function InsightsPage() {
   await requireRole("patient");
   const raw = await getLocale();
@@ -36,6 +36,9 @@ export default async function InsightsPage() {
       {ins.crisis ? (
         <>
           <CrisisCard />
+          {flags.map((c) => (
+            <RedFlagCard key={c.observation_id} card={c} locale={locale} />
+          ))}
           <p className="xs faint" style={{ textAlign: "center" }}>
             {t("crisisIntro")}
           </p>

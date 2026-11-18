@@ -40,6 +40,22 @@ TEMPLATES = {
         ],
         "bring_ar": ["سجل دوراتك (هذا التقرير)", "أي نتائج فحوص سابقة", "قائمة الأدوية والمكملات"],
     },
+    "OBS_RAISED_BLOOD_PRESSURE": {  # K6: the card asks her to have the reading rechecked today. AR-REVIEW
+        "to": "Maternity unit",
+        "subject": "Request: blood pressure recheck today",
+        "en": "Hello, my blood pressure reading was {bp} mmHg. Could it be rechecked today, please? Thank you.",
+        "ar": "مرحباً، كانت قراءة ضغط الدم لديّ {bp} ملم زئبقي. هل يمكن إعادة قياسه اليوم من فضلكم؟ شكراً لكم.",
+        "bring": [
+            "Your blood pressure readings with their dates and times",
+            "Your pregnancy record or discharge summary",
+            "This ReproSense summary",
+        ],
+        "bring_ar": [
+            "قراءات ضغط الدم مع تواريخها وأوقاتها",
+            "سجل الحمل أو ملخص الخروج من المستشفى",
+            "ملخص ReproSense هذا",
+        ],
+    },
 }
 GENERIC = {
     "to": "Gynaecology clinic",
@@ -48,6 +64,19 @@ GENERIC = {
     "ar": "مرحباً، أرغب في موعد لمناقشة نمط لاحظته في سجلي: {title}. سأحضر ملخص ReproSense. شكراً لكم.",
     "bring": ["This ReproSense summary", "A list of pain relief or medicines you tried", "Any previous test results"],
     "bring_ar": ["ملخص ReproSense هذا", "قائمة المسكنات أو الأدوية التي جربتها", "أي نتائج فحوص سابقة"],
+}
+# The generic message is written as her ("a pattern I noticed in my record: ..."), but some card titles speak to her
+# ("Your cycle lengths...", "دوراتك"). These patterns get their name in her own voice (issue #66). AR-REVIEW
+OWN_VOICE = {
+    "OBS_IRREGULAR_CYCLES": ("my cycle lengths have been irregular", "أطوال دوراتي كانت غير منتظمة"),
+    "OBS_SEVERE_CYCLICAL_PAIN": (
+        "my period pain has been severe and is affecting my daily life",
+        "ألم الدورة كان شديداً ويؤثر على حياتي اليومية",
+    ),
+    "OBS_POSTPARTUM_MOOD": (
+        "my mood check suggests talking to someone",
+        "فحص المزاج يشير إلى أن الحديث مع أحد قد يفيدني",
+    ),
 }
 
 
@@ -60,8 +89,11 @@ def draft(hit: Hit, ev: Evaluation, clinic_name: str) -> dict:
         "age": f.get("age"),
         "ttc": f.get("ttc_months"),
         "title": hit.title.lower(),
+        "bp": f"{f.get('bp_latest_systolic')}/{f.get('bp_latest_diastolic')}",
     }
     title_ar = (cp.ar_rules().get(hit.rule_id) or {}).get("title", hit.title)
+    if hit.rule_id in OWN_VOICE:
+        vals["title"], title_ar = OWN_VOICE[hit.rule_id]
     return {
         "rule_id": hit.rule_id,
         "to": f"{t['to']}, {clinic_name}",

@@ -238,7 +238,7 @@ _FAINT = _c(
     r"\bfaint\w*",
     r"pass(ed)? out|nearly passed",
     r"\bdizz\w*",
-    r"light ?headed",
+    r"light[- ]?headed",
     r"white as|\bpale\b",
     r"short of breath|breathless",
     r"can'?t stand|everything went (black|dark)",
@@ -296,11 +296,21 @@ def urgent_kind(text: str) -> str | None:
     now_preg = bool(_NOW_PREG.search(t))
     after_birth = bool(_POSTNATAL.search(t) or _POSTNATAL_R3.search(t) or _POSTNATAL_FIX.search(t))
     pregnant = bool(_PREG.search(t)) and (now_preg or not after_birth)
-    heavy = bool(_HEAVY.search(t) or _HEAVY_AR2.search(t) or _HEAVY_FIX.search(t))
-    faint = bool(_FAINT.search(t) or _FAINT_R3.search(t))
+    heavy = bool(
+        _HEAVY.search(t)
+        or _HEAVY_AR2.search(t)
+        or _HEAVY_FIX.search(t)
+        or _HEAVY_65.search(t)
+        or (_HEAVY_SEVERE.search(t) and not _NOT_WOMB.search(t))
+    )
+    faint = bool(_FAINT.search(t) or _FAINT_R3.search(t) or _FAINT_65.search(t))
     heavy_faint = heavy and faint
     preg_sign = bool(
-        _PREG_SIGN.search(t) or _PREG_SIGN_R3.search(t) or _PREG_SIGN_FIX.search(t) or _HEAD_EYES_AR.search(t)
+        _PREG_SIGN.search(t)
+        or _PREG_SIGN_R3.search(t)
+        or _PREG_SIGN_FIX.search(t)
+        or _HEAD_EYES_AR.search(t)
+        or _PREG_SIGN_59.search(t)
     )
     worse_pain = bool(_WORSE_PAIN.search(t))
     if heavy_faint and not pregnant and not after_birth:
@@ -538,6 +548,75 @@ _WORSE_PAIN = _c(
     r"(الم|وجع|عوار|مغص).{0,20}(يزيد|يزداد|تزيد|صاير اقوي|يشتد)",
 )
 _CANT_COPE = _c(r"can'?t (stand|walk|move)|\bvomit\w*|throwing up|ما (اقدر|اقدرش|قادره) (اوقف|امشي|اتحرك)")
+
+# ---------------------------------------------------------------------------------------------------------- issue #65
+# Found on 6 Nov in the phone app: "I am bleeding through a pad every hour and feel faint" got no 998 reply (RF1, heavy
+# bleeding with dizziness or fainting). Heavy bleeding is also said as bleeding through a pad, clothes or bedding (like
+# soaking through), or as a pad every hour in either word order. In Arabic: blood leaking or getting through the pad or
+# to clothes (تسرب الدم إلى الملابس), and a pad every hour with any verb (أغيّر، أبدّل، تغيير الفوطة الصحية). Fainting
+# is also MSA dizziness (دوار), about to faint (يغمى علي), passing out (فقدت الوعي) and light-headed (خفة في الرأس);
+# the English "light-headed" is fixed in _FAINT above. Each is still only one half of RF1, so a question such as "what
+# counts as a heavy period?" stays an ordinary answer. Matches stay inside one clause ([^.]), so they cannot join
+# unrelated sentences.
+_HEAVY_65 = _c(
+    r"\b(bleed\w*|bled|bleding) (right |straight |all the way )?(through|thru)\b",
+    r"\b(pad|tampon)s?\b[^.]{0,30}\bevery (half )?(an )?hour",
+    r"(يتسرب|تسرب|تتسرب|تسربت|يخترق|اخترق|تخترق|اخترقت|يعدي|عدي) (من )?(ال)?(فوط|كوتكس)",
+    r"(تسرب|يتسرب|تسربت|وصل|يوصل|اخترق|يخترق|عدي|يعدي) (ال)?دم [^.]{0,6}(ملابس|هدوم|ثياب|فراش|السرير|شرشف|شراشف)",
+    r"\b(ال)?دم (تسرب|يتسرب|تسربت|وصل|يوصل|اخترق|يخترق|عدي|يعدي) [^.]{0,6}(ملابس|هدوم|ثياب|فراش|السرير|شرشف|شراشف)",
+    r"(فوط|كوتكس)\w*[^.]{0,25}كل (نص |نصف )?ساعه|كل (نص |نصف )?ساعه[^.]{0,25}(فوط|كوتكس)",
+)
+_FAINT_65 = _c(
+    r"\b(ب|و|ال|بال|وال)?دوار|دوخ",
+    r"يغمي|غمي علي|فقدت (ال)?وعي",
+    r"خفه (في |ب|بال)?(ال)?راس|راسي خفيف",
+)
+
+
+# ------------------------------------------------------------------------------------------------ severe bleeding gap
+# Found on 7 Nov (HANDOFF.md section 0): "severe bleeding and I feel dizzy", "bleeding really badly", "lots of blood"
+# and Arabic نزيف حاد / شديد / قوي, with dizziness or fainting, got no 998 reply. Women describe how bad the bleeding is
+# rather than saying "heavy", so these are more wordings of the heavy half of RF1. Each cue must sit next to a bleeding
+# word: a bare "severe" or «شديد» would catch severe period pain or a severe headache, which are not bleeding.
+# Blood tests and blood donation ("they took a lot of blood") and bleeding from a cut, knee or finger do not count.
+# Still only one half of RF1: severe bleeding without dizziness or fainting stays an ordinary answer.
+_HEAVY_SEVERE = _c(
+    r"\b(severe|massive|extreme|uncontroll?(ed|able)|profuse|bad|terrible|awful|horrible|serious|major) (vaginal )?"
+    r"(bleed\w*|bleding|blood loss)",
+    r"\b(bleed\w*|bled|bleding) (so |really |very |quite |extremely |too )?"
+    r"(badly|severely|profusely|massively|uncontrollably)\b",
+    r"(?<!took )(?<!drew )(?<!gave )(?<!donated )\b(lots|loads|tons|plenty|a lot|a ton) of blood\b"
+    r"(?! ?(for )?(tests?|work|sugar|pressure|group|type|count|draw\w*|donat\w*))",
+    r"\b(so|too|very) much (blood|bleeding)\b(?! ?(for )?(tests?|work|sugar|pressure|draw\w*|donat\w*))",
+    r"\bblood everywhere\b|\bha?emorrhaging\b",
+    r"نزيف (حاد|شديد|قوي|جامد|كبير|فظيع|مو طبيعي|مش طبيعي|غير طبيعي)",
+    r"\b(انزف|بنزف|ينزف|تنزف|نزفت) (جدا |وايد |كثير )?(بشده|بقوه|بغزاره|بزياده|حيل|جامد)",
+    r"(?<!تحليل )(?<!فحص )(?<!سحب )(?<!سحبوا )(?<!يسحبوا )(?<!بيسحبوا )(?<!يسحبون )(?<!تبرعت ب)"
+    r"(^|\s)(ال)?دم (كثير|وايد|واجد|غزير|بكثره|بكميه كبيره)",
+    r"كميه (كبيره|كثيره) (من )?(ال)?دم(?! ?(للتحليل|للفحص))",
+)
+# Checked on the whole message, not per clause: "I cut my finger, it's bleeding badly" and "I gave blood today, lots
+# of blood" put the site or the blood draw in a different clause from the bleeding cue.
+# ------------------------------------------------------------------------------------------------------- QUESTIONS #59
+# Found in card A5 (7 Nov): "I might be pregnant and my period pain is severe" got an ordinary answer. Severe pain with a
+# possible pregnancy can be an ectopic pregnancy, an emergency (NICE NG126). "severe pain" already counted as a pregnancy
+# warning sign; these say the same in other word orders: the pain or cramps are severe or unbearable, severe period
+# pain, and Arabic ألم / وجع / مغص شديد or قوي. They only count with a pregnancy cue (the pregnancy route needs both), so
+# severe period pain alone stays an ordinary answer.
+_PREG_SIGN_59 = _c(
+    r"\b(pain|cramps?|cramping|ache)\b (is |are |feels? |has been |have been |getting |got )?(really |very |so |extremely )?"
+    r"(severe|unbearable|excruciating|agonis\w*|agoniz\w*)\b",
+    r"\b(unbearable|excruciating|agonis\w*|agoniz\w*) (period |tummy |belly |pelvic |lower )?(pain|cramps?)\b",
+    r"\bsevere (period |tummy |belly |pelvic |lower (belly |tummy )?)?(pain|cramps?|cramping)\b",
+    r"(الم|وجع|مغص|تقلصات|عوار) (\S+ ){0,2}?(شديد|شديده|قوي|قويه|لا يحتمل|ما ينطاق|ما يتحمل|فظيع)",
+)
+_NOT_WOMB = _c(
+    r"\b(cut|cuts|knee|finger|toe|arm|lip|mouth|ear|wound|scratch\w*|graze\w*|scrape\w*)\b",
+    r"\b(gave|giving|give|donat\w*) (some )?blood\b|\bdonat\w*|\bblood (tests?|work|draw\w*|samples?|bank)\b",
+    r"\b(took|drew|draw|taken|drawn) (some |my )?blood\b",
+    r"جرح|اصبع|صبعي|ركبتي|ركبه|شفتي|شفايفي|فمي|اذني",
+    r"تبرع\w*|تحليل|للتحليل|سحبوا|يسحبوا|سحب (ال)?دم|فحص (ال)?دم",
+)
 
 
 def _clauses_without(t: str, pattern: re.Pattern) -> str:

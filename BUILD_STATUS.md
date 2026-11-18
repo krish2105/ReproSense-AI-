@@ -2,7 +2,7 @@
 
 Legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 
-Last updated: 2026-11-06, night (all phases built and on `main`; deploy waits for Krishna's accounts). Repo: https://github.com/krish2105/ReproSense-AI-
+Last updated: 2026-11-07, late night (Krishna approved and merged #82, #86 and #92–#96: G2 safety fixes 4a–4c and 4e, the G3 delta rule; deploy waits for the accounts, B2 for the API key). Repo: https://github.com/krish2105/ReproSense-AI-
 
 **Owners.** Krishna (`krish2105`): backend, AI, data, security, deploy. Atharva (`mercydeez`): web app (design + frontend).
 Yash (`Yashpetkar7`, invite pending): not assigned yet.
@@ -21,6 +21,34 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 | 8 | Security pass | 🟨 | Krishna | docs/07 checklist fully ticked | Done: forced RLS with tests, append-only hash-chained audit log, AES-GCM notes and documents, headers, rate limits, CORS, input validation, PII redaction, injection stripping, gitleaks in CI. Not yet: passkeys (stretch), web CSP, dependency scanning. |
 | 9 | Ship (deploy, reset, video, pitch) | 🟨 | Krishna + Atharva | senior-judge ≥ 90/100 | Done: demo reset endpoint; Playwright e2e of the 3-minute path in CI (6 Nov: 69 checks at 1280 and 390 px, every key screen in EN/AR/dark through axe, 998 red flag, 3D fallbacks, zero console errors). Not done: deploy, backup video, pitch. |
 
+## State audit (build week A8, 18 Nov)
+Every route's empty, loading and error state (C7 step 4). Loading: no route `loading.tsx` on purpose. With Next 15.5
+they kept `router.refresh()` transitions from settling (Calendar blood-pressure save, language switch) and streamed tables
+under them raced hydration (React #418); the previous page stays and the tapped link shows its pending state. Error: the area's `error.tsx` (retry) or the root one; empty: checked on a brand-new joined
+record (Huda, no logs) and on staff accounts with nothing to show. Offline (A6, PR #123): `/offline.html`.
+
+| Route | Empty | Loading | Error |
+| --- | --- | --- | --- |
+| `/` landing | Posters without WebGL; sections need no data | link pending | `(site)/error.tsx` |
+| `/demo` | API down: notice with a retry, roster gives up after the timeout (`api-down.spec`) | link pending | `(site)/error.tsx` |
+| `/join`, `/signin` | Form only | link pending | `(site)/error.tsx` |
+| `/clinic-invite/[token]` | Used, withdrawn, expired or unknown link each say so | link pending | `(site)/error.tsx` |
+| `/shared/[token]` | Revoked (doesn't open) and expired (410) messages | link pending | `(site)/error.tsx` |
+| `/status`, `/pricing`, `/trust` | Static content | link pending | `(site)/error.tsx` |
+| `/app` Home | New record: phase estimate note, "No pattern … right now", passkey prompt | link pending | `app/error.tsx` |
+| `/app/log` | "Nothing was logged on …", body map "No pain locations logged" | link pending | `app/error.tsx` |
+| `/app/timeline` | EmptyState "No complete cycles", charts say no period reached the thresholds | link pending | `app/error.tsx` |
+| `/app/insights` | EmptyState "Nothing to discuss right now" with Log today | link pending | `app/error.tsx` |
+| `/app/assistant` | AI off: "The assistant is off" with a link to Privacy; on: suggested questions | link pending | `app/error.tsx` |
+| `/app/report` | EmptyState "No report yet" with Prepare | link pending | `app/error.tsx` |
+| `/app/documents` | "No reports uploaded yet"; photo option explains when AI is off | link pending | `app/error.tsx` |
+| `/app/privacy` | No viewers yet, "No passkey yet" | link pending | `app/error.tsx` |
+| `/app/checkin` | The questionnaire itself | link pending | `app/error.tsx` |
+| `/clinic` | EmptyState when no patient shares with the clinic | link pending | `clinic/error.tsx` |
+| `/clinic/patients/[id]` | Consent gate (Amina), not-found for others | link pending | `clinic/error.tsx` |
+| `/clinic-admin` | "No invites yet"; counts under 10 shown as "fewer than 10", PC008 says why it is hidden | link pending | `clinic-admin/error.tsx` (added in A8) |
+| `/admin` | Always has the synthetic cohort | link pending | `admin/error.tsx` |
+
 ## Pre-build (before selection on 16 Nov)
 
 | Task | Status |
@@ -35,6 +63,19 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 | Generate images with IMAGE_PROMPTS_CHATGPT.md | ✅ 37 images + 1 duplicate placed in public/images; see ASSET_INTEGRATION_REPORT.md |
 | Body-map tap points calibrated to the real art (mockup) | ✅ verified at 320/375/768/1280, front + back |
 | Hackathon rules re-checked on the official page (upstartbar.com/ajyal) | ✅ 5 Nov; building may start when selection is announced on 16 Nov |
+
+## Verified numbers (7 Nov late night, main `bd2de0f`)
+- Web e2e, local, runs 10–12: run 11 had 118 passed and 8 skipped. Runs 10 and 12 each failed one test, and only on React #418 (`/admin` in the demo path; `/app` in the join test, after which its serial block left 2 tests unrun); every other test passed. That is not 3 in a row. On the new code #418 hit 3 of 6 runs (`/clinic`, `/admin`, `/app`, all desktop), against 0 of 3 on `31ca72d`. A dev-server repeat of the demo-path, join and screens specs (135 test runs) logged no hydration mismatch, which fits the documented production-only race in Next 15.5's React canary. The fix path stays Next 16 (#72, from 17 Nov)
+- Lighthouse, mobile, signed in: **100 / 100 / 100** on `/app`, `/app/insights`, `/app/assistant`, `/app/report`, `/clinic`
+- Backend (CI, Linux): **318 passed**
+- Second rescore: Jury **72**, MVP **76.5**, SaaS **72**, Clinical safety **26.5/35**, Women's experience **27.5/35**, Trust **7/7**
+
+## Verified numbers (7 Nov night, local, main `31ca72d`)
+- Web e2e (production build, API from the Linux Docker image in CI's demo-safe setup, no retries): **114 passed, 8 skipped,
+  0 failed in each of 3 runs in a row** (runs 4–6; 5.9–7.1 min each), 0 hydration errors
+- Backend: **306 passed** (the PDF test also passes in CI on Linux; on Windows it needs GTK)
+- Web unit tests: **52 passed**
+- Senior-judge rescore: Jury **72**, MVP **76**, SaaS **72**, Clinical safety **26/35**, Women's experience **27/35**, Trust pack **7/7** (PROGRESS.md)
 
 ## Verified numbers (6 Nov, local)
 - Web e2e (`pnpm e2e`, production build): **69 passed, 3 skipped** (desktop-only checks on the phone project), 3 runs in a row; the demo path takes 13–16 s per viewport

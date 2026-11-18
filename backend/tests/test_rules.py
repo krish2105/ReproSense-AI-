@@ -70,9 +70,9 @@ def test_every_rule_parses_and_only_uses_known_names():
     rs = load_rules()
     ev = evaluate(PERSONAS["amina"], REF)
     known = set(ev.features.values) | {r.id for r in rs.red_flags + rs.observations}
-    from app.rules.features import DAY_SYMPTOMS
+    from app.rules.features import DAY_BP, DAY_SYMPTOMS
 
-    known |= set(DAY_SYMPTOMS)
+    known |= set(DAY_SYMPTOMS) | set(DAY_BP)
     for r in rs.red_flags + rs.observations:
         assert expr.names(r.node) <= known, (r.id, expr.names(r.node) - known)
 

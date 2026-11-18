@@ -43,7 +43,7 @@ export async function expectNoSideScroll(page: Page, where: string) {
 }
 
 /** Signs this browser context in as a demo person (the same call the /demo buttons make). */
-export async function signIn(page: Page, who: { persona: string } | { role: "clinician" | "admin" }) {
+export async function signIn(page: Page, who: { persona: string } | { role: "clinician" | "admin" | "clinic_admin" }) {
   const res = await page.request.post("/api/v1/demo/login", { data: who });
   expect(res.ok(), `demo login ${JSON.stringify(who)}`).toBeTruthy();
 }

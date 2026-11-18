@@ -18,8 +18,9 @@ EXCEPTION WHEN insufficient_privilege THEN
   RAISE NOTICE 'reprosense_app was not granted to %: it must already be allowed to SET ROLE reprosense_app', current_user;
 END $$;
 
-DROP TABLE IF EXISTS audit_log, kb_chunks, cohort_members, navigator_drafts, clinic_reviews, care_gaps, shares, reports,
-  observations, documents, lab_results, events, daily_logs, cycles, consents, profiles, clinics CASCADE;
+-- The sign-in tables (sign_in.sql, applied after this file) go too: a demo reset clears every joined record.
+DROP TABLE IF EXISTS email_codes, auth_challenges, sign_in_emails, passkeys, clinic_invites, audit_log, kb_chunks, cohort_members, navigator_drafts, clinic_reviews, care_gaps, shares, reports,
+  observations, documents, lab_results, bp_readings, events, daily_logs, cycles, consents, profiles, clinics CASCADE;
 
 CREATE OR REPLACE FUNCTION app_role() RETURNS text LANGUAGE sql STABLE AS $$ SELECT coalesce(current_setting('app.role', true), '') $$;
 CREATE OR REPLACE FUNCTION app_user() RETURNS text LANGUAGE sql STABLE AS $$ SELECT coalesce(current_setting('app.user_id', true), '') $$;
@@ -32,7 +33,7 @@ CREATE TABLE clinics (
 CREATE TABLE profiles (
   id text PRIMARY KEY,
   alias text NOT NULL,                      -- fictional alias, never a real name
-  role text NOT NULL CHECK (role IN ('patient', 'clinician', 'admin')),
+  role text NOT NULL CHECK (role IN ('patient', 'clinician', 'admin', 'clinic_admin')),  -- clinic_admin: one clinic (K4)
   language text NOT NULL DEFAULT 'en',
   age int, age_range text, region text, menarche_age int,
   life_stage text, pregnant boolean NOT NULL DEFAULT false, pregnancy_weeks int NOT NULL DEFAULT 0,
@@ -70,6 +71,18 @@ CREATE TABLE events (
   id text PRIMARY KEY, profile_id text NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   type text NOT NULL, date date NOT NULL, details jsonb NOT NULL DEFAULT '{}'
 );
+
+-- Blood pressure in pregnancy and the 12 weeks after birth (build week K6). The plausible range is checked here too, so
+-- no path into the database can store a reading the rules engine would misread (API: app/services/blood_pressure.py).
+CREATE TABLE bp_readings (
+  id text PRIMARY KEY, profile_id text NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  date date NOT NULL, time time,
+  systolic int NOT NULL CHECK (systolic BETWEEN 70 AND 250),
+  diastolic int NOT NULL CHECK (diastolic BETWEEN 40 AND 150),
+  source text NOT NULL DEFAULT 'app', created_at timestamptz NOT NULL DEFAULT now(),
+  CHECK (systolic > diastolic)
+);
+CREATE INDEX ON bp_readings (profile_id, date);
 
 CREATE TABLE documents (
   id serial PRIMARY KEY, profile_id text NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
@@ -138,6 +151,15 @@ CREATE TABLE kb_chunks (
 );
 CREATE INDEX ON kb_chunks USING gin (tsv);
 
+-- K4 clinic onboarding: a clinic admin invites a clinician by a single-use link or QR. Only the token's sha256 is stored;
+-- the token itself is shown once, to the admin who made it.
+CREATE TABLE clinic_invites (
+  id serial PRIMARY KEY, clinic_id text NOT NULL REFERENCES clinics(id), token_hash text NOT NULL UNIQUE,
+  created_by text NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), expires_at timestamptz NOT NULL,
+  accepted_at timestamptz, accepted_by text REFERENCES profiles(id) ON DELETE SET NULL, revoked_at timestamptz,
+  CHECK (accepted_at IS NULL OR revoked_at IS NULL)
+);
+
 CREATE TABLE audit_log (
   id bigserial PRIMARY KEY, actor_id text NOT NULL, actor_role text NOT NULL, action text NOT NULL,
   subject_id text, target text, detail jsonb, at timestamptz NOT NULL DEFAULT now(),
@@ -156,13 +178,14 @@ GRANT USAGE ON SCHEMA public TO reprosense_app;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO reprosense_app;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO reprosense_app;
 REVOKE UPDATE, DELETE ON audit_log FROM reprosense_app;      -- append-only
+REVOKE DELETE ON clinic_invites FROM reprosense_app;          -- revoked, never deleted: the history stays
 
 -- ---------- row-level security ----------
 DO $$
 DECLARE t text;
 BEGIN
   FOREACH t IN ARRAY ARRAY['consents','cycles','daily_logs','events','documents','lab_results','observations','reports',
-                           'shares','care_gaps','clinic_reviews','navigator_drafts'] LOOP
+                           'shares','care_gaps','clinic_reviews','navigator_drafts','bp_readings'] LOOP
     EXECUTE format('ALTER TABLE %I ENABLE ROW LEVEL SECURITY', t);
     EXECUTE format('ALTER TABLE %I FORCE ROW LEVEL SECURITY', t);
     EXECUTE format($p$CREATE POLICY sys_all ON %I USING (app_role() = 'system') WITH CHECK (app_role() = 'system')$p$, t);
@@ -171,7 +194,7 @@ BEGIN
   END LOOP;
   -- clinicians read only consented patients
   FOREACH t IN ARRAY ARRAY['cycles','daily_logs','events','lab_results','observations','reports','care_gaps','clinic_reviews',
-                           'consents','navigator_drafts'] LOOP
+                           'consents','navigator_drafts','bp_readings'] LOOP
     EXECUTE format($p$CREATE POLICY clinician_read ON %I FOR SELECT USING (clinician_can_see(profile_id))$p$, t);
   END LOOP;
   -- clinicians may update care gaps / observations status and write reviews for consented patients
@@ -188,16 +211,31 @@ CREATE POLICY self_read ON profiles FOR SELECT USING (id = app_user());
 CREATE POLICY patient_update ON profiles FOR UPDATE USING (app_role() = 'patient' AND id = app_user())
   WITH CHECK (app_role() = 'patient' AND id = app_user());
 CREATE POLICY clinician_read ON profiles FOR SELECT USING (clinician_can_see(id));
+-- a clinic admin sees her own clinic's staff (never a patient row)
+CREATE POLICY clinic_admin_team ON profiles FOR SELECT
+  USING (app_role() = 'clinic_admin' AND role IN ('clinician', 'clinic_admin') AND clinic_id = app_clinic());
 
 ALTER TABLE cohort_members ENABLE ROW LEVEL SECURITY;
 ALTER TABLE cohort_members FORCE ROW LEVEL SECURITY;
 CREATE POLICY sys_all ON cohort_members USING (app_role() = 'system') WITH CHECK (app_role() = 'system');
-CREATE POLICY staff_read ON cohort_members FOR SELECT USING (app_role() IN ('admin', 'clinician'));
+-- the network admin reads the whole synthetic cohort; a clinician or a clinic admin only her own clinic's rows
+CREATE POLICY staff_read ON cohort_members FOR SELECT
+  USING (app_role() = 'admin' OR (app_role() IN ('clinician', 'clinic_admin') AND clinic_id = app_clinic()));
+
+ALTER TABLE clinic_invites ENABLE ROW LEVEL SECURITY;
+ALTER TABLE clinic_invites FORCE ROW LEVEL SECURITY;
+CREATE POLICY sys_all ON clinic_invites USING (app_role() = 'system') WITH CHECK (app_role() = 'system');
+CREATE POLICY clinic_admin_read ON clinic_invites FOR SELECT USING (app_role() = 'clinic_admin' AND clinic_id = app_clinic());
+CREATE POLICY clinic_admin_create ON clinic_invites FOR INSERT
+  WITH CHECK (app_role() = 'clinic_admin' AND clinic_id = app_clinic() AND created_by = app_user());
+CREATE POLICY clinic_admin_revoke ON clinic_invites FOR UPDATE
+  USING (app_role() = 'clinic_admin' AND clinic_id = app_clinic())
+  WITH CHECK (app_role() = 'clinic_admin' AND clinic_id = app_clinic());
 
 ALTER TABLE audit_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE audit_log FORCE ROW LEVEL SECURITY;
 CREATE POLICY sys_all ON audit_log USING (app_role() = 'system') WITH CHECK (app_role() = 'system');
-CREATE POLICY anyone_append ON audit_log FOR INSERT WITH CHECK (app_role() IN ('patient', 'clinician', 'admin'));
+CREATE POLICY anyone_append ON audit_log FOR INSERT WITH CHECK (app_role() IN ('patient', 'clinician', 'admin', 'clinic_admin'));
 CREATE POLICY subject_read ON audit_log FOR SELECT USING (app_role() = 'patient' AND subject_id = app_user());
 CREATE POLICY admin_read ON audit_log FOR SELECT USING (app_role() = 'admin');
 -- the hash chain needs the latest hash; a SECURITY DEFINER helper exposes only that value
@@ -216,6 +254,33 @@ CREATE OR REPLACE FUNCTION care_gap_counts_by_type() RETURNS TABLE(type text, st
   SELECT type, status, count(*) FROM care_gaps WHERE app_role() IN ('admin', 'system') GROUP BY type, status
 $$;
 GRANT EXECUTE ON FUNCTION care_gap_counts_by_type() TO reprosense_app;
+
+-- K4: a clinic admin's own clinic, as counts only. Follow-ups from the synthetic cohort plus the live demo records that
+-- share with her clinic (an active care_share consent), by type, status and age band. Nothing for any other role or
+-- clinic. Under a non-superuser owner the profiles join is filtered by RLS and the band reads 'not recorded'.
+CREATE OR REPLACE FUNCTION clinic_follow_up_counts() RETURNS TABLE(type text, status text, age_band text, n bigint)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+  SELECT f.type, f.status, f.age_band, count(*) FROM (
+    SELECT m.care_gap_type AS type, m.care_gap_status AS status, m.age_band
+      FROM cohort_members m WHERE m.clinic_id = app_clinic() AND m.care_gap_type IS NOT NULL
+    UNION ALL
+    SELECT g.type, g.status, coalesce(p.age_range, 'not recorded')
+      FROM care_gaps g LEFT JOIN profiles p ON p.id = g.profile_id
+      WHERE g.clinic_id = app_clinic() AND EXISTS (
+        SELECT 1 FROM consents c WHERE c.profile_id = g.profile_id AND c.purpose = 'care_share' AND c.granted
+          AND c.revoked_at IS NULL AND c.clinic_id = app_clinic())
+  ) f WHERE app_role() = 'clinic_admin' AND app_clinic() <> '' GROUP BY f.type, f.status, f.age_band
+$$;
+-- Records shared with her clinic: synthetic cohort members who consented plus live demo records with an active consent.
+CREATE OR REPLACE FUNCTION clinic_shared_record_count() RETURNS bigint
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+  SELECT CASE WHEN app_role() = 'clinic_admin' AND app_clinic() <> '' THEN
+    (SELECT count(*) FROM cohort_members WHERE clinic_id = app_clinic() AND consented_care_share)
+    + (SELECT count(DISTINCT profile_id) FROM consents WHERE purpose = 'care_share' AND granted AND revoked_at IS NULL
+         AND clinic_id = app_clinic())
+  ELSE 0 END
+$$;
+GRANT EXECUTE ON FUNCTION clinic_follow_up_counts(), clinic_shared_record_count() TO reprosense_app;
 
 -- The three SECURITY DEFINER helpers above read consents, audit_log and care_gaps as the table owner and rely on the
 -- owner bypassing RLS. A superuser (local Postgres) always does; a managed database owner such as Supabase's

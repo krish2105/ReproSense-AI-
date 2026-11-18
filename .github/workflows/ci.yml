@@ -89,6 +89,10 @@ jobs:
       ANTHROPIC_API_KEY: demo-safe-ci-not-a-key
       ANTHROPIC_BASE_URL: http://127.0.0.1:9
       E2E_DEMO_SAFE: "1"
+      # Every browser test signs in from 127.0.0.1, so they share one rate-limit bucket; with ~150 tests the default
+      # 120/min was reached (429 on demo login). Raised for this job only; the live API keeps its limits.
+      RATE_LIMIT_PER_MIN: "1200"
+      RATE_LIMIT_SENSITIVE_PER_MIN: "200"
       API_URL: http://127.0.0.1:8010
       ALLOWED_ORIGINS: http://localhost:3100
     steps:
@@ -144,6 +148,23 @@ jobs:
         run: |
           python3 data/synthetic/generate_synthetic.py
           git diff --exit-code data/synthetic/output
+
+  # Safety case (docs/safety/CHANGE_LOG.md): a PR that changes clinical logic adds its row to the change log.
+  change-log:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Clinical logic changes come with a CHANGE_LOG row
+        run: |
+          changed=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD")
+          if echo "$changed" | grep -qxE 'rules/clinical_rules\.yaml|backend/app/rules/(features|engine|expr)\.py|backend/app/agents/(safety|assistant)\.py|backend/app/config\.py' \
+             && ! echo "$changed" | grep -qx 'docs/safety/CHANGE_LOG.md'; then
+            echo "::error::This PR changes clinical logic. Add its row to docs/safety/CHANGE_LOG.md (see 'To add a row' there)."
+            exit 1
+          fi
 
   gitleaks:
     runs-on: ubuntu-latest

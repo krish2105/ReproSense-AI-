@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
+import { BloodPressureForm } from "@/components/log/BloodPressureForm";
 import { Calendar } from "@/components/log/Calendar";
 import { DayDetail } from "@/components/log/DayDetail";
 import { LogForm } from "@/components/log/LogForm";
@@ -8,6 +9,7 @@ import { apiServer } from "@/lib/api/server";
 import type { TimelineDay, TimelineResponse } from "@/lib/api/types";
 import { formatDate } from "@/lib/format";
 import { requireRole } from "@/lib/session";
+import { siteHeat } from "@/components/log/bodyHeat";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("log");
@@ -31,6 +33,8 @@ export default async function LogPage({ searchParams }: { searchParams: Promise<
 
   const inRange = (s: string | undefined): s is string => !!s && ISO.test(s) && s >= tl.from && s <= today;
   const formDate = inRange(qDate) ? qDate : today;
+  // Her own saved entry for that day reopens in the form: a second save replaces the row, so a blank form lost data.
+  const saved = tl.days.find((d) => d.date === formDate && d.source === "app");
   const lastLogged = tl.days.length ? tl.days[tl.days.length - 1]!.date : undefined;
   const selected = inRange(qDate) ? qDate : byDate.has(today) ? today : (lastLogged ?? today);
   const first = tl.from.slice(0, 7);
@@ -38,13 +42,25 @@ export default async function LogPage({ searchParams }: { searchParams: Promise<
 
   const yearCounts: Record<string, number> = {};
   for (const d of tl.days) for (const s of d.sites) yearCounts[s] = (yearCounts[s] ?? 0) + 1;
+  const heat = siteHeat(tl.days, today); // the 3D map's colour: painful days per site in the last 3 months
 
   return (
     <div className="app-col">
       <h1 style={{ fontSize: 22, textAlign: "center" }}>{t("title")}</h1>
       <Calendar month={month} today={today} first={first} selected={selected} byDate={byDate} locale={locale} />
       <DayDetail entry={byDate.get(selected)} dateLabel={formatDate(selected, locale)} />
-      <LogForm key={formDate} date={formDate} isToday={formDate === today} dateLabel={formatDate(formDate, locale)} yearCounts={yearCounts} locale={locale} />
+      <LogForm key={formDate} date={formDate} saved={saved} isToday={formDate === today} dateLabel={formatDate(formDate, locale)} yearCounts={yearCounts} heat={heat} locale={locale} />
+      {/* K6: pregnancy and the 12 weeks after birth only */}
+      {tl.bp_eligible && (
+        <BloodPressureForm
+          key={`bp-${formDate}`}
+          date={formDate}
+          isToday={formDate === today}
+          dateLabel={formatDate(formDate, locale)}
+          readings={tl.bp_readings.filter((r) => r.date === formDate)}
+          locale={locale}
+        />
+      )}
     </div>
   );
 }

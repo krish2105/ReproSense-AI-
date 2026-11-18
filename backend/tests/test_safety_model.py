@@ -39,7 +39,7 @@ def test_the_model_routes_a_crisis_the_word_checks_miss(monkeypatch):
     out = assistant.answer(q, "en")
     assert out["crisis"] and out["urgent"]["number"] == "998"
     assert out["answer"] == assistant.URGENT_TEXT["en"]["crisis"] and out["sentences"] == []
-    assert [c["source_id"] for c in out["citations"]] == ["nice_cg192"]
+    assert [c["source_id"] for c in out["citations"]] == assistant.URGENT_SOURCES["crisis"]
     assert any("second check by the language model" in s["detail"] for s in out["trace"])
 
 

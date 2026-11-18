@@ -2,8 +2,10 @@ import { useTranslations } from "next-intl";
 import { SourceLinks } from "@/components/safety/SourceLinks";
 import type { ReportPayload, Source } from "@/lib/api/types";
 import type { Locale } from "@/i18n/config";
-import { displayName, formatDate, formatDayMonth, isolate, regionKey } from "@/lib/format";
+import { formatDate, formatDayMonth, isolate, regionKey, shownName } from "@/lib/format";
 import { TableScroll } from "@/components/ui/TableScroll";
+import { ReadAloud } from "@/components/ui/ReadAloud";
+import { reportText } from "@/lib/readAloud";
 
 /**
  * The two-page summary as she and her doctor see it (mockup tReport; same payload as the PDF).
@@ -21,10 +23,27 @@ export function ReportDoc({ p, locale }: { p: ReportPayload; locale: Locale }) {
         <b id="doc-title" style={{ fontFamily: "var(--f-display)", fontSize: 15 }}>
           {t("report.docTitle")}
         </b>
-        <span className="xs faint mono">{formatDate(p.generated, locale)}</span>
+        <span style={{ display: "inline-flex", gap: 12, alignItems: "center" }}>
+          <ReadAloud
+            what={t("report.docTitle")}
+            text={reportText(
+              {
+                lines: [
+                  t("report.docTitle"),
+                  t("report.identity", { name: shownName(p.alias, locale), age: p.age, region }),
+                  t("report.stats", { logs: p.stats.logs, periodDays: p.stats.period_days, severe: p.stats.severe_pain_days }),
+                ],
+                redFlags: p.red_flags.map((c) => c.title),
+                patterns: p.patterns.map((c) => c.title),
+              },
+              { redFlags: t("report.redFlags"), patterns: t("report.patterns") },
+            )}
+          />
+          <span className="xs faint mono">{formatDate(p.generated, locale)}</span>
+        </span>
       </div>
       <p>
-        {t("report.identity", { name: isolate(displayName(p.alias)), age: p.age, region })} · {t("report.stage", { stage: t(`stages.${p.life_stage}`) })}
+        {t("report.identity", { name: isolate(shownName(p.alias, locale)), age: p.age, region })} · {t("report.stage", { stage: t(`stages.${p.life_stage}`) })}
         {p.is_synthetic && <span className="tag t-info" style={{ marginInlineStart: 8 }}>{t("report.synthetic")}</span>}
       </p>
       <p className="s dim">
