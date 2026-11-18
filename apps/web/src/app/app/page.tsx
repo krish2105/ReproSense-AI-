@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AfterBirthArc, CycleArc, PregnancyArc } from "@/components/charts/Arc";
+import { BloodPressureCard } from "@/components/home/BloodPressureCard";
 import { DayPills } from "@/components/home/DayPills";
 import { MoodRow } from "@/components/home/MoodRow";
 import { NavigatorCard } from "@/components/home/NavigatorCard";
 import { PatternSummary } from "@/components/home/PatternSummary";
+import { PostnatalCard } from "@/components/home/PostnatalCard";
 import { Recommendations } from "@/components/home/Recommendations";
 import { StageSwitch } from "@/components/home/StageSwitch";
 import { isTabReady } from "@/components/chrome/tabs";
@@ -16,9 +18,12 @@ import { ButtonLink } from "@/components/ui/Button";
 import Link from "next/link";
 import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
-import type { HomeResponse } from "@/lib/api/types";
+import type { AuthMe, HomeResponse } from "@/lib/api/types";
 import { firstName, formatDate, isolate, shownName } from "@/lib/format";
 import { requireRole } from "@/lib/session";
+import { PregnancyRingSection } from "@/components/home/PregnancyRingSection";
+import { pregnancyRing } from "@/components/home/pregnancyRing";
+import { AppHint } from "@/components/pwa/AppHint";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("home");
@@ -38,6 +43,10 @@ export default async function Home() {
   const latestDraft = soon ? h.navigator_drafts.find((d) => d.rule_id === soon.observation_id && d.status !== "discarded") : undefined;
   const peri = h.observations.find((o) => o.observation_id === "OBS_PERIMENOPAUSE_SYMPTOMS");
   const vasomotor = peri ? Number(peri.values.vasomotor_days_90 ?? NaN) : NaN;
+  // A record she started herself opens only in this browser until she adds a way back in (K5). Demo people: never.
+  const ownRecord = h.profile.id.startsWith("guest-");
+  const signIn = ownRecord ? await apiServer<AuthMe>("/auth/me").catch(() => null) : null;
+  const noWayBack = signIn !== null && signIn.passkeys.length === 0 && !signIn.email_linked;
 
   return (
     <div className="home-grid">
@@ -68,6 +77,32 @@ export default async function Home() {
         {h.status.mode === "pregnancy" && <PregnancyArc status={h.status} />}
         {h.status.mode === "pregnancy" && <PregnancyWarning />}
         {h.status.mode === "after_birth" && <AfterBirthArc status={h.status} />}
+        {(h.status.mode === "pregnancy" || h.status.mode === "after_birth") &&
+          (() => {
+            const ring = pregnancyRing(h.status, h.postnatal);
+            const weeks = (from: number, to: number) =>
+              from > 40 ? t("ring3d.after", { from: from - 40, to: to - 40 }) : t("ring3d.weeks", { from, to });
+            return (
+              <PregnancyRingSection
+                segments={ring.segments}
+                now={ring.now}
+                items={ring.milestones.map((m) => ({
+                  ...m,
+                  label: m.key === "glucose_screen" ? t("arc.window", { from: m.from, to: m.to }) : t(`postnatal.steps.${m.key}`),
+                  when: weeks(m.from, m.to),
+                  statusLabel: m.status ? t(`postnatal.status.${m.status}`) : null,
+                }))}
+                text={{
+                  title: t("ring3d.title"),
+                  hint: t("ring3d.hint"),
+                  now: ring.now > 40 ? t("ring3d.nowAfter", { week: ring.now - 40 }) : t("ring3d.nowPregnancy", { week: ring.now }),
+                  sources: t("home.sources"),
+                  list: t("ring3d.list"),
+                  legend: { t1: t("arc.t1"), t2: t("arc.t2"), t3: t("arc.t3"), after: t("ring3d.legendAfter") },
+                }}
+              />
+            );
+          })()}
 
         <ButtonLink href="/app/log" size="wide">
           {t("home.logButton")}
@@ -85,7 +120,23 @@ export default async function Home() {
           </Box>
         )}
 
+        {h.postnatal && !h.crisis && <PostnatalCard p={h.postnatal} refDate={h.ref_date} />}
+
+        {h.blood_pressure.eligible && !h.crisis && <BloodPressureCard bp={h.blood_pressure} locale={locale} />}
+
         {soon && <NavigatorCard key={`${h.profile.id}-${soon.observation_id}`} card={soon} dueDate={gap?.due_date} latest={latestDraft} />}
+
+        {noWayBack && !h.crisis && (
+          <Box>
+            <p className="label">{t("home.signinTitle")}</p>
+            <p className="s" style={{ margin: "4px 0 10px" }}>
+              {t("home.signinBody")}
+            </p>
+            <ButtonLink href="/app/privacy#sign-in" variant="outline" size="sm">
+              {t("home.signinAction")}
+            </ButtonLink>
+          </Box>
+        )}
       </div>
 
       <div className="home-col">
@@ -131,6 +182,7 @@ export default async function Home() {
             </li>
           </ul>
         </nav>
+        <AppHint />
         {isTabReady("report") && (
           <ButtonLink href="/app/report" variant="outline" size="wide">
             {t("home.reportButton")}

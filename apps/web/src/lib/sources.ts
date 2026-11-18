@@ -13,5 +13,16 @@ export const SOURCES = {
     url: "https://www.nhs.uk/pregnancy/common-symptoms/",
   },
   nice_ng201: { id: "nice_ng201", title: "NICE NG201 Antenatal care", url: "https://www.nice.org.uk/guidance/ng201" },
+  nice_ng133: {
+    id: "nice_ng133",
+    title: "NICE NG133 Hypertension in pregnancy: diagnosis and management",
+    url: "https://www.nice.org.uk/guidance/ng133",
+  },
   nice_cg192: { id: "nice_cg192", title: "NICE CG192 Antenatal and postnatal mental health", url: "https://www.nice.org.uk/guidance/cg192" },
+  ada_standards_pregnancy: {
+    id: "ada_standards_pregnancy",
+    title: "ADA Standards of Care in Diabetes — Management of Diabetes in Pregnancy (current year)",
+    url: "https://diabetesjournals.org/care",
+  },
+  nice_ng3: { id: "nice_ng3", title: "NICE NG3 Diabetes in pregnancy", url: "https://www.nice.org.uk/guidance/ng3" },
 } as const satisfies Record<string, SourceRef>;

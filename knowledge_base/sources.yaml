@@ -112,6 +112,15 @@
   url: "https://www.nice.org.uk/guidance/ng194"
   accessed: "2026-11-06"
   topics: [after birth, warning signs]
+- id: nice_ng133
+  answers: false  # cite-only: backs the blood-pressure red flag and recheck card (K6); indexed, its swelling and headache
+                  # sentences would attach to everyday pregnancy questions (as NG126 did) and the eval set is frozen
+  title: "NICE NG133 Hypertension in pregnancy: diagnosis and management"
+  publisher: "National Institute for Health and Care Excellence"
+  url: "https://www.nice.org.uk/guidance/ng133"
+  year: 2019
+  accessed: "2026-11-18"
+  topics: [pregnancy, after birth, blood pressure, pre-eclampsia warning signs]
 - id: nice_ng3
   title: "NICE NG3 Diabetes in pregnancy"
   url: "https://www.nice.org.uk/guidance/ng3"
@@ -160,3 +169,17 @@
   url: "https://www.nhs.uk/conditions/period-pain/"
   accessed: "2026-11-06"
   topics: [period pain, self-care, when to see a doctor]
+- id: doh_postnatal_standard_2025
+  answers: false  # cite-only: backs the postnatal pathway's steps; not quoted in general answers
+  title: "Postnatal Care Program Standard — DoH Abu Dhabi (DoH/ST/HQS/PCP/V1/2025, May 2025)"
+  publisher: "Department of Health – Abu Dhabi"
+  url: "https://www.doh.gov.ae/-/media/B164DC4D53DF4640A1DB640CBEED6228.ashx"
+  accessed: "2026-11-18"
+  topics: [postnatal care, after birth, abu dhabi, maternal mental health]
+- id: doh_postnatal_programme_2025
+  answers: false  # cite-only: backs the postnatal pathway's steps; not quoted in general answers
+  title: "DoH launches the Integrated Postnatal Care Programme (14 July 2025)"
+  publisher: "Department of Health – Abu Dhabi"
+  url: "https://www.doh.gov.ae/en/news/DoH-launches-Integrated-Postnatal-Care-Programme"
+  accessed: "2026-11-18"
+  topics: [postnatal care, telemedicine, home visits, abu dhabi]

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useRef, useState, useTransition, type FormEvent } from "react";
 import { CrisisCard } from "@/components/safety/CrisisCard";
 import { RedFlagCard } from "@/components/safety/RedFlagCard";
+import { UrgentCard } from "@/components/ui/UrgentCard";
 import { Button } from "@/components/ui/Button";
 import { Seg } from "@/components/ui/Pills";
 import { useToast } from "@/components/ui/Toast";
@@ -14,6 +15,8 @@ import type { Card, Flow, Impact, LogBody, LogResult, PainSite, ParseResult, Pba
 import type { Locale } from "@/i18n/config";
 import { ALL_SYMPTOMS, COMMON_SYMPTOMS, FLOWS, IMPACTS, MORE_SYMPTOMS, PBAC_WEIGHTS, pbacScore, slug } from "@/lib/vocab";
 import { BodyMap } from "./BodyMap";
+import type { siteHeat } from "./bodyHeat";
+import { VoiceButton } from "./VoiceButton";
 
 type PbacKey = `${"pads" | "tampons"}_${"light" | "moderate" | "soaked"}` | `clots_${"small" | "large"}`;
 const PBAC_ROWS: ReadonlyArray<{ key: PbacKey; group: keyof typeof PBAC_WEIGHTS; level: string }> = [
@@ -52,6 +55,7 @@ export function LogForm({
   isToday,
   dateLabel,
   yearCounts,
+  heat,
   locale,
 }: {
   date: string;
@@ -59,6 +63,7 @@ export function LogForm({
   isToday: boolean;
   dateLabel: string;
   yearCounts: Record<string, number>;
+  heat?: ReturnType<typeof siteHeat>;
   locale: Locale;
 }) {
   const t = useTranslations();
@@ -73,7 +78,7 @@ export function LogForm({
   const [sleep, setSleep] = useState(saved?.sleep_h == null ? "" : String(saved.sleep_h));
   const [note, setNote] = useState(saved?.note ?? "");
   const [parsed, setParsed] = useState<string | null>(null);
-  const [result, setResult] = useState<{ flags: Card[]; crisis: boolean } | null>(null);
+  const [result, setResult] = useState<{ flags: Card[]; crisis: boolean; urgent?: string | null } | null>(null);
   const [saving, startSave] = useTransition();
   const [reading, startRead] = useTransition();
   const resultRef = useRef<HTMLDivElement>(null);
@@ -82,10 +87,14 @@ export function LogForm({
   const score = pbacScore(items);
   const toggle = <T,>(list: T[], v: T) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
 
-  const readSentence = () =>
+  const readSentence = (text: string = note) =>
     startRead(async () => {
       try {
-        const r = await apiClient<ParseResult>("/logs/parse", { body: { text: note } });
+        const r = await apiClient<ParseResult>("/logs/parse", { body: { text, lang: locale } });
+        if (r.crisis || r.urgent) {
+          setResult({ flags: [], crisis: Boolean(r.crisis), urgent: r.urgent?.message ?? null });
+          requestAnimationFrame(() => resultRef.current?.focus());
+        }
         const known = r.symptoms.filter((s) => ALL_SYMPTOMS.includes(s));
         if (r.flow) setFlow(r.flow);
         if (r.pain !== null) setPain(r.pain);
@@ -97,7 +106,8 @@ export function LogForm({
           ...(r.impact ? [t(`impacts.${slug(r.impact)}`)] : []),
           ...(r.pain !== null ? [t("log.painValue", { pain: r.pain })] : []),
         ];
-        setParsed(words.length ? t("log.parsed", { items: words.join(", ") }) : t("log.parsedNone"));
+        const how = r.read_by === "model" ? `${t("log.readByAi")} ` : "";
+        setParsed(words.length ? how + t("log.parsed", { items: words.join(", ") }) : t("log.parsedNone"));
       } catch (e) {
         setParsed(t("log.parseFailed", { detail: e instanceof ApiError ? e.detail : String(e) }));
       }
@@ -145,6 +155,11 @@ export function LogForm({
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <h3 className="sr-only">{t("log.urgentHeading")}</h3>
             {result.crisis && <CrisisCard />}
+            {!result.crisis && result.urgent && (
+              <UrgentCard title={t("log.urgentFromWords")} headingLevel={3}>
+                <p dir="auto">{result.urgent}</p>
+              </UrgentCard>
+            )}
             {result.flags.map((c) => (
               <RedFlagCard key={c.observation_id} card={c} locale={locale} headingLevel={3} />
             ))}
@@ -194,7 +209,7 @@ export function LogForm({
         <input id="pain-range" type="range" min={0} max={10} step={1} value={pain} onChange={(e) => setPain(Number(e.target.value))} aria-valuetext={t("log.painValue", { pain })} />
       </div>
 
-      <BodyMap selected={sites} onToggle={(s) => setSites((x) => toggle(x, s))} yearCounts={yearCounts} />
+      <BodyMap selected={sites} onToggle={(s) => setSites((x) => toggle(x, s))} yearCounts={yearCounts} heat={heat} />
 
       <div className="field">
         <span className="label">{t("log.symptomsTitle")}</span>
@@ -229,7 +244,7 @@ export function LogForm({
         <label htmlFor="note-t">{t("log.noteLabel")}</label>
         <textarea id="note-t" rows={2} maxLength={600} dir="auto" placeholder={t("log.notePlaceholder")} value={note} onChange={(e) => setNote(e.target.value)} />
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-          <Button variant="outline" size="sm" pending={reading} disabled={!note.trim()} onClick={readSentence}>
+          <Button variant="outline" size="sm" pending={reading} disabled={!note.trim()} onClick={() => readSentence()}>
             {t("log.readNote")}
           </Button>
           <button type="button" className="link xs" onClick={() => setNote(t("log.exampleText"))}>
@@ -237,6 +252,14 @@ export function LogForm({
           </button>
         </div>
         <p className="xs faint">{t("log.noteSaved")}</p>
+        <VoiceButton
+          locale={locale}
+          onText={(heard) => {
+            const text = note.trim() ? `${note.trim()} ${heard}` : heard;
+            setNote(text.slice(0, 600));
+            readSentence(text.slice(0, 600));
+          }}
+        />
       </div>
       {parsed && (
         <p className="extract" role="status">

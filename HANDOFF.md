@@ -54,8 +54,10 @@ Future Health challenge as well is allowed.
 1. **Watch for the organisers' reply.** It decides QUESTIONS #44 (how pre-selection code is scored) and #45.
 2. **Advisor outreach:** send `docs/drafts/26-outreach.md` §1 to 5–10 OB-GYNs, residents, midwives or GPs, one name per
    message; log each in that file's tracker by role only.
-3. **Mon 9 Nov: deploy** (`docs/16_DEPLOY_NOW.md`: Supabase, Render blueprint, Vercel), smoke test, uptime check
-   (issue #22, #30). Then replace "Not deployed yet" in README.md and this file with the live URL.
+3. ~~Deploy~~ **Done 18 Nov:** live at https://reprosense.vercel.app. API `https://reprosense-api.onrender.com` and a free
+   Render Postgres (`reprosense-db`, Frankfurt) in the Render workspace "ReproSense" (the main workspace was at 25
+   services). Repo variables `LIVE_API_URL` and `LIVE_WEB_URL` are set, so the uptime workflow pings every 10 minutes.
+   The free database expires about 18 Dec.
 4. **Tue 10 Nov: Future Health decision** (`docs/drafts/45-second-competition.md`). Register only if its rules allow an
    existing product and HealthX confirms no conflict; otherwise skip.
 5. **By Fri 13 Nov:** interviews and usability sessions (Atharva leads, #26); clinician review booked.
@@ -127,7 +129,7 @@ Atharva merged #74 and #77 on 7 Nov evening, then #83, #84, #85, #87, #88, #89 a
   - Team and evidence lines are hidden until `TEAM` and `EVIDENCE` are set in `pitch/build_deck.py`. Fill them only with true facts.
 - **Parked for build week (17–21 Nov):** clinician invites on branch `build-week/clinician-invites`, built and tested. Merge it on 17 Nov so it counts as build-week work (QUESTIONS #51).
 - **Research (6 Nov):** `research/2026-11-06/` holds five sourced notes. They have already corrected the landing evidence, docs/05, 07, 10, 12 and 15.
-- **Not deployed.** It needs Krishna's own Supabase, Render and Vercel accounts; follow `docs/16_DEPLOY_NOW.md`.
+- **Deployed 18 Nov:** https://reprosense.vercel.app (Vercel) with the API and a free Postgres on Render (see section 0).
 - **No LLM key.** Cards and the assistant run deterministically (templates plus extractive answers with citations). Adding `ANTHROPIC_API_KEY` to `.env` switches the Claude provider on, including the model's second safety check in the assistant.
 - **Needs Krishna before 16 Nov:**
   - QUESTIONS #44: read the complete prior-work disclosure in docs/15, ask the organisers how earlier code is scored, and tag `pre-selection-2026-11-16`.

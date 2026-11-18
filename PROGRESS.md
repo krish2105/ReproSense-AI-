@@ -17,6 +17,49 @@ Blockers / questions:
 
 ---
 
+## 2026-11-18 — Build week K6: blood-pressure log and urgent warning (G2) — Krishna with Claude Code
+Done:
+- She can log blood pressure (top/bottom mmHg, the calendar day, optional time) in pregnancy and for 12 weeks after a
+  birth: `POST /v1/bp` (plausible range 70–250 / 40–150, top above bottom, no future day; audited), table `bp_readings`
+  with forced RLS (her own rows; her clinic reads them with consent), in the bundle the rules engine reads.
+- New red flag `RF7_HIGH_BLOOD_PRESSURE`, run with the others first: in pregnancy or up to 6 weeks after birth, one
+  reading of 160/110 or higher, or 140/90 or higher with a severe headache, vision changes or sudden swelling logged the
+  same day (NICE NG133 "Terms used", Table 1 under 1.4.3, 1.5.2, 1.1.1; NG201 1.2.27). The engine checks each reading
+  on its own and the card cites only the reading(s) behind it. New "soon" card `OBS_RAISED_BLOOD_PRESSURE`: her latest
+  reading 140/90 or higher without RF7 → have it rechecked today (NG133; NG201 1.2.26). New symptom "sudden swelling".
+- NICE NG133 in the knowledge base (cite-only), summary in our own words (EN + AR). Hessa and Fatima carry ordinary
+  readings (generator, every line [OK]); no persona triggers the new rules.
+- Web: "Blood pressure" box on the log screen (urgent card first after saving), latest reading on home, readings table on
+  Patterns and in the clinician record, readings in the doctor PDF and the SBAR. EN + AR, light and dark, 390 px.
+- Chief-healthcare-officer and women-care-lead reviews applied (urgent wording "needs urgent care", full NG133 symptom
+  list in the warning, SYS/DIA labels and "not the pulse", word tags, 998 hint for a reading above the range).
+Tests: backend 439 passed (51 in `tests/test_blood_pressure.py`) · web lint, typecheck, 57 unit tests · e2e
+`e2e/blood-pressure.spec.ts` runs in CI
+UI slop check: pass (no gradients, no new radii or shadows, words beside every colour mark, one h1 per page)
+Blockers / questions:
+- Q62: RF7 stops at the end of week 6 after birth while logging runs to week 12 (both reviewers asked to extend RF7 to
+  12 weeks; left as specified for Krishna and the clinician to decide). Awaiting clinician sign-off (RULE_SIGNOFF).
+
+## 2026-11-18 — Build week K4: clinic onboarding API — Krishna with Claude Code
+Done:
+- New role `clinic_admin` (one clinic). Demo login in one tap (`cadmin-01`, Seaside Women's Clinic, fictional); a second
+  admin (`cadmin-02`, North Island) is seeded to show that a clinic sees only itself. Staff logins now open the seeded
+  person by id, never someone who joined later.
+- Single-use clinician invites (`clinic_invites`, only the token's sha256 stored): create, list (pending, accepted,
+  expired, revoked), withdraw; accept with a display name makes a fictional clinician bound to that clinic; used,
+  withdrawn or expired links answer 410.
+- The clinic's team, its dashboard (follow-ups open, booked, done; PC008 glucose part; shared records) and a CSV export
+  of follow-up counts with no names or ids; counts under 10 blank, with complementary suppression.
+- Row-level security: invites and staff rows per clinic; the cohort per clinic for clinicians and clinic admins; figures
+  from two SECURITY DEFINER count functions gated on the role and clinic. Every action is in the audit chain.
+- Tests first: `backend/tests/test_clinic_onboarding.py` (17).
+Tests: backend 393 passed
+Next:
+- A3 (Atharva): the clinic-admin screens and the `/clinic-invite/<token>` join page, from the shapes in the PR.
+- After deploy: press the demo reset once so the live database gets the new table and role.
+
+---
+
 ## 2026-11-07 (late night) — Gate G2 approvals and Atharva's handoff steps 1–4 — Krishna with Claude Code
 Done (Krishna approved each in session; recorded on each PR):
 - **#82** A4e wording (OBS_IRREGULAR_CYCLES next steps) and **#86** guard gaps and urgent citations: approved and merged.
@@ -45,6 +88,8 @@ Next:
 - Deploy (Supabase, Render, Vercel), smoke e2e, uptime check; first fix the API-down text judges see today.
 - B2 under the delta rule once the key is in `.env`, with the eval inside `request_budget`.
 - Decide which urgent reply fits an unconfirmed possible pregnancy (maternity unit or emergency department), with the advisor.
+
+---
 
 ## 2026-11-07 (night) — A4e: irregular-cycles next steps (#43 e, waits for Krishna's G2 OK) — Atharva with Claude Code
 Done:

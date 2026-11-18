@@ -11,7 +11,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.ai.llm import get_llm
-from app.api import admin, assistant, clinic, demo, patient, quality, reports
+from app.api import admin, assistant, auth, clinic, clinic_admin, demo, patient, quality, reports
 from app.config import get_settings
 from app.db import SYSTEM, session
 from app.security.middleware import ModelBudget, RateLimit, SecurityHeaders
@@ -38,6 +38,12 @@ async def lifespan(_app: FastAPI):
 
         loaded = seed_if_empty()
         log.warning("first boot: %s", f"seeded {loaded}" if loaded else "demo data already present")
+    try:
+        from app.db.seed import ensure_sign_in_tables
+
+        ensure_sign_in_tables()  # K5: a database seeded before sign-in existed gains its tables
+    except Exception as e:  # the API still starts; sign-in answers 500 until the database is reachable
+        log.warning("sign-in tables not checked: %s", type(e).__name__)
     yield
 
 
@@ -57,12 +63,31 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE"],
     allow_headers=["content-type", "authorization"],
 )
-for r in (demo.router, patient.router, assistant.router, reports.router, clinic.router, admin.router, quality.router):
+for r in (
+    demo.router,
+    auth.router,
+    patient.router,
+    assistant.router,
+    reports.router,
+    clinic.router,
+    admin.router,
+    clinic_admin.router,
+    clinic_admin.invites_router,
+    quality.router,
+):
     app.include_router(r)
 
 
 @app.get("/healthz")
 def healthz():
+    return {"ok": True}
+
+
+@app.get("/v1/ping")
+def ping():
+    """Wake-up call from the public pages (the web proxies only /v1). A free Render instance sleeps after about 15
+    idle minutes and takes up to a minute to wake; the landing page calls this so it is awake by the time a judge picks
+    a demo person. No database, no data, no session."""
     return {"ok": True}
 
 

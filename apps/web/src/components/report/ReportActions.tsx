@@ -227,6 +227,7 @@ export function PrepareReport({ label }: { label: string }) {
   const [pending, start] = useTransition();
   return (
     <Button
+      data-tour="report"
       pending={pending}
       onClick={() =>
         start(async () => {

@@ -4,11 +4,13 @@ from __future__ import annotations
 
 import json
 import re
+import secrets
 from datetime import date
+from datetime import time as clock_time
 from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from app.agents import navigator
 from app.agents.pipeline import cards_for, persist, run
@@ -18,44 +20,13 @@ from app.rules.engine import evaluate, load_rules
 from app.security import audit
 from app.security.auth import require
 from app.security.crypto import decrypt, encrypt
+from app.services import blood_pressure, fhir, lognote, postnatal, previsit, views
 from app.services import documents as docs
-from app.services import fhir, views
-from app.services.patient_data import apply_period_log, load_bundle
+from app.services.patient_data import ai_allowed, apply_period_log, load_bundle
+from app.services.vocab import SYMPTOMS
 
 router = APIRouter(prefix="/v1", tags=["patient"])
 patient = require("patient")
-FLOWS = ("none", "spotting", "light", "medium", "heavy")
-SYMPTOMS = {
-    "cramps",
-    "bloating",
-    "fatigue",
-    "headache",
-    "breast tenderness",
-    "low mood",
-    "back pain",
-    "cravings",
-    "acne",
-    "excess hair growth",
-    "scalp hair thinning",
-    "flooding",
-    "pain with bowel movements",
-    "pain passing urine",
-    "dizziness",
-    "fainting",
-    "fever",
-    "hot flushes",
-    "night sweats",
-    "nausea",
-    "anxiety",
-    "insomnia",
-    "sudden severe pain",
-    "severe abdominal pain",
-    "reduced baby movements",
-    "severe headache",
-    "vision changes",
-    "bleeding",
-}
-IMPACTS = ("none", "reduced activity", "missed work or study", "stayed in bed")
 SITES = {"lower abdomen", "upper abdomen", "left pelvis", "right pelvis", "lower back"}
 
 
@@ -159,7 +130,37 @@ def home(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         "today_mood": today.get("mood") if today else None,
         "record_strength": ev.features.values.get("record_strength"),
         "days_logged": views.days_logged(b),
+        "postnatal": postnatal.pathway(b, ref()),  # her first 6 weeks after a birth (DoH Postnatal Care Standard)
+        "blood_pressure": blood_pressure.summary(b, ref()),  # K6: pregnancy and the 12 weeks after birth
     }
+
+
+class PostnatalCheckIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    date: date
+
+
+@router.post("/postnatal/{step}")
+def record_postnatal_check(step: str, body: PostnatalCheckIn, actor: Actor = Depends(patient)):
+    """She records a postnatal check she had ("I had this"). Only the checks done by her care team; the mood check
+    comes from her EPDS and the glucose test from a confirmed lab result."""
+    if step not in postnatal.CHECK_STEPS:
+        raise HTTPException(422, "Only the teleconsultation and the 2-week and 6-week visits can be recorded here.")
+    with session(actor) as cur:
+        b = _bundle(cur, actor)
+        p = postnatal.pathway(b, ref())
+        if not p:
+            raise HTTPException(404, "There is no birth in the last 12 weeks in your record.")
+        if not date.fromisoformat(p["birth_date"]) <= body.date <= ref():
+            raise HTTPException(422, "The date must be between the birth and today.")
+        cur.execute(
+            "INSERT INTO events (id, profile_id, type, date, details) VALUES (%s,%s,'postnatal_check',%s,%s)"
+            " ON CONFLICT (id) DO UPDATE SET date=EXCLUDED.date, details=EXCLUDED.details",
+            (f"{actor.user_id}-pn-{step}", actor.user_id, body.date, json.dumps({"step": step, "source": "her entry"})),
+        )
+        audit.record(cur, actor, "postnatal_check", actor.user_id, f"postnatal:{step}")
+        b = _bundle(cur, actor)
+    return postnatal.pathway(b, ref())
 
 
 @router.get("/timeline")
@@ -283,81 +284,66 @@ def create_log(body: LogIn, actor: Actor = Depends(patient)):
     }
 
 
+class BloodPressureIn(BaseModel):
+    """One reading (build week K6). The plausible range refuses typing slips only; a very high reading is accepted."""
+
+    model_config = ConfigDict(extra="forbid")
+    date: date
+    time: clock_time | None = None
+    systolic: int = Field(..., ge=blood_pressure.SYSTOLIC[0], le=blood_pressure.SYSTOLIC[1])
+    diastolic: int = Field(..., ge=blood_pressure.DIASTOLIC[0], le=blood_pressure.DIASTOLIC[1])
+
+    @model_validator(mode="after")
+    def systolic_above_diastolic(self):
+        if self.systolic <= self.diastolic:
+            raise ValueError("the top number (systolic) must be higher than the bottom number (diastolic)")
+        return self
+
+
+@router.post("/bp")
+def create_bp_reading(body: BloodPressureIn, lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
+    """Save a reading, re-run the rules (red flags first) and return any urgent card at once, like a log save, in her
+    screen's language (the stored cards stay in English, as after any save)."""
+    if body.date > ref():
+        raise HTTPException(422, "You can't log a reading for a future day.")
+    with session(actor) as cur:
+        if not blood_pressure.eligible(_bundle(cur, actor), ref()):
+            raise HTTPException(422, "Blood pressure can be logged in pregnancy and in the 12 weeks after birth.")
+        rid = f"{actor.user_id}-bp-{secrets.token_hex(5)}"
+        cur.execute(
+            "INSERT INTO bp_readings (id, profile_id, date, time, systolic, diastolic, source)"
+            " VALUES (%s,%s,%s,%s,%s,%s,'app')",
+            (rid, actor.user_id, body.date, body.time, body.systolic, body.diastolic),
+        )
+        audit.record(cur, actor, "create_bp_reading", actor.user_id, rid)
+    out = _refresh(actor)
+    crisis = bool(out.get("crisis"))
+    cards = out["cards"] if lang == "en" else cards_for(out["bundle"], lang)[0]
+    reading = next(r for r in out["bundle"]["bp_readings"] if r["id"] == rid)
+    return {
+        "id": rid,
+        "reading": reading,
+        "red_flags": views.display_cards(cards, crisis)[0],
+        "crisis": crisis,
+        "patterns": [h.rule_id for h in out["evaluation"].observations],
+    }
+
+
 class ParseIn(BaseModel):
     text: str = Field(..., min_length=1, max_length=600)
-
-
-NL = [  # natural-language symptom capture (deterministic; shown for confirmation before saving)
-    (r"cramp", "symptoms", "cramps"),
-    (r"bloat", "symptoms", "bloating"),
-    (r"tired|exhaust|fatigue", "symptoms", "fatigue"),
-    (r"headache", "symptoms", "headache"),
-    (r"acne|spots|pimple", "symptoms", "acne"),
-    (r"hair (growth|on my (chin|face))|facial hair", "symptoms", "excess hair growth"),
-    (r"flood|soak|leak(ed)? through", "symptoms", "flooding"),
-    (r"dizz|light ?headed", "symptoms", "dizziness"),
-    (r"faint", "symptoms", "fainting"),
-    (r"poo|bowel|toilet hurt|pain when i (go|went)", "symptoms", "pain with bowel movements"),
-    (r"hot flush|hot flash", "symptoms", "hot flushes"),
-    (r"night sweat", "symptoms", "night sweats"),
-    (r"low mood|sad|down|teary", "symptoms", "low mood"),
-    (r"back (pain|ache)", "symptoms", "back pain"),
-    (r"fever|temperature", "symptoms", "fever"),
-    (r"nause|sick to my stomach", "symptoms", "nausea"),
-    (r"missed (work|school|uni|class)|called in sick|couldn'?t go to (work|school)", "impact", "missed work or study"),
-    (r"stayed in bed|couldn'?t get out of bed", "impact", "stayed in bed"),
-    (r"heavy (flow|period|bleed)|bleeding a lot", "flow", "heavy"),
-    (r"spotting", "flow", "spotting"),
-    (r"light (flow|period)", "flow", "light"),
-    (r"تقلصات|مغص", "symptoms", "cramps"),
-    (r"انتفاخ", "symptoms", "bloating"),
-    (r"تعب|إرهاق|ارهاق", "symptoms", "fatigue"),
-    (r"صداع", "symptoms", "headache"),
-    (r"حب الشباب|حبوب", "symptoms", "acne"),
-    (r"دوخة|دوار", "symptoms", "dizziness"),
-    (r"غياب عن العمل|لم أذهب إلى العمل|غبت عن", "impact", "missed work or study"),
-    (r"نزيف غزير|غزيرة", "flow", "heavy"),
-    (r"هبات ساخنة|هبّات", "symptoms", "hot flushes"),
-    (r"ظهري|الظهر", "symptoms", "back pain"),
-]
-WORD_NUM = {
-    "one": 1,
-    "two": 2,
-    "three": 3,
-    "four": 4,
-    "five": 5,
-    "six": 6,
-    "seven": 7,
-    "eight": 8,
-    "nine": 9,
-    "ten": 10,
-}
+    lang: Literal["en", "ar"] = "en"
 
 
 @router.post("/logs/parse")
 def parse_note(body: ParseIn, actor: Actor = Depends(patient)):
-    t = body.text.lower()
-    out: dict = {"symptoms": [], "flow": None, "impact": None, "pain": None, "matched": []}
-    for pat, field, value in NL:
-        if re.search(pat, t):
-            out["matched"].append(value)
-            if field == "symptoms":
-                out["symptoms"].append(value)
-            else:
-                out[field] = value
-    m = re.search(r"(\d{1,2})\s*(?:/|out of)\s*10", t) or re.search(r"pain (?:of |at |was )?(\d{1,2})\b", t)
-    if m and 0 <= int(m.group(1)) <= 10:
-        out["pain"] = int(m.group(1))
-    else:
-        m = re.search(r"\b(" + "|".join(WORD_NUM) + r") out of ten\b", t)
-        if m:
-            out["pain"] = WORD_NUM[m.group(1)]
-    if out["pain"] is None and re.search(r"so bad|unbearable|worst|agony|excruciating|شديد جدا|لا يحتمل", t):
-        out["pain"] = 8
-        out["matched"].append("pain about 8/10 (from 'so bad'): please adjust")
-    out["symptoms"] = list(dict.fromkeys(out["symptoms"]))
-    out["confirm"] = "Check these fields, change anything that's wrong, then save."
-    return out
+    """Typed or spoken words to log fields, shown for her to check; nothing is saved here (build week K2). The model
+    reads only when her AI switch is on; red flags come from the word checks, never from the model."""
+    from app.ai import llm
+
+    with session(actor) as cur:
+        allowed = ai_allowed(cur, actor.user_id)
+    model = llm.get_llm() if allowed else None
+    return lognote.parse(body.text, model if model is not None and model.name != "none" else None, body.lang)
 
 
 class MoodIn(BaseModel):
@@ -380,6 +366,18 @@ def set_mood(body: MoodIn, actor: Actor = Depends(patient)):
 
 
 # ---------- insights ----------
+@router.get("/brief")
+def previsit_brief(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
+    """K3: "what changed since your last visit", from her own entries (app/services/previsit.py)."""
+    with session(actor) as cur:
+        b = _bundle(cur, actor)
+        inputs = previsit.visit_inputs(cur, actor.user_id)
+        audit.record(cur, actor, "view_previsit_brief", actor.user_id, "previsit_brief")
+    visit = previsit.last_visit(previsit.last_shared_at(actor.user_id), inputs["reviewed_at"], ref())
+    cards, _, crisis = cards_for(b, lang)
+    return previsit.build_brief(b, cards, crisis, visit, inputs["gaps"], ref(), lang, "patient")
+
+
 @router.get("/insights")
 def insights(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
     with session(actor) as cur:
@@ -459,23 +457,73 @@ def list_documents(actor: Actor = Depends(patient)):
         return cur.fetchall()
 
 
+PHOTO_TYPES = {"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png", "webp": "image/webp"}
+ASK_FOR_PDF = "Please upload the PDF or text version of the report instead."
+
+
+def _photo_model():
+    """The configured model if it can read images, else None."""
+    from app.ai import llm
+
+    model = llm.get_llm()
+    if getattr(model, "name", "none") == "none" or not hasattr(model, "complete_json_image"):
+        return None
+    return model if getattr(model, "supports_images", True) else None
+
+
+@router.get("/documents/photo")
+def photo_reading(actor: Actor = Depends(patient)):
+    """Whether a photographed report can be read right now, so the page offers the photo button only when it works
+    (rule 8). `no_model`: no model that reads images is configured (the live demo without an AI key). `ai_off`: she
+    switched AI off in Privacy. Either way the PDF and text upload still work."""
+    with session(actor) as cur:
+        if not ai_allowed(cur, actor.user_id):
+            return {"available": False, "reason": "ai_off"}
+    if _photo_model() is None:
+        return {"available": False, "reason": "no_model"}
+    return {"available": True, "reason": None}
+
+
+def _read_photo(data: bytes, mime: str, actor: Actor) -> str:
+    """A photographed lab report, transcribed by the model (build week). Her AI choice in Privacy is checked first,
+    so with AI off the photo is never sent anywhere. Only the transcription is kept (encrypted); the photo is not."""
+    with session(actor) as cur:
+        if not ai_allowed(cur, actor.user_id):
+            raise HTTPException(403, f"Reading a photo uses AI, which is off in your Privacy settings. {ASK_FOR_PDF}")
+    model = _photo_model()
+    if model is None:
+        raise HTTPException(415, f"Photo reading needs the AI model, which isn't switched on here. {ASK_FOR_PDF}")
+    reading = model.complete_json_image(docs.PHOTO_SYSTEM, docs.PHOTO_USER, data, mime, 1500)
+    text = docs.photo_text(reading) if isinstance(reading, dict) else ""
+    if not text.strip():
+        raise HTTPException(
+            422, "We couldn't read this photo. Try a sharp, flat, well-lit photo of the results page, or the PDF."
+        )
+    return text
+
+
 @router.post("/documents")
 async def upload_document(file: UploadFile = File(...), actor: Actor = Depends(patient)):
     data = await file.read(10 * 1024 * 1024 + 1)
     if len(data) > 10 * 1024 * 1024:
         raise HTTPException(413, "Files up to 10 MB, please.")
     name = (file.filename or "upload").lower()
+    source = "file"
     if name.endswith(".pdf") or data[:4] == b"%PDF":
         text, mime = docs.pdf_text(data), "application/pdf"
     elif name.endswith((".txt", ".text")):
         text, mime = data.decode("utf-8", errors="replace"), "text/plain"
-    elif name.endswith((".png", ".jpg", ".jpeg")):
-        raise HTTPException(
-            415, "Photo reading (OCR) is not in this build yet. Please upload the PDF or text version of the report."
-        )
+    elif name.rsplit(".", 1)[-1] in PHOTO_TYPES:
+        mime, source = PHOTO_TYPES[name.rsplit(".", 1)[-1]], "photo"
+        text = _read_photo(data, mime, actor)
     else:
         raise HTTPException(415, "Please upload a PDF, PNG, JPG or TXT lab report.")
-    ext = docs.extract(text)
+    ext = {**docs.extract(text), "source": source}
+    if source == "photo":
+        ext["message"] = (
+            "Read from your photo by AI. Check each value against your paper report, then confirm. "
+            "Nothing is saved until you confirm, and the photo itself is not kept."
+        )
     with session(actor) as cur:
         cur.execute(
             "INSERT INTO documents (profile_id, filename, mime, text_enc, status, extraction) VALUES (%s,%s,%s,%s,'extracted',%s)"
@@ -564,7 +612,7 @@ def privacy(actor: Actor = Depends(patient)):
         )
         log = cur.fetchall()
         counts = {}
-        for t in ("daily_logs", "events", "lab_results", "documents", "reports", "shares"):
+        for t in ("daily_logs", "bp_readings", "events", "lab_results", "documents", "reports", "shares"):
             cur.execute(f"SELECT count(*) AS n FROM {t} WHERE profile_id=%s", (actor.user_id,))  # noqa: S608 (fixed table list)
             counts[t] = cur.fetchone()["n"]
     return {
@@ -648,6 +696,7 @@ def delete_my_data(actor: Actor = Depends(patient)):
             "lab_results",
             "documents",
             "events",
+            "bp_readings",
             "daily_logs",
             "cycles",
         ):

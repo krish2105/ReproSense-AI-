@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import base64
+import hashlib
+import hmac
 import os
 
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
@@ -36,3 +38,12 @@ def decrypt(blob: bytes | memoryview | None) -> str:
         return ""
     b = bytes(blob)
     return _aes().decrypt(b[:12], b[12:], b"reprosense").decode()
+
+
+def keyed_hash(purpose: str, value: str) -> str:
+    """HMAC-SHA256 under a key derived from NOTES_KEY, for values that are looked up but never stored (her sign-in
+    email, a 6-digit code). Without the key a leaked table cannot be matched to an address by guessing."""
+    _aes()  # same key checks as encryption
+    assert _key is not None
+    sub = hmac.new(_key, b"reprosense-lookup:" + purpose.encode(), hashlib.sha256).digest()
+    return hmac.new(sub, value.encode(), hashlib.sha256).hexdigest()

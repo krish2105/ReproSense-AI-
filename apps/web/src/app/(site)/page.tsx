@@ -16,6 +16,7 @@ import { isLocale } from "@/i18n/config";
 import { isKnownCycle } from "@/lib/api/types";
 import { firstName, formatDate, isolate, shownName } from "@/lib/format";
 import { getShowcase } from "@/lib/showcase";
+import { TourStart } from "@/components/tour/Tour";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("landing");
@@ -72,6 +73,7 @@ export default async function Landing() {
             <a className="btn btn-o" href="#evidence">
               {t("landing.cta2")}
             </a>
+            <TourStart />
           </div>
           <p className="who">{t("landing.who")}</p>
         </div>

@@ -18,9 +18,9 @@ export const getSession = cache(async (): Promise<WhoAmI | null> => {
 /** Guards a role-separated area (CLAUDE.md rule 9). redirect() is called outside any try/catch on purpose. */
 export async function requireRole(role: Role): Promise<WhoAmI> {
   const me = await getSession();
-  if (!me) redirect("/demo");
-  if (me.role !== role) redirect(`/demo?need=${role}`);
-  return me;
+  if (me?.role === role) return me;
+  // Staff views open in one tap (demo sign-in, then straight in); her app needs her to pick a woman first.
+  redirect(role === "patient" ? "/demo?need=patient" : `/demo/enter?role=${role}`);
 }
 
 /** The demo roster (public, no session needed). Cached per request. */

@@ -1,6 +1,6 @@
 // Response shapes of the FastAPI service (backend/app/api/*). Checked field by field against live responses.
 
-export type Role = "patient" | "clinician" | "admin";
+export type Role = "patient" | "clinician" | "admin" | "clinic_admin";
 export type LifeStage = "periods" | "trying_to_conceive" | "pregnancy" | "after_birth" | "perimenopause";
 
 /** GET /v1/demo/personas */
@@ -28,7 +28,7 @@ export interface PersonasResponse {
 }
 
 /** POST /v1/demo/login */
-export type LoginBody = { persona: string; role?: "patient" } | { role: "clinician" | "admin" };
+export type LoginBody = { persona: string; role?: "patient" } | { role: "clinician" | "admin" | "clinic_admin" };
 export interface LoginResponse {
   role: Role;
   user_id: string;
@@ -226,6 +226,58 @@ export interface NavigatorDecision extends NavigatorDraft {
 }
 
 /** GET /v1/me/home?lang= */
+/** Her first 6 weeks after a birth (GET /v1/me/home .postnatal; DoH Postnatal Care Program Standard, May 2025). */
+export type PostnatalStepId = "teleconsult" | "visit_2w" | "mood" | "visit_6w" | "glucose_test";
+export interface PostnatalStep {
+  id: PostnatalStepId;
+  from: string;
+  to: string;
+  status: "done" | "due" | "upcoming" | "not_recorded";
+  done_on: string | null;
+  recordable: boolean;
+  sources: string[];
+  source_links: Source[];
+}
+export interface Postnatal {
+  birth_date: string;
+  discharge_date: string;
+  discharge_assumed: boolean;
+  days_since_birth: number;
+  weeks_since_birth: number;
+  steps: PostnatalStep[];
+  done: number;
+  total: number;
+}
+
+/** One blood-pressure reading (build week K6; POST /v1/bp). time is "HH:MM" or null. */
+export interface BpReading {
+  id: string;
+  date: string;
+  time: string | null;
+  systolic: number;
+  diastolic: number;
+  source: string;
+}
+export interface BpBody {
+  date: string;
+  time?: string | null;
+  systolic: number;
+  diastolic: number;
+}
+export interface BpResult {
+  id: string;
+  reading: BpReading;
+  red_flags: Card[];
+  crisis: boolean;
+  patterns: string[];
+}
+/** GET /v1/me/home .blood_pressure: she can log while pregnant and for 12 weeks after a birth. */
+export interface BpSummary {
+  eligible: boolean;
+  latest: BpReading | null;
+  recent: BpReading[]; // newest first
+}
+
 export interface HomeResponse {
   profile: {
     id: string;
@@ -252,6 +304,8 @@ export interface HomeResponse {
   today_mood: Mood | null;
   record_strength: "strong" | "building" | "early";
   days_logged: number; // distinct dates with a daily log (same number on home, Patterns, clinician)
+  postnatal: Postnatal | null;
+  blood_pressure: BpSummary;
 }
 
 /** POST /v1/logs */
@@ -286,6 +340,11 @@ export interface ParseResult {
   pain: number | null;
   matched: string[];
   confirm: string;
+  /** "model" only when her AI switch is on and a model is configured (build week K2) */
+  read_by?: "rules" | "model";
+  /** from the word checks on her own words, never from the model; shown before she saves */
+  urgent?: { kind: string; message: string; number: "998"; sources: string[] } | null;
+  crisis?: boolean;
 }
 
 /** GET /v1/analytics?months=3|6|12 */
@@ -348,6 +407,8 @@ export interface TimelineResponse {
   days: TimelineDay[];
   events: TimelineEvent[];
   labs: LabResult[];
+  bp_readings: BpReading[]; // oldest first, within the range
+  bp_eligible: boolean;
 }
 
 // ---------------- Phase 3: patterns and the assistant ----------------
@@ -473,8 +534,37 @@ export interface ClinicRecord {
   analytics: AnalyticsResponse;
   timeline: TimelineResponse;
   her_questions: string[];
+  postnatal: Postnatal | null;
+  bp_readings: BpReading[]; // newest first
   days_logged: number;
   visit_note_draft: string;
+  previsit_brief: PrevisitBrief;
+}
+/** One line of the pre-visit brief: a fact from her entries, with the entries behind it (K3). */
+export interface BriefLine {
+  id: string;
+  kind: "red_flag" | "pattern" | "cycle" | "pain" | "lab" | "care_step" | "question";
+  status: "urgent" | "new" | "ongoing" | "resolved" | "done" | "booked" | "due" | "H" | "L" | null;
+  rule_id: string | null;
+  text: string;
+  evidence: Evidence[];
+  evidence_total: number;
+  sources: Source[];
+  written_by: string;
+  due_date?: string | null;
+}
+/** GET /v1/brief?lang= (her) and ClinicRecord.previsit_brief (clinician): "what changed since the last visit" */
+export interface PrevisitBrief {
+  since: string;
+  since_basis: "shared_report" | "clinician_review" | "default_90_days";
+  ref_date: string;
+  lang: "en" | "ar";
+  audience: "patient" | "clinician";
+  crisis: boolean;
+  ai_on: boolean;
+  written_by: string;
+  dropped_sentences: number;
+  lines: BriefLine[];
 }
 /** POST /v1/clinic/patients/{id}/ask — answers only from her entries */
 export interface RecordAnswer {
@@ -551,6 +641,8 @@ export interface DocumentUpload {
   sample_date: string | null;
   injection_lines_removed: number;
   message: string;
+  /** "photo": read from a photo by the AI model (build week); "file": a PDF or text file. */
+  source?: "file" | "photo";
 }
 /** GET /v1/documents */
 export interface DocumentRow {
@@ -572,4 +664,82 @@ export interface PrivacyResponse {
 export interface FhirExport {
   bundle: { resourceType: string; type: string; entry?: unknown[] };
   validation_errors: string[];
+}
+
+/** POST /v1/auth/passkey/login/verify and /v1/auth/email/verify: her own record, signed in (K5) */
+export interface SignedIn {
+  role: "patient";
+  user_id: string;
+}
+/** GET /v1/auth/methods: what the sign-in page offers (the email code needs a configured provider) */
+export interface AuthMethods {
+  passkey: boolean;
+  email: boolean;
+}
+/** GET /v1/auth/me: her sign-in methods, for Privacy. Never the address itself. */
+export interface AuthMe {
+  own_record: boolean; // a record she started on /join (demo people open with one tap instead)
+  passkeys: { id: number; label: string | null; created_at: string; last_used_at: string | null }[];
+  email_linked: boolean;
+  email_available: boolean;
+}
+
+/** GET /v1/documents/photo: whether a photographed report can be read right now. */
+export interface PhotoReading {
+  available: boolean;
+  reason: "no_model" | "ai_off" | null;
+}
+
+/** Clinic onboarding (K4, PR #109): /v1/clinic-admin/* for a clinic admin, /v1/clinic-invites/* public. */
+export interface ClinicRef {
+  id: string;
+  name: string; // "Seaside Women's Clinic (fictional)"
+  region: string;
+}
+export type InviteStatus = "pending" | "accepted" | "expired" | "revoked";
+export interface InviteCreated {
+  id: number;
+  status: "pending";
+  token: string; // shown only once
+  join_path: string; // "/clinic-invite/<token>"
+  join_url: string;
+  qr_payload: string;
+  created_at: string;
+  expires_at: string;
+  clinic: ClinicRef;
+  note: string;
+}
+export interface InviteRow {
+  id: number;
+  status: InviteStatus;
+  created_at: string;
+  expires_at: string;
+  accepted_at: string | null;
+  revoked_at: string | null;
+  accepted_by: { id: string; alias: string } | null;
+}
+export interface InvitesResponse {
+  clinic_id: string;
+  invites: InviteRow[];
+}
+export interface TeamResponse {
+  clinic: ClinicRef;
+  clinicians: Array<{ id: string; alias: string; joined_at: string; joined_by_invite: boolean }>;
+}
+/** Counts under 10 (or blanked to protect a small group) are null: show "fewer than 10", never 0. */
+export interface ClinicDashboard {
+  clinic: ClinicRef;
+  is_synthetic: boolean;
+  k_min: number;
+  follow_ups: { open: number | null; booked: number | null; done: number | null; total: number | null; done_pct: number | null };
+  pc008_glucose: { due: number | null; booked: number | null; done: number | null; open: number | null; done_pct: number | null; suppressed: boolean; note: string };
+  shared_records: number | null;
+  team: { clinicians: number; pending_invites: number };
+  note: string;
+}
+export interface InvitePreview {
+  clinic: ClinicRef;
+  status: InviteStatus;
+  expires_at: string;
+  role: "clinician";
 }

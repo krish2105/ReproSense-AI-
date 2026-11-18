@@ -526,6 +526,29 @@
       "flag": ""
     }
   ],
+  "bp_readings": [
+    {
+      "id": "fatima-bp01",
+      "date": "2026-09-23",
+      "time": "09:30",
+      "systolic": 128,
+      "diastolic": 84
+    },
+    {
+      "id": "fatima-bp02",
+      "date": "2026-10-02",
+      "time": null,
+      "systolic": 124,
+      "diastolic": 80
+    },
+    {
+      "id": "fatima-bp03",
+      "date": "2026-11-02",
+      "time": null,
+      "systolic": 118,
+      "diastolic": 78
+    }
+  ],
   "features": {
     "years_since_menarche": 20,
     "cycles_logged": 1,
@@ -562,7 +585,9 @@
     "epds_latest_total": 11,
     "epds_item10": 0,
     "mrs_latest_total": null,
-    "on_hormonal_contraception": false
+    "on_hormonal_contraception": false,
+    "bp_severe_in_window": false,
+    "bp_latest_raised": false
   },
   "expected_observations": [
     "CARE_POSTPARTUM_GLUCOSE_TEST",
