@@ -11,7 +11,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.ai.llm import get_llm
-from app.api import admin, assistant, clinic, demo, patient, quality, reports
+from app.api import admin, assistant, clinic, clinic_admin, demo, patient, quality, reports
 from app.config import get_settings
 from app.db import SYSTEM, session
 from app.security.middleware import ModelBudget, RateLimit, SecurityHeaders
@@ -57,7 +57,17 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE"],
     allow_headers=["content-type", "authorization"],
 )
-for r in (demo.router, patient.router, assistant.router, reports.router, clinic.router, admin.router, quality.router):
+for r in (
+    demo.router,
+    patient.router,
+    assistant.router,
+    reports.router,
+    clinic.router,
+    admin.router,
+    clinic_admin.router,
+    clinic_admin.invites_router,
+    quality.router,
+):
     app.include_router(r)
 
 

@@ -35,7 +35,7 @@ def reset_pool(url: str | None = None) -> None:
 
 @dataclass(frozen=True)
 class Actor:
-    role: str  # patient | clinician | admin | system
+    role: str  # patient | clinician | admin (network) | clinic_admin (one clinic) | system
     user_id: str = ""
     clinic_id: str = ""
 

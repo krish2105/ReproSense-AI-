@@ -41,6 +41,12 @@ def personas():
         "staff": [
             {"id": "clin-01", "role": "clinician", "alias": "Dr. Example (fictional)"},
             {"id": "admin-01", "role": "admin", "alias": "Clinic network admin (fictional)"},
+            {
+                "id": "cadmin-01",
+                "role": "clinic_admin",
+                "alias": "Clinic admin, Seaside Women's Clinic (fictional)",
+                "clinic_id": "clinic_corniche",
+            },
         ],
         "ref_date": get_settings().demo_ref_date.isoformat(),
     }
@@ -62,7 +68,11 @@ def _set_session(response: Response, user_id: str, role: str, clinic_id: str) ->
 
 class LoginIn(BaseModel):
     persona: str | None = None
-    role: Literal["patient", "clinician", "admin"] = "patient"
+    role: Literal["patient", "clinician", "admin", "clinic_admin"] = "patient"
+
+
+# One tap per staff role opens the seeded fictional person, never someone who joined later through an invite (K4).
+DEMO_STAFF = {"clinician": "clin-01", "admin": "admin-01", "clinic_admin": "cadmin-01"}
 
 
 @router.post("/login")
@@ -77,7 +87,9 @@ def login(body: LoginIn, response: Response):
                 (body.persona,),
             )
         else:
-            cur.execute("SELECT id, clinic_id FROM profiles WHERE role=%s ORDER BY id LIMIT 1", (body.role,))
+            cur.execute(
+                "SELECT id, clinic_id FROM profiles WHERE id=%s AND role=%s", (DEMO_STAFF[body.role], body.role)
+            )
         row = cur.fetchone()
     if not row:
         raise HTTPException(404, "Unknown demo person")
