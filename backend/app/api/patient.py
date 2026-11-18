@@ -19,7 +19,7 @@ from app.security import audit
 from app.security.auth import require
 from app.security.crypto import decrypt, encrypt
 from app.services import documents as docs
-from app.services import fhir, views
+from app.services import fhir, previsit, views
 from app.services.patient_data import ai_allowed, apply_period_log, load_bundle
 
 router = APIRouter(prefix="/v1", tags=["patient"])
@@ -380,6 +380,18 @@ def set_mood(body: MoodIn, actor: Actor = Depends(patient)):
 
 
 # ---------- insights ----------
+@router.get("/brief")
+def previsit_brief(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
+    """K3: "what changed since your last visit", from her own entries (app/services/previsit.py)."""
+    with session(actor) as cur:
+        b = _bundle(cur, actor)
+        inputs = previsit.visit_inputs(cur, actor.user_id)
+        audit.record(cur, actor, "view_previsit_brief", actor.user_id, "previsit_brief")
+    visit = previsit.last_visit(previsit.last_shared_at(actor.user_id), inputs["reviewed_at"], ref())
+    cards, _, crisis = cards_for(b, lang)
+    return previsit.build_brief(b, cards, crisis, visit, inputs["gaps"], ref(), lang, "patient")
+
+
 @router.get("/insights")
 def insights(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
     with session(actor) as cur:
