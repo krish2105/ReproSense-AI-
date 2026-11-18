@@ -45,12 +45,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 7
     },
     {
       "id": "fatima-e0017",
@@ -68,12 +68,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "fatima-e0018",
@@ -135,11 +135,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "light": 2
+          "light": 3
         },
         "clots": {}
       },
-      "pbac": 2
+      "pbac": 3
     },
     {
       "id": "fatima-e0021",
@@ -170,12 +170,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
+          "moderate": 1,
           "light": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 6
     },
     {
       "id": "fatima-e0023",
@@ -191,12 +191,12 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 3,
+          "light": 2
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 17
     },
     {
       "id": "fatima-e0024",
@@ -212,12 +212,11 @@
       "note": "",
       "pbac_items": {
         "pads": {
-          "moderate": 2,
-          "light": 1
+          "moderate": 1
         },
         "clots": {}
       },
-      "pbac": 11
+      "pbac": 5
     },
     {
       "id": "fatima-e0025",
@@ -527,6 +526,29 @@
       "flag": ""
     }
   ],
+  "bp_readings": [
+    {
+      "id": "fatima-bp01",
+      "date": "2026-09-23",
+      "time": "09:30",
+      "systolic": 128,
+      "diastolic": 84
+    },
+    {
+      "id": "fatima-bp02",
+      "date": "2026-10-02",
+      "time": null,
+      "systolic": 124,
+      "diastolic": 80
+    },
+    {
+      "id": "fatima-bp03",
+      "date": "2026-11-02",
+      "time": null,
+      "systolic": 118,
+      "diastolic": 78
+    }
+  ],
   "features": {
     "years_since_menarche": 20,
     "cycles_logged": 1,
@@ -544,10 +566,10 @@
     "period_duration_max": 5,
     "heavy_flow_days_cycle": 0,
     "pbac_by_cycle_6": [
-      37,
-      35
+      40,
+      30
     ],
-    "pbac_max_6": 37,
+    "pbac_max_6": 40,
     "age": 33,
     "ttc_months": 0,
     "red_flag_heavy_with_dizziness": false,
@@ -563,7 +585,9 @@
     "epds_latest_total": 11,
     "epds_item10": 0,
     "mrs_latest_total": null,
-    "on_hormonal_contraception": false
+    "on_hormonal_contraception": false,
+    "bp_severe_in_window": false,
+    "bp_latest_raised": false
   },
   "expected_observations": [
     "CARE_POSTPARTUM_GLUCOSE_TEST",

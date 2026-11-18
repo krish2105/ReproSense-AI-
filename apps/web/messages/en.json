@@ -17,7 +17,8 @@
       "app": "Her app",
       "clinic": "Clinician",
       "admin": "Clinic network",
-      "status": "Team scorecard"
+      "status": "Team scorecard",
+      "clinicAdmin": "Clinic admin"
     },
     "lang": {
       "toggle": "عربي",
@@ -34,7 +35,16 @@
     "tabsLabel": "Sections of her app",
     "footerTrust": "Trust centre",
     "footerPricing": "Pricing",
-    "footerLinks": "More about ReproSense"
+    "footerLinks": "More about ReproSense",
+    "read": {
+      "play": "Read aloud",
+      "pause": "Pause",
+      "resume": "Resume",
+      "stop": "Stop",
+      "group": "Read aloud: {what}",
+      "playing": "Reading aloud",
+      "paused": "Paused"
+    }
   },
   "tabs": {
     "home": "Home",
@@ -74,11 +84,23 @@
     "need": {
       "patient": "Pick a woman below to open her app.",
       "clinician": "Open the clinician view to see the clinic's patients.",
-      "admin": "Open the clinic network to see follow-ups across clinics."
+      "admin": "Open the clinic network to see follow-ups across clinics.",
+      "clinic_admin": "Open the clinic admin to invite clinicians and see your clinic's figures."
     },
     "failed": "That didn't open: {detail}",
     "apiDownTitle": "The demo server isn't answering",
-    "apiDownBody": "Start the API with make api in the repository folder, then try again."
+    "apiDownBody": "Start the API with make api in the repository folder, then try again.",
+    "stories": {
+      "amina": "Regular cycles, mild cramps. Shows the calm state of the app.",
+      "fatima": "Gave birth 9 weeks ago after gestational diabetes; no glucose test logged since.",
+      "hessa": "24 weeks pregnant with her first baby; the glucose screening window (24-28 weeks) is open and not yet booked.",
+      "layla": "Periods have become unpredictable over the past year, with hot flushes and night sweats most weeks.",
+      "mariam": "Trying to conceive for 7 months with regular cycles; wants to know when to ask for help.",
+      "noura": "Long and irregular cycles with acne and excess hair growth logged often.",
+      "priya": "Severe period pain each month, missing work, pain with bowel movements during periods.",
+      "sara": "Long, very heavy periods with clots; one recent day of dizziness (red-flag demo)."
+    },
+    "openClinicAdmin": "Open clinic admin"
   },
   "app": {
     "metaTitle": "Her app",
@@ -98,7 +120,7 @@
     "detailEmpty": "Pick a patient to see her 30-second summary.",
     "detailEmptyTitle": "Her summary opens here",
     "preVisit": "Pre-visit summary",
-    "sharedNote": "{count} entries · shared with consent · fictional",
+    "sharedNote": "{count} days logged · shared with consent · fictional",
     "rowMeta": "{age} · {open, plural, =0 {nothing open} one {# open} other {# open}} · {reviewed, select, yes {reviewed} other {new}}",
     "markReviewed": "Mark reviewed",
     "reviewedOn": "Reviewed {date}",
@@ -318,7 +340,7 @@
     "fromEntries": "{count, plural, one {From # of your entries} other {From # of your entries}}",
     "noneTitle": "No patterns to discuss yet",
     "noneBody": "Nothing in your entries matches a pattern doctors look at. We check again every time you log.",
-    "record": "{count} entries · record strength: {strength}",
+    "record": "{count} days logged · record strength: {strength}",
     "strength": {
       "strong": "strong",
       "building": "building",
@@ -329,7 +351,10 @@
     "urgentTitle": "Needs attention now",
     "loggedOn": "Logged {date}",
     "sources": "Sources",
-    "dueBy": "Follow-up due by {date}"
+    "dueBy": "Follow-up due by {date}",
+    "signinTitle": "Open this record on another device",
+    "signinBody": "Add a passkey so your record opens again after this session, on this phone or another one.",
+    "signinAction": "Add a passkey"
   },
   "arc": {
     "cycleLabel": "Cycle day {day}",
@@ -457,6 +482,7 @@
     "reduced_baby_movements": "Fewer baby movements",
     "severe_headache": "Severe headache",
     "vision_changes": "Changes in vision",
+    "sudden_swelling": "Sudden swelling of face, hands or feet",
     "bleeding": "Bleeding",
     "heartburn": "Heartburn",
     "clots_larger_than_a_coin": "Clots larger than a coin"
@@ -489,6 +515,7 @@
     "none": "None",
     "formToday": "Log today, {date}",
     "formDay": "Log {date}",
+    "editing": "You already saved this day. Your answers are below. Change anything you need, then save again.",
     "flow": "Flow",
     "pbacTitle": "Bleeding score (pictorial chart): {score}",
     "pbacHint": "Count what you used today. Over a whole period, 100 or more on this chart gynaecologists use suggests heavy bleeding.",
@@ -515,6 +542,9 @@
     "backNote": "Back view: your left side is on the left of the picture.",
     "siteYear": "{site}: {count, plural, one {# painful day} other {# painful days}} this year",
     "yearNone": "No pain locations logged in the last 12 months.",
+    "heat3d": "Tap a region to mark it. Deeper colour means more painful days in the last 3 months.",
+    "sitesList": "Pain locations",
+    "siteRecent": "{count, plural, one {# day} other {# days}} in 3 months",
     "marked": "Marked: {sites}",
     "symptomsTitle": "Symptoms",
     "moreSymptoms": "More symptoms",
@@ -528,6 +558,15 @@
     "parsed": "We read: {items}. Check the fields above, change anything that's wrong, then save.",
     "parsedNone": "No symptoms were recognised in that sentence. Fill in the fields above instead.",
     "parseFailed": "The sentence couldn't be read: {detail}",
+    "voiceStart": "Say it instead",
+    "voiceStop": "Stop and fill the form",
+    "voiceListening": "Listening. Speak in English or Arabic.",
+    "voiceHeard": "Heard: {text}",
+    "voiceNote": "Your browser turns your voice into text (some browsers use their own online service for this). Only the text is kept, never a recording.",
+    "voiceBlocked": "The microphone is blocked. Allow it in your browser settings, or type instead.",
+    "voiceError": "That wasn't caught. Try again, or type instead.",
+    "readByAi": "Read with AI from your words.",
+    "urgentFromWords": "What you described may need urgent care",
     "saveToday": "Save today's entry",
     "saveDay": "Save entry for {date}",
     "saved": "Entry saved.",
@@ -575,6 +614,9 @@
     "yearTitle": "Your year, day by day",
     "yearCaption": "Each dot is a logged day. Filled: bleeding. Ring: pain 7 or more. Diamond: an event.",
     "yearSummary": "{logged} days logged in the last {months} months, {bleed} with bleeding.",
+    "year3dTitle": "Your year in 3D",
+    "year3dHint": "One loop per cycle, one bead per day you logged. Rings mark pain 7 or more; diamonds mark events. Drag to turn, tap a bead to open that day.",
+    "year3dLabel": "3D view of {days} logged days over {loops} cycles, {rings} with pain 7 or more. The year chart below shows the same days.",
     "events": {
       "pregnancy_confirmed": "Pregnancy confirmed",
       "antenatal_visit": "Antenatal visit",
@@ -589,7 +631,7 @@
     "title": "Patterns",
     "intro": "What we noticed in your entries. Written rules decide, published guidelines ground each card, and nothing here is a diagnosis.",
     "strength": "Record strength: {strength}",
-    "strengthDetail": "{cycles, plural, one {# cycle} other {# cycles}} logged · {entries} entries",
+    "strengthDetail": "{cycles, plural, one {# cycle} other {# cycles}} logged · {days} days logged",
     "why": "Why we noticed (tap a day to open it)",
     "consider": "What to consider next",
     "questions": "Questions for your doctor",
@@ -752,9 +794,12 @@
   "documents": {
     "metaTitle": "Lab reports",
     "title": "Lab reports",
-    "intro": "Upload a lab report as a PDF or text file. We read the values; you check each one against your paper copy, then confirm. Nothing is saved until you confirm.",
+    "intro": "Upload a lab report as a PDF or text file, or take a photo of it. We read the values; you check each one against your paper copy, then confirm. Nothing is saved until you confirm.",
     "choose": "Choose a file",
-    "fileLabel": "Lab report file (PDF or text)",
+    "photo": "Take a photo of a report",
+    "photoLabel": "Photo of a lab report",
+    "photoNote": "Read from your photo by AI. Check each value against your paper report before you confirm. The photo itself is not kept.",
+    "fileLabel": "Lab report file (PDF, text or photo)",
     "demo": "Use the demo lab report (fictional)",
     "reading": "Reading the report",
     "uploadFailed": "The report wasn't read: {detail}",
@@ -771,7 +816,7 @@
     "confirm": "Confirm and save",
     "confirmed": "{n, plural, =0 {Nothing was saved.} one {# result saved. Your record was checked again.} other {# results saved. Your record was checked again.}}",
     "confirmFailed": "The results weren't saved: {detail}",
-    "noRows": "No lab values were recognised in this file. Check that it is the text or PDF version of the report.",
+    "noRows": "No lab values were recognised. Try the PDF or text version of the report, or a sharper photo of the results page.",
     "listTitle": "Your reports",
     "none": "No reports uploaded yet.",
     "status": {
@@ -779,7 +824,11 @@
       "confirmed": "Confirmed"
     },
     "showText": "Show the text we read",
-    "hideText": "Hide the text"
+    "hideText": "Hide the text",
+    "photoOffModel": "Reading a photo of a report needs the AI model, which isn't switched on in this demo. Upload the PDF or text version instead.",
+    "photoOffAi": "Reading a photo uses AI, which is off in your Privacy settings. Upload the PDF or text version, or turn AI on in",
+    "photoPrivacyLink": "Privacy",
+    "introNoPhoto": "Upload a lab report as a PDF or text file. We read the values; you check each one against your paper copy, then confirm. Nothing is saved until you confirm."
   },
   "privacy": {
     "metaTitle": "Privacy",
@@ -845,6 +894,12 @@
       "care_gap_closed": "closed a follow-up",
       "care_gap_in_progress": "booked a follow-up",
       "care_gap_open": "reopened a follow-up",
+      "sign_in": "signed in",
+      "sign_in_failed": "a sign-in attempt failed",
+      "passkey_added": "added a passkey",
+      "passkey_removed": "removed a passkey",
+      "email_linked": "linked an email address",
+      "email_unlinked": "unlinked the email address",
       "other": "used your record"
     },
     "storedTitle": "What is stored",
@@ -878,7 +933,40 @@
     "deleted": "Your entries were deleted.",
     "deleteFailed": "Nothing was deleted: {detail}",
     "aiHint": "Off: the assistant closes and your cards use fixed wording. Your patterns and report stay the same, because rules find them.",
-    "noClinic": "Not linked to a clinic yet. Join from your clinic's invite to share with it."
+    "noClinic": "Not linked to a clinic yet. Join from your clinic's invite to share with it.",
+    "signin": {
+      "title": "Sign in on other devices",
+      "body": "Add a passkey to open this record again, on this device or another one. Face ID, a fingerprint or the phone PIN unlocks it, and that check never leaves your device.",
+      "demoPerson": "Demo people open with one tap on the demo page. Start your own record to add a passkey.",
+      "startRecord": "Start my own record",
+      "passkeysLabel": "Your passkeys",
+      "none": "No passkey yet. Without a passkey or a linked email, this record opens only in this browser until the session ends.",
+      "passkeyOn": "Passkey on {device}",
+      "passkey": "Passkey",
+      "addedOn": "Added {date}",
+      "lastUsed": "last used {date}",
+      "add": "Add a passkey",
+      "addedToast": "Passkey added. Next time, choose “Sign in to my record”.",
+      "remove": "Remove",
+      "removeTitle": "Remove this passkey?",
+      "removeBody": "This device will no longer open your record. If it is your only way in, add another passkey or link an email first.",
+      "removeConfirm": "Remove passkey",
+      "removed": "Passkey removed.",
+      "emailTitle": "Email code (backup)",
+      "emailLinked": "An email address is linked. We keep only a one-way code made from it, never the address itself, so it is not shown here.",
+      "emailNone": "Link an email address to get a 6-digit sign-in code when your passkey is not with you.",
+      "emailOff": "Email codes are off on this demo server. A passkey works without them.",
+      "emailLabel": "Email address",
+      "sendCode": "Send a code to link it",
+      "codeSent": "We sent a 6-digit code to that address. Enter it below.",
+      "codeLabel": "6-digit code",
+      "link": "Link this email",
+      "linked": "Email linked. You can now sign in with a code.",
+      "unlink": "Unlink email",
+      "unlinked": "Email unlinked.",
+      "keep": "Keep it",
+      "linkedTag": "Linked"
+    }
   },
   "more": {
     "title": "Your record",
@@ -1007,7 +1095,10 @@
     "heldoutTitle": "Held-out safety test",
     "heldoutIntro": "Questions written by reviewers who never saw the code, in English and in Gulf, Egyptian, Levantine and standard Arabic. They check where each message is routed, not medical accuracy.",
     "heldoutCount": "{n} questions, measured once after the last change to the word checks and never used to tune them.",
-    "heldoutAfter": "Word checks alone miss many crisis messages written in people's own words. That is why the 998 button stays on screen in every chat, whatever the message says. A second check by a language model is built but not yet scored.",
+    "heldoutAfter": "Word checks alone miss many crisis messages written in people's own words. That is why the 998 button stays on screen in every chat, whatever the message says.",
+    "heldoutModelTitle": "With the language model's second check",
+    "heldoutModelIntro": "The same questions, with a second check by {model} after the word checks. The model can only add a safety route, never remove one, and it sees only the message, with names removed.",
+    "heldoutModelNone": "Built, not yet scored: it runs once the hackathon's AI key is in place, on these same questions, and the result appears here next to the word checks, never in their place.",
     "heldout": {
       "crisis": "Crisis messages given the support path: {pass} of {of}",
       "urgent": "Emergencies given 998 first: {pass} of {of}",
@@ -1239,5 +1330,288 @@
     "intendedBody": "ReproSense is a personal health record and consultation-preparation tool. A woman records her own cycles, symptoms, questionnaires and lab results. ReproSense organises them, shows where her entries meet published guideline thresholds that are worth discussing, and creates a summary she can choose to share with her clinic. It does not diagnose, treat, predict or prevent disease, does not give contraceptive advice, and does not replace a clinician's judgement. Clinicians see the entries and the guideline behind every item.",
     "data4": "In this demo, deleting removes your entries at once. UAE law asks health records to be kept for 25 years, so before any real data we will agree with the Department of Health how deletion and that rule work together.",
     "data5": "We do not connect to Malaffi. Only licensed facilities do, and DoH policy forbids copying Malaffi data into other systems. Her FHIR R4 export goes into her clinic's own system, which reports to Malaffi."
+  },
+  "postnatal": {
+    "eyebrow": "After the birth",
+    "title": "Your first 6 weeks",
+    "intro": "The checks DoH Abu Dhabi's postnatal standard sets after a birth. Your clinic books them; tap “I had this” for a check you had.",
+    "progress": "{done} of {total} done",
+    "window": "{from} to {to}",
+    "doneOn": "Done {date}",
+    "assumed": "We assumed you left hospital on {date}, 2 days after the birth.",
+    "steps": {
+      "teleconsult": "Check-in call or home visit, 2–3 days after you left hospital",
+      "visit_2w": "Visit 7–14 days after you left hospital",
+      "mood": "Mood check, 10–14 days after the birth",
+      "visit_6w": "Visit at 6 weeks after the birth",
+      "glucose_test": "Glucose test after gestational diabetes, 4–12 weeks after the birth"
+    },
+    "status": {
+      "done": "Done",
+      "due": "Due now",
+      "upcoming": "Coming up",
+      "not_recorded": "Not recorded"
+    },
+    "record": "I had this",
+    "recordTitle": "What date was this check?",
+    "dateLabel": "Date of this check",
+    "save": "Save",
+    "cancel": "Cancel",
+    "saved": "Saved. Your pathway was updated.",
+    "saveFailed": "It wasn't saved: {detail}",
+    "moodAction": "Do the mood check",
+    "note": "These are care steps, not a diagnosis. If anything worries you, call your clinic; in an emergency call 998.",
+    "clinic": {
+      "title": "After-birth pathway (DoH Postnatal Care Standard)",
+      "intro": "{done} of {total} steps recorded, {weeks} weeks after the birth. Status comes from her entries: “not recorded” means nothing was logged, not that it did not happen.",
+      "steps": {
+        "teleconsult": "Teleconsultation or home visit, days 2–3 after discharge",
+        "visit_2w": "Visit, days 7–14 after discharge",
+        "mood": "Maternal blues assessment (EPDS), 10–14 days",
+        "visit_6w": "6-week postnatal visit",
+        "glucose_test": "OGTT 4–12 weeks after birth (after GDM)"
+      }
+    }
+  },
+  "brief": {
+    "title": "Before your visit",
+    "clinicTitle": "Since the last visit",
+    "since": {
+      "shared_report": "What changed since {date}, when you last shared your report.",
+      "clinician_review": "What changed since {date}, when your clinic last reviewed your record.",
+      "default_90_days": "What changed in the last 90 days, since {date}. No visit is recorded yet."
+    },
+    "clinicSince": {
+      "shared_report": "Since {date}, when she last shared a report.",
+      "clinician_review": "Since {date}, the clinic's last review.",
+      "default_90_days": "The last 90 days, since {date}. No visit recorded yet."
+    },
+    "groups": {
+      "urgent": "Urgent",
+      "patterns": "Patterns in the entries",
+      "cycle": "Cycles and pain",
+      "labs": "Lab results since then",
+      "care": "Care steps",
+      "questions": "Your questions for the doctor",
+      "clinicQuestions": "Her questions"
+    },
+    "status": {
+      "urgent": "Urgent",
+      "new": "New",
+      "ongoing": "Still there",
+      "resolved": "No longer seen",
+      "done": "Done",
+      "booked": "Booked",
+      "due": "Due",
+      "H": "Above range",
+      "L": "Below range"
+    },
+    "entries": "Entries behind this line",
+    "more": "and {n} more",
+    "empty": "Nothing new logged since {date}.",
+    "template": "Written from your entries by fixed rules. Not a diagnosis.",
+    "clinicTemplate": "Built from her entries by fixed rules. Not a diagnosis.",
+    "model": "Reworded by AI, then checked against your entries: {n, plural, =0 {nothing removed} one {# unsupported sentence removed} other {# unsupported sentences removed}}. Not a diagnosis.",
+    "clinicModel": "Reworded by AI, then checked against her entries: {n, plural, =0 {nothing removed} one {# unsupported sentence removed} other {# unsupported sentences removed}}. Not a diagnosis."
+  },
+  "signin": {
+    "metaTitle": "Sign in to my record",
+    "title": "Sign in to my record",
+    "lede": "For a record you started yourself. Open it on this phone or another device with your passkey.",
+    "passkeyTitle": "Use a passkey",
+    "passkeyBody": "Your phone or laptop asks for Face ID, a fingerprint or its PIN. That check stays on your device. We keep only a key that proves it is you.",
+    "passkeyButton": "Use a passkey",
+    "passkeyPending": "Waiting for your device…",
+    "emailTitle": "No passkey on this device?",
+    "emailBody": "Get a 6-digit code at the email address you linked in Privacy. It works for 10 minutes.",
+    "emailLabel": "Email address",
+    "sendCode": "Send me a code",
+    "sent": "If this address is linked to a record, a code is on its way. Check your inbox and spam folder.",
+    "codeLabel": "6-digit code",
+    "codeHint": "The code works once, for 10 minutes.",
+    "verify": "Sign in with the code",
+    "resend": "Send a new code",
+    "otherAddress": "Use another address",
+    "signedIn": "Signed in. Opening your record…",
+    "problem": {
+      "cancelled": "The passkey prompt was closed. Try again when you are ready.",
+      "unsupported": "This browser can't use passkeys. Try an up-to-date browser on your phone or laptop.",
+      "already": "This device already holds a passkey for your record.",
+      "failed": "That didn't work: {detail}"
+    },
+    "noRecordTitle": "No record yet?",
+    "noRecordBody": "Start one in two minutes, or open one of the fictional demo people with one tap.",
+    "startRecord": "Start my own record",
+    "openDemo": "Open a demo person",
+    "demoNote": "This is a demo. Demo records and their passkeys are deleted at the next demo reset.",
+    "fromDemoBody": "Started a record on another device? Open it again with your passkey.",
+    "fromDemo": "Sign in to my record"
+  },
+  "bp": {
+    "title": "Blood pressure",
+    "intro": "For pregnancy and the 12 weeks after birth. Type the top two numbers from your monitor (SYS and DIA), not the pulse.",
+    "systolic": "Top number (SYS)",
+    "diastolic": "Bottom number (DIA)",
+    "unit": "mmHg",
+    "time": "Time (optional)",
+    "rangeHint": "Top number 70 to 250, bottom number 40 to 150, in mmHg.",
+    "orderError": "The top number must be higher than the bottom number.",
+    "save": "Save reading for {date}",
+    "saveToday": "Save today's reading",
+    "saved": "Reading saved: {reading} mmHg",
+    "saveFailed": "The reading was not saved: {detail}",
+    "urgentHeading": "Urgent guidance after your reading",
+    "recheckTitle": "Ask for this reading to be rechecked today",
+    "recheckBody": "{reading} mmHg is 140/90 or higher. One reading is not a diagnosis, but it needs a second check. Contact your maternity unit or doctor today.",
+    "warn": "Call 998 or go to your maternity unit now if you get a severe headache, problems with vision, severe pain just below the ribs, vomiting, or sudden swelling of the face, hands or feet.",
+    "dayTitle": "Readings on {date}",
+    "dayNone": "No reading on this day yet.",
+    "reading": "{reading} mmHg",
+    "at": "{date} at {time}",
+    "homeLatest": "Latest reading, {when}",
+    "homeNone": "No reading yet. Log one after each check, or at home if your midwife or doctor asked you to.",
+    "homeAction": "Log a reading",
+    "tableTitle": "Blood pressure readings",
+    "tableSummary": "Readings in this period: {count}. Readings of 140/90 or higher are marked.",
+    "colDate": "Date",
+    "colTime": "Time",
+    "colReading": "Reading (mmHg)",
+    "colNote": "Note",
+    "noteRaised": "Raised: 140/90 or higher",
+    "noteSevere": "Very high: 160/110 or higher",
+    "clinicTitle": "Blood pressure (her home readings)",
+    "clinicIntro": "Readings she logged: {count}, newest first. Marks follow NICE NG133.",
+    "rangeHigh": "If your monitor really shows a number this high, call 998 now."
+  },
+  "tour": {
+    "start": "Show me in 3 minutes",
+    "startHint": "A guided walk through the demo for judges: 8 short steps.",
+    "label": "Guided tour",
+    "progress": "Step {n} of {total}",
+    "next": "Next",
+    "back": "Back",
+    "finish": "Finish",
+    "exit": "Exit tour",
+    "goHere": "Open this step",
+    "failed": "That step didn't open: {detail}",
+    "done": "Tour finished. Everything you saw runs on fictional demo data.",
+    "steps": {
+      "people": {
+        "title": "Eight fictional women",
+        "body": "Every record here is synthetic. Next, we open Noura (27), who has logged irregular cycles and skin changes for a year."
+      },
+      "home": {
+        "title": "Her home screen",
+        "body": "Her cycle on one arc, with today's day and her phases, built only from her own entries."
+      },
+      "patterns": {
+        "title": "Patterns, with their evidence",
+        "body": "Each card names the pattern, the entries behind it, what to consider next and its source. Transparent rules decide: no diagnosis, no risk score. Try \"How this was produced\"."
+      },
+      "assistant": {
+        "title": "Ask the assistant",
+        "body": "Tap a suggested question. Every answer cites its sources; urgent words get the 998 guidance first."
+      },
+      "report": {
+        "title": "A doctor-ready report",
+        "body": "Prepare a two-page PDF she can download, or share with her own clinic only after she agrees."
+      },
+      "clinic": {
+        "title": "Now the clinician's view",
+        "body": "A separate area and role. The clinic sees only women who chose to share, red flags first."
+      },
+      "gap": {
+        "title": "Close a care gap",
+        "body": "Fatima had diabetes in pregnancy, so a glucose test after the birth is due. Mark the follow-up done here."
+      },
+      "network": {
+        "title": "The clinic network",
+        "body": "The follow-up you closed moves the DoH Jawda measure PC008 for the whole network, live. Only counts, never names."
+      }
+    }
+  },
+  "clinicAdmin": {
+    "metaTitle": "Clinic admin",
+    "intro": "Your clinic's own view ({region}): follow-ups, the after-birth glucose part of PC008, your team and clinician invites. Counts only, never names.",
+    "figsLabel": "This clinic's follow-ups",
+    "open": "Follow-ups open",
+    "booked": "Booked",
+    "done": "Done",
+    "shared": "Records shared with you",
+    "donePct": "{pct}% of all follow-ups",
+    "fewer": "fewer than {k}",
+    "figsNote": "Any group under {k} is hidden to protect small groups, and shown as “fewer than {k}”.",
+    "pc008Title": "After-birth glucose test (part of DoH Jawda PC008)",
+    "pc008Suppressed": "Fewer than {k} after-birth glucose follow-ups at this clinic, so no rate is shown yet.",
+    "pc008Counts": "Done {done} · booked {booked} · open {open}",
+    "pc008Note": "A real PC008 rate needs the clinic's own claims and records; these are demo counts.",
+    "inviteTitle": "Invite a clinician",
+    "inviteBody": "Each invite is a single-use link and QR for one clinician, who joins this clinic and sees only the women who chose to share with it.",
+    "inviteNew": "Create an invite",
+    "madeLabel": "New invite",
+    "madeTitle": "Shown only now: copy the link or let the clinician scan the QR.",
+    "madeNote": "Works once, until {date}. You can withdraw it below.",
+    "qrLabel": "QR code of the invite link",
+    "copy": "Copy link",
+    "copied": "Link copied",
+    "listTitle": "Invites",
+    "listEmpty": "No invites yet.",
+    "made": "Made {date}",
+    "withdraw": "Withdraw",
+    "withdrawn": "Invite withdrawn. The link no longer works.",
+    "status": {
+      "pending": "Waiting",
+      "accepted": "Joined",
+      "expired": "Expired",
+      "revoked": "Withdrawn"
+    },
+    "teamTitle": "Your team",
+    "joinedInvite": "Joined by invite, {date}",
+    "joinedSeed": "Demo clinician",
+    "exportTitle": "Export follow-ups",
+    "exportBody": "A CSV of counts by status, follow-up type and wide age group. No names, patient ids or record ids; groups under {k} are blank with the reason.",
+    "export": "Download CSV",
+    "failed": "That didn't work: {detail}",
+    "syntheticNote": "Synthetic cohort plus the live demo records shared with this clinic. All data is fictional."
+  },
+  "clinicInvite": {
+    "metaTitle": "Clinic invite",
+    "title": "Join {clinic}",
+    "intro": "You have been invited as a clinician ({region}). The link works once, until {date}.",
+    "nameLabel": "Your name as colleagues will see it",
+    "nameHint": "Up to 40 characters. This demo creates a fictional clinician account.",
+    "accept": "Join the clinic",
+    "failed": "Not joined: {detail}",
+    "note": "After joining you see only the women who chose to share their record with this clinic.",
+    "gone": {
+      "accepted": "This invite has already been used",
+      "revoked": "The clinic withdrew this invite",
+      "expired": "This invite has expired",
+      "unknown": "This invite link isn't valid"
+    },
+    "goneBody": "Ask your clinic admin for a new invite."
+  },
+  "ring3d": {
+    "title": "Your 40 weeks and the 12 after",
+    "hint": "Raised weeks are behind you; the bead is this week. Tap a raised band, or a row below, to see when a check is due and its source.",
+    "weeks": "Weeks {from}–{to} of pregnancy",
+    "after": "Weeks {from}–{to} after the birth",
+    "nowPregnancy": "Week {week} of 40",
+    "nowAfter": "Week {week} after the birth",
+    "list": "What is due when",
+    "legendAfter": "12 weeks after the birth"
+  },
+  "pwa": {
+    "title": "Use it like an app",
+    "install": "Add to home screen",
+    "installed": "Installed. It opens from your home screen like any app.",
+    "iosHint": "On iPhone: tap Share, then Add to Home Screen.",
+    "browserHint": "In your browser's menu, choose Install app or Add to home screen.",
+    "remindersOn": "Remind me to log each day",
+    "remindersOff": "Turn reminders off",
+    "remindersBlocked": "Notifications are blocked for this site. You can allow them in your browser's settings.",
+    "remindersPrivacy": "Reminders say only “A moment to log today?”, never anything about your health.",
+    "remindersDaily": "Reminders are on: about once a day, even when the app is closed.",
+    "remindersOpen": "Reminders are on, but this browser cannot send them while ReproSense is closed. Installed on an Android phone, it reminds you daily."
   }
 }

@@ -15,7 +15,7 @@ from app.agents.pipeline import supported
 from app.ai.guards import violations
 from app.ai.llm import get_llm
 from app.ai.redact import redact
-from app.rag.embed import tokens
+from app.rag.embed import normalise, tokens
 from app.rag.kb import sources
 from app.rag.retrieve import query_terms, search
 
@@ -128,12 +128,12 @@ URGENT_TEXT = {
         "crisis": "أنتِ تستحقين الدعم الآن. إذا تناولتِ حبوباً أكثر من اللازم أو آذيتِ نفسكِ بشدة، أو شعرتِ بأنكِ لا تستطيعين الحفاظ على سلامتكِ أو سلامة غيركِ، اتصلي بالرقم 998 الآن. وتحدّثي اليوم مع طبيب أو طبيبة، ومع شخص تثقين به. لستِ وحدكِ.",
     },
 }
-URGENT_SOURCES = {
-    "bleed": "nhs_heavy_periods",
-    "pregnancy": "nhs_pregnancy_urgent",  # also lists fluid leaking, swelling, vision problems, fever
-    "pain": "nhs_pelvic_pain",
-    "postnatal": "nice_ng194",
-    "crisis": "nice_cg192",
+URGENT_SOURCES = {  # each urgent reply cites sources that cover its own text, first one first (QUESTIONS #52, #59)
+    "bleed": ["nhs_heavy_periods"],
+    "pregnancy": ["nhs_pregnancy_urgent"],  # also lists fluid leaking, swelling, vision problems, fever
+    "pain": ["nhs_pelvic_pain"],
+    "postnatal": ["nice_ng194", "nice_ng126"],  # after a birth (NG194) or a pregnancy loss (NG126)
+    "crisis": ["nhs_urgent_mental_health", "nhs_suicidal_thoughts", "nice_cg192"],  # 998 and tablets lines, then perinatal
 }
 DIAGNOSIS = [
     r"\bdo i have\b",
@@ -146,12 +146,12 @@ DIAGNOSIS = [
     r"\bprobability\b",
     r"\bpercent(age)? chance\b",
     r"\bhow likely\b",
-    r"\bis it (pcos|endometriosis|cancer|diabetes)\b",
+    r"\bis it (pcos|pmos|endometriosis|cancer|diabetes)\b",
     r"\bdo i suffer from\b",
     r"\bwhich (disease|condition) do i\b",
     r"\b(could|might|may) i (have|be having|be suffering)\b",
     r"\b(could|might|can) (this|it|these|that|my symptoms?) (be|mean|indicate)\b",
-    r"\bis (this|that|it) (a sign of |signs of )?(pcos|endometriosis|cancer|diabetes|infertility|a miscarriage|miscarriage|an? ectopic|menopause|thyroid)\b",
+    r"\bis (this|that|it) (a sign of |signs of )?(pcos|pmos|endometriosis|cancer|diabetes|infertility|a miscarriage|miscarriage|an? ectopic|menopause|thyroid)\b",
     r"\b(do|does) (my|these|this|those) (symptoms?|results?|cycles?|periods?) mean\b",
     r"\b(does|do) (this|that|it) mean (i|i'm|i am)\b",
     r"\bwhat('s| is) wrong with me\b",
@@ -265,23 +265,40 @@ def _cite_list(ids: list[str]) -> list[dict]:
     return [{"n": i + 1, "source_id": sid, "title": s[sid].title, "url": s[sid].url} for i, sid in enumerate(ids)]
 
 
+# Issue #43 (c): "Why might my cycles be longer than 35 days?" got an off-topic heavy-periods sentence and no causes.
+# Measured by the rag-specialist on all 702 eval and held-out questions plus 42 probes: no answer got worse.
+_WHY = {"why", "لماذا", "ليش", "ليه"}
+_CAUSE = {"reason", "caus", "سبب", "اسباب"}  # stems of reasons / causes
+
+
 def _extractive(q: str, passages, lang: str, max_sents: int = 3) -> tuple[list[dict], list[str]]:
     terms = query_terms(q)
+    why = bool(_WHY & set(re.findall(r"\w+", normalise(q))) or terms & _CAUSE)
     cands = []
     for rank, p in enumerate(passages):
-        if p.lang != lang:
+        if p.lang != lang or not sources()[p.source_id].quote:
             continue
         for s in _SENT.split(p.text):
             words = set(tokens(s))
-            overlap = len(terms & words)
-            cands.append((overlap - 0.15 * rank, overlap, rank, s.strip(), p.source_id))
-    cands.sort(key=lambda c: c[0], reverse=True)
-    chosen = [c for c in cands if c[1] > 0][:max_sents]
+            cands.append([len(terms & words), rank, s.strip(), p.source_id, bool(words & _CAUSE)])
+    if not cands:
+        return [], []
+    best = max(c[0] for c in cands)
+    # The source of the best-matching sentence answers the question; other sources must earn their place.
+    top = min((c for c in cands if c[0] == best), key=lambda c: c[1])[3]
+    if why and best >= 1:  # a why-question wants causes: favour cause sentences in that source only
+        for c in cands:
+            if c[3] == top and c[4]:
+                c[0] += 1
+    # One shared word is weak evidence: once a sentence shares 3 or more, other sources need 2.
+    floor = 2 if best >= 3 else 1
+    cands.sort(key=lambda c: c[0] - 0.15 * c[1], reverse=True)
+    chosen = [c for c in cands if c[0] >= (1 if c[3] == top else floor)][:max_sents]
     if not chosen:
         return [], []
-    order = list(dict.fromkeys(c[4] for c in chosen))
-    chosen.sort(key=lambda c: (order.index(c[4]), c[2]))
-    return [{"text": c[3], "source_id": c[4]} for c in chosen], order
+    order = list(dict.fromkeys(c[3] for c in chosen))
+    chosen.sort(key=lambda c: (order.index(c[3]), c[1]))
+    return [{"text": c[2], "source_id": c[3]} for c in chosen], order
 
 
 def answer(question: str, lang: str | None = None, names: list[str] | None = None) -> dict:
@@ -311,7 +328,7 @@ def answer(question: str, lang: str | None = None, names: list[str] | None = Non
             crisis=True,
             urgent={"kind": "crisis", "message": URGENT_TEXT[lang]["crisis"], "number": "998"},
             answer=URGENT_TEXT[lang]["crisis"],
-            citations=_cite_list([URGENT_SOURCES["crisis"]]),
+            citations=_cite_list(URGENT_SOURCES["crisis"]),
             grounded=True,
         )
         how = "word checks" if words else "second check by the language model"
@@ -326,7 +343,7 @@ def answer(question: str, lang: str | None = None, names: list[str] | None = Non
         out.update(
             refused=True,
             answer=(out["urgent"]["message"] + " " if out["urgent"] else "") + msg,
-            citations=_cite_list([URGENT_SOURCES[kind]]) if out["urgent"] else [],
+            citations=_cite_list(URGENT_SOURCES[kind]) if out["urgent"] else [],
             grounded=bool(out["urgent"]),
         )
         trace.append(
@@ -376,17 +393,18 @@ def answer(question: str, lang: str | None = None, names: list[str] | None = Non
             + NOT_FOUND[lang]
         )
         if out["urgent"]:
-            out["citations"] = _cite_list([URGENT_SOURCES[kind]])
+            out["citations"] = _cite_list(URGENT_SOURCES[kind])
             out["grounded"] = True
         trace.append({"agent": "writer", "detail": "no supporting passage: said so instead of guessing"})
         return out
     if out["urgent"]:
-        order = list(dict.fromkeys([URGENT_SOURCES[kind], *order]))
+        order = list(dict.fromkeys([*URGENT_SOURCES[kind], *order]))
     cites = _cite_list(order)
     num = {c["source_id"]: c["n"] for c in cites}
     out["sentences"] = [{"text": s["text"], "cite": num[s["source_id"]]} for s in sents]
     body = " ".join(f"{s['text']} [{num[s['source_id']]}]" for s in sents)
-    prefix = (f"{out['urgent']['message']} [{num[URGENT_SOURCES[kind]]}] " if out["urgent"] else "") + (
+    marks = "".join(f"[{num[s]}]" for s in URGENT_SOURCES[kind]) if out["urgent"] else ""
+    prefix = (f"{out['urgent']['message']} {marks} " if out["urgent"] else "") + (
         REFUSAL[lang] + " " if refused else ""
     )
     out["answer"] = prefix + body

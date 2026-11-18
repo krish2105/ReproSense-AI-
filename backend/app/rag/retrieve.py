@@ -5,19 +5,20 @@ retrieve English passages (and vice versa)."""
 from __future__ import annotations
 
 import math
-import re
 from dataclasses import dataclass
 from functools import lru_cache
 
 from app.db import SYSTEM, session
-from app.rag.embed import embed, normalise, stem, to_pg, tokens
+from app.rag.embed import WORD, embed, normalise, stem, to_pg, tokens
 from app.rag.kb import chunks, sources
 
 GLOSSARY = {  # Arabic term (normalised) -> English expansion. AR-REVIEW
+    "pmos": "pcos polycystic ovary syndrome",  # the NHS now says PMOS (polyendocrine metabolic ovarian syndrome)
     "تكيس": "pcos polycystic ovary syndrome",
     "المبايض": "ovary ovaries pcos",
     "متلازمه": "syndrome",
     "الدوره": "period cycle",
+    "غياب": "absent missed periods",
     "دوره": "period cycle",
     "الدورات": "cycles periods",
     "منتظمه": "regular irregular",
@@ -75,7 +76,7 @@ GLOSSARY = {  # Arabic term (normalised) -> English expansion. AR-REVIEW
 }
 _EN_STOP = set(
     "a an and are as at be but by can do does for from how i if in is it its me my of on or should so that "
-    "the their there this to was what when where which who why will with you your about after before".split()
+    "the their there this to was what when where which who why will with you your about after before than might".split()
 )
 _EN_STOP |= {
     "متي",
@@ -112,7 +113,7 @@ _EN_STOP |= {
 
 
 def expand_query(q: str) -> str:
-    words = re.findall(r"[\w؀-ۿ]+", normalise(q))
+    words = WORD.findall(normalise(q))
     extra = [GLOSSARY[w] for w in words if w in GLOSSARY]
     extra += [GLOSSARY[w[2:]] for w in words if w.startswith("ال") and w[2:] in GLOSSARY]
     return q + (" " + " ".join(extra) if extra else "")
@@ -151,7 +152,7 @@ def search(
 ) -> list[Passage]:
     eq = expand_query(q)
     terms = sorted(query_terms(q))
-    raw = sorted({w for w in re.findall(r"[\w\u0600-\u06FF]+", normalise(eq)) if len(w) > 2 and w not in _EN_STOP})
+    raw = sorted({w for w in WORD.findall(normalise(eq)) if len(w) > 2 and w not in _EN_STOP})
     ts = " | ".join(f"{w}:*" for w in {*raw, *terms}) or "x"
     vec = to_pg(embed(eq))
     filt, args = "", []
@@ -181,7 +182,12 @@ def search(
     out = []
     weights = idf()
     total = sum(weights.get(x, 3.0) for x in terms) or 1.0
+    known = sources()
     for f in fused.values():
+        # The hosted index is built on first boot only: a source removed from sources.yaml (e.g. a withdrawn guideline)
+        # can still be indexed until Reset demo data. Skip it rather than cite a source we no longer stand behind.
+        if f["source_id"] not in known:
+            continue
         words = set(tokens(f["title"] + " " + f["text"]))
         coverage = sum(weights.get(x, 3.0) for x in terms if x in words) / total
         boost = 0.004 if lang and f["lang"] == lang else 0.0

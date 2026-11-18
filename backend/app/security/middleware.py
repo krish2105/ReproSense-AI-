@@ -11,7 +11,15 @@ from starlette.responses import JSONResponse
 
 from app.config import get_settings
 
-SENSITIVE = ("/v1/assistant", "/v1/documents", "/v1/clinic/patients/", "/v1/logs/parse", "/v1/demo/signup")
+SENSITIVE = (
+    "/v1/assistant",
+    "/v1/documents",
+    "/v1/clinic/patients/",
+    "/v1/logs/parse",
+    "/v1/demo/signup",
+    "/v1/clinic-invites",
+    "/v1/auth/",
+)
 
 
 class SecurityHeaders(BaseHTTPMiddleware):
@@ -40,7 +48,8 @@ class RateLimit(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         s = get_settings()
         path = request.url.path
-        if not path.startswith("/v1") or request.method == "OPTIONS":
+        # /v1/ping is the public pages' wake-up call: constant reply, no work, so it never uses up her requests.
+        if not path.startswith("/v1") or request.method == "OPTIONS" or path == "/v1/ping":
             return await call_next(request)
         group = "sensitive" if any(path.startswith(p) for p in SENSITIVE) and request.method == "POST" else "general"
         limit = s.rate_limit_sensitive_per_min if group == "sensitive" else s.rate_limit_per_min
@@ -57,3 +66,20 @@ class RateLimit(BaseHTTPMiddleware):
             )
         q.append(now)
         return await call_next(request)
+
+
+class ModelBudget:
+    """Gives every API request one time budget for all its model calls (app.ai.llm.request_budget).
+
+    Plain ASGI, so the budget is set in the same context the endpoint (and its thread pool) runs in."""
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            return await self.app(scope, receive, send)
+        from app.ai.llm import request_budget
+
+        with request_budget(get_settings().llm_request_budget_s):
+            await self.app(scope, receive, send)

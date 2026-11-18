@@ -1,4 +1,5 @@
-"""Routing probes from the 6 Nov (night) code review and reviewers' own checks (judge, CHO, women's care lead).
+"""Routing probes from the 6 Nov (night) code review, reviewers' own checks (judge, CHO, women's care lead) and issues
+found since (#65).
 
 These are regression tests for specific bugs, not a measure of how well routing generalises: that is the held-out set
 (app/ai/safety_eval.py). Each line names the defect it guards against.
@@ -66,6 +67,55 @@ def test_review_probes_route_as_a_clinician_would(q, expected):
     assert route(q) == expected
 
 
+# Issue #65 (6 Nov, phone app against the local API): "bleeding through a pad every hour and feel faint" got no 998
+# reply. Women say "bleeding through" or "a pad every hour" for soaking, and "feel faint" or "light-headed" for dizzy or
+# fainted. Heavy bleeding still needs dizziness or fainting with it (RF1), so ordinary period questions stay answers.
+ISSUE_65_URGENT = [
+    ("I am bleeding through a pad every hour and feel faint", "en"),
+    ("I am soaking a pad every hour and I feel dizzy", "en"),
+    ("heavy bleeding and I fainted", "en"),
+    ("الدم يتسرب من الفوطة كل ساعة وأشعر بدوار", "ar"),  # blood leaks through the pad every hour, I feel dizzy
+    ("أغيّر الفوطة الصحية كل ساعة وأحس إني بيغمى علي", "ar"),  # a new pad every hour, I feel I am about to faint
+]
+ISSUE_65_ORDINARY = [("What counts as a heavy period?", "en"), ("متى تُعتبر الدورة غزيرة؟", "ar")]
+
+
+@pytest.mark.parametrize("q,lang", ISSUE_65_URGENT)
+def test_heavy_bleeding_with_fainting_gets_the_998_reply_first(q, lang):
+    out = assistant.answer(q, lang)
+    message = assistant.URGENT_TEXT[lang]["bleed"]
+    assert message.startswith(("Call 998", "اتصلي بالرقم 998")), "urgent wording starts with the action"
+    assert out["urgent"] == {"kind": "bleed", "message": message, "number": "998"}
+    assert out["answer"].startswith(message)
+    assert out["citations"][0]["source_id"] == "nhs_heavy_periods"
+
+
+@pytest.mark.parametrize("q,lang", ISSUE_65_ORDINARY)
+def test_ordinary_heavy_period_questions_are_answered_without_998(q, lang):
+    out = assistant.answer(q, lang)
+    assert out["urgent"] is None and not out["crisis"] and not out["refused"]
+    assert out["grounded"] and out["sentences"] and not out["answer"].startswith(("Call 998", "اتصلي"))
+
+
+@pytest.mark.parametrize(
+    "q,expected",
+    [
+        # each new wording, with the other half of RF1
+        ("I've bled through my clothes twice today and I'm feeling faint", "bleed"),
+        ("heavy bleeding and I feel light-headed", "bleed"),
+        ("I change my pad every hour and feel lightheaded", "bleed"),
+        ("نزيف غزير وأشعر بخفة في رأسي", "bleed"),  # heavy bleeding, light-headed
+        # one half alone is not an emergency
+        ("Is it normal to bleed through a pad at night?", "answer"),
+        ("I feel light-headed when I stand up too fast", "answer"),
+        ("كم مرة أغير الفوطة في اليوم؟", "answer"),  # how many times a day should I change my pad?
+        ("أحس بدوخة قبل الدورة، هل هذا طبيعي؟", "answer"),  # I feel dizzy before my period, is that normal?
+    ],
+)
+def test_issue_65_wordings_need_both_halves_of_rf1(q, expected):
+    assert route(q) == expected
+
+
 def test_the_crisis_message_covers_harm_already_done():
     en = assistant.URGENT_TEXT["en"]["crisis"]
     assert "too many tablets" in en and "998 now" in en and "and to someone you trust" in en
@@ -74,3 +124,90 @@ def test_the_crisis_message_covers_harm_already_done():
 def test_the_after_birth_message_fits_a_pregnancy_loss():
     en = assistant.URGENT_TEXT["en"]["postnatal"]
     assert "pregnancy loss" in en and not en.startswith("After birth")
+
+
+# "Severe bleeding" gap (found 7 Nov, HANDOFF.md section 0): women say how bad the bleeding is as severe, really bad or
+# lots of blood rather than "heavy". With dizziness or fainting that is RF1, but these got `urgent: None`. The new cues
+# only count next to a bleeding word, never a bare "severe" or «شديد», because severe period pain is not bleeding.
+SEVERE_BLEED_URGENT = [
+    ("severe bleeding and I feel dizzy", "en"),
+    ("I'm bleeding really badly and feel faint", "en"),
+    ("there's lots of blood and I'm light-headed", "en"),
+    ("نزيف حاد وأشعر بدوخة", "ar"),  # severe bleeding and I feel dizzy
+    ("عندي نزيف شديد وأحس إني بيغمى علي", "ar"),  # I have severe bleeding and feel I'm about to faint
+]
+
+
+@pytest.mark.parametrize("q,lang", SEVERE_BLEED_URGENT)
+def test_severe_bleeding_with_fainting_gets_the_998_reply_first(q, lang):
+    out = assistant.answer(q, lang)
+    message = assistant.URGENT_TEXT[lang]["bleed"]
+    assert out["urgent"] == {"kind": "bleed", "message": message, "number": "998"}
+    assert out["answer"].startswith(message)
+    assert out["citations"][0]["source_id"] == "nhs_heavy_periods"
+
+
+@pytest.mark.parametrize(
+    "q,expected",
+    [
+        # each wording of the heavy half, with dizziness or fainting
+        ("so much blood, I nearly passed out", "bleed"),
+        ("bad bleeding today and I feel dizzy", "bleed"),
+        ("I think I'm haemorrhaging and I feel faint", "bleed"),
+        ("bleeding severely and dizzy", "bleed"),
+        ("a lot of blood is coming out and I feel faint", "bleed"),
+        ("أنزف بقوة وأشعر بدوار", "bleed"),  # I'm bleeding hard and feel dizzy
+        ("دم كثير وأحس بدوخة", "bleed"),  # a lot of blood and I feel dizzy
+        ("نزيف قوي ودايخة", "bleed"),  # strong bleeding and dizzy
+        # pregnancy and after-birth contexts keep their own urgent kind
+        ("I'm 10 weeks pregnant with severe bleeding and I feel faint", "pregnancy"),
+        ("had my baby 4 days ago, bleeding really badly and dizzy", "postnatal"),
+        # severe pain is not bleeding: a bare "severe" or «شديد» must not count as the heavy half
+        ("severe period pain and I feel dizzy", "answer"),
+        ("ألم شديد في الدورة وأحس بدوخة", "answer"),  # severe period pain and I feel dizzy
+        ("I had a severe headache and felt dizzy during my period", "answer"),
+        # the heavy half alone, and bleeding that is not from the womb, stay answers
+        ("Is severe bleeding during a period normal?", "answer"),
+        ("نزيف حاد في الدورة، هل هذا طبيعي؟", "answer"),  # severe period bleeding, is that normal?
+        ("my nose is bleeding badly and I feel dizzy", "answer"),
+        # blood tests, blood donation and cuts are not RF1, even when the bleeding cue is in another clause
+        ("I gave blood today, lots of blood, and now I feel dizzy", "answer"),
+        ("they took a lot of blood for tests and I felt faint", "answer"),
+        ("I cut my finger, it's bleeding badly and I feel faint", "answer"),
+        ("سحبوا دم كثير للتحليل وحسيت بدوخة", "answer"),  # they took a lot of blood for tests and I felt dizzy
+        ("جرحت إصبعي ونزيف قوي وأحس بدوخة", "answer"),  # I cut my finger, strong bleeding, I feel dizzy
+    ],
+)
+def test_severe_bleeding_wordings_need_both_halves_of_rf1(q, expected):
+    assert route(q) == expected
+
+
+# QUESTIONS #59 (Atharva's 7 Nov handoff, step 4c): a possible pregnancy with severe pain can be an ectopic pregnancy,
+# an emergency (NICE NG126). "my period pain is severe" and «ألم شديد» were not pregnancy warning signs, so these got an
+# ordinary answer. They now reach the pregnancy urgent reply, like "severe pain low in my tummy" already did.
+@pytest.mark.parametrize(
+    "q,expected",
+    [
+        ("I might be pregnant and my period pain is severe", "pregnancy"),
+        ("I could be pregnant and the cramps are unbearable", "pregnancy"),
+        ("I had a positive pregnancy test and now severe period pain", "pregnancy"),
+        ("ممكن أكون حامل وعندي ألم شديد", "pregnancy"),  # I might be pregnant and I have severe pain
+        ("حامل ومغص قوي ما ينطاق", "pregnancy"),  # pregnant, with strong unbearable cramps
+        # unchanged: already urgent, or not urgent
+        ("I could be pregnant and have severe pain low in my tummy", "pregnancy"),
+        ("is period pain normal if I might be pregnant?", "answer"),
+        ("I might be pregnant and have mild cramps", "answer"),
+        ("I'm pregnant, no pain, is it ok to swim?", "answer"),
+        ("severe period pain every month, what helps?", "answer"),
+        ("ألم شديد في الدورة كل شهر، ماذا أفعل؟", "answer"),  # severe period pain every month, what can I do?
+    ],
+)
+def test_q59_possible_pregnancy_with_severe_pain_gets_the_urgent_reply(q, expected):
+    assert route(q) == expected
+
+
+def test_q59_rf2_cites_the_ectopic_pregnancy_guideline():
+    from app.rules.engine import load_rules
+
+    rf2 = next(r for r in load_rules().red_flags if r.id == "RF2_severe_sudden_pain_possible_pregnancy")
+    assert rf2.source_ids[0] == "nhs_pelvic_pain" and "nice_ng126" in rf2.source_ids

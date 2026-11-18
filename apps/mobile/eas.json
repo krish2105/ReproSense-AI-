@@ -1,0 +1,34 @@
+{
+  "cli": {
+    "version": ">= 16.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "distribution": "internal",
+      "channel": "development",
+      "ios": { "simulator": true },
+      "android": { "buildType": "apk" }
+    },
+    "preview": {
+      "distribution": "internal",
+      "channel": "preview",
+      "android": { "buildType": "apk" },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://reprosense-api.onrender.com",
+        "EXPO_PUBLIC_WEB_URL": "https://reprosense.vercel.app"
+      }
+    },
+    "production": {
+      "channel": "production",
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://reprosense-api.onrender.com",
+        "EXPO_PUBLIC_WEB_URL": "https://reprosense.vercel.app"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

@@ -23,6 +23,7 @@ from app.ai.redact import redact
 from app.config import get_settings
 from app.db import SYSTEM, session
 from app.rag import kb
+from app.rag.embed import WORD
 from app.rag.retrieve import search
 from app.rules.engine import Evaluation, Hit, evaluate, load_rules
 
@@ -131,7 +132,7 @@ def _template_card(h: Hit, ev: Evaluation, lang: str, bundle: dict) -> dict:
             lead = f"لاحظنا: {tr.get('title', '')}. هذا ليس تشخيصاً. قد يكون من المفيد مناقشته مع طبيبة."
         summary = f"{lead} {cp.detail(h.rule_id, h.values, f, lang)}".strip()
         consider = tr.get("next_steps") if lang == "ar" and tr.get("next_steps") else list(h.next_steps)
-    entries = {e["id"]: e for e in bundle["daily_logs"] + bundle["events"]}
+    entries = {e["id"]: e for e in bundle["daily_logs"] + bundle["events"] + bundle.get("bp_readings", [])}
     why_all = [
         {"entry_id": i, "date": str(entries[i]["date"]), "text": cp.entry_text(entries[i], lang)}
         for i in h.supporting_entry_ids
@@ -207,7 +208,7 @@ def writer(state: State) -> dict:
 
 
 _SENT = re.compile(r"(?<=[.!?؟])\s+")
-_WORDS = re.compile(r"[\w؀-ۿ]+")
+_WORDS = WORD  # one definition of a word, without Arabic punctuation (app/rag/embed.py)
 
 
 def supported(sentence: str, facts: list[str]) -> bool:

@@ -12,6 +12,15 @@ from datetime import date, timedelta
 from typing import Any
 
 ANDROGEN = ("acne", "excess hair growth", "scalp hair thinning")
+# Both thresholds reuse the 35-day upper bound of a usual adult cycle already in rules/clinical_rules.yaml (2023
+# International PCOS Guideline); neither is a new clinical number. Proposed in the #48/#53 PR for Krishna and the
+# clinical advisor to approve.
+USUAL_CYCLE_MAX_DAYS = 35
+# QUESTIONS #53: a period not started for more than this many days counts as late, so pregnancy can't be ruled out.
+LATE_PERIOD_DAYS = USUAL_CYCLE_MAX_DAYS
+# QUESTIONS #48: "fewer than 8 cycles a year" is only meaningful once the record is long enough for 8 regular cycles
+# (7 gaps of up to 35 days = 245 days). Before that, a short record would look like too few cycles.
+CYCLES_PER_YEAR_MIN_SPAN_DAYS = 7 * USUAL_CYCLE_MAX_DAYS
 VASOMOTOR = ("hot flushes", "night sweats")
 IMPACT_DAYS = ("missed work or study", "stayed in bed")
 
@@ -63,7 +72,13 @@ def compute(bundle: dict, ref: date) -> FeatureSet:
     fs.put("cycles_logged", len(lengths), [i for c in complete for i in start_id(c)])
     fs.put("cycle_lengths_last6", last6, [i for c in last6c for i in start_id(c)])
     fs.put("irregular_cycle_count_6", len(irregular6), [i for c in irregular6 for i in start_id(c)])
-    fs.put("cycles_per_year", len(year_starts), [i for c in year_starts for i in start_id(c)])
+    # None (a comparison with it is False) until the first logged period is old enough to hold 8 regular cycles.
+    long_enough = bool(starts) and (ref - starts[0]).days >= CYCLES_PER_YEAR_MIN_SPAN_DAYS
+    fs.put(
+        "cycles_per_year",
+        len(year_starts) if long_enough else None,
+        [i for c in year_starts for i in start_id(c)] if long_enough else [],
+    )
     fs.put("cycle_length_sd", round(statistics.pstdev(last6), 1) if len(last6) > 1 else None)
     fs.put("cycle_length_mean_6", round(statistics.mean(last6), 1) if last6 else None)
     fs.put(
@@ -151,8 +166,29 @@ def compute(bundle: dict, ref: date) -> FeatureSet:
     fs.put("epds_latest_total", epds[-1]["details"].get("total") if epds else None, [epds[-1]["id"]] if epds else [])
     fs.put("epds_item10", int(epds[-1]["details"].get("item10") or 0) if epds else 0, [epds[-1]["id"]] if epds else [])
     fs.put("mrs_latest_total", mrs[-1]["details"].get("total") if mrs else None, [mrs[-1]["id"]] if mrs else [])
-    fs.put("postmenopausal", p.get("life_stage") == "postmenopause")
-    fs.put("possible_pregnancy", bool(p.get("possible_pregnancy")))
+    postmenopausal = p.get("life_stage") == "postmenopause"
+    fs.put("postmenopausal", postmenopausal)
+    # QUESTIONS #53: nothing ever set profile.possible_pregnancy, so RF2 needed a fever. Pregnancy is possible when she
+    # is trying to conceive, already pregnant, or her period is late; never after menopause.
+    days_since = (ref - starts[-1]).days if starts else None
+    late = days_since is not None and days_since > LATE_PERIOD_DAYS
+    ttc, pregnant = bool(p.get("trying_to_conceive")), bool(p.get("pregnant"))
+    possible = not postmenopausal and (ttc or pregnant or late)
+    why = (
+        (fs.evidence["ttc_months"] if ttc else [])
+        + (fs.evidence["pregnant"] if pregnant else [])
+        + (start_id(cycles[-1]) if late else [])
+    )
+    fs.put("possible_pregnancy", possible, why if possible else [])
+
+    # blood pressure (build week K6): her latest reading, for the "recheck today" card. The thresholds live in
+    # rules/clinical_rules.yaml; this only reports the numbers and the reading they came from.
+    bp = sorted(bundle.get("bp_readings", []), key=lambda r: (str(r["date"]), str(r.get("time") or "")))
+    latest = bp[-1] if bp else None
+    latest_ids = [latest["id"]] if latest else []
+    fs.put("bp_latest_systolic", latest["systolic"] if latest else None, latest_ids)
+    fs.put("bp_latest_diastolic", latest["diastolic"] if latest else None, latest_ids)
+    fs.put("bp_latest_days_ago", (ref - _d(latest["date"])).days if latest else None, latest_ids)
 
     # display-only helpers (never used to claim a condition)
     fs.put("cycle_change_point", change_point(lengths))
@@ -188,7 +224,17 @@ DAY_SYMPTOMS = {
     "reduced_fetal_movements_today": lambda lg: "reduced baby movements" in lg.get("symptoms", []),
     "severe_headache_today": lambda lg: "severe headache" in lg.get("symptoms", []),
     "vision_change_today": lambda lg: "vision changes" in lg.get("symptoms", []),
+    "sudden_swelling_today": lambda lg: "sudden swelling" in lg.get("symptoms", []),
 }
+# Day-level blood pressure (build week K6): one reading's numbers. The engine checks a red flag against each reading of
+# a day in turn (with that day's symptoms), so "a reading at or above X" means one real reading, never the systolic of
+# one and the diastolic of another; 0 stands for "no reading that day". The thresholds live in the rules file.
+DAY_BP = ("bp_systolic_today", "bp_diastolic_today")
+NO_READING = {"bp_systolic_today": 0, "bp_diastolic_today": 0}
+
+
+def reading_values(r: dict) -> dict[str, int]:
+    return {"bp_systolic_today": int(r["systolic"]), "bp_diastolic_today": int(r["diastolic"])}
 
 
 def day_context(log: dict) -> dict[str, bool]:

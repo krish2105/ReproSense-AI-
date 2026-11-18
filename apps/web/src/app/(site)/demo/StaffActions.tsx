@@ -10,7 +10,9 @@ import { ApiError } from "@/lib/api/errors";
 import { enterAs } from "@/lib/enter";
 import type { LoginResponse } from "@/lib/api/types";
 
-type Action = "clinic" | "admin" | "reset";
+type Action = "clinic" | "admin" | "clinicAdmin" | "reset";
+const ROLE = { clinic: "clinician", admin: "admin", clinicAdmin: "clinic_admin", reset: "admin" } as const;
+const AREA = { clinic: "/clinic", admin: "/admin", clinicAdmin: "/clinic-admin" } as const;
 
 /** Clinician view, clinic network, and the demo reset (reset needs the admin role, so it signs in as admin first). */
 export function StaffActions({ disabled }: { disabled?: boolean }) {
@@ -24,7 +26,7 @@ export function StaffActions({ disabled }: { disabled?: boolean }) {
     setBusy(action);
     start(async () => {
       try {
-        await apiClient<LoginResponse>("/demo/login", { body: { role: action === "clinic" ? "clinician" : "admin" } });
+        await apiClient<LoginResponse>("/demo/login", { body: { role: ROLE[action] } });
         if (action === "reset") {
           await apiClient("/demo/reset", { method: "POST" });
           setBusy(null);
@@ -32,7 +34,7 @@ export function StaffActions({ disabled }: { disabled?: boolean }) {
           router.refresh();
           return;
         }
-        enterAs(action === "clinic" ? "/clinic" : "/admin");
+        enterAs(AREA[action]);
       } catch (e) {
         setBusy(null);
         toast(t("failed", { detail: e instanceof ApiError ? e.detail : String(e) }));
@@ -47,6 +49,9 @@ export function StaffActions({ disabled }: { disabled?: boolean }) {
       </Button>
       <Button variant="outline" pending={busy === "admin"} disabled={disabled} onClick={() => run("admin")}>
         {t("openAdmin")}
+      </Button>
+      <Button variant="outline" pending={busy === "clinicAdmin"} disabled={disabled} onClick={() => run("clinicAdmin")}>
+        {t("openClinicAdmin")}
       </Button>
       <Button variant="outline" pending={busy === "reset"} disabled={disabled} onClick={() => run("reset")}>
         {t("reset")}

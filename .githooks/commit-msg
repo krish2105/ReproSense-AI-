@@ -1,0 +1,6 @@
+#!/bin/sh
+# CLAUDE.md (Git): commit as the human team member. Rejects AI co-author and "Generated with" lines.
+if grep -qiE '^co-authored-by:.*(claude|anthropic|openai|chatgpt|copilot|gemini)|generated with \[?claude' "$1"; then
+  echo "commit-msg: remove the AI co-author or 'Generated with' line (CLAUDE.md, Git)." >&2
+  exit 1
+fi

@@ -1,12 +1,13 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useToast } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
 import type { LifeStage } from "@/lib/api/types";
+import { firstName } from "@/lib/format";
 
 // The stage switch opens the fictional woman who represents that stage (HANDOFF §5 login model).
 const STAGES: ReadonlyArray<{ stage: LifeStage; persona: string; name: string }> = [
@@ -19,6 +20,7 @@ const STAGES: ReadonlyArray<{ stage: LifeStage; persona: string; name: string }>
 
 export function StageSwitch({ current }: { current: LifeStage }) {
   const t = useTranslations();
+  const locale = useLocale();
   const router = useRouter();
   const toast = useToast();
   const [pending, start] = useTransition();
@@ -36,7 +38,7 @@ export function StageSwitch({ current }: { current: LifeStage }) {
             start(async () => {
               try {
                 await apiClient("/demo/login", { body: { persona: s.persona } });
-                toast(t("home.stageSwitched", { name: s.name }));
+                toast(t("home.stageSwitched", { name: firstName(s.name, locale) }));
                 router.refresh();
               } catch (e) {
                 toast(t("home.stageFailed", { detail: e instanceof ApiError ? e.detail : String(e) }));

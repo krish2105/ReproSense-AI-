@@ -22,19 +22,46 @@ class Settings(BaseSettings):
     demo_token_secret: str = ""  # HMAC key for demo role tokens; random per process if unset
     notes_key: str = ""  # base64 32-byte AES-GCM key for field-level encryption
     token_ttl_minutes: int = 720
-    llm_provider: str = "auto"  # auto | claude | none  (auto = claude if a key is present)
+    llm_provider: str = "auto"  # auto | claude | openrouter | none (auto: claude, else openrouter, if a key is set)
     anthropic_api_key: str = ""
     llm_model: str = "claude-opus-5-5"
+    # The hackathon's AI credits: an OpenRouter key limited to a few models (programs.upstartbar.com). The model id is
+    # one of those, e.g. "anthropic/claude-sonnet-4.5"; set OPENROUTER_MODEL to the one the credits allow.
+    openrouter_api_key: str = ""
+    openrouter_model: str = "anthropic/claude-sonnet-4.5"
+    # Model time limits. The web gives up on an API call after 15 s (apps/web/src/lib/api/server.ts), so every model
+    # call inside one API request shares one budget; past it the deterministic template answers (step 4b, 7 Nov).
+    llm_request_budget_s: float = 10.0
+    llm_timeout_s: float = 8.0  # one call, outside a request too (make safety-eval)
+    llm_max_retries: int = 1
     embeddings_provider: str = "hashing"  # hashing (built in) — see QUESTIONS #14
     cookie_secure: bool = False  # true when served over HTTPS (Render/Vercel); local http stays false
     seed_if_empty: bool = False  # first boot on a fresh hosted database: load the synthetic demo data (DEMO_MODE only)
     rate_limit_per_min: int = 120
     rate_limit_sensitive_per_min: int = 20  # assistant + uploads
     red_flag_window_days: int = 14  # QUESTIONS #17 default (needs clinician sign-off)
+    # Her own sign-in (K5). Passkeys: the relying party is the web app's host. Empty = the host of the first
+    # ALLOWED_ORIGINS entry, and the accepted origins = ALLOWED_ORIGINS. No clinical meaning.
+    webauthn_rp_id: str = ""
+    webauthn_rp_name: str = "ReproSense"
+    webauthn_origins: str = ""
+    # The email code backup sends only when a Resend key is set; without it the option is hidden and the API says 503.
+    resend_api_key: str = ""
+    email_from: str = ""  # sender on a domain verified in Resend; empty = the test sender (security/email.py)
 
     @property
     def origins(self) -> list[str]:
         return [o.strip() for o in self.allowed_origins.split(",") if o.strip()]
+
+    @property
+    def passkey_origins(self) -> list[str]:
+        return [o.strip() for o in self.webauthn_origins.split(",") if o.strip()] or self.origins
+
+    @property
+    def passkey_rp_id(self) -> str:
+        from urllib.parse import urlparse
+
+        return self.webauthn_rp_id or urlparse(self.passkey_origins[0]).hostname or "localhost"
 
 
 @lru_cache

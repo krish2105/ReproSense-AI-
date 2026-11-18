@@ -7,20 +7,25 @@ import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toast";
 import { ApiError, errorDetail } from "@/lib/api/errors";
 import { apiClient } from "@/lib/api/client";
-import type { DocumentUpload, ExtractedRow } from "@/lib/api/types";
+import type { DocumentUpload, ExtractedRow, PhotoReading } from "@/lib/api/types";
 import { formatDate } from "@/lib/format";
 import { TableScroll } from "@/components/ui/TableScroll";
 
 type Row = ExtractedRow & { keep: boolean };
 
-/** Upload → read → she checks and edits every value → confirm (nothing is saved before she confirms). */
-export function DocumentUploader({ demoFile }: { demoFile?: string }) {
+/** Upload a file or take a photo → read (a photo is read by the AI model) → she checks and edits every value →
+ * confirm (nothing is saved before she confirms; the photo itself is not kept). */
+const ALL_TYPES = ".pdf,.txt,.png,.jpg,.jpeg,.webp,application/pdf,text/plain,image/png,image/jpeg,image/webp";
+const TEXT_TYPES = ".pdf,.txt,application/pdf,text/plain";
+
+export function DocumentUploader({ demoFile, photo }: { demoFile?: string; photo: PhotoReading }) {
   const t = useTranslations("documents");
   const locale = useLocale() === "ar" ? "ar" : "en";
   const router = useRouter();
   const toast = useToast();
   const id = useId();
   const input = useRef<HTMLInputElement>(null);
+  const camera = useRef<HTMLInputElement>(null);
   const [doc, setDoc] = useState<DocumentUpload | null>(null);
   const [rows, setRows] = useState<Row[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -82,7 +87,7 @@ export function DocumentUploader({ demoFile }: { demoFile?: string }) {
           ref={input}
           id={`${id}-f`}
           type="file"
-          accept=".pdf,.txt,application/pdf,text/plain"
+          accept={photo.available ? ALL_TYPES : TEXT_TYPES}
           className="sr-only"
           onChange={(e) => {
             const f = e.target.files?.[0];
@@ -90,9 +95,34 @@ export function DocumentUploader({ demoFile }: { demoFile?: string }) {
             e.target.value = "";
           }}
         />
+        {photo.available && (
+          <>
+            <label htmlFor={`${id}-c`} className="sr-only">
+              {t("photoLabel")}
+            </label>
+            <input
+              ref={camera}
+              id={`${id}-c`}
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              capture="environment"
+              className="sr-only"
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (f) upload(f);
+                e.target.value = "";
+              }}
+            />
+          </>
+        )}
         <Button variant="outline" pending={pending} onClick={() => input.current?.click()}>
           {t("choose")}
         </Button>
+        {photo.available && (
+          <Button variant="outline" pending={pending} onClick={() => camera.current?.click()}>
+            {t("photo")}
+          </Button>
+        )}
         {demoFile && (
           <Button pending={pending} onClick={useDemo}>
             {t("demo")}
@@ -115,7 +145,7 @@ export function DocumentUploader({ demoFile }: { demoFile?: string }) {
       {doc && (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           <h3 style={{ fontSize: 16 }}>{t("tableTitle")}</h3>
-          <p className="xs dim">{doc.message}</p>
+          <p className={doc.source === "photo" ? "xs notice" : "xs dim"}>{doc.source === "photo" ? t("photoNote") : doc.message}</p>
           {doc.sample_date && <p className="xs">{t("sampleDate", { date: formatDate(doc.sample_date, locale) })}</p>}
           {doc.injection_lines_removed > 0 && <p className="xs notice">{t("injected", { n: doc.injection_lines_removed })}</p>}
           {rows.length === 0 ? (
@@ -155,9 +185,13 @@ export function DocumentUploader({ demoFile }: { demoFile?: string }) {
                       </td>
                       <td dir="ltr">{r.unit}</td>
                       <td className="mono" dir="ltr">
-                        {r.ref_low ?? ""}
-                        {r.ref_low !== null && r.ref_high !== null ? "–" : r.ref_high !== null ? "< " : ""}
-                        {r.ref_high ?? ""}
+                        {r.ref_low !== null && r.ref_high !== null
+                          ? `${r.ref_low}–${r.ref_high}`
+                          : r.ref_high !== null
+                            ? `< ${r.ref_high}`
+                            : r.ref_low !== null
+                              ? `> ${r.ref_low}`
+                              : ""}
                       </td>
                       <td className={r.flag ? "hi" : undefined}>{r.flag}</td>
                     </tr>

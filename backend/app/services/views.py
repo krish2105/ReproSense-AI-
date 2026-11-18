@@ -7,6 +7,7 @@ from datetime import date, timedelta
 
 from app.agents import copy as cp
 from app.rules.engine import Evaluation
+from app.services import blood_pressure
 
 
 def _d(s) -> date:
@@ -97,6 +98,11 @@ def day_pills(bundle: dict, ref: date) -> list[dict]:
     return out
 
 
+def days_logged(bundle: dict) -> int:
+    """Distinct dates with a daily log: the one record-size number shown on home, Patterns and the clinician view."""
+    return len({str(lg["date"]) for lg in bundle["daily_logs"]})
+
+
 def timeline(bundle: dict, ref: date, months: int = 12) -> dict:
     start = ref - timedelta(days=int(months * 30.5))
     logs = [lg for lg in bundle["daily_logs"] if _d(lg["date"]) >= start]
@@ -116,11 +122,17 @@ def timeline(bundle: dict, ref: date, months: int = 12) -> dict:
                 "sites": lg.get("pain_sites", []),
                 "mood": lg.get("mood"),
                 "note": lg.get("note", ""),
+                "sleep_h": lg.get("sleep_h"),
+                "pbac_items": lg.get("pbac_items"),
+                "source": lg.get("source"),
             }
             for lg in logs
         ],
         "events": [e for e in bundle["events"] if _d(e["date"]) >= start and e["type"] != "lab_test"],
         "labs": [lab for lab in bundle["labs"] if _d(lab["date"]) >= start],
+        # K6: blood-pressure readings in range, oldest first, and whether she can log one now
+        "bp_readings": [r for r in blood_pressure.ordered(bundle) if _d(r["date"]) >= start],
+        "bp_eligible": blood_pressure.eligible(bundle, ref),
     }
 
 

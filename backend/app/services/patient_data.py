@@ -63,6 +63,21 @@ def load_bundle(cur, profile_id: str, include_notes: bool = True) -> dict | None
                 "source_doc_id": r["source_doc_id"],
             }
         )
+    cur.execute(
+        "SELECT id, date, time, systolic, diastolic, source FROM bp_readings WHERE profile_id=%s ORDER BY date, time NULLS FIRST, id",
+        (profile_id,),
+    )
+    bp = [
+        {
+            "id": r["id"],
+            "date": _iso(r["date"]),
+            "time": r["time"].strftime("%H:%M") if r["time"] else None,
+            "systolic": r["systolic"],
+            "diastolic": r["diastolic"],
+            "source": r["source"],
+        }
+        for r in cur.fetchall()
+    ]
     profile = {k: _iso(v) for k, v in prof.items()}
     return {
         "profile": profile,
@@ -70,6 +85,7 @@ def load_bundle(cur, profile_id: str, include_notes: bool = True) -> dict | None
         "daily_logs": logs,
         "events": events,
         "labs": labs,
+        "bp_readings": bp,  # build week K6: blood pressure in pregnancy and after birth
         "ai_ok": ai_allowed(cur, profile_id),
     }
 

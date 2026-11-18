@@ -15,7 +15,7 @@ from app.db import Actor, session
 from app.rules.engine import evaluate
 from app.security import audit
 from app.security.auth import require
-from app.services import views
+from app.services import blood_pressure, postnatal, previsit, views
 from app.services.patient_data import load_bundle
 
 router = APIRouter(prefix="/v1/clinic", tags=["clinic"])
@@ -62,8 +62,10 @@ def patient_view(pid: str, actor: Actor = Depends(clinician)):
         review = cur.fetchone()
         cur.execute("SELECT id, created_at FROM reports WHERE profile_id=%s ORDER BY id DESC LIMIT 1", (pid,))
         report = cur.fetchone()
+        inputs = previsit.visit_inputs(cur, pid)
         audit.record(cur, actor, "view_record", pid, "clinician_view")
     ref = _ref()
+    visit = previsit.last_visit(previsit.last_shared_at(pid), inputs["reviewed_at"], ref)
     ev = evaluate(b, ref, get_settings().red_flag_window_days)
     cards, trace, crisis = cards_for(b, "en")
     return {
@@ -86,8 +88,12 @@ def patient_view(pid: str, actor: Actor = Depends(clinician)):
         "latest_report": report,
         "analytics": views.analytics(b, ev, ref, 12),
         "timeline": views.timeline(b, ref, 12),
+        "days_logged": views.days_logged(b),
         "her_questions": list(dict.fromkeys(q for c in cards for q in c.get("questions_for_doctor", [])))[:5],
+        "postnatal": postnatal.pathway(b, ref),
+        "bp_readings": blood_pressure.ordered(b)[::-1],  # K6: newest first, every reading she logged
         "visit_note_draft": (review or {}).get("visit_note") or copilot.visit_note_draft(b, ev, ref),
+        "previsit_brief": previsit.build_brief(b, cards, crisis, visit, inputs["gaps"], ref, "en", "clinician"),
     }
 
 

@@ -5,15 +5,18 @@ import { useRouter } from "next/navigation";
 import { useRef, useState, useTransition, type FormEvent } from "react";
 import { CrisisCard } from "@/components/safety/CrisisCard";
 import { RedFlagCard } from "@/components/safety/RedFlagCard";
+import { UrgentCard } from "@/components/ui/UrgentCard";
 import { Button } from "@/components/ui/Button";
 import { Seg } from "@/components/ui/Pills";
 import { useToast } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
-import type { Card, Flow, Impact, LogBody, LogResult, PainSite, ParseResult, PbacItems } from "@/lib/api/types";
+import type { Card, Flow, Impact, LogBody, LogResult, PainSite, ParseResult, PbacItems, TimelineDay } from "@/lib/api/types";
 import type { Locale } from "@/i18n/config";
 import { ALL_SYMPTOMS, COMMON_SYMPTOMS, FLOWS, IMPACTS, MORE_SYMPTOMS, PBAC_WEIGHTS, pbacScore, slug } from "@/lib/vocab";
 import { BodyMap } from "./BodyMap";
+import type { siteHeat } from "./bodyHeat";
+import { VoiceButton } from "./VoiceButton";
 
 type PbacKey = `${"pads" | "tampons"}_${"light" | "moderate" | "soaked"}` | `clots_${"small" | "large"}`;
 const PBAC_ROWS: ReadonlyArray<{ key: PbacKey; group: keyof typeof PBAC_WEIGHTS; level: string }> = [
@@ -36,21 +39,46 @@ function toItems(counts: Partial<Record<PbacKey, number>>): PbacItems | null {
   return Object.keys(out).length ? (out as PbacItems) : null;
 }
 
+function fromItems(items: PbacItems | null | undefined): Partial<Record<PbacKey, number>> {
+  const out: Partial<Record<PbacKey, number>> = {};
+  for (const r of PBAC_ROWS) {
+    const n = (items?.[r.group] as Record<string, number> | undefined)?.[r.level];
+    if (n) out[r.key] = n;
+  }
+  return out;
+}
+
 /** Log form (mockup tLog): saves with POST /v1/logs and shows any red flag immediately, before anything else. */
-export function LogForm({ date, isToday, dateLabel, yearCounts, locale }: { date: string; isToday: boolean; dateLabel: string; yearCounts: Record<string, number>; locale: Locale }) {
+export function LogForm({
+  date,
+  saved,
+  isToday,
+  dateLabel,
+  yearCounts,
+  heat,
+  locale,
+}: {
+  date: string;
+  saved?: TimelineDay;
+  isToday: boolean;
+  dateLabel: string;
+  yearCounts: Record<string, number>;
+  heat?: ReturnType<typeof siteHeat>;
+  locale: Locale;
+}) {
   const t = useTranslations();
   const router = useRouter();
   const toast = useToast();
-  const [flow, setFlow] = useState<Flow>("none");
-  const [counts, setCounts] = useState<Partial<Record<PbacKey, number>>>({});
-  const [pain, setPain] = useState(0);
-  const [sites, setSites] = useState<PainSite[]>([]);
-  const [symptoms, setSymptoms] = useState<string[]>([]);
-  const [impact, setImpact] = useState<Impact>("none");
-  const [sleep, setSleep] = useState("");
-  const [note, setNote] = useState("");
+  const [flow, setFlow] = useState<Flow>(saved?.flow ?? "none");
+  const [counts, setCounts] = useState<Partial<Record<PbacKey, number>>>(() => fromItems(saved?.pbac_items));
+  const [pain, setPain] = useState(saved?.pain ?? 0);
+  const [sites, setSites] = useState<PainSite[]>((saved?.sites ?? []) as PainSite[]);
+  const [symptoms, setSymptoms] = useState<string[]>(saved?.symptoms ?? []);
+  const [impact, setImpact] = useState<Impact>((saved?.impact as Impact | undefined) ?? "none");
+  const [sleep, setSleep] = useState(saved?.sleep_h == null ? "" : String(saved.sleep_h));
+  const [note, setNote] = useState(saved?.note ?? "");
   const [parsed, setParsed] = useState<string | null>(null);
-  const [result, setResult] = useState<{ flags: Card[]; crisis: boolean } | null>(null);
+  const [result, setResult] = useState<{ flags: Card[]; crisis: boolean; urgent?: string | null } | null>(null);
   const [saving, startSave] = useTransition();
   const [reading, startRead] = useTransition();
   const resultRef = useRef<HTMLDivElement>(null);
@@ -59,10 +87,14 @@ export function LogForm({ date, isToday, dateLabel, yearCounts, locale }: { date
   const score = pbacScore(items);
   const toggle = <T,>(list: T[], v: T) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
 
-  const readSentence = () =>
+  const readSentence = (text: string = note) =>
     startRead(async () => {
       try {
-        const r = await apiClient<ParseResult>("/logs/parse", { body: { text: note } });
+        const r = await apiClient<ParseResult>("/logs/parse", { body: { text, lang: locale } });
+        if (r.crisis || r.urgent) {
+          setResult({ flags: [], crisis: Boolean(r.crisis), urgent: r.urgent?.message ?? null });
+          requestAnimationFrame(() => resultRef.current?.focus());
+        }
         const known = r.symptoms.filter((s) => ALL_SYMPTOMS.includes(s));
         if (r.flow) setFlow(r.flow);
         if (r.pain !== null) setPain(r.pain);
@@ -74,7 +106,8 @@ export function LogForm({ date, isToday, dateLabel, yearCounts, locale }: { date
           ...(r.impact ? [t(`impacts.${slug(r.impact)}`)] : []),
           ...(r.pain !== null ? [t("log.painValue", { pain: r.pain })] : []),
         ];
-        setParsed(words.length ? t("log.parsed", { items: words.join(", ") }) : t("log.parsedNone"));
+        const how = r.read_by === "model" ? `${t("log.readByAi")} ` : "";
+        setParsed(words.length ? how + t("log.parsed", { items: words.join(", ") }) : t("log.parsedNone"));
       } catch (e) {
         setParsed(t("log.parseFailed", { detail: e instanceof ApiError ? e.detail : String(e) }));
       }
@@ -115,12 +148,18 @@ export function LogForm({ date, isToday, dateLabel, yearCounts, locale }: { date
       <h2 id="log-form-title" style={{ fontSize: 18 }}>
         {isToday ? t("log.formToday", { date: dateLabel }) : t("log.formDay", { date: dateLabel })}
       </h2>
+      {saved && <p className="s">{t("log.editing")}</p>}
 
       <div ref={resultRef} tabIndex={-1} aria-live="assertive" style={{ outline: "none" }}>
         {result && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <h3 className="sr-only">{t("log.urgentHeading")}</h3>
             {result.crisis && <CrisisCard />}
+            {!result.crisis && result.urgent && (
+              <UrgentCard title={t("log.urgentFromWords")} headingLevel={3}>
+                <p dir="auto">{result.urgent}</p>
+              </UrgentCard>
+            )}
             {result.flags.map((c) => (
               <RedFlagCard key={c.observation_id} card={c} locale={locale} headingLevel={3} />
             ))}
@@ -170,7 +209,7 @@ export function LogForm({ date, isToday, dateLabel, yearCounts, locale }: { date
         <input id="pain-range" type="range" min={0} max={10} step={1} value={pain} onChange={(e) => setPain(Number(e.target.value))} aria-valuetext={t("log.painValue", { pain })} />
       </div>
 
-      <BodyMap selected={sites} onToggle={(s) => setSites((x) => toggle(x, s))} yearCounts={yearCounts} />
+      <BodyMap selected={sites} onToggle={(s) => setSites((x) => toggle(x, s))} yearCounts={yearCounts} heat={heat} />
 
       <div className="field">
         <span className="label">{t("log.symptomsTitle")}</span>
@@ -205,7 +244,7 @@ export function LogForm({ date, isToday, dateLabel, yearCounts, locale }: { date
         <label htmlFor="note-t">{t("log.noteLabel")}</label>
         <textarea id="note-t" rows={2} maxLength={600} dir="auto" placeholder={t("log.notePlaceholder")} value={note} onChange={(e) => setNote(e.target.value)} />
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-          <Button variant="outline" size="sm" pending={reading} disabled={!note.trim()} onClick={readSentence}>
+          <Button variant="outline" size="sm" pending={reading} disabled={!note.trim()} onClick={() => readSentence()}>
             {t("log.readNote")}
           </Button>
           <button type="button" className="link xs" onClick={() => setNote(t("log.exampleText"))}>
@@ -213,6 +252,14 @@ export function LogForm({ date, isToday, dateLabel, yearCounts, locale }: { date
           </button>
         </div>
         <p className="xs faint">{t("log.noteSaved")}</p>
+        <VoiceButton
+          locale={locale}
+          onText={(heard) => {
+            const text = note.trim() ? `${note.trim()} ${heard}` : heard;
+            setNote(text.slice(0, 600));
+            readSentence(text.slice(0, 600));
+          }}
+        />
       </div>
       {parsed && (
         <p className="extract" role="status">

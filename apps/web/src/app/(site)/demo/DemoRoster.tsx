@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
@@ -9,12 +9,13 @@ import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
 import { enterAs } from "@/lib/enter";
 import type { LoginResponse, Persona } from "@/lib/api/types";
-import { displayName, firstName, isolate, regionKey } from "@/lib/format";
+import { firstName, isolate, regionKey, shownName } from "@/lib/format";
 import { tonesOf } from "@/lib/rules";
 
 /** Roster rows exactly like the mockup's renderPeople(); "Open <name>'s record" signs in as her and opens her app. */
 export function DemoRoster({ personas, storyLang }: { personas: Persona[]; storyLang?: string }) {
   const t = useTranslations();
+  const locale = useLocale();
   const toast = useToast();
   const [busy, setBusy] = useState<string | null>(null);
   const [, start] = useTransition();
@@ -41,17 +42,17 @@ export function DemoRoster({ personas, storyLang }: { personas: Persona[]; story
         return (
           <li className="rrow" key={p.id}>
             <span className="ini" aria-hidden="true">
-              {displayName(p.alias)[0]}
+              {shownName(p.alias, locale)[0]}
             </span>
             <div>
               <b>
-                <bdi>{displayName(p.alias)}</bdi>
+                <bdi>{shownName(p.alias, locale)}</bdi>
               </b>
               <br />
               <span className="s dim">{t("demo.ageRegion", { age: p.age, region: region(p.region) })}</span>
             </div>
-            <p className="s story" lang={storyLang} dir="auto">
-              {p.story}
+            <p className="s story" lang={t.has(`demo.stories.${p.id}`) ? undefined : storyLang} dir="auto">
+              {t.has(`demo.stories.${p.id}`) ? t(`demo.stories.${p.id}`) : p.story}
             </p>
             <div className="obsl">
               {tones.length ? (
@@ -73,7 +74,7 @@ export function DemoRoster({ personas, storyLang }: { personas: Persona[]; story
               )}
             </div>
             <Button variant="outline" size="sm" pending={busy === p.id} onClick={() => open(p.id)}>
-              {t("demo.open", { name: isolate(firstName(p.alias)) })}
+              {t("demo.open", { name: isolate(firstName(p.alias, locale)) })}
             </Button>
           </li>
         );

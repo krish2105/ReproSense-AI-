@@ -9,7 +9,8 @@ import { ALL_SYMPTOMS, FLOWS, IMPACTS, MOODS, pbacScore, SITE_POINTS, slug } fro
 const root = (p: string) => fileURLToPath(new URL(`../../../../${p}`, import.meta.url));
 
 describe("vocabulary matches the API", () => {
-  const api = readFileSync(root("backend/app/api/patient.py"), "utf8");
+  // The fixed lists live in backend/app/services/vocab.py (since K2); sites and moods are still in the patient API.
+  const api = readFileSync(root("backend/app/services/vocab.py"), "utf8") + readFileSync(root("backend/app/api/patient.py"), "utf8");
   it("every symptom the form offers is accepted by the API", () => {
     const block = api.slice(api.indexOf("SYMPTOMS = {"), api.indexOf("}", api.indexOf("SYMPTOMS = {")));
     for (const s of ALL_SYMPTOMS) expect(block, s).toContain(`"${s}"`);

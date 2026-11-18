@@ -8,9 +8,11 @@ for the word checks and for the model check.
 
     uv run python -m app.ai.safety_eval
 
-Without a model key this measures the word checks alone, the number CI records. With LLM_PROVIDER=claude and a key
-(synthetic questions only, as the hackathon rules allow) it also runs the model's second check, and writes the result
-to app/ai/eval_results.json under "heldout_with_model", next to the word-checks number, never in its place.
+Without a model key this measures the word checks alone, the number CI records. With a model key (LLM_PROVIDER=claude
+with ANTHROPIC_API_KEY, or LLM_PROVIDER=openrouter with OPENROUTER_API_KEY; synthetic questions only, as the hackathon
+rules allow) it also runs the model's second check, and writes the result to app/ai/eval_results.json under
+"heldout_with_model", next to the word-checks number, never in its place. The model-safety-eval GitHub workflow runs
+this with the repository secret and opens a PR with the result (build week K7, docs/26_MODEL_SAFETY_SCORE.md).
 """
 
 from __future__ import annotations
@@ -69,16 +71,50 @@ def run(rows: list[dict] | None = None) -> dict:
     return out
 
 
+class _Counting:
+    """Counts how often the model answered the safety check, so a silent fallback can't pass as a model score."""
+
+    def __init__(self, inner):
+        self.inner, self.name, self.asked, self.answered = inner, inner.name, 0, 0
+
+    def complete_json(self, system, user, max_tokens=2000):
+        from app.agents import safety
+
+        out = self.inner.complete_json(system, user, max_tokens)
+        if system == safety.MODEL_SYSTEM:
+            self.asked += 1
+            self.answered += out is not None
+        return out
+
+
+MIN_ANSWERED = 0.95  # card A3: below this, a "with model" number would mostly be the word checks
+
+
 def main() -> int:
+    from app.agents import assistant
     from app.ai.llm import get_llm
 
-    name = get_llm().name
-    held = run()["heldout"]
+    counter = _Counting(get_llm())
+    name = counter.name
+    original = assistant.get_llm
+    if name != "none":
+        assistant.get_llm = lambda: counter
+    try:
+        held = run()["heldout"]
+    finally:
+        assistant.get_llm = original
     print(f"Held-out round {HELDOUT_ROUND}, safety routing with {'word checks only' if name == 'none' else name}:")
     for t in TYPES:
         if t in held:
             print(f"  {t:9} {held[t]['pass']:3}/{held[t]['of']}")
     if name != "none":
+        print(f"model answered {counter.answered}/{counter.asked} safety checks")
+        if counter.asked == 0 or counter.answered / counter.asked < MIN_ANSWERED:
+            print(
+                f"not written: the model answered fewer than {MIN_ANSWERED:.0%} of the checks, so this would be the "
+                "word checks under a model's name. Check the key, the model and max_tokens."
+            )
+            return 1
         res = json.loads(OUT.read_text()) if OUT.exists() else {}
         res["heldout_with_model"] = {**held, "model": name, "round": HELDOUT_ROUND}
         OUT.write_text(json.dumps(res, indent=1, ensure_ascii=False))

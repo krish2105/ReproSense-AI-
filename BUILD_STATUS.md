@@ -2,7 +2,7 @@
 
 Legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 
-Last updated: 2026-11-06, night (all phases built and on `main`; deploy waits for Krishna's accounts). Repo: https://github.com/krish2105/ReproSense-AI-
+Last updated: 2026-11-07, late night (main `bd2de0f`: fixes from two rescores merged; #82 and #86 wait for Krishna's G2 approval; deploy waits for Krishna's accounts). Repo: https://github.com/krish2105/ReproSense-AI-
 
 **Owners.** Krishna (`krish2105`): backend, AI, data, security, deploy. Atharva (`mercydeez`): web app (design + frontend).
 Yash (`Yashpetkar7`, invite pending): not assigned yet.
@@ -36,6 +36,19 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 | Body-map tap points calibrated to the real art (mockup) | ✅ verified at 320/375/768/1280, front + back |
 | Hackathon rules re-checked on the official page (upstartbar.com/ajyal) | ✅ 5 Nov; building may start when selection is announced on 16 Nov |
 
+## Verified numbers (7 Nov late night, main `bd2de0f`)
+- Web e2e, local, runs 10–12: run 11 had 118 passed and 8 skipped. Runs 10 and 12 each failed one test, and only on React #418 (`/admin` in the demo path; `/app` in the join test, after which its serial block left 2 tests unrun); every other test passed. That is not 3 in a row. On the new code #418 hit 3 of 6 runs (`/clinic`, `/admin`, `/app`, all desktop), against 0 of 3 on `31ca72d`. A dev-server repeat of the demo-path, join and screens specs (135 test runs) logged no hydration mismatch, which fits the documented production-only race in Next 15.5's React canary. The fix path stays Next 16 (#72, from 17 Nov)
+- Lighthouse, mobile, signed in: **100 / 100 / 100** on `/app`, `/app/insights`, `/app/assistant`, `/app/report`, `/clinic`
+- Backend (CI, Linux): **318 passed**
+- Second rescore: Jury **72**, MVP **76.5**, SaaS **72**, Clinical safety **26.5/35**, Women's experience **27.5/35**, Trust **7/7**
+
+## Verified numbers (7 Nov night, local, main `31ca72d`)
+- Web e2e (production build, API from the Linux Docker image in CI's demo-safe setup, no retries): **114 passed, 8 skipped,
+  0 failed in each of 3 runs in a row** (runs 4–6; 5.9–7.1 min each), 0 hydration errors
+- Backend: **306 passed** (the PDF test also passes in CI on Linux; on Windows it needs GTK)
+- Web unit tests: **52 passed**
+- Senior-judge rescore: Jury **72**, MVP **76**, SaaS **72**, Clinical safety **26/35**, Women's experience **27/35**, Trust pack **7/7** (PROGRESS.md)
+
 ## Verified numbers (6 Nov, local)
 - Web e2e (`pnpm e2e`, production build): **69 passed, 3 skipped** (desktop-only checks on the phone project), 3 runs in a row; the demo path takes 13–16 s per viewport
 - Landing Lighthouse: **100 / 100 / 100 / 100** on mobile and on desktop
@@ -53,6 +66,9 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 - **Unit economics** (docs/12, deck slide 8): UAE pilot stack ≈ AED 122 a month (AWS me-central-1 list prices with VAT), model cost per report zero in the shipped mode, infrastructure-only margin ≈ 94% for one small clinic, payback shown as CAC scenarios. All labelled hypotheses with sources.
 - **UAE hosting plan** (docs/07, /trust clause 3.1.4.5.1): Supabase, Render and Vercel have no UAE region, so production moves to AWS Middle East (UAE) or Azure UAE North before any real record.
 - **Malaffi:** wording checked in docs/07, docs/10 and docs/12; nothing in the app or deck claims a direct connection.
+
+## AI eval after the Arabic punctuation fix (6 Nov)
+- 60-question eval (extractive mode, no LLM): grounded **30/30 (100%)**, refusals **15/15**, red flags **15/15**, banned phrases **0**, answer language **100%**. The one known miss, ar04 ("متى تُعتبر الدورة غزيرة؟"), came from the tokenizer counting ؟ ، ؛ as part of the word before them.
 
 ## Verified numbers (5 Nov, local, `make test`)
 - Backend tests: **104 passed** (rules 63 · API 27 · RLS 8 · security 6 · AI eval 1 covering 60 questions)

@@ -6,17 +6,19 @@ import type { PersonasResponse } from "@/lib/api/types";
 import { getPersonas } from "@/lib/session";
 import { DemoRoster } from "./DemoRoster";
 import { StaffActions } from "./StaffActions";
+import { TourStart } from "@/components/tour/Tour";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("demo");
   return { title: t("metaTitle") };
 }
 
-const NEEDS = ["patient", "clinician", "admin"] as const;
+const NEEDS = ["patient", "clinician", "admin", "clinic_admin"] as const;
 
 export default async function DemoPage({ searchParams }: { searchParams: Promise<{ need?: string }> }) {
   const t = await getTranslations("demo");
   const tj = await getTranslations("join");
+  const tsi = await getTranslations("signin");
   const ts = await getTranslations("states");
   const locale = await getLocale();
   const { need } = await searchParams;
@@ -32,6 +34,9 @@ export default async function DemoPage({ searchParams }: { searchParams: Promise
     <>
       <h1 className="page-title">{t("title")}</h1>
       <p className="page-intro">{t("intro")}</p>
+      <p style={{ marginTop: 14 }}>
+        <TourStart className="btn btn-a btn-sm" />
+      </p>
       {needKey && (
         <p className="notice" role="status" style={{ marginTop: 18 }}>
           {t(`need.${needKey}`)}
@@ -51,6 +56,12 @@ export default async function DemoPage({ searchParams }: { searchParams: Promise
         <p className="s dim">{tj("tryBody")}</p>
         <ButtonLink href="/join" variant="outline" size="sm" className="self-start">
           {tj("tryAction")}
+        </ButtonLink>
+        <p className="s dim" style={{ marginTop: 6 }}>
+          {tsi("fromDemoBody")}
+        </p>
+        <ButtonLink href="/signin" variant="outline" size="sm" className="self-start">
+          {tsi("fromDemo")}
         </ButtonLink>
       </section>
       <section aria-labelledby="staff-title" style={{ marginTop: 36 }}>

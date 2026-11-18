@@ -17,22 +17,199 @@ Blockers / questions:
 
 ---
 
-## 2026-11-06 (evening) — Deploy started, rescore, mobile roadmap — Krishna with Claude Code
+## 2026-11-18 — Build week K6: blood-pressure log and urgent warning (G2) — Krishna with Claude Code
 Done:
-- **Web live:** `https://reprosense.vercel.app`, functions in Frankfurt.
-- **API not live yet:** waiting on the database. Krishna's Supabase free limit is full, so Atharva is creating it (#22).
-- **#49 merged:** the API, web functions and database share one region (Frankfurt), and the API runs on Render's free plan until demo day.
-- **#40 (Q53, Q48) approved,** waiting for Atharva to merge it.
-- **Roadmap to 95+:** `docs/18` (PR #48), issues #41–#47 and #57.
-- **Android and iOS roadmap:** `docs/21` (Expo), milestone "Mobile apps (after 22 Nov)", issues #50–#56.
-- **Review PDF for Prof. Rachit Garg** (not committed).
-Tests: web lint, types and 50 unit tests pass · backend 178 passed, coverage 92% · e2e 110 passed, 8 skipped, 0 failed · pip-audit clean · npm audit: 4 postcss advisories via next (#57)
-Senior-judge score (one reviewer, `docs/22_RESCORE.md`): Venture 18.5/30 · Impact 15/20 · Innovation 15/20 · Prototype 14/20 · Pitch 6/10 = 68.5/100 · MVP 75 · SaaS 72 · Clinical safety 23/35 · Women's experience 26/35 · Trust 7/7
-Next:
-- Atharva: database, then smoke test (#22); merge #40 and #48; A0, A3, A4, A5, A9, A11; outreach.
-- Krishna: Render with the database string; uptime variables; B2 model check.
+- She can log blood pressure (top/bottom mmHg, the calendar day, optional time) in pregnancy and for 12 weeks after a
+  birth: `POST /v1/bp` (plausible range 70–250 / 40–150, top above bottom, no future day; audited), table `bp_readings`
+  with forced RLS (her own rows; her clinic reads them with consent), in the bundle the rules engine reads.
+- New red flag `RF7_HIGH_BLOOD_PRESSURE`, run with the others first: in pregnancy or up to 6 weeks after birth, one
+  reading of 160/110 or higher, or 140/90 or higher with a severe headache, vision changes or sudden swelling logged the
+  same day (NICE NG133 "Terms used", Table 1 under 1.4.3, 1.5.2, 1.1.1; NG201 1.2.27). The engine checks each reading
+  on its own and the card cites only the reading(s) behind it. New "soon" card `OBS_RAISED_BLOOD_PRESSURE`: her latest
+  reading 140/90 or higher without RF7 → have it rechecked today (NG133; NG201 1.2.26). New symptom "sudden swelling".
+- NICE NG133 in the knowledge base (cite-only), summary in our own words (EN + AR). Hessa and Fatima carry ordinary
+  readings (generator, every line [OK]); no persona triggers the new rules.
+- Web: "Blood pressure" box on the log screen (urgent card first after saving), latest reading on home, readings table on
+  Patterns and in the clinician record, readings in the doctor PDF and the SBAR. EN + AR, light and dark, 390 px.
+- Chief-healthcare-officer and women-care-lead reviews applied (urgent wording "needs urgent care", full NG133 symptom
+  list in the warning, SYS/DIA labels and "not the pulse", word tags, 998 hint for a reading above the range).
+Tests: backend 439 passed (51 in `tests/test_blood_pressure.py`) · web lint, typecheck, 57 unit tests · e2e
+`e2e/blood-pressure.spec.ts` runs in CI
+UI slop check: pass (no gradients, no new radii or shadows, words beside every colour mark, one h1 per page)
 Blockers / questions:
-- The live demo waits on the database (#22).
+- Q62: RF7 stops at the end of week 6 after birth while logging runs to week 12 (both reviewers asked to extend RF7 to
+  12 weeks; left as specified for Krishna and the clinician to decide). Awaiting clinician sign-off (RULE_SIGNOFF).
+
+## 2026-11-18 — Build week K4: clinic onboarding API — Krishna with Claude Code
+Done:
+- New role `clinic_admin` (one clinic). Demo login in one tap (`cadmin-01`, Seaside Women's Clinic, fictional); a second
+  admin (`cadmin-02`, North Island) is seeded to show that a clinic sees only itself. Staff logins now open the seeded
+  person by id, never someone who joined later.
+- Single-use clinician invites (`clinic_invites`, only the token's sha256 stored): create, list (pending, accepted,
+  expired, revoked), withdraw; accept with a display name makes a fictional clinician bound to that clinic; used,
+  withdrawn or expired links answer 410.
+- The clinic's team, its dashboard (follow-ups open, booked, done; PC008 glucose part; shared records) and a CSV export
+  of follow-up counts with no names or ids; counts under 10 blank, with complementary suppression.
+- Row-level security: invites and staff rows per clinic; the cohort per clinic for clinicians and clinic admins; figures
+  from two SECURITY DEFINER count functions gated on the role and clinic. Every action is in the audit chain.
+- Tests first: `backend/tests/test_clinic_onboarding.py` (17).
+Tests: backend 393 passed
+Next:
+- A3 (Atharva): the clinic-admin screens and the `/clinic-invite/<token>` join page, from the shapes in the PR.
+- After deploy: press the demo reset once so the live database gets the new table and role.
+
+## 2026-11-07 (night) — A4e: irregular-cycles next steps (#43 e, waits for Krishna's G2 OK) — Atharva with Claude Code
+Done:
+- `OBS_IRREGULAR_CYCLES` now leads with "Consider discussing your irregular cycles with a gynaecologist or family doctor." The
+  logging step reads "Keep logging the day each period starts. Each new cycle makes the pattern clearer." (text from
+  docs/18 card A4e; the women-care-lead review named the pattern in step 1, because home shows the step without the card title). It no longer tells Noura, who has 7 cycles, that the pattern is clearer with 6, and the banned
+  dash is gone. Arabic reordered to match; the new Arabic line is in docs/AR_REVIEW.md for the native review.
+- Test written first and watched failing: `test_api.py::test_noura_recommendation_leads_with_the_doctor_step`.
+Tests: backend 306 passed + the PDF test, which needs GTK and fails only on Windows (CI runs it on Linux)
+Next:
+- Krishna approves the text in the PR (gate G2), then merge.
+
+## 2026-11-07 (late night) — Second rescore, fixes, final e2e and Lighthouse — Atharva with Claude Code
+**Merged after the first rescore:** #83, #84, #85, #87, #88, #89 (Arabic counted nouns agree with the number), #90:
+- The server sets the lab flag from the value she confirms.
+- One-sided ranges print as "< 5.6".
+- A log save keeps the mood she tapped.
+- Persona names and roster stories show in Arabic on Arabic screens.
+
+Main CI was green after every merge. Backend is 318 passed on Linux.
+
+**Second senior-judge rescore (main `d6b298a`, before #90; values from `31ca72d` in brackets):**
+
+| Scorecard | Score | Moved by |
+| --- | --- | --- |
+| Jury | **72** (72) | No change: every criterion now waits on people or the deploy |
+| Real MVP | **76.5** (76) | Arabic 7 (#85, #89) |
+| Real SaaS | **72** (72) | No change: build-week work (C1, C2, C6) |
+| Clinical safety | **26.5/35** (26) | Crisis path 3.5 (#83 keeps other red flags on Patterns and the check-in reply) |
+| Women's experience | **27.5/35** (27) | Arabic 3 (#85, #89) |
+| Trust pack | **7/7** | Kept. Grounded answers live at 100% (30/30) |
+
+#90 then fixed four of the judge's new defects: the stale lab flag, the "–5.6" range, the mood erased by a log save, and
+Latin names and English stories on Arabic screens. The judge did not re-score after #90.
+
+**e2e (production build; API from the Linux image in CI's demo-safe setup; no retries):**
+- On `d6b298a`:
+  - Run 7 failed with React #418 on `/clinic` in the desktop demo path. This is the documented hydration flake from the
+    React canary in Next 15.5; Next 16 is PR #72, and no PR tonight touched `/clinic`.
+  - Runs 8 and 9 had 118 passed and 8 skipped each.
+- **Final main `bd2de0f`, runs 10–12: run 11 had 118 passed and 8 skipped. Runs 10 and 12 each failed one test, and only on React #418 (`/admin` in the demo path; `/app` in the join test, after which its serial block left 2 tests unrun); every other test passed. That is not 3 in a row. On the new code #418 hit 3 of 6 runs (`/clinic`, `/admin`, `/app`, all desktop), against 0 of 3 on `31ca72d`. A dev-server repeat of the demo-path, join and screens specs (135 test runs) logged no hydration mismatch, which fits the documented production-only race in Next 15.5's React canary. The fix path stays Next 16 (#72, from 17 Nov)**
+- Tonight's full runs on a quiet machine total 9: 3 on `31ca72d`, 3 on `d6b298a`, 3 on `bd2de0f`. One of them hit #418.
+
+**Lighthouse, mobile, signed in (local production build, `d6b298a`):** 100 / 100 / 100 (performance / accessibility /
+best practices) on `/app`, `/app/insights`, `/app/assistant`, `/app/report` and `/clinic`. #90 changes only text and the
+lab flag.
+
+**Governance (this PR):**
+- The CI `change-log` job and the CHANGE_LOG scope now also cover `engine.py`, `expr.py`, `assistant.py` and `config.py`.
+  #86 already carries its row.
+- The hazard-log rows now say what was fixed and what remains.
+- QUESTIONS #60: G3 and B2 cannot pass as written, because the model can only add routes, so everyday cannot reach 48/50.
+  The delta-rule proposal waits for Krishna.
+
+**Waits for Krishna (gate G2):**
+- #82 (A4e wording).
+- #86 (guard gaps and urgent citations).
+- The server-side same-day merge (`engine.py`).
+- An atomic demo reset (schema and RLS).
+- QUESTIONS #60.
+
+Merging #82 and #86 is the cheapest score left: about +1.5 Clinical safety and +0.5 Women's experience.
+
+**Needs people:** deploy (A7, Mon 9 Nov), clinical advisor (A8, B6), interviews and a letter of intent (B4, B7), usability
+sessions (B5), native Arabic review (B3), rehearsals (B10). Per the judge, these hold the remaining ~20 jury points.
+
+## 2026-11-07 (night) — Full e2e, senior-judge rescore, fixes from the rescore — Atharva with Claude Code
+**Build and e2e on main (`31ca72d`, Windows, Chrome, production build, no retries):**
+- `pnpm build` passes (22 routes).
+- Run 1, API run natively on Windows: 112 passed, 8 skipped, 2 failed. Both failures were the PDF step of the demo path
+  (desktop and mobile). WeasyPrint has no Pango on Windows, so the API answered 503. CI runs that step on Linux.
+- From run 2 on, the API ran from the project's own Linux image (`backend/Dockerfile`), in CI's demo-safe setup: dummy key,
+  dead model address, `E2E_DEMO_SAFE=1`.
+- Run 2: **114 passed, 8 skipped, 0 failed**.
+- Run 3: 113 passed, 1 failed. The mobile demo path passed its 3-minute budget while backend tests and installs ran
+  alongside it (20.8 min for the run, against 6.2). This was load, not a code fault, and is not counted as a green run.
+- **Runs 4, 5 and 6, back to back on a quiet machine: 114 passed, 8 skipped, 0 failed each**, with 0 hydration errors
+  (React #418) in any run. That meets the docs/17 target of 3 green runs in a row locally. #418 stays open as documented
+  (Next 15.5's React canary; Next 16 in PR #72), because it is rare.
+- The 8 skips are by design: desktop-only or server-side checks skip on the phone project.
+
+**Senior-judge rescore (docs/18 §5; main `31ca72d`; 6 Nov evening values in brackets):**
+
+| Scorecard | 7 Nov night | Moved by |
+| --- | --- | --- |
+| Jury | **72.0** (68.5) | Venture 20.0 (venture pack #77), Impact 15.5, Innovation 15.5 (NG126 and crisis sources #74, safety case #75), Prototype 15.0, Pitch 6.0 |
+| Real MVP | **76** (75) | Arabic 6.5 (#76), pilot-ready 5.5 (safety case) |
+| Real SaaS | **72** (72) | No change; every gap is build-week work (C1, C2, C6) or needs people (B4, B12) |
+| Clinical safety | **26/35** (23) | Red flags 4.5 (#40, #71, #79), sources 4.5, edge cases 3, governance 3.5. Guards went down to 4.5: the judge's probes found the Arabic and hedged-English gaps |
+| Women's experience | **27/35** (26) | Clarity 4.5 (A4a–d, #73), Arabic 2.5 |
+| Trust pack | **7/7** | Kept |
+
+**Fixes from the rescore (opened tonight, all test-first, all inside gate G1):**
+- #82 A4e next-step wording (rules YAML, **needs Krishna's G2 approval**).
+- #83 Safety and data loss:
+  - The crisis path keeps her other red flags on Patterns and in the check-in reply.
+  - The log form reopens the day's saved entry, so a second save adds to the first instead of replacing it.
+- #84 Truth:
+  - A converted lab value keeps its range in the same unit.
+  - "<5" stays "<5".
+  - The pain card names the bed days it counts.
+- #85 Arabic screens write the fictional personas' names in Arabic script.
+- #86 Guard gaps (diacritised and Gulf Arabic, hedged English) and urgent replies citing sources that cover their text
+  (NG126; the NHS crisis pages). **Needs Krishna's G2 approval.** Across 702 eval questions: 0 routing changes and 0
+  answer-text changes.
+- This PR:
+  - `CHANGE_LOG.md` rows for #71 and #79.
+  - A CI `change-log` job that fails a PR changing clinical logic without a change-log row.
+  - A status update in `HAZARD_LOG.md`.
+  - The docs/18 "Now" columns.
+  - Fixes to doc drift (README test counts, the docs/19 letter-of-intent line).
+  - The deck's team line, true names and roles only, no advisor. The deck HTML and PDF were rebuilt, and no slide overflows.
+
+**Health wording review (gate G4):** the chief-healthcare-officer and women-care-lead agents read #82–#86.
+- Applied:
+  - #82 step 1 names the pattern ("your irregular cycles"), because home shows the step without the card title.
+  - #83 the reopened-day line says she can change any answer.
+  - #84 the lab flag is set in the printed unit before rounding (101 mg/dL against <100 kept its H), and the pain
+    sentence uses the log form's own words, with Arabic number agreement that works for any count.
+- Not applied: widening the NG194 and NG126 summaries so the after-birth reply's every claim has a source. That changed
+  145 of 702 answers and could not be checked against NICE (403). It is written up in #86 for its own judged PR.
+Tests: backend 306 on main (each fix branch adds its own; the PDF test needs GTK and fails only on Windows) · web unit 52 ·
+e2e 114 passed / 8 skipped, 3 runs in a row
+Senior-judge score: Venture 20/30 · Impact 15.5/20 · Innovation 15.5/20 · Prototype 15/20 · Pitch 6/10 = 72/100
+Next (the judge's points per hour):
+- Krishna:
+  - Approve #82 and #86 (G2).
+  - Deploy on Mon 9 Nov (A7).
+- Atharva:
+  - Send the advisor, clinician and manager messages (A8). Both trackers are still empty, and this is the only route to
+    the ~17 people points.
+Merged the same night: #83, #84, #85, #87. Main CI was green after each: backend 313 passed, e2e 118 passed and 8 skipped.
+#82 and #86 wait for Krishna (G2).
+Not done tonight, and why:
+- The ferritin next step contradicts NG88 (`clinical_rules.yaml:133`): an advisor decision (Q35, Q49).
+- The model timeout (30 s × 2 retries) is longer than the web's 15 s limit. It is latent while the model is off; fix it
+  with B2.
+- `/readyz` briefly shows an empty index while demo data resets: warm up after every reset.
+- The EPDS items are in English in the Arabic app: they need the validated Arabic EPDS.
+
+## 2026-11-07 (late) — Safety fix: "severe bleeding" wordings (PR #79, G2 approved, merged) — Krishna with Claude Code
+Done:
+- The assistant's urgent check now treats "severe bleeding", "bleeding really badly", "lots of / so much blood",
+  "haemorrhaging" and Arabic نزيف حاد / شديد / قوي, أنزف بقوة, دم كثير as the heavy half of RF1. With dizziness or fainting
+  they now get the 998 bleed reply. Before, they got `urgent: None` (HANDOFF section 0, known gap).
+- Each cue must sit next to a bleeding word (never a bare "severe" or «شديد»). Blood tests, blood donation and cuts
+  anywhere in the message are excluded. Block `severe bleeding gap` in `backend/app/agents/safety.py`.
+- Tests written first and watched failing (14 failed), then passing: 26 probes in `backend/tests/test_safety_routing.py`.
+- 0 routing changes across all 702 eval questions (60-question eval + held-out rounds 1–5); `eval_results.json` unchanged.
+Tests: backend 306/306 pass (`make test`)
+Next:
+- Krishna approved (G2) and #79 was merged after 14/14 CI checks. Known limitation, shared with the existing "heavy" wording: a past event
+  ("bad bleeding last year, dizzy from the heat now") still routes to 998.
 
 ---
 
@@ -110,6 +287,27 @@ Blockers / questions:
 - #48: cycles_per_year false positive.
 - #49: rules YAML R1–R10.
 - Interviews, LOI, clinical advisor, Arabic review, deploy.
+
+---
+
+## 2026-11-06 (evening) — Deploy started, rescore, mobile roadmap — Krishna with Claude Code
+Done:
+- **Web live:** `https://reprosense.vercel.app`, functions in Frankfurt.
+- **API not live yet:** waiting on the database. Krishna's Supabase free limit is full, so Atharva is creating it (#22).
+- **#49 merged:** the API, web functions and database share one region (Frankfurt), and the API runs on Render's free plan until demo day.
+- **#40 (Q53, Q48) approved,** waiting for Atharva to merge it.
+- **Roadmap to 95+:** `docs/18` (PR #48), issues #41–#47 and #57.
+- **Android and iOS roadmap:** `docs/21` (Expo), milestone "Mobile apps (after 22 Nov)", issues #50–#56.
+- **Review PDF for Prof. Rachit Garg** (not committed).
+Tests: web lint, types and 50 unit tests pass · backend 178 passed, coverage 92% · e2e 110 passed, 8 skipped, 0 failed · pip-audit clean · npm audit: 4 postcss advisories via next (#57)
+Senior-judge score (one reviewer, `docs/22_RESCORE.md`): Venture 18.5/30 · Impact 15/20 · Innovation 15/20 · Prototype 14/20 · Pitch 6/10 = 68.5/100 · MVP 75 · SaaS 72 · Clinical safety 23/35 · Women's experience 26/35 · Trust 7/7
+Next:
+- Atharva: database, then smoke test (#22); merge #40 and #48; A0, A3, A4, A5, A9, A11; outreach.
+- Krishna: Render with the database string; uptime variables; B2 model check.
+Blockers / questions:
+- The live demo waits on the database (#22).
+
+---
 
 ## 2026-11-06 — Demo readiness and scorecard (docs/09) — Krishna with Claude Code
 Scored inline and strictly, on what runs today, not on what is planned. The senior-judge agent was not run, because agents are paused at Krishna's request; run it for an independent read.
