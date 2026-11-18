@@ -21,6 +21,7 @@ import { apiServer } from "@/lib/api/server";
 import type { AuthMe, HomeResponse } from "@/lib/api/types";
 import { firstName, formatDate, isolate, shownName } from "@/lib/format";
 import { requireRole } from "@/lib/session";
+import { AppHint } from "@/components/pwa/AppHint";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("home");
@@ -153,6 +154,7 @@ export default async function Home() {
             </li>
           </ul>
         </nav>
+        <AppHint />
         {isTabReady("report") && (
           <ButtonLink href="/app/report" variant="outline" size="wide">
             {t("home.reportButton")}

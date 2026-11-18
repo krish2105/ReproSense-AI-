@@ -7,7 +7,7 @@ import { getMessages } from "next-intl/server";
 export const SHARED_CLIENT = ["chrome", "states", "tags", "urgent", "stages", "regions", "safety"] as const;
 export const AREA_CLIENT = {
   site: ["demo", "landing", "tokens", "join", "signin"],
-  patient: ["tabs", "home", "navigator", "moods", "flows", "impacts", "sites", "symptoms", "log", "insights", "assistant", "report", "clinics", "checkin", "documents", "privacy", "postnatal", "signin", "bp"],
+  patient: ["tabs", "home", "navigator", "moods", "flows", "impacts", "sites", "symptoms", "log", "insights", "assistant", "report", "clinics", "checkin", "documents", "privacy", "postnatal", "signin", "bp", "pwa"],
   clinic: ["clinic", "insights"],
   admin: ["admin", "clinic"],
 } as const;
