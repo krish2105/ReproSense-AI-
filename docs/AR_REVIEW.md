@@ -694,6 +694,59 @@ A record she started on /join can be opened again on another device with a passk
 | email (API) subject | Your ReproSense sign-in code | رمز الدخول إلى ReproSense | |
 | email (API) body | Your code is {code}. It works for 10 minutes, once. If you did not ask for it, you can ignore this email. | رمزك هو {code}. يعمل لمدة 10 دقائق ولمرة واحدة. إذا لم تطلبيه، يمكنك تجاهل هذه الرسالة. | |
 
+## Blood pressure in pregnancy and after birth (build week K6, 18 Nov, draft Arabic, not yet reviewed)
+The blood-pressure log, its urgent card RF7 and the "have it rechecked today" card (NICE NG133). Feminine address on her
+screens; `bp.clinicTitle` and `bp.clinicIntro` are in clinician voice. Numbers stay in Western digits and read left to
+right ("165/100"). The knowledge-base summary `knowledge_base/summaries/nice_ng133.md` also has an Arabic section.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `symptoms.sudden_swelling` | Sudden swelling of face, hands or feet | تورّم مفاجئ في الوجه أو اليدين أو القدمين | |
+| `bp.title` | Blood pressure | ضغط الدم | |
+| `bp.intro` | For pregnancy and the 12 weeks after birth. Type the top two numbers from your monitor (SYS and DIA), not the pulse. | أثناء الحمل وفي الأسابيع الاثني عشر بعد الولادة. اكتبي الرقمين العلويين من الجهاز (SYS وDIA)، وليس النبض. | |
+| `bp.systolic` | Top number (SYS) | الرقم العلوي (SYS) | |
+| `bp.diastolic` | Bottom number (DIA) | الرقم السفلي (DIA) | |
+| `bp.unit` | mmHg | ملم زئبقي | |
+| `bp.time` | Time (optional) | الوقت (اختياري) | |
+| `bp.rangeHint` | Top number 70 to 250, bottom number 40 to 150, in mmHg. | الرقم الأعلى من 70 إلى 250، والرقم الأدنى من 40 إلى 150، بالملّيمتر الزئبقي. | |
+| `bp.orderError` | The top number must be higher than the bottom number. | يجب أن يكون الرقم الأعلى أكبر من الرقم الأدنى. | |
+| `bp.save` | Save reading for {date} | احفظي القراءة ليوم {date} | |
+| `bp.saveToday` | Save today's reading | احفظي قراءة اليوم | |
+| `bp.saved` | Reading saved: {reading} mmHg | حُفظت القراءة: {reading} ملم زئبقي | |
+| `bp.saveFailed` | The reading was not saved: {detail} | لم تُحفظ القراءة: {detail} | |
+| `bp.urgentHeading` | Urgent guidance after your reading | إرشادات عاجلة بعد قراءتك | |
+| `bp.recheckTitle` | Ask for this reading to be rechecked today | اطلبي إعادة فحص ضغطك اليوم | |
+| `bp.recheckBody` | {reading} mmHg is 140/90 or higher. One reading is not a diagnosis, but it needs a second check. Contact your maternity unit or doctor today. | القراءة {reading} ملم زئبقي تساوي 140/90 أو أعلى. قراءة واحدة ليست تشخيصاً، لكنها تحتاج فحصاً ثانياً. تواصلي مع وحدة الولادة أو طبيبتك اليوم. | |
+| `bp.warn` | Call 998 or go to your maternity unit now if you get a severe headache, problems with vision, severe pain just below the ribs, vomiting, or sudden swelling of the face, hands or feet. | اتصلي بالرقم 998 أو توجهي إلى وحدة الولادة الآن إذا شعرتِ بصداع شديد، أو اضطراب في الرؤية، أو ألم شديد أسفل الأضلاع مباشرة، أو قيء، أو تورّم مفاجئ في الوجه أو اليدين أو القدمين. | |
+| `bp.dayTitle` | Readings on {date} | القراءات في {date} | |
+| `bp.dayNone` | No reading on this day yet. | لا توجد قراءة في هذا اليوم بعد. | |
+| `bp.reading` | {reading} mmHg | {reading} ملم زئبقي | |
+| `bp.at` | {date} at {time} | {date} الساعة {time} | |
+| `bp.homeLatest` | Latest reading, {when} | آخر قراءة، {when} | |
+| `bp.homeNone` | No reading yet. Log one after each check, or at home if your midwife or doctor asked you to. | لا توجد قراءة بعد. سجّلي قراءة بعد كل فحص، أو في المنزل إذا طلبت منك القابلة أو الطبيبة ذلك. | |
+| `bp.homeAction` | Log a reading | سجّلي قراءة | |
+| `bp.tableTitle` | Blood pressure readings | قراءات ضغط الدم | |
+| `bp.tableSummary` | Readings in this period: {count}. Readings of 140/90 or higher are marked. | عدد القراءات في هذه الفترة: {count}. القراءات 140/90 أو أعلى مُعلَّمة. | |
+| `bp.colDate` | Date | التاريخ | |
+| `bp.colTime` | Time | الوقت | |
+| `bp.colReading` | Reading (mmHg) | القراءة (ملم زئبقي) | |
+| `bp.colNote` | Note | ملاحظة | |
+| `bp.noteRaised` | Raised: 140/90 or higher | مرتفع: 140/90 أو أعلى | |
+| `bp.noteSevere` | Very high: 160/110 or higher | مرتفع جداً: 160/110 أو أعلى | |
+| `bp.clinicTitle` | Blood pressure (her home readings) | ضغط الدم (قراءاتها المنزلية) | |
+| `bp.clinicIntro` | Readings she logged: {count}, newest first. Marks follow NICE NG133. | عدد القراءات التي سجّلتها: {count}، الأحدث أولاً. العلامات وفق NICE NG133. | |
+| `bp.rangeHigh` | If your monitor really shows a number this high, call 998 now. | إذا كان الجهاز يُظهر فعلاً رقماً بهذا الارتفاع، اتصلي بالرقم 998 الآن. | |
+| `RF7_HIGH_BLOOD_PRESSURE` title (`backend/app/agents/copy.py` RF_TITLES) | This blood pressure reading needs urgent care | قراءة ضغط الدم هذه تحتاج رعاية عاجلة | |
+| `RF7_HIGH_BLOOD_PRESSURE` message (`rules/translations_ar.yaml`) | Call 998 or go to your maternity unit now. In pregnancy and the 6 weeks after birth, a blood pressure of 160/110 or higher, or 140/90 or higher with a severe headache, vision changes or sudden swelling, needs urgent checking. | اتصلي بالرقم 998 أو توجهي إلى وحدة الولادة الآن. أثناء الحمل وفي الأسابيع الستة بعد الولادة، ضغط الدم 160/110 أو أعلى، أو 140/90 أو أعلى مع صداع شديد أو تغيّر في الرؤية أو تورّم مفاجئ، يحتاج فحصاً عاجلاً. | |
+| `OBS_RAISED_BLOOD_PRESSURE` title | Your latest blood pressure reading was raised | آخر قراءة لضغط الدم كانت مرتفعة | |
+| `OBS_RAISED_BLOOD_PRESSURE` explains | NICE counts a blood pressure of 140/90 or higher as raised (hypertension) in pregnancy and after birth. NICE antenatal care guidance asks that a first raised reading after 20 weeks is checked by a maternity team within 24 hours. One reading is not a diagnosis; it needs rechecking. | تعدّ إرشادات NICE ضغط الدم 140/90 أو أعلى ارتفاعاً في ضغط الدم أثناء الحمل وبعد الولادة. وتطلب إرشادات NICE لرعاية الحمل أن يفحص فريق الولادة أول قراءة مرتفعة بعد الأسبوع 20 خلال 24 ساعة. قراءة واحدة ليست تشخيصاً، لكنها تحتاج إعادة قياس. | |
+| `OBS_RAISED_BLOOD_PRESSURE` next steps | Contact your maternity unit or doctor today to have it rechecked. / Call 998 or go to your maternity unit now if you get a severe headache, problems with vision, severe pain just below the ribs, vomiting, or sudden swelling of the face, hands or feet. / Bring your readings, with their dates and times, to the appointment. | تواصلي مع وحدة الولادة أو طبيبتك اليوم لإعادة قياس الضغط. / اتصلي بالرقم 998 أو توجهي إلى وحدة الولادة الآن إذا شعرتِ بصداع شديد، أو اضطراب في الرؤية، أو ألم شديد أسفل الأضلاع مباشرة، أو قيء، أو تورّم مفاجئ في الوجه أو اليدين أو القدمين. / أحضري قراءاتك مع تواريخها وأوقاتها إلى الموعد. | |
+| `OBS_RAISED_BLOOD_PRESSURE` detail (`copy.py`) | Your latest reading was {sys}/{dia} mmHg. | كانت آخر قراءة لضغط الدم {sys}/{dia} ملم زئبقي. | |
+| `OBS_RAISED_BLOOD_PRESSURE` questions (`copy.py`) | Can my blood pressure be rechecked today? / How often should I check it, and which numbers mean I call you? | هل يمكن إعادة قياس ضغط الدم لي اليوم؟ / كم مرة يجب أن أقيسه، وما الأرقام التي تعني أن أتصل بكم؟ | |
+| "Why we noticed" chip for a reading (`copy.py` entry_text) | 22 Nov 08:15 · blood pressure 165/100 mmHg | 22 نوفمبر 08:15 · ضغط الدم 165/100 ملم زئبقي | |
+| Care navigator draft (`navigator.py`) | Hello, my blood pressure reading was {bp} mmHg. Could it be rechecked today, please? Thank you. | مرحباً، كانت قراءة ضغط الدم لديّ {bp} ملم زئبقي. هل يمكن إعادة قياسه اليوم من فضلكم؟ شكراً لكم. | |
+| Navigator: what to bring | Your blood pressure readings with their dates and times / Your pregnancy record or discharge summary / This ReproSense summary | قراءات ضغط الدم مع تواريخها وأوقاتها / سجل الحمل أو ملخص الخروج من المستشفى / ملخص ReproSense هذا | |
+
 ## Photo reading off (18 Nov, draft Arabic, not yet reviewed)
 Shown on Lab reports when no AI model is configured, or she switched AI off. Feminine address.
 
