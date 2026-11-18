@@ -11,7 +11,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.ai.llm import get_llm
-from app.api import admin, assistant, clinic, clinic_admin, demo, patient, quality, reports
+from app.api import admin, assistant, auth, clinic, clinic_admin, demo, patient, quality, reports
 from app.config import get_settings
 from app.db import SYSTEM, session
 from app.security.middleware import ModelBudget, RateLimit, SecurityHeaders
@@ -38,6 +38,12 @@ async def lifespan(_app: FastAPI):
 
         loaded = seed_if_empty()
         log.warning("first boot: %s", f"seeded {loaded}" if loaded else "demo data already present")
+    try:
+        from app.db.seed import ensure_sign_in_tables
+
+        ensure_sign_in_tables()  # K5: a database seeded before sign-in existed gains its tables
+    except Exception as e:  # the API still starts; sign-in answers 500 until the database is reachable
+        log.warning("sign-in tables not checked: %s", type(e).__name__)
     yield
 
 
@@ -59,6 +65,7 @@ app.add_middleware(
 )
 for r in (
     demo.router,
+    auth.router,
     patient.router,
     assistant.router,
     reports.router,

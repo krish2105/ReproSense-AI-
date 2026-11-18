@@ -6,8 +6,8 @@ import { getMessages } from "next-intl/server";
 // every message on the server. Keeps each page's payload small (the full catalogue is ~70 kB).
 export const SHARED_CLIENT = ["chrome", "states", "tags", "urgent", "stages", "regions", "safety"] as const;
 export const AREA_CLIENT = {
-  site: ["demo", "landing", "tokens", "join"],
-  patient: ["tabs", "home", "navigator", "moods", "flows", "impacts", "sites", "symptoms", "log", "insights", "assistant", "report", "clinics", "checkin", "documents", "privacy", "postnatal"],
+  site: ["demo", "landing", "tokens", "join", "signin"],
+  patient: ["tabs", "home", "navigator", "moods", "flows", "impacts", "sites", "symptoms", "log", "insights", "assistant", "report", "clinics", "checkin", "documents", "privacy", "postnatal", "signin", "bp"],
   clinic: ["clinic", "insights"],
   admin: ["admin", "clinic"],
 } as const;

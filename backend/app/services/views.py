@@ -7,6 +7,7 @@ from datetime import date, timedelta
 
 from app.agents import copy as cp
 from app.rules.engine import Evaluation
+from app.services import blood_pressure
 
 
 def _d(s) -> date:
@@ -129,6 +130,9 @@ def timeline(bundle: dict, ref: date, months: int = 12) -> dict:
         ],
         "events": [e for e in bundle["events"] if _d(e["date"]) >= start and e["type"] != "lab_test"],
         "labs": [lab for lab in bundle["labs"] if _d(lab["date"]) >= start],
+        # K6: blood-pressure readings in range, oldest first, and whether she can log one now
+        "bp_readings": [r for r in blood_pressure.ordered(bundle) if _d(r["date"]) >= start],
+        "bp_eligible": blood_pressure.eligible(bundle, ref),
     }
 
 

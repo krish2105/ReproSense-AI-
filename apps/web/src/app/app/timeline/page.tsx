@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { BarsChart, CycleLengthChart, YearDots } from "@/components/charts/AnalyticsCharts";
+import { BpReadingsTable } from "@/components/charts/BpReadingsTable";
 import { Box } from "@/components/ui/Box";
 import { ButtonLink } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/States";
@@ -156,6 +157,18 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
               </li>
             ))}
           </ul>
+        </section>
+      )}
+
+      {tl.bp_readings.length > 0 && (
+        <section className="box" aria-labelledby="bp-title" data-testid="bp-readings">
+          <h2 id="bp-title" style={{ fontSize: 17 }}>
+            {t("bp.tableTitle")}
+          </h2>
+          <p className="xs faint" style={{ margin: "4px 0 8px" }}>
+            {t("bp.tableSummary", { count: tl.bp_readings.length })}
+          </p>
+          <BpReadingsTable readings={tl.bp_readings} locale={locale} label={t("bp.tableTitle")} />
         </section>
       )}
 

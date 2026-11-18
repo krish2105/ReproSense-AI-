@@ -40,10 +40,28 @@ class Settings(BaseSettings):
     rate_limit_per_min: int = 120
     rate_limit_sensitive_per_min: int = 20  # assistant + uploads
     red_flag_window_days: int = 14  # QUESTIONS #17 default (needs clinician sign-off)
+    # Her own sign-in (K5). Passkeys: the relying party is the web app's host. Empty = the host of the first
+    # ALLOWED_ORIGINS entry, and the accepted origins = ALLOWED_ORIGINS. No clinical meaning.
+    webauthn_rp_id: str = ""
+    webauthn_rp_name: str = "ReproSense"
+    webauthn_origins: str = ""
+    # The email code backup sends only when a Resend key is set; without it the option is hidden and the API says 503.
+    resend_api_key: str = ""
+    email_from: str = ""  # sender on a domain verified in Resend; empty = the test sender (security/email.py)
 
     @property
     def origins(self) -> list[str]:
         return [o.strip() for o in self.allowed_origins.split(",") if o.strip()]
+
+    @property
+    def passkey_origins(self) -> list[str]:
+        return [o.strip() for o in self.webauthn_origins.split(",") if o.strip()] or self.origins
+
+    @property
+    def passkey_rp_id(self) -> str:
+        from urllib.parse import urlparse
+
+        return self.webauthn_rp_id or urlparse(self.passkey_origins[0]).hostname or "localhost"
 
 
 @lru_cache

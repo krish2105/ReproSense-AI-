@@ -1767,6 +1767,7 @@
       "flag": ""
     }
   ],
+  "bp_readings": [],
   "features": {
     "years_since_menarche": 24,
     "cycles_logged": 11,
@@ -1812,7 +1813,9 @@
     "epds_latest_total": null,
     "epds_item10": 0,
     "mrs_latest_total": null,
-    "on_hormonal_contraception": false
+    "on_hormonal_contraception": false,
+    "bp_severe_in_window": false,
+    "bp_latest_raised": false
   },
   "expected_observations": [
     "OBS_TTC_FERTILITY_ASSESSMENT"

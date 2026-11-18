@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
+import { BloodPressureForm } from "@/components/log/BloodPressureForm";
 import { Calendar } from "@/components/log/Calendar";
 import { DayDetail } from "@/components/log/DayDetail";
 import { LogForm } from "@/components/log/LogForm";
@@ -49,6 +50,17 @@ export default async function LogPage({ searchParams }: { searchParams: Promise<
       <Calendar month={month} today={today} first={first} selected={selected} byDate={byDate} locale={locale} />
       <DayDetail entry={byDate.get(selected)} dateLabel={formatDate(selected, locale)} />
       <LogForm key={formDate} date={formDate} saved={saved} isToday={formDate === today} dateLabel={formatDate(formDate, locale)} yearCounts={yearCounts} heat={heat} locale={locale} />
+      {/* K6: pregnancy and the 12 weeks after birth only */}
+      {tl.bp_eligible && (
+        <BloodPressureForm
+          key={`bp-${formDate}`}
+          date={formDate}
+          isToday={formDate === today}
+          dateLabel={formatDate(formDate, locale)}
+          readings={tl.bp_readings.filter((r) => r.date === formDate)}
+          locale={locale}
+        />
+      )}
     </div>
   );
 }

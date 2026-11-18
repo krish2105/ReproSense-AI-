@@ -16,7 +16,7 @@ import yaml
 
 from app.config import RULES_PATH
 from app.rules import expr
-from app.rules.features import DAY_SYMPTOMS, FeatureSet, compute, day_context
+from app.rules.features import DAY_SYMPTOMS, NO_READING, FeatureSet, compute, day_context, reading_values
 
 SUPPRESSED_BY_CRISIS = {"OBS_POSTPARTUM_MOOD"}
 
@@ -148,19 +148,24 @@ def evaluate(bundle: dict, ref: date, window_days: int = 14, rules: RuleSet | No
     rs = rules or load_rules()
     fs = compute(bundle, ref)
     base = dict(fs.values)
-    no_day = {k: False for k in DAY_SYMPTOMS}
+    no_day = {**{k: False for k in DAY_SYMPTOMS}, **NO_READING}
     rule_ids = {r.id: False for r in rs.red_flags + rs.observations}
-    window = [
-        lg
-        for lg in bundle.get("daily_logs", [])
-        if ref - timedelta(days=window_days) <= date.fromisoformat(str(lg["date"])) <= ref
-    ]
+
+    def in_window(row: dict) -> bool:
+        return ref - timedelta(days=window_days) <= date.fromisoformat(str(row["date"])) <= ref
+
     # A date can hold more than one row (a second tab, the phone app, a seeded row plus her own entry). Red flags read
     # every row for a date together, so heavy flow in one row and dizziness in another still raise RF1 (7 Nov, 4a).
     by_day: dict[str, list[dict]] = {}
-    for lg in window:
-        by_day.setdefault(str(lg["date"]), []).append(lg)
-    days = sorted(by_day.items(), reverse=True)  # newest first
+    for lg in bundle.get("daily_logs", []):
+        if in_window(lg):
+            by_day.setdefault(str(lg["date"]), []).append(lg)
+    # Blood-pressure readings (K6) join the symptoms logged on their date; a day may have readings and no log.
+    bp_by_day: dict[str, list[dict]] = {}
+    for r in bundle.get("bp_readings", []):
+        if in_window(r):
+            bp_by_day.setdefault(str(r["date"]), []).append(r)
+    days = sorted(set(by_day) | set(bp_by_day), reverse=True)  # newest first
 
     red: list[Hit] = []
     for r in rs.red_flags:
@@ -170,13 +175,21 @@ def evaluate(bundle: dict, ref: date, window_days: int = 14, rules: RuleSet | No
             ctx_hit = ctx0
         else:
             names = expr.names(r.node)
-            for day, rows in days:
+            for day in days:
+                rows, readings = by_day.get(day, []), bp_by_day.get(day, [])
                 row_ctx = [day_context(lg) for lg in rows]
                 merged = {k: any(c[k] for c in row_ctx) for k in DAY_SYMPTOMS}
-                ctx = {**base, **merged, **rule_ids}
-                if expr.evaluate(r.node, ctx):
-                    used = [lg["id"] for lg, c in zip(rows, row_ctx, strict=True) if any(c.get(n) for n in names)]
-                    hit_ids, hit_date, ctx_hit = used or [rows[0]["id"]], day, ctx
+                # Each reading is checked on its own with the day's symptoms; a day without one is checked once.
+                tries = [(reading_values(bp), bp["id"]) for bp in readings] or [(NO_READING, None)]
+                met = [
+                    (vals, rid) for vals, rid in tries if expr.evaluate(r.node, {**base, **merged, **vals, **rule_ids})
+                ]
+                if met:
+                    used = [rid for _, rid in met if rid] + [
+                        lg["id"] for lg, c in zip(rows, row_ctx, strict=True) if any(c.get(n) for n in names)
+                    ]
+                    hit_ids = used or [x["id"] for x in rows + readings][:1]
+                    hit_date, ctx_hit = day, {**base, **merged, **met[0][0], **rule_ids}
                     break
         if ctx_hit is None:
             continue

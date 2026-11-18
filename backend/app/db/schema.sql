@@ -18,8 +18,9 @@ EXCEPTION WHEN insufficient_privilege THEN
   RAISE NOTICE 'reprosense_app was not granted to %: it must already be allowed to SET ROLE reprosense_app', current_user;
 END $$;
 
-DROP TABLE IF EXISTS clinic_invites, audit_log, kb_chunks, cohort_members, navigator_drafts, clinic_reviews, care_gaps, shares, reports,
-  observations, documents, lab_results, events, daily_logs, cycles, consents, profiles, clinics CASCADE;
+-- The sign-in tables (sign_in.sql, applied after this file) go too: a demo reset clears every joined record.
+DROP TABLE IF EXISTS email_codes, auth_challenges, sign_in_emails, passkeys, clinic_invites, audit_log, kb_chunks, cohort_members, navigator_drafts, clinic_reviews, care_gaps, shares, reports,
+  observations, documents, lab_results, bp_readings, events, daily_logs, cycles, consents, profiles, clinics CASCADE;
 
 CREATE OR REPLACE FUNCTION app_role() RETURNS text LANGUAGE sql STABLE AS $$ SELECT coalesce(current_setting('app.role', true), '') $$;
 CREATE OR REPLACE FUNCTION app_user() RETURNS text LANGUAGE sql STABLE AS $$ SELECT coalesce(current_setting('app.user_id', true), '') $$;
@@ -70,6 +71,18 @@ CREATE TABLE events (
   id text PRIMARY KEY, profile_id text NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   type text NOT NULL, date date NOT NULL, details jsonb NOT NULL DEFAULT '{}'
 );
+
+-- Blood pressure in pregnancy and the 12 weeks after birth (build week K6). The plausible range is checked here too, so
+-- no path into the database can store a reading the rules engine would misread (API: app/services/blood_pressure.py).
+CREATE TABLE bp_readings (
+  id text PRIMARY KEY, profile_id text NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  date date NOT NULL, time time,
+  systolic int NOT NULL CHECK (systolic BETWEEN 70 AND 250),
+  diastolic int NOT NULL CHECK (diastolic BETWEEN 40 AND 150),
+  source text NOT NULL DEFAULT 'app', created_at timestamptz NOT NULL DEFAULT now(),
+  CHECK (systolic > diastolic)
+);
+CREATE INDEX ON bp_readings (profile_id, date);
 
 CREATE TABLE documents (
   id serial PRIMARY KEY, profile_id text NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
@@ -172,7 +185,7 @@ DO $$
 DECLARE t text;
 BEGIN
   FOREACH t IN ARRAY ARRAY['consents','cycles','daily_logs','events','documents','lab_results','observations','reports',
-                           'shares','care_gaps','clinic_reviews','navigator_drafts'] LOOP
+                           'shares','care_gaps','clinic_reviews','navigator_drafts','bp_readings'] LOOP
     EXECUTE format('ALTER TABLE %I ENABLE ROW LEVEL SECURITY', t);
     EXECUTE format('ALTER TABLE %I FORCE ROW LEVEL SECURITY', t);
     EXECUTE format($p$CREATE POLICY sys_all ON %I USING (app_role() = 'system') WITH CHECK (app_role() = 'system')$p$, t);
@@ -181,7 +194,7 @@ BEGIN
   END LOOP;
   -- clinicians read only consented patients
   FOREACH t IN ARRAY ARRAY['cycles','daily_logs','events','lab_results','observations','reports','care_gaps','clinic_reviews',
-                           'consents','navigator_drafts'] LOOP
+                           'consents','navigator_drafts','bp_readings'] LOOP
     EXECUTE format($p$CREATE POLICY clinician_read ON %I FOR SELECT USING (clinician_can_see(profile_id))$p$, t);
   END LOOP;
   -- clinicians may update care gaps / observations status and write reviews for consented patients

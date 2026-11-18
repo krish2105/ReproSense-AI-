@@ -45,6 +45,10 @@ def build_payload(bundle: dict, ev: Evaluation, cards: list[dict], ref: date) ->
             if c["kind"] != "red_flag"
         ],
         "labs": bundle["labs"],
+        # K6: her blood-pressure readings, newest first (the last 12)
+        "bp_readings": sorted(
+            bundle.get("bp_readings") or [], key=lambda r: (str(r["date"]), str(r.get("time") or "")), reverse=True
+        )[:12],
         "questions": list(dict.fromkeys(q for c in cards for q in c.get("questions_for_doctor", [])))[:5],
         "sources": list(dict.fromkeys(s["source_id"] for c in cards for s in c.get("sources", []))),
         "is_synthetic": True,
@@ -130,6 +134,17 @@ def render_html(pl: dict) -> str:
         )
         or "<tr><td colspan=5>No confirmed lab results.</td></tr>"
     )
+    bp = "".join(
+        f"<tr><td>{escape(str(r['date']))}</td><td>{escape(r.get('time') or '')}</td>"
+        f"<td>{int(r['systolic'])}/{int(r['diastolic'])} mmHg</td></tr>"
+        for r in pl.get("bp_readings") or []
+    )
+    bp_html = (
+        "<h2>Blood pressure (her home readings, newest first)</h2>"
+        f"<table><tr><th>Date</th><th>Time</th><th>Reading</th></tr>{bp}</table>"
+        if bp
+        else ""
+    )
     qs = "".join(f"<li>{escape(q)}</li>" for q in pl["questions"]) or "<li>No questions added.</li>"
     srcs = "".join(f"<li>{escape(src[s].title)} — {escape(src[s].url)}</li>" for s in pl["sources"] if s in src)
     st = pl["stats"]
@@ -160,6 +175,7 @@ table {{ width: 100%; border-collapse: collapse; font-size: 8.6pt; }} td, th {{ 
 <div class='pb'></div>
 <h2>Entries behind each pattern</h2><table><tr><th>Rule</th><th>Entry</th></tr>{ev_rows or "<tr><td colspan=2>None</td></tr>"}</table>
 <h2>Lab results (as entered or confirmed by her)</h2><table><tr><th>Date</th><th>Test</th><th>Result</th><th>Reference</th><th>Flag</th></tr>{labs}</table>
+{bp_html}
 <div class='grid'><div><h2>Her questions for you</h2><ol>{qs}</ol></div><div><h2>Sources</h2><ul class='muted'>{srcs}</ul></div></div>
 <p class='muted'>How this was produced: transparent rules (rules/clinical_rules.yaml, version shown in the app) evaluated her own entries; wording comes from the rules file and cited guideline summaries. ReproSense does not diagnose and gives no probabilities. All people and data in this demo are fictional.</p>
 </body></html>"""
