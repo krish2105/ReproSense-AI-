@@ -211,6 +211,8 @@ Next:
 - Krishna approved (G2) and #79 was merged after 14/14 CI checks. Known limitation, shared with the existing "heavy" wording: a past event
   ("bad bleeding last year, dizzy from the heat now") still routes to 998.
 
+---
+
 ## 2026-11-06 (night) — Judge panel, research-driven fixes, deck — Krishna with Claude Code
 **Independent judge panel (6 agents, read-only, live API + web + code):**
 - Panel: senior judge (DoH + OB-GYN + VC + founder), chief healthcare officer, women's care lead, CEO/VC, MVP auditor, and a chief judge who merged them.
@@ -285,6 +287,27 @@ Next:
 - #48: cycles_per_year false positive.
 - #49: rules YAML R1–R10.
 - Interviews, LOI, clinical advisor, Arabic review, deploy.
+
+---
+
+## 2026-11-06 (evening) — Deploy started, rescore, mobile roadmap — Krishna with Claude Code
+Done:
+- **Web live:** `https://reprosense.vercel.app`, functions in Frankfurt.
+- **API not live yet:** waiting on the database. Krishna's Supabase free limit is full, so Atharva is creating it (#22).
+- **#49 merged:** the API, web functions and database share one region (Frankfurt), and the API runs on Render's free plan until demo day.
+- **#40 (Q53, Q48) approved,** waiting for Atharva to merge it.
+- **Roadmap to 95+:** `docs/18` (PR #48), issues #41–#47 and #57.
+- **Android and iOS roadmap:** `docs/21` (Expo), milestone "Mobile apps (after 22 Nov)", issues #50–#56.
+- **Review PDF for Prof. Rachit Garg** (not committed).
+Tests: web lint, types and 50 unit tests pass · backend 178 passed, coverage 92% · e2e 110 passed, 8 skipped, 0 failed · pip-audit clean · npm audit: 4 postcss advisories via next (#57)
+Senior-judge score (one reviewer, `docs/22_RESCORE.md`): Venture 18.5/30 · Impact 15/20 · Innovation 15/20 · Prototype 14/20 · Pitch 6/10 = 68.5/100 · MVP 75 · SaaS 72 · Clinical safety 23/35 · Women's experience 26/35 · Trust 7/7
+Next:
+- Atharva: database, then smoke test (#22); merge #40 and #48; A0, A3, A4, A5, A9, A11; outreach.
+- Krishna: Render with the database string; uptime variables; B2 model check.
+Blockers / questions:
+- The live demo waits on the database (#22).
+
+---
 
 ## 2026-11-06 — Demo readiness and scorecard (docs/09) — Krishna with Claude Code
 Scored inline and strictly, on what runs today, not on what is planned. The senior-judge agent was not run, because agents are paused at Krishna's request; run it for an independent read.
