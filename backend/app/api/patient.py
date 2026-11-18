@@ -19,7 +19,7 @@ from app.security import audit
 from app.security.auth import require
 from app.security.crypto import decrypt, encrypt
 from app.services import documents as docs
-from app.services import fhir, postnatal, views
+from app.services import fhir, note_reader, postnatal, views
 from app.services.patient_data import ai_allowed, apply_period_log, load_bundle
 
 router = APIRouter(prefix="/v1", tags=["patient"])
@@ -56,6 +56,7 @@ SYMPTOMS = {
     "bleeding",
 }
 IMPACTS = ("none", "reduced activity", "missed work or study", "stayed in bed")
+note_reader.configure(SYMPTOMS)
 SITES = {"lower abdomen", "upper abdomen", "left pelvis", "right pelvis", "lower back"}
 
 
@@ -313,78 +314,57 @@ def create_log(body: LogIn, actor: Actor = Depends(patient)):
 
 
 class ParseIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     text: str = Field(..., min_length=1, max_length=600)
-
-
-NL = [  # natural-language symptom capture (deterministic; shown for confirmation before saving)
-    (r"cramp", "symptoms", "cramps"),
-    (r"bloat", "symptoms", "bloating"),
-    (r"tired|exhaust|fatigue", "symptoms", "fatigue"),
-    (r"headache", "symptoms", "headache"),
-    (r"acne|spots|pimple", "symptoms", "acne"),
-    (r"hair (growth|on my (chin|face))|facial hair", "symptoms", "excess hair growth"),
-    (r"flood|soak|leak(ed)? through", "symptoms", "flooding"),
-    (r"dizz|light ?headed", "symptoms", "dizziness"),
-    (r"faint", "symptoms", "fainting"),
-    (r"poo|bowel|toilet hurt|pain when i (go|went)", "symptoms", "pain with bowel movements"),
-    (r"hot flush|hot flash", "symptoms", "hot flushes"),
-    (r"night sweat", "symptoms", "night sweats"),
-    (r"low mood|sad|down|teary", "symptoms", "low mood"),
-    (r"back (pain|ache)", "symptoms", "back pain"),
-    (r"fever|temperature", "symptoms", "fever"),
-    (r"nause|sick to my stomach", "symptoms", "nausea"),
-    (r"missed (work|school|uni|class)|called in sick|couldn'?t go to (work|school)", "impact", "missed work or study"),
-    (r"stayed in bed|couldn'?t get out of bed", "impact", "stayed in bed"),
-    (r"heavy (flow|period|bleed)|bleeding a lot", "flow", "heavy"),
-    (r"spotting", "flow", "spotting"),
-    (r"light (flow|period)", "flow", "light"),
-    (r"تقلصات|مغص", "symptoms", "cramps"),
-    (r"انتفاخ", "symptoms", "bloating"),
-    (r"تعب|إرهاق|ارهاق", "symptoms", "fatigue"),
-    (r"صداع", "symptoms", "headache"),
-    (r"حب الشباب|حبوب", "symptoms", "acne"),
-    (r"دوخة|دوار", "symptoms", "dizziness"),
-    (r"غياب عن العمل|لم أذهب إلى العمل|غبت عن", "impact", "missed work or study"),
-    (r"نزيف غزير|غزيرة", "flow", "heavy"),
-    (r"هبات ساخنة|هبّات", "symptoms", "hot flushes"),
-    (r"ظهري|الظهر", "symptoms", "back pain"),
-]
-WORD_NUM = {
-    "one": 1,
-    "two": 2,
-    "three": 3,
-    "four": 4,
-    "five": 5,
-    "six": 6,
-    "seven": 7,
-    "eight": 8,
-    "nine": 9,
-    "ten": 10,
-}
+    lang: Literal["en", "ar"] = "en"
+    day: date | None = None  # the day she is logging (for the red-flag preview); today by default
 
 
 @router.post("/logs/parse")
 def parse_note(body: ParseIn, actor: Actor = Depends(patient)):
-    t = body.text.lower()
-    out: dict = {"symptoms": [], "flow": None, "impact": None, "pain": None, "matched": []}
-    for pat, field, value in NL:
-        if re.search(pat, t):
-            out["matched"].append(value)
-            if field == "symptoms":
-                out["symptoms"].append(value)
-            else:
-                out[field] = value
-    m = re.search(r"(\d{1,2})\s*(?:/|out of)\s*10", t) or re.search(r"pain (?:of |at |was )?(\d{1,2})\b", t)
-    if m and 0 <= int(m.group(1)) <= 10:
-        out["pain"] = int(m.group(1))
-    else:
-        m = re.search(r"\b(" + "|".join(WORD_NUM) + r") out of ten\b", t)
-        if m:
-            out["pain"] = WORD_NUM[m.group(1)]
-    if out["pain"] is None and re.search(r"so bad|unbearable|worst|agony|excruciating|شديد جدا|لا يحتمل", t):
-        out["pain"] = 8
-        out["matched"].append("pain about 8/10 (from 'so bad'): please adjust")
-    out["symptoms"] = list(dict.fromkeys(out["symptoms"]))
+    """Fill the log form from a sentence she typed or said (voice logging, build week K2). Nothing is saved here: she
+    checks the fields and saves. The rules always read the text; with her AI switch on and a model configured, the
+    model may add fields (never remove them). A red flag in the parsed entry, or crisis words, come back at once so
+    the 998 guidance shows before she saves."""
+    from app.agents import safety
+    from app.agents.pipeline import _template_card
+    from app.ai import llm
+
+    out = note_reader.rule_read(body.text)
+    out["reader"] = "rules"
+    with session(actor) as cur:
+        ai_ok = ai_allowed(cur, actor.user_id)
+        b = load_bundle(cur, actor.user_id)
+    model = llm.get_llm() if ai_ok else None
+    if model is not None and getattr(model, "name", "none") != "none":
+        got = note_reader.model_read(body.text, model, [b["profile"].get("alias") or ""])
+        with session(actor) as cur:
+            audit.record(cur, actor, "log_parse_model", actor.user_id, "logs/parse")
+        if got:
+            out = note_reader.merge(out, got)
+            out["reader"] = "model"
+    day = body.day or ref()
+    b["daily_logs"].append(
+        {
+            "id": "preview",
+            "date": day.isoformat(),
+            "flow": out["flow"] or "none",
+            "pain": out["pain"] or 0,
+            "pain_sites": [],
+            "symptoms": out["symptoms"],
+            "impact": out["impact"] or "none",
+            "mood": out["mood"],
+            "sleep_h": None,
+            "pbac": None,
+            "pbac_items": None,
+            "note": "",
+        }
+    )
+    ev = evaluate(b, ref(), get_settings().red_flag_window_days)
+    out["red_flags"] = [
+        _template_card(h, ev, body.lang, b) for h in ev.red_flags if "preview" in h.supporting_entry_ids
+    ]
+    out["crisis"] = safety.crisis(body.text)
     out["confirm"] = "Check these fields, change anything that's wrong, then save."
     return out
 
