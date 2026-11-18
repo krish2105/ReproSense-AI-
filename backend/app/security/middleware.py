@@ -17,6 +17,7 @@ SENSITIVE = (
     "/v1/clinic/patients/",
     "/v1/logs/parse",
     "/v1/demo/signup",
+    "/v1/family-links",  # Y4: making links is limited like other writes that publish data
     "/v1/clinic-invites",
     "/v1/auth/",
 )
