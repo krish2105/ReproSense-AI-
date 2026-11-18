@@ -17,6 +17,24 @@ Blockers / questions:
 
 ---
 
+## 2026-11-19 — Build week A6–A8 and the C7 e2e runs — Atharva with Claude Code
+Done:
+- Merged: A6 installable web app (#123), A7 3D pregnancy and fourth-trimester ring (#124), A8 polish (#127: page fade-in,
+  clinic-admin error boundary, state audit in BUILD_STATUS). A1–A5 merged earlier (#112, #115, #117, #120, #122).
+- A8 finding: route `loading.tsx` boundaries are unsafe here. They kept `router.refresh()` transitions pending
+  (Calendar blood-pressure save, language switch) and streamed tables raced hydration (React #418), so there are none.
+Tests (local: seeded API in Docker with CI's raised rate limits, production build, api-down server on :3101):
+- Next 15.5 tree (#127 head merged with main): 4 full runs: 203/2 failed (React #418 flake on /app/privacy and
+  /clinic), then **208 passed ×3 in a row** (10 skipped by design each).
+- Next 16 main (`1de8833`, after #72): run 1 206 passed, **1 failed**: `postnatal.spec.ts:25` "she records her 6-week
+  visit": the test's demo reset (`POST /v1/demo/reset`) did not return ok. Run 2 failed the same test before it was
+  stopped. Not yet investigated; run 3 not done.
+Next:
+- Find why the demo reset fails in `postnatal.spec.ts:25` on Next 16 main (check the API log for that call), fix,
+  then three full runs on main, then Krishna tags `freeze-2026-11-21` (docs/18 C7).
+
+---
+
 ## 2026-11-18 — Build week K6: blood-pressure log and urgent warning (G2) — Krishna with Claude Code
 Done:
 - She can log blood pressure (top/bottom mmHg, the calendar day, optional time) in pregnancy and for 12 weeks after a
