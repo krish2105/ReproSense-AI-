@@ -8,6 +8,7 @@ test("without a model the photo option is hidden and the page says why", async (
   await expect(page.getByRole("button", { name: en.documents.choose })).toBeVisible();
   await expect(page.getByRole("button", { name: en.documents.photo })).toHaveCount(0);
   await expect(page.getByTestId("photo-off")).toHaveText(en.documents.photoOffModel);
+  await expect(page.getByText(en.documents.introNoPhoto)).toBeVisible();
   await expect(page.locator('input[type="file"]')).toHaveAttribute("accept", ".pdf,.txt,application/pdf,text/plain");
   await expectAccessible(page, "documents without photo reading");
   await expectNoSideScroll(page, "documents without photo reading");

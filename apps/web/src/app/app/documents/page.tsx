@@ -26,7 +26,7 @@ export default async function DocumentsPage() {
     <div className="app-col">
       <h1 style={{ fontSize: 22, textAlign: "center" }}>{t("title")}</h1>
       <p className="s dim" style={{ textAlign: "center" }}>
-        {t("intro")}
+        {t(photo.available ? "intro" : "introNoPhoto")}
       </p>
       <DocumentUploader photo={photo} demoFile={me.user_id === "fatima" ? "/demo/fatima_postnatal_ogtt.txt" : undefined} />
       {!photo.available && (
