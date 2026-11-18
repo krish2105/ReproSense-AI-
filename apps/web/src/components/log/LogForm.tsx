@@ -14,6 +14,7 @@ import type { Card, Flow, Impact, LogBody, LogResult, PainSite, ParseResult, Pba
 import type { Locale } from "@/i18n/config";
 import { ALL_SYMPTOMS, COMMON_SYMPTOMS, FLOWS, IMPACTS, MORE_SYMPTOMS, PBAC_WEIGHTS, pbacScore, slug } from "@/lib/vocab";
 import { BodyMap } from "./BodyMap";
+import { VoiceButton } from "./VoiceButton";
 
 type PbacKey = `${"pads" | "tampons"}_${"light" | "moderate" | "soaked"}` | `clots_${"small" | "large"}`;
 const PBAC_ROWS: ReadonlyArray<{ key: PbacKey; group: keyof typeof PBAC_WEIGHTS; level: string }> = [
@@ -72,6 +73,8 @@ export function LogForm({
   const [impact, setImpact] = useState<Impact>((saved?.impact as Impact | undefined) ?? "none");
   const [sleep, setSleep] = useState(saved?.sleep_h == null ? "" : String(saved.sleep_h));
   const [note, setNote] = useState(saved?.note ?? "");
+  const [mood, setMood] = useState<string | null>(saved?.mood ?? null);
+  const [byModel, setByModel] = useState(false);
   const [parsed, setParsed] = useState<string | null>(null);
   const [result, setResult] = useState<{ flags: Card[]; crisis: boolean } | null>(null);
   const [saving, startSave] = useTransition();
@@ -82,20 +85,28 @@ export function LogForm({
   const score = pbacScore(items);
   const toggle = <T,>(list: T[], v: T) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
 
-  const readSentence = () =>
+  const readSentence = (text: string = note) =>
     startRead(async () => {
       try {
-        const r = await apiClient<ParseResult>("/logs/parse", { body: { text: note } });
+        const r = await apiClient<ParseResult>("/logs/parse", { body: { text, lang: locale, day: date } });
         const known = r.symptoms.filter((s) => ALL_SYMPTOMS.includes(s));
         if (r.flow) setFlow(r.flow);
         if (r.pain !== null) setPain(r.pain);
         if (r.impact) setImpact(r.impact);
+        if (r.mood) setMood(r.mood);
+        setByModel(r.reader === "model");
+        // A red flag in what she said shows its 998 guidance now, before she saves (nothing is saved yet).
+        if (r.red_flags.length || r.crisis) {
+          setResult({ flags: r.red_flags, crisis: r.crisis });
+          requestAnimationFrame(() => resultRef.current?.focus());
+        }
         if (known.length) setSymptoms((s) => [...new Set([...s, ...known])]);
         const words = [
           ...known.map((s) => t(`symptoms.${slug(s)}`)),
           ...(r.flow ? [t(`flows.${r.flow}`)] : []),
           ...(r.impact ? [t(`impacts.${slug(r.impact)}`)] : []),
           ...(r.pain !== null ? [t("log.painValue", { pain: r.pain })] : []),
+          ...(r.mood ? [t(`moods.${slug(r.mood)}`)] : []),
         ];
         setParsed(words.length ? t("log.parsed", { items: words.join(", ") }) : t("log.parsedNone"));
       } catch (e) {
@@ -112,6 +123,7 @@ export function LogForm({
       pain_sites: sites,
       symptoms,
       impact,
+      mood,
       sleep_h: sleep.trim() === "" ? null : Math.min(24, Math.max(0, Number(sleep))),
       pbac_items: items,
       note,
@@ -205,7 +217,9 @@ export function LogForm({
           onToggle={(v) => setSymptoms((x) => toggle(x, v))}
         />
         <details>
-          <summary className="s">{t("log.moreSymptoms")}</summary>
+          <summary className="s" style={{ paddingBlock: 4 }}>
+            {t("log.moreSymptoms")}
+          </summary>
           <Seg
             label={t("log.moreSymptoms")}
             options={MORE_SYMPTOMS.map((s) => ({ value: s, label: t(`symptoms.${slug(s)}`) }))}
@@ -229,7 +243,15 @@ export function LogForm({
         <label htmlFor="note-t">{t("log.noteLabel")}</label>
         <textarea id="note-t" rows={2} maxLength={600} dir="auto" placeholder={t("log.notePlaceholder")} value={note} onChange={(e) => setNote(e.target.value)} />
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-          <Button variant="outline" size="sm" pending={reading} disabled={!note.trim()} onClick={readSentence}>
+          <VoiceButton
+            locale={locale}
+            onText={(said) => {
+              const next = note.trim() ? `${note.trim()} ${said}` : said;
+              setNote(next.slice(0, 600));
+              readSentence(next.slice(0, 600));
+            }}
+          />
+          <Button variant="outline" size="sm" pending={reading} disabled={!note.trim()} onClick={() => readSentence()}>
             {t("log.readNote")}
           </Button>
           <button type="button" className="link xs" onClick={() => setNote(t("log.exampleText"))}>
@@ -241,6 +263,12 @@ export function LogForm({
       {parsed && (
         <p className="extract" role="status">
           {parsed}
+          {byModel && (
+            <>
+              {" "}
+              <span className="faint">{t("log.readByModel")}</span>
+            </>
+          )}
         </p>
       )}
 

@@ -544,7 +544,13 @@
     "saved": "Entry saved.",
     "saveFailed": "The entry wasn't saved: {detail}",
     "urgentHeading": "This entry needs urgent attention",
-    "noteSaved": "Notes are encrypted before they are stored."
+    "noteSaved": "Notes are encrypted before they are stored.",
+    "voiceStart": "Say your note",
+    "voiceStop": "Stop listening",
+    "voiceListening": "Listening. Say how today has been; nothing is saved until you press save.",
+    "voiceDenied": "The microphone is blocked. Allow it in your browser settings, or type your note.",
+    "voiceError": "That wasn't heard clearly. Try again, or type your note.",
+    "readByModel": "Read with AI: check each field before you save."
   },
   "analytics": {
     "metaTitle": "Analytics",

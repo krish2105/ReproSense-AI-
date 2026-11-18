@@ -9,6 +9,7 @@ import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
 import type { AskResponse } from "@/lib/api/types";
 import { parseAnswer } from "@/lib/answer";
+import { type Recognizer, speechCtor } from "@/lib/speech";
 
 interface Turn {
   id: string;
@@ -16,25 +17,6 @@ interface Turn {
   a?: AskResponse;
   error?: string;
 }
-
-// Minimal Web Speech API types (Chrome/Safari). The mic button only renders where the API exists (rule 8).
-interface SpeechResultEvent {
-  results: ArrayLike<ArrayLike<{ transcript: string }>>;
-}
-interface Recognizer {
-  lang: string;
-  interimResults: boolean;
-  onresult: ((e: SpeechResultEvent) => void) | null;
-  onend: (() => void) | null;
-  onerror: (() => void) | null;
-  start: () => void;
-  stop: () => void;
-}
-type RecognizerCtor = new () => Recognizer;
-const speechCtor = (): RecognizerCtor | undefined => {
-  const w = window as unknown as { SpeechRecognition?: RecognizerCtor; webkitSpeechRecognition?: RecognizerCtor };
-  return w.SpeechRecognition ?? w.webkitSpeechRecognition;
-};
 
 const storeKey = (persona: string) => `rs_chat_${persona}`;
 

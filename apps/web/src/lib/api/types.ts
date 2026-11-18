@@ -291,6 +291,7 @@ export interface LogBody {
   pain_sites: PainSite[];
   symptoms: string[];
   impact: Impact;
+  mood?: string | null;
   sleep_h?: number | null;
   pbac_items?: PbacItems | null;
   note: string;
@@ -308,8 +309,12 @@ export interface ParseResult {
   flow: Flow | null;
   impact: Impact | null;
   pain: number | null;
+  mood: "calm" | "tired" | "in pain" | "low" | "energetic" | null;
   matched: string[];
   confirm: string;
+  reader: "rules" | "model";
+  red_flags: Card[];
+  crisis: boolean;
 }
 
 /** GET /v1/analytics?months=3|6|12 */
