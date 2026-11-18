@@ -50,10 +50,10 @@ red_flags:   # evaluated FIRST by the safety guardian; any hit shows an urgent c
   # NICE NG194 1.2.4: after birth, a persistent or severe headache needs medical advice without delay; 1.2.9 sends
   #   hypertension after birth to NG133. "6 weeks" is the postnatal period (DoH Postnatal Care Program Standard, cited as doh_postnatal_standard_2025).
   # One reading is checked at a time (app/rules/engine.py), with the symptoms logged on the same date.
-  - id: RF7_HIGH_BLOOD_PRESSURE
-    when: "(pregnant or weeks_since_delivery <= 6) and (bp_systolic_today >= 160 or bp_diastolic_today >= 110 or ((bp_systolic_today >= 140 or bp_diastolic_today >= 90) and (severe_headache_today or vision_change_today or sudden_swelling_today)))"
+  - id: RF7_HIGH_BLOOD_PRESSURE   # 12 weeks after birth = the window she can log readings in (Q62, Krishna, 18 Nov)
+    when: "(pregnant or weeks_since_delivery < 12) and (bp_systolic_today >= 160 or bp_diastolic_today >= 110 or ((bp_systolic_today >= 140 or bp_diastolic_today >= 90) and (severe_headache_today or vision_change_today or sudden_swelling_today)))"
     urgency: urgent
-    message_en: "Call 998 or go to your maternity unit now. In pregnancy and the 6 weeks after birth, a blood pressure of 160/110 or higher, or 140/90 or higher with a severe headache, vision changes or sudden swelling, needs urgent checking."
+    message_en: "Call 998 or go to your maternity unit now. In pregnancy and the 12 weeks after birth, a blood pressure of 160/110 or higher, or 140/90 or higher with a severe headache, vision changes or sudden swelling, needs urgent checking."
     source_ids: [nice_ng133, nice_ng201, nice_ng194, doh_postnatal_standard_2025]
 
 observations:
@@ -190,7 +190,7 @@ observations:
   # docs/safety/CHANGE_LOG.md for the clinician. Her latest reading in the last 14 days; never alongside RF7.
   - id: OBS_RAISED_BLOOD_PRESSURE
     title_en: "Your latest blood pressure reading was raised"
-    when: "(pregnant or weeks_since_delivery <= 6) and bp_latest_days_ago <= 14 and (bp_latest_systolic >= 140 or bp_latest_diastolic >= 90) and not RF7_HIGH_BLOOD_PRESSURE"
+    when: "(pregnant or weeks_since_delivery < 12) and bp_latest_days_ago <= 14 and (bp_latest_systolic >= 140 or bp_latest_diastolic >= 90) and not RF7_HIGH_BLOOD_PRESSURE"
     explains: "NICE counts a blood pressure of 140/90 or higher as raised (hypertension) in pregnancy and after birth. NICE antenatal care guidance asks that a first raised reading after 20 weeks is checked by a maternity team within 24 hours. One reading is not a diagnosis; it needs rechecking."
     next_steps_en:
       - "Contact your maternity unit or doctor today to have it rechecked."
