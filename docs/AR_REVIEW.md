@@ -955,3 +955,16 @@ Staff-facing; the imperative is masculine/neutral.
 | `pwa.remindersDaily` | Reminders are on: about once a day, even when the app is closed. | التذكيرات مفعّلة: مرة تقريبًا كل يوم، حتى عندما يكون التطبيق مغلقًا. | |
 | `pwa.remindersOpen` | Reminders are on, but this browser cannot send them while ReproSense is closed. Installed on an Android phone, it reminds you daily. | التذكيرات مفعّلة، لكن هذا المتصفح لا يستطيع إرسالها عندما يكون ReproSense مغلقًا. عند تثبيته على هاتف Android يذكّرك يوميًا. | |
 | `public/offline.html` | You're offline · In an emergency, call 998. · Try again | أنتِ غير متصلة بالإنترنت · في حالات الطوارئ اتصلي بالرقم 998. · حاولي مجددًا | static file |
+
+## Judge tour: build-week steps (19 Nov, draft Arabic, not yet reviewed)
+
+The tour now walks a day's log (voice, body map) and Fatima after the birth. Edit in `apps/web/messages/ar.json`.
+
+| Key | English | Arabic | OK? |
+| --- | --- | --- | --- |
+| `tour.startHint` | A guided walk through the demo for judges: 10 short steps. | جولة إرشادية في العرض للجنة التحكيم: 10 خطوات قصيرة. | |
+| `tour.steps.log.title` | Log a day by voice or by touch | تسجيل يوم بالصوت أو باللمس | |
+| `tour.steps.log.body` | She says or types how today went, in English or Arabic, and the form fills in for her to check before saving (voice where the browser supports it). She taps where it hurts on the body map. | تقول كيف كان يومها أو تكتبه بالعربية أو الإنجليزية، فيُملأ النموذج لتراجعه قبل الحفظ (الصوت حيث يدعمه المتصفح). وتضغط على مكان الألم في خريطة الجسم. | |
+| `tour.steps.report.body` | Prepare a two-page PDF she can download, or share with her own clinic only after she agrees. "Before your visit" lists what changed since her last visit. | جهّز ملف PDF من صفحتين يمكنها تنزيله، أو مشاركته مع عيادتها فقط بعد موافقتها. ويعرض قسم «قبل زيارتك» ما تغيّر منذ زيارتها الأخيرة. | |
+| `tour.steps.afterBirth.title` | After the birth: Fatima | بعد الولادة: فاطمة | |
+| `tour.steps.afterBirth.body` | Fatima gave birth 9 weeks ago. Her home shows the DoH postnatal steps with their dates and sources, the glucose test now due after diabetes in pregnancy, and her blood-pressure readings with the warning signs that mean calling 998. | أنجبت فاطمة قبل 9 أسابيع. تعرض شاشتها خطوات الرعاية بعد الولادة من معيار دائرة الصحة مع مواعيدها ومصادرها، وفحص الجلوكوز المستحق الآن بعد سكري الحمل، وقراءات ضغط الدم مع علامات الخطر التي تستدعي الاتصال بالرقم 998. | |

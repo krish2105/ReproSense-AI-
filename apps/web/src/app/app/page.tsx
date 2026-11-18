@@ -74,9 +74,6 @@ export default async function Home() {
 
         {h.status.mode === "cycle" && <DayPills pills={h.day_pills} locale={locale} />}
         {h.status.mode === "cycle" && <CycleArc status={h.status} locale={locale} peri={h.profile.life_stage === "perimenopause"} />}
-        {h.status.mode === "pregnancy" && <PregnancyArc status={h.status} />}
-        {h.status.mode === "pregnancy" && <PregnancyWarning />}
-        {h.status.mode === "after_birth" && <AfterBirthArc status={h.status} />}
         {(h.status.mode === "pregnancy" || h.status.mode === "after_birth") &&
           (() => {
             const ring = pregnancyRing(h.status, h.postnatal);
@@ -100,9 +97,11 @@ export default async function Home() {
                   list: t("ring3d.list"),
                   legend: { t1: t("arc.t1"), t2: t("arc.t2"), t3: t("arc.t3"), after: t("ring3d.legendAfter") },
                 }}
+                fallback={h.status.mode === "pregnancy" ? <PregnancyArc status={h.status} /> : <AfterBirthArc status={h.status} />}
               />
             );
           })()}
+        {h.status.mode === "pregnancy" && <PregnancyWarning />}
 
         <ButtonLink href="/app/log" size="wide">
           {t("home.logButton")}

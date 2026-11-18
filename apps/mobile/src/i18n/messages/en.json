@@ -1485,7 +1485,7 @@
   },
   "tour": {
     "start": "Show me in 3 minutes",
-    "startHint": "A guided walk through the demo for judges: 8 short steps.",
+    "startHint": "A guided walk through the demo for judges: 10 short steps.",
     "label": "Guided tour",
     "progress": "Step {n} of {total}",
     "next": "Next",
@@ -1504,6 +1504,10 @@
         "title": "Her home screen",
         "body": "Her cycle on one arc, with today's day and her phases, built only from her own entries."
       },
+      "log": {
+        "title": "Log a day by voice or by touch",
+        "body": "She says or types how today went, in English or Arabic, and the form fills in for her to check before saving (voice where the browser supports it). She taps where it hurts on the body map."
+      },
       "patterns": {
         "title": "Patterns, with their evidence",
         "body": "Each card names the pattern, the entries behind it, what to consider next and its source. Transparent rules decide: no diagnosis, no risk score. Try \"How this was produced\"."
@@ -1514,7 +1518,11 @@
       },
       "report": {
         "title": "A doctor-ready report",
-        "body": "Prepare a two-page PDF she can download, or share with her own clinic only after she agrees."
+        "body": "Prepare a two-page PDF she can download, or share with her own clinic only after she agrees. \"Before your visit\" lists what changed since her last visit."
+      },
+      "afterBirth": {
+        "title": "After the birth: Fatima",
+        "body": "Fatima gave birth 9 weeks ago. Her home shows the DoH postnatal steps with their dates and sources, the glucose test now due after diabetes in pregnancy, and her blood-pressure readings with the warning signs that mean calling 998."
       },
       "clinic": {
         "title": "Now the clinician's view",

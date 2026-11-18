@@ -12,9 +12,12 @@ export interface TourStep {
 export const TOUR_STEPS: readonly TourStep[] = [
   { key: "people", path: "/demo", as: null, targets: [".roster"] },
   { key: "home", path: "/app", as: { persona: "noura" }, targets: ['main svg[role="img"]', "main h1"] },
+  { key: "log", path: "/app/log", as: { persona: "noura" }, targets: [".bodymap", ".voice", "main h1"] },
   { key: "patterns", path: "/app/insights", as: { persona: "noura" }, targets: ["article.obs", "main h1"] },
   { key: "assistant", path: "/app/assistant", as: { persona: "noura" }, targets: [".sugg", "main h1"] },
   { key: "report", path: "/app/report", as: { persona: "noura" }, targets: ['[data-tour="report"]', "main h1"] },
+  // Build week: Fatima, 9 weeks after the birth (DoH postnatal steps, the glucose test due, blood pressure).
+  { key: "afterBirth", path: "/app", as: { persona: "fatima" }, targets: ['[data-testid="postnatal-card"]', "main h1"] },
   { key: "clinic", path: "/clinic", as: { role: "clinician" }, targets: ["main nav", "main h1"] },
   { key: "gap", path: "/clinic/patients/fatima", as: { role: "clinician" }, targets: ['section[aria-labelledby="gaps-title"]', "main h1"] },
   { key: "network", path: "/admin", as: { role: "admin" }, targets: ['section[aria-labelledby="pc008-title"]', "main h1"] },
