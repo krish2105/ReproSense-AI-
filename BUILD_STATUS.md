@@ -46,7 +46,7 @@ record (Huda, no logs) and on staff accounts with nothing to show. Offline (A6, 
 | `/clinic` | EmptyState when no patient shares with the clinic | staff skeleton | `clinic/error.tsx` |
 | `/clinic/patients/[id]` | Consent gate (Amina), not-found for others | staff skeleton | `clinic/error.tsx` |
 | `/clinic-admin` | "No invites yet"; counts under 10 shown as "fewer than 10", PC008 says why it is hidden | staff skeleton | `clinic-admin/error.tsx` (added in A8) |
-| `/admin` | Always has the synthetic cohort | staff skeleton | `admin/error.tsx` |
+| `/admin` | Always has the synthetic cohort | none on purpose: its tables stream, and a `loading.tsx` there brought back React #418 (guard in `screens.spec`) | `admin/error.tsx` |
 
 ## Pre-build (before selection on 16 Nov)
 
