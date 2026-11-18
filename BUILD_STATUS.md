@@ -22,31 +22,32 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 | 9 | Ship (deploy, reset, video, pitch) | 🟨 | Krishna + Atharva | senior-judge ≥ 90/100 | Done: demo reset endpoint; Playwright e2e of the 3-minute path in CI (6 Nov: 69 checks at 1280 and 390 px, every key screen in EN/AR/dark through axe, 998 red flag, 3D fallbacks, zero console errors). Not done: deploy, backup video, pitch. |
 
 ## State audit (build week A8, 18 Nov)
-Every route's empty, loading and error state (C7 step 4). Loading: one skeleton per area (`AreaLoading`, announced
-once to screen readers) where it is safe; error: the area's `error.tsx` (retry) or the root one; empty: checked on a brand-new joined
+Every route's empty, loading and error state (C7 step 4). Loading: no route `loading.tsx` on purpose. With Next 15.5
+they kept `router.refresh()` transitions from settling (Calendar blood-pressure save, language switch) and streamed tables
+under them raced hydration (React #418); the previous page stays and the tapped link shows its pending state. Error: the area's `error.tsx` (retry) or the root one; empty: checked on a brand-new joined
 record (Huda, no logs) and on staff accounts with nothing to show. Offline (A6, PR #123): `/offline.html`.
 
 | Route | Empty | Loading | Error |
 | --- | --- | --- | --- |
-| `/` landing | Posters without WebGL; sections need no data | site skeleton | `(site)/error.tsx` |
-| `/demo` | API down: notice with a retry, roster gives up after the timeout (`api-down.spec`) | site skeleton | `(site)/error.tsx` |
-| `/join`, `/signin` | Form only | site skeleton | `(site)/error.tsx` |
-| `/clinic-invite/[token]` | Used, withdrawn, expired or unknown link each say so | site skeleton | `(site)/error.tsx` |
-| `/shared/[token]` | Revoked (doesn't open) and expired (410) messages | site skeleton | `(site)/error.tsx` |
-| `/status`, `/pricing`, `/trust` | Static content | site skeleton | `(site)/error.tsx` |
-| `/app` Home | New record: phase estimate note, "No pattern … right now", passkey prompt | none: an area-level boundary kept the Calendar's blood-pressure save pending, so skeletons are per tab | `app/error.tsx` |
-| `/app/log` | "Nothing was logged on …", body map "No pain locations logged" | none (see Home) | `app/error.tsx` |
-| `/app/timeline` | EmptyState "No complete cycles", charts say no period reached the thresholds | app skeleton | `app/error.tsx` |
-| `/app/insights` | EmptyState "Nothing to discuss right now" with Log today | app skeleton | `app/error.tsx` |
-| `/app/assistant` | AI off: "The assistant is off" with a link to Privacy; on: suggested questions | app skeleton | `app/error.tsx` |
-| `/app/report` | EmptyState "No report yet" with Prepare | app skeleton | `app/error.tsx` |
-| `/app/documents` | "No reports uploaded yet"; photo option explains when AI is off | app skeleton | `app/error.tsx` |
-| `/app/privacy` | No viewers yet, "No passkey yet" | app skeleton | `app/error.tsx` |
-| `/app/checkin` | The questionnaire itself | app skeleton | `app/error.tsx` |
-| `/clinic` | EmptyState when no patient shares with the clinic | none on purpose: the record's tables (blood pressure, labs) stream and raced hydration (React #418) | `clinic/error.tsx` |
-| `/clinic/patients/[id]` | Consent gate (Amina), not-found for others | none (see `/clinic`) | `clinic/error.tsx` |
-| `/clinic-admin` | "No invites yet"; counts under 10 shown as "fewer than 10", PC008 says why it is hidden | staff skeleton | `clinic-admin/error.tsx` (added in A8) |
-| `/admin` | Always has the synthetic cohort | none on purpose: its tables stream, and a `loading.tsx` there brought back React #418 (guard in `screens.spec`) | `admin/error.tsx` |
+| `/` landing | Posters without WebGL; sections need no data | link pending | `(site)/error.tsx` |
+| `/demo` | API down: notice with a retry, roster gives up after the timeout (`api-down.spec`) | link pending | `(site)/error.tsx` |
+| `/join`, `/signin` | Form only | link pending | `(site)/error.tsx` |
+| `/clinic-invite/[token]` | Used, withdrawn, expired or unknown link each say so | link pending | `(site)/error.tsx` |
+| `/shared/[token]` | Revoked (doesn't open) and expired (410) messages | link pending | `(site)/error.tsx` |
+| `/status`, `/pricing`, `/trust` | Static content | link pending | `(site)/error.tsx` |
+| `/app` Home | New record: phase estimate note, "No pattern … right now", passkey prompt | link pending | `app/error.tsx` |
+| `/app/log` | "Nothing was logged on …", body map "No pain locations logged" | link pending | `app/error.tsx` |
+| `/app/timeline` | EmptyState "No complete cycles", charts say no period reached the thresholds | link pending | `app/error.tsx` |
+| `/app/insights` | EmptyState "Nothing to discuss right now" with Log today | link pending | `app/error.tsx` |
+| `/app/assistant` | AI off: "The assistant is off" with a link to Privacy; on: suggested questions | link pending | `app/error.tsx` |
+| `/app/report` | EmptyState "No report yet" with Prepare | link pending | `app/error.tsx` |
+| `/app/documents` | "No reports uploaded yet"; photo option explains when AI is off | link pending | `app/error.tsx` |
+| `/app/privacy` | No viewers yet, "No passkey yet" | link pending | `app/error.tsx` |
+| `/app/checkin` | The questionnaire itself | link pending | `app/error.tsx` |
+| `/clinic` | EmptyState when no patient shares with the clinic | link pending | `clinic/error.tsx` |
+| `/clinic/patients/[id]` | Consent gate (Amina), not-found for others | link pending | `clinic/error.tsx` |
+| `/clinic-admin` | "No invites yet"; counts under 10 shown as "fewer than 10", PC008 says why it is hidden | link pending | `clinic-admin/error.tsx` (added in A8) |
+| `/admin` | Always has the synthetic cohort | link pending | `admin/error.tsx` |
 
 ## Pre-build (before selection on 16 Nov)
 
