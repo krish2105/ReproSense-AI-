@@ -4,7 +4,7 @@ import { getMessages } from "next-intl/server";
 
 // Only the namespaces that client components in an area read are sent to the browser; server components read
 // every message on the server. Keeps each page's payload small (the full catalogue is ~70 kB).
-export const SHARED_CLIENT = ["chrome", "states", "tags", "urgent", "stages", "regions", "safety"] as const;
+export const SHARED_CLIENT = ["chrome", "states", "tags", "urgent", "stages", "regions", "safety", "tour"] as const;
 export const AREA_CLIENT = {
   site: ["demo", "landing", "tokens", "join", "signin"],
   patient: ["tabs", "home", "navigator", "moods", "flows", "impacts", "sites", "symptoms", "log", "insights", "assistant", "report", "clinics", "checkin", "documents", "privacy", "postnatal", "signin", "bp", "pwa"],

@@ -15,6 +15,7 @@ import type { Card, Flow, Impact, LogBody, LogResult, PainSite, ParseResult, Pba
 import type { Locale } from "@/i18n/config";
 import { ALL_SYMPTOMS, COMMON_SYMPTOMS, FLOWS, IMPACTS, MORE_SYMPTOMS, PBAC_WEIGHTS, pbacScore, slug } from "@/lib/vocab";
 import { BodyMap } from "./BodyMap";
+import type { siteHeat } from "./bodyHeat";
 import { VoiceButton } from "./VoiceButton";
 
 type PbacKey = `${"pads" | "tampons"}_${"light" | "moderate" | "soaked"}` | `clots_${"small" | "large"}`;
@@ -54,6 +55,7 @@ export function LogForm({
   isToday,
   dateLabel,
   yearCounts,
+  heat,
   locale,
 }: {
   date: string;
@@ -61,6 +63,7 @@ export function LogForm({
   isToday: boolean;
   dateLabel: string;
   yearCounts: Record<string, number>;
+  heat?: ReturnType<typeof siteHeat>;
   locale: Locale;
 }) {
   const t = useTranslations();
@@ -206,7 +209,7 @@ export function LogForm({
         <input id="pain-range" type="range" min={0} max={10} step={1} value={pain} onChange={(e) => setPain(Number(e.target.value))} aria-valuetext={t("log.painValue", { pain })} />
       </div>
 
-      <BodyMap selected={sites} onToggle={(s) => setSites((x) => toggle(x, s))} yearCounts={yearCounts} />
+      <BodyMap selected={sites} onToggle={(s) => setSites((x) => toggle(x, s))} yearCounts={yearCounts} heat={heat} />
 
       <div className="field">
         <span className="label">{t("log.symptomsTitle")}</span>

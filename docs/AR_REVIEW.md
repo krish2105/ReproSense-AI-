@@ -756,6 +756,45 @@ Shown on Lab reports when no AI model is configured, or she switched AI off. Fem
 | `documents.photoOffAi` | Reading a photo uses AI, which is off in your Privacy settings. Upload the PDF or text version, or turn AI on in | قراءة الصورة تستخدم الذكاء الاصطناعي، وهو متوقف في إعدادات الخصوصية. ارفعي نسخة PDF أو النص، أو فعّلي الذكاء الاصطناعي من | |
 | `documents.photoPrivacyLink` | Privacy | الخصوصية | |
 | `documents.introNoPhoto` | Upload a lab report as a PDF or text file. We read the values; you check each one against your paper copy, then confirm. Nothing is saved until you confirm. | ارفعي تقرير المختبر بصيغة PDF أو ملف نصي. نقرأ القيم، وتتحققين من كل قيمة مقابل النسخة الورقية ثم تؤكدين. لا يُحفظ شيء قبل تأكيدكِ. | |
+## 3D body pain map (build week A1, 18 Nov, draft Arabic, not yet reviewed)
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `log.heat3d` | Tap a region to mark it. Deeper colour means more painful days in the last 3 months. | اضغطي على منطقة لتحديدها. اللون الأعمق يعني أيامًا مؤلمة أكثر خلال آخر 3 أشهر. | |
+| `log.sitesList` | Pain locations | أماكن الألم | |
+| `log.siteRecent` | {count} days in 3 months | {count} أيام/يوم خلال 3 أشهر (plural forms) | |
+
+## Judge guided tour (build week A2, 18 Nov, draft Arabic, not yet reviewed)
+Addressed to a judge, so the imperative is masculine/neutral (the patient app addresses her in the feminine).
+
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `tour.start` | Show me in 3 minutes | أرِني خلال 3 دقائق | |
+| `tour.startHint` | A guided walk through the demo for judges: 8 short steps. | جولة إرشادية في العرض للجنة التحكيم: 8 خطوات قصيرة. | |
+| `tour.label` | Guided tour | جولة إرشادية | |
+| `tour.progress` | Step {n} of {total} | الخطوة {n} من {total} | |
+| `tour.next` | Next | التالي | |
+| `tour.back` | Back | السابق | |
+| `tour.finish` | Finish | إنهاء | |
+| `tour.exit` | Exit tour | الخروج من الجولة | |
+| `tour.goHere` | Open this step | افتح هذه الخطوة | |
+| `tour.failed` | That step didn't open: {detail} | لم تُفتح هذه الخطوة: {detail} | |
+| `tour.done` | Tour finished. Everything you saw runs on fictional demo data. | انتهت الجولة. كل ما رأيته يعمل على بيانات عرض خيالية. | |
+| `tour.steps.people.title` | Eight fictional women | ثماني نساء خياليات | |
+| `tour.steps.people.body` | Every record here is synthetic. Next, we open Noura (27), who has logged irregular cycles and skin changes for a year. | كل سجل هنا مُصطنع. في الخطوة التالية نفتح سجل نورة (27 عامًا) التي سجّلت دورات غير منتظمة وتغيّرات في البشرة لمدة عام. | |
+| `tour.steps.home.title` | Her home screen | شاشتها الرئيسية | |
+| `tour.steps.home.body` | Her cycle on one arc, with today's day and her phases, built only from her own entries. | دورتها على قوس واحد، مع يوم اليوم ومراحلها، مبنية فقط من إدخالاتها. | |
+| `tour.steps.patterns.title` | Patterns, with their evidence | أنماط مع أدلتها | |
+| `tour.steps.patterns.body` | Each card names the pattern, the entries behind it, what to consider next and its source. Transparent rules decide: no diagnosis, no risk score. Try "How this was produced". | كل بطاقة تذكر النمط والإدخالات التي يستند إليها وما يمكن التفكير فيه بعد ذلك ومصدره. قواعد واضحة تقرّر: لا تشخيص ولا نسبة خطر. جرّب «كيف أُعدّت هذه البطاقة». | |
+| `tour.steps.assistant.title` | Ask the assistant | اسأل المساعد | |
+| `tour.steps.assistant.body` | Tap a suggested question. Every answer cites its sources; urgent words get the 998 guidance first. | اضغط على سؤال مقترح. كل إجابة تذكر مصادرها، والكلمات العاجلة تُظهر إرشادات الاتصال بالرقم 998 أولًا. | |
+| `tour.steps.report.title` | A doctor-ready report | تقرير جاهز للطبيب | |
+| `tour.steps.report.body` | Prepare a two-page PDF she can download, or share with her own clinic only after she agrees. | جهّز ملف PDF من صفحتين يمكنها تنزيله، أو مشاركته مع عيادتها فقط بعد موافقتها. | |
+| `tour.steps.clinic.title` | Now the clinician's view | الآن واجهة الطبيب | |
+| `tour.steps.clinic.body` | A separate area and role. The clinic sees only women who chose to share, red flags first. | قسم ودور منفصلان. لا ترى العيادة إلا النساء اللواتي اخترن المشاركة، والعلامات التحذيرية أولًا. | |
+| `tour.steps.gap.title` | Close a care gap | إغلاق فجوة في الرعاية | |
+| `tour.steps.gap.body` | Fatima had diabetes in pregnancy, so a glucose test after the birth is due. Mark the follow-up done here. | أُصيبت فاطمة بسكري الحمل، لذا يحين موعد فحص الجلوكوز بعد الولادة. سجّل المتابعة كمكتملة هنا. | |
+| `tour.steps.network.title` | The clinic network | شبكة العيادات | |
+| `tour.steps.network.body` | The follow-up you closed moves the DoH Jawda measure PC008 for the whole network, live. Only counts, never names. | المتابعة التي أغلقتها تحرّك مؤشر جودة دائرة الصحة PC008 للشبكة كلها مباشرةً. أعداد فقط، بلا أسماء. | |
 
 ## Installable web app (build week A6, 18 Nov, draft Arabic, not yet reviewed)
 | Key | English | Arabic (draft) | Reviewer note |
