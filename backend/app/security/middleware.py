@@ -48,7 +48,8 @@ class RateLimit(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         s = get_settings()
         path = request.url.path
-        if not path.startswith("/v1") or request.method == "OPTIONS":
+        # /v1/ping is the public pages' wake-up call: constant reply, no work, so it never uses up her requests.
+        if not path.startswith("/v1") or request.method == "OPTIONS" or path == "/v1/ping":
             return await call_next(request)
         group = "sensitive" if any(path.startswith(p) for p in SENSITIVE) and request.method == "POST" else "general"
         limit = s.rate_limit_sensitive_per_min if group == "sensitive" else s.rate_limit_per_min

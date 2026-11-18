@@ -746,6 +746,16 @@ right ("165/100"). The knowledge-base summary `knowledge_base/summaries/nice_ng1
 | "Why we noticed" chip for a reading (`copy.py` entry_text) | 22 Nov 08:15 · blood pressure 165/100 mmHg | 22 نوفمبر 08:15 · ضغط الدم 165/100 ملم زئبقي | |
 | Care navigator draft (`navigator.py`) | Hello, my blood pressure reading was {bp} mmHg. Could it be rechecked today, please? Thank you. | مرحباً، كانت قراءة ضغط الدم لديّ {bp} ملم زئبقي. هل يمكن إعادة قياسه اليوم من فضلكم؟ شكراً لكم. | |
 | Navigator: what to bring | Your blood pressure readings with their dates and times / Your pregnancy record or discharge summary / This ReproSense summary | قراءات ضغط الدم مع تواريخها وأوقاتها / سجل الحمل أو ملخص الخروج من المستشفى / ملخص ReproSense هذا | |
+
+## Photo reading off (18 Nov, draft Arabic, not yet reviewed)
+Shown on Lab reports when no AI model is configured, or she switched AI off. Feminine address.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `documents.photoOffModel` | Reading a photo of a report needs the AI model, which isn't switched on in this demo. Upload the PDF or text version instead. | قراءة صورة التقرير تحتاج إلى نموذج الذكاء الاصطناعي، وهو غير مفعّل في هذا العرض. ارفعي نسخة PDF أو النص بدلاً منها. | |
+| `documents.photoOffAi` | Reading a photo uses AI, which is off in your Privacy settings. Upload the PDF or text version, or turn AI on in | قراءة الصورة تستخدم الذكاء الاصطناعي، وهو متوقف في إعدادات الخصوصية. ارفعي نسخة PDF أو النص، أو فعّلي الذكاء الاصطناعي من | |
+| `documents.photoPrivacyLink` | Privacy | الخصوصية | |
+| `documents.introNoPhoto` | Upload a lab report as a PDF or text file. We read the values; you check each one against your paper copy, then confirm. Nothing is saved until you confirm. | ارفعي تقرير المختبر بصيغة PDF أو ملف نصي. نقرأ القيم، وتتحققين من كل قيمة مقابل النسخة الورقية ثم تؤكدين. لا يُحفظ شيء قبل تأكيدكِ. | |
 ## Clinic onboarding and admin screens (build week A3, 18 Nov, draft Arabic, not yet reviewed)
 Staff-facing; the imperative is masculine/neutral.
 
