@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { API_URL, LIVE_API } from "@/api/client";
 
 const LIVE_SITE = "https://reprosense.vercel.app";
 const strip = (u: string) => u.replace(/\/$/, "");
@@ -7,10 +7,9 @@ const strip = (u: string) => u.replace(/\/$/, "");
 export const SITE_URL = strip(process.env.EXPO_PUBLIC_WEB_URL || LIVE_SITE);
 
 /**
- * Where a shared-report link opens. The web app that serves it must talk to the same API that issued the token, so a
- * development build (local API) links to the local web app on :3000, and a build with EXPO_PUBLIC_API_URL to the site.
+ * Where a shared-report link opens. The web app that serves it must talk to the same API that issued the token, so the
+ * live API links to the live site, and a local API (EXPO_PUBLIC_API_URL) to the local web app on :3000 of that host.
  */
 export const SHARE_WEB_URL = strip(
-  process.env.EXPO_PUBLIC_WEB_URL ||
-    (process.env.EXPO_PUBLIC_API_URL ? LIVE_SITE : Platform.OS === "android" ? "http://10.0.2.2:3000" : "http://127.0.0.1:3000"),
+  process.env.EXPO_PUBLIC_WEB_URL || (API_URL === LIVE_API ? LIVE_SITE : API_URL.replace(/:\d+$/, ":3000")),
 );

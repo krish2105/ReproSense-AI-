@@ -32,5 +32,14 @@
   "chooseDate": "Choose the date",
   "clearDate": "Clear the date",
   "hideTable": "Hide the table",
-  "reopen": "Close and reopen ReproSense to finish switching the layout direction."
+  "reopen": "Close and reopen ReproSense to finish switching the layout direction.",
+  "wakeTitle": "Waking the demo server",
+  "wakeBody": "The demo runs on a free server that sleeps when no one is using it. It usually starts within a minute.",
+  "wakeSeconds": "Waiting {seconds} s",
+  "wakeFailedTitle": "The demo server didn't wake up",
+  "wakeFailedBody": "Check the phone's internet connection, then try again. Nothing was lost.",
+  "wakeRetry": "Try again",
+  "wakeEmergency": "If this is an emergency, call 998 now. You don't need the app for that.",
+  "clinicRole": "Clinician view · a separate role",
+  "clinicLeave": "Leave the clinician view"
 }

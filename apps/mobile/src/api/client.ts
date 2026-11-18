@@ -1,11 +1,13 @@
-import { Platform } from "react-native";
 import { ApiError, errorDetail } from "./errors";
 
-// The Android emulator reaches the host computer at 10.0.2.2; the iOS simulator at 127.0.0.1.
-const LOCAL_API = Platform.OS === "android" ? "http://10.0.2.2:8010" : "http://127.0.0.1:8010";
+/** The live demo API (Render free tier: it sleeps when idle, so the app wakes it first, see wake.ts). */
+export const LIVE_API = "https://reprosense-api.onrender.com";
 
-/** EXPO_PUBLIC_API_URL is set for store and preview builds (the live API); development uses the local API. */
-export const API_URL = (process.env.EXPO_PUBLIC_API_URL || LOCAL_API).replace(/\/$/, "");
+/**
+ * The live API by default, so the simulator, Expo Go and a phone build all open the same demo as the website. For the
+ * local API set EXPO_PUBLIC_API_URL=http://127.0.0.1:8010 (iOS simulator) or http://10.0.2.2:8010 (Android emulator).
+ */
+export const API_URL = (process.env.EXPO_PUBLIC_API_URL || LIVE_API).replace(/\/$/, "");
 
 /** Same limit as the web app (API_TIMEOUT_MS): a hung API shows the error state instead of a spinner. */
 export const API_TIMEOUT_MS = 15_000;

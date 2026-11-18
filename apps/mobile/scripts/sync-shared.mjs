@@ -24,6 +24,7 @@ const sources = [
   { from: "src/lib/vocab.ts", to: "src/shared/vocab.ts", edit: (s) => s.replace('from "./api/types"', 'from "../api/types"') },
   { from: "src/lib/epds.ts", to: "src/shared/epds.ts" },
   { from: "src/lib/answer.ts", to: "src/shared/answer.ts" },
+  { from: "src/lib/bp.ts", to: "src/shared/bp.ts", edit: (s) => s.replace('from "./api/types"', 'from "../api/types"') },
   { from: "src/lib/sources.ts", to: "src/shared/sources.ts" },
   // Fatima's fictional lab report (web /demo/...), so "Use the demo lab report" works on the phone too.
   {

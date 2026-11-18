@@ -6,6 +6,8 @@ import { ApiError } from "@/api/errors";
 import type { Card as CardT, DayPill, HomeResponse, LifeStage, Mood } from "@/api/types";
 import { useSession } from "@/auth/session";
 import { StatusArc } from "@/components/CycleArc";
+import { BloodPressureCard } from "@/components/care/BloodPressureCard";
+import { PostnatalCard } from "@/components/care/PostnatalCard";
 import { NavigatorSheet, type DraftTarget } from "@/components/NavigatorSheet";
 import { PatternCard } from "@/components/PatternCard";
 import { Button } from "@/components/ui/Button";
@@ -195,6 +197,7 @@ function NavigatorHomeCard({ card, dueDate, approved, onOpen }: { card: CardT; d
 export default function Home() {
   const t = useTranslations("home");
   const checkin = useTranslations("checkin");
+  const brief = useTranslations("brief");
   const { locale } = useI18n();
   const { data, error, loading, reload, setData } = useApi<HomeResponse>(`/me/home?lang=${locale}`);
   const [target, setTarget] = useState<DraftTarget | null>(null);
@@ -238,7 +241,13 @@ export default function Home() {
       <View style={{ gap: 10 }}>
         <Button label={t("logButton")} onPress={() => router.push("/log")} />
         <Button label={t("reportButton")} kind="secondary" onPress={() => router.push("/report")} />
+        <Button label={brief("title")} kind="secondary" onPress={() => router.push("/brief")} />
       </View>
+
+      {data.postnatal && (
+        <PostnatalCard p={data.postnatal} refDate={data.ref_date} onChanged={(postnatal) => setData({ ...data, postnatal })} />
+      )}
+      {data.blood_pressure?.eligible && <BloodPressureCard bp={data.blood_pressure} />}
 
       {(mode === "after_birth" || mode === "pregnancy") && !data.crisis && (
         <Card>

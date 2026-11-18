@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { LockGate } from "@/auth/lock";
 import { SessionProvider, useSession } from "@/auth/session";
+import { WakeGate } from "@/components/WakeGate";
 import { I18nProvider, useI18n } from "@/i18n/i18n";
 import { ThemeProvider, useTheme } from "@/theme/theme";
 
@@ -50,7 +51,9 @@ function Shell() {
   return (
     <LockGate>
       <StatusBar style={dark ? "light" : "dark"} />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.paper } }} />
+      <WakeGate>
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.paper } }} />
+      </WakeGate>
     </LockGate>
   );
 }

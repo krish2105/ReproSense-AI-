@@ -2,33 +2,102 @@
 
 Her side of ReproSense as one Expo (React Native) app for iOS and Android, using the same FastAPI API as the web app.
 The plan, the gates (M-G1 to M-G5) and the cards (M0 to M11) are in `docs/21_MOBILE_APPS_ROADMAP.md`.
-The clinician view and the clinic network stay on the web.
+The phone has her app and a demo clinician view (patient list and one patient's summary); the clinic network
+dashboard stays on the web.
 
 Expo SDK 58 · React Native 0.88 · React 19 · TypeScript strict · expo-router · react-native-svg · use-intl
 (the same EN/AR messages as the web).
 
 ## Run it
 
-You need Node 24, the API on :8010 (`make api` in the repository root), and either Xcode (iOS simulator), Android
-Studio (an emulator), or Expo Go on a phone on the same network.
+The app talks to the **live demo API** (`https://reprosense-api.onrender.com`) unless you say otherwise, so you don't
+need the backend on your Mac. That API runs on Render's free tier and sleeps when idle: the app's first call is
+`GET /healthz`, retried for up to 60 seconds behind a "Waking the demo server" screen (998 stays one tap away), with
+"Try again" if it never answers.
+
+Demo sign-in works as on the web: `POST /v1/demo/login` with `{"persona":"noura"}` (her app) or `{"role":"clinician"}`
+(the clinician view). The API returns the token in JSON and the app sends it as `Authorization: Bearer …`, which the API
+accepts in place of the `rs_token` cookie (`backend/app/security/auth.py`, `current_actor`). Tokens are never logged.
+
+You need Node 24 (or newer) and, once, the app's packages:
 
 ```bash
-npm install
-```
-```bash
-npx expo start
+cd apps/mobile && npm install
 ```
 
-Press `i` for the iOS simulator or `a` for the Android emulator. The app finds the local API at `127.0.0.1:8010` (iOS
-simulator) or `10.0.2.2:8010` (Android emulator). For a phone, or for the live API, set the addresses:
+### iOS Simulator (Mac)
+
+You need the full **Xcode** from the Mac App Store; the Command Line Tools alone are not enough. After installing it:
 
 ```bash
-EXPO_PUBLIC_API_URL=https://reprosense-api.onrender.com EXPO_PUBLIC_WEB_URL=https://reprosense.vercel.app npx expo start
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+```
+```bash
+sudo xcodebuild -license accept
+```
+```bash
+xcodebuild -downloadPlatform iOS
 ```
 
-`EXPO_PUBLIC_WEB_URL` is the site for the trust centre, the status page and shared-report links. A development build
-without `EXPO_PUBLIC_API_URL` links shared reports to the local web app on :3000, because the web app that opens a
-shared link must talk to the API that issued it.
+Then build and open the app in the simulator (the first build takes a few minutes; it generates `ios/`, which is not
+committed):
+
+```bash
+npx expo run:ios
+```
+
+Or, without a native build, open it in Expo Go inside the simulator: `npx expo start`, then press `i`.
+
+### Your own iPhone with Expo Go (quickest, no Apple account)
+
+1. Install **Expo Go** from the App Store. It must support Expo SDK 58.
+2. On the Mac: `npx expo start --tunnel` (`--tunnel` works on any network; on the same Wi‑Fi `npx expo start` is
+   enough).
+3. Scan the QR code with the iPhone's Camera app. The app opens in Expo Go and talks to the live API.
+
+In Expo Go, switching to Arabic changes the words straight away, but the right-to-left layout needs a development or
+Release build (see "Not done yet" below).
+
+### Your own iPhone as an installed app (a development or Release build)
+
+Xcode signed in with your Apple ID (Xcode → Settings → Accounts); a free Apple ID works for 7 days at a time.
+1. Plug the iPhone in, unlock it, and turn on Settings → Privacy & Security → Developer Mode.
+2. Build and install it. A Release build carries its own JavaScript, so it runs without the Mac afterwards:
+   ```bash
+   npx expo run:ios --device --configuration Release
+   ```
+   Pick the iPhone from the list. If Xcode asks for a team, open `ios/ReproSense.xcworkspace`, choose your Personal
+   Team under Signing & Capabilities, and run the command again.
+3. The first time, trust the developer on the iPhone: Settings → General → VPN & Device Management.
+
+### Against a local API instead
+
+Start the API on :8010 (`make api` in the repository root), then point the app at it:
+
+```bash
+EXPO_PUBLIC_API_URL=http://127.0.0.1:8010 npx expo start
+```
+
+Use `http://10.0.2.2:8010` for the Android emulator, or the Mac's Wi‑Fi address for a phone (details under "Install
+the iOS app without Expo Go"). `EXPO_PUBLIC_WEB_URL` sets the site for the trust centre, the status page and
+shared-report links; with a local API, shared links go to the local web app on :3000 of the same host.
+
+## The 3-minute demo on the phone
+
+1. **Demo people:** pick Noura.
+2. **Home:** red flags first, then her cycle, "Log your symptoms", "Prepare doctor report" and "Before your visit".
+3. **Log a day:** flow, pain, symptoms, and "Fill the form from my sentence" for a typed note. There is no voice
+   button on the phone (the web's voice logging uses the browser's speech API); iOS keyboard dictation can fill the
+   note box.
+4. **Patterns:** each card with the entries behind it, what to consider, its sources and "How this was produced".
+5. **AI Chat:** ask a suggested question; the answer cites its sources.
+6. **Report:** prepare it, then "Download PDF" opens the share sheet with the PDF.
+7. **More → Open clinician view:** the clinic's list, red flags first, then Noura's summary (SBAR, patterns,
+   follow-ups, pre-visit brief). "Leave the clinician view" goes back.
+
+Build-week screens: **Fatima** shows the first-6-weeks pathway on Home with "I had this"; **Hessa** (pregnant) shows
+the blood-pressure card, and **More → Blood pressure** logs a reading, with urgent guidance and 998 first when it is
+very high.
 
 ## Checks (CI job `mobile`, `.github/workflows/mobile.yml`)
 
@@ -38,8 +107,10 @@ npm run lint && npm run typecheck && npm test && npm run sync:check
 
 - **lint:** Expo's rules plus our layout rule: no `left`, `right`, `marginLeft`, `paddingRight` or `textAlign: "left"`
   in styles. Use `start` and `end`, so Arabic mirrors correctly (docs/21 section 3).
-- **test:** 20 unit tests, covering:
-  - the API client: bearer token, no cookies, timeout, 401;
+- **test:** 31 unit tests, covering:
+  - the API client: bearer token, no cookies, timeout, 401; the live API by default, and waking it (`wake.test.ts`);
+  - build-week features: the postnatal pathway, the pre-visit brief (998 on her urgent line, clinic wording for the
+    clinician), the blood-pressure card, and the clinician token kept in memory only (`care.test.tsx`);
   - safety: 998 strip, urgent and crisis answers, red-flag cards;
   - the care navigator: approve first, copy only after;
   - storage: only four keys, kept on this device;
@@ -51,7 +122,25 @@ npm run lint && npm run typecheck && npm test && npm run sync:check
   
   Edit the web file, then run `npm run sync`.
 
-## What is built (6 Nov 2026)
+## Added 18 Nov 2026 (build week)
+
+- **Live API by default**, with the "Waking the demo server" screen in front of the first call.
+- **Clinician view** (`src/app/clinician/`): its own route group, layout and role. `{"role":"clinician"}` demo
+  sign-in, the token kept in memory only (never in the Keychain), the patient list (red flags first) and one patient's
+  summary: SBAR, red flags, follow-ups (mark booked or done, as on the web), the after-birth pathway, blood-pressure
+  readings, patterns in clinician wording with their evidence, the pre-visit brief and her questions.
+- **Postnatal pathway (K1)** on Home when a birth is in the last 12 weeks (Fatima), with "I had this"
+  (`POST /v1/postnatal/{step}`).
+- **Blood pressure (K6)** for pregnancy and the 12 weeks after birth (Hessa, Fatima): the card on Home and the log
+  screen (`POST /v1/bp`), urgent cards first.
+- **Before your visit (K3):** `GET /v1/brief`, from Home and More.
+- `src/shared/bp.ts` is now synced from the web (`apps/web/src/lib/bp.ts`).
+
+**Not verified yet:** on 18 Nov the build Mac had no full Xcode, so these screens have not been run in the iOS
+Simulator. Typecheck, lint, the 31 unit tests and `npx expo export --platform ios` (the full iOS JavaScript bundle)
+pass, and every API call above was checked against the live API.
+
+## What was built first (6 Nov 2026)
 
 Verified on the iPhone 17 Pro simulator (iOS 26.5) against the local API with the seeded fictional data, in English
 and Arabic, light and dark. Android has not been run yet (see "Not done").
@@ -192,7 +281,7 @@ cd android && EXPO_PUBLIC_API_URL=https://<api address> ./gradlew assembleReleas
 ## Build for testers and the stores (card M10)
 
 The profiles are in `eas.json`:
-- **development:** an iOS simulator build and an Android APK, for the local API.
+- **development:** an iOS simulator build and an Android APK (live API unless `EXPO_PUBLIC_API_URL` is set).
 - **preview:** internal distribution, using the live API.
 - **production:** the store build.
 

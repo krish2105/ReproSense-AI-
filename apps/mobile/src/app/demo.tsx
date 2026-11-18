@@ -21,7 +21,7 @@ export default function Demo() {
   const regions = useTranslations("regions");
   const m = useTranslations("mobile");
   const join = useTranslations("join");
-  const { signInAs } = useSession();
+  const { signInAs, signInAsClinician } = useSession();
   const [data, setData] = useState<PersonasResponse | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [opening, setOpening] = useState<string | null>(null);
@@ -43,6 +43,19 @@ export default function Demo() {
     try {
       await signInAs(id);
       router.replace("/home");
+    } catch (e) {
+      setFailed(t("failed", { detail: e instanceof ApiError ? e.detail : String(e) }));
+    } finally {
+      setOpening(null);
+    }
+  }
+
+  async function openClinic() {
+    setOpening("clinician");
+    setFailed(null);
+    try {
+      await signInAsClinician();
+      router.push("/clinician");
     } catch (e) {
       setFailed(t("failed", { detail: e instanceof ApiError ? e.detail : String(e) }));
     } finally {
@@ -132,6 +145,17 @@ export default function Demo() {
             {join("tryBody")}
           </Txt>
           <Button label={join("tryAction")} kind="secondary" onPress={() => router.push("/join")} />
+        </Card>
+      )}
+      {data && (
+        <Card>
+          <Txt variant="h2" accessibilityRole="header">
+            {t("staffTitle")}
+          </Txt>
+          <Txt variant="small" color="ink2">
+            {t("staffIntro")}
+          </Txt>
+          <Button label={t("openClinic")} kind="secondary" busy={opening === "clinician"} disabled={!!opening} onPress={() => void openClinic()} />
         </Card>
       )}
       {resetNote && (

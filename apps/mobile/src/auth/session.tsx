@@ -14,6 +14,14 @@ interface Session {
   signOut(): Promise<void>;
   /** An API call with her token. A 401 signs her out, so the app returns to Demo people. */
   call<T>(path: string, call?: Omit<Call, "token">): Promise<T>;
+  /**
+   * The clinician's demo session (a separate role, CLAUDE.md rule 9). Kept in memory only, never in SecureStore, so
+   * closing the app ends it and her own token on this phone is untouched.
+   */
+  clinicianToken: string | null;
+  signInAsClinician(): Promise<void>;
+  signOutClinician(): void;
+  clinicianCall<T>(path: string, call?: Omit<Call, "token">): Promise<T>;
 }
 
 const SessionContext = createContext<Session | null>(null);
@@ -59,9 +67,27 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     [token, signOut],
   );
 
+  const [clinicianToken, setClinicianToken] = useState<string | null>(null);
+  const signInAsClinician = useCallback(async () => {
+    const res = await api<LoginResponse>("/demo/login", { body: { role: "clinician" } });
+    setClinicianToken(res.token);
+  }, []);
+  const signOutClinician = useCallback(() => setClinicianToken(null), []);
+  const clinicianCall = useCallback(
+    async <T,>(path: string, c: Omit<Call, "token"> = {}) => {
+      try {
+        return await api<T>(path, { ...c, token: clinicianToken });
+      } catch (e) {
+        if (e instanceof ApiError && e.status === 401) setClinicianToken(null);
+        throw e;
+      }
+    },
+    [clinicianToken],
+  );
+
   const value = useMemo(
-    () => ({ token, ready, signInAs, signInWithToken, signOut, call }),
-    [token, ready, signInAs, signInWithToken, signOut, call],
+    () => ({ token, ready, signInAs, signInWithToken, signOut, call, clinicianToken, signInAsClinician, signOutClinician, clinicianCall }),
+    [token, ready, signInAs, signInWithToken, signOut, call, clinicianToken, signInAsClinician, signOutClinician, clinicianCall],
   );
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
 }
