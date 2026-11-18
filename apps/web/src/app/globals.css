@@ -661,3 +661,11 @@ html.touring body{padding-bottom:min(60vh,520px)}
 .ca-list li{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--rule);border-radius:14px;background:var(--paper)}
 .ca-list li > b + span{display:block}
 @media (max-width:860px){.ca-grid{grid-template-columns:1fr}}
+
+/* Pregnancy and fourth-trimester ring (A7) */
+.ring3d{position:relative;height:300px;border-radius:var(--r2);overflow:hidden;cursor:grab;touch-action:pan-y}
+.ring3d-now{position:absolute;inset:50% 0 auto;transform:translateY(-50%);text-align:center;font-weight:700;font-size:14px;color:var(--ink);pointer-events:none}
+.ring3d-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.ring3d-list button{width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;text-align:start;border:1px solid var(--rule);background:var(--paper);border-radius:14px;padding:10px 12px;cursor:pointer;color:var(--ink)}
+.ring3d-list button[aria-pressed="true"]{border-color:var(--plum);box-shadow:0 0 0 1px var(--plum) inset}
+.ring3d-list button .xs{flex-basis:100%}
