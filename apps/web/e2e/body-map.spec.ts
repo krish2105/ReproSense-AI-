@@ -29,9 +29,9 @@ test.describe("motion allowed", () => {
     const lowerAbdomen = list.getByRole("button", { name: "Lower abdomen" });
     await expect(lowerAbdomen).toHaveAttribute("aria-pressed", "false");
 
-    // Tap the lower abdomen on the figure: centre, a little below the middle of the canvas (BodyMap3D camera).
+    // Tap the lower abdomen on the figure: centre, just above the middle of the canvas (R3F aims the camera at the origin).
     const box = (await canvas.boundingBox())!;
-    await page.mouse.click(box.x + box.width * 0.5, box.y + box.height * 0.556);
+    await page.mouse.click(box.x + box.width * 0.5, box.y + box.height * 0.465);
     await expect(lowerAbdomen).toHaveAttribute("aria-pressed", "true");
     await expect(map).toContainText("Marked: Lower abdomen");
 
@@ -41,8 +41,8 @@ test.describe("motion allowed", () => {
     await page.keyboard.press("Enter");
     await expect(lowerBack).toHaveAttribute("aria-pressed", "true");
 
-    await map.getByRole("button", { name: en.log.back }).click();
-    await expect(map.getByRole("button", { name: en.log.back })).toHaveAttribute("aria-pressed", "true");
+    await map.getByRole("button", { name: en.log.back, exact: true }).click();
+    await expect(map.getByRole("button", { name: en.log.back, exact: true })).toHaveAttribute("aria-pressed", "true");
   });
 });
 
