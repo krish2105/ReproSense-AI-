@@ -303,8 +303,10 @@ def test_a_raised_reading_with_sudden_swelling_logged_the_same_day_is_urgent(cli
     log = client.post("/v1/logs", json={"date": REF.isoformat(), "symptoms": ["sudden swelling"]}, headers=h)
     assert log.status_code == 200, log.text
     out = _post(client, h, systolic=142, diastolic=91).json()
-    assert out["red_flags"][0]["observation_id"] == RF7
-    assert {w["entry_id"] for w in out["red_flags"][0]["why_we_noticed"]} == {out["id"], log.json()["id"]}
+    # Since 19 Nov sudden swelling alone also raises RF5 (QUESTIONS #49 R4), so both urgent cards show; RF7 is checked
+    # by id, as RF3 and RF5 both show for bleeding in pregnancy.
+    rf7 = next(c for c in out["red_flags"] if c["observation_id"] == RF7)
+    assert {w["entry_id"] for w in rf7["why_we_noticed"]} == {out["id"], log.json()["id"]}
 
 
 def test_a_raised_reading_without_symptoms_gives_the_soon_card(client, reseed):

@@ -59,6 +59,38 @@ Done:
 Next (C7): Lighthouse on 5 mobile screens, demo-readiness and a senior-judge rescore, backup video v2, then Krishna tags
 `freeze-2026-11-21` before Sat 21 Nov 18:00.
 
+## 2026-11-19 — Build week Y1–Y6 and the 18 Nov audit fixes — Yash with Claude Code
+Done (each its own branch and PR, rebased on `main` 899416a; Krishna reviews health wording, privacy wording and G2):
+- **Y1** planning-a-pregnancy checklist for the Trying stage (`feat/preconception-checklist`): five sourced items, ticks
+  saved to her record. Two new cite-only sources (DoH premarital screening 2024, UKHSA rubella).
+- **Y3** public pilot value page `/pilot` (`feat/pilot-roi`): every input editable, each default sourced or marked
+  "assumption", no outcome claims.
+- **Y4** family support view (`feat/family-support`): read-only, revocable 30-day link; care steps and "how you can
+  help" only, health details only if she ticks them; every visit in "who saw my data".
+- **Y5** 3-slide deck, PPTX and PDF (`pitch/ReproSense-submission.*`), and the MP4 demo (`pitch/ReproSense-demo.mp4`,
+  98 s, captions, recorded by `apps/web/scripts/demo-video.mjs`) on `docs/submission-deck`.
+- **Y6** showcase-day checklist and rehearsal log (`docs/drafts/27-showcase-day-checklist.md`, `docs/showcase-day`).
+- **Audit fixes (18 Nov):** connection-pool deadlock and slow doctor PDFs (`fix/db-pool-and-pdf-speed`), abuse and
+  input hardening (`fix/abuse-and-input-hardening`), request IDs and JSON logs, now on Next 16's `proxy.ts`
+  (`feat/request-ids`). CHANGE_LOG rows ask Krishna for G2 (operational settings only, no rule change).
+- **Y2** (emulated, not real phones): Playwright on a local production build of `main` plus these branches, desktop
+  1280 px and mobile 390 px (touch, DPR 3), English, Arabic and dark, covering the demo path, Krishna's list (voice
+  logging, Fatima's postnatal steps, "Before your visit", sign-in and "Sign in on other devices") and the new screens.
+  Two findings, both fixed: the judge tour said "Noura (27)", her record says 24 (`fix/tour-noura-age`, with a unit
+  test); the Y1 e2e reloaded before the tick was saved on mobile (fixed on the Y1 branch, 18/18 over 3 repeats).
+Tests (Docker: Postgres 17 + pgvector, Python 3.12, Playwright 1.64, all branches together):
+- backend `make test`: ruff clean, 558 passed
+- web: lint 0 errors (14 warnings, all already on main), typecheck clean, 92 unit tests passed
+- Playwright (9 specs incl. demo path, screens, voice, postnatal, brief, sign-in, Y1, Y3, Y4): 123 passed, 1 skipped,
+  1 failed (the Y1 race above, then fixed and 18/18)
+Next:
+- **Yash:** real iPhone and Android pass of the live site after these PRs deploy (one issue per problem); the three
+  timed rehearsals (log in 27-showcase-day-checklist); copy the MP4 to two laptops and a USB stick; upload the deck and
+  MP4 at programs.upstartbar.com before Sun 22 Nov 15:15.
+- **Krishna:** review Y1 health wording, Y4 privacy wording, G2 on the three audit fixes; merge on green CI.
+Blockers / questions:
+- Whichever of these PRs merges second needs a `merge main` (they all add keys to the message files and AR_REVIEW).
+
 ---
 
 ## 2026-11-19 — Build week: iOS app, Next 16, every open PR merged, rescore 73/100, judge's UI points — Krishna with Claude Code

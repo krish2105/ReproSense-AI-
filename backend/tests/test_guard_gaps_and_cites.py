@@ -49,7 +49,12 @@ def test_the_crisis_reply_cites_the_crisis_pages():
     out = assistant.answer("I took too many tablets and I want to die", "en")
     assert out["crisis"]
     ids = [c["source_id"] for c in out["citations"]]
-    assert ids == ["nhs_urgent_mental_health", "nhs_suicidal_thoughts", "nice_cg192"]
+    assert ids == [
+        "nhs_urgent_mental_health",
+        "nhs_suicidal_thoughts",
+        "nice_cg192",
+        "doh_800_sakina",
+    ]  # + DoH line, 19 Nov
 
 
 def test_the_pregnancy_loss_reply_cites_ng126():
