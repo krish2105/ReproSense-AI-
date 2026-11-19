@@ -18,7 +18,9 @@ this with the repository secret and opens a PR with the result (build week K7, d
 from __future__ import annotations
 
 import json
+import os
 import sys
+import time
 from pathlib import Path
 
 HELDOUT_ROUND = 5
@@ -72,18 +74,32 @@ def run(rows: list[dict] | None = None) -> dict:
 
 
 class _Counting:
-    """Counts how often the model answered the safety check, so a silent fallback can't pass as a model score."""
+    """Counts how often the model answered the safety check, so a silent fallback can't pass as a model score.
 
-    def __init__(self, inner):
+    The score measures routing only, so the model is asked only for the safety second check; rewording calls get
+    None (the template wording), which leaves every route unchanged and costs nothing. Safety calls are paced and
+    retried with backoff, because a shared hackathon key rate-limits (OpenRouter 429) a burst of 132 questions.
+    """
+
+    def __init__(self, inner, pace_s: float | None = None, retries: int = 5):
         self.inner, self.name, self.asked, self.answered = inner, inner.name, 0, 0
+        self.pace_s = float(os.environ.get("SAFETY_EVAL_PACE_S", "1.5")) if pace_s is None else pace_s
+        self.retries = retries
 
     def complete_json(self, system, user, max_tokens=2000):
         from app.agents import safety
 
-        out = self.inner.complete_json(system, user, max_tokens)
-        if system == safety.MODEL_SYSTEM:
-            self.asked += 1
-            self.answered += out is not None
+        if system != safety.MODEL_SYSTEM:
+            return None  # rewording is not part of the routing score
+        self.asked += 1
+        out = None
+        for attempt in range(self.retries):
+            if self.pace_s:
+                time.sleep(self.pace_s * (2**attempt if attempt else 1))
+            out = self.inner.complete_json(system, user, max_tokens)
+            if out is not None:
+                break
+        self.answered += out is not None
         return out
 
 
@@ -100,7 +116,9 @@ def main() -> int:
     if name != "none":
         assistant.get_llm = lambda: counter
     try:
-        held = run()["heldout"]
+        # with a model, only the held-out round is scored (the development rounds are word-check history)
+        rows = [r for r in load() if r["round"] == HELDOUT_ROUND] if name != "none" else None
+        held = run(rows)["heldout"]
     finally:
         assistant.get_llm = original
     print(f"Held-out round {HELDOUT_ROUND}, safety routing with {'word checks only' if name == 'none' else name}:")

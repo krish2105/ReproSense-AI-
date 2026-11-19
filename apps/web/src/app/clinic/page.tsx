@@ -52,8 +52,13 @@ export default async function ClinicPage() {
                       <bdi>{displayName(g.alias)}</bdi>: {t.has(`gapType.${g.type}`) ? t(`gapType.${g.type}`) : t("gapType.other")}
                     </Link>
                     <span className="xs dim">
+                      {g.overdue && <Tag tone="discuss">{t("overdue")}</Tag>}{" "}
                       <Tag tone={g.status === "in_progress" ? "info" : "soon"}>{t(`gapStatus.${g.status}`)}</Tag>{" "}
-                      {g.due_date ? t("gapDue", { date: formatDayMonth(g.due_date, locale) }) : ""}
+                      {g.overdue && g.window_end
+                        ? t("overdueNote", { date: formatDayMonth(g.window_end, locale) })
+                        : g.due_date
+                          ? t("gapDue", { date: formatDayMonth(g.due_date, locale) })
+                          : ""}
                     </span>
                   </li>
                 ))}
