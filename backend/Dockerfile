@@ -22,6 +22,9 @@ COPY backend/app ./app
 COPY rules /srv/rules
 COPY knowledge_base /srv/knowledge_base
 COPY data/synthetic/output /srv/data/synthetic/output
+# The pilot proposal PDF (GET /v1/pilot/proposal.pdf) uses the web app's English and Arabic words and its fonts (OFL).
+COPY apps/web/messages /srv/apps/web/messages
+COPY apps/web/src/app/fonts /srv/apps/web/src/app/fonts
 
 RUN useradd --create-home --uid 10001 reprosense && chown -R reprosense /srv
 USER reprosense

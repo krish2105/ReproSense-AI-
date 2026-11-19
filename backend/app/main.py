@@ -23,6 +23,7 @@ from app.api import (
     demo,
     family,
     patient,
+    pilot,
     quality,
     reports,
     sessions,
@@ -97,6 +98,7 @@ for r in (
     clinic_admin.router,
     clinic_admin.invites_router,
     quality.router,
+    pilot.router,
 ):
     app.include_router(r)
 

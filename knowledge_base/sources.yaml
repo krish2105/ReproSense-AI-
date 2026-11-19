@@ -246,3 +246,31 @@
   url: "https://www.doh.gov.ae/-/media/D24C9A53ACBE41C6ADCFFAD15D3278C9.ashx"
   accessed: "2026-11-19"
   topics: [childhood immunisation, reminders, recall, abu dhabi]
+- id: doh_jawda_pc_v7
+  answers: false  # cite-only: backs the pilot proposal's primary measure (/pilot#proposal, docs/29); not quoted in answers
+  title: "Jawda Primary Care Service Quality Performance Indicators, Version 7: KPI PC008 Post-Partum Follow-Up and Care Coordination — DoH Abu Dhabi (July 2023)"
+  publisher: "Department of Health – Abu Dhabi"
+  url: "https://www.doh.gov.ae/-/media/Feature/Muashir/Jawda/Jawda-Quarterly-Submission-Guidelines/PrimaryCare-JAWDA---Update-2022.ashx"
+  accessed: "2026-11-19"
+  topics: [jawda, PC008, postpartum follow-up, gestational diabetes, quality indicators, abu dhabi]
+- id: agarwal_2022_gdm_followup
+  answers: false  # cite-only: the local reference for the pilot's primary measure; not quoted in answers
+  title: "Gestational diabetes mellitus in a multi-ethnic, high-risk population: adequacy of screening for diabetes 6 weeks after delivery — Agarwal, Lal, Vyas, IJERPH 2022 (Al Ain)"
+  publisher: "International Journal of Environmental Research and Public Health (MDPI)"
+  url: "https://doi.org/10.3390/ijerph192113946"
+  accessed: "2026-11-19"
+  topics: [gestational diabetes, postpartum glucose test, follow-up, al ain]
+- id: bashir_2022_gdm_mutabaah
+  answers: false  # cite-only: how many pilot women may have had gestational diabetes; not quoted in answers
+  title: "Incidence of gestational diabetes mellitus in the United Arab Emirates; comparison of six diagnostic criteria: The Mutaba'ah Study — Bashir et al., Frontiers in Endocrinology 2022"
+  publisher: "Frontiers in Endocrinology"
+  url: "https://doi.org/10.3389/fendo.2022.1069477"
+  accessed: "2026-11-19"
+  topics: [gestational diabetes, incidence, al ain, uae]
+- id: lewis_sus_2018
+  answers: false  # cite-only: the satisfaction measure in the pilot proposal (System Usability Scale); not quoted in answers
+  title: "The System Usability Scale: Past, Present, and Future — Lewis, International Journal of Human–Computer Interaction 34(7), 2018"
+  publisher: "Taylor & Francis"
+  url: "https://doi.org/10.1080/10447318.2018.1455307"
+  accessed: "2026-11-19"
+  topics: [usability, SUS, questionnaire, satisfaction]

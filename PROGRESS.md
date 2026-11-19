@@ -34,6 +34,19 @@ Tests: backend 731 passed (recorded at `3bc638e`) · web unit 96 passed · e2e 2
 UI slop check: pass. /trust, /evidence and /status checked in EN/AR, light/dark, 1280/390/320 px: axe 0 violations, no
 sideways scroll at 1280 and 390 (all public pages are 1 px wide at 320 px because of the header's theme button, as on main).
 
+## 2026-11-19 — Pilot proposal for a clinic and a letter-of-intent template — Krishna with Claude Code
+Done:
+- `/pilot#proposal` (EN/AR): who it is for, scope, pilot design, five KPIs with how the app counts each, data
+  protection, the 90 days, both sides' commitments, price (free in the pilot; AED 399 after, a hypothesis), exit criteria.
+- `GET /v1/pilot/proposal.pdf?lang=en|ar`: one A4 page (WeasyPrint), the same strings as the page, the web app's fonts.
+- docs/29: the proposal in prose, an LOI template, 5+5 interview questions, an empty evidence log.
+- Four cite-only sources (Jawda PC008, Al Ain follow-up study, Mutaba'ah incidence, SUS). Arabic drafts in AR_REVIEW.
+Tests: backend 661 pass (13 new) · web unit 98 pass · new e2e `pilot-proposal.spec.ts` runs in CI.
+UI slop check: pass (mockup classes only, no gradients, numbers sourced or labelled, specific button labels; the
+timeline is a real sequence).
+Blockers / questions:
+- QUESTIONS #65: `/pricing` says a paid pilot (AED 5,000–10,000); the proposal says free during the pilot.
+
 ## 2026-11-19 — Staff and DoH sign-in (plan section 5, "full plan") — Krishna with Claude Code
 Done (branch `feat/staff-signin`, one PR, not merged):
 - Two doors: `/staff/signin` (clinicians, clinic admins: passkey only) and `/doh/signin` (DoH network admin: passkey,
