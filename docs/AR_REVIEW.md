@@ -9,7 +9,7 @@ listed at the end ("Flagged terms").
 
 ## Assistant safety replies (`backend/app/agents/assistant.py`)
 
-Fixed replies the assistant gives before or instead of an answer. Highest priority for review: these reach a woman
+**19 Nov (D5, AI review, not a native check):** meaning and tone read correctly; changed only the spelling توجّهي throughout, the feminine أخبركِ/لديكِ in `REFUSAL`, «وحده الطبيب أو الطبيبة يستطيع تقييم ذلك», and «جرعة زائدة من الأدوية» for "too many tablets" in the crisis reply (G2: Krishna). Fixed replies the assistant gives before or instead of an answer. Highest priority for review: these reach a woman
 in crisis or in an emergency. Edit them in `assistant.py` (`URGENT_TEXT`, `MEDICINE_TEXT`, `REFUSAL`, `NOT_FOUND`).
 
 | Key | English | Arabic | OK? |
@@ -385,45 +385,45 @@ reset, the "Waking the demo server" screen and the clinician view's bar. Every o
 
 ## Flagged terms: every occurrence (QUESTIONS #49, prepared 6 Nov for #23)
 Each row uses نزيف, جلط… or إغراق. Some are right (bleeding in pregnancy is a warning sign); others describe ordinary
-period days and need a period word. The reviewer decides each one; nothing here has been changed yet.
+period days and need a period word. Decided 19 Nov (D5, AI review with Claude Code; a native speaker should still confirm): ordinary period flow uses period words (نزول الدم، كمية الدم، درجة غزارة الدم، دورة غزيرة); clots are كتل دموية, never جلطات; flooding is تسرّب الدم من الفوطة. نزيف stays only where it means abnormal bleeding: RF1, RF3, RF6, the pregnancy-signs line, the bleeding chip, bleeding after menopause and the urgent replies.
 
 | Key | English | Arabic now | Decision |
 | --- | --- | --- | --- |
-| `clinic.askChips.bleeding` | Heavy bleeding | النزيف الغزير | |
-| `safety.pregSigns` | bleeding · severe tummy pain · fewer baby movements · a severe headache with changes in your vision | نزيفاً · ألماً شديداً في البطن · قلة حركة الجنين · صداعاً شديداً مع تغيّر في الرؤية | |
-| `symptoms.flooding` | Flooding | نزيف متدفق | |
-| `symptoms.bleeding` | Bleeding | نزيف | |
-| `symptoms.clots_larger_than_a_coin` | Clots larger than a coin | جلطات أكبر من قطعة نقدية | |
-| `log.cellPeriod` | bleeding | نزيف | |
-| `log.tileFlow` | Flow | النزيف | |
-| `log.tilePbac` | Bleeding score | درجة النزيف | |
-| `log.flow` | Flow | النزيف | |
-| `log.pbacTitle` | Bleeding score (pictorial chart): {score} | درجة النزيف (المخطط المصوّر): {score} | |
-| `log.pbacHint` | Count what you used today. Over a whole period, 100 or more on this chart gynaecologists use suggests heavy bleeding. | عدّي ما استخدمتِه اليوم. على مدى دورة كاملة، تشير درجة 100 أو أكثر على هذا المخطط الذي يستخدمه أطباء النساء إلى نزيف غزير. | |
-| `log.pbacItems.clots_small` | Small clots | جلطات صغيرة | |
-| `log.pbacItems.clots_large` | Clots coin-sized or larger | جلطات بحجم قطعة نقدية أو أكبر | |
-| `analytics.pbacTitle` | Bleeding score per period | درجة النزيف في كل دورة | |
-| `analytics.pbacCaption` | Pictorial chart score; 100 or more suggests heavy bleeding | درجة المخطط المصوّر؛ 100 أو أكثر تشير إلى نزيف غزير | |
-| `analytics.pbacBar` | Period starting {date}: bleeding score {pbac} | الدورة التي بدأت في {date}: درجة النزيف {pbac} | |
-| `analytics.heavy` | {n, plural, =0 {No period reached a bleeding score of 100.} one {# period reached a bleeding score of 100 or more.} other {# periods reached a bleeding score of 100 or more.}} | {n, plural, =0 {لم تصل أي دورة إلى درجة نزيف 100.} one {وصلت دورة واحدة إلى درجة نزيف 100 أو أكثر.} two {وصلت دورتان إلى درجة نزيف 100 أو أكثر.} few {وصلت # دورات إلى درجة نزيف 100 أو أكثر.} many {وصلت # دورة إلى درجة نزيف 100 أو أكثر.} other {وصلت # دورة إلى درجة نزيف 100 أو أكثر.}} | |
-| `analytics.colBleed` | Bleeding days | أيام النزيف | |
-| `analytics.colPbac` | Bleeding score | درجة النزيف | |
-| `analytics.yearCaption` | Each dot is a logged day. Filled: bleeding. Ring: pain 7 or more. Diamond: an event. | كل نقطة يوم مُسجَّل. المملوءة: نزيف. الحلقة: ألم 7 أو أكثر. المعيّن: حدث. | |
-| `analytics.yearSummary` | {logged} days logged in the last {months} months, {bleed} with bleeding. | {logged} يوماً مُسجَّلاً خلال آخر {months, plural, few {# أشهر} many {# شهراً} other {# شهر}}، منها {bleed} بنزيف. | |
-| `report.stats` | {logs} entries · {periodDays} bleeding days · {severe, plural, =0 {no days} one {# day} other {# days}} with pain 7 or more | {logs} إدخال · {periodDays} يوم نزيف · {severe, plural, =0 {لا أيام} one {يوم واحد} two {يومان} few {# أيام} many {# يوماً} other {# يوم}} بألم 7 أو أكثر | |
-| `report.pbac` | Bleeding score by period | درجة النزيف في كل دورة | |
-| `landing.legendBleed` | Bleeding day | يوم نزيف | |
-| `landing.chartRow` | Cycle starting {date}: {length} days, {bleed} bleeding days | الدورة التي بدأت في {date}: {length} يوماً، منها {bleed} أيام نزيف | |
-| `landing.floatQuestion` | “How do I know if my bleeding is heavy?” | «كيف أعرف أن نزيفي غزير؟» | |
-| `landing.spiralIntro` | Each bead is one day of one of Noura's cycles. Magenta beads are bleeding days, lavender beads are days past day 35, and peach beads are the rest. A regular year makes short, tidy loops. Hers stretches. | كل حبة يوم واحد من إحدى دورات نورة. الحبات الوردية أيام نزيف، والبنفسجية أيام بعد اليوم 35، والخوخية بقية الأيام. العام المنتظم يرسم حلقات قصيرة مرتبة، أما عامها فيتمدد. | |
-| `landing.colBleed` | Bleeding days | أيام النزيف | |
-| `landing.stageDesc.periods` | Cycles, bleeding score, pain and the body map | الدورات ودرجة النزيف والألم وخريطة الجسم | |
-| `landing.t1Body` | {days} days logged over 12 months: flow, pain, symptoms and a bleeding score. | {days} يوماً مُسجَّلاً خلال 12 شهراً: النزيف والألم والأعراض ودرجة النزيف. | |
-| `landing.womenBody` | Logging takes about twenty seconds: flow, pain from 0 to 10, a bleeding score using the same pictorial chart gynaecologists use, or a sentence in Arabic or English. She sees her year on one screen, gets questions to ask, and decides who sees her report and for how long. | يستغرق التسجيل نحو عشرين ثانية: النزيف، والألم من 0 إلى 10، ودرجة النزيف على المخطط المصوّر نفسه الذي يستخدمه أطباء النساء، أو جملة بالعربية أو الإنجليزية. ترى عامها في شاشة واحدة، وتحصل على أسئلة تطرحها، وتقرر من يرى تقريرها ولمدة كم. | |
+| `clinic.askChips.bleeding` | Heavy bleeding | النزيف الغزير | Changed 19 Nov (AI review, native check still needed): غزارة الدورة |
+| `safety.pregSigns` | bleeding · severe tummy pain · fewer baby movements · a severe headache with changes in your vision | نزيفاً · ألماً شديداً في البطن · قلة حركة الجنين · صداعاً شديداً مع تغيّر في الرؤية | Keep نزيف: bleeding in pregnancy is a warning sign |
+| `symptoms.flooding` | Flooding | نزيف متدفق | Changed 19 Nov (AI review, native check still needed): تسرّب الدم من الفوطة |
+| `symptoms.bleeding` | Bleeding | نزيف | Keep نزيف: the chip is the pregnancy and after-menopause warning sign |
+| `symptoms.clots_larger_than_a_coin` | Clots larger than a coin | جلطات أكبر من قطعة نقدية | Changed 19 Nov (AI review, native check still needed): كتل دموية أكبر من قطعة نقدية |
+| `log.cellPeriod` | bleeding | نزيف | Changed 19 Nov (AI review, native check still needed): نزول الدم |
+| `log.tileFlow` | Flow | النزيف | Changed 19 Nov (AI review, native check still needed): كمية الدم |
+| `log.tilePbac` | Bleeding score | درجة النزيف | Changed 19 Nov (AI review, native check still needed): درجة غزارة الدم |
+| `log.flow` | Flow | النزيف | Changed 19 Nov (AI review, native check still needed): كمية الدم |
+| `log.pbacTitle` | Bleeding score (pictorial chart): {score} | درجة النزيف (المخطط المصوّر): {score} | Changed 19 Nov (AI review, native check still needed): درجة غزارة الدم (المخطط المصوّر): {score} |
+| `log.pbacHint` | Count what you used today. Over a whole period, 100 or more on this chart gynaecologists use suggests heavy bleeding. | عدّي ما استخدمتِه اليوم. على مدى دورة كاملة، تشير درجة 100 أو أكثر على هذا المخطط الذي يستخدمه أطباء النساء إلى نزيف غزير. | Changed 19 Nov (AI review, native check still needed): عدّي ما استخدمتِه اليوم. على مدى دورة كاملة، تشير درجة 100 أو أكثر على هذا المخطط الذي يستخدمه أطباء النساء إلى دورة غزيرة. |
+| `log.pbacItems.clots_small` | Small clots | جلطات صغيرة | Changed 19 Nov (AI review, native check still needed): كتل دموية صغيرة |
+| `log.pbacItems.clots_large` | Clots coin-sized or larger | جلطات بحجم قطعة نقدية أو أكبر | Changed 19 Nov (AI review, native check still needed): كتل دموية بحجم قطعة نقدية أو أكبر |
+| `analytics.pbacTitle` | Bleeding score per period | درجة النزيف في كل دورة | Changed 19 Nov (AI review, native check still needed): درجة غزارة الدم في كل دورة |
+| `analytics.pbacCaption` | Pictorial chart score; 100 or more suggests heavy bleeding | درجة المخطط المصوّر؛ 100 أو أكثر تشير إلى نزيف غزير | Changed 19 Nov (AI review, native check still needed): درجة المخطط المصوّر؛ 100 أو أكثر تشير إلى دورة غزيرة |
+| `analytics.pbacBar` | Period starting {date}: bleeding score {pbac} | الدورة التي بدأت في {date}: درجة النزيف {pbac} | Changed 19 Nov (AI review, native check still needed): الدورة التي بدأت في {date}: درجة غزارة الدم {pbac} |
+| `analytics.heavy` | {n, plural, =0 {No period reached a bleeding score of 100.} one {# period reached a bleeding score of 100 or more.} other {# periods reached a bleeding score of 100 or more.}} | {n, plural, =0 {لم تصل أي دورة إلى درجة نزيف 100.} one {وصلت دورة واحدة إلى درجة نزيف 100 أو أكثر.} two {وصلت دورتان إلى درجة نزيف 100 أو أكثر.} few {وصلت # دورات إلى درجة نزيف 100 أو أكثر.} many {وصلت # دورة إلى درجة نزيف 100 أو أكثر.} other {وصلت # دورة إلى درجة نزيف 100 أو أكثر.}} | Changed 19 Nov (AI review, native check still needed): {n, plural, =0 {لم تصل أي دورة إلى درجة غزارة 100.} one {وصلت دورة واحدة إلى درجة غزارة 100 أو أكثر.} two {وصلت دورتان إلى درجة غزارة 100 أو أكثر.} few {وصلت #  |
+| `analytics.colBleed` | Bleeding days | أيام النزيف | Changed 19 Nov (AI review, native check still needed): أيام نزول الدم |
+| `analytics.colPbac` | Bleeding score | درجة النزيف | Changed 19 Nov (AI review, native check still needed): درجة غزارة الدم |
+| `analytics.yearCaption` | Each dot is a logged day. Filled: bleeding. Ring: pain 7 or more. Diamond: an event. | كل نقطة يوم مُسجَّل. المملوءة: نزيف. الحلقة: ألم 7 أو أكثر. المعيّن: حدث. | Changed 19 Nov (AI review, native check still needed): كل نقطة يوم مُسجَّل. المملوءة: نزول دم. الحلقة: ألم 7 أو أكثر. المعيّن: حدث. |
+| `analytics.yearSummary` | {logged} days logged in the last {months} months, {bleed} with bleeding. | {logged} يوماً مُسجَّلاً خلال آخر {months, plural, few {# أشهر} many {# شهراً} other {# شهر}}، منها {bleed} بنزيف. | Changed 19 Nov (AI review, native check still needed): {logged} يوماً مُسجَّلاً خلال آخر {months, plural, few {# أشهر} many {# شهراً} other {# شهر}}، منها {bleed} بنزول دم. |
+| `report.stats` | {logs} entries · {periodDays} bleeding days · {severe, plural, =0 {no days} one {# day} other {# days}} with pain 7 or more | {logs} إدخال · {periodDays} يوم نزيف · {severe, plural, =0 {لا أيام} one {يوم واحد} two {يومان} few {# أيام} many {# يوماً} other {# يوم}} بألم 7 أو أكثر | Changed 19 Nov (AI review, native check still needed): {logs} إدخال · {periodDays} يوم نزول دم · {severe, plural, =0 {لا أيام} one {يوم واحد} two {يومان} few {# أيام} many {# يوماً} other {# يوم}} بألم 7 أو أكثر |
+| `report.pbac` | Bleeding score by period | درجة النزيف في كل دورة | Changed 19 Nov (AI review, native check still needed): درجة غزارة الدم في كل دورة |
+| `landing.legendBleed` | Bleeding day | يوم نزيف | Changed 19 Nov (AI review, native check still needed): يوم نزول دم |
+| `landing.chartRow` | Cycle starting {date}: {length} days, {bleed} bleeding days | الدورة التي بدأت في {date}: {length} يوماً، منها {bleed} أيام نزيف | Changed 19 Nov (AI review, native check still needed): الدورة التي بدأت في {date}: {length} يوماً، منها {bleed} أيام نزول الدم |
+| `landing.floatQuestion` | “How do I know if my bleeding is heavy?” | «كيف أعرف أن نزيفي غزير؟» | Changed 19 Nov (AI review, native check still needed): «كيف أعرف أن دورتي غزيرة؟» |
+| `landing.spiralIntro` | Each bead is one day of one of Noura's cycles. Magenta beads are bleeding days, lavender beads are days past day 35, and peach beads are the rest. A regular year makes short, tidy loops. Hers stretches. | كل حبة يوم واحد من إحدى دورات نورة. الحبات الوردية أيام نزيف، والبنفسجية أيام بعد اليوم 35، والخوخية بقية الأيام. العام المنتظم يرسم حلقات قصيرة مرتبة، أما عامها فيتمدد. | Changed 19 Nov (AI review, native check still needed): كل حبة يوم واحد من إحدى دورات نورة. الحبات الوردية أيام نزول الدم، والبنفسجية أيام بعد اليوم 35، والخوخية بقية الأيام. العام المنتظم يرسم حلقات قصيرة مرتبة، أما |
+| `landing.colBleed` | Bleeding days | أيام النزيف | Changed 19 Nov (AI review, native check still needed): أيام نزول الدم |
+| `landing.stageDesc.periods` | Cycles, bleeding score, pain and the body map | الدورات ودرجة النزيف والألم وخريطة الجسم | Changed 19 Nov (AI review, native check still needed): الدورات ودرجة غزارة الدم والألم وخريطة الجسم |
+| `landing.t1Body` | {days} days logged over 12 months: flow, pain, symptoms and a bleeding score. | {days} يوماً مُسجَّلاً خلال 12 شهراً: النزيف والألم والأعراض ودرجة النزيف. | Changed 19 Nov (AI review, native check still needed): {days} يوماً مُسجَّلاً خلال 12 شهراً: كمية الدم والألم والأعراض ودرجة غزارة الدم. |
+| `landing.womenBody` | Logging takes about twenty seconds: flow, pain from 0 to 10, a bleeding score using the same pictorial chart gynaecologists use, or a sentence in Arabic or English. She sees her year on one screen, gets questions to ask, and decides who sees her report and for how long. | يستغرق التسجيل نحو عشرين ثانية: النزيف، والألم من 0 إلى 10، ودرجة النزيف على المخطط المصوّر نفسه الذي يستخدمه أطباء النساء، أو جملة بالعربية أو الإنجليزية. ترى عامها في شاشة واحدة، وتحصل على أسئلة تطرحها، وتقرر من يرى تقريرها ولمدة كم. | Changed 19 Nov (AI review, native check still needed): يستغرق التسجيل نحو عشرين ثانية: كمية الدم، والألم من 0 إلى 10، ودرجة غزارة الدم على المخطط المصوّر نفسه الذي يستخدمه أطباء النساء، أو جملة بالعربية أو الإنجليزي |
 
 Outside `ar.json` (same terms):
 - `backend/app/agents/assistant.py` lines 97, 99, 101, 110, 124, 127
-- `backend/app/agents/copy.py` lines 43, 51, and 183, 200, 202 (`AR_SYMPTOM` repeats `symptoms.flooding`,
+- `backend/app/agents/copy.py` lines 43, 51 (RF titles: kept) and the `AR_SYMPTOM` flooding and clots lines (changed with the chips, 19 Nov) (`AR_SYMPTOM` repeats `symptoms.flooding`,
   `symptoms.bleeding` and `symptoms.clots_larger_than_a_coin` for the evidence lines, #67: change both together)
 - `rules/translations_ar.yaml` lines 4, 8, 14, 33, 34, 49, 62
 
@@ -1788,7 +1788,7 @@ laws against the DoH and UAE legislation sites; ours are translations. Counted n
 | `evidence.attackWhat` | Attacks blocked | الهجمات المصدودة | |
 
 ## Baby's first year (build week D1, 19 Nov, draft Arabic, for Dareen's native review)
-**For Dareen (native review, D5):** every Arabic string below is a draft written with Claude Code and not yet read by a
+**19 Nov D5 review (AI, not native):** terms, feminine address and plural forms read correctly; no change needed. The activity-log lines keep the neutral masculine verb used for every action. **For a native speaker:** every Arabic string below is a draft written with Claude Code and not yet read by a
 native speaker. Feminine address on her card (`baby.*`); the baby is "طفلكِ" / "طفلي" (no name, masculine generic);
 status words are in the neutral/masculine form because the steps mix masculine (فحص) and feminine (زيارة، تطعيمات)
 nouns. `baby.clinic.*` is in clinician voice. The step labels and vaccine names come from the API
