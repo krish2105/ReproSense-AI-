@@ -620,6 +620,12 @@ a.prow{text-decoration:none;color:inherit}
   .trust-table td:nth-child(2),.trust-table td:nth-child(3){grid-column:1 / -1}
   .trust-table td:nth-child(4){grid-column:2;grid-row:1}
 }
+/* Pilot proposal (/pilot#proposal): the 90 days as a real sequence, the day range leading each step */
+.prop-steps{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:12px}
+.prop-steps>li{display:grid;grid-template-columns:minmax(92px,auto) 1fr;gap:4px 12px;align-items:baseline;border-top:1px solid var(--rule);padding-top:10px}
+.prop-steps>li:first-child{border-top:0;padding-top:0}
+.prop-when{font-size:13px;font-weight:800;color:var(--accent-text);font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:540px){.prop-steps>li{grid-template-columns:1fr}}
 /* Assistant: the 998 route is always on screen, calm (no alarm colour), with a one-tap call */
 .safety-strip{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--tint);border-radius:16px;padding:10px 14px}
 /* The evidence list says how many more entries back a pattern instead of cutting it silently */
