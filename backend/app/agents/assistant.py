@@ -117,14 +117,14 @@ URGENT_TEXT = {
         "bleed": "Call 998 or go to the nearest emergency department if this is happening now. Very heavy bleeding with dizziness or fainting needs urgent care.",
         "pregnancy": "Call 998 or go to your maternity unit now if this is happening. These signs in pregnancy need checking today.",
         "pain": "Call 998 or go to the nearest emergency department if this is happening now. Sudden, severe pain needs urgent care.",
-        "postnatal": "Call 998 or go to the nearest emergency department if this is happening now. After a birth or a pregnancy loss, get urgent care for a fever, very heavy bleeding or feeling faint. Do the same for tummy pain that is severe or getting worse, or a severe headache. Also get urgent care for chest pain, trouble breathing, or pain or swelling in one leg. You were right to ask.",
+        "postnatal": "Call 998 or go to the nearest emergency department if this is happening now. After a birth or a pregnancy loss, get urgent care for a fever, very heavy bleeding or feeling faint. Do the same for tummy pain that is severe or getting worse, a severe headache, changes in your vision, or sudden swelling of your face, hands or feet. Also get urgent care for chest pain, trouble breathing, or pain or swelling in one leg. You were right to ask.",
         "crisis": "You deserve support right now. If you took too many tablets or hurt yourself badly, or feel you can't keep yourself or someone else safe, call 998 now. Please also talk to a doctor today, and to someone you trust. You are not alone.",
     },
     "ar": {
         "bleed": "اتصلي بالرقم 998 أو توجهي إلى أقرب قسم طوارئ إذا كان هذا يحدث الآن. النزيف الغزير جداً مع الدوخة أو الإغماء يحتاج رعاية عاجلة.",
         "pregnancy": "اتصلي بالرقم 998 أو توجهي إلى وحدة الولادة الآن إذا كان هذا يحدث. هذه العلامات أثناء الحمل تحتاج فحصاً اليوم.",
         "pain": "اتصلي بالرقم 998 أو توجهي إلى أقرب قسم طوارئ إذا كان هذا يحدث الآن. الألم المفاجئ الشديد يحتاج رعاية عاجلة.",
-        "postnatal": "اتصلي بالرقم 998 أو توجّهي إلى أقرب قسم طوارئ إذا كان هذا يحدث الآن. بعد الولادة أو فقدان الحمل، اطلبي رعاية عاجلة عند ارتفاع الحرارة أو النزيف الغزير جداً أو الشعور بالإغماء. وكذلك عند ألم البطن الشديد أو المتزايد، أو الصداع الشديد. واطلبي رعاية عاجلة أيضاً عند ألم الصدر أو ضيق التنفس أو ألم إحدى الساقين أو تورّمها. سؤالكِ في محلّه.",
+        "postnatal": "اتصلي بالرقم 998 أو توجّهي إلى أقرب قسم طوارئ إذا كان هذا يحدث الآن. بعد الولادة أو فقدان الحمل، اطلبي رعاية عاجلة عند ارتفاع الحرارة أو النزيف الغزير جداً أو الشعور بالإغماء. وكذلك عند ألم البطن الشديد أو المتزايد، أو الصداع الشديد، أو تغيّر الرؤية، أو التورّم المفاجئ في الوجه أو اليدين أو القدمين. واطلبي رعاية عاجلة أيضاً عند ألم الصدر أو ضيق التنفس أو ألم إحدى الساقين أو تورّمها. سؤالكِ في محلّه.",
         "crisis": "أنتِ تستحقين الدعم الآن. إذا تناولتِ حبوباً أكثر من اللازم أو آذيتِ نفسكِ بشدة، أو شعرتِ بأنكِ لا تستطيعين الحفاظ على سلامتكِ أو سلامة غيركِ، اتصلي بالرقم 998 الآن. وتحدّثي اليوم مع طبيب أو طبيبة، ومع شخص تثقين به. لستِ وحدكِ.",
     },
 }
@@ -132,7 +132,7 @@ URGENT_SOURCES = {  # each urgent reply cites sources that cover its own text, f
     "bleed": ["nhs_heavy_periods"],
     "pregnancy": ["nhs_pregnancy_urgent"],  # also lists fluid leaking, swelling, vision problems, fever
     "pain": ["nhs_pelvic_pain"],
-    "postnatal": ["nice_ng194", "nice_ng126"],  # after a birth (NG194) or a pregnancy loss (NG126)
+    "postnatal": ["nice_ng194", "nice_ng126", "nhs_pre_eclampsia"],  # after a birth (NG194) or a pregnancy loss (NG126)
     "crisis": ["nhs_urgent_mental_health", "nhs_suicidal_thoughts", "nice_cg192"],  # 998 and tablets lines, then perinatal
 }
 DIAGNOSIS = [
