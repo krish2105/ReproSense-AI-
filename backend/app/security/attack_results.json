@@ -1,8 +1,8 @@
 {
  "suite": "backend/tests/test_attack_suite.py",
- "commit": "fef2516",
+ "commit": "83aed3a",
  "date": "2026-11-19",
- "ran_at": "2026-11-19T08:22:39+00:00",
+ "ran_at": "2026-11-19T09:07:12+00:00",
  "total": 14,
  "blocked": 12,
  "not_blocked": 0,
@@ -90,7 +90,7 @@
   },
   {
    "id": 11,
-   "name": "A revoked or expired share link",
+   "name": "A revoked or expired share link or family link",
    "layer": "links",
    "test": "test_attack_11_revoked_or_expired_link_is_refused",
    "layer_label": "Hashed, expiring, revocable links",
