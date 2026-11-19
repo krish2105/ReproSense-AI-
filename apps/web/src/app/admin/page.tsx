@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AutoRefresh } from "@/components/admin/AutoRefresh";
+import { EventTimeline } from "@/components/admin/EventTimeline";
+import { LoopMetrics } from "@/components/admin/LoopMetrics";
 import { RegionSection } from "@/components/admin/RegionSection";
 import { RoiCalculator } from "@/components/admin/RoiCalculator";
 import { Tag } from "@/components/ui/Tag";
@@ -154,6 +156,8 @@ export default async function AdminPage() {
           </a>
         </p>
       </section>
+
+      <LoopMetrics m={m.loop} locale={locale} scope="network" />
 
       <RegionSection regions={m.regions} names={Object.fromEntries(m.regions.map((r) => [r.region, region(r.region)]))} />
 
@@ -316,6 +320,12 @@ export default async function AdminPage() {
           </p>
         </section>
       </div>
+
+      <EventTimeline
+        endpoint="/admin/events"
+        scope="network"
+        clinics={m.clinics.map((c) => ({ id: c.clinic_id, name: t.has(`clinics.${c.clinic_id}`) ? t(`clinics.${c.clinic_id}`) : (c.name ?? c.clinic_id) }))}
+      />
     </>
   );
 }

@@ -12,15 +12,16 @@ import hashlib
 import io
 import secrets
 from collections import defaultdict
-from datetime import timedelta
+from datetime import date, timedelta
 
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from pydantic import BaseModel, Field
 
 from app.config import get_settings
 from app.db import SYSTEM, Actor, session
 from app.security import audit
 from app.security.auth import COOKIE, create_token, require
+from app.services import followups, timeline
 
 router = APIRouter(prefix="/v1/clinic-admin", tags=["clinic-admin"])
 invites_router = APIRouter(prefix="/v1/clinic-invites", tags=["clinic-admin"])
@@ -300,7 +301,13 @@ def dashboard(actor: Actor = Depends(clinic_admin)):
         )
         pending = cur.fetchone()["n"]
         clinic = _clinic(cur, actor.clinic_id)
+        # her clinic's loop: its cohort members (RLS) and the live follow-ups shared with it (follow_up_loop())
+        loop_rows, loop_steps = followups.cohort_rows(cur, actor.clinic_id)
+        loop_rows += followups.live_rows(cur)
         audit.record(cur, actor, "view_clinic_dashboard", None, f"clinic:{actor.clinic_id}")
+    ref = get_settings().demo_ref_date
+    with session(SYSTEM) as cur:  # live records with a birth that share with this clinic: counted, never listed
+        loop_steps += followups.live_postnatal_steps(cur, ref, actor.clinic_id)
 
     raw = _by_status(rows)
     total = sum(raw.values())
@@ -334,8 +341,28 @@ def dashboard(actor: Actor = Depends(clinic_admin)):
         },
         "shared_records": _k(shared),
         "team": {"clinicians": clinicians, "pending_invites": pending},
+        "loop": followups.loop_metrics(loop_rows, loop_steps, ref),
         "note": "Synthetic cohort plus the live demo records shared with this clinic. Groups under 10 are hidden.",
     }
+
+
+@router.get("/events")
+def events(
+    role: str | None = Query(None, pattern=r"^[a-z_]{1,20}$"),
+    action: str | None = Query(None, pattern=r"^[a-z_]{1,60}$"),
+    since: date | None = Query(None, alias="from"),
+    until: date | None = Query(None, alias="to"),
+    page: int = Query(1, ge=1, le=10_000),
+    page_size: int = Query(25, ge=1, le=timeline.MAX_PAGE_SIZE),
+    snapshot: int | None = Query(None, ge=0),
+    actor: Actor = Depends(clinic_admin),
+):
+    """Her clinic's event timeline. audit_event_rows() returns only her clinic's rows to a clinic admin, whatever is
+    asked for; patients' ids leave as pseudonyms."""
+    with session(actor) as cur:
+        out = timeline.events(cur, actor.clinic_id, role, action, since, until, page, page_size, snapshot)
+        audit.record(cur, actor, "view_clinic_events", None, f"clinic:{actor.clinic_id}", {"page": page})
+    return {**out, "scope": "clinic", "clinic_id": actor.clinic_id, "chain": timeline.chain()}
 
 
 EXPORT_COLUMNS = ("clinic_id", "breakdown", "group", "follow_up_type", "status", "count", "suppressed")

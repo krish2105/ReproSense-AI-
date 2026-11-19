@@ -34,7 +34,11 @@ WEB = ROOT / "apps" / "web"
 OUT = BACKEND / "app" / "evidence.json"
 EVAL = BACKEND / "app" / "ai" / "eval_results.json"
 # Files a test run rewrites; they are restored after the run and do not make the tree "dirty".
-REWRITTEN = ("backend/app/evidence.json", "backend/app/ai/eval_results.json", "backend/app/security/attack_results.json")
+REWRITTEN = (
+    "backend/app/evidence.json",
+    "backend/app/ai/eval_results.json",
+    "backend/app/security/attack_results.json",
+)
 
 
 def eval_fingerprint(evals: dict) -> str:
@@ -72,7 +76,9 @@ def backend_counts() -> dict:
 def web_unit_counts() -> dict:
     with tempfile.TemporaryDirectory() as tmp:
         out = Path(tmp) / "vitest.json"
-        subprocess.run(["pnpm", "exec", "vitest", "run", "--reporter=json", f"--outputFile={out}"], cwd=WEB, check=False)
+        subprocess.run(
+            ["pnpm", "exec", "vitest", "run", "--reporter=json", f"--outputFile={out}"], cwd=WEB, check=False
+        )
         if not out.exists():
             raise SystemExit("The web unit tests did not run (no report).")
         r = json.loads(out.read_text(encoding="utf-8"))

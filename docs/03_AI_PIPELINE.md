@@ -97,6 +97,29 @@ Reject and regenerate if output matches (case-insensitive, EN + AR equivalents):
   Cite like [1]. Never diagnose. If the user describes a red-flag symptom, start with urgent guidance."
 - Evaluation set: `backend/tests/rag_eval.jsonl` — 30 questions with expected source_ids; report hit@4 and citation validity.
 
+## Assistant router: three lanes (section 7, 19 Nov 2026, G2 Krishna)
+`backend/app/agents/router.py` is a small LangGraph in front of the knowledge answer:
+`intake → safety (word checks, unchanged) → route → [model's second safety check] → knowledge | record | next_step`.
+- **Safety first, unchanged.** A crisis, urgent sign, medicine question or diagnosis request found by the word checks goes
+  to the knowledge answer (`assistant.answer`), whose safety replies are exactly as before.
+- **Deterministic route** (EN and Gulf Arabic patterns): a short question (≤ 20 words) with a first-person marker, a
+  data-question shape and a topic goes to her record; "what should I do next?" or "prepare me for my appointment" goes to
+  next steps; questions about what is normal, why, what it means, yes/no questions and anything about someone else's data
+  stay with the knowledge answer (someone else's record is never opened). A model may pick a lane only when her AI switch
+  is on and one is configured; it never answers. All 702 eval and held-out questions stay in the knowledge lane
+  (`tests/test_record_eval.py`).
+- **(b) Her record: the model narrates, code computes** (`backend/app/agents/record.py`): cycle lengths, last period, pain
+  days, missed-work days, lab values, blood-pressure readings and postnatal steps, each line with dated chips that open the
+  day. A model may reword only cycle, period, pain and missed-work lines; the verifier keeps a reworded line only with
+  exactly the same numbers, no new judging word and no diagnostic wording. Lab values and readings are shown as printed,
+  with the lab's own range, never interpreted and never reworded. Eval: `tests/record_eval.jsonl` (22 EN/AR questions,
+  expected values computed from the seeded personas; every number in an answer must be one of them).
+- **(c) Next steps:** red flags first (their own 998 message), then up to 3 patterns or care steps with questions for the
+  doctor and a care-navigator draft (status `draft`; she approves or discards; nothing is sent), then due postnatal
+  steps. On the crisis path: the support message and other red flags only.
+- **Her AI switch:** off, the record and next-step lanes still answer (code, no model call); the knowledge answer stays
+  closed (403 `ai_off`); safety replies still show.
+
 ## LLM provider
 `ai/llm.py` exposes `complete(messages, schema=None)`. Implementations: `ClaudeProvider` (hackathon, synthetic data),
 `AzureUAENorthProvider` / `UAEHostedProvider` (production placeholder). Choose with env `LLM_PROVIDER`.

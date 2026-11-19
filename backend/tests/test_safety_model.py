@@ -126,7 +126,8 @@ def test_a_reply_cut_at_max_tokens_is_no_answer_and_is_not_cached(caplog):
 
 
 class HalfLLM(RouterLLM):
-    """Answers every other safety check, like a model whose replies are often cut off."""
+    """Never answers the safety check for half the questions, like a model whose replies to them are always cut off
+    (a retry does not help: the eval retries transient failures such as a 429, see safety_eval._Counting)."""
 
     name = "fake-half"
 
@@ -138,7 +139,7 @@ class HalfLLM(RouterLLM):
         if system != safety.MODEL_SYSTEM:
             return None
         self.calls += 1
-        return self.route if self.calls % 2 else None
+        return None if ("PCOS" in user or "PBAC" in user) else self.route
 
 
 EVAL_ROWS = [
@@ -157,6 +158,7 @@ EVAL_ROWS = [
 def test_the_eval_writes_a_model_score_only_when_the_model_answered(monkeypatch, tmp_path, fake, code, written):
     from app.ai import llm, safety_eval
 
+    monkeypatch.setenv("SAFETY_EVAL_PACE_S", "0")  # no pacing in tests
     out = tmp_path / "eval_results.json"
     out.write_text('{"before": true}')
     monkeypatch.setattr(safety_eval, "load", lambda: EVAL_ROWS)
@@ -171,3 +173,27 @@ def test_the_eval_writes_a_model_score_only_when_the_model_answered(monkeypatch,
     if written:
         assert saved["heldout_with_model"]["model"] == model.name
         assert saved["heldout_with_model"]["date"]  # /evidence shows when the model run happened
+
+
+def test_a_transient_failure_is_retried_and_rewording_is_never_asked(monkeypatch):
+    """A 429 from a shared key is retried; the routing score never asks the model to reword (that costs credit)."""
+    from app.ai import safety_eval
+
+    class Flaky:
+        name = "fake-flaky"
+
+        def __init__(self):
+            self.safety_calls, self.other_calls = 0, 0
+
+        def complete_json(self, system, user, max_tokens=2000):
+            if system != safety.MODEL_SYSTEM:
+                self.other_calls += 1
+                return {"x": 1}
+            self.safety_calls += 1
+            return None if self.safety_calls == 1 else {"crisis": False, "urgent": None}
+
+    inner = Flaky()
+    c = safety_eval._Counting(inner, pace_s=0)
+    assert c.complete_json(safety.MODEL_SYSTEM, "q", 100) == {"crisis": False, "urgent": None}
+    assert (c.asked, c.answered, inner.safety_calls) == (1, 1, 2)
+    assert c.complete_json("a writer system", "q", 100) is None and inner.other_calls == 0

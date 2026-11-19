@@ -10,6 +10,7 @@ import type { Locale } from "@/i18n/config";
 import { displayName, formatDayMonth, regionKey } from "@/lib/format";
 import { SOURCES } from "@/lib/sources";
 import { hasBirth } from "@/lib/ask-chips";
+import { FollowUpHistory } from "./FollowUpHistory";
 import { AskRecord, CareGaps, ReviewButton, VisitNote } from "./RecordActions";
 import { TableScroll } from "@/components/ui/TableScroll";
 
@@ -86,7 +87,12 @@ export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Loc
 
       {r.previsit_brief && <BriefSection brief={r.previsit_brief} locale={locale} audience="clinician" />}
 
-      {r.care_gaps.length > 0 && <CareGaps gaps={r.care_gaps} />}
+      {r.care_gaps.length > 0 && (
+        <CareGaps
+          gaps={r.care_gaps}
+          histories={Object.fromEntries(r.care_gaps.filter((g) => g.history).map((g) => [g.id, <FollowUpHistory key={g.id} h={g.history!} locale={locale} />]))}
+        />
+      )}
 
       {r.postnatal && (
         <section aria-labelledby="pn-c" data-testid="clinic-postnatal">
