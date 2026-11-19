@@ -138,7 +138,7 @@ def history(cur, pid: str, gap_id: int, ref: date, viewer: str, lang: str = "en"
         )
     )
 
-    if share and share["granted_at"]:
+    if share and share["granted_at"] and (share["granted"] or share["revoked_at"]):  # never shared: no line
         grants = [r for r in rows if r["target"] == "care_share" and r["action"] == "consent_grant"]
         row = grants[-1] if grants else None
         steps.append(

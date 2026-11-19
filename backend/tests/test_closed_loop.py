@@ -377,3 +377,18 @@ def test_every_loop_step_and_every_view_is_in_the_chained_audit_log(client, rese
     v = client.get("/v1/admin/audit/verify", headers=login(client, role="admin")).json()
     assert v["chain_ok"] is True
     assert get_settings().demo_ref_date == REF
+
+
+def test_a_record_that_was_never_shared_has_no_shared_line(client, reseed):
+    client.cookies.clear()
+    r = client.post(
+        "/v1/demo/signup",
+        json={"name": "Huda", "age": 29, "region": "Al Ain", "lang": "en", "life_stage": "after_birth",
+              "weeks_since_birth": 6, "gdm": True},
+    )  # fmt: skip
+    assert r.status_code == 200, r.text
+    h = {"Authorization": f"Bearer {r.json()['token']}"}
+    client.cookies.clear()
+    [f] = client.get("/v1/me/followups", headers=h).json()["follow_ups"]
+    assert [s["step"] for s in f["steps"]] == ["opened"]
+    assert f["pending"] == ["booked", "done", "result"] and f["follow_up"]["overdue"] is False
