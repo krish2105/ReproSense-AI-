@@ -45,3 +45,17 @@ node pitch/build_submission_deck.js                   # writes pitch/ReproSense-
 soffice --headless --convert-to pdf --outdir pitch pitch/ReproSense-submission.pptx   # the PDF
 ```
 The slide-2 picture is `img/noura-insights.jpg` (fictional persona, demo badge visible).
+
+## The MP4 demo (build week Y5)
+`ReproSense-demo.mp4`: about 98 seconds, 1280×720, captions burned in, no sound (add a voice-over if you like). The
+path: landing → Noura's home → a pattern with its evidence and "How this was produced" → the assistant answering
+"What counts as a heavy period?" with sources → the doctor report → the clinician list, Noura's handover and Ask the
+record → Fatima's after-birth glucose follow-up marked done → the clinic network → the pilot value page → close.
+Every record is fictional. Recorded by `apps/web/scripts/demo-video.mjs` from a freshly reset local stack, so every
+number is the seeded one; re-record after any screen change:
+```
+make api                                              # API on :8010
+cd apps/web && pnpm build && pnpm start -p 3100       # web on :3100 (another terminal)
+cd apps/web && PW_CHANNEL=chrome node scripts/demo-video.mjs    # writes pitch/ReproSense-demo.mp4 (needs ffmpeg)
+```
+Against the live site, without resetting the shared demo: `E2E_BASE_URL=https://reprosense.vercel.app DEMO_RESET=0`.
