@@ -1,11 +1,14 @@
 import "server-only";
 import { cookies } from "next/headers";
-import { ApiError, errorDetail } from "./errors";
+import { apiError } from "./errors";
 
 export const API_URL = process.env.API_URL ?? "http://127.0.0.1:8010";
 // A hung API (a sleeping free instance can take ~30-60 s to wake) shows the error screen with Retry, not a spinner.
 const API_TIMEOUT_MS = Number(process.env.API_TIMEOUT_MS) || 15_000;
 export const SESSION_COOKIE = "rs_token";
+/** Set for a few seconds by the network dashboard's live refresh (AutoRefresh), so the API does not count it as
+ *  activity: an unattended staff screen still ends after 30 idle minutes. Any click or key clears it. */
+export const BACKGROUND_COOKIE = "rs_bg";
 
 type Query = Record<string, string | number | boolean | undefined>;
 export interface ServerCall {
@@ -25,9 +28,11 @@ export function apiUrl(path: string, query?: Query): string {
  * header): the API's rate limiter keys requests by that cookie, so every SSR call doesn't share one IP bucket.
  */
 export async function apiServer<T>(path: string, call: ServerCall = {}): Promise<T> {
-  const token = (await cookies()).get(SESSION_COOKIE)?.value;
+  const jar = await cookies();
+  const token = jar.get(SESSION_COOKIE)?.value;
   const headers: Record<string, string> = { accept: "application/json" };
   if (token) headers.cookie = `${SESSION_COOKIE}=${token}`;
+  if (jar.get(BACKGROUND_COOKIE)?.value === "1") headers["x-rs-background"] = "1";
   if (call.body !== undefined) headers["content-type"] = "application/json";
   const res = await fetch(apiUrl(path, call.query), {
     method: call.method ?? "GET",
@@ -36,6 +41,6 @@ export async function apiServer<T>(path: string, call: ServerCall = {}): Promise
     cache: "no-store",
     signal: AbortSignal.timeout(API_TIMEOUT_MS),
   });
-  if (!res.ok) throw new ApiError(res.status, await errorDetail(res));
+  if (!res.ok) throw await apiError(res);
   return (await res.json()) as T;
 }

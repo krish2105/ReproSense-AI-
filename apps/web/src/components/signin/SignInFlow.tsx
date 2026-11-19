@@ -24,7 +24,7 @@ export function useProblemText(): (e: unknown) => string {
  * "Sign in to my record" (K5): a passkey first, an email code as backup. The code option appears only when the
  * server can send email. On success the record opens with a full page load (a new identity, see enterAs).
  */
-export function SignInFlow({ emailAvailable }: { emailAvailable: boolean }) {
+export function SignInFlow({ emailAvailable, notice }: { emailAvailable: boolean; notice?: string }) {
   const t = useTranslations("signin");
   const problemText = useProblemText();
   const [busy, setBusy] = useState<"passkey" | "send" | "verify" | null>(null);
@@ -81,6 +81,11 @@ export function SignInFlow({ emailAvailable }: { emailAvailable: boolean }) {
       <div className="panel join-card">
         <h1 className="page-title">{t("title")}</h1>
         <p className="dim">{t("lede")}</p>
+        {notice && (
+          <p className="notice" role="status">
+            {notice}
+          </p>
+        )}
 
         <section aria-labelledby="pk-title" className="signin-part">
           <h2 id="pk-title" className="signin-h">

@@ -99,6 +99,18 @@ def _demo_session(sess: SessionInfo) -> bool:
     return get_settings().demo_mode and sess.how == "demo"
 
 
+@router.get("/rules")
+def rules():
+    """The session rules the sign-in pages state (public, no session)."""
+    s = get_settings()
+    return {
+        "idle_minutes": s.staff_idle_minutes,
+        "max_hours": s.staff_session_max_minutes // 60,
+        "step_up_minutes": s.step_up_minutes,
+        "patient_hours": s.token_ttl_minutes // 60,
+    }
+
+
 # ---------- Your sign-in (staff panel) ----------
 @router.get("/me")
 def me(actor: Actor = Depends(staff), sess: SessionInfo = Depends(current_session)):
@@ -394,13 +406,19 @@ def setup_code(token: str, body: CodeIn, request: Request, response: Response):
 # ---------- step-up before an export ----------
 @router.post("/step-up/options")
 def step_up_options(actor: Actor = Depends(staff), sess: SessionInfo = Depends(current_session)):
+    """How this session confirms an export. `fresh`: a check in the last few minutes still holds, so the export can
+    go ahead without asking again (and no challenge is made)."""
+    minutes = get_settings().step_up_minutes
+    if sess.step_up_at and sessions.utcnow() - sess.step_up_at <= timedelta(minutes=minutes):
+        return {"fresh": True, "mode": "demo_confirm" if _demo_session(sess) else "passkey", "valid_minutes": minutes}
     if _demo_session(sess):
-        return {"mode": "demo_confirm"}
+        return {"fresh": False, "mode": "demo_confirm", "valid_minutes": minutes}
     with session(actor) as cur:
         allow = [p["credential_id"] for p in _passkeys(cur, actor.user_id)]
     if not allow:
         raise HTTPException(409, NO_PASSKEY)
-    return {"mode": "passkey", "options": authentication_options("step_up", actor.user_id, allow)}
+    options = authentication_options("step_up", actor.user_id, allow)
+    return {"fresh": False, "mode": "passkey", "options": options, "valid_minutes": minutes}
 
 
 def _stepped_up(actor: Actor, sess: SessionInfo, how: str) -> dict:

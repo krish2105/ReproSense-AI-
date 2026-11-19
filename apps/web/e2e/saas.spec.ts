@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import { en, expect, signIn, test } from "./fixtures";
 
 // What a clinic buyer checks (docs/09 C, Real SaaS): the trust centre maps the DoH Responsible AI Standard, each
@@ -22,10 +23,13 @@ test("the network admin sees each clinic and downloads the audit log", async ({ 
   const byClinic = page.locator("section").filter({ has: page.getByRole("heading", { name: en.admin.clinicsTitle }) });
   await expect(byClinic.getByRole("row")).toHaveCount(5); // header + four fictional clinics
   await expect(byClinic).toContainText(en.clinics.clinic_alain);
-  const link = page.getByRole("link", { name: en.admin.auditExport });
-  const res = await page.request.get((await link.getAttribute("href"))!);
-  expect(res.headers()["content-type"]).toContain("text/csv");
-  const head = (await res.text()).split(/\r?\n/)[0]; // RFC 4180 CSV lines end in CRLF
+  // The export asks for a step-up first: a one-tap demo session confirms in one tap (plan section 5).
+  await page.getByRole("button", { name: en.admin.auditExport }).click();
+  const saved = page.waitForEvent("download");
+  await page.getByRole("dialog").getByRole("button", { name: en.staffAuth.stepUp.demoButton }).click();
+  const download = await saved;
+  expect(download.suggestedFilename()).toBe("reprosense-audit-log.csv");
+  const head = (await readFile(await download.path(), "utf8")).split(/\r?\n/)[0]; // RFC 4180 CSV lines end in CRLF
   expect(head).toBe("id,at,actor_role,actor_id,action,subject_id,target,prev_hash,hash");
 });
 

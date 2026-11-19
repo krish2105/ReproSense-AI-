@@ -398,6 +398,15 @@ def test_her_sessions_keep_the_12_hour_policy(web, clock):
     assert "max-age=28800" in staff.headers["set-cookie"].lower()
 
 
+def test_a_staff_token_past_its_own_expiry_says_the_8_hour_limit(client):
+    s = get_settings()
+    then = auth_mod.utcnow() - timedelta(hours=9)
+    for role, reason in (("clinician", "max"), ("patient", "expired")):
+        claims = {"sub": "x", "role": role, "iat": then, "exp": then + timedelta(hours=8), "aud": "reprosense-demo"}
+        r = client.get("/v1/demo/whoami", headers=bearer(jwt.encode(claims, s.demo_token_secret, algorithm="HS256")))
+        assert r.status_code == 401 and r.headers["x-session-ended"] == reason
+
+
 def test_a_staff_token_from_before_sessions_were_tracked_is_refused(client):
     s = get_settings()
     now = auth_mod.utcnow()
@@ -581,9 +590,15 @@ def test_demo_sessions_confirm_an_export_in_one_tap(web):
         demo_tap(web, role)
         assert web.get(path).status_code == 403
         o = web.post("/v1/staff-auth/step-up/options")
-        assert o.json() == {"mode": "demo_confirm"}
+        assert o.json() == {"fresh": False, "mode": "demo_confirm", "valid_minutes": 5}
         assert web.post("/v1/staff-auth/step-up/demo").status_code == 200
         assert web.get(path).status_code == 200
+        # within the window the page can tell, without a refused download, that no new check is needed
+        assert web.post("/v1/staff-auth/step-up/options").json() == {
+            "fresh": True,
+            "mode": "demo_confirm",
+            "valid_minutes": 5,
+        }
     assert any(s["target"] == "demo_confirm" for s in audit_rows("step_up", "admin-01"))
 
 
@@ -595,6 +610,16 @@ def test_the_demo_confirm_is_off_outside_demo_mode(web, monkeypatch):
 
 
 # ---------- the judges' one tap, audit, and roles ----------
+def test_the_sign_in_pages_can_state_the_rules_without_a_session(web):
+    web.cookies.clear()
+    assert web.get("/v1/staff-auth/rules").json() == {
+        "idle_minutes": 30,
+        "max_hours": 8,
+        "step_up_minutes": 5,
+        "patient_hours": 12,
+    }
+
+
 def test_one_tap_demo_logins_still_work_for_every_role(web):
     for persona in ("noura", "fatima"):
         web.cookies.clear()

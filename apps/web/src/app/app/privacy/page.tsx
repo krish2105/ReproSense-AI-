@@ -3,11 +3,12 @@ import Image from "next/image";
 import { cookies } from "next/headers";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ConsentToggles, DeleteData, DiscreetToggle, FhirCheck } from "@/components/privacy/PrivacyActions";
+import { Devices } from "@/components/privacy/Devices";
 import { SignInMethods } from "@/components/privacy/SignInMethods";
 import { Box } from "@/components/ui/Box";
 import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
-import type { AuthMe, PrivacyResponse } from "@/lib/api/types";
+import type { AuthMe, PrivacyResponse, SessionsList } from "@/lib/api/types";
 import { formatDate } from "@/lib/format";
 import { requireRole } from "@/lib/session";
 
@@ -22,7 +23,11 @@ export default async function PrivacyPage() {
   const raw = await getLocale();
   const locale = isLocale(raw) ? raw : "en";
   const t = await getTranslations("privacy");
-  const [p, me] = await Promise.all([apiServer<PrivacyResponse>("/privacy"), apiServer<AuthMe>("/auth/me")]);
+  const [p, me, sessions] = await Promise.all([
+    apiServer<PrivacyResponse>("/privacy"),
+    apiServer<AuthMe>("/auth/me"),
+    apiServer<SessionsList>("/sessions"),
+  ]);
   const discreet = (await cookies()).get("rs_discreet")?.value === "1";
   const time = new Intl.DateTimeFormat(locale === "ar" ? "ar-AE-u-nu-latn" : "en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Dubai" });
   return (
@@ -49,6 +54,7 @@ export default async function PrivacyPage() {
           {t("signin.title")}
         </h2>
         <SignInMethods me={me} locale={locale} />
+        <Devices sessions={sessions} ownRecord={me.own_record} locale={locale} />
       </Box>
 
       <Box>

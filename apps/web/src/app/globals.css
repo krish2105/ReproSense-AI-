@@ -609,6 +609,14 @@ a.prow{text-decoration:none;color:inherit}
 .signin-form{display:flex;flex-direction:column;gap:12px}
 input.signin-code{font-variant-numeric:tabular-nums;letter-spacing:.3em;width:min(200px,100%)}
 .signin-list{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:8px}
+/* Staff sign-out in the staff headers: a nav-sized button at the end of the nav row */
+.nav-out{margin-inline-start:auto;border:0;background:none;cursor:pointer;font:inherit;font-weight:600;font-size:14px;color:var(--ink-2);padding:7px 10px;border-radius:999px;white-space:nowrap}
+.nav-out:hover{color:var(--ink);background:var(--tint)}
+.nav-out:disabled{opacity:.6;cursor:progress}
+/* Staff and DoH sign-in steps */
+.step-done{display:inline-flex;align-items:center;gap:6px}
+.totp-qr{background:#fff;padding:12px;border-radius:18px;align-self:flex-start;line-height:0}
+.totp-key{font-variant-numeric:tabular-nums;letter-spacing:.08em;word-break:break-all}
 .invite{display:flex;flex-direction:column;gap:6px;margin-top:18px;padding-top:16px;border-top:1px solid var(--rule)}
 .invite-row{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
 .invite-qr{width:120px;height:120px;flex:none;border-radius:12px;overflow:hidden;background:var(--tint)}

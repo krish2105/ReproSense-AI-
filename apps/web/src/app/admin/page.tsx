@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { AutoRefresh } from "@/components/admin/AutoRefresh";
 import { RegionSection } from "@/components/admin/RegionSection";
 import { RoiCalculator } from "@/components/admin/RoiCalculator";
+import { StepUpExport } from "@/components/staff/StepUpExport";
 import { Tag } from "@/components/ui/Tag";
 import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
@@ -304,9 +305,8 @@ export default async function AdminPage() {
             )}
           </p>
           <div style={{ marginTop: 12 }}>
-            <a className="btn btn-o btn-sm" href="/api/v1/admin/audit/export.csv" download="reprosense-audit-log.csv">
-              {t("admin.auditExport")}
-            </a>
+            {/* The export asks for the passkey again (a one-tap confirm in a demo session): plan section 5 */}
+            <StepUpExport href="/api/v1/admin/audit/export.csv" filename="reprosense-audit-log.csv" label={t("admin.auditExport")} />
           </div>
           <p className="xs dim" style={{ marginTop: 8 }}>
             {t("admin.auditExportHint")}

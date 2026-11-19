@@ -8,13 +8,14 @@ sharing data with advertisers (e.g. the US FTC's 2021 case against Flo). Our pro
 | --- | --- |
 | Data minimisation | Alias, age range, cycle data. No name, Emirates ID or phone needed for patients. |
 | On-device first | Feature calculations for the dashboard run in the browser; server gets data only for consented features. |
-| Passwordless | Passkeys (WebAuthn) via Supabase Auth; magic link fallback. |
+| Passwordless | Passkeys (WebAuthn). Her: a passkey, a 6-digit email code as backup. Staff (clinicians, clinic admins): a passkey only, at `/staff/signin`. DoH network admin: a passkey plus an authenticator-app code (TOTP) at `/doh/signin`; accounts only from the operator CLI. |
 | Private notes | Notes encrypted client-side (WebCrypto AES-GCM, key derived from passkey session) — server stores ciphertext. |
 | Transparency | Privacy centre with "who saw my data" timeline from the audit log. |
 | Control | Granular consent per purpose; export JSON; delete account in one step. |
 
 ## Checklist (must all be ticked in Phase 8)
 - [ ] Supabase Auth with passkeys; JWT verified on every API call; short-lived tokens (15 min) + refresh
+- [x] Staff and DoH sessions (plan section 5): every token has an id (jti) and a session row; staff and DoH sessions end after 30 idle minutes and 8 hours at most (hers: 12 hours); sign-out puts the jti on a revoked list in Postgres (a copied cookie gets 401); sign out everywhere; exports ask for a fresh passkey check (5 minutes; one-tap confirm for demo sessions only); every staff sign-in, failure, sign-out, revocation and step-up is in the audit chain. Tested in `test_staff_signin.py` and `e2e/staff-signin.spec.ts`
 - [ ] RBAC roles: patient, clinician, admin; every endpoint declares allowed roles
 - [ ] Postgres RLS on every table; tests prove a clinician cannot read a non-consented patient
 - [ ] Admin endpoints return aggregates only, minimum group size 10

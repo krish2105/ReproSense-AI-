@@ -172,10 +172,13 @@ def peek(token: str) -> dict | None:
 
 
 def _claims(token: str) -> dict:
+    secret = get_settings().demo_token_secret
     try:
-        c = jwt.decode(token, get_settings().demo_token_secret, algorithms=[ALG], audience=AUD)
+        c = jwt.decode(token, secret, algorithms=[ALG], audience=AUD)
     except jwt.ExpiredSignatureError as e:
-        raise ended("expired") from e
+        # A staff token's own expiry is the 8-hour limit; hers is the end of her 12 hours.
+        old = jwt.decode(token, secret, algorithms=[ALG], audience=AUD, options={"verify_exp": False})
+        raise ended("max" if is_staff(old.get("role", "")) else "expired") from e
     except jwt.PyJWTError as e:
         raise HTTPException(401, EXPIRED) from e
     if c.get("role") not in ROLES:

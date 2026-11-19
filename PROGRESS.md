@@ -17,6 +17,28 @@ Blockers / questions:
 
 ---
 
+## 2026-11-19 — Staff and DoH sign-in (plan section 5, "full plan") — Krishna with Claude Code
+Done (branch `feat/staff-signin`, one PR, not merged):
+- Two doors: `/staff/signin` (clinicians, clinic admins: passkey only) and `/doh/signin` (DoH network admin: passkey,
+  then a 6-digit authenticator code, TOTP via `pyotp`, set up once by QR from a single-use link). DoH accounts only
+  from the operator CLI `uv run python -m app.security.create_doh_admin` (`--alias` new, `--setup doh-01` new link);
+  seeded fictional `doh-01`.
+- Sessions by role: every token has a jti and an `auth_sessions` row. Staff and DoH: 30 idle minutes (sliding; the
+  admin dashboard's 10 s refresh does not count), 8 hours at most. Hers: 12 hours as before. One-tap demo staff
+  sessions follow the staff rules. A refused session says why (`X-Session-Ended`) and the web shows a notice at the door.
+- Sign-out revokes the jti (`revoked_tokens`, Postgres, kept until expiry and across a demo reset); sign out everywhere
+  and sign out one device, for her (Privacy) and staff (Your sign-in); refused for shared demo accounts.
+- Step-up: the audit log and clinic CSV exports need a passkey check within 5 minutes; demo sessions confirm in one tap.
+- Audit rows for every staff/DoH sign-in, failed sign-in, sign-out, revocation and step-up.
+- The demo reset takes no lock on the session tables (guarded DDL), so judges stay signed in through a reset.
+Tests: backend 641 passed (38 new in `test_staff_signin.py`) · web lint 0 errors, typecheck, 95 unit tests ·
+`e2e/staff-signin.spec.ts` (5 tests × 2 viewports) runs in CI only.
+UI slop check: pass (doors reuse the `/signin` card; no new radii, gradients or icons; EN/AR, light/dark, 390/1280 checked
+in the browser on a local build).
+Next:
+- Native Arabic review of the new strings (`docs/AR_REVIEW.md`, "Staff and DoH sign-in").
+- Live demo: a demo reset removes every passkey and the DoH setup; re-run the CLI for `doh-01` after a reset.
+
 ## 2026-11-19 — C7 steps 2–3: Lighthouse and demo readiness on the live site — Atharva with Claude Code
 Lighthouse 13, mobile, live https://reprosense.vercel.app (signed-in pages with a demo session cookie):
 | Screen | Perf | A11y | Best pr. | SEO | LCP | TBT | CLS |

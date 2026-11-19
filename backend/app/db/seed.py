@@ -49,11 +49,14 @@ def schema_sql() -> str:
 
 
 def ensure_sign_in_tables(url: str | None = None) -> None:
-    """At boot: a database seeded before K5 gains the sign-in tables without a demo reset, and one seeded before staff
-    sign-in gains the fictional DoH admin (doh-01), so the operator's CLI can make her setup link. Safe to run again."""
+    """At boot: a database seeded before K5 gains the sign-in tables without a demo reset, and (in demo mode) one seeded
+    before staff sign-in gains the fictional DoH admin (doh-01), so the operator's CLI can make her setup link. Safe to
+    run again."""
     with psycopg.connect(url or get_settings().database_url, autocommit=True) as conn:
         if conn.execute("SELECT to_regclass('public.profiles') IS NOT NULL").fetchone()[0]:
             conn.execute((Path(__file__).parent / "sign_in.sql").read_text())
+            if not get_settings().demo_mode:
+                return
             sid, alias, role, clinic = next(s for s in STAFF if s[0] == "doh-01")
             with conn.transaction():  # as the system actor: profiles has forced row-level security
                 conn.execute("SET LOCAL ROLE reprosense_app")
