@@ -723,6 +723,7 @@ def delete_my_data(actor: Actor = Depends(patient)):
         for t in (
             "navigator_drafts",
             "shares",
+            "family_links",  # Y4: deleting her entries also ends every family link
             "reports",
             "observations",
             "care_gaps",
