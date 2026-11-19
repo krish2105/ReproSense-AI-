@@ -28,7 +28,10 @@ test:           ## backend lint + tests (uses the reprosense_test database)
 safety-eval:    ## held-out safety routing; with a model key it also measures the model's second check
 	cd backend && $(LIBS) uv run python -m app.ai.safety_eval
 
+evidence:       ## record test counts for /evidence (backend + web unit run, e2e listed); commit first
+	$(LIBS) python3 tools/record_evidence.py
+
 mockup:         ## rebuild the HTML mockup from the synthetic data
 	python3 mockup/build_mockup.py
 
-.PHONY: env hooks db data seed api test safety-eval mockup
+.PHONY: env hooks db data seed api test safety-eval evidence mockup

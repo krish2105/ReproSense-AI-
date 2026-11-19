@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { OpenPersona } from "@/components/landing/OpenPersona";
+import { Compliance } from "@/components/trust/Compliance";
 import { Tag } from "@/components/ui/Tag";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -11,6 +12,17 @@ export async function generateMetadata(): Promise<Metadata> {
 
 // DoH Responsible AI Standard V1 (research/2026-11-06/01 §5.1, read in full). Status is honest: "planned" means not built.
 const DOH_RAI_URL = "https://www.doh.gov.ae/-/media/Feature/Resources/Standards/2025/Responsible-AI-Standard-V1.ashx";
+// The DoH and UAE compliance section (components/trust/Compliance.tsx), checked 19 Nov 2026. doh.gov.ae and
+// uaelegislation.gov.ae refuse automated fetches; their names, articles and dates were confirmed through the official
+// pages' indexed text, WAM and u.ae. Nothing that could not be confirmed is on the page.
+const SOURCES = [
+  { key: "sourceDoh", href: DOH_RAI_URL },
+  { key: "sourceAdhics", href: "https://www.doh.gov.ae/-/media/032019_ADHICS.ashx" },
+  { key: "sourceClinician", href: "https://www.wam.ae/en/article/17hh7ki-doh-publishes-clinician-framework-guide" },
+  { key: "sourceLaw2019", href: "https://uaelegislation.gov.ae/en/legislations/1209" },
+  { key: "sourceLaws", href: "https://u.ae/en/about-the-uae/digital-uae/data/data-protection-laws" },
+  { key: "sourceSakina", href: "https://www.doh.gov.ae/en/news/doh-activates-247-mental-health-support-hotline-800-sakina-(725462)" },
+] as const;
 const ROWS = ["r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10", "r11", "r12", "r13"] as const;
 const NOT = ["n1", "n2", "n3", "n4", "n5", "n6"] as const;
 const TONE = { built: "ok", partly: "info", planned: "soon" } as const;
@@ -54,6 +66,8 @@ export default async function TrustPage() {
         </ol>
       </section>
 
+      <Compliance />
+
       <div className="two" style={{ marginTop: 20 }}>
         <section className="panel" aria-labelledby="not-title" style={{ padding: 20 }}>
           <h2 id="not-title" style={{ fontSize: 18 }}>
@@ -91,11 +105,15 @@ export default async function TrustPage() {
         <h2 id="src-title" style={{ fontSize: 15 }}>
           {t("sourcesTitle")}
         </h2>
-        <p className="s" style={{ marginTop: 6 }} lang="en" dir="ltr">
-          <a href={DOH_RAI_URL} target="_blank" rel="noopener noreferrer">
-            {t("sourceDoh")}
-          </a>
-        </p>
+        <ul className="tier-list" style={{ marginTop: 8 }}>
+          {SOURCES.map((src) => (
+            <li key={src.key} dir="auto">
+              <a href={src.href} target="_blank" rel="noopener noreferrer">
+                {t(src.key)}
+              </a>
+            </li>
+          ))}
+        </ul>
       </section>
     </>
   );

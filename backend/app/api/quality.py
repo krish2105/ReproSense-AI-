@@ -1,8 +1,10 @@
-"""Team scorecard data: AI test results (from the last eval run), live rule accuracy on the 8 personas and the attack
-suite's last published score (app/security/attack_report.py)."""
+"""Team scorecard data: AI test results (from the last eval run), live rule accuracy on the 8 personas, the attack
+suite's last published score (app/security/attack_report.py, when present) and the evidence record behind /evidence
+(test counts, Lighthouse and dates, written by tools/record_evidence.py)."""
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -16,6 +18,7 @@ from app.services.patient_data import load_bundle
 router = APIRouter(prefix="/v1/quality", tags=["quality"])
 RESULTS = Path(__file__).resolve().parents[1] / "ai" / "eval_results.json"
 ATTACKS = Path(__file__).resolve().parents[1] / "security" / "attack_results.json"
+EVIDENCE = Path(__file__).resolve().parents[1] / "evidence.json"
 EXPECTED = {
     "amina": set(),
     "noura": {"OBS_IRREGULAR_CYCLES", "OBS_IRREGULAR_PLUS_ANDROGEN"},
@@ -26,6 +29,24 @@ EXPECTED = {
     "hessa": {"CARE_PREGNANCY_GLUCOSE_SCREEN"},
     "layla": {"OBS_PERIMENOPAUSE_SYMPTOMS"},
 }
+
+
+def eval_fingerprint(evals: dict) -> str:
+    """Fingerprint of the word-check results: everything except the model's run, which carries its own date."""
+    core = {k: v for k, v in evals.items() if k != "heldout_with_model"}
+    return hashlib.sha256(json.dumps(core, sort_keys=True, ensure_ascii=False).encode()).hexdigest()[:16]
+
+
+def evidence_for(evals: dict | None) -> dict | None:
+    """The evidence record. The eval file's commit date is given only while the eval numbers are still the ones the
+    record saw (same fingerprint), so a newer eval run is never shown with an older date."""
+    if not EVIDENCE.exists():
+        return None
+    ev = json.loads(EVIDENCE.read_text(encoding="utf-8"))
+    seen = ev.pop("eval_file", None) or {}
+    same = evals is not None and seen.get("fingerprint") == eval_fingerprint(evals)
+    ev["eval_committed"] = seen.get("committed") if same else None
+    return ev
 
 
 @router.get("")
@@ -47,7 +68,9 @@ def quality():
         "rule_accuracy": {"pass": ok, "of": len(EXPECTED), "detail": detail},
         "ai_eval": evals,
         "attack_suite": attacks,
+        "evidence": evidence_for(evals),
         "note": "Rule accuracy is computed live on the seeded data; AI eval numbers come from the last"
         " `pytest tests/test_rag_eval.py` run; the attack suite score from the last"
-        " `python -m app.security.attack_report` run. Personas may change after demo edits; reset restores them.",
+        " `python -m app.security.attack_report` run; test counts and Lighthouse from `make evidence`."
+        " Personas may change after demo edits; reset restores them.",
     }
