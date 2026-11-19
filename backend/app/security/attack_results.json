@@ -1,12 +1,12 @@
 {
  "suite": "backend/tests/test_attack_suite.py",
- "commit": "83aed3a",
+ "commit": "868a2bc",
  "date": "2026-11-19",
- "ran_at": "2026-11-19T09:07:12+00:00",
+ "ran_at": "2026-11-19T09:37:42+00:00",
  "total": 14,
- "blocked": 12,
+ "blocked": 14,
  "not_blocked": 0,
- "not_run": 2,
+ "not_run": 0,
  "attacks": [
   {
    "id": 1,
@@ -110,7 +110,7 @@
    "layer": "rate_limit",
    "test": "test_attack_13_random_cookies_do_not_dodge_the_rate_limit",
    "layer_label": "Rate limit by verified session or address",
-   "result": "not_run"
+   "result": "blocked"
   },
   {
    "id": 14,
@@ -118,7 +118,7 @@
    "layer": "upload_limits",
    "test": "test_attack_14_oversized_or_broken_pdf_is_refused_without_a_crash",
    "layer_label": "Upload size and PDF checks",
-   "result": "not_run"
+   "result": "blocked"
   }
  ],
  "note": "Each attack is a test that plays the attacker against the real API and database (synthetic data). Blocked means the test passed on this commit."
