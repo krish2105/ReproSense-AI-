@@ -1015,3 +1015,13 @@ The public /pilot page for a clinic manager or an insurer, so the address is plu
 | RF6 message (`rules/translations_ar.yaml`) | After birth, a severe headache, changes in vision, sudden swelling of the face, hands or feet, very heavy bleeding or a fever needs urgent care. Call 998 or go to the nearest emergency department now. | بعد الولادة، الصداع الشديد أو تغيّر الرؤية أو التورّم المفاجئ في الوجه أو اليدين أو القدمين أو النزيف الغزير جداً أو الحرارة يحتاج رعاية عاجلة. اتصلي بالرقم 998 أو توجّهي إلى أقرب قسم طوارئ الآن. | |
 | After-birth urgent reply, added clause (`assistant.py` `URGENT_TEXT`) | … a severe headache, changes in your vision, or sudden swelling of your face, hands or feet. | … أو الصداع الشديد، أو تغيّر الرؤية، أو التورّم المفاجئ في الوجه أو اليدين أو القدمين. | |
 | `knowledge_base/summaries/nhs_pre_eclampsia.md` (Arabic section) | (new summary) | see the file | |
+
+## DoH support line in the crisis paths (19 Nov, draft Arabic, not yet reviewed)
+800-SAKINA (800 725462), DoH's 24/7 mental-health line, follows 998 on the crisis card, the chat's crisis answer and
+RF4. The Arabic crisis reply and RF4 text in `backend/app/agents/assistant.py` and `rules/translations_ar.yaml` also changed.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `safety.callSakina` | Call 800-SAKINA | اتصلي بـ 800-SAKINA | |
+| `safety.sakinaNote` | 800-SAKINA (800 725462) is the Department of Health's 24/7 support line, in Arabic or English. | ‎800-SAKINA‎ ‏(800 725462) هو خط الدعم التابع لدائرة الصحة، يعمل على مدار الساعة بالعربية أو الإنجليزية. | |
+| `safety.crisisBody` | If you might act on these thoughts, call 998 now. To talk to someone today, day or night, call 800-SAKINA, or speak to your doctor. You are not alone. | إذا كنتِ قد تتصرفين بناءً على هذه الأفكار، اتصلي بالرقم 998 الآن. وللتحدث مع مختص اليوم، في أي وقت ليلاً أو نهاراً، اتصلي بـ 800-SAKINA، أو تحدثي مع طبيبتكِ. لستِ وحدكِ. | |
