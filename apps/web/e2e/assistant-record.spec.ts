@@ -14,7 +14,7 @@ test("a record question is answered from her entries, with chips that open the d
   await signIn(page, { persona: "noura" });
   await page.goto("/app/assistant");
   await page.getByRole("button", { name: "How long were my last cycles?" }).click();
-  await expect(answer(page).getByText(en.assistant.fromEntries)).toBeVisible();
+  await expect(answer(page).getByText(en.assistant.fromEntries, { exact: true })).toBeVisible();
   await expect(answer(page)).toContainText("Your last 6 complete cycles were 46, 45, 55, 42, 46 and 56 days long.");
   await expect(answer(page).getByText(en.assistant.recordCode)).toBeVisible();
   const chip = answer(page)
@@ -33,7 +33,7 @@ test("the same question in Arabic gets the same numbers", async ({ page }) => {
   await useLanguage(page, "ar");
   await page.goto("/app/assistant");
   await page.getByRole("button", { name: "كم كان طول دوراتي الأخيرة؟" }).click();
-  await expect(answer(page).getByText(ar.assistant.fromEntries)).toBeVisible();
+  await expect(answer(page).getByText(ar.assistant.fromEntries, { exact: true })).toBeVisible();
   await expect(answer(page)).toContainText("46 و45 و55 و42 و46 و56 يوماً");
   await expect(answer(page).getByRole("link", { name: "9 سبتمبر · دورة طولها 56 يوماً" })).toHaveAttribute(
     "href",
