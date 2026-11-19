@@ -10,7 +10,7 @@ on:
       model:
         description: "OpenRouter model id (must answer JSON)"
         required: true
-        default: anthropic/claude-sonnet-4.5
+        default: anthropic/claude-sonnet-5.5-20260928
 
 permissions:
   contents: write
