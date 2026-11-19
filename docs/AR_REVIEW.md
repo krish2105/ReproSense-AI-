@@ -1142,3 +1142,109 @@ RF4. The Arabic crisis reply and RF4 text in `backend/app/agents/assistant.py` a
 | `safety.callSakina` | Call 800-SAKINA | اتصلي بـ 800-SAKINA | |
 | `safety.sakinaNote` | 800-SAKINA (800 725462) is the Department of Health's 24/7 support line, in Arabic or English. | ‎800-SAKINA‎ ‏(800 725462) هو خط الدعم التابع لدائرة الصحة، يعمل على مدار الساعة بالعربية أو الإنجليزية. | |
 | `safety.crisisBody` | If you might act on these thoughts, call 998 now. To talk to someone today, day or night, call 800-SAKINA, or speak to your doctor. You are not alone. | إذا كنتِ قد تتصرفين بناءً على هذه الأفكار، اتصلي بالرقم 998 الآن. وللتحدث مع مختص اليوم، في أي وقت ليلاً أو نهاراً، اتصلي بـ 800-SAKINA، أو تحدثي مع طبيبتكِ. لستِ وحدكِ. | |
+
+## Pilot proposal for a clinic (19 Nov, draft Arabic, not yet reviewed)
+New section on `/pilot#proposal` and its one-page PDF (`GET /v1/pilot/proposal.pdf?lang=ar`, which reads the same
+strings). Addressed to clinic staff, so plural or neutral forms («اقرأوا»), like the pilot calculator above it. Terms to
+check: «البرنامج التجريبي» for pilot (as in `pilot.*`), «المسؤول الداعم» for the clinic champion, «خط الأساس» for
+baseline, «مقياس سهولة الاستخدام (SUS)», «مؤشر «جودة» PC008». The Arabic sections of the four new source summaries
+(`knowledge_base/summaries/doh_jawda_pc_v7.md`, `agarwal_2022_gdm_followup.md`, `bashir_2022_gdm_mutabaah.md`,
+`lewis_sus_2018.md`) are drafts too.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `pilotProposal.jump` | Read the pilot proposal for a clinic | اقرأوا مقترح البرنامج التجريبي للعيادات | |
+| `pilotProposal.eyebrow` | Pilot proposal · draft | مقترح برنامج تجريبي · مسودة | |
+| `pilotProposal.title` | A 90-day pilot for one clinic | برنامج تجريبي لمدة 90 يوماً في عيادة واحدة | |
+| `pilotProposal.intro` | A pilot at one Abu Dhabi clinic, with up to 20 women who choose to take part and 3 of its clinicians. It is measured on one number DoH already asks clinics for: how many women who had gestational diabetes complete the glucose test within 12 weeks of the birth. | برنامج تجريبي في عيادة واحدة في أبوظبي، تشارك فيه حتى 20 امرأة باختيارهن و3 من الطاقم الطبي في العيادة. ويُقاس برقم واحد تطلبه دائرة الصحة من العيادات أصلاً: عدد النساء اللواتي كان لديهن سكري الحمل وأكملن فحص السكر خلال 12 أسبوعاً من الولادة. | |
+| `pilotProposal.draftNote` | This is a draft offer. No clinic has signed it, and we have no partnership with any clinic or network. The pilot's size, length and thresholds are our proposal, to agree with the clinic. | هذا عرض أولي. لم توقّعه أي عيادة، ولا تربطنا شراكة بأي عيادة أو شبكة. حجم البرنامج ومدته وحدود القرار فيه مقترحات منّا يُتفق عليها مع العيادة. | |
+| `pilotProposal.download` | Download the one-page proposal (PDF) | تنزيل المقترح في صفحة واحدة (PDF) | |
+| `pilotProposal.downloadOther` | Arabic version (PDF) | النسخة الإنجليزية (PDF) | |
+| `pilotProposal.loi` | Read the letter-of-intent template | اقرأوا نموذج خطاب النوايا (بالإنجليزية) | |
+| `pilotProposal.who.title` | Who it is for | لمن هذا المقترح | |
+| `pilotProposal.who.body` | A women's health or primary-care clinic in Abu Dhabi that sees women in pregnancy and after birth, for example one clinic in a large network such as SEHA (PureHealth). Primary care fits best, because DoH's Jawda indicator PC008 counts family-medicine and GP visits. | لعيادة صحة المرأة أو عيادة رعاية أولية في أبوظبي تستقبل النساء أثناء الحمل وبعد الولادة، مثل عيادة ضمن شبكة كبيرة كشبكة «صحة» (بيورهيلث). والرعاية الأولية هي الأنسب، لأن مؤشر «جودة» PC008 لدى دائرة الصحة يحتسب زيارات طب الأسرة والطب العام. | |
+| `pilotProposal.scope.title` | What the clinic gets | ما تحصل عليه العيادة | |
+| `pilotProposal.scope.items.s1` | A private record for every woman who joins, in Arabic or English: cycles, symptoms, blood pressure, lab results and the DoH postnatal steps. | سجل خاص لكل امرأة تنضم، بالعربية أو الإنجليزية: الدورات والأعراض وضغط الدم ونتائج التحاليل وخطوات ما بعد الولادة لدى دائرة الصحة. | |
+| `pilotProposal.scope.items.s2` | A two-page doctor report and a brief of what changed since her last visit, before each appointment, with the entries and the guideline behind every pattern. | تقرير للطبيب من صفحتين وملخص لما تغيّر منذ زيارتها الأخيرة، قبل كل موعد، مع الإدخالات والدليل الإرشادي وراء كل نمط. | |
+| `pilotProposal.scope.items.s3` | A follow-up list: the glucose test after gestational diabetes and the postnatal steps, each tracked from opened to booked to done. | قائمة متابعات: فحص السكر بعد سكري الحمل وخطوات ما بعد الولادة، تُتابَع كل منها من فتحها إلى حجزها إلى إتمامها. | |
+| `pilotProposal.scope.items.s4` | Reminder drafts that staff approve. The app never sends a message by itself. | مسودات تذكير يوافق عليها الفريق. لا يرسل التطبيق أي رسالة من تلقاء نفسه. | |
+| `pilotProposal.scope.items.s5` | A clinic dashboard with counts only, and an audit log of every access. | لوحة للعيادة تعرض الأعداد فقط، وسجل تدقيق لكل عملية اطّلاع. | |
+| `pilotProposal.design.title` | How the pilot works | كيف يعمل البرنامج | |
+| `pilotProposal.design.women` | Women: up to 20 adults under the clinic's care, in late pregnancy or the first weeks after birth, so the after-birth measures apply. Each one chooses to join, gives consent in Arabic or English and can leave at any time. | النساء: حتى 20 امرأة بالغة ضمن رعاية العيادة، في أواخر الحمل أو الأسابيع الأولى بعد الولادة، لتنطبق عليهن مقاييس ما بعد الولادة. تختار كل منهن الانضمام، وتوافق بالعربية أو الإنجليزية، ويمكنها الانسحاب في أي وقت. | |
+| `pilotProposal.design.clinicians` | Clinicians: 3, chosen by the clinic, for example an OB-GYN, a family physician and a midwife. | الطاقم الطبي: 3 تختارهم العيادة، مثل طبيب نساء وولادة وطبيب أسرة وقابلة. | |
+| `pilotProposal.design.length` | Length: 90 days, planned for March to May 2027. | المدة: 90 يوماً، ومن المخطط أن تكون من مارس إلى مايو 2027. | |
+| `pilotProposal.design.roles` | Roles: the clinic names a champion (a lead clinician), a decision-maker and its privacy officer. We name a product lead, a clinical safety lead and a support contact. | الأدوار: تسمّي العيادة مسؤولاً داعماً (طبيباً قائداً) وصاحب قرار ومسؤول الخصوصية لديها. ونسمّي من جهتنا مسؤولاً عن المنتج ومسؤولاً عن السلامة السريرية وجهة للدعم. | |
+| `pilotProposal.design.start` | No real record is entered until the pilot and data agreements are signed, any ethics or quality approval is in place, and the system runs on UAE hosting. | لا يُدخل أي سجل حقيقي قبل توقيع اتفاقيتي البرنامج ومعالجة البيانات، والحصول على أي موافقة لازمة من لجنة الأخلاقيات أو الجودة، وتشغيل النظام على استضافة داخل الإمارات. | |
+| `pilotProposal.design.small` | Numbers will be small: about 4 of 20 women may have had gestational diabetes, if 21.3% did, as in an Al Ain cohort. So we report counts (x of n), not percentages, and treat the pilot as a test of the workflow. | الأعداد ستكون صغيرة: قد تكون نحو 4 من كل 20 امرأة قد أُصبن بسكري الحمل، إذا كانت النسبة 21.3% كما في مجموعة دراسية في العين. لذلك نعرض الأعداد (x من n) لا النسب، ونتعامل مع البرنامج على أنه اختبار لسير العمل. | |
+| `pilotProposal.kpis.title` | What we measure, and how | ما نقيسه وكيف | |
+| `pilotProposal.kpis.intro` | Each measure is counted from what the app already records: the dates on her entries, the follow-up steps and the audit log. Nothing is estimated. | يُحسب كل مقياس مما يسجّله التطبيق أصلاً: تواريخ إدخالاتها وخطوات المتابعة وسجل التدقيق. لا شيء فيه تقديري. | |
+| `pilotProposal.kpis.colMeasure` | Measure | المقياس | |
+| `pilotProposal.kpis.colHow` | How the app counts it | كيف يحسبه التطبيق | |
+| `pilotProposal.kpis.colBasis` | Basis | الأساس | |
+| `pilotProposal.kpis.k1.name` | Glucose test after gestational diabetes, within 12 weeks of birth (primary) | فحص السكر بعد سكري الحمل خلال 12 أسبوعاً من الولادة (المقياس الرئيسي) | |
+| `pilotProposal.kpis.k1.how` | Of the pilot women who had gestational diabetes and gave birth during the pilot: how many have the glucose test result in their record, or the follow-up marked done by the clinic, within 84 days of the birth. | من نساء البرنامج اللواتي كان لديهن سكري الحمل وأنجبن خلال البرنامج: كم منهن دخلت نتيجة فحص السكر في سجلها، أو سجّلت العيادة إتمام المتابعة، خلال 84 يوماً من الولادة. | |
+| `pilotProposal.kpis.k1.basis` | The glucose part of DoH Jawda indicator PC008. A local reference, not a baseline: 265 of 1,043 women (25.4%) came back at one Al Ain hospital in 2013–14. | جزء فحص السكر في مؤشر «جودة» PC008 لدى دائرة الصحة. مرجع محلي وليس خط أساس: عادت 265 من 1,043 امرأة (25.4%) في أحد مستشفيات العين في 2013–2014. | |
+| `pilotProposal.kpis.k2.name` | Postnatal steps done on time | خطوات ما بعد الولادة في موعدها | |
+| `pilotProposal.kpis.k2.how` | Of the postnatal steps due during the pilot (the check-in 2–3 days after leaving hospital, the visit at 7–14 days, the mood check at 10–14 days after birth, the 6-week visit): how many are recorded inside their window. | من خطوات ما بعد الولادة المستحقة خلال البرنامج (الاتصال بعد 2–3 أيام من مغادرة المستشفى، والزيارة بعد 7–14 يوماً، وفحص المزاج بعد 10–14 يوماً من الولادة، وزيارة الأسبوع السادس): كم منها سُجّل داخل نافذته الزمنية. | |
+| `pilotProposal.kpis.k2.basis` | Windows from the DoH Postnatal Care Program Standard (2025). | النوافذ الزمنية من معيار برنامج رعاية ما بعد الولادة لدى دائرة الصحة (2025). | |
+| `pilotProposal.kpis.k3.name` | Days from a pattern opened to the follow-up booked | الأيام من فتح النمط إلى حجز المتابعة | |
+| `pilotProposal.kpis.k3.how` | For each follow-up the rules open: the days from the date it opened to the date the clinic marked it booked. Reported as the median, with the count. | لكل متابعة تفتحها القواعد: عدد الأيام من تاريخ فتحها إلى تاريخ تسجيل العيادة لحجزها. يُعرض الوسيط مع العدد. | |
+| `pilotProposal.kpis.k3.basis` | Dates the app records. No target is set in advance. | تواريخ يسجّلها التطبيق. لا هدف محدداً مسبقاً. | |
+| `pilotProposal.kpis.k4.name` | Reports read before the visit | التقارير المقروءة قبل الزيارة | |
+| `pilotProposal.kpis.k4.how` | Of the pilot visits: how many had her shared report or brief opened by a clinician before the visit was marked. Each opening is a dated line in the audit log. | من زيارات البرنامج: كم منها فتح فيها أحد أفراد الطاقم الطبي تقريرها المشترك أو ملخصها قبل تسجيل الزيارة. كل فتح سطر مؤرَّخ في سجل التدقيق. | |
+| `pilotProposal.kpis.k4.basis` | Dates the app records. No target is set in advance. | تواريخ يسجّلها التطبيق. لا هدف محدداً مسبقاً. | |
+| `pilotProposal.kpis.k5.name` | Her satisfaction | رضاها | |
+| `pilotProposal.kpis.k5.how` | The System Usability Scale (SUS): 10 short statements, scored 0 to 100, in Arabic or English, at week 4 and week 12. Asked on a short form outside the app for now. Only the score is kept, never her name. | مقياس سهولة الاستخدام (SUS): 10 عبارات قصيرة، بدرجة من 0 إلى 100، بالعربية أو الإنجليزية، في الأسبوع 4 والأسبوع 12. يُطرح حالياً عبر نموذج قصير خارج التطبيق. تُحفظ الدرجة فقط، ولا يُحفظ اسمها أبداً. | |
+| `pilotProposal.kpis.k5.basis` | A published, widely used questionnaire. No pass mark is set in advance. | استبيان منشور وواسع الاستخدام. لا حدّ للنجاح محدداً مسبقاً. | |
+| `pilotProposal.kpis.baseline` | Targets are agreed in the letter of intent, against the clinic's own baseline. The clinic works out its current rate inside its own systems and shares only a count (x of n), and only when n is 10 or more and its privacy officer agrees. | يُتفق على الأهداف في خطاب النوايا مقارنةً بخط الأساس الخاص بالعيادة. تحسب العيادة معدلها الحالي داخل أنظمتها، ولا تشارك إلا عدداً (x من n)، وفقط عندما يكون n عشرة أو أكثر ويوافق مسؤول الخصوصية لديها. | |
+| `pilotProposal.basis.source` | Source | مصدر | |
+| `pilotProposal.basis.app` | App data | بيانات التطبيق | |
+| `pilotProposal.basis.hypothesis` | Hypothesis | فرضية | |
+| `pilotProposal.data.title` | Data protection | حماية البيانات | |
+| `pilotProposal.data.items.d1` | Consent first: each woman chooses to join and to share her record with the clinic, in Arabic or English. | الموافقة أولاً: تختار كل امرأة الانضمام ومشاركة سجلها مع العيادة، بالعربية أو الإنجليزية. | |
+| `pilotProposal.data.items.d2` | She can stop sharing at any time in Privacy, and the clinic loses access at once. | يمكنها إيقاف المشاركة في أي وقت من صفحة الخصوصية، فتفقد العيادة الوصول فوراً. | |
+| `pilotProposal.data.items.d3` | In production, health data, backups and any AI model stay in the UAE, as Federal Law No. 2 of 2019 requires. This demo holds fictional data only and is hosted outside the UAE. | في التشغيل الفعلي تبقى البيانات الصحية والنسخ الاحتياطية وأي نموذج ذكاء اصطناعي داخل الإمارات، كما يشترط القانون الاتحادي رقم 2 لسنة 2019. أما هذا العرض فيحوي بيانات خيالية فقط ومستضاف خارج الإمارات. | |
+| `pilotProposal.data.items.d4` | Every access is a line in a tamper-evident audit log, which she can read too. | كل عملية اطّلاع سطر في سجل تدقيق مقاوم للتلاعب، ويمكنها قراءته أيضاً. | |
+| `pilotProposal.data.items.d5` | Network views show counts only, never names, and hide any group smaller than 10. | تعرض لوحات الشبكة الأعداد فقط، ولا تعرض الأسماء أبداً، وتخفي أي مجموعة أقل من 10. | |
+| `pilotProposal.data.items.d6` | No advertising, and health data is never sold. At the end, sharing stops, and data is returned or deleted as the agreement and the law allow. | لا إعلانات، ولا تُباع البيانات الصحية أبداً. وفي النهاية تتوقف المشاركة، وتُعاد البيانات أو تُحذف بحسب ما تسمح به الاتفاقية والقانون. | |
+| `pilotProposal.timeline.title` | The 90 days | الأيام التسعون | |
+| `pilotProposal.timeline.p1.when` | Days 1–14 | الأيام 1–14 | |
+| `pilotProposal.timeline.p1.what` | Set up | الإعداد | |
+| `pilotProposal.timeline.p1.body` | Agreements signed, the UAE-hosted system ready, one hour of training for the 3 clinicians. The clinic works out its own baseline. | توقيع الاتفاقيات، وتجهيز النظام على استضافة داخل الإمارات، وساعة تدريب واحدة لأفراد الطاقم الثلاثة. وتحسب العيادة خط الأساس الخاص بها. | |
+| `pilotProposal.timeline.p2.when` | Days 15–30 | الأيام 15–30 | |
+| `pilotProposal.timeline.p2.what` | Enrol | الانضمام | |
+| `pilotProposal.timeline.p2.body` | Up to 20 women join with consent. Their first reports reach the clinic before their visits. A weekly 30-minute review of safety and follow-ups starts. | تنضم حتى 20 امرأة بموافقتهن، وتصل تقاريرهن الأولى إلى العيادة قبل زياراتهن. وتبدأ مراجعة أسبوعية مدتها 30 دقيقة للسلامة والمتابعات. | |
+| `pilotProposal.timeline.p3.when` | Days 31–84 | الأيام 31–84 | |
+| `pilotProposal.timeline.p3.what` | Run | التشغيل | |
+| `pilotProposal.timeline.p3.body` | Follow-ups are opened, booked and done in the app. SUS at weeks 4 and 12. A mid-point review with the champion on day 45. | تُفتح المتابعات وتُحجز وتُنجز في التطبيق. استبيان SUS في الأسبوعين 4 و12. ومراجعة منتصف المدة مع المسؤول الداعم في اليوم 45. | |
+| `pilotProposal.timeline.p4.when` | Days 85–90 | الأيام 85–90 | |
+| `pilotProposal.timeline.p4.what` | Decide | القرار | |
+| `pilotProposal.timeline.p4.body` | Counts for every measure, the safety log and the interview notes go to the decision-maker, who decides to continue, change or stop. | تُرفع أعداد كل مقياس وسجل السلامة وملاحظات المقابلات إلى صاحب القرار، ليقرر الاستمرار أو التعديل أو التوقف. | |
+| `pilotProposal.clinic.title` | What the clinic commits | ما تلتزم به العيادة | |
+| `pilotProposal.clinic.items.c1` | An internal champion: a lead clinician who meets us for 30 minutes each week. | مسؤول داعم داخلي: طبيب قائد يلتقي بنا 30 دقيقة كل أسبوع. | |
+| `pilotProposal.clinic.items.c2` | Clinician time: one hour of training, then reading the report before each pilot visit and marking follow-ups booked or done. | وقت الطاقم الطبي: ساعة تدريب واحدة، ثم قراءة التقرير قبل كل زيارة ضمن البرنامج، وتسجيل حجز المتابعات أو إتمامها. | |
+| `pilotProposal.clinic.items.c3` | A decision-maker and the privacy officer, for the agreements and the day-90 decision. | صاحب قرار ومسؤول الخصوصية، للاتفاقيات ولقرار اليوم التسعين. | |
+| `pilotProposal.clinic.items.c4` | Its own baseline, worked out inside its systems and shared only as a count. | خط أساس خاص بها، تحسبه داخل أنظمتها ولا تشاركه إلا كعدد. | |
+| `pilotProposal.clinic.items.c5` | Honest feedback, recorded without names. | ملاحظات صريحة تُسجَّل دون أسماء. | |
+| `pilotProposal.ours.title` | What we commit | ما نلتزم به | |
+| `pilotProposal.ours.items.o1` | Set-up, training and support, free during the pilot. | الإعداد والتدريب والدعم، مجاناً خلال البرنامج. | |
+| `pilotProposal.ours.items.o2` | UAE hosting before any real record, and her data used for nothing outside the pilot. | استضافة داخل الإمارات قبل أي سجل حقيقي، وعدم استخدام بياناتها لأي غرض خارج البرنامج. | |
+| `pilotProposal.ours.items.o3` | A weekly safety review, and any safety concern reported to the champion within one working day. | مراجعة أسبوعية للسلامة، وإبلاغ المسؤول الداعم بأي ملاحظة تخص السلامة خلال يوم عمل واحد. | |
+| `pilotProposal.ours.items.o4` | Every pattern shows its entries and its source. No diagnosis and no risk score. | يعرض كل نمط إدخالاته ومصدره. لا تشخيص ولا درجة خطورة. | |
+| `pilotProposal.ours.items.o5` | A final report with measured counts only, whatever they show. | تقرير نهائي بالأعداد المقيسة فقط، أياً كانت. | |
+| `pilotProposal.price.title` | Price | السعر | |
+| `pilotProposal.price.pilot` | Free during the pilot. | مجاناً خلال البرنامج. | |
+| `pilotProposal.price.after` | After it, AED 399 per clinician per month. This is a price hypothesis we are testing, not a quote. | بعده 399 درهماً لكل فرد من الطاقم الطبي شهرياً. هذا سعر افتراضي نختبره، وليس عرض سعر. | |
+| `pilotProposal.exit.title` | Continue or stop at day 90 | الاستمرار أو التوقف في اليوم 90 | |
+| `pilotProposal.exit.intro` | These thresholds are our proposal. The clinic and ReproSense agree them in the letter of intent before the pilot starts. | هذه الحدود مقترحة منّا. تتفق عليها العيادة وReproSense في خطاب النوايا قبل بدء البرنامج. | |
+| `pilotProposal.exit.continueTitle` | Continue if all of these hold | الاستمرار إذا تحققت كل هذه الشروط | |
+| `pilotProposal.exit.continue.c1` | More women complete the glucose test within 12 weeks than at the clinic's own baseline, counted as x of n. | تُكمل نساء أكثر فحص السكر خلال 12 أسبوعاً مقارنةً بخط الأساس الخاص بالعيادة، محسوباً كعدد x من n. | |
+| `pilotProposal.exit.continue.c2` | At least 2 of the 3 clinicians read the report before most pilot visits and want to keep using it. | يقرأ اثنان على الأقل من أفراد الطاقم الثلاثة التقرير قبل معظم زيارات البرنامج، ويرغبان في مواصلة استخدامه. | |
+| `pilotProposal.exit.continue.c3` | No harm linked to the app, and no breach of consent or data rules. | لا ضرر مرتبطاً بالتطبيق، ولا إخلال بالموافقة أو بقواعد البيانات. | |
+| `pilotProposal.exit.stopTitle` | Stop if any of these happens | التوقف إذا حدث أي مما يلي | |
+| `pilotProposal.exit.stop.s1` | An urgent warning the app should have shown was missed, or any harm is linked to the app. | فات تنبيه عاجل كان على التطبيق إظهاره، أو ارتبط أي ضرر بالتطبيق. | |
+| `pilotProposal.exit.stop.s2` | A consent, hosting or data-protection condition was not met. | لم يتحقق أحد شروط الموافقة أو الاستضافة أو حماية البيانات. | |
+| `pilotProposal.exit.stop.s3` | Clinicians stopped opening the reports, or the decision-maker sees no gain for the clinic's measures. | توقف الطاقم الطبي عن فتح التقارير، أو لم يرَ صاحب القرار فائدة لمؤشرات العيادة. | |
+| `pilotProposal.sourcesTitle` | Sources | المصادر | |
+| `pilotProposal.pdf.subtitle` | ReproSense: her health record in Arabic and English, with patterns worth discussing with a doctor and follow-ups tracked until they close. | ReproSense: سجلها الصحي بالعربية والإنجليزية، مع أنماط تستحق النقاش مع الطبيب ومتابعات تُتابَع حتى تُغلق. | |
+| `pilotProposal.pdf.footer` | Draft offer: no clinic has signed it, and no partnership exists. Prices are hypotheses. | عرض أولي: لم توقّعه أي عيادة، ولا توجد أي شراكة. الأسعار فرضيات. | |

@@ -1807,5 +1807,156 @@
     "assumptions": "The target completion and the cost of a missed follow-up are yours to set; ReproSense has not measured either yet. Follow-up here means the glucose test after gestational diabetes, one part of DoH Jawda KPI PC008. This is not a forecast and not a clinical claim.",
     "toPricing": "See pricing",
     "toDemo": "Open the demo"
+  },
+  "pilotProposal": {
+    "jump": "Read the pilot proposal for a clinic",
+    "eyebrow": "Pilot proposal · draft",
+    "title": "A 90-day pilot for one clinic",
+    "intro": "A pilot at one Abu Dhabi clinic, with up to 20 women who choose to take part and 3 of its clinicians. It is measured on one number DoH already asks clinics for: how many women who had gestational diabetes complete the glucose test within 12 weeks of the birth.",
+    "draftNote": "This is a draft offer. No clinic has signed it, and we have no partnership with any clinic or network. The pilot's size, length and thresholds are our proposal, to agree with the clinic.",
+    "download": "Download the one-page proposal (PDF)",
+    "downloadOther": "Arabic version (PDF)",
+    "loi": "Read the letter-of-intent template",
+    "who": {
+      "title": "Who it is for",
+      "body": "A women's health or primary-care clinic in Abu Dhabi that sees women in pregnancy and after birth, for example one clinic in a large network such as SEHA (PureHealth). Primary care fits best, because DoH's Jawda indicator PC008 counts family-medicine and GP visits."
+    },
+    "scope": {
+      "title": "What the clinic gets",
+      "items": {
+        "s1": "A private record for every woman who joins, in Arabic or English: cycles, symptoms, blood pressure, lab results and the DoH postnatal steps.",
+        "s2": "A two-page doctor report and a brief of what changed since her last visit, before each appointment, with the entries and the guideline behind every pattern.",
+        "s3": "A follow-up list: the glucose test after gestational diabetes and the postnatal steps, each tracked from opened to booked to done.",
+        "s4": "Reminder drafts that staff approve. The app never sends a message by itself.",
+        "s5": "A clinic dashboard with counts only, and an audit log of every access."
+      }
+    },
+    "design": {
+      "title": "How the pilot works",
+      "women": "Women: up to 20 adults under the clinic's care, in late pregnancy or the first weeks after birth, so the after-birth measures apply. Each one chooses to join, gives consent in Arabic or English and can leave at any time.",
+      "clinicians": "Clinicians: 3, chosen by the clinic, for example an OB-GYN, a family physician and a midwife.",
+      "length": "Length: 90 days, planned for March to May 2027.",
+      "roles": "Roles: the clinic names a champion (a lead clinician), a decision-maker and its privacy officer. We name a product lead, a clinical safety lead and a support contact.",
+      "start": "No real record is entered until the pilot and data agreements are signed, any ethics or quality approval is in place, and the system runs on UAE hosting.",
+      "small": "Numbers will be small: about 4 of 20 women may have had gestational diabetes, if 21.3% did, as in an Al Ain cohort. So we report counts (x of n), not percentages, and treat the pilot as a test of the workflow."
+    },
+    "kpis": {
+      "title": "What we measure, and how",
+      "intro": "Each measure is counted from what the app already records: the dates on her entries, the follow-up steps and the audit log. Nothing is estimated.",
+      "colMeasure": "Measure",
+      "colHow": "How the app counts it",
+      "colBasis": "Basis",
+      "k1": {
+        "name": "Glucose test after gestational diabetes, within 12 weeks of birth (primary)",
+        "how": "Of the pilot women who had gestational diabetes and gave birth during the pilot: how many have the glucose test result in their record, or the follow-up marked done by the clinic, within 84 days of the birth.",
+        "basis": "The glucose part of DoH Jawda indicator PC008. A local reference, not a baseline: 265 of 1,043 women (25.4%) came back at one Al Ain hospital in 2013–14."
+      },
+      "k2": {
+        "name": "Postnatal steps done on time",
+        "how": "Of the postnatal steps due during the pilot (the check-in 2–3 days after leaving hospital, the visit at 7–14 days, the mood check at 10–14 days after birth, the 6-week visit): how many are recorded inside their window.",
+        "basis": "Windows from the DoH Postnatal Care Program Standard (2025)."
+      },
+      "k3": {
+        "name": "Days from a pattern opened to the follow-up booked",
+        "how": "For each follow-up the rules open: the days from the date it opened to the date the clinic marked it booked. Reported as the median, with the count.",
+        "basis": "Dates the app records. No target is set in advance."
+      },
+      "k4": {
+        "name": "Reports read before the visit",
+        "how": "Of the pilot visits: how many had her shared report or brief opened by a clinician before the visit was marked. Each opening is a dated line in the audit log.",
+        "basis": "Dates the app records. No target is set in advance."
+      },
+      "k5": {
+        "name": "Her satisfaction",
+        "how": "The System Usability Scale (SUS): 10 short statements, scored 0 to 100, in Arabic or English, at week 4 and week 12. Asked on a short form outside the app for now. Only the score is kept, never her name.",
+        "basis": "A published, widely used questionnaire. No pass mark is set in advance."
+      },
+      "baseline": "Targets are agreed in the letter of intent, against the clinic's own baseline. The clinic works out its current rate inside its own systems and shares only a count (x of n), and only when n is 10 or more and its privacy officer agrees."
+    },
+    "basis": {
+      "source": "Source",
+      "app": "App data",
+      "hypothesis": "Hypothesis"
+    },
+    "data": {
+      "title": "Data protection",
+      "items": {
+        "d1": "Consent first: each woman chooses to join and to share her record with the clinic, in Arabic or English.",
+        "d2": "She can stop sharing at any time in Privacy, and the clinic loses access at once.",
+        "d3": "In production, health data, backups and any AI model stay in the UAE, as Federal Law No. 2 of 2019 requires. This demo holds fictional data only and is hosted outside the UAE.",
+        "d4": "Every access is a line in a tamper-evident audit log, which she can read too.",
+        "d5": "Network views show counts only, never names, and hide any group smaller than 10.",
+        "d6": "No advertising, and health data is never sold. At the end, sharing stops, and data is returned or deleted as the agreement and the law allow."
+      }
+    },
+    "timeline": {
+      "title": "The 90 days",
+      "p1": {
+        "when": "Days 1–14",
+        "what": "Set up",
+        "body": "Agreements signed, the UAE-hosted system ready, one hour of training for the 3 clinicians. The clinic works out its own baseline."
+      },
+      "p2": {
+        "when": "Days 15–30",
+        "what": "Enrol",
+        "body": "Up to 20 women join with consent. Their first reports reach the clinic before their visits. A weekly 30-minute review of safety and follow-ups starts."
+      },
+      "p3": {
+        "when": "Days 31–84",
+        "what": "Run",
+        "body": "Follow-ups are opened, booked and done in the app. SUS at weeks 4 and 12. A mid-point review with the champion on day 45."
+      },
+      "p4": {
+        "when": "Days 85–90",
+        "what": "Decide",
+        "body": "Counts for every measure, the safety log and the interview notes go to the decision-maker, who decides to continue, change or stop."
+      }
+    },
+    "clinic": {
+      "title": "What the clinic commits",
+      "items": {
+        "c1": "An internal champion: a lead clinician who meets us for 30 minutes each week.",
+        "c2": "Clinician time: one hour of training, then reading the report before each pilot visit and marking follow-ups booked or done.",
+        "c3": "A decision-maker and the privacy officer, for the agreements and the day-90 decision.",
+        "c4": "Its own baseline, worked out inside its systems and shared only as a count.",
+        "c5": "Honest feedback, recorded without names."
+      }
+    },
+    "ours": {
+      "title": "What we commit",
+      "items": {
+        "o1": "Set-up, training and support, free during the pilot.",
+        "o2": "UAE hosting before any real record, and her data used for nothing outside the pilot.",
+        "o3": "A weekly safety review, and any safety concern reported to the champion within one working day.",
+        "o4": "Every pattern shows its entries and its source. No diagnosis and no risk score.",
+        "o5": "A final report with measured counts only, whatever they show."
+      }
+    },
+    "price": {
+      "title": "Price",
+      "pilot": "Free during the pilot.",
+      "after": "After it, AED 399 per clinician per month. This is a price hypothesis we are testing, not a quote."
+    },
+    "exit": {
+      "title": "Continue or stop at day 90",
+      "intro": "These thresholds are our proposal. The clinic and ReproSense agree them in the letter of intent before the pilot starts.",
+      "continueTitle": "Continue if all of these hold",
+      "continue": {
+        "c1": "More women complete the glucose test within 12 weeks than at the clinic's own baseline, counted as x of n.",
+        "c2": "At least 2 of the 3 clinicians read the report before most pilot visits and want to keep using it.",
+        "c3": "No harm linked to the app, and no breach of consent or data rules."
+      },
+      "stopTitle": "Stop if any of these happens",
+      "stop": {
+        "s1": "An urgent warning the app should have shown was missed, or any harm is linked to the app.",
+        "s2": "A consent, hosting or data-protection condition was not met.",
+        "s3": "Clinicians stopped opening the reports, or the decision-maker sees no gain for the clinic's measures."
+      }
+    },
+    "sourcesTitle": "Sources",
+    "pdf": {
+      "subtitle": "ReproSense: her health record in Arabic and English, with patterns worth discussing with a doctor and follow-ups tracked until they close.",
+      "footer": "Draft offer: no clinic has signed it, and no partnership exists. Prices are hypotheses."
+    }
   }
 }

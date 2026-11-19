@@ -14,7 +14,7 @@ from fastapi.responses import JSONResponse
 from psycopg_pool import PoolTimeout
 
 from app.ai.llm import get_llm
-from app.api import admin, assistant, auth, clinic, clinic_admin, demo, family, patient, quality, reports
+from app.api import admin, assistant, auth, clinic, clinic_admin, demo, family, patient, pilot, quality, reports
 from app.config import get_settings
 from app.db import SYSTEM, session
 from app.observability import RequestContext, setup_logging
@@ -82,6 +82,7 @@ for r in (
     clinic_admin.router,
     clinic_admin.invites_router,
     quality.router,
+    pilot.router,
 ):
     app.include_router(r)
 

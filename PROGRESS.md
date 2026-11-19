@@ -17,6 +17,19 @@ Blockers / questions:
 
 ---
 
+## 2026-11-19 — Pilot proposal for a clinic and a letter-of-intent template — Krishna with Claude Code
+Done:
+- `/pilot#proposal` (EN/AR): who it is for, scope, pilot design, five KPIs with how the app counts each, data
+  protection, the 90 days, both sides' commitments, price (free in the pilot; AED 399 after, a hypothesis), exit criteria.
+- `GET /v1/pilot/proposal.pdf?lang=en|ar`: one A4 page (WeasyPrint), the same strings as the page, the web app's fonts.
+- docs/29: the proposal in prose, an LOI template, 5+5 interview questions, an empty evidence log.
+- Four cite-only sources (Jawda PC008, Al Ain follow-up study, Mutaba'ah incidence, SUS). Arabic drafts in AR_REVIEW.
+Tests: backend 661 pass (13 new) · web unit 98 pass · new e2e `pilot-proposal.spec.ts` runs in CI.
+UI slop check: pass (mockup classes only, no gradients, numbers sourced or labelled, specific button labels; the
+timeline is a real sequence).
+Blockers / questions:
+- QUESTIONS #64: `/pricing` says a paid pilot (AED 5,000–10,000); the proposal says free during the pilot.
+
 ## 2026-11-19 — C7 steps 2–3: Lighthouse and demo readiness on the live site — Atharva with Claude Code
 Lighthouse 13, mobile, live https://reprosense.vercel.app (signed-in pages with a demo session cookie):
 | Screen | Perf | A11y | Best pr. | SEO | LCP | TBT | CLS |
