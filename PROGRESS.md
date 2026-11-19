@@ -31,7 +31,7 @@ Done (branch `feat/staff-signin`, one PR, not merged):
 - Step-up: the audit log and clinic CSV exports need a passkey check within 5 minutes; demo sessions confirm in one tap.
 - Audit rows for every staff/DoH sign-in, failed sign-in, sign-out, revocation and step-up.
 - The demo reset takes no lock on the session tables (guarded DDL), so judges stay signed in through a reset.
-Tests: backend 752 passed after merging main (39 new in `test_staff_signin.py`) · web lint 0 errors, typecheck, 95 unit tests ·
+Tests: backend 765 passed after merging main (39 new in `test_staff_signin.py`) · web lint 0 errors, typecheck, 95 unit tests ·
 `e2e/staff-signin.spec.ts` (5 tests × 2 viewports) runs in CI only.
 UI slop check: pass (doors reuse the `/signin` card; no new radii, gradients or icons; EN/AR, light/dark, 390/1280 checked
 in the browser on a local build).

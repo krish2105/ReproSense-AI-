@@ -9,8 +9,8 @@ export const AREA_CLIENT = {
   site: ["demo", "landing", "tokens", "join", "pilot", "signin", "clinicInvite", "staffAuth"],
   patient: ["tabs", "home", "navigator", "moods", "flows", "impacts", "sites", "symptoms", "log", "insights", "assistant", "report", "clinics", "checkin", "documents", "privacy", "postnatal", "preconception", "signin", "bp", "pwa", "family"],
   clinic: ["clinic", "insights", "staffAuth"],
-  admin: ["admin", "clinic", "staffAuth"],
-  clinicAdmin: ["clinicAdmin", "staffAuth"],
+  admin: ["admin", "clinic", "loop", "staffAuth"],
+  clinicAdmin: ["clinicAdmin", "loop", "staffAuth"],
 } as const;
 
 export async function clientMessages(area?: keyof typeof AREA_CLIENT): Promise<AbstractIntlMessages> {
