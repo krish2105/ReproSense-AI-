@@ -93,6 +93,8 @@ jobs:
       # 120/min was reached (429 on demo login). Raised for this job only; the live API keeps its limits.
       RATE_LIMIT_PER_MIN: "1200"
       RATE_LIMIT_SENSITIVE_PER_MIN: "200"
+      # The public demo reset has a cooldown (60 s by default, #139); the browser tests reset between files.
+      DEMO_RESET_COOLDOWN_S: "0"
       API_URL: http://127.0.0.1:8010
       ALLOWED_ORIGINS: http://localhost:3100
     steps:

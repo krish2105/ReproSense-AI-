@@ -3,6 +3,7 @@ import os
 os.environ["DATABASE_URL"] = os.environ.get("TEST_DATABASE_URL", "postgresql:///reprosense_test?host=/tmp")
 os.environ.setdefault("RATE_LIMIT_PER_MIN", "100000")
 os.environ.setdefault("RATE_LIMIT_SENSITIVE_PER_MIN", "100000")
+os.environ.setdefault("DEMO_RESET_COOLDOWN_S", "0")  # tests reset often; test_hardening.py checks the cooldown
 os.environ["LLM_PROVIDER"] = "none"  # tests are deterministic and offline
 
 import pytest  # noqa: E402
