@@ -17,6 +17,50 @@ Blockers / questions:
 
 ---
 
+## 2026-11-19 — C7 steps 2–3: Lighthouse and demo readiness on the live site — Atharva with Claude Code
+Lighthouse 13, mobile, live https://reprosense.vercel.app (signed-in pages with a demo session cookie):
+| Screen | Perf | A11y | Best pr. | SEO | LCP | TBT | CLS |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `/` | 98 | 100 | 100 | 100 | 2.2 s | 120 ms | 0 |
+| `/demo` | 97 | 100 | 100 | 100 | 2.2 s | 140 ms | 0 |
+| `/app` (Noura) | 95 | 100 | 100 | 100 | 2.4 s | 170 ms | 0 |
+| `/app/insights` | 91 | 100 | 100 | 66 | 2.4 s | 320 ms | 0 |
+| `/clinic` | 98 | 100 | 100 | 100 | 2.2 s | 140 ms | 0 |
+SEO 66 on `/app/insights` is intended: `robots.txt` disallows `/app/`.
+
+Demo readiness (skill checklist), live site, **read-only** (no reset, booking, approval or share on the shared demo):
+- Path, scripted at 1280 and 390 px, 0 console errors: landing → Noura → timeline → patterns → trace → evidence chip
+  opens the day → assistant "What is PCOS?" with 2 sources → Arabic and back → report PDF downloads (`%PDF-`) →
+  clinician: Fatima's follow-ups, Ask the record answers with dates → admin KPIs and fairness table → Sara's 998 card
+  above everything. Total 29 s desktop, 18 s phone (automated; a spoken demo stays inside 3:00).
+- The write steps (book Fatima's test → KPI moves, approve a draft, consented share) pass in the local `demo-path` spec,
+  three full runs in a row on main.
+- Safety and honesty: "Demo data — fictional" on every data screen checked; footer "Built with AI tools"; deck credits
+  Claude and ChatGPT; guard tests green in CI `backend` on main `899416a` (all CI jobs green).
+- Live API reports `llm: none`: cards and answers are templates and extractive answers, so there is no model to fail.
+Risks found:
+- **Cold API: the first request took 23 s.** The uptime workflow is scheduled every 10 min but GitHub ran it about every
+  5 hours (02:14, 20:53, 15:18 UTC), and Render's free plan sleeps after ~15 min idle. On the day: open
+  `/v1/ping` (or the landing, which pings the API) 2 minutes before going on stage, and keep a tab open. An external
+  pinger every 5–10 min would fix it for judges who open the link later (needs an account; team decision).
+- **The PDF is the slowest step: 8–19 s** on Render. Prepare Noura's report before the pitch, so it is a download.
+Not checked (team items): backup video on two laptops and a USB stick; second URL on Replit (none found in the docs);
+demo reset after the last rehearsal; who drives, speaks and answers; the 7 judge questions in docs/10 rehearsed aloud.
+
+---
+
+## 2026-11-19 — C7 step 1: three full e2e runs in a row on main — Atharva with Claude Code
+Done:
+- Main `899416a` (Next 16, A1–A8, #130's demo-reset deadlock retry): **three full Playwright runs in a row, 208 passed
+  each, 0 failed, 10 skipped by design** (10.8, 9.2 and 10.8 min). `postnatal.spec.ts:25`, which failed twice last night
+  on the reset, passes in all three.
+- Setup: production build (`next start` on :3100, the api-down copy on :3101), API image built from the same commit in
+  Docker with `LLM_PROVIDER=none` and CI's raised rate limits, freshly seeded database.
+Next (C7): Lighthouse on 5 mobile screens, demo-readiness and a senior-judge rescore, backup video v2, then Krishna tags
+`freeze-2026-11-21` before Sat 21 Nov 18:00.
+
+---
+
 ## 2026-11-19 — Build week: iOS app, Next 16, every open PR merged, rescore 73/100, judge's UI points — Krishna with Claude Code
 Done:
 - **Merged (all CI green, e2e included):**
