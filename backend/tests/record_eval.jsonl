@@ -1,0 +1,22 @@
+{"id": "r01", "persona": "noura", "lang": "en", "topic": "cycles", "q": "how long were my last cycles?", "expect": {"lengths": [46, 45, 55, 42, 46, 56]}}
+{"id": "r02", "persona": "noura", "lang": "ar", "topic": "cycles", "q": "كم طول دوراتي الأخيرة؟", "expect": {"lengths": [46, 45, 55, 42, 46, 56]}}
+{"id": "r03", "persona": "sara", "lang": "en", "topic": "cycles", "q": "What were my last cycle lengths?", "expect": {"lengths": [25, 25, 28, 27, 26, 26]}}
+{"id": "r04", "persona": "fatima", "lang": "en", "topic": "cycles", "q": "how long was my last cycle?", "expect": {"lengths": [29]}}
+{"id": "r05", "persona": "mariam", "lang": "ar", "topic": "cycles", "q": "كم طول دوراتي الأخيرة؟", "expect": {"lengths": [30, 30, 29, 29, 31, 30]}}
+{"id": "r06", "persona": "noura", "lang": "en", "topic": "last_period", "q": "when was my last period?", "expect": {"start": "2026-11-04"}}
+{"id": "r07", "persona": "noura", "lang": "ar", "topic": "last_period", "q": "متى كانت آخر دورة لي؟", "expect": {"start": "2026-11-04"}}
+{"id": "r08", "persona": "layla", "lang": "en", "topic": "last_period", "q": "When did my last period start?", "expect": {"start": "2026-11-09"}}
+{"id": "r09", "persona": "priya", "lang": "en", "topic": "pain", "q": "how often did I log severe pain in the last 3 months?", "expect": {"severe_days": 4, "pain_days": 18, "highest": 8}}
+{"id": "r10", "persona": "priya", "lang": "ar", "topic": "pain", "q": "كم مرة سجلت ألم شديد في آخر 3 شهور؟", "expect": {"severe_days": 4, "pain_days": 18, "highest": 8}}
+{"id": "r11", "persona": "noura", "lang": "en", "topic": "pain", "q": "how many days did I log pain in the last 6 months?", "expect": {"severe_days": 1, "pain_days": 43, "highest": 7}}
+{"id": "r12", "persona": "priya", "lang": "en", "topic": "impact", "q": "how many days did I miss work?", "expect": {"missed_days": 2}}
+{"id": "r13", "persona": "priya", "lang": "ar", "topic": "impact", "q": "كم يوم غبت عن الدوام؟", "expect": {"missed_days": 2}}
+{"id": "r14", "persona": "layla", "lang": "en", "topic": "impact", "q": "how many days did I miss work this year?", "expect": {"missed_days": 0}}
+{"id": "r15", "persona": "sara", "lang": "en", "topic": "labs", "q": "what were my last ferritin/Hb values?", "labs": ["FERR", "HGB"], "expect": {"values": {"HGB": 10.4, "FERR": 8}}}
+{"id": "r16", "persona": "sara", "lang": "ar", "topic": "labs", "q": "ما هي آخر نتائج الفيريتين والهيموجلوبين عندي؟", "labs": ["FERR", "HGB"], "expect": {"values": {"HGB": 10.4, "FERR": 8}}}
+{"id": "r17", "persona": "fatima", "lang": "en", "topic": "labs", "q": "what was my last HbA1c?", "labs": ["HBA1C"], "expect": {"values": {"HBA1C": 5.6}}}
+{"id": "r18", "persona": "hessa", "lang": "en", "topic": "labs", "q": "show my latest lab results", "labs": [], "expect": {"values": {"HGB": 13.5, "TSH": 1.22, "ABO": "O positive", "FPG": 4.6}}}
+{"id": "r19", "persona": "fatima", "lang": "en", "topic": "bp", "q": "my blood pressure readings?", "expect": {"latest": "118/78"}}
+{"id": "r20", "persona": "hessa", "lang": "ar", "topic": "bp", "q": "وش قراءات ضغطي؟", "expect": {"latest": "118/76"}}
+{"id": "r21", "persona": "fatima", "lang": "en", "topic": "postnatal", "q": "which of my postnatal steps are left?", "expect": {"steps": 5}}
+{"id": "r22", "persona": "fatima", "lang": "ar", "topic": "postnatal", "q": "ما هي خطوات ما بعد الولادة المتبقية لي؟", "expect": {"steps": 5}}

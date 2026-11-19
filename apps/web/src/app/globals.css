@@ -520,6 +520,13 @@ a.dp.now{color:var(--plum-ink)}
 .askbar button:disabled{opacity:.5;cursor:default}
 .askbar button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-text)}
 a.ev:hover{border-color:var(--accent)}
+/* Assistant lanes (section 7): "From your entries" answers and next steps she approves */
+.msg.rec{display:flex;flex-direction:column;gap:6px}
+.msg.rec p + p{margin-top:0}
+.msg.wide{max-width:100%}
+.rec-label{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--accent-text)}
+.next-list{display:flex;flex-direction:column;gap:12px;margin-top:4px;list-style:none;padding:0}
+.next-item{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--rule);padding-top:10px}
 }
 
 @layer components {
