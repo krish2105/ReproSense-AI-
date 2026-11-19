@@ -7,7 +7,9 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import os
 import re
+import threading
 import time
 from collections.abc import Iterator
 from concurrent.futures import ThreadPoolExecutor
@@ -56,12 +58,31 @@ def _key(system: str, user: str) -> str:
 
 def cache_get(system: str, user: str) -> dict | None:
     f = CACHE_DIR / f"{_key(system, user)}.json"
-    return json.loads(f.read_text()) if f.exists() else None
+    try:
+        return json.loads(f.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return None
+    except (OSError, ValueError):  # unreadable or damaged entry: a miss, never a failed request
+        log.warning("ignoring unreadable LLM cache entry %s", f.name)
+        return None
 
 
 def cache_put(system: str, user: str, value: dict) -> None:
-    CACHE_DIR.mkdir(exist_ok=True)
-    (CACHE_DIR / f"{_key(system, user)}.json").write_text(json.dumps(value, ensure_ascii=False, indent=1))
+    """Write-then-rename, so a concurrent reader never sees half a file (which used to raise inside the request)."""
+    try:
+        CACHE_DIR.mkdir(exist_ok=True)
+        final = CACHE_DIR / f"{_key(system, user)}.json"
+        tmp = final.with_suffix(f".{os.getpid()}.{threading.get_ident()}.tmp")
+        tmp.write_text(json.dumps(value, ensure_ascii=False, indent=1), encoding="utf-8")
+        os.replace(tmp, final)
+    except OSError as e:  # read-only filesystem, disk full: the answer is still returned, just not cached
+        log.warning("could not cache LLM output: %s", e)
+
+
+def cache_drop(system: str, user: str) -> None:
+    """Forget a cached output the caller rejected (the output guard), so a retry asks the model again instead of
+    replaying the same rejected text from disk."""
+    (CACHE_DIR / f"{_key(system, user)}.json").unlink(missing_ok=True)
 
 
 def _parse_json(text: str) -> dict | None:

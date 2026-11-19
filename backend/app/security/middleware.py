@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import hashlib
 import time
 from collections import defaultdict, deque
 
+import jwt
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse
@@ -21,7 +23,26 @@ SENSITIVE = (
     "/v1/clinic-invites",
     "/v1/auth/",
     "/v1/staff-auth/",
+    "/v1/demo/reset",
 )
+
+
+def client_key(request: Request) -> str:
+    """Who a request counts against. A session token counts only once its signature checks out: keying on the raw
+    cookie let a client send a fresh random cookie with every request and never be limited (18 Nov audit). A verified
+    token gets its own bucket (judges sharing one persona are not throttled together); anything else counts against
+    the client address."""
+    from app.security.auth import ALG
+
+    auth = request.headers.get("authorization", "")
+    token = auth[7:] if auth.lower().startswith("bearer ") else request.cookies.get("rs_token", "")
+    if token:
+        try:
+            jwt.decode(token, get_settings().demo_token_secret, algorithms=[ALG], audience="reprosense-demo")
+            return "t:" + hashlib.sha256(token.encode()).hexdigest()[:24]
+        except jwt.PyJWTError:
+            pass
+    return "ip:" + (request.client.host if request.client else "anon")
 
 
 class SecurityHeaders(BaseHTTPMiddleware):
@@ -43,9 +64,16 @@ class SecurityHeaders(BaseHTTPMiddleware):
 class RateLimit(BaseHTTPMiddleware):
     """Sliding one-minute window per client and route group. In-memory (single instance); Redis in production."""
 
+    SWEEP_EVERY = 1000  # requests between sweeps of idle buckets, so the table cannot grow without bound
+
     def __init__(self, app):
         super().__init__(app)
         self.hits: dict[tuple[str, str], deque] = defaultdict(deque)
+        self._seen = 0
+
+    def _sweep(self, now: float) -> None:
+        for k in [k for k, q in self.hits.items() if not q or now - q[-1] > 60]:
+            del self.hits[k]
 
     async def dispatch(self, request: Request, call_next):
         s = get_settings()
@@ -55,9 +83,11 @@ class RateLimit(BaseHTTPMiddleware):
             return await call_next(request)
         group = "sensitive" if any(path.startswith(p) for p in SENSITIVE) and request.method == "POST" else "general"
         limit = s.rate_limit_sensitive_per_min if group == "sensitive" else s.rate_limit_per_min
-        who = request.cookies.get("rs_token", "")[-24:] or (request.client.host if request.client else "anon")
-        q = self.hits[(who, group)]
         now = time.monotonic()
+        self._seen += 1
+        if self._seen % self.SWEEP_EVERY == 0:
+            self._sweep(now)
+        q = self.hits[(client_key(request), group)]
         while q and now - q[0] > 60:
             q.popleft()
         if len(q) >= limit:
