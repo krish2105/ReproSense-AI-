@@ -28,4 +28,5 @@ USER reprosense
 
 EXPOSE 8010
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s CMD python -c "import urllib.request,os;urllib.request.urlopen(f'http://127.0.0.1:{os.environ.get(\"PORT\",\"8010\")}/healthz')"
-CMD ["sh", "-c", "exec /srv/backend/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8010} --proxy-headers --forwarded-allow-ips='*'"]
+# --no-access-log: the app writes one JSON line per request itself, with its request ID and latency (app/observability.py)
+CMD ["sh", "-c", "exec /srv/backend/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8010} --proxy-headers --forwarded-allow-ips='*' --no-access-log"]
