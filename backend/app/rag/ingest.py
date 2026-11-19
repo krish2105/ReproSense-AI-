@@ -22,6 +22,9 @@ def ingest(cur=None) -> int:
             " VALUES (%s,%s,%s,%s,%s,%s,%s::vector)",
             (c.source_id, s.title, s.url, c.section, c.lang, c.text, to_pg(embed(f"{s.title}\n{c.text}"))),
         )
+    from app.rag.retrieve import clear_cache
+
+    clear_cache()  # and again after the seed commits (app/db/seed.py): readers may have cached the old index
     return len(rows)
 
 

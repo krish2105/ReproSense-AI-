@@ -42,19 +42,23 @@ def age_range(age: int) -> str:
     return f"{lo}-{lo + 4}"
 
 
+ADDONS = ("sign_in.sql", "family.sql")  # tables added after the first hosted seed; every statement is idempotent
+
+
 def schema_sql() -> str:
-    """The whole schema: the health record, then her sign-in tables (sign_in.sql)."""
+    """The whole schema: the health record, then the tables added in build week (sign_in.sql, family.sql)."""
     here = Path(__file__).parent
-    return (here / "schema.sql").read_text() + "\n" + (here / "sign_in.sql").read_text()
+    return "\n".join([(here / "schema.sql").read_text(), *((here / f).read_text() for f in ADDONS)])
 
 
-def ensure_sign_in_tables(url: str | None = None) -> None:
-    """At boot: a database seeded before K5 gains the sign-in tables without a demo reset, and (in demo mode) one seeded
+def ensure_addon_tables(url: str | None = None) -> None:
+    """At boot: a database seeded before K5 or Y4 gains their tables without a demo reset, and (in demo mode) one seeded
     before staff sign-in gains the fictional DoH admin (doh-01), so the operator's CLI can make her setup link. Safe to
     run again."""
     with psycopg.connect(url or get_settings().database_url, autocommit=True) as conn:
         if conn.execute("SELECT to_regclass('public.profiles') IS NOT NULL").fetchone()[0]:
-            conn.execute((Path(__file__).parent / "sign_in.sql").read_text())
+            for f in ADDONS:
+                conn.execute((Path(__file__).parent / f).read_text())
             if not get_settings().demo_mode:
                 return
             sid, alias, role, clinic = next(s for s in STAFF if s[0] == "doh-01")
@@ -65,6 +69,9 @@ def ensure_sign_in_tables(url: str | None = None) -> None:
                     "INSERT INTO profiles (id, alias, role, clinic_id) VALUES (%s,%s,%s,%s) ON CONFLICT (id) DO NOTHING",
                     (sid, alias, role, clinic),
                 )
+
+
+ensure_sign_in_tables = ensure_addon_tables  # the K5 name, kept for callers and tests
 
 
 def apply_schema(url: str | None = None) -> None:
@@ -259,7 +266,9 @@ def seed(url: str | None = None, with_kb: bool = True) -> dict:
                 raise
             time.sleep(RETRY_PAUSE_S * attempt)
     from app.agents.pipeline import refresh_all
+    from app.rag.retrieve import clear_cache
 
+    clear_cache()  # requests that ran during the reset may have cached rows of the old index
     refresh_all(ids)
     return {"personas": len(ids), "cohort": n, "ref_date": str(get_settings().demo_ref_date or date.today())}
 

@@ -7,16 +7,33 @@ import binascii
 import logging
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from psycopg_pool import PoolTimeout
 
 from app.ai.llm import get_llm
-from app.api import admin, assistant, auth, clinic, clinic_admin, demo, patient, quality, reports, sessions, staff_auth
+from app.api import (
+    admin,
+    assistant,
+    auth,
+    clinic,
+    clinic_admin,
+    demo,
+    family,
+    patient,
+    quality,
+    reports,
+    sessions,
+    staff_auth,
+)
 from app.config import get_settings
 from app.db import SYSTEM, session
+from app.observability import RequestContext, setup_logging
 from app.security.middleware import ModelBudget, RateLimit, SecurityHeaders
 
 s = get_settings()
+setup_logging(s.log_level)
 log = logging.getLogger("reprosense")
 
 
@@ -39,11 +56,11 @@ async def lifespan(_app: FastAPI):
         loaded = seed_if_empty()
         log.warning("first boot: %s", f"seeded {loaded}" if loaded else "demo data already present")
     try:
-        from app.db.seed import ensure_sign_in_tables
+        from app.db.seed import ensure_addon_tables
 
-        ensure_sign_in_tables()  # K5: a database seeded before sign-in existed gains its tables
+        ensure_addon_tables()  # K5 and Y4: a database seeded before them gains their tables
     except Exception as e:  # the API still starts; sign-in answers 500 until the database is reachable
-        log.warning("sign-in tables not checked: %s", type(e).__name__)
+        log.warning("sign-in and family tables not checked: %s", type(e).__name__)
     yield
 
 
@@ -62,7 +79,9 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE"],
     allow_headers=["content-type", "authorization"],
+    expose_headers=["x-request-id"],
 )
+app.add_middleware(RequestContext)  # outermost: every response, even a refusal or a crash, gets an ID and a log line
 for r in (
     demo.router,
     auth.router,
@@ -71,6 +90,7 @@ for r in (
     patient.router,
     assistant.router,
     reports.router,
+    family.router,
     clinic.router,
     admin.router,
     clinic_admin.router,
@@ -78,6 +98,17 @@ for r in (
     quality.router,
 ):
     app.include_router(r)
+
+
+@app.exception_handler(PoolTimeout)
+async def pool_busy(request: Request, _exc: PoolTimeout):
+    """Every database connection is busy: say so (503, retry shortly) instead of a bare 500, and log it as saturation."""
+    log.error("database pool exhausted: %s %s", request.method, request.url.path)
+    return JSONResponse(
+        {"detail": "The service is busy. Please try again in a few seconds."},
+        status_code=503,
+        headers={"Retry-After": "5"},
+    )
 
 
 @app.get("/healthz")

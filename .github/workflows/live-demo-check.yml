@@ -1,0 +1,39 @@
+name: live-demo-check
+
+# Runs the judges' 3-minute path against the LIVE site (scripts/live_smoke.py): Noura's patterns, the assistant with
+# sources, the doctor PDF, the clinician opening Fatima, the clinic network and the audit chain. Every 3 hours, more
+# often around the showcase, and by hand. A failure opens (or comments on) one GitHub issue, so the team sees it.
+# It never resets the demo. Uses the repository variables LIVE_API_URL and LIVE_WEB_URL (as the uptime workflow).
+
+on:
+  schedule:
+    - cron: "17 */3 * * *"
+    - cron: "*/30 4-12 22 11 *"  # 22 Nov, 08:00-16:30 Gulf time: every 30 minutes during the showcase
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    if: ${{ vars.LIVE_API_URL != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      LIVE_API_URL: ${{ vars.LIVE_API_URL }}
+      LIVE_WEB_URL: ${{ vars.LIVE_WEB_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run the demo path against the live site
+        id: smoke
+        run: python3 scripts/live_smoke.py | tee "$RUNNER_TEMP/smoke.txt"
+      - name: Open or update the alert issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Live demo check failed"
+          body="$(printf 'The scheduled live check failed (run %s).\n\n```\n%s\n```\n' "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" "$(cat "$RUNNER_TEMP/smoke.txt")")"
+          n=$(gh issue list --state open --search "in:title \"$title\"" --json number --jq '.[0].number')
+          if [ -n "$n" ]; then gh issue comment "$n" --body "$body"; else gh issue create --title "$title" --body "$body"; fi

@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { cookies } from "next/headers";
 import { getLocale, getTranslations } from "next-intl/server";
+import { FamilySupport } from "@/components/privacy/FamilySupport";
 import { ConsentToggles, DeleteData, DiscreetToggle, FhirCheck } from "@/components/privacy/PrivacyActions";
 import { Devices } from "@/components/privacy/Devices";
 import { SignInMethods } from "@/components/privacy/SignInMethods";
 import { Box } from "@/components/ui/Box";
 import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
-import type { AuthMe, PrivacyResponse, SessionsList } from "@/lib/api/types";
+import type { AuthMe, FamilyLink, PrivacyResponse, SessionsList } from "@/lib/api/types";
 import { formatDate } from "@/lib/format";
 import { requireRole } from "@/lib/session";
 
@@ -23,9 +24,10 @@ export default async function PrivacyPage() {
   const raw = await getLocale();
   const locale = isLocale(raw) ? raw : "en";
   const t = await getTranslations("privacy");
-  const [p, me, sessions] = await Promise.all([
+  const [p, me, family, sessions] = await Promise.all([
     apiServer<PrivacyResponse>("/privacy"),
     apiServer<AuthMe>("/auth/me"),
+    apiServer<FamilyLink[]>("/family-links"),
     apiServer<SessionsList>("/sessions"),
   ]);
   const discreet = (await cookies()).get("rs_discreet")?.value === "1";
@@ -62,6 +64,13 @@ export default async function PrivacyPage() {
         <ConsentToggles consents={p.consents} homeClinic={p.home_clinic} />
       </Box>
 
+      <Box id="family" aria-labelledby="family-title">
+        <h2 id="family-title" style={{ fontSize: 16 }}>
+          {t("familyTitle")}
+        </h2>
+        <FamilySupport links={family} />
+      </Box>
+
       <Box>
         <h2 style={{ fontSize: 16 }}>{t("whoTitle")}</h2>
         {p.audit.length === 0 ? (
@@ -74,7 +83,7 @@ export default async function PrivacyPage() {
               <li key={i} className="s" style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
                 <span>
                   {t("whoRow", {
-                    who: a.actor_id === "share-link" ? t("roles.share_link") : t.has(`roles.${a.actor_role}`) ? t(`roles.${a.actor_role}`) : a.actor_role,
+                    who: a.actor_id === "share-link" ? t("roles.share_link") : t.has(`roles.${a.actor_role}`) ? t(`roles.${a.actor_role}`) : a.actor_role, // "family": her family link (Y4)
                     action: t.has(`actions.${a.action}`) ? t(`actions.${a.action}`) : t("actions.other"),
                   })}
                 </span>

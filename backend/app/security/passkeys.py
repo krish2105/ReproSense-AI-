@@ -87,9 +87,17 @@ def registration_options(pid: str, name: str, existing: list[str]) -> dict:
     return json.loads(options_to_json(options))
 
 
-def save_registration(cur, credential: dict, pid: str, label: str | None) -> int | None:
-    """Checks a new passkey for this account (origin, challenge, user verification) and saves its public key. Returns
-    the passkey id, or None when this passkey is already saved. `cur` is a system session."""
+@dataclass
+class NewPasskey:
+    credential_id: str
+    public_key: bytes
+    sign_count: int
+    transports: list[str]
+
+
+def check_registration(credential: dict, pid: str) -> NewPasskey:
+    """Checks a new passkey for this account (origin, challenge, user verification). Call it outside any open session:
+    it uses up the challenge in its own (db/__init__.py: never hold one session while opening another)."""
     s = get_settings()
     challenge = consume_challenge(credential, "register", pid)
     try:
@@ -104,10 +112,15 @@ def save_registration(cur, credential: dict, pid: str, label: str | None) -> int
         raise HTTPException(400, "This passkey could not be checked. Try again on this device.") from None
     raw = credential.get("response", {}).get("transports") or []
     transports = [t for t in raw if isinstance(t, str) and t in TRANSPORTS][:6]
+    return NewPasskey(bytes_to_base64url(v.credential_id), v.credential_public_key, v.sign_count, transports)
+
+
+def save_passkey(cur, pid: str, new: NewPasskey, label: str | None) -> int | None:
+    """Saves a checked passkey's public key. Returns its id, or None when this passkey is already saved."""
     cur.execute(
         "INSERT INTO passkeys (profile_id, credential_id, public_key, sign_count, transports, label)"
         " VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT (credential_id) DO NOTHING RETURNING id",
-        (pid, bytes_to_base64url(v.credential_id), v.credential_public_key, v.sign_count, transports, label),
+        (pid, new.credential_id, new.public_key, new.sign_count, new.transports, label),
     )
     row = cur.fetchone()
     return row["id"] if row else None

@@ -738,3 +738,32 @@ def test_a_database_seeded_before_staff_sign_in_gains_the_doh_admin_at_boot():
     ensure_sign_in_tables()
     with psycopg.connect(get_settings().database_url) as conn:
         assert conn.execute("SELECT role FROM profiles WHERE id='doh-01'").fetchone() == ("admin",)
+
+
+@pytest.fixture
+def one_connection():
+    """The app on a 1-connection pool (tests/test_pool_and_pdf.py): a step that holds one session while opening another
+    times out instead of passing."""
+    import app.db as dbm
+    from tests.test_pool_and_pdf import _pool
+
+    _pool(1, 3)
+    yield
+    dbm.reset_pool()
+
+
+def test_every_sign_in_step_needs_only_one_connection_at_a_time(web, one_connection):
+    demo_tap(web, "clinic_admin")
+    auth = SoftAuthenticator()
+    assert add_staff_passkey(web, auth).status_code == 200
+    assert staff_door(web, auth).status_code == 200
+    o = web.post("/v1/staff-auth/step-up/options").json()
+    v = web.post("/v1/staff-auth/step-up/verify", json={"credential": auth.get(o["options"], origin(), rp_id())})
+    assert v.status_code == 200 and web.get("/v1/clinic-admin/export.csv").status_code == 200
+    doh = SoftAuthenticator()
+    totp = doh_setup(web, doh)
+    assert web.post("/v1/sessions/sign-out").status_code == 200
+    ticket = doh_door(web, doh).json()["ticket"]
+    assert web.post("/v1/staff-auth/doh/code", json={"ticket": ticket, "code": next_code(totp)}).status_code == 200
+    assert web.get("/v1/sessions").status_code == 200 and web.get("/v1/staff-auth/me").status_code == 200
+    assert web.post("/v1/sessions/sign-out-everywhere").status_code == 200

@@ -28,8 +28,9 @@ from app.security.passkeys import (
     PasskeyFailed,
     authentication_options,
     check_assertion,
+    check_registration,
     registration_options,
-    save_registration,
+    save_passkey,
 )
 
 router = APIRouter(prefix="/v1/staff-auth", tags=["staff sign-in"])
@@ -154,8 +155,9 @@ def register_options(actor: Actor = Depends(staff)):
 def register_verify(body: CredentialIn, request: Request, actor: Actor = Depends(staff)):
     if actor.role not in STAFF_DOOR:
         raise HTTPException(403, DOH_PASSKEYS)
+    new = check_registration(body.credential, actor.user_id)
     with session(SYSTEM) as cur:
-        added = save_registration(cur, body.credential, actor.user_id, _device(request))
+        added = save_passkey(cur, actor.user_id, new, _device(request))
         if added:
             audit.record(cur, actor, "passkey_added", None, "staff_passkey")
     if not added:
@@ -341,8 +343,13 @@ def setup_passkey_options(token: str):
 @router.post("/setup/{token}/passkey/verify")
 def setup_passkey_verify(token: str, body: CredentialIn, request: Request):
     with session(SYSTEM) as cur:
-        row = _pending(cur, token, lock=True)
-        added = save_registration(cur, body.credential, row["profile_id"], _device(request))
+        pid = _pending(cur, token)["profile_id"]
+    new = check_registration(body.credential, pid)  # its own session: never two at once (db/__init__.py)
+    with session(SYSTEM) as cur:
+        row = _pending(cur, token, lock=True)  # still pending, for the same account
+        if row["profile_id"] != pid:
+            raise HTTPException(409, "This setup link changed. Open it again.")
+        added = save_passkey(cur, pid, new, _device(request))
         if not added:
             raise HTTPException(409, "This passkey is already saved.")
         cur.execute("UPDATE staff_setup_links SET passkey_id=%s WHERE id=%s", (added, row["id"]))
