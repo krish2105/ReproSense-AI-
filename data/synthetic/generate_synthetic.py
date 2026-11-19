@@ -258,6 +258,7 @@ def simulate_persona(spec: PersonaSpec, ref: date, rng: random.Random) -> dict:
         delivery = [e for e in events if e["type"] == "delivery"][0]
         events.append({"id": new_id(), "type": "questionnaire", "date": iso(date.fromisoformat(delivery["date"]) + timedelta(weeks=8)),
                        "details": {"tool": "EPDS", "total": 11, "item10": 0, "note": "self-completed in app; synthetic"}})
+        events.extend(baby_checks(spec, date.fromisoformat(delivery["date"])))
     if spec.perimenopause:
         for m in (3, 2, 1):
             events.append({"id": new_id(), "type": "questionnaire", "date": iso(ref - timedelta(days=30 * m - 3)),
@@ -284,6 +285,20 @@ def simulate_persona(spec: PersonaSpec, ref: date, rng: random.Random) -> dict:
     data["features"] = compute_features(data, ref)
     data["expected_observations"] = evaluate_rules(data["features"])
     return data
+
+
+def baby_checks(spec: PersonaSpec, birth: date) -> list[dict]:
+    """Her baby's first-year steps she marked done (build week D1, backend/app/services/baby.py): the newborn
+    examination on the day of the birth, the other hospital screenings and the birth doses the next day, before
+    discharge, and the 1-month well-baby visit a day after the baby turned 1 month. On the demo date (9 weeks) the
+    2-month visit and vaccinations are due. Fixed dates and ids, no random draws, so every other number in the demo
+    stays the same; no rule reads these events."""
+    if spec.id != "fatima":
+        return []
+    steps = [("newborn_exam", 0), ("hearing_screen", 1), ("heart_screen", 1), ("heel_prick", 1),
+             ("vaccines_birth", 1), ("rsv_antibody", 1), ("check_1m", 31)]
+    return [{"id": f"{spec.id}-baby-{item}", "type": "baby_check", "date": iso(birth + timedelta(days=days)),
+             "details": {"item": item, "source": "her entry"}} for item, days in steps]
 
 
 def bp_readings(spec: PersonaSpec, events: list[dict], ref: date) -> list[dict]:

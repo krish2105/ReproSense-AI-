@@ -473,6 +473,69 @@
       }
     },
     {
+      "id": "fatima-baby-newborn_exam",
+      "type": "baby_check",
+      "date": "2026-09-20",
+      "details": {
+        "item": "newborn_exam",
+        "source": "her entry"
+      }
+    },
+    {
+      "id": "fatima-baby-hearing_screen",
+      "type": "baby_check",
+      "date": "2026-09-21",
+      "details": {
+        "item": "hearing_screen",
+        "source": "her entry"
+      }
+    },
+    {
+      "id": "fatima-baby-heart_screen",
+      "type": "baby_check",
+      "date": "2026-09-21",
+      "details": {
+        "item": "heart_screen",
+        "source": "her entry"
+      }
+    },
+    {
+      "id": "fatima-baby-heel_prick",
+      "type": "baby_check",
+      "date": "2026-09-21",
+      "details": {
+        "item": "heel_prick",
+        "source": "her entry"
+      }
+    },
+    {
+      "id": "fatima-baby-vaccines_birth",
+      "type": "baby_check",
+      "date": "2026-09-21",
+      "details": {
+        "item": "vaccines_birth",
+        "source": "her entry"
+      }
+    },
+    {
+      "id": "fatima-baby-rsv_antibody",
+      "type": "baby_check",
+      "date": "2026-09-21",
+      "details": {
+        "item": "rsv_antibody",
+        "source": "her entry"
+      }
+    },
+    {
+      "id": "fatima-baby-check_1m",
+      "type": "baby_check",
+      "date": "2026-10-21",
+      "details": {
+        "item": "check_1m",
+        "source": "her entry"
+      }
+    },
+    {
       "id": "fatima-e0031",
       "type": "questionnaire",
       "date": "2026-11-15",
