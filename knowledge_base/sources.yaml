@@ -190,3 +190,17 @@
   url: "https://www.doh.gov.ae/en/news/DoH-launches-Integrated-Postnatal-Care-Programme"
   accessed: "2026-11-18"
   topics: [postnatal care, telemedicine, home visits, abu dhabi]
+- id: doh_premarital_screening_2024
+  answers: false  # cite-only: backs the planning-a-pregnancy checklist (Y1); not quoted in general answers
+  title: "Premarital Screening Standard — DoH Abu Dhabi (DoH/STD/PSS/V3, September 2024)"
+  publisher: "Department of Health – Abu Dhabi"
+  url: "https://www.doh.gov.ae/-/media/Feature/Resources/Standards/Premarital-Screening-standard-for-publication.ashx"
+  accessed: "2026-11-18"
+  topics: [premarital screening, rubella immunity, inherited blood disorders, planning a pregnancy, abu dhabi]
+- id: ukhsa_rubella_before_pregnancy
+  answers: false  # cite-only: backs the planning-a-pregnancy checklist (Y1); not quoted in general answers
+  title: "Thinking of getting pregnant? Make sure you're protected against German measles — Public Health England / UKHSA (updated 24 Oct 2016)"
+  publisher: "UK Health Security Agency (GOV.UK)"
+  url: "https://www.gov.uk/government/publications/thinking-of-getting-pregnant-make-sure-you-re-protected-against-german-measles"
+  accessed: "2026-11-18"
+  topics: [rubella, german measles, MMR vaccine, planning a pregnancy]
