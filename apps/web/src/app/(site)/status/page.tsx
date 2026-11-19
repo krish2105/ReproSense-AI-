@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ErrorState } from "@/components/ui/States";
 import { Tag } from "@/components/ui/Tag";
+import { isLocale } from "@/i18n/config";
 import { API_URL, apiServer } from "@/lib/api/server";
+import { formatDate } from "@/lib/format";
 import { TableScroll } from "@/components/ui/TableScroll";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,7 +28,19 @@ interface Quality {
     /** the same held-out round with the language model's second check (build week K7); absent until it is run with a key */
     heldout_with_model?: Partial<Record<"crisis" | "urgent" | "refuse" | "medicine" | "answer", { pass: number; of: number }>> & { model: string; round: number };
   } | null;
+  /** The attack suite's last published run (backend/app/security/attack_results.json); absent on an older API. */
+  attack_suite?: AttackSuite | null;
 }
+
+type AttackResult = "blocked" | "not_blocked" | "not_run";
+interface AttackSuite {
+  commit: string;
+  date: string;
+  total: number;
+  blocked: number;
+  attacks: { id: number; name: string; layer: string; layer_label: string; result: AttackResult }[];
+}
+const RESULT_TONE: Record<AttackResult, "ok" | "urgent" | "info"> = { blocked: "ok", not_blocked: "urgent", not_run: "info" };
 
 /** One live check of the API's readiness (database reachable) each time the page opens (issue #30). */
 async function checkApi(): Promise<{ up: boolean; ms: number; at: Date }> {
@@ -41,7 +56,9 @@ async function checkApi(): Promise<{ up: boolean; ms: number; at: Date }> {
 export default async function StatusPage() {
   const t = await getTranslations("status");
   const live = await checkApi();
-  const checkedAt = new Intl.DateTimeFormat(await getLocale(), { timeZone: "Asia/Dubai", dateStyle: "medium", timeStyle: "short" }).format(live.at);
+  const rawLocale = await getLocale();
+  const locale = isLocale(rawLocale) ? rawLocale : "en";
+  const checkedAt = new Intl.DateTimeFormat(rawLocale, { timeZone: "Asia/Dubai", dateStyle: "medium", timeStyle: "short" }).format(live.at);
   // Set where the service is hosted (docs/16): the external uptime monitor and the pilot support inbox. Hidden if unset.
   const monitor = process.env.STATUS_MONITOR_URL;
   const support = process.env.SUPPORT_EMAIL;
@@ -104,6 +121,9 @@ export default async function StatusPage() {
     <>
       <h1 className="page-title">{t("title")}</h1>
       <p className="page-intro">{t("intro")}</p>
+      <p className="s" style={{ marginTop: 10 }}>
+        <Link href="/evidence">{t("seeEvidence")}</Link>
+      </p>
 
       {liveSection}
 
@@ -218,6 +238,8 @@ export default async function StatusPage() {
         </section>
       )}
 
+      {q.attack_suite && <AttackSection suite={q.attack_suite} t={t} locale={locale} />}
+
       <section className="panel" aria-labelledby="support-title" style={{ padding: 22, marginTop: 20 }}>
         <h2 id="support-title" style={{ fontSize: 19 }}>
           {t("supportTitle")}
@@ -241,5 +263,47 @@ export default async function StatusPage() {
         </p>
       </section>
     </>
+  );
+}
+
+/** "Attack suite: N of N blocked" and each attack with the layer that stops it (docs/07, "Attack suite"). Names and
+ * layers come from the messages by id and key, so both languages read naturally; the API's English is the fallback. */
+function AttackSection({ suite, t, locale }: { suite: AttackSuite; t: Awaited<ReturnType<typeof getTranslations<"status">>>; locale: "en" | "ar" }) {
+  return (
+    <section className="panel" aria-labelledby="attack-title" style={{ padding: 22, marginTop: 20 }}>
+      <h2 id="attack-title" style={{ fontSize: 19 }}>
+        {t("attackTitle", { blocked: suite.blocked, total: suite.total })}
+      </h2>
+      <p className="s dim" style={{ marginTop: 6 }}>
+        {t("attackIntro")}
+      </p>
+      <p className="xs faint" style={{ marginTop: 4 }}>
+        {t("attackRun", { date: formatDate(suite.date, locale), commit: suite.commit })}
+      </p>
+      <TableScroll label={t("attackTitle", { blocked: suite.blocked, total: suite.total })} style={{ marginTop: 12 }}>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">{t("attackColAttack")}</th>
+              <th scope="col">{t("attackColLayer")}</th>
+              <th scope="col">{t("attackColResult")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {suite.attacks.map((a) => (
+              <tr key={a.id}>
+                <td className="mono">{a.id}</td>
+                <td>{t.has(`attacks.a${a.id}`) ? t(`attacks.a${a.id}`) : a.name}</td>
+                <td className="xs">{t.has(`attackLayers.${a.layer}`) ? t(`attackLayers.${a.layer}`) : a.layer_label}</td>
+                <td>
+                  <Tag tone={RESULT_TONE[a.result] ?? "info"}>{t.has(`attackResult.${a.result}`) ? t(`attackResult.${a.result}`) : a.result}</Tag>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </TableScroll>
+    </section>
   );
 }

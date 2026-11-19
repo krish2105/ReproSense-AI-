@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 import inspect
-import secrets
 
 import psycopg
-import pytest
 
 from app.config import get_settings
 from tests.conftest import login
@@ -15,17 +13,7 @@ LAB = b"Sample date: 2026-11-01\nFerritin   9 ng/mL 15-150 L\n"
 
 
 # ---------- abuse ----------
-def test_random_cookies_cannot_dodge_the_rate_limit(client, monkeypatch):
-    monkeypatch.setattr(get_settings(), "rate_limit_sensitive_per_min", 3)
-    codes = []
-    for _ in range(8):
-        client.cookies.clear()
-        client.cookies.set("rs_token", secrets.token_urlsafe(30))  # forged, unsigned: counts against the address
-        codes.append(client.post("/v1/assistant/ask", json={"question": "What is PCOS?"}).status_code)
-    client.cookies.clear()
-    assert 429 in codes  # before: every request had its own bucket, so nothing was ever limited
-
-
+# Random cookies against the rate limit: attack 13 in test_attack_suite.py.
 def test_rate_limit_table_is_swept():
     from app.security.middleware import RateLimit
 
@@ -84,10 +72,7 @@ def test_bad_rows_are_422_not_500(client, reseed):
     assert client.post(f"/v1/documents/{d['id']}/confirm", headers=h, json={"rows": too_many}).status_code == 422
 
 
-@pytest.mark.parametrize("blob", [b"%PDF-1.4 garbage", b"%PDF-" + b"\x00" * 64])
-def test_a_damaged_pdf_is_a_clear_422(client, blob):
-    r = client.post("/v1/documents", headers=login(client, "noura"), files={"file": ("x.pdf", blob, "application/pdf")})
-    assert r.status_code == 422 and "PDF" in r.json()["detail"]
+# A damaged PDF upload: attack 14 in test_attack_suite.py.
 
 
 def test_the_upload_handler_does_not_block_the_event_loop():

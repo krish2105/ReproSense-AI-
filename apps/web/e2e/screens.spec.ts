@@ -9,6 +9,7 @@ const SCREENS: { path: string; who: Who }[] = [
   { path: "/status", who: null },
   { path: "/pricing", who: null },
   { path: "/trust", who: null },
+  { path: "/evidence", who: null },
   { path: "/join", who: null },
   { path: "/join?clinic=clinic_corniche", who: null },
   { path: "/signin", who: null },
@@ -44,7 +45,7 @@ for (const lang of ["en", "ar"] as const) {
 // The dark theme is its own palette (docs/06), so it gets its own contrast check on the screens judges see.
 test.describe("dark theme", () => {
   test.use({ colorScheme: "dark" });
-  for (const s of SCREENS.filter((x) => ["/", "/app", "/app/insights", "/clinic/patients/fatima", "/admin"].includes(x.path) && (x.path !== "/app" || (x.who && "persona" in x.who && x.who.persona === "noura")))) {
+  for (const s of SCREENS.filter((x) => ["/", "/trust", "/evidence", "/app", "/app/insights", "/clinic/patients/fatima", "/admin"].includes(x.path) && (x.path !== "/app" || (x.who && "persona" in x.who && x.who.persona === "noura")))) {
     test(`${s.path} (dark)`, async ({ page }) => {
       if (s.who) await signIn(page, s.who);
       await page.goto(s.path);

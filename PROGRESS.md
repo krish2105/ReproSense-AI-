@@ -17,6 +17,23 @@ Blockers / questions:
 
 ---
 
+## 2026-11-19 — Trust: DoH and UAE compliance; new public /evidence page — Krishna with Claude Code
+Done (branch `feat/trust-evidence`; no clinical logic changed):
+- `/trust` keeps everything and adds "DoH and UAE compliance": ADHICS's 11 control domains mapped to what runs today
+  (in place 3, partly 6, roadmap 2), each with the repository files to check; roadmap before real data: UAE hosting, an
+  independent penetration test, the formal ADHICS assessment. DoH AI Clinician Framework (WAM, 21 Oct 2026) and the
+  Responsible AI Standard: oversight, transparency, her AI switch, the verifier, held-out testing, 998 and 800-SAKINA.
+  Federal Law No. 2 of 2019 (Art. 13) and the PDPL (in force 2 Jan 2022). Sources listed; no certification claimed.
+- `/evidence` (new, public, in the footer and linked from `/status`): tests, rule accuracy, the 60-question eval, held-out
+  routing by type (and the model's second check once `heldout_with_model` exists), the attack suite once #145's file
+  exists, and the 19 Nov Lighthouse run. Every number comes from `GET /v1/quality`; missing ones say "not measured yet".
+- `make evidence` (`tools/record_evidence.py`) records the test counts at a commit into `backend/app/evidence.json`.
+- Left out as unverified: ADHICS v2's dates, the framework's own text (doh.gov.ae refuses automated fetches), whether
+  the PDPL excludes health data, official Arabic names (AR-REVIEW).
+Tests: backend 731 passed (recorded at `3bc638e`) · web unit 96 passed · e2e 252 listed (CI runs them)
+UI slop check: pass. /trust, /evidence and /status checked in EN/AR, light/dark, 1280/390/320 px: axe 0 violations, no
+sideways scroll at 1280 and 390 (all public pages are 1 px wide at 320 px because of the header's theme button, as on main).
+
 ## 2026-11-19 — Staff and DoH sign-in (plan section 5, "full plan") — Krishna with Claude Code
 Done (branch `feat/staff-signin`, one PR, not merged):
 - Two doors: `/staff/signin` (clinicians, clinic admins: passkey only) and `/doh/signin` (DoH network admin: passkey,

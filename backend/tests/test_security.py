@@ -1,10 +1,10 @@
-"""Security headers, rate limits, encryption at the field level, redaction, audit hash chain."""
+"""Security headers, rate limits, encryption at the field level, redaction. The audit hash chain under attack is
+attack 12 in test_attack_suite.py."""
 
 import psycopg
 
 from app.ai.redact import redact
 from app.config import get_settings
-from app.security.audit import verify_chain
 from app.security.crypto import decrypt, encrypt
 from tests.conftest import login
 
@@ -65,16 +65,3 @@ def test_redaction_before_llm():
         and "[email]" in t
         and "[id]" in t
     )
-
-
-def test_audit_chain_verifies_and_detects_tampering(client):
-    h = login(client, role="admin")
-    v = client.get("/v1/admin/audit/verify", headers=h).json()
-    assert v["chain_ok"] is True and v["entries"] > 0
-    with psycopg.connect(get_settings().database_url) as conn:
-        rows = conn.execute("SELECT * FROM audit_log ORDER BY id").fetchall()
-        cols = [d.name for d in conn.execute("SELECT * FROM audit_log LIMIT 0").description]
-    dicts = [dict(zip(cols, r, strict=True)) for r in rows]
-    dicts[0]["action"] = "tampered"
-    ok, bad = verify_chain(dicts)
-    assert ok is False and bad == dicts[0]["id"]
