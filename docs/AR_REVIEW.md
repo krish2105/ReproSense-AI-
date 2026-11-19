@@ -1016,6 +1016,171 @@ The public /pilot page for a clinic manager or an insurer, so the address is plu
 | After-birth urgent reply, added clause (`assistant.py` `URGENT_TEXT`) | … a severe headache, changes in your vision, or sudden swelling of your face, hands or feet. | … أو الصداع الشديد، أو تغيّر الرؤية، أو التورّم المفاجئ في الوجه أو اليدين أو القدمين. | |
 | `knowledge_base/summaries/nhs_pre_eclampsia.md` (Arabic section) | (new summary) | see the file | |
 
+## Staff and DoH sign-in (build week, plan section 5, 19 Nov, draft Arabic, not yet reviewed)
+The staff doors (/staff/signin, /doh/signin, /doh/setup), the staff "Your sign-in" page, Sign out, the step-up check
+before an export, the invite's passkey step, her signed-in devices in Privacy and the session notices. Staff screens
+use the same masculine default as the existing staff and invite screens; her Privacy box uses the feminine. «دائرة
+الصحة» is DoH; «مفتاح المرور» is passkey, as on her sign-in; «تطبيق المصادقة» is authenticator app. Check the counted
+nouns with the default numbers: 30 دقيقة، 8 ساعات، 5 دقائق.
+
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `chrome.nav.signIn` | Your sign-in | بيانات الدخول | |
+| `chrome.signOut` | Sign out | تسجيل الخروج | |
+| `demo.staffSigninBody` | Staff with a passkey sign in at their own door. The one-tap buttons above stay for judges. | يدخل الطاقم الذي يملك مفتاح مرور من بابه الخاص. تبقى أزرار اللمسة الواحدة أعلاه للمحكّمين. | |
+| `demo.staffSignin` | Staff sign-in | دخول الطاقم | |
+| `demo.dohSignin` | DoH sign-in | دخول دائرة الصحة | |
+| `privacy.actions.sign_out` | signed out | سجّل الخروج | |
+| `privacy.actions.sign_out_everywhere` | signed out everywhere | سجّل الخروج من كل الأجهزة | |
+| `privacy.actions.session_revoked` | signed out a device | أخرج جهازاً | |
+| `privacy.devices.title` | Signed in on | مسجّلة الدخول على | |
+| `privacy.devices.how.demo` | Opened with one tap (fictional demo) | فُتح بلمسة واحدة (عرض تجريبي خيالي) | |
+| `privacy.devices.how.invite` | Opened from the clinic's invite link | فُتح من رابط دعوة | |
+| `privacy.devices.how.passkey` | Signed in with a passkey | دخلتِ بمفتاح مرور | |
+| `privacy.devices.how.passkey_code` | Signed in with a passkey and an authenticator code | دخلتِ بمفتاح مرور ورمز | |
+| `privacy.devices.how.signup` | Started on this device | أنشأتِ سجلك على هذا الجهاز | |
+| `privacy.devices.how.email_code` | Signed in with an email code | دخلتِ برمز البريد الإلكتروني | |
+| `privacy.devices.how.legacy` | Signed in before devices were listed | دخلتِ قبل عرض قائمة الأجهزة | |
+| `privacy.devices.this` | This device | هذا الجهاز | |
+| `privacy.devices.unknown` | A browser | متصفح | |
+| `privacy.devices.lastActive` | Last active {time} | آخر نشاط {time} | |
+| `privacy.devices.signOut` | Sign out | تسجيل الخروج | |
+| `privacy.devices.signOutLabel` | Sign out: {device} | تسجيل الخروج: {device} | |
+| `privacy.devices.signedOut` | That device is signed out. | سُجّل الخروج من ذلك الجهاز. | |
+| `privacy.devices.everywhere` | Sign out everywhere | تسجيل الخروج من كل الأجهزة | |
+| `privacy.devices.everywhereBody` | Ends every session of your record on every device, this one too. Your passkeys stay, so you can sign in again. | ينهي كل جلسات سجلك على كل الأجهزة، وهذا الجهاز أيضاً. تبقى مفاتيح المرور، فيمكنك الدخول مجدداً. | |
+| `privacy.devices.everywhereConfirm` | Sign out everywhere | تسجيل الخروج من كل الأجهزة | |
+| `privacy.devices.stay` | Stay signed in | البقاء مسجّلة | |
+| `privacy.devices.signOutHere` | Sign out of this device | تسجيل الخروج من هذا الجهاز | |
+| `privacy.devices.demoSignOut` | Signs this browser out. Pick a person again on the demo page. | يُخرج هذا المتصفح. اختاري شخصية مجدداً من صفحة العرض التجريبي. | |
+| `signin.ended.revoked` | This device was signed out. Sign in again to open your record. | سُجّل الخروج من هذا الجهاز. ادخلي مجدداً لفتح سجلك. | |
+| `signin.ended.expired` | Your session has ended. Sign in again to open your record. | انتهت جلستك. ادخلي مجدداً لفتح سجلك. | |
+| `signin.ended.signedOut` | You are signed out of this device. | سجّلتِ الخروج من هذا الجهاز. | |
+| `clinicInvite.joinedTitle` | You joined {clinic} | انضممت إلى {clinic} | |
+| `clinicInvite.passkeyBody` | Add a passkey now, so you can sign in at Staff sign-in next time. Your phone or laptop asks for Face ID, a fingerprint or its PIN. | أضف مفتاح مرور الآن لتدخل من «دخول الطاقم» في المرة القادمة. يطلب هاتفك أو حاسوبك بصمة الوجه أو بصمة الإصبع أو رمز القفل. | |
+| `clinicInvite.addPasskey` | Add a passkey | إضافة مفتاح مرور | |
+| `clinicInvite.passkeyAdded` | Passkey added. Next time, sign in at Staff sign-in. | أُضيف مفتاح المرور. في المرة القادمة ادخل من «دخول الطاقم». | |
+| `clinicInvite.skip` | Not now: open the clinician view | ليس الآن: فتح عرض الطبيب | |
+| `clinicInvite.open` | Open the clinician view | فتح عرض الطبيب | |
+| `staffAuth.staff.metaTitle` | Staff sign-in | دخول الطاقم | |
+| `staffAuth.staff.title` | Staff sign-in | دخول الطاقم | |
+| `staffAuth.staff.lede` | For clinicians and clinic admins. Sign in with the passkey you added after joining your clinic. | للأطباء ومسؤولي العيادات. ادخل بمفتاح المرور الذي أضفته بعد الانضمام إلى عيادتك. | |
+| `staffAuth.staff.passkeyTitle` | Use your passkey | استخدام مفتاح المرور | |
+| `staffAuth.staff.passkeyBody` | Your phone or laptop asks for Face ID, a fingerprint or its PIN. Staff sign in with a passkey only: no password and no code to type. | يطلب هاتفك أو حاسوبك بصمة الوجه أو بصمة الإصبع أو رمز القفل. يدخل الطاقم بمفتاح مرور فقط: لا كلمة مرور ولا رمز للكتابة. | |
+| `staffAuth.staff.passkeyButton` | Sign in with a passkey | الدخول بمفتاح مرور | |
+| `staffAuth.staff.pending` | Waiting for your device… | بانتظار جهازك… | |
+| `staffAuth.staff.signedIn` | Signed in. Opening your area… | تم الدخول. جارٍ فتح قسمك… | |
+| `staffAuth.staff.noPasskeyTitle` | No passkey yet? | لا يوجد مفتاح مرور بعد؟ | |
+| `staffAuth.staff.noPasskeyBody` | Join your clinic with the invite link from your clinic admin, then add a passkey. Already in your area? Add one under Your sign-in. | انضم إلى عيادتك برابط الدعوة من مسؤول العيادة، ثم أضف مفتاح مرور. إذا كنت داخل قسمك، فأضف مفتاحاً من «بيانات الدخول». | |
+| `staffAuth.staff.dohTitle` | DoH network admin? | مسؤول شبكة دائرة الصحة؟ | |
+| `staffAuth.staff.dohBody` | The network view has its own door: a passkey, then a code from an authenticator app. | لعرض الشبكة باب خاص: مفتاح مرور، ثم رمز من تطبيق المصادقة. | |
+| `staffAuth.staff.dohLink` | DoH sign-in | دخول دائرة الصحة | |
+| `staffAuth.doh.metaTitle` | DoH network admin sign-in | دخول مسؤول شبكة دائرة الصحة | |
+| `staffAuth.doh.title` | DoH network admin sign-in | دخول مسؤول شبكة دائرة الصحة | |
+| `staffAuth.doh.lede` | Two checks: your passkey, then the 6-digit code from your authenticator app. | تحققان: مفتاح المرور، ثم الرمز المكوّن من 6 أرقام من تطبيق المصادقة. | |
+| `staffAuth.doh.step1` | Step 1 of 2: your passkey | الخطوة 1 من 2: مفتاح المرور | |
+| `staffAuth.doh.step1Body` | Your device asks for Face ID, a fingerprint or its PIN. | يطلب جهازك بصمة الوجه أو بصمة الإصبع أو رمز القفل. | |
+| `staffAuth.doh.passkeyButton` | Check my passkey | التحقق من مفتاح المرور | |
+| `staffAuth.doh.passkeyOk` | Passkey checked. Now type the code from your authenticator app. | تم التحقق من مفتاح المرور. اكتب الآن الرمز من تطبيق المصادقة. | |
+| `staffAuth.doh.step2` | Step 2 of 2: the code from your authenticator app | الخطوة 2 من 2: الرمز من تطبيق المصادقة | |
+| `staffAuth.doh.step2Body` | Open the app you set up for ReproSense DoH and type its 6-digit code. The code changes every 30 seconds. | افتح التطبيق الذي أعددته لـ ReproSense DoH واكتب رمزه المكوّن من 6 أرقام. يتغيّر الرمز كل 30 ثانية. | |
+| `staffAuth.doh.codeLabel` | 6-digit code | الرمز المكوّن من 6 أرقام | |
+| `staffAuth.doh.codeHint` | Each code works once. After 5 minutes or 5 wrong codes, start again with the passkey. | يعمل كل رمز مرة واحدة. بعد 5 دقائق أو 5 رموز خاطئة، ابدأ من جديد بمفتاح المرور. | |
+| `staffAuth.doh.submit` | Sign in | الدخول | |
+| `staffAuth.doh.restart` | Start again | البدء من جديد | |
+| `staffAuth.doh.noAccountTitle` | No DoH account here? | لا يوجد حساب لدائرة الصحة هنا؟ | |
+| `staffAuth.doh.noAccountBody` | DoH accounts are made by the platform operator and set up once with a single-use link. Nobody can create one by signing up. | ينشئ مشغّل المنصة حسابات دائرة الصحة، وتُعدّ مرة واحدة برابط يُستخدم مرة واحدة. لا يمكن لأحد إنشاء حساب بالتسجيل. | |
+| `staffAuth.doh.staffTitle` | Clinician or clinic admin? | طبيب أو مسؤول عيادة؟ | |
+| `staffAuth.doh.staffLink` | Staff sign-in | دخول الطاقم | |
+| `staffAuth.setup.metaTitle` | Set up DoH sign-in | إعداد دخول دائرة الصحة | |
+| `staffAuth.setup.title` | Set up DoH sign-in | إعداد دخول دائرة الصحة | |
+| `staffAuth.setup.lede` | For {name}. This link works once, until {date}. You need this device and an authenticator app on your phone. | لـ {name}. يعمل هذا الرابط مرة واحدة حتى {date}. تحتاج إلى هذا الجهاز وإلى تطبيق مصادقة على هاتفك. | |
+| `staffAuth.setup.step1` | Step 1 of 3: add a passkey | الخطوة 1 من 3: إضافة مفتاح مرور | |
+| `staffAuth.setup.step1Body` | This device saves a passkey for ReproSense. It asks for Face ID, a fingerprint or its PIN. | يحفظ هذا الجهاز مفتاح مرور لـ ReproSense، ويطلب بصمة الوجه أو بصمة الإصبع أو رمز القفل. | |
+| `staffAuth.setup.addPasskey` | Add a passkey | إضافة مفتاح مرور | |
+| `staffAuth.setup.passkeyDone` | Passkey added | أُضيف مفتاح المرور | |
+| `staffAuth.setup.step2` | Step 2 of 3: scan the QR code | الخطوة 2 من 3: مسح رمز QR | |
+| `staffAuth.setup.step2Body` | Open an authenticator app, for example Microsoft Authenticator, Google Authenticator or 1Password, and scan this code. | افتح تطبيق مصادقة، مثل Microsoft Authenticator أو Google Authenticator أو 1Password، وامسح هذا الرمز. | |
+| `staffAuth.setup.showQr` | Show the QR code | عرض رمز QR | |
+| `staffAuth.setup.qrLabel` | QR code for your authenticator app | رمز QR لتطبيق المصادقة | |
+| `staffAuth.setup.manual` | Cannot scan it? Type this key into the app: | لا يمكنك مسحه؟ اكتب هذا المفتاح في التطبيق: | |
+| `staffAuth.setup.step3` | Step 3 of 3: type the first code | الخطوة 3 من 3: كتابة الرمز الأول | |
+| `staffAuth.setup.step3Body` | The app now shows a 6-digit code for ReproSense DoH. Type it to finish. | يعرض التطبيق الآن رمزاً من 6 أرقام لـ ReproSense DoH. اكتبه لإنهاء الإعداد. | |
+| `staffAuth.setup.codeLabel` | 6-digit code | الرمز المكوّن من 6 أرقام | |
+| `staffAuth.setup.finish` | Finish setup | إنهاء الإعداد | |
+| `staffAuth.setup.done` | Setup finished. Opening the network view… | انتهى الإعداد. جارٍ فتح عرض الشبكة… | |
+| `staffAuth.setup.gone.used` | This setup link was already used | استُخدم رابط الإعداد هذا من قبل | |
+| `staffAuth.setup.gone.expired` | This setup link has expired | انتهت صلاحية رابط الإعداد هذا | |
+| `staffAuth.setup.gone.unknown` | This setup link is not valid | رابط الإعداد هذا غير صالح | |
+| `staffAuth.setup.goneBody` | Ask the platform operator for a new setup link. Already set up? Sign in at the DoH door. | اطلب رابط إعداد جديداً من مشغّل المنصة. إذا كان الإعداد قد تم، فادخل من باب دائرة الصحة. | |
+| `staffAuth.ended.idle` | You were signed out after {minutes} minutes without activity. Sign in again to carry on. | سُجّل خروجك بعد {minutes} دقيقة دون نشاط. ادخل مجدداً للمتابعة. | |
+| `staffAuth.ended.max` | Your session reached its {hours}-hour limit. Sign in again to carry on. | بلغت جلستك حدّها الأقصى ({hours} ساعات). ادخل مجدداً للمتابعة. | |
+| `staffAuth.ended.revoked` | This session was signed out, here or from another device. Sign in again to carry on. | سُجّل الخروج من هذه الجلسة، هنا أو من جهاز آخر. ادخل مجدداً للمتابعة. | |
+| `staffAuth.ended.expired` | Your session has ended. Sign in again to carry on. | انتهت جلستك. ادخل مجدداً للمتابعة. | |
+| `staffAuth.ended.signedOut` | You are signed out. This browser now needs your passkey to get back in. | تم تسجيل خروجك. يحتاج هذا المتصفح الآن إلى مفتاح المرور للعودة. | |
+| `staffAuth.demoTitle` | Judges and visitors | للمحكّمين والزوار | |
+| `staffAuth.demoBody` | The fictional demo staff still open with one tap, without a passkey. | ما زال الطاقم التجريبي الخيالي يُفتح بلمسة واحدة، من دون مفتاح مرور. | |
+| `staffAuth.demoArea.clinician` | Open the demo clinician view | فتح عرض الطبيب التجريبي | |
+| `staffAuth.demoArea.clinic_admin` | Open the demo clinic admin | فتح مسؤول العيادة التجريبي | |
+| `staffAuth.demoArea.admin` | Open the demo network admin | فتح مسؤول الشبكة التجريبي | |
+| `staffAuth.demoAll` | Open the demo page | فتح صفحة العرض التجريبي | |
+| `staffAuth.demoNote` | This is a demo. Staff passkeys, authenticator setups and accounts made by invite are deleted at the next demo reset. | هذا عرض تجريبي. تُحذف مفاتيح مرور الطاقم وإعدادات المصادقة والحسابات المنشأة بدعوة عند إعادة ضبط العرض التجريبي التالية. | |
+| `staffAuth.problem.cancelled` | The passkey prompt was closed. Try again when you are ready. | أُغلقت نافذة مفتاح المرور. حاول مرة أخرى عندما تكون مستعداً. | |
+| `staffAuth.problem.unsupported` | This browser can't use passkeys. Try an up-to-date browser on your phone or laptop. | لا يدعم هذا المتصفح مفاتيح المرور. جرّب متصفحاً حديثاً على هاتفك أو حاسوبك. | |
+| `staffAuth.problem.already` | This device already holds a passkey for this account. | يحمل هذا الجهاز مفتاح مرور لهذا الحساب بالفعل. | |
+| `staffAuth.problem.failed` | That didn't work: {detail} | لم ينجح ذلك: {detail} | |
+| `staffAuth.panel.metaTitle` | Your sign-in | بيانات الدخول | |
+| `staffAuth.panel.title` | Your sign-in | بيانات الدخول | |
+| `staffAuth.panel.intro` | How this account is signed in, the passkeys that open it, and the devices it is signed in on. | كيف دخلت إلى هذا الحساب، ومفاتيح المرور التي تفتحه، والأجهزة التي يعمل عليها. | |
+| `staffAuth.panel.shared` | This is a shared fictional demo account: anyone can open it with one tap from the demo page. Passkeys added here are deleted at the next demo reset. | هذا حساب تجريبي خيالي مشترك: يمكن لأي شخص فتحه بلمسة واحدة من صفحة العرض التجريبي. تُحذف مفاتيح المرور المضافة هنا عند إعادة ضبط العرض التجريبي التالية. | |
+| `staffAuth.panel.sessionTitle` | This session | هذه الجلسة | |
+| `staffAuth.panel.how.demo` | Opened with one tap (fictional demo) | فُتح بلمسة واحدة (عرض تجريبي خيالي) | |
+| `staffAuth.panel.how.invite` | Opened from the clinic's invite link | فُتح من رابط دعوة العيادة | |
+| `staffAuth.panel.how.passkey` | Signed in with a passkey | تم الدخول بمفتاح مرور | |
+| `staffAuth.panel.how.passkey_code` | Signed in with a passkey and an authenticator code | تم الدخول بمفتاح مرور ورمز من تطبيق المصادقة | |
+| `staffAuth.panel.how.signup` | Started on this device | أُنشئ على هذا الجهاز | |
+| `staffAuth.panel.how.email_code` | Signed in with an email code | تم الدخول برمز البريد الإلكتروني | |
+| `staffAuth.panel.how.legacy` | Signed in before devices were listed | تم الدخول قبل عرض قائمة الأجهزة | |
+| `staffAuth.panel.rules` | It ends after {minutes} minutes without activity, and at {time} at the latest ({hours} hours after it started). | تنتهي بعد {minutes} دقيقة دون نشاط، وفي موعد أقصاه {time} (بعد {hours} ساعات من بدايتها). | |
+| `staffAuth.panel.passkeysTitle` | Passkeys | مفاتيح المرور | |
+| `staffAuth.panel.passkeysNone` | No passkey yet. Add one to sign in at Staff sign-in next time. | لا يوجد مفتاح مرور بعد. أضف مفتاحاً لتدخل من «دخول الطاقم» في المرة القادمة. | |
+| `staffAuth.panel.passkeyOn` | Passkey on {device} | مفتاح مرور على {device} | |
+| `staffAuth.panel.passkey` | Passkey | مفتاح مرور | |
+| `staffAuth.panel.addedOn` | Added {date} | أُضيف في {date} | |
+| `staffAuth.panel.lastUsed` | last used {date} | آخر استخدام {date} | |
+| `staffAuth.panel.add` | Add a passkey | إضافة مفتاح مرور | |
+| `staffAuth.panel.added` | Passkey added. Next time, sign in at Staff sign-in. | أُضيف مفتاح المرور. في المرة القادمة ادخل من «دخول الطاقم». | |
+| `staffAuth.panel.remove` | Remove | إزالة | |
+| `staffAuth.panel.removeLabel` | Remove: {name} | إزالة: {name} | |
+| `staffAuth.panel.removeTitle` | Remove this passkey? | إزالة مفتاح المرور هذا؟ | |
+| `staffAuth.panel.removeBody` | That device will no longer open this account. If it is the only passkey, getting back in needs a new invite from the clinic admin. | لن يفتح ذلك الجهاز هذا الحساب بعد الآن. إذا كان مفتاح المرور الوحيد، فالعودة تحتاج إلى دعوة جديدة من مسؤول العيادة. | |
+| `staffAuth.panel.removeConfirm` | Remove passkey | إزالة مفتاح المرور | |
+| `staffAuth.panel.keep` | Keep it | الإبقاء عليه | |
+| `staffAuth.panel.removed` | Passkey removed. | أُزيل مفتاح المرور. | |
+| `staffAuth.panel.dohPasskeys` | A DoH account's passkeys and authenticator app are set up with a single-use link from the platform operator. | تُعدّ مفاتيح مرور حساب دائرة الصحة وتطبيق المصادقة برابط يُستخدم مرة واحدة من مشغّل المنصة. | |
+| `staffAuth.panel.authenticatorSet` | Authenticator app: set up | تطبيق المصادقة: مُعَدّ | |
+| `staffAuth.panel.authenticatorNone` | Authenticator app: not set up | تطبيق المصادقة: غير مُعَدّ | |
+| `staffAuth.panel.devicesTitle` | Signed in on | مسجّل الدخول على | |
+| `staffAuth.panel.unknownDevice` | A browser | متصفح | |
+| `staffAuth.panel.thisDevice` | This device | هذا الجهاز | |
+| `staffAuth.panel.lastActive` | Last active {time} | آخر نشاط {time} | |
+| `staffAuth.panel.signOutDevice` | Sign out | تسجيل الخروج | |
+| `staffAuth.panel.signOutDeviceLabel` | Sign out: {device} | تسجيل الخروج: {device} | |
+| `staffAuth.panel.signedOutDevice` | That device is signed out. | سُجّل الخروج من ذلك الجهاز. | |
+| `staffAuth.panel.everywhere` | Sign out everywhere | تسجيل الخروج من كل الأجهزة | |
+| `staffAuth.panel.everywhereBody` | Ends every session of this account on every device, this one too. Passkeys stay, so you can sign in again. | ينهي كل جلسات هذا الحساب على كل الأجهزة، وهذا الجهاز أيضاً. تبقى مفاتيح المرور، فيمكنك الدخول مجدداً. | |
+| `staffAuth.panel.everywhereConfirm` | Sign out everywhere | تسجيل الخروج من كل الأجهزة | |
+| `staffAuth.panel.stay` | Stay signed in | البقاء مسجّلاً | |
+| `staffAuth.panel.sharedEverywhere` | Sign out everywhere is off for shared demo accounts: it would sign out every judge using the account. | تسجيل الخروج من كل الأجهزة متوقف في الحسابات التجريبية المشتركة: سيُخرج كل المحكّمين الذين يستخدمون الحساب. | |
+| `staffAuth.panel.signOut` | Sign out of this device | تسجيل الخروج من هذا الجهاز | |
+| `staffAuth.stepUp.title` | Confirm it is you | أكّد أنك أنت | |
+| `staffAuth.stepUp.passkeyBody` | Exports leave ReproSense, so the passkey is checked again first. The check lasts {minutes} minutes. | تخرج الملفات المصدّرة من ReproSense، لذا يُتحقق من مفتاح المرور مجدداً أولاً. يبقى التحقق صالحاً {minutes} دقائق. | |
+| `staffAuth.stepUp.passkeyButton` | Check my passkey and download | التحقق من مفتاح المرور والتنزيل | |
+| `staffAuth.stepUp.demoBody` | This is a fictional demo session opened with one tap. A real staff session checks the passkey again here. Confirm to download. | هذه جلسة تجريبية خيالية فُتحت بلمسة واحدة. في جلسة طاقم حقيقية يُتحقق من مفتاح المرور مجدداً هنا. أكّد للتنزيل. | |
+| `staffAuth.stepUp.demoButton` | Confirm and download | التأكيد والتنزيل | |
+| `staffAuth.stepUp.cancel` | Cancel | إلغاء | |
+| `staffAuth.stepUp.failed` | The export did not download: {detail} | لم يُنزّل الملف: {detail} | |
+| `staffAuth.stepUp.downloaded` | Download started. | بدأ التنزيل. | |
 ## Planning a pregnancy checklist (build week Y1, 18 Nov, draft Arabic, not yet reviewed)
 The checklist on Home for the Trying stage (Mariam). Feminine address throughout (her screen). The two new
 knowledge-base summaries (`knowledge_base/summaries/doh_premarital_screening_2024.md`,

@@ -4,6 +4,7 @@ import { BrandMark } from "./BrandMark";
 import { DemoBadge } from "./DemoBadge";
 import { LangToggle } from "./LangToggle";
 import { NavLinks, type NavItem } from "./NavLinks";
+import { SignOutButton } from "./SignOutButton";
 import { ThemeToggle } from "./ThemeToggle";
 
 export type HeaderVariant = "site" | "patient" | "clinic" | "admin" | "clinicAdmin";
@@ -20,6 +21,13 @@ export function SiteHeader({ variant, extra }: { variant: HeaderVariant; extra?:
     admin: { href: "/admin", label: t("nav.admin") },
     clinicAdmin: { href: "/clinic-admin", label: t("nav.clinicAdmin") },
   };
+  // Staff areas: their own "Your sign-in" page and a Sign out that revokes the session (plan section 5).
+  const account: Partial<Record<HeaderVariant, { href: string; door: string }>> = {
+    clinic: { href: "/clinic/sign-in", door: "/staff/signin" },
+    clinicAdmin: { href: "/clinic-admin/sign-in", door: "/staff/signin" },
+    admin: { href: "/admin/sign-in", door: "/doh/signin" },
+  };
+  const mine = account[variant];
   const byVariant: Record<HeaderVariant, NavItem[]> = {
     site: [all.product!, all.demo!, all.app!, all.clinic!, all.admin!, all.status!],
     patient: [all.demo!, all.app!],
@@ -32,7 +40,8 @@ export function SiteHeader({ variant, extra }: { variant: HeaderVariant; extra?:
       <div className="wrap">
         <BrandMark />
         <nav className="nav" aria-label={t("navLabel")}>
-          <NavLinks items={byVariant[variant]} />
+          <NavLinks items={mine ? [...byVariant[variant], { href: mine.href, label: t("nav.signIn") }] : byVariant[variant]} />
+          {mine && <SignOutButton door={mine.door} />}
         </nav>
         <div className="util">
           <DemoBadge />

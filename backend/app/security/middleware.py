@@ -22,6 +22,7 @@ SENSITIVE = (
     "/v1/family-links",  # Y4: making links is limited like other writes that publish data
     "/v1/clinic-invites",
     "/v1/auth/",
+    "/v1/staff-auth/",
     "/v1/demo/reset",
 )
 

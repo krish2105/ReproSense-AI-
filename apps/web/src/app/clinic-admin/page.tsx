@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { EventTimeline } from "@/components/admin/EventTimeline";
 import { LoopMetrics } from "@/components/admin/LoopMetrics";
 import { InvitePanel } from "@/components/clinicAdmin/InvitePanel";
+import { StepUpExport } from "@/components/staff/StepUpExport";
 import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
 import type { ClinicDashboard, InvitesResponse, TeamResponse } from "@/lib/api/types";
@@ -96,9 +97,10 @@ export default async function ClinicAdminPage() {
           <p className="s dim" style={{ marginTop: 4 }}>
             {t("exportBody", { k: dash.k_min })}
           </p>
-          <a className="btn btn-o btn-sm" href="/api/v1/clinic-admin/export.csv" download style={{ marginTop: 10, alignSelf: "flex-start" }}>
-            {t("export")}
-          </a>
+          {/* The export asks for the passkey again (a one-tap confirm in a demo session): plan section 5 */}
+          <div style={{ marginTop: 10 }}>
+            <StepUpExport href="/api/v1/clinic-admin/export.csv" filename={`reprosense-${dash.clinic.id}-follow-ups.csv`} label={t("export")} />
+          </div>
         </section>
       </div>
       <EventTimeline endpoint="/clinic-admin/events" scope="clinic" />

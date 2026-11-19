@@ -989,3 +989,77 @@ export interface InvitePreview {
   expires_at: string;
   role: "clinician";
 }
+
+// ---------- Staff and DoH sign-in (the team's plan section 5) ----------
+/** How a session started: a one-tap demo, her join or sign-in, an invite, a staff passkey, or the DoH door. */
+export type SessionHow = "demo" | "signup" | "invite" | "passkey" | "email_code" | "passkey_code" | "legacy";
+export interface StaffPasskey {
+  id: number;
+  label: string | null;
+  created_at: string;
+  last_used_at: string | null;
+}
+/** GET /v1/staff-auth/me: the staff "Your sign-in" panel */
+export interface StaffMe {
+  role: Exclude<Role, "patient">;
+  user_id: string;
+  alias: string;
+  clinic_id: string;
+  shared_demo_account: boolean; // a fictional demo account every judge opens with one tap
+  can_add_passkey: boolean; // clinicians and clinic admins; a DoH admin's passkeys come from the setup link
+  passkeys: StaffPasskey[];
+  authenticator_set: boolean;
+  session: {
+    how: SessionHow;
+    started_at: string;
+    last_seen_at: string;
+    expires_at: string;
+    idle_minutes: number;
+    max_hours: number;
+    step_up_until: string | null;
+  };
+  step_up: "demo_confirm" | "passkey";
+}
+/** POST /v1/staff-auth/passkey/login/verify and /v1/staff-auth/doh/code */
+export interface StaffSignedIn {
+  role: Exclude<Role, "patient">;
+  user_id: string;
+  area: string;
+}
+/** POST /v1/staff-auth/doh/passkey/verify: the passkey checked, the authenticator code still to come */
+export interface DohTicket {
+  next: "code";
+  ticket: string;
+  expires_in: number;
+}
+/** GET /v1/staff-auth/setup/{token} */
+export interface DohSetupPreview {
+  status: "pending" | "used" | "expired";
+  role: "admin";
+  alias: string;
+  expires_at: string;
+  passkey_added: boolean;
+}
+/** POST /v1/staff-auth/setup/{token}/authenticator: what the QR code holds */
+export interface DohAuthenticator {
+  otpauth_uri: string;
+  secret: string;
+  issuer: string;
+}
+/** POST /v1/staff-auth/step-up/options. `fresh`: a check in the last few minutes still holds (no options then). */
+export type StepUpOptions = ({ mode: "demo_confirm" } | { mode: "passkey"; options?: unknown }) & { fresh: boolean; valid_minutes: number };
+/** GET /v1/sessions: the account's signed-in devices */
+export interface SessionRow {
+  id: number;
+  how: SessionHow;
+  device: string | null;
+  started_at: string;
+  last_seen_at: string;
+  expires_at: string;
+  current: boolean;
+}
+export interface SessionsList {
+  shared_demo_account: boolean;
+  idle_minutes: number | null;
+  sessions: SessionRow[];
+}

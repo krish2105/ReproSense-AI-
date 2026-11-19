@@ -18,7 +18,8 @@
       "clinic": "Clinician",
       "admin": "Clinic network",
       "status": "Team scorecard",
-      "clinicAdmin": "Clinic admin"
+      "clinicAdmin": "Clinic admin",
+      "signIn": "Your sign-in"
     },
     "lang": {
       "toggle": "عربي",
@@ -46,7 +47,8 @@
       "paused": "Paused"
     },
     "footerPilot": "Pilot value",
-    "footerEvidence": "Evidence"
+    "footerEvidence": "Evidence",
+    "signOut": "Sign out"
   },
   "tabs": {
     "home": "Home",
@@ -102,7 +104,10 @@
       "priya": "Severe period pain each month, missing work, pain with bowel movements during periods.",
       "sara": "Long, very heavy periods with clots; one recent day of dizziness (red-flag demo)."
     },
-    "openClinicAdmin": "Open clinic admin"
+    "openClinicAdmin": "Open clinic admin",
+    "dohSignin": "DoH sign-in",
+    "staffSignin": "Staff sign-in",
+    "staffSigninBody": "Staff with a passkey sign in at their own door. The one-tap buttons above stay for judges."
   },
   "app": {
     "metaTitle": "Her app",
@@ -988,7 +993,10 @@
       "reminder_drafted": "drafted a reminder for you (not sent)",
       "reminder_approved": "approved a reminder for you (the clinic sends it)",
       "reminder_discarded": "discarded a reminder draft",
-      "view_followup_history": "looked at a follow-up's history"
+      "view_followup_history": "looked at a follow-up's history",
+      "session_revoked": "signed out a device",
+      "sign_out_everywhere": "signed out everywhere",
+      "sign_out": "signed out"
     },
     "storedTitle": "What is stored",
     "stored": {
@@ -1055,7 +1063,31 @@
       "keep": "Keep it",
       "linkedTag": "Linked"
     },
-    "familyTitle": "Family support"
+    "familyTitle": "Family support",
+    "devices": {
+      "title": "Signed in on",
+      "how": {
+        "demo": "Opened with one tap (fictional demo)",
+        "invite": "Opened from the clinic's invite link",
+        "passkey": "Signed in with a passkey",
+        "passkey_code": "Signed in with a passkey and an authenticator code",
+        "signup": "Started on this device",
+        "email_code": "Signed in with an email code",
+        "legacy": "Signed in before devices were listed"
+      },
+      "this": "This device",
+      "unknown": "A browser",
+      "lastActive": "Last active {time}",
+      "signOut": "Sign out",
+      "signOutLabel": "Sign out: {device}",
+      "signedOut": "That device is signed out.",
+      "everywhere": "Sign out everywhere",
+      "everywhereBody": "Ends every session of your record on every device, this one too. Your passkeys stay, so you can sign in again.",
+      "everywhereConfirm": "Sign out everywhere",
+      "stay": "Stay signed in",
+      "signOutHere": "Sign out of this device",
+      "demoSignOut": "Signs this browser out. Pick a person again on the demo page."
+    }
   },
   "family": {
     "relation": {
@@ -2001,7 +2033,12 @@
     "openDemo": "Open a demo person",
     "demoNote": "This is a demo. Demo records and their passkeys are deleted at the next demo reset.",
     "fromDemoBody": "Started a record on another device? Open it again with your passkey.",
-    "fromDemo": "Sign in to my record"
+    "fromDemo": "Sign in to my record",
+    "ended": {
+      "revoked": "This device was signed out. Sign in again to open your record.",
+      "expired": "Your session has ended. Sign in again to open your record.",
+      "signedOut": "You are signed out of this device."
+    }
   },
   "bp": {
     "title": "Blood pressure",
@@ -2153,7 +2190,13 @@
       "expired": "This invite has expired",
       "unknown": "This invite link isn't valid"
     },
-    "goneBody": "Ask your clinic admin for a new invite."
+    "goneBody": "Ask your clinic admin for a new invite.",
+    "open": "Open the clinician view",
+    "skip": "Not now: open the clinician view",
+    "passkeyAdded": "Passkey added. Next time, sign in at Staff sign-in.",
+    "addPasskey": "Add a passkey",
+    "passkeyBody": "Add a passkey now, so you can sign in at Staff sign-in next time. Your phone or laptop asks for Face ID, a fingerprint or its PIN.",
+    "joinedTitle": "You joined {clinic}"
   },
   "ring3d": {
     "title": "Your 40 weeks and the 12 after",
@@ -2531,6 +2574,147 @@
       "view_previsit_brief": "Viewed the pre-visit brief",
       "view_record": "Opened a shared record",
       "view_shared_report": "Opened a shared report"
+    }
+  },
+  "staffAuth": {
+    "staff": {
+      "metaTitle": "Staff sign-in",
+      "title": "Staff sign-in",
+      "lede": "For clinicians and clinic admins. Sign in with the passkey you added after joining your clinic.",
+      "passkeyTitle": "Use your passkey",
+      "passkeyBody": "Your phone or laptop asks for Face ID, a fingerprint or its PIN. Staff sign in with a passkey only: no password and no code to type.",
+      "passkeyButton": "Sign in with a passkey",
+      "pending": "Waiting for your device…",
+      "signedIn": "Signed in. Opening your area…",
+      "noPasskeyTitle": "No passkey yet?",
+      "noPasskeyBody": "Join your clinic with the invite link from your clinic admin, then add a passkey. Already in your area? Add one under Your sign-in.",
+      "dohTitle": "DoH network admin?",
+      "dohBody": "The network view has its own door: a passkey, then a code from an authenticator app.",
+      "dohLink": "DoH sign-in"
+    },
+    "doh": {
+      "metaTitle": "DoH network admin sign-in",
+      "title": "DoH network admin sign-in",
+      "lede": "Two checks: your passkey, then the 6-digit code from your authenticator app.",
+      "step1": "Step 1 of 2: your passkey",
+      "step1Body": "Your device asks for Face ID, a fingerprint or its PIN.",
+      "passkeyButton": "Check my passkey",
+      "passkeyOk": "Passkey checked. Now type the code from your authenticator app.",
+      "step2": "Step 2 of 2: the code from your authenticator app",
+      "step2Body": "Open the app you set up for ReproSense DoH and type its 6-digit code. The code changes every 30 seconds.",
+      "codeLabel": "6-digit code",
+      "codeHint": "Each code works once. After 5 minutes or 5 wrong codes, start again with the passkey.",
+      "submit": "Sign in",
+      "restart": "Start again",
+      "noAccountTitle": "No DoH account here?",
+      "noAccountBody": "DoH accounts are made by the platform operator and set up once with a single-use link. Nobody can create one by signing up.",
+      "staffTitle": "Clinician or clinic admin?",
+      "staffLink": "Staff sign-in"
+    },
+    "setup": {
+      "metaTitle": "Set up DoH sign-in",
+      "title": "Set up DoH sign-in",
+      "lede": "For {name}. This link works once, until {date}. You need this device and an authenticator app on your phone.",
+      "step1": "Step 1 of 3: add a passkey",
+      "step1Body": "This device saves a passkey for ReproSense. It asks for Face ID, a fingerprint or its PIN.",
+      "addPasskey": "Add a passkey",
+      "passkeyDone": "Passkey added",
+      "step2": "Step 2 of 3: scan the QR code",
+      "step2Body": "Open an authenticator app, for example Microsoft Authenticator, Google Authenticator or 1Password, and scan this code.",
+      "showQr": "Show the QR code",
+      "qrLabel": "QR code for your authenticator app",
+      "manual": "Cannot scan it? Type this key into the app:",
+      "step3": "Step 3 of 3: type the first code",
+      "step3Body": "The app now shows a 6-digit code for ReproSense DoH. Type it to finish.",
+      "codeLabel": "6-digit code",
+      "finish": "Finish setup",
+      "done": "Setup finished. Opening the network view…",
+      "gone": {
+        "used": "This setup link was already used",
+        "expired": "This setup link has expired",
+        "unknown": "This setup link is not valid"
+      },
+      "goneBody": "Ask the platform operator for a new setup link. Already set up? Sign in at the DoH door."
+    },
+    "ended": {
+      "idle": "You were signed out after {minutes} minutes without activity. Sign in again to carry on.",
+      "max": "Your session reached its {hours}-hour limit. Sign in again to carry on.",
+      "revoked": "This session was signed out, here or from another device. Sign in again to carry on.",
+      "expired": "Your session has ended. Sign in again to carry on.",
+      "signedOut": "You are signed out. This browser now needs your passkey to get back in."
+    },
+    "demoTitle": "Judges and visitors",
+    "demoBody": "The fictional demo staff still open with one tap, without a passkey.",
+    "demoArea": {
+      "clinician": "Open the demo clinician view",
+      "clinic_admin": "Open the demo clinic admin",
+      "admin": "Open the demo network admin"
+    },
+    "demoAll": "Open the demo page",
+    "demoNote": "This is a demo. Staff passkeys, authenticator setups and accounts made by invite are deleted at the next demo reset.",
+    "problem": {
+      "cancelled": "The passkey prompt was closed. Try again when you are ready.",
+      "unsupported": "This browser can't use passkeys. Try an up-to-date browser on your phone or laptop.",
+      "already": "This device already holds a passkey for this account.",
+      "failed": "That didn't work: {detail}"
+    },
+    "panel": {
+      "metaTitle": "Your sign-in",
+      "title": "Your sign-in",
+      "intro": "How this account is signed in, the passkeys that open it, and the devices it is signed in on.",
+      "shared": "This is a shared fictional demo account: anyone can open it with one tap from the demo page. Passkeys added here are deleted at the next demo reset.",
+      "sessionTitle": "This session",
+      "how": {
+        "demo": "Opened with one tap (fictional demo)",
+        "invite": "Opened from the clinic's invite link",
+        "passkey": "Signed in with a passkey",
+        "passkey_code": "Signed in with a passkey and an authenticator code",
+        "signup": "Started on this device",
+        "email_code": "Signed in with an email code",
+        "legacy": "Signed in before devices were listed"
+      },
+      "rules": "It ends after {minutes} minutes without activity, and at {time} at the latest ({hours} hours after it started).",
+      "passkeysTitle": "Passkeys",
+      "passkeysNone": "No passkey yet. Add one to sign in at Staff sign-in next time.",
+      "passkeyOn": "Passkey on {device}",
+      "passkey": "Passkey",
+      "addedOn": "Added {date}",
+      "lastUsed": "last used {date}",
+      "add": "Add a passkey",
+      "added": "Passkey added. Next time, sign in at Staff sign-in.",
+      "remove": "Remove",
+      "removeLabel": "Remove: {name}",
+      "removeTitle": "Remove this passkey?",
+      "removeBody": "That device will no longer open this account. If it is the only passkey, getting back in needs a new invite from the clinic admin.",
+      "removeConfirm": "Remove passkey",
+      "keep": "Keep it",
+      "removed": "Passkey removed.",
+      "dohPasskeys": "A DoH account's passkeys and authenticator app are set up with a single-use link from the platform operator.",
+      "authenticatorSet": "Authenticator app: set up",
+      "authenticatorNone": "Authenticator app: not set up",
+      "devicesTitle": "Signed in on",
+      "unknownDevice": "A browser",
+      "thisDevice": "This device",
+      "lastActive": "Last active {time}",
+      "signOutDevice": "Sign out",
+      "signOutDeviceLabel": "Sign out: {device}",
+      "signedOutDevice": "That device is signed out.",
+      "everywhere": "Sign out everywhere",
+      "everywhereBody": "Ends every session of this account on every device, this one too. Passkeys stay, so you can sign in again.",
+      "everywhereConfirm": "Sign out everywhere",
+      "stay": "Stay signed in",
+      "sharedEverywhere": "Sign out everywhere is off for shared demo accounts: it would sign out every judge using the account.",
+      "signOut": "Sign out of this device"
+    },
+    "stepUp": {
+      "title": "Confirm it is you",
+      "passkeyBody": "Exports leave ReproSense, so the passkey is checked again first. The check lasts {minutes} minutes.",
+      "passkeyButton": "Check my passkey and download",
+      "demoBody": "This is a fictional demo session opened with one tap. A real staff session checks the passkey again here. Confirm to download.",
+      "demoButton": "Confirm and download",
+      "cancel": "Cancel",
+      "failed": "The export did not download: {detail}",
+      "downloaded": "Download started."
     }
   }
 }

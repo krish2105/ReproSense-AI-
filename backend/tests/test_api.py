@@ -263,6 +263,8 @@ def test_admin_sees_each_clinic_and_can_export_the_audit_log(client):
     assert set(clinics) == {"clinic_corniche", "clinic_north", "clinic_alain", "clinic_dhafra"}
     assert all(c["n"] is None or c["n"] >= 10 for c in m["clinics"])
     assert sum(c["n"] or 0 for c in m["clinics"]) == m["cohort"]["n"]
+    assert client.get("/v1/admin/audit/export.csv", headers=ha).status_code == 403  # a fresh step-up first
+    assert client.post("/v1/staff-auth/step-up/demo", headers=ha).status_code == 200  # one tap in a demo session
     r = client.get("/v1/admin/audit/export.csv", headers=ha)
     assert r.status_code == 200 and r.headers["content-type"].startswith("text/csv")
     lines = r.text.strip().splitlines()

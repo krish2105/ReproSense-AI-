@@ -31,6 +31,7 @@ Yash (`Yashpetkar7`): content, product and the submission (build week Y1–Y6, i
 | K3 | Pre-visit brief "Before your visit" | ✅ | #111 |
 | K4 | Clinic onboarding API (clinic admin, invites, export) | ✅ | #109 |
 | K5 | Her own sign-in: passkeys, email code | ✅ | #113 |
+| Plan §5 | Staff and DoH sign-in: /staff/signin (passkey), /doh/signin (passkey + authenticator code, CLI-made accounts), 30-minute staff sessions (8 h max), sign-out that revokes (jti list in Postgres), sign out everywhere, step-up before exports, audit rows; one-tap demo kept | 🟨 PR open | `feat/staff-signin` |
 | K6 | Blood-pressure log and RF7 warning, pregnancy and 12 weeks after birth (G2) | ✅ | #116, #118 |
 | K7 | Model safety scoring workflow | 🟨 merged; score waits for the AI key | #110 |
 | A1–A8 | 3D body map, judge tour, clinic admin screens, year in 3D, read aloud, installable app, 3D pregnancy ring, polish | ✅ | #112, #115, #117, #120, #122, #123, #124, #127 |

@@ -29,6 +29,9 @@ STAFF = [
     # K4: one admin per clinic. The demo opens the first; the second shows that a clinic sees only itself.
     ("cadmin-01", "Clinic admin, Seaside Women's Clinic (fictional)", "clinic_admin", DEMO_CLINIC),
     ("cadmin-02", "Clinic admin, North Island Women's Clinic (fictional)", "clinic_admin", "clinic_north"),
+    # Staff sign-in (plan section 5): the DoH network admin who signs in at /doh/signin with a passkey and an
+    # authenticator code. No one-tap login; the operator's CLI makes her setup link (create_doh_admin --setup doh-01).
+    ("doh-01", "DoH network admin (fictional)", "admin", None),
 ]
 NEWEST_TABLES = ("clinic_invites", "bp_readings")  # seed_if_empty: a database without these predates the code
 NOT_SHARING = {"amina"}  # shows the consent gate: Amina has not shared with a clinic
@@ -49,11 +52,23 @@ def schema_sql() -> str:
 
 
 def ensure_addon_tables(url: str | None = None) -> None:
-    """At boot: a database seeded before K5 or Y4 gains their tables without a demo reset. Safe to run again."""
+    """At boot: a database seeded before K5 or Y4 gains their tables without a demo reset, and (in demo mode) one seeded
+    before staff sign-in gains the fictional DoH admin (doh-01), so the operator's CLI can make her setup link. Safe to
+    run again."""
     with psycopg.connect(url or get_settings().database_url, autocommit=True) as conn:
         if conn.execute("SELECT to_regclass('public.profiles') IS NOT NULL").fetchone()[0]:
             for f in ADDONS:
                 conn.execute((Path(__file__).parent / f).read_text())
+            if not get_settings().demo_mode:
+                return
+            sid, alias, role, clinic = next(s for s in STAFF if s[0] == "doh-01")
+            with conn.transaction():  # as the system actor: profiles has forced row-level security
+                conn.execute("SET LOCAL ROLE reprosense_app")
+                conn.execute("SELECT set_config('app.role', 'system', true), set_config('app.user_id', 'system', true)")
+                conn.execute(
+                    "INSERT INTO profiles (id, alias, role, clinic_id) VALUES (%s,%s,%s,%s) ON CONFLICT (id) DO NOTHING",
+                    (sid, alias, role, clinic),
+                )
 
 
 ensure_sign_in_tables = ensure_addon_tables  # the K5 name, kept for callers and tests

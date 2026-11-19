@@ -15,10 +15,13 @@ export interface NavItem {
  *  earlier visitor (src/lib/enter.ts), and "Clinician" and "Clinic network" sign in on the way (/demo/enter). */
 export function NavLinks({ items }: { items: NavItem[] }) {
   const path = usePathname();
+  // The longest matching link is the current one: on /clinic/sign-in that is "Your sign-in", not "Clinician".
+  const matches = (href: string) => (href === "/" ? path === "/" : path === href || path.startsWith(`${href}/`));
+  const best = items.filter((i) => matches(i.href)).sort((a, b) => b.href.length - a.href.length)[0]?.href;
   return (
     <>
       {items.map((i) => {
-        const current = i.href === "/" ? path === "/" : path === i.href || path.startsWith(`${i.href}/`);
+        const current = i.href === best;
         if (isSignedInArea(i.href)) {
           return (
             <a key={i.href} href={i.href} aria-current={current ? "page" : undefined}>

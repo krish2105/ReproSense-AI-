@@ -14,13 +14,13 @@ import secrets
 from collections import defaultdict
 from datetime import date, timedelta
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Response
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
 from pydantic import BaseModel, Field
 
 from app.config import get_settings
 from app.db import SYSTEM, Actor, session
 from app.security import audit
-from app.security.auth import COOKIE, create_token, require
+from app.security.auth import device_label, fresh_step_up, require, set_session
 from app.services import followups, timeline
 
 router = APIRouter(prefix="/v1/clinic-admin", tags=["clinic-admin"])
@@ -186,7 +186,7 @@ class AcceptIn(BaseModel):
 
 
 @invites_router.post("/{token}/accept")
-def accept_invite(token: str, body: AcceptIn, response: Response):
+def accept_invite(token: str, body: AcceptIn, request: Request, response: Response):
     """Synthetic demo: makes a fictional clinician account bound to the invite's clinic and signs her in. Single use."""
     if not get_settings().demo_mode:
         raise HTTPException(404, "Not found")
@@ -217,17 +217,9 @@ def accept_invite(token: str, body: AcceptIn, response: Response):
             f"clinic_invite:{row['id']}",
             {"clinic_id": clinic},
         )
-    token_out = create_token(uid, "clinician", clinic)
-    s = get_settings()
-    response.set_cookie(
-        COOKIE,
-        token_out,
-        httponly=True,
-        samesite="lax",
-        secure=s.cookie_secure,
-        max_age=s.token_ttl_minutes * 60,
-        path="/",
-    )
+    # A staff session (30 idle minutes, 8 hours at most). She adds a passkey next, for the staff door.
+    device = device_label(request.headers.get("user-agent"))
+    token_out = set_session(response, uid, "clinician", clinic, how="invite", device=device)
     return {
         "role": "clinician",
         "user_id": uid,
@@ -377,10 +369,11 @@ def _age_group(band: str) -> str:
 
 
 @router.get("/export.csv")
-def export(actor: Actor = Depends(clinic_admin)):
+def export(actor: Actor = Depends(clinic_admin), _fresh: None = Depends(fresh_step_up)):
     """This clinic's follow-ups as counts: by status, by follow-up type and status, and by age group. No names, no
     patient or record ids, no dates; any count under 10 is blank, and where subtracting from a published total would
-    reveal a blank cell, the next smallest cell is blank too."""
+    reveal a blank cell, the next smallest cell is blank too. Needs a fresh passkey check (step-up), or the one-tap
+    confirm in a demo session."""
     with session(actor) as cur:
         rows = _counts(cur)
         audit.record(cur, actor, "export_clinic_follow_ups", None, f"clinic:{actor.clinic_id}")

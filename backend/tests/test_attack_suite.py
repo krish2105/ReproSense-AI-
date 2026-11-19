@@ -203,6 +203,8 @@ def test_attack_04_clinic_admin_cannot_read_another_clinics_patients_or_export(c
     assert not {c["id"] for c in team["clinicians"]} & {"clin-01", joined["user_id"]}
     dash = client.get("/v1/clinic-admin/dashboard", headers=hn).json()
     assert dash["clinic"]["id"] == NORTH
+    # exports need a fresh step-up (staff sign-in); a demo session confirms in one tap, and is still scoped to its clinic
+    assert client.post("/v1/staff-auth/step-up/demo", headers=hn).status_code == 200
     body = client.get("/v1/clinic-admin/export.csv", headers=hn).text
     assert CORNICHE not in body and NORTH in body
     rows = list(csv.DictReader(io.StringIO(body)))

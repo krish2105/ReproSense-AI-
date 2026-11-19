@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import { en, expect, expectAccessible, expectNoSideScroll, signIn, test } from "./fixtures";
 
 // A3 · Clinic onboarding screens on Krishna's K4 API: the clinic admin invites a clinician by a single-use link,
@@ -28,6 +29,8 @@ test("a clinic admin invites a clinician, who joins once; the team and export fo
   await expect(doc.getByRole("heading", { level: 1 })).toContainText("Join");
   await doc.getByLabel(en.clinicInvite.nameLabel).fill("Reem");
   await doc.getByRole("button", { name: en.clinicInvite.accept }).click();
+  // Staff sign-in (plan section 5): she is offered a passkey for the staff door, and may skip it.
+  await doc.getByRole("button", { name: en.clinicInvite.skip }).click();
   await expect(doc).toHaveURL(/\/clinic$/);
   await expect(doc.getByRole("navigation", { name: en.clinic.listLabel })).toBeVisible();
 
@@ -40,12 +43,17 @@ test("a clinic admin invites a clinician, who joins once; the team and export fo
   await expect(page.getByRole("region", { name: ca.teamTitle })).toContainText("Reem (demo)");
   await expect(invites.getByText(ca.status.accepted).first()).toBeVisible();
 
-  const csv = await page.request.get("/api/v1/clinic-admin/export.csv");
-  expect(csv.ok()).toBeTruthy();
-  const body = await csv.text();
+  // The export asks for a step-up first; this one-tap demo session confirms in one tap (plan section 5).
+  expect((await page.request.get("/api/v1/clinic-admin/export.csv")).status()).toBe(403);
+  await page.getByRole("button", { name: ca.export }).click();
+  const confirm = page.getByRole("dialog").getByRole("button", { name: en.staffAuth.stepUp.demoButton });
+  const saved = page.waitForEvent("download");
+  await confirm.click();
+  const download = await saved;
+  expect(download.suggestedFilename()).toBe("reprosense-clinic_corniche-follow-ups.csv");
+  const body = await readFile(await download.path(), "utf8");
   expect(body.split(/\r?\n/)[0]).toBe("clinic_id,breakdown,group,follow_up_type,status,count,suppressed");
   expect(body).not.toContain("Reem");
-  await expect(page.getByRole("link", { name: ca.export })).toHaveAttribute("href", "/api/v1/clinic-admin/export.csv");
 });
 
 test("a pending invite can be withdrawn, and its link then says so", async ({ page }) => {

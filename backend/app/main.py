@@ -14,7 +14,21 @@ from fastapi.responses import JSONResponse
 from psycopg_pool import PoolTimeout
 
 from app.ai.llm import get_llm
-from app.api import admin, assistant, auth, clinic, clinic_admin, demo, family, patient, pilot, quality, reports
+from app.api import (
+    admin,
+    assistant,
+    auth,
+    clinic,
+    clinic_admin,
+    demo,
+    family,
+    patient,
+    pilot,
+    quality,
+    reports,
+    sessions,
+    staff_auth,
+)
 from app.config import get_settings
 from app.db import SYSTEM, session
 from app.observability import RequestContext, setup_logging
@@ -73,6 +87,8 @@ app.add_middleware(RequestContext)  # outermost: every response, even a refusal 
 for r in (
     demo.router,
     auth.router,
+    staff_auth.router,
+    sessions.router,
     patient.router,
     assistant.router,
     reports.router,

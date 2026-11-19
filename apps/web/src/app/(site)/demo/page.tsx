@@ -72,6 +72,17 @@ export default async function DemoPage({ searchParams }: { searchParams: Promise
           {t("staffIntro")}
         </p>
         <StaffActions disabled={!data} />
+        <p className="s dim" style={{ marginTop: 14, maxWidth: "42em" }}>
+          {t("staffSigninBody")}
+        </p>
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 8 }}>
+          <ButtonLink href="/staff/signin" variant="outline" size="sm">
+            {t("staffSignin")}
+          </ButtonLink>
+          <ButtonLink href="/doh/signin" variant="outline" size="sm">
+            {t("dohSignin")}
+          </ButtonLink>
+        </div>
       </section>
     </>
   );
