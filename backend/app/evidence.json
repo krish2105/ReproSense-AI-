@@ -1,23 +1,23 @@
 {
  "recorded": "2026-11-19",
- "commit": null,
+ "commit": "3bc638e",
  "tests": {
   "backend": {
-   "passed": 651,
-   "failed": 2,
+   "passed": 731,
+   "failed": 0,
    "skipped": 0,
-   "total": 653
+   "total": 731
   },
   "web_unit": {
-   "passed": 93,
+   "passed": 96,
    "failed": 0,
-   "files": 52
+   "files": 24
   },
   "e2e": {
-   "tests": 240,
+   "tests": 252,
    "per_project": {
-    "desktop": 120,
-    "mobile": 120
+    "desktop": 126,
+    "mobile": 126
    }
   }
  },
