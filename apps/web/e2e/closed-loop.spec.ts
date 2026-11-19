@@ -123,8 +123,7 @@ test("the event timeline: the network sees every clinic, filters and pages; a cl
   const table = tl.getByRole("region", { name: loop.tableLabel });
   await expect(table.locator("tbody tr").first()).toBeVisible();
   await expect(tl.getByText(/^Page 1 of \d+ · \d+ events$/)).toBeVisible();
-  await expect(table).not.toContainText(/Fatima|Noura|fatima|noura/); // pseudonymous ids only
-  await expect(table).toContainText(/R-[0-9A-F]{8}/);
+  await expect(table).not.toContainText(/Fatima|Noura|fatima|noura/); // never a name
   await expectAccessible(page, "network event timeline");
   await expectNoSideScroll(page, "network event timeline");
 
@@ -141,6 +140,11 @@ test("the event timeline: the network sees every clinic, filters and pages; a cl
   await expect(tl.getByText(/^Page 1 of 1 · 3 events$/)).toBeVisible();
   const roles = await table.locator("tbody tr td:nth-child(2)").allTextContents();
   expect(new Set(roles)).toEqual(new Set([loop.roles.clinician]));
+  // each opened record is a keyed pseudonym, never the persona's id (a first name)
+  const records = await table.locator("tbody tr td:nth-child(5)").allTextContents();
+  expect(records).toHaveLength(3);
+  for (const r of records) expect(r).toMatch(/^R-[0-9A-F]{8}$/);
+  await expect(table).not.toContainText(/Fatima|Noura|Sara|fatima|noura|sara/);
   await tl.getByRole("button", { name: loop.clear }).click();
   await expect(tl.getByLabel(loop.filterRole, { exact: true })).toHaveValue("");
 
