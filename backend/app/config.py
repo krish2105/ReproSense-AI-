@@ -26,9 +26,9 @@ class Settings(BaseSettings):
     anthropic_api_key: str = ""
     llm_model: str = "claude-opus-5-5"
     # The hackathon's AI credits: an OpenRouter key limited to a few models (programs.upstartbar.com). The model id is
-    # one of those, e.g. "anthropic/claude-sonnet-4.5"; set OPENROUTER_MODEL to the one the credits allow.
+    # one of those, e.g. "anthropic/claude-sonnet-5.5-20260928"; set OPENROUTER_MODEL to the one the credits allow.
     openrouter_api_key: str = ""
-    openrouter_model: str = "anthropic/claude-sonnet-4.5"
+    openrouter_model: str = "anthropic/claude-sonnet-5.5-20260928"
     # Model time limits. The web gives up on an API call after 15 s (apps/web/src/lib/api/server.ts), so every model
     # call inside one API request shares one budget; past it the deterministic template answers (step 4b, 7 Nov).
     llm_request_budget_s: float = 10.0

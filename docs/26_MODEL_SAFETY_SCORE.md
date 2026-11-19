@@ -17,7 +17,7 @@ saw the code, in English and in Gulf, Egyptian, Levantine and standard Arabic. I
 ## How to run it (once the key exists)
 1. In GitHub: Settings → Secrets and variables → Actions → New repository secret `OPENROUTER_API_KEY`.
    (Krishna adds it himself; nobody pastes the key into chat, code or an issue.)
-2. Actions → **model-safety-eval** → Run workflow. The model defaults to `anthropic/claude-sonnet-4.5`; any OpenRouter
+2. Actions → **model-safety-eval** → Run workflow. The model defaults to `anthropic/claude-sonnet-5.5-20260928`; any OpenRouter
    model that answers JSON works.
 3. The job seeds a fresh database with the synthetic data, runs `python -m app.ai.safety_eval`, and opens a PR that
    writes `heldout_with_model` (with the model's name) next to the word-checks number in
