@@ -31,13 +31,34 @@ Done (branch `feat/staff-signin`, one PR, not merged):
 - Step-up: the audit log and clinic CSV exports need a passkey check within 5 minutes; demo sessions confirm in one tap.
 - Audit rows for every staff/DoH sign-in, failed sign-in, sign-out, revocation and step-up.
 - The demo reset takes no lock on the session tables (guarded DDL), so judges stay signed in through a reset.
-Tests: backend 687 passed after merging main (39 new in `test_staff_signin.py`) · web lint 0 errors, typecheck, 95 unit tests ·
+Tests: backend 752 passed after merging main (39 new in `test_staff_signin.py`) · web lint 0 errors, typecheck, 95 unit tests ·
 `e2e/staff-signin.spec.ts` (5 tests × 2 viewports) runs in CI only.
 UI slop check: pass (doors reuse the `/signin` card; no new radii, gradients or icons; EN/AR, light/dark, 390/1280 checked
 in the browser on a local build).
 Next:
 - Native Arabic review of the new strings (`docs/AR_REVIEW.md`, "Staff and DoH sign-in").
 - Live demo: a demo reset removes every passkey and the DoH setup; re-run the CLI for `doh-01` after a reset.
+## 2026-11-19 — Section 7: the assistant's record lane and next-step lane (G2) — Krishna with Claude Code
+Done:
+- LangGraph router in front of the knowledge answer (`backend/app/agents/router.py`): safety word checks first and
+  unchanged, then three lanes: knowledge (as before), her record (code computes, `backend/app/agents/record.py`) and next
+  steps (care-navigator drafts she approves; nothing is sent). Deterministic EN/Gulf Arabic patterns; a model may only
+  pick a lane, and only with her AI switch on and a model configured.
+- Record answers: cycle lengths, last period, pain days, missed-work days, lab values (as printed, with the lab's own
+  range, never interpreted), blood-pressure readings and postnatal steps, with dated chips that open the day. A model may
+  reword only lines whose numbers code fixed; the verifier rejects any changed, added or dropped number.
+- AI off: the record and next-step lanes still answer with no model call; the knowledge answer stays closed (403).
+- Web: "From your entries" answers with chips, next steps with approve/discard, one record question in the suggestions;
+  EN/AR strings (draft Arabic in docs/AR_REVIEW.md); `e2e/assistant-record.spec.ts`.
+Tests: backend 698 passed after merging main (603 on main before; +40 `test_record_lane.py`; +24 `test_record_eval.py`:
+22 EN/AR record questions, the file check, and the 702 eval questions never leaving the knowledge lane) · web unit 93
+passed. The 702 `answer()` texts are byte-identical to main's.
+Safety eval (word checks, round 5), before and after: crisis 11/30, urgent 24/32, refuse 6/10, medicine 4/10,
+answer 42/50, unchanged; all 702 `answer()` texts byte-identical.
+UI slop check: pass (no gradients, no number markers on the step list, tokens only, labels name the action; checked
+EN dark 1280 and AR light 375, no side scroll, no console errors).
+Next:
+- Clinician sign-off on QUESTIONS #64; native review of the new Arabic.
 
 ## 2026-11-19 — C7 steps 2–3: Lighthouse and demo readiness on the live site — Atharva with Claude Code
 Lighthouse 13, mobile, live https://reprosense.vercel.app (signed-in pages with a demo session cookie):
