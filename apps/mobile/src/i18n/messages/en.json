@@ -44,7 +44,8 @@
       "group": "Read aloud: {what}",
       "playing": "Reading aloud",
       "paused": "Paused"
-    }
+    },
+    "footerPilot": "Pilot value"
   },
   "tabs": {
     "home": "Home",
@@ -1621,5 +1622,46 @@
     "remindersPrivacy": "Reminders say only “A moment to log today?”, never anything about your health.",
     "remindersDaily": "Reminders are on: about once a day, even when the app is closed.",
     "remindersOpen": "Reminders are on, but this browser cannot send them while ReproSense is closed. Installed on an Android phone, it reminds you daily."
+  },
+  "pilot": {
+    "metaTitle": "Pilot value",
+    "title": "What a pilot could be worth to your clinic",
+    "intro": "Set the numbers for your own clinic or insurer. This page multiplies them, nothing more: it is not a measured result and promises no outcome. Each default comes from an Abu Dhabi study or our price list, or is marked as an assumption.",
+    "inputsTitle": "Your numbers",
+    "inputs": {
+      "women": "Women who give birth during the pilot",
+      "gdmPct": "Share with diabetes in pregnancy (gestational diabetes)",
+      "beforePct": "After-birth glucose follow-up completed today",
+      "afterPct": "Completion you aim for with ReproSense",
+      "missedCostAed": "Cost of one missed follow-up",
+      "priceAedMonth": "ReproSense subscription per month",
+      "months": "Pilot length"
+    },
+    "units": {
+      "count": "women",
+      "pct": "%",
+      "aed": "AED",
+      "months": "months"
+    },
+    "basis": {
+      "source": "Source",
+      "price": "Our price list",
+      "assumption": "Assumption: replace it with your own figure"
+    },
+    "resultTitle": "The arithmetic",
+    "out": {
+      "gdm": "Women with gestational diabetes",
+      "closedBefore": "Follow-ups completed at today's rate",
+      "closedAfter": "Follow-ups completed at your target",
+      "extraClosed": "Follow-ups closed that would otherwise be missed",
+      "value": "Value of those follow-ups",
+      "subscription": "Subscription for {months, plural, one {# month} other {# months}}",
+      "net": "Value minus subscription"
+    },
+    "aed": "AED {n}",
+    "per1000": "Per 1,000 women who give birth: {closed} more follow-ups closed, worth AED {value} at your cost per missed follow-up.",
+    "assumptions": "The target completion and the cost of a missed follow-up are yours to set; ReproSense has not measured either yet. Follow-up here means the glucose test after gestational diabetes, one part of DoH Jawda KPI PC008. This is not a forecast and not a clinical claim.",
+    "toPricing": "See pricing",
+    "toDemo": "Open the demo"
   }
 }
