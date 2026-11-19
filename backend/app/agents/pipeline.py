@@ -18,7 +18,7 @@ from langgraph.graph import END, START, StateGraph
 
 from app.agents import copy as cp
 from app.ai.guards import violations
-from app.ai.llm import get_llm
+from app.ai.llm import cache_drop, get_llm
 from app.ai.redact import redact
 from app.config import get_settings
 from app.db import SYSTEM, Actor, session
@@ -188,6 +188,7 @@ def writer(state: State) -> dict:
                 text = " ".join([out["summary"], *[str(x) for x in out.get("what_to_consider", [])]])
                 if violations(text):
                     rejected += 1
+                    cache_drop(WRITER_SYSTEM, user)  # else every retry (and every later page view) replays it
                     continue
                 card.update(
                     summary=out["summary"],

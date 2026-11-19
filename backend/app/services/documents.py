@@ -148,11 +148,26 @@ def photo_text(reading: dict) -> str:
     return "\n".join(lines)
 
 
-def pdf_text(data: bytes) -> str:
+class UnreadablePdf(ValueError):
+    """The upload is not a PDF we can read (damaged, password-protected, or far longer than a lab report)."""
+
+
+def pdf_text(data: bytes, max_pages: int = 30) -> str:
     try:
         from pypdf import PdfReader
+        from pypdf.errors import PyPdfError
     except ImportError:
         return ""
     import io
 
-    return "\n".join(page.extract_text() or "" for page in PdfReader(io.BytesIO(data)).pages)
+    try:
+        reader = PdfReader(io.BytesIO(data))
+        if reader.is_encrypted:
+            raise UnreadablePdf("This PDF is password-protected. Please upload an unlocked copy of the report.")
+        if len(reader.pages) > max_pages:
+            raise UnreadablePdf(f"This PDF has more than {max_pages} pages. Please upload just the lab report pages.")
+        return "\n".join(page.extract_text() or "" for page in reader.pages)
+    except UnreadablePdf:
+        raise
+    except (PyPdfError, ValueError, KeyError, TypeError, OSError) as e:  # pypdf raises several kinds on damaged files
+        raise UnreadablePdf("We could not read this PDF. It may be damaged; please try another copy.") from e

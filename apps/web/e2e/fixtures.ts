@@ -55,7 +55,8 @@ export async function resetDemo() {
   expect(login.ok(), "admin demo login").toBeTruthy();
   const { token } = (await login.json()) as { token: string };
   const reset = await ctx.post("/v1/demo/reset", { headers: { cookie: `rs_token=${token}` } });
-  expect(reset.ok(), "demo reset").toBeTruthy();
+  // 429: the API's public reset cooldown (DEMO_RESET_COOLDOWN_S, 60 s by default). Start the API with it set to 0.
+  expect(reset.ok(), reset.status() === 429 ? "demo reset refused: start the API with DEMO_RESET_COOLDOWN_S=0" : "demo reset").toBeTruthy();
   await ctx.dispose();
 }
 
