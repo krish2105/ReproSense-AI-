@@ -20,7 +20,7 @@ from app.rules.engine import evaluate, load_rules
 from app.security import audit
 from app.security.auth import require
 from app.security.crypto import decrypt, encrypt
-from app.services import blood_pressure, fhir, lognote, postnatal, preconception, previsit, views
+from app.services import blood_pressure, fhir, followups, lognote, postnatal, preconception, previsit, views
 from app.services import documents as docs
 from app.services.patient_data import ai_allowed, apply_period_log, load_bundle
 from app.services.vocab import SYMPTOMS
@@ -90,7 +90,8 @@ def home(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         )
         gaps = cur.fetchall()
         cur.execute(
-            "SELECT id, rule_id, status, created_at FROM navigator_drafts WHERE profile_id=%s ORDER BY id DESC LIMIT 5",
+            "SELECT id, rule_id, status, created_at FROM navigator_drafts WHERE profile_id=%s AND origin='patient'"
+            " ORDER BY id DESC LIMIT 5",
             (actor.user_id,),
         )
         drafts = cur.fetchall()
@@ -135,6 +136,23 @@ def home(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         "preconception": preconception.checklist(b, {h.rule_id for h in ev.all_hits}),
         "blood_pressure": blood_pressure.summary(b, ref()),  # K6: pregnancy and the 12 weeks after birth
     }
+
+
+# ---------- her follow-ups, told as the loop (opened, shared, booked, done, result) ----------
+@router.get("/me/followups")
+def my_follow_ups(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
+    with session(actor) as cur:
+        return {"follow_ups": followups.her_follow_ups(cur, actor.user_id, ref(), lang), "ref_date": ref().isoformat()}
+
+
+@router.get("/me/followups/{gap_id}/history")
+def my_follow_up_history(gap_id: int, lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
+    with session(actor) as cur:
+        h = followups.history(cur, actor.user_id, gap_id, ref(), "patient", lang)
+        if not h:
+            raise HTTPException(404, "Follow-up not found in your record.")
+        audit.record(cur, actor, "view_followup_history", actor.user_id, f"care_gap:{gap_id}")
+    return h
 
 
 class PostnatalCheckIn(BaseModel):
@@ -590,7 +608,7 @@ class ConfirmIn(BaseModel):
 
 @router.post("/documents/{doc_id}/confirm")
 def confirm_document(doc_id: int, body: ConfirmIn, actor: Actor = Depends(patient)):
-    saved = 0
+    saved, codes = 0, []
     with session(actor) as cur:
         cur.execute("SELECT id FROM documents WHERE id=%s", (doc_id,))
         if not cur.fetchone():
@@ -619,8 +637,12 @@ def confirm_document(doc_id: int, body: ConfirmIn, actor: Actor = Depends(patien
                 ),
             )
             saved += 1
+            codes.append(r["code"])
         cur.execute("UPDATE documents SET status='confirmed' WHERE id=%s", (doc_id,))
-        audit.record(cur, actor, "confirm_document", actor.user_id, f"document:{doc_id}", {"rows": saved})
+        # The test codes go into the chained entry: a follow-up's "result back" step is read from it
+        audit.record(
+            cur, actor, "confirm_document", actor.user_id, f"document:{doc_id}", {"rows": saved, "codes": sorted(set(codes))}
+        )
     out = _refresh(actor)
     return {"saved": saved, "patterns": [h.rule_id for h in out["evaluation"].all_hits]}
 
@@ -743,7 +765,9 @@ def delete_my_data(actor: Actor = Depends(patient)):
 def navigator_list(actor: Actor = Depends(patient)):
     with session(actor) as cur:
         b = _bundle(cur, actor)
-        cur.execute("SELECT * FROM navigator_drafts WHERE profile_id=%s ORDER BY id DESC", (actor.user_id,))
+        cur.execute(  # her own requests; a clinic's reminder drafts are the clinic's to send
+            "SELECT * FROM navigator_drafts WHERE profile_id=%s AND origin='patient' ORDER BY id DESC", (actor.user_id,)
+        )
         drafts = cur.fetchall()
     ev = evaluate(b, ref())
     return {"available": [{"rule_id": h.rule_id, "title": h.title} for h in ev.observations], "drafts": drafts}
@@ -776,7 +800,7 @@ def navigator_draft(body: DraftIn, actor: Actor = Depends(patient)):
 @router.post("/navigator/drafts/{draft_id}/{action}")
 def navigator_decide(draft_id: int, action: Literal["approve", "discard"], actor: Actor = Depends(patient)):
     with session(actor) as cur:
-        cur.execute("SELECT * FROM navigator_drafts WHERE id=%s", (draft_id,))
+        cur.execute("SELECT * FROM navigator_drafts WHERE id=%s AND origin='patient'", (draft_id,))
         d = cur.fetchone()
         if not d:
             raise HTTPException(404, "Draft not found")

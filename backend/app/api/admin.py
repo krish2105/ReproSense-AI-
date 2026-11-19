@@ -4,12 +4,16 @@ from __future__ import annotations
 
 import csv
 import io
+from datetime import date
+from typing import Literal
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Query, Response
 
-from app.db import Actor, session
+from app.config import get_settings
+from app.db import SYSTEM, Actor, session
 from app.security import audit
 from app.security.auth import require
+from app.services import followups, timeline
 
 router = APIRouter(prefix="/v1/admin", tags=["admin"])
 admin = require("admin")
@@ -66,7 +70,12 @@ def metrics(actor: Actor = Depends(admin)):
         if cur.fetchone()["ok"]:
             cur.execute("SELECT status, n FROM care_gap_counts_by_type() WHERE type = 'postpartum_glucose_test'")
             live_pp = {r["status"]: r["n"] for r in cur.fetchall()}
+        loop_rows, loop_steps = followups.cohort_rows(cur)
+        loop_rows += followups.live_rows(cur)
         audit.record(cur, actor, "view_admin_metrics", None, "admin")
+    ref = get_settings().demo_ref_date
+    with session(SYSTEM) as cur:  # postnatal steps of the live records with a birth: counted, never listed
+        loop_steps += followups.live_postnatal_steps(cur, ref)
     overall_shared = round(100.0 * c["shared"] / c["n"], 1)
     overall_obs = round(100.0 * c["any_obs"] / c["n"], 1)
     for rows in fair.values():
@@ -123,6 +132,9 @@ def metrics(actor: Actor = Depends(admin)):
         },
         "live_demo_gaps": live,
         "pc008_glucose": _pc008_glucose(c, live_pp),
+        # The loop, measured (network-wide): days between its steps, follow-ups done inside their window, overdue
+        # follow-ups, postnatal steps done inside their DoH window, records opened by a clinician before the visit.
+        "loop": followups.loop_metrics(loop_rows, loop_steps, ref),
     }
 
 
@@ -153,6 +165,25 @@ def verify_audit(actor: Actor = Depends(admin)):
         rows = cur.fetchall()
     ok, bad = verify_chain(rows)
     return {"entries": len(rows), "chain_ok": ok, "first_bad_id": bad}
+
+
+@router.get("/events")
+def events(
+    role: Literal["patient", "clinician", "clinic_admin", "admin", "system"] | None = None,
+    action: str | None = Query(None, pattern=r"^[a-z_]{1,60}$"),
+    since: date | None = Query(None, alias="from"),
+    until: date | None = Query(None, alias="to"),
+    clinic: str | None = Query(None, pattern=r"^[a-z0-9_]{1,40}$"),
+    page: int = Query(1, ge=1, le=10_000),
+    page_size: int = Query(25, ge=1, le=timeline.MAX_PAGE_SIZE),
+    snapshot: int | None = Query(None, ge=0),
+    actor: Actor = Depends(admin),
+):
+    """The network's event timeline: who did what and when, every clinic (or one), pseudonymous ids only."""
+    with session(actor) as cur:
+        out = timeline.events(cur, clinic, role, action, since, until, page, page_size, snapshot)
+        audit.record(cur, actor, "view_audit_events", None, "admin", {"page": page})
+    return {**out, "scope": "network", "clinic_id": clinic, "chain": timeline.chain()}
 
 
 AUDIT_COLUMNS = ("id", "at", "actor_role", "actor_id", "action", "subject_id", "target", "prev_hash", "hash")

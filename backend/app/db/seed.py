@@ -154,6 +154,9 @@ def load_personas(cur) -> list[str]:
 
 
 def load_cohort(cur) -> int:
+    from app.services.followups import cohort_loop
+
+    ref = get_settings().demo_ref_date
     n = 0
     with (DATA_DIR / "cohort.csv").open() as fh:
         for r in csv.DictReader(fh):
@@ -164,8 +167,23 @@ def load_cohort(cur) -> int:
             def b(k: str, row=r) -> bool:
                 return row[k] == "True"
 
+            # The loop's dates (opened, booked, done, result, postnatal steps) are derived from her id and the demo
+            # date (followups.cohort_loop), so the network's loop figures are the same after every demo reset.
+            loop = cohort_loop(
+                {
+                    "patient_id": r["patient_id"],
+                    "care_gap_type": r["care_gap_type"],
+                    "care_gap_status": r["care_gap_status"],
+                    "days_overdue": int(r["days_overdue"] or 0),
+                    "report_shared": b("report_shared"),
+                    "recent_delivery": b("recent_delivery"),
+                    "gdm_history": b("gdm_history"),
+                },
+                ref,
+            )
             cur.execute(
-                "INSERT INTO cohort_members VALUES (%s,true,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                "INSERT INTO cohort_members VALUES (%s,true,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,"
+                "%s,%s,%s,%s,%s,%s,%s,%s)",
                 (
                     r["patient_id"],
                     int(r["age"]),
@@ -187,6 +205,14 @@ def load_cohort(cur) -> int:
                     r["care_gap_type"] or None,
                     r["care_gap_status"] or None,
                     int(r["days_overdue"] or 0),
+                    loop["gap_opened_on"],
+                    loop["gap_booked_on"],
+                    loop["gap_done_on"],
+                    loop["gap_result_on"],
+                    loop["gap_window_end"],
+                    loop["report_opened_on"],
+                    loop["birth_on"],
+                    json.dumps(loop["postnatal_steps"]) if loop["postnatal_steps"] is not None else None,
                 ),
             )
             n += 1

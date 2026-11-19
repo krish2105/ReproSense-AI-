@@ -21,11 +21,12 @@ from app.ai.guards import violations
 from app.ai.llm import get_llm
 from app.ai.redact import redact
 from app.config import get_settings
-from app.db import SYSTEM, session
+from app.db import SYSTEM, Actor, session
 from app.rag import kb
 from app.rag.embed import WORD
 from app.rag.retrieve import search
 from app.rules.engine import Evaluation, Hit, evaluate, load_rules
+from app.security import audit
 
 
 class State(TypedDict, total=False):
@@ -327,6 +328,19 @@ def _due_date(gap: str, f: dict, ref: date) -> date | None:
     return None
 
 
+def _window_end(gap: str, f: dict, ref: date) -> date | None:
+    """The last day of the follow-up's guideline window, as _due_date but never moved forward to today: a follow-up
+    past it with no booking is overdue (app/services/followups.py)."""
+    if gap == "postpartum_glucose_test" and f.get("weeks_since_delivery") is not None:
+        return ref + timedelta(weeks=12 - int(f["weeks_since_delivery"]))
+    if gap == "pregnancy_glucose_screen":
+        return ref + timedelta(weeks=28 - int(f.get("pregnancy_weeks") or 0))
+    return None
+
+
+RULES_ACTOR = Actor("system", "rules")  # the rules engine, as named in the audit log
+
+
 def persist(cur, profile_id: str, out: State) -> None:
     """Store observations (with cards + trace) and open/close care gaps. Runs as the system actor."""
     ev: Evaluation = out["evaluation"]
@@ -355,19 +369,35 @@ def persist(cur, profile_id: str, out: State) -> None:
     row = cur.fetchone()
     clinic = row["clinic_id"] if row else None
     due = {h.creates_care_gap: h for h in ev.observations if h.creates_care_gap}
+    opened, resolved = [], []
     for gap, h in due.items():
+        f = ev.features.values
         cur.execute(
-            "INSERT INTO care_gaps (profile_id, clinic_id, type, rule_id, due_date, status) VALUES (%s,%s,%s,%s,%s,'open')"
-            " ON CONFLICT (profile_id, type) DO UPDATE SET clinic_id = EXCLUDED.clinic_id, due_date = EXCLUDED.due_date",
-            (profile_id, clinic, gap, h.rule_id, _due_date(gap, ev.features.values, ref)),
+            "INSERT INTO care_gaps (profile_id, clinic_id, type, rule_id, due_date, window_end, status)"
+            " VALUES (%s,%s,%s,%s,%s,%s,'open') ON CONFLICT (profile_id, type) DO UPDATE SET clinic_id = EXCLUDED.clinic_id,"
+            " due_date = EXCLUDED.due_date, window_end = EXCLUDED.window_end RETURNING id, (xmax = 0) AS inserted",
+            (profile_id, clinic, gap, h.rule_id, _due_date(gap, f, ref), _window_end(gap, f, ref)),
         )
-    cur.execute("SELECT id, type FROM care_gaps WHERE profile_id=%s AND status <> 'closed'", (profile_id,))
+        row = cur.fetchone()
+        if row["inserted"]:
+            opened.append((row["id"], gap, h))
+    cur.execute("SELECT id, type, rule_id FROM care_gaps WHERE profile_id=%s AND status <> 'closed'", (profile_id,))
     for g in cur.fetchall():
         if g["type"] not in due:  # rule no longer fires (e.g. the test result arrived): the gap closes itself
             cur.execute(
                 "UPDATE care_gaps SET status='closed', updated_at=now(), updated_by='system: rule resolved' WHERE id=%s",
                 (g["id"],),
             )
+            resolved.append(g)
+    # The loop's system steps go into the audit log after every care_gaps write (rows, then the chain's lock)
+    for gid, gap, h in opened:
+        audit.record(
+            cur, RULES_ACTOR, "care_gap_opened", profile_id, f"care_gap:{gid}", {"rule_id": h.rule_id, "type": gap}
+        )
+    for g in resolved:
+        audit.record(
+            cur, RULES_ACTOR, "care_gap_resolved", profile_id, f"care_gap:{g['id']}", {"rule_id": g["rule_id"]}
+        )
 
 
 def refresh(profile_id: str, lang: str = "en") -> State:
