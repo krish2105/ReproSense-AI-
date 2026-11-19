@@ -61,8 +61,12 @@ runs family medicine fits too (docs/19 §5).
 
 ### 1.4 What we measure, and how the app counts it
 Each measure comes from what the app already records: the dates on her entries, the follow-up steps and the audit
-log. Nothing is estimated. Tables and fields named here exist on `main` today; the loop metrics in PR #148 (closed
-loop) compute measures 3 and 4 the same way once merged.
+log. Nothing is estimated. Every table and field named here exists on `main`. The closed-loop metrics (#148,
+`followups.loop_metrics()`, shown as `loop` on `/v1/admin/metrics` and `/v1/clinic-admin/dashboard`) already compute
+measures 2–4 on the synthetic cohort: `postnatal_in_window`, `opened_to_booked` (median days) and
+`record_opened_before_visit`, with groups under 10 hidden. In the pilot they run on the pilot clinic's women only.
+With up to 20 women, most pilot groups are under 10, so network views hide them by design. The counts go only to the
+clinic's own decision-maker, in the day-90 report, as x of n.
 
 | # | Measure | How the app counts it | Basis |
 | --- | --- | --- | --- |
