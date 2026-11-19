@@ -49,7 +49,7 @@ were moved into the suite, so each attack has exactly one test.
 | 8 | A `<script>` typed into her note and the clinician's visit note | Text, never markup: JSON with `nosniff` and a deny-all CSP from the API; React escaping and the web CSP in the browser | `test_attack_08_script_in_a_note_is_returned_as_text`, and `apps/web/e2e/attack-xss.spec.ts` in a real browser |
 | 9 | SQL injection text in every free-text field (note, mood, file name, lab row, visit note, questions, sign-up name, clinic member name) and in path ids | Bound SQL parameters | `test_attack_09_sql_injection_text_is_stored_as_text` |
 | 10 | Guessing the 6-digit email code | The code locks after 5 wrong tries | `test_attack_10_guessing_the_email_code_locks_after_five_tries` |
-| 11 | A revoked or expired share link, or a guessed token (family links too, once their table is on main) | Hashed, expiring, revocable links: 404 or 410 | `test_attack_11_revoked_or_expired_link_is_refused` |
+| 11 | A revoked or expired share link or family link, or a guessed token | Hashed, expiring, revocable links: 404 or 410 | `test_attack_11_revoked_or_expired_link_is_refused` |
 | 12 | Editing a row of the audit log | The app role cannot update or delete it; an owner's edit breaks the hash chain and the check names the row | `test_attack_12_edited_audit_row_breaks_the_chain_and_is_named` |
 | 13 | A made-up session cookie on every request, to dodge the rate limit | Rate limit by verified session, else by address (#139) | `test_attack_13_random_cookies_do_not_dodge_the_rate_limit` |
 | 14 | An oversized, damaged or fake PDF upload | 413 over 10 MB, 422 for an unreadable PDF, never a 500 (#139) | `test_attack_14_oversized_or_broken_pdf_is_refused_without_a_crash` |

@@ -507,10 +507,10 @@ def mailbox():
     email.set_sender(None)
 
 
-# ---------- 11. A revoked or expired share link (or family link) ----------
+# ---------- 11. A revoked or expired share link or family link ----------
 def test_attack_11_revoked_or_expired_link_is_refused(client, reseed):
     """A doctor's share link after she revokes it, or after it expires, or a guessed token: 404 (revoked, unknown) or
-    410 (expired), for the page and the PDF. Family links get the same check once their table is on main."""
+    410 (expired), for the page and the PDF. The same for a family link (Y4)."""
     h = login(client, "noura")
     rep = client.post("/v1/reports", headers=h).json()
     revoked, expired, live = (
@@ -531,21 +531,21 @@ def test_attack_11_revoked_or_expired_link_is_refused(client, reseed):
         stored = [r[0] for r in conn.execute("SELECT token_hash FROM shares").fetchall()]
     assert live["token"] not in stored
 
+    # The family support view (Y4): the same attack on the link she gave her husband or her mother.
+    fh = login(client, "fatima")
+    a, b = (
+        client.post("/v1/family-links", headers=fh, json={"relation": rel, "consent": True}).json()
+        for rel in ("husband", "mother")
+    )
+    assert client.get(f"/v1/family/{a['token']}").status_code == 200  # it worked before she turned it off
+    assert client.delete(f"/v1/family-links/{a['id']}", headers=fh).status_code == 200
+    assert client.get(f"/v1/family/{a['token']}").status_code == 404
+    assert client.delete(f"/v1/family-links/{a['id']}", headers=fh).status_code == 404  # already off
     with session(SYSTEM) as cur:
-        cur.execute("SELECT to_regclass('family_links') IS NOT NULL AS ok")
-        family = cur.fetchone()["ok"]
-    if family:  # family support view (PR #134)
-        fh = login(client, "fatima")
-        a, b = (
-            client.post("/v1/family-links", headers=fh, json={"relation": "mother", "consent": True}).json()
-            for _ in "ab"
-        )
-        assert client.delete(f"/v1/family-links/{a['id']}", headers=fh).status_code == 200
-        with session(SYSTEM) as cur:
-            cur.execute("UPDATE family_links SET expires_at = now() - interval '1 minute' WHERE id=%s", (b["id"],))
-        assert client.get(f"/v1/family/{a['token']}").status_code == 404
-        assert client.get(f"/v1/family/{b['token']}").status_code == 410
-        assert client.get(f"/v1/family/{secrets.token_urlsafe(32)}").status_code == 404
+        cur.execute("UPDATE family_links SET expires_at = now() - interval '1 minute' WHERE id=%s", (b["id"],))
+    assert client.get(f"/v1/family/{b['token']}").status_code == 410
+    assert client.get(f"/v1/family/{secrets.token_urlsafe(32)}").status_code == 404
+    assert client.get("/v1/family/not-a-real-token-at-all-0123456789").status_code == 404
 
 
 # ---------- 12. Editing an audit row ----------

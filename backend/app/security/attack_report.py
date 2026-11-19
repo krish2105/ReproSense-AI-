@@ -104,7 +104,7 @@ ATTACKS: list[dict] = [
     },
     {
         "id": 11,
-        "name": "A revoked or expired share link",
+        "name": "A revoked or expired share link or family link",
         "layer": "links",
         "test": "test_attack_11_revoked_or_expired_link_is_refused",
     },

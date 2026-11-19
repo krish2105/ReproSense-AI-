@@ -1158,7 +1158,7 @@ The security score on the team scorecard (`/status`). Technical words stay in En
 | `status.attacks.a8` | A script tag typed into a note, shown to the clinician | وسم script مكتوب في ملاحظة تظهر للطبيبة | |
 | `status.attacks.a9` | SQL injection text in every free-text field | نص حقن SQL في كل حقل نص حر | |
 | `status.attacks.a10` | Guessing the 6-digit email code | تخمين رمز البريد الإلكتروني المكوّن من 6 أرقام | |
-| `status.attacks.a11` | A revoked or expired share link | رابط مشاركة أُلغي أو انتهت صلاحيته | |
+| `status.attacks.a11` | A revoked or expired share link or family link | رابط مشاركة أو رابط للعائلة أُلغي أو انتهت صلاحيته | |
 | `status.attacks.a12` | Editing a row of the audit log | تعديل سطر في سجل التدقيق | |
 | `status.attacks.a13` | Random cookies sent to dodge the rate limit | ملفات تعريف ارتباط عشوائية للتهرب من حد الطلبات | |
 | `status.attacks.a14` | An oversized or broken PDF upload | رفع ملف PDF كبير جداً أو تالف | |
