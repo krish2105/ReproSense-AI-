@@ -55,6 +55,7 @@ export interface ClinicPatientRow {
   rules: string[];
   last_report: string | null;
   open_gaps: number;
+  overdue_gaps: number; // open follow-ups past their window with no booking
   reviewed_at: string | null;
 }
 export interface ClinicPatientsResponse {
@@ -536,6 +537,119 @@ export interface ClinicGap {
   status: "open" | "in_progress" | "closed";
   due_date: string | null;
   updated_at: string;
+  window_end: string | null; // the last day of its guideline window (never moved forward, unlike due_date)
+  overdue: boolean; // open (never booked) and its window ended before today
+  history?: FollowUpHistory | null; // in the record view: the loop, step by step
+}
+
+// ---------------- The closed loop (follow-up history, event timeline, loop metrics) ----------------
+
+export type FollowUpStepKind =
+  | "opened"
+  | "shared"
+  | "unshared"
+  | "reminder"
+  | "reminder_approved"
+  | "reminder_discarded"
+  | "booked"
+  | "reopened"
+  | "done"
+  | "result";
+/** One line of a follow-up's story: when, who (role; a staff id only in the clinician's view), and the evidence. */
+export interface FollowUpStep {
+  step: FollowUpStepKind;
+  at: string;
+  actor_role: "system" | "patient" | "clinician" | "clinic_admin" | "admin";
+  actor_id: string | null;
+  days: number | null; // calendar days since the step before (null on the first line)
+  evidence: {
+    audit_id?: number;
+    audit_hash?: string;
+    // opened
+    rule_id?: string;
+    title?: string;
+    why?: string;
+    sources?: Source[];
+    entries?: string[];
+    still_in_record?: boolean;
+    // shared
+    clinic?: string | null;
+    clinic_id?: string | null;
+    before_opened?: boolean;
+    active?: boolean;
+    // done
+    reason?: "rule_resolved";
+    record_opened_before?: string | null;
+    // reminders: never sent by the app
+    sent?: false;
+    // result
+    tests?: { code: string; test: string; value: string; unit: string | null; date: string }[];
+    document_id?: number | null;
+  };
+}
+/** GET /v1/me/followups/{id}/history and /v1/clinic/patients/{pid}/followups/{id}/history */
+export interface FollowUpHistory {
+  follow_up: {
+    id: number;
+    type: string;
+    rule_id: string;
+    status: ClinicGap["status"];
+    due_date: string | null;
+    window_end: string | null;
+    opened_at: string;
+    overdue: boolean;
+  };
+  steps: FollowUpStep[];
+  pending: ("booked" | "done" | "result")[];
+  summary: { opened_to_booked: number | null; booked_to_done: number | null; opened_to_result: number | null; done_in_window: boolean | null };
+}
+/** GET /v1/me/followups?lang= */
+export interface FollowUpsResponse {
+  follow_ups: FollowUpHistory[];
+  ref_date: string;
+}
+/** A share with small-group protection: every number is null when the group, the count or its complement is under k. */
+export interface LoopRatio {
+  n: number | null;
+  of: number | null;
+  pct: number | null;
+  suppressed: boolean;
+}
+/** The loop, measured (on /admin/metrics and /clinic-admin/dashboard). Medians are null under k. */
+export interface LoopMetrics {
+  k_min: number;
+  follow_ups: number | null;
+  median_days: Record<"opened_to_booked" | "booked_to_done" | "opened_to_result", { days: number | null; n: number | null }>;
+  done_in_window: LoopRatio;
+  overdue: { n: number | null; suppressed: boolean };
+  postnatal_in_window: LoopRatio;
+  record_opened_before_visit: LoopRatio;
+  note: string;
+}
+/** One audit-log row on the event timeline: pseudonymous ids only, never names, never the detail column. */
+export interface AuditEvent {
+  id: number;
+  at: string;
+  actor_role: string;
+  actor: string | null;
+  action: string;
+  record: string | null;
+  target: string | null;
+  clinic_id: string | null;
+}
+/** GET /v1/admin/events and /v1/clinic-admin/events */
+export interface EventsResponse {
+  events: AuditEvent[];
+  total: number;
+  page: number;
+  page_size: number;
+  pages: number;
+  snapshot: number;
+  filters: { roles: string[]; actions: string[] };
+  applied: { role: string | null; action: string | null; from: string | null; to: string | null };
+  scope: "network" | "clinic";
+  clinic_id: string | null;
+  chain: { ok: boolean; entries: number; first_bad_id: number | null };
 }
 /** GET /v1/clinic/patients/{id} (consented patients only; 404 otherwise) */
 export interface ClinicRecord {
@@ -598,12 +712,19 @@ export interface ClinicGapRow extends ClinicGap {
   alias: string;
   language: string;
 }
-/** POST /v1/clinic/care-gaps/{id}/reminder — a draft; nothing is sent */
+/** POST /v1/clinic/care-gaps/{id}/reminder — a stored draft (navigator_drafts, origin clinic); nothing is sent */
 export interface ReminderDraft {
+  id: number;
+  status: "draft" | "approved" | "discarded";
+  care_gap_id: number;
   en: string;
   ar: string;
   sent: false;
   note: string;
+}
+/** POST /v1/clinic/reminders/{id}/approve|discard */
+export interface ReminderDecision extends ReminderDraft {
+  message: string;
 }
 export interface AdminMetricsFull extends AdminMetrics {
   clinics: { clinic_id: string; name: string | null; n: number | null; consented: number | null; shared: number | null; gaps: number | null; closed: number | null }[];
@@ -618,6 +739,7 @@ export interface AdminMetricsFull extends AdminMetrics {
   };
   roi_inputs: { postpartum_gaps: number; reports_shared: number; assumptions: string };
   live_demo_gaps: Partial<Record<"open" | "in_progress" | "closed", number>>;
+  loop: LoopMetrics;
 }
 export interface FairnessRow {
   g: string;
@@ -752,6 +874,7 @@ export interface ClinicDashboard {
   pc008_glucose: { due: number | null; booked: number | null; done: number | null; open: number | null; done_pct: number | null; suppressed: boolean; note: string };
   shared_records: number | null;
   team: { clinicians: number; pending_invites: number };
+  loop: LoopMetrics;
   note: string;
 }
 export interface InvitePreview {

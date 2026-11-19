@@ -2,14 +2,14 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useCallback, useState, useTransition, type FormEvent } from "react";
+import { useCallback, useState, useTransition, type FormEvent, type ReactNode } from "react";
 import { Button } from "@/components/ui/Button";
 import { Dialog } from "@/components/ui/Dialog";
 import { Tag } from "@/components/ui/Tag";
 import { useToast } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
-import type { ClinicGap, RecordAnswer, ReminderDraft } from "@/lib/api/types";
+import type { ClinicGap, RecordAnswer, ReminderDecision, ReminderDraft } from "@/lib/api/types";
 import { CHIPS, chipKeys } from "@/lib/ask-chips";
 import { formatDate, formatDayMonth } from "@/lib/format";
 
@@ -44,8 +44,12 @@ export function ReviewButton({ pid, reviewedAt }: { pid: string; reviewedAt: str
   );
 }
 
-/** Follow-ups: book, close or reopen (PATCH), and a reminder that is only ever a draft. */
-export function CareGaps({ gaps }: { gaps: ClinicGap[] }) {
+/**
+ * Follow-ups: book, close or reopen (PATCH), and a reminder that is only ever a draft: the care navigator stores it,
+ * the clinician approves it (and sends it from the clinic's own system) or discards it. Each follow-up's history (the
+ * loop, step by step) is rendered on the server and passed in.
+ */
+export function CareGaps({ gaps, histories = {} }: { gaps: ClinicGap[]; histories?: Record<number, ReactNode> }) {
   const t = useTranslations("clinic");
   const locale = useLocale() === "ar" ? "ar" : "en";
   const router = useRouter();
@@ -72,6 +76,18 @@ export function CareGaps({ gaps }: { gaps: ClinicGap[] }) {
         toast(t("reminderFailed", { detail: detailOf(e) }));
       }
     });
+  const decide = (action: "approve" | "discard") =>
+    start(async () => {
+      if (!draft) return;
+      try {
+        const d = await apiClient<ReminderDecision>(`/clinic/reminders/${draft.id}/${action}`, { method: "POST" });
+        setDraft(null);
+        toast(t(d.status === "approved" ? "reminderApproved" : "reminderDiscarded"));
+        router.refresh();
+      } catch (e) {
+        toast(t("reminderFailed", { detail: detailOf(e) }));
+      }
+    });
   const copy = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -90,9 +106,16 @@ export function CareGaps({ gaps }: { gaps: ClinicGap[] }) {
         <div key={g.id} className="box" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <div className="kv" style={{ flexWrap: "wrap" }}>
             <b className="s">{t.has(`gapType.${g.type}`) ? t(`gapType.${g.type}`) : t("gapType.other")}</b>
-            <Tag tone={g.status === "closed" ? "ok" : g.status === "in_progress" ? "info" : "soon"}>{t(`gapStatus.${g.status}`)}</Tag>
+            <span style={{ display: "inline-flex", gap: 6, flexWrap: "wrap" }}>
+              {g.overdue && <Tag tone="discuss">{t("overdue")}</Tag>}
+              <Tag tone={g.status === "closed" ? "ok" : g.status === "in_progress" ? "info" : "soon"}>{t(`gapStatus.${g.status}`)}</Tag>
+            </span>
           </div>
-          {g.due_date && <p className="xs dim">{t("gapDue", { date: formatDayMonth(g.due_date, locale) })}</p>}
+          {g.overdue && g.window_end ? (
+            <p className="xs dim">{t("overdueNote", { date: formatDayMonth(g.window_end, locale) })}</p>
+          ) : (
+            g.due_date && <p className="xs dim">{t("gapDue", { date: formatDayMonth(g.due_date, locale) })}</p>
+          )}
           {g.type === "postpartum_glucose_test" && <p className="xs dim">{t("gapPc008")}</p>}
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             {g.status === "open" && (
@@ -115,6 +138,7 @@ export function CareGaps({ gaps }: { gaps: ClinicGap[] }) {
               </Button>
             )}
           </div>
+          {histories[g.id]}
         </div>
       ))}
       <Dialog open={!!draft} onClose={close} title={t("reminderTitle")}>
@@ -137,6 +161,16 @@ export function CareGaps({ gaps }: { gaps: ClinicGap[] }) {
                 {t("copyAr")}
               </Button>
             </div>
+            {draft.status === "draft" && (
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <Button size="sm" pending={pending} onClick={() => decide("approve")}>
+                  {t("reminderApprove")}
+                </Button>
+                <Button size="sm" variant="outline" disabled={pending} onClick={() => decide("discard")}>
+                  {t("reminderDiscard")}
+                </Button>
+              </div>
+            )}
           </>
         )}
       </Dialog>
