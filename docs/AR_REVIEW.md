@@ -1015,3 +1015,48 @@ The public /pilot page for a clinic manager or an insurer, so the address is plu
 | RF6 message (`rules/translations_ar.yaml`) | After birth, a severe headache, changes in vision, sudden swelling of the face, hands or feet, very heavy bleeding or a fever needs urgent care. Call 998 or go to the nearest emergency department now. | بعد الولادة، الصداع الشديد أو تغيّر الرؤية أو التورّم المفاجئ في الوجه أو اليدين أو القدمين أو النزيف الغزير جداً أو الحرارة يحتاج رعاية عاجلة. اتصلي بالرقم 998 أو توجّهي إلى أقرب قسم طوارئ الآن. | |
 | After-birth urgent reply, added clause (`assistant.py` `URGENT_TEXT`) | … a severe headache, changes in your vision, or sudden swelling of your face, hands or feet. | … أو الصداع الشديد، أو تغيّر الرؤية، أو التورّم المفاجئ في الوجه أو اليدين أو القدمين. | |
 | `knowledge_base/summaries/nhs_pre_eclampsia.md` (Arabic section) | (new summary) | see the file | |
+
+## Assistant: her record and next steps (section 7, 19 Nov, draft Arabic, not yet reviewed)
+
+Answers to questions about her own data are built by code in `backend/app/agents/record.py` (the numbers come from her
+entries); the screen strings are in `apps/web/messages/ar.json` under `assistant`. Counted nouns follow `_ar_n` (1 and 2
+in words, 3–10 plural, 11 or more singular). Lab test names stay as the lab printed them.
+
+| Key | English | Arabic | OK? |
+| --- | --- | --- | --- |
+| `assistant.intro` | Ask about periods, pain, pregnancy, tests or your report. Answers quote trusted sources and never diagnose. Questions about your own entries, like your cycle lengths, are counted from your record. | اسألي عن الدورة أو الألم أو الحمل أو الفحوص أو تقريركِ. تستند الإجابات إلى مصادر موثوقة ولا تقدّم أي تشخيص. أما الأسئلة عن إدخالاتكِ، مثل أطوال دوراتكِ، فتُحسب من سجلّكِ. | |
+| `assistant.fromEntries` | From your entries | من إدخالاتكِ | |
+| `assistant.entriesLabel` | Entries behind this answer | الإدخالات التي تستند إليها الإجابة | |
+| `assistant.moreEntries` | and {n} more | و{n} غيرها | |
+| `assistant.recordCode` | Counted from your entries by fixed code, not by AI. Not a diagnosis. | حُسبت من إدخالاتكِ بقواعد ثابتة، لا بالذكاء الاصطناعي. ليست تشخيصاً. | |
+| `assistant.recordReworded` | Reworded by AI; every number was checked against your entries. Not a diagnosis. | أعاد الذكاء الاصطناعي صياغتها، وطُوبق كل رقم مع إدخالاتكِ. ليست تشخيصاً. | |
+| `assistant.nextLabel` | Your next steps, from your entries | خطواتكِ التالية، من إدخالاتكِ | |
+| `assistant.nextQuestions` | Questions for your doctor | أسئلة لطبيبتكِ | |
+| `assistant.nextDraft` | Draft message to your clinic | مسودة رسالة إلى عيادتكِ | |
+| `assistant.nextDraftOnly` | Drafts only. Nothing is sent: after you approve, copy the message or show it at the clinic. | مسودات فقط. لا يُرسَل أي شيء: بعد موافقتكِ انسخي الرسالة أو اعرضيها في العيادة. | |
+| `assistant.decideFailed` | That didn't save: {detail} | لم يُحفظ ذلك: {detail} | |
+| `assistant.nextKinds.red_flag` | Urgent | عاجل | |
+| `assistant.nextKinds.pattern` | Worth discussing | يستحق النقاش | |
+| `assistant.nextKinds.care_step` | Care step due | خطوة رعاية مستحقة | |
+| `assistant.nextKinds.postnatal_step` | Postnatal step | خطوة ما بعد الولادة | |
+| Suggested question (`assistant.py` `SUGGESTED`) | How long were my last cycles? | كم كان طول دوراتي الأخيرة؟ | |
+| Cycles (`record.py` `_cycles`) | Your last 6 complete cycles were 46, 45, 55, 42, 46 and 56 days long. | أطوال آخر 6 دورات مكتملة في سجلّكِ: 46 و45 و55 و42 و46 و56 يوماً. | |
+| Cycles, two cycles | Your last 2 complete cycles were 29 and 30 days long. | أطوال آخر دورتين مكتملتين في سجلّكِ: 29 و30 يوماً. | |
+| Current cycle | Your current cycle started on 4 Nov 2026. | بدأت دورتكِ الحالية في 4 نوفمبر 2026. | |
+| Cycle chip | 9 Sep · cycle of 56 days | 9 سبتمبر · دورة طولها 56 يوماً | |
+| No complete cycle | Your record has no complete cycle yet. Log the first day of each period to see your cycle lengths. | لا توجد في سجلّكِ دورة مكتملة بعد. سجّلي أول يوم من كل دورة لتظهر أطوال دوراتكِ. | |
+| Last period (`_last_period`) | Your last logged period started on 4 Nov 2026, with 4 days of bleeding logged. That was 18 days ago. | بدأت آخر دورة مسجّلة لديكِ في 4 نوفمبر 2026، وسجّلتِ فيها 4 أيام من النزول. كان ذلك قبل 18 يوماً. | |
+| Window (`_window_phrase`) | In the last 90 days (since 24 Aug) | في آخر 90 يوماً (منذ 24 أغسطس) | |
+| Pain (`_pain`) | …, you logged pain of 7 out of 10 or more on 4 days. You logged pain of any level on 18 days, and the highest was 8 out of 10 on 15 Oct. | …، سجّلتِ ألماً بدرجة 7 من 10 أو أكثر في 4 أيام. وسجّلتِ ألماً بأي درجة في 18 يوماً، وكان أعلاه 8 من 10 في 15 أكتوبر. | |
+| Missed work (`_impact`) | …, you logged “missed work or study” on 2 days. In your whole record, since 26 Nov 2025: 9 days. | …، سجّلتِ «غبتُ عن العمل أو الدراسة» في يومين. وفي سجلّكِ كله منذ 26 نوفمبر 2025: 9 أيام. | |
+| Lab line (`_labs`) | Ferritin: 8 ng/mL on 29 Oct 2026. The lab's own range printed with it: 15–150 ng/mL. | فحص Ferritin: 8 ng/mL في 29 أكتوبر 2026. المدى المطبوع من المختبر مع النتيجة: 15–150 ng/mL. | |
+| Lab line, no range | No range was printed with this result. | لم يُطبع مع هذه النتيجة مدى من المختبر. | |
+| Labs, closing line | Your doctor can tell you what these values mean for you; bring this list. | اسألي طبيبتكِ عمّا تعنيه هذه القيم لكِ، وأحضري هذه القائمة معكِ. | |
+| Blood pressure (`_bp`) | Your latest blood pressure reading is 118/78 mmHg, on 2 Nov 2026. You logged 3 readings between 23 Sep and 2 Nov. | آخر قراءة لضغط الدم في سجلّكِ: 118/78 ملم زئبقي في 2 نوفمبر 2026. سجّلتِ 3 قراءات بين 23 سبتمبر و2 نوفمبر. | |
+| Postnatal (`_postnatal`) | Your postnatal plan has 5 steps, and 1 is recorded as done. | خطة ما بعد الولادة في سجلّكِ فيها 5 خطوات، والمسجّل منها كمكتمل خطوة واحدة. | |
+| Postnatal step lines | Due now: … by 13 Dec. / Coming up: … / Not recorded: … (its window was … to …). | مستحقة الآن: … حتى 13 ديسمبر. / قادمة: … / لم تُسجَّل: … (كانت بين … و…). | |
+| Postnatal, record it | If you had a visit or call that is not recorded, you can record it on Home. | إذا أجريتِ زيارة أو مكالمة لم تُسجَّل، يمكنكِ تسجيلها من الصفحة الرئيسية. | |
+| Someone else's record (`OTHER_PERSON`) | I can only answer from your own entries, so I can't open anyone else's record. | أستطيع الإجابة من إدخالاتكِ أنتِ فقط، لذلك لا أستطيع فتح سجلّ أي شخص آخر. | |
+| Next steps lead (`NEXT_INTRO`) | Here is a short list from your record for your next appointment. Approve what you want to keep. Nothing is sent. | هذه قائمة قصيرة من سجلّكِ لموعدكِ القادم. وافقي على ما تريدين الاحتفاظ به. لا يُرسَل أي شيء. | |
+| Next steps, red flag first (`NEXT_URGENT`) | Start with the urgent step. Call 998 if this is happening now. | ابدئي بالخطوة العاجلة. اتصلي بالرقم 998 إذا كان هذا يحدث الآن. | |
+| Next steps, nothing due (`NOTHING`) | No pattern in your entries needs discussing right now, and no care step is due. Keep logging, and bring your report to your next visit. | لا يوجد في إدخالاتكِ نمط يحتاج نقاشاً الآن، ولا توجد خطوة رعاية مستحقة. استمري في التسجيل، وأحضري تقريركِ إلى زيارتكِ القادمة. | |

@@ -451,6 +451,38 @@ export interface AskResponse {
   refused: boolean;
   grounded: boolean;
   trace?: TraceStep[];
+  /** Which lane answered (section 7): the cited knowledge answer, a safety reply, her own record, or her next steps. */
+  lane?: "knowledge" | "safety" | "record" | "next_step";
+  record?: HerRecord; // lane "record": her own numbers, computed by code
+  next_steps?: NextStepItem[]; // lane "next_step": a short list she approves
+  lead?: string; // lane "next_step": the sentence before the list
+}
+/** Lane (b): every line is computed by code from her entries; each chip opens that day in her calendar. */
+export interface HerRecord {
+  topic: "cycles" | "last_period" | "pain" | "impact" | "labs" | "bp" | "postnatal" | "other_person";
+  from_entries: true;
+  written_by: string; // "code", or the model that reworded lines whose numbers code fixed
+  lines: { text: string; evidence: Evidence[]; evidence_total: number }[];
+}
+/** Lane (c): red flags first, then patterns and due care steps. Drafts only: nothing is sent. */
+export interface NextStepItem {
+  id: string;
+  kind: "red_flag" | "pattern" | "care_step" | "postnatal_step";
+  rule_id: string | null;
+  title: string;
+  text: string;
+  evidence: Evidence[];
+  questions: string[];
+  sources: Source[];
+  draft: {
+    id: number;
+    status: NavigatorDraft["status"];
+    to: string | null;
+    subject: string | null;
+    message: string | null;
+    bring: string[];
+    sent: false;
+  } | null;
 }
 export interface SuggestedResponse {
   questions: string[];

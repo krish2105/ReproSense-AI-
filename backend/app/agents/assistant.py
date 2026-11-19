@@ -301,7 +301,14 @@ def _extractive(q: str, passages, lang: str, max_sents: int = 3) -> tuple[list[d
     return [{"text": c[2], "source_id": c[3]} for c in chosen], order
 
 
-def answer(question: str, lang: str | None = None, names: list[str] | None = None) -> dict:
+ASK_MODEL = object()  # `second` default: the answer runs the model's second safety check itself
+
+
+def answer(
+    question: str, lang: str | None = None, names: list[str] | None = None, *, llm=None, second=ASK_MODEL
+) -> dict:
+    """The knowledge answer. The router (app/agents/router.py) passes `llm` (no model when her AI switch is off) and,
+    when it already ran the model's second safety check, its result as `second`, so the model is asked once."""
     t0 = time.perf_counter()
     q = (question or "").strip()[:600]
     lang = lang if lang in ("en", "ar") else detect_lang(q)
@@ -319,10 +326,11 @@ def answer(question: str, lang: str | None = None, names: list[str] | None = Non
         "trace": trace,
     }
 
-    llm = get_llm()
+    llm = llm or get_llm()
     words = _crisis(q)
     # the second check by the model runs when the word checks found no crisis; it can only add a route, never remove one
-    second = None if words else safety.model_check(q, llm, names)
+    if second is ASK_MODEL:
+        second = None if words else safety.model_check(q, llm, names)
     if words or (second and second["crisis"]):
         out.update(
             crisis=True,
@@ -428,6 +436,7 @@ def answer(question: str, lang: str | None = None, names: list[str] | None = Non
 SUGGESTED = {
     "en": [
         "What is PCOS?",
+        "How long were my last cycles?",  # her record: computed by code from her entries (app/agents/record.py)
         "When should I get a glucose test after gestational diabetes?",
         "What counts as a heavy period?",
         "How much folic acid should I take when trying to conceive?",
@@ -435,6 +444,7 @@ SUGGESTED = {
     ],
     "ar": [
         "ما هي متلازمة تكيّس المبايض؟",
+        "كم كان طول دوراتي الأخيرة؟",
         "متى أحتاج فحص السكر بعد سكري الحمل؟",
         "متى تُعتبر الدورة غزيرة؟",
         "كم أحتاج من حمض الفوليك عند محاولة الحمل؟",
