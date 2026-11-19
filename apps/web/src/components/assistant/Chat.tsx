@@ -284,9 +284,16 @@ function NextSteps({ a, anchor }: { a: AskResponse; anchor: string }) {
       </p>
       <p dir="auto">{a.lead ?? a.answer}</p>
       {urgent && (
-        <a className="btn btn-a btn-sm" href="tel:998" style={{ marginTop: 8, alignSelf: "flex-start" }}>
-          {ts("call")}
-        </a>
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 8 }}>
+          <a className="btn btn-a btn-sm" href="tel:998">
+            {ts("call")}
+          </a>
+          {a.urgent?.support_line && (
+            <a className="btn btn-o btn-sm" href={`tel:${a.urgent.support_line.tel}`}>
+              {ts("callSakina")}
+            </a>
+          )}
+        </div>
       )}
       {a.next_steps!.length > 0 && (
         <ol className="plain next-list">

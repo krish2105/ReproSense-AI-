@@ -260,6 +260,24 @@ def test_next_step_in_arabic_and_red_flags_first():
     assert out["answer"].startswith("Start with the urgent step. Call 998")
 
 
+def test_next_step_on_the_crisis_path_gives_the_support_message_only():
+    b = persona("fatima")
+    b["events"] = [
+        *b["events"],
+        {
+            "id": "fatima-x1",
+            "type": "questionnaire",
+            "date": "2026-11-21",
+            "details": {"tool": "EPDS", "total": 15, "item10": 2},
+        },
+    ]
+    out = router.ask("what should I do next?", "en", bundle=b, ref=REF, ai_on=False)
+    assert out["lane"] == "next_step" and out["crisis"] is True
+    assert out["answer"] == assistant.URGENT_TEXT["en"]["crisis"]
+    assert out["urgent"]["support_line"] == assistant.SUPPORT_LINE
+    assert all(i["kind"] == "red_flag" and i["rule_id"] != "RF4_SELF_HARM_THOUGHTS" for i in out["next_steps"])
+
+
 # ---------- lab values: as printed, with the lab's own range, never interpreted ----------
 INTERPRETING = re.compile(
     r"\b(low|high|normal|abnormal|deficien\w*|an(a)?emi\w*|concern\w*|worr\w*|good|bad|healthy|"

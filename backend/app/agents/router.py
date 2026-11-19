@@ -381,7 +381,7 @@ def next_step_lane(state: State) -> dict:
         out.update(
             lane="next_step",
             crisis=True,
-            urgent={"kind": "crisis", "message": msg, "number": "998"},
+            urgent={"kind": "crisis", "message": msg, "number": "998", "support_line": assistant.SUPPORT_LINE},
             answer=msg,
             lead=msg,
             citations=_cite_list(assistant.URGENT_SOURCES["crisis"]),
