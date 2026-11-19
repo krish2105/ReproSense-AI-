@@ -40,6 +40,15 @@ class Settings(BaseSettings):
     rate_limit_per_min: int = 120
     rate_limit_sensitive_per_min: int = 20  # assistant + uploads
     red_flag_window_days: int = 14  # QUESTIONS #17 default (needs clinician sign-off)
+    # Connection pool. Wait less than the web's 15 s API timeout, so a saturated pool answers 503 + Retry-After instead
+    # of the page hanging until the web gives up. No clinical meaning.
+    db_pool_min: int = 1
+    db_pool_max: int = 10
+    db_pool_timeout_s: float = 8.0
+    # Doctor PDFs render in worker processes (0: in the request thread); past the timeout the caller gets 503 "try
+    # again" and the render finishes and is cached. No clinical meaning.
+    pdf_workers: int = 2
+    pdf_timeout_s: float = 12.0
     log_level: str = "INFO"  # the API's JSON logs (app/observability.py); no clinical meaning
     # Her own sign-in (K5). Passkeys: the relying party is the web app's host. Empty = the host of the first
     # ALLOWED_ORIGINS entry, and the accepted origins = ALLOWED_ORIGINS. No clinical meaning.

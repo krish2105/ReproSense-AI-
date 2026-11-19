@@ -7,6 +7,7 @@ import { MoodRow } from "@/components/home/MoodRow";
 import { NavigatorCard } from "@/components/home/NavigatorCard";
 import { PatternSummary } from "@/components/home/PatternSummary";
 import { PostnatalCard } from "@/components/home/PostnatalCard";
+import { PreconceptionCard } from "@/components/home/PreconceptionCard";
 import { Recommendations } from "@/components/home/Recommendations";
 import { StageSwitch } from "@/components/home/StageSwitch";
 import { isTabReady } from "@/components/chrome/tabs";
@@ -120,6 +121,8 @@ export default async function Home() {
         )}
 
         {h.postnatal && !h.crisis && <PostnatalCard p={h.postnatal} refDate={h.ref_date} />}
+
+        {h.preconception && !h.crisis && <PreconceptionCard key={h.profile.id} initial={h.preconception} />}
 
         {h.blood_pressure.eligible && !h.crisis && <BloodPressureCard bp={h.blood_pressure} locale={locale} />}
 

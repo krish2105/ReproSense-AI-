@@ -252,7 +252,7 @@ _PREG_SIGN = _c(
     r"(fluid|watery|clear).{0,25}leak\w*|leak\w*.{0,25}(fluid|water|watery|clear)",
     r"(face|hands|fingers).{0,30}(swell|swollen|puff)|swell\w*.{0,30}(face|hands|fingers)|ring off",
     r"(sudden\w*|overnight|so fast).{0,30}(swell|swollen|puff)|(swell|swollen|puff)\w*.{0,20}(suddenly|overnight|so fast)",
-    r"vision|blurr\w*|flashing|flashes of light|seeing flash|zigzag|(black|dark|little) spots|spots (in|before|in front of)",
+    r"\bvision\b|blurr\w*|flashing|flashes of light|seeing flash|zigzag|seeing (black |dark |little )?spots|spots (in|before|in front of) (my )?(eyes?|vision)",  # 19 Nov: not "television", not skin spots
     r"(severe|horrible|worst|bad|terrible|awful|pounding|splitting).{0,20}headache|headache.{0,40}(severe|won'?t go|not going|worse|vision|blurr|flash|spots)",
     r"\bfever\b|high temp\w*|temp\w* (of |is |was )?(3[89]|4[01])|3[89](\.\d)? ?(c\b|°)|shiver\w*|\bchills\b",
     r"(baby|him|her|she|he).{0,30}(so quiet|quiet today|not mov|isn'?t mov|hasn'?t mov|stopped mov|moving less|less mov|not kick)",
@@ -269,6 +269,11 @@ _PREG_SIGN = _c(
 )
 _POSTNATAL_SIGN = _c(
     r"\bfever\b|temperat\w*|temprature|shiver\w*|\bchills\b",
+    # 19 Nov audit: pre-eclampsia can start after the birth (NICE NG133 1.1.1): vision changes, sudden swelling
+    r"\bvision\b|blurr\w*|flashing|flashes of light|seeing flash|seeing (black |dark |little )?spots|spots (in|before|in front of) (my )?(eyes?|vision)",
+    # her own face, hands or fingers; not the baby's face or breast engorgement
+    r"(?<!baby's )(?<!babys )(?<!baby )(?<!his )(?<!her )(face|hands|fingers).{0,30}(swell|swollen|puff)|swell\w*.{0,30}(face|hands|fingers)|^(?!.*\b(breasts?|boobs?|nipples?)\b).*\b(sudden\w*|overnight)\b(?:(?!baby).){0,30}(swell|swollen|puff)",
+    r"عيوني صايره|زغلله|تشوش|ومضات|نقط سودا|(ويهي|وجهي|يديني|ايديني|اصابعي).{0,20}(انتفخ|منتفخ|تورم)",
     r"wound.{0,40}(red|smell|pus|ooz|hot|open)|stitches.{0,30}(red|hot|smell|pus|open)|smells? bad",
     r"\bgush\w*|bleed\w*.{0,30}(again|more|heav|suddenly)|clots? .{0,25}(lemon|plum|golf|size|large|big)|(large|big|huge) clots?|fill(ed|ing)? .{0,20}pad",
     r"(horrible|severe|worst|terrible|bad).{0,20}headache|headache.{0,40}(worse|severe|bad|vision|light)",
@@ -285,6 +290,24 @@ _SUDDEN_PAIN = _c(
     r"worst pain",
     r"(فجاه|فجاة|فجأه|مفاجي).{0,40}(الم|عوار)",
     r"(الم|عوار).{0,40}(اغمي|افقد الوعي|ساغمي)",
+)
+
+
+# Krishna's G2 decision, 19 Nov (review C4, QUESTIONS #63): in a possible or early pregnancy (unconfirmed, a positive
+# test, the first trimester or under 20 weeks), severe pain goes to the emergency department, not the maternity unit:
+# the danger is an ectopic pregnancy (NICE NG126; the NHS sends sudden, intense pain then to A&E). Later pregnancy, an
+# unstated stage, and signs that are not pain keep the maternity-unit reply.
+_EARLY_PREG = _c(
+    r"\b(might|may|could|maybe|possibly|think i'?m|think i am|probably) (be )?pregnant\b|\bnot sure if i'?m pregnant\b",
+    r"positive (pregnancy )?test|\bearly pregnancy\b|\bfirst trimester\b",
+    r"\b([1-9]|1[0-9]) ?(weeks?|wks?|w) (pregnant|along)\b|\b(i'?m|i am|im) ([1-9]|1[0-9]) ?(weeks?|wks?)\b",
+    r"(يمكن|ممكن|احتمال|اظن|اعتقد|يمكن اني|ممكن اني|ممكن اكون|يمكن اكون) ?(اني |انني |اكون )?حامل",
+    r"(اختبار|تحليل|فحص) الحمل (ايجابي|طلع ايجابي|positive)|الحمل (طلع )?ايجابي",
+    r"حامل (في |ب|بال|ف)?(ال)?(اسبوع|الاسبوع) ?([1-9]|1[0-9])\b|حامل (في |ب|بال)?(ال)?شهر (الاول|الثاني|الثالث|الرابع)",
+    r"حامل ([1-9]|1[0-9]) (اسبوع|اسابيع)",
+)
+_SEVERE_PAIN = _c(
+    r"sharp pain|stabbing|severe pain|pain (low )?on (my )?(left|right)|(left|right) side.{0,30}pain|pain.{0,30}shoulder|shoulder.{0,20}pain",
 )
 
 
@@ -313,8 +336,12 @@ def urgent_kind(text: str) -> str | None:
         or _PREG_SIGN_59.search(t)
     )
     worse_pain = bool(_WORSE_PAIN.search(t))
+    severe_t = _NOT_SEVERE.sub(" ", t)  # "cramps are mild, not severe" does not count as severe pain
     if heavy_faint and not pregnant and not after_birth:
         return "bleed"
+    early_pain = _PREG_SIGN_59.search(severe_t) or _ECTOPIC_PAIN.search(severe_t) or _SEVERE_PAIN.search(severe_t)
+    if pregnant and not after_birth and _EARLY_PREG.search(t) and (early_pain or (faint and _ANY_PAIN.search(t))):
+        return "pain"  # possible or early pregnancy with severe pain: emergency department (possible ectopic, NG126)
     if now_preg and preg_sign:
         return "pregnancy"
     if after_birth and (
@@ -331,6 +358,10 @@ def urgent_kind(text: str) -> str | None:
         return "bleed"
     if _SUDDEN_PAIN.search(t) or _PAIN_BREATH.search(t) or _SUDDEN_AR2.search(t):
         return "pain"
+    if _LATE_PERIOD.search(t) and (
+        _PREG_SIGN_59.search(severe_t) or _ECTOPIC_PAIN.search(severe_t) or (faint and _ANY_PAIN.search(t))
+    ):
+        return "pain"  # issue #98: possible ectopic pregnancy (NG126); the emergency department, not a maternity unit
     if worse_pain and (faint or heavy or _CANT_COPE.search(t)):
         return "pain"
     return None
@@ -609,6 +640,33 @@ _PREG_SIGN_59 = _c(
     r"\b(unbearable|excruciating|agonis\w*|agoniz\w*) (period |tummy |belly |pelvic |lower )?(pain|cramps?)\b",
     r"\bsevere (period |tummy |belly |pelvic |lower (belly |tummy )?)?(pain|cramps?|cramping)\b",
     r"(الم|وجع|مغص|تقلصات|عوار) (\S+ ){0,2}?(شديد|شديده|قوي|قويه|لا يحتمل|ما ينطاق|ما يتحمل|فظيع)",
+    # 19 Nov audit (#98): "my pain is really bad" said the same, with an intensifier so a plain "bad" stays an answer
+    r"\b(pain|cramps?|cramping|ache)\b (is |are |feels? |has been |have been |getting |got )?(really|very|so|extremely) (bad|terrible|awful)\b",
+)
+# Issue #98 (19 Nov audit, QUESTIONS #59): a late or missed period with severe, sharp or one-sided pain can be an ectopic
+# pregnancy (NICE NG126), but "late period" is not a pregnancy cue, so these got an ordinary answer. Severe period pain
+# alone, a late period alone, and a late period with mild cramps stay ordinary answers.
+_LATE_PERIOD = _c(
+    r"\bperiods? (is |are |was |has been |seems? )?(\d+ (days?|weeks?) |a (few days|week|couple of \w+) |so |very )?(late|overdue)\b",
+    r"\b(late|overdue|missed) (my |a |the )?periods?\b|\bmissed (my |a )?period\b",
+    r"\bperiods? (hasn'?t|has not|didn'?t|did not|still hasn'?t) (come|came|started|arrived|shown up)\b",
+    r"\bno period (for|since|this month)\b",
+    r"(الدوره|دورتي|الحيض|العاده) (\S+ ){0,2}?(متاخره|متاخر|تاخرت|ما نزلت|ما جات|ما جت|لم تنزل|لم تات|ما اجت|مانزلت)",
+    r"(تاخرت|ما نزلت|ما جات|لم تنزل|ما جت|مانزلت) (علي |عليا )?(ال)?(دوره|دورتي|الحيض)",
+)
+_ECTOPIC_PAIN = _c(
+    r"\b(sharp|stabbing|shooting|severe|unbearable|excruciating|agonis\w*|agoniz\w*)\b.{0,30}\b(pain|cramps?|cramping|ache)\b",
+    r"\b(pain|cramps?|cramping|ache)\b.{0,30}\b(sharp|stabbing|severe|unbearable|excruciating|(really|very|so) bad)\b",
+    r"\b(pain|cramps?|ache)\b.{0,25}\b(one side|(on|in) (my |the )?(left|right)|(left|right) side|shoulder)\b",
+    r"\b(one side|(left|right) side)\b.{0,25}\b(pain|cramps?|ache|hurts?)\b",
+    r"(الم|وجع|مغص|عوار|تقلصات) (\S+ ){0,3}?(شديد|شديده|قوي|قويه|حاد|حاده|فظيع|ما ينطاق|لا يحتمل)",
+    r"(الم|وجع|مغص|عوار) (\S+ ){0,4}?(جهه واحده|جانب واحد|الجنب|اليمين|اليسار|يمين|يسار|كتفي|الكتف)",
+    r"shoulder[- ]tip|shoulder.{0,15}(pain|hurts?|ache)",  # shoulder-tip pain (NHS ectopic pregnancy page)
+    r"(طرف الكتف|كتفي).{0,15}(يعور|يوجع|الم|وجع)",
+)
+_ANY_PAIN = _c(r"\b(pain|cramps?|cramping|ache|hurts?)\b", r"الم|وجع|مغص|عوار|تقلصات")
+_NOT_SEVERE = re.compile(
+    r"\b(not|isn'?t|aren'?t|no|nothing|never)\b (\w+ ){0,2}(severe|sharp|stabbing|unbearable|bad)\b"
 )
 _NOT_WOMB = _c(
     r"\b(cut|cuts|knee|finger|toe|arm|lip|mouth|ear|wound|scratch\w*|graze\w*|scrape\w*)\b",

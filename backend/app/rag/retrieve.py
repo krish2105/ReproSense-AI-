@@ -147,6 +147,38 @@ class Passage:
     score: float
 
 
+@lru_cache(maxsize=2048)
+def _ranked(
+    ts: str, vec: str, source_ids: tuple[str, ...] | None, pool: int
+) -> tuple[tuple[dict, ...], tuple[dict, ...]]:
+    """The two ranked lists from Postgres. kb_chunks changes only when the index is rebuilt (seed / ingest, which call
+    clear_cache), so identical queries are answered from memory: every page view re-runs the insights pipeline, and
+    without this each card cost two queries and a pool connection. Rows are never mutated by callers."""
+    filt, args = "", []
+    if source_ids:
+        filt = " WHERE source_id = ANY(%s)"
+        args = [list(source_ids)]
+    with session(SYSTEM) as cur:
+        cur.execute(
+            f"SELECT id, source_id, title, url, lang, text, ts_rank(tsv, to_tsquery('simple', %s)) AS r"
+            f" FROM kb_chunks{filt} ORDER BY r DESC LIMIT %s",
+            [ts, *args, pool],
+        )
+        lex = tuple(cur.fetchall())
+        cur.execute(
+            f"SELECT id, source_id, title, url, lang, text, 1 - (embedding <=> %s::vector) AS r"
+            f" FROM kb_chunks{filt} ORDER BY embedding <=> %s::vector LIMIT %s",
+            [vec, *args, vec, pool],
+        )
+        sem = tuple(cur.fetchall())
+    return lex, sem
+
+
+def clear_cache() -> None:
+    """Call after the index is rebuilt."""
+    _ranked.cache_clear()
+
+
 def search(
     q: str, k: int = 4, lang: str | None = None, source_ids: list[str] | None = None, pool: int = 20
 ) -> list[Passage]:
@@ -155,23 +187,7 @@ def search(
     raw = sorted({w for w in WORD.findall(normalise(eq)) if len(w) > 2 and w not in _EN_STOP})
     ts = " | ".join(f"{w}:*" for w in {*raw, *terms}) or "x"
     vec = to_pg(embed(eq))
-    filt, args = "", []
-    if source_ids:
-        filt = " WHERE source_id = ANY(%s)"
-        args = [source_ids]
-    with session(SYSTEM) as cur:
-        cur.execute(
-            f"SELECT id, source_id, title, url, lang, text, ts_rank(tsv, to_tsquery('simple', %s)) AS r"
-            f" FROM kb_chunks{filt} ORDER BY r DESC LIMIT %s",
-            [ts, *args, pool],
-        )
-        lex = cur.fetchall()
-        cur.execute(
-            f"SELECT id, source_id, title, url, lang, text, 1 - (embedding <=> %s::vector) AS r"
-            f" FROM kb_chunks{filt} ORDER BY embedding <=> %s::vector LIMIT %s",
-            [vec, *args, vec, pool],
-        )
-        sem = cur.fetchall()
+    lex, sem = _ranked(ts, vec, tuple(source_ids) if source_ids else None, pool)
     fused: dict[int, dict] = {}
     for ranked in (lex, sem):
         for rank, row in enumerate(ranked):
