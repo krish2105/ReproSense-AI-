@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import math
 import secrets
+import threading
+import time
 from datetime import date, timedelta
 from typing import Literal
 
@@ -207,9 +210,28 @@ def whoami(actor: Actor = Depends(current_actor)):
     return {"role": actor.role, "user_id": actor.user_id, "clinic_id": actor.clinic_id}
 
 
+_reset_lock = threading.Lock()
+_last_reset = {"at": float("-inf")}
+
+
 @router.post("/reset")
 def reset(actor: Actor = Depends(require("admin"))):
+    """Rebuild the demo. The admin role is one click away on the public demo, so one reset runs at a time and at most
+    one per DEMO_RESET_COOLDOWN_S: back-to-back resets kept every table locked and wiped visitors' new records."""
     _demo_only()
     from app.db.seed import seed
 
-    return {"ok": True, **seed()}
+    if not _reset_lock.acquire(blocking=False):
+        raise HTTPException(409, "A reset is already running. The demo will be ready in a moment.")
+    try:
+        left = _last_reset["at"] + get_settings().demo_reset_cooldown_s - time.monotonic()
+        if left > 0:
+            wait = math.ceil(left)
+            raise HTTPException(
+                429, f"The demo was reset moments ago. Try again in {wait} s.", headers={"Retry-After": str(wait)}
+            )
+        out = seed()
+        _last_reset["at"] = time.monotonic()
+    finally:
+        _reset_lock.release()
+    return {"ok": True, **out}

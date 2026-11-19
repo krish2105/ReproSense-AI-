@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import datetime as _dt
 import json
 import re
 import secrets
@@ -536,14 +537,21 @@ def _read_photo(data: bytes, mime: str, actor: Actor) -> str:
 
 
 @router.post("/documents")
-async def upload_document(file: UploadFile = File(...), actor: Actor = Depends(patient)):
-    data = await file.read(10 * 1024 * 1024 + 1)
+def upload_document(file: UploadFile = File(...), actor: Actor = Depends(patient)):
+    # A plain `def`, so FastAPI runs it in the worker pool: PDF parsing, the photo model call, encryption and the
+    # database are all blocking, and inside an `async def` they froze every other request for the whole upload.
+    data = file.file.read(10 * 1024 * 1024 + 1)
     if len(data) > 10 * 1024 * 1024:
         raise HTTPException(413, "Files up to 10 MB, please.")
-    name = (file.filename or "upload").lower()
+    filename = (file.filename or "upload")[-200:]
+    name = filename.lower()
     source = "file"
     if name.endswith(".pdf") or data[:4] == b"%PDF":
-        text, mime = docs.pdf_text(data), "application/pdf"
+        try:
+            text = docs.pdf_text(data, get_settings().max_pdf_pages)
+        except docs.UnreadablePdf as e:  # damaged, locked or far too long: a clear 422, not a 500
+            raise HTTPException(422, str(e)) from e
+        mime = "application/pdf"
     elif name.endswith((".txt", ".text")):
         text, mime = data.decode("utf-8", errors="replace"), "text/plain"
     elif name.rsplit(".", 1)[-1] in PHOTO_TYPES:
@@ -561,7 +569,7 @@ async def upload_document(file: UploadFile = File(...), actor: Actor = Depends(p
         cur.execute(
             "INSERT INTO documents (profile_id, filename, mime, text_enc, status, extraction) VALUES (%s,%s,%s,%s,'extracted',%s)"
             " RETURNING id",
-            (actor.user_id, file.filename, mime, encrypt(text), json.dumps(ext)),
+            (actor.user_id, filename, mime, encrypt(text), json.dumps(ext)),
         )
         did = cur.fetchone()["id"]
         audit.record(cur, actor, "upload_document", actor.user_id, f"document:{did}")
@@ -584,23 +592,49 @@ def _confirmed_flag(value: str, lo, hi, printed: str) -> str:
     return docs._flag(cmp, n, lo, hi)
 
 
+class ConfirmRow(BaseModel):
+    """One lab value she checked. Typed, so a malformed date or range is a clear 422, never a database error."""
+
+    code: Literal["HGB", "FERR", "TSH", "PRL", "AMH", "TESTO", "HBA1C", "OGTT2H", "FPG"] | None = None
+    test: str | None = Field(None, max_length=120)
+    value: float | str | None = None
+    unit: str | None = Field(None, max_length=20)
+    ref_low: float | None = None
+    ref_high: float | None = None
+    flag: str | None = Field("", max_length=4)
+    date: _dt.date | None = None
+
+    @field_validator("value")
+    @classmethod
+    def short_value(cls, v):
+        if isinstance(v, str) and len(v) > 20:
+            raise ValueError("value is too long")
+        return v
+
+
 class ConfirmIn(BaseModel):
-    rows: list[dict]
+    rows: list[ConfirmRow] = Field(..., max_length=50)
 
 
 @router.post("/documents/{doc_id}/confirm")
 def confirm_document(doc_id: int, body: ConfirmIn, actor: Actor = Depends(patient)):
     saved = 0
     with session(actor) as cur:
-        cur.execute("SELECT id FROM documents WHERE id=%s", (doc_id,))
-        if not cur.fetchone():
+        # FOR UPDATE: a double tap (or a retried request) waits here, then sees 'confirmed' and stops, instead of
+        # saving every lab value twice (which doubled them in her record and on the doctor PDF).
+        cur.execute("SELECT id, status FROM documents WHERE id=%s FOR UPDATE", (doc_id,))
+        doc = cur.fetchone()
+        if not doc:
             raise HTTPException(404, "Document not found")
-        for r in body.rows:
+        if doc["status"] == "confirmed":
+            raise HTTPException(409, "These values are already saved in your record.")
+        for row in body.rows:
+            r = row.model_dump()
             if not r.get("code") or r.get("value") in (None, "") or not r.get("date"):
                 continue
             v = r["value"]
             num = float(v) if isinstance(v, (int, float)) or re.fullmatch(r"-?\d+(\.\d+)?", str(v)) else None
-            flag = _confirmed_flag(str(v), r.get("ref_low"), r.get("ref_high"), r.get("flag", ""))
+            flag = _confirmed_flag(str(v), r.get("ref_low"), r.get("ref_high"), r.get("flag") or "")
             cur.execute(
                 "INSERT INTO lab_results (profile_id, code, test, value, value_num, unit, ref_low, ref_high, flag, date,"
                 " source_doc_id, confirmed) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,true)",
@@ -735,6 +769,14 @@ def delete_my_data(actor: Actor = Depends(patient)):
             "cycles",
         ):
             cur.execute(f"DELETE FROM {t} WHERE profile_id=%s", (actor.user_id,))  # noqa: S608 (fixed table list)
+        # Deleting her entries also ends sharing: the clinic kept listing her (with an empty record) while the
+        # care_share consent stayed active. Her AI choice is a setting, not data, so it stays as she set it.
+        cur.execute(
+            "UPDATE consents SET granted=false, revoked_at=now() WHERE profile_id=%s AND purpose IN ('care_share','research')"
+            " AND revoked_at IS NULL",
+            (actor.user_id,),
+        )
+        cur.execute("DELETE FROM clinic_reviews WHERE profile_id=%s", (actor.user_id,))
         audit.record(cur, actor, "delete_data", actor.user_id, "all")
     return {"ok": True, "message": "Your entries were deleted. In the demo, 'Reset demo data' on /demo restores them."}
 

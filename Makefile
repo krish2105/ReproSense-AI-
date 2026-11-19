@@ -19,8 +19,8 @@ data:           ## regenerate synthetic data (byte-identical for the same seed)
 seed:           ## schema + RLS + synthetic data + RAG index
 	cd backend && $(LIBS) uv run python -m app.db.seed
 
-api:            ## run the API on :8010 (8000 is used by another local project)
-	cd backend && $(LIBS) uv run uvicorn app.main:app --port $(API_PORT) --reload
+api:            ## run the API on :8010 (8000 is used by another local project); no reset cooldown locally (e2e resets often)
+	cd backend && $(LIBS) DEMO_RESET_COOLDOWN_S=0 uv run uvicorn app.main:app --port $(API_PORT) --reload
 
 test:           ## backend lint + tests (uses the reprosense_test database)
 	cd backend && $(LIBS) uv run ruff check app tests && $(LIBS) uv run pytest -q

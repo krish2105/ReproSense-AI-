@@ -48,7 +48,7 @@ services:
       - key: OPENROUTER_API_KEY # the hackathon credits (programs.upstartbar.com); Krishna sets it in the dashboard
         sync: false
       - key: OPENROUTER_MODEL # one of the models the credits allow
-        value: anthropic/claude-sonnet-4.5
+        value: anthropic/claude-sonnet-5.5-20260928
       # Her own sign-in (K5). Passkeys need nothing more: the relying party is the host of ALLOWED_ORIGINS. The email
       # code backup stays hidden until Krishna sets RESEND_API_KEY and a sender on a domain verified in Resend.
       - key: RESEND_API_KEY
