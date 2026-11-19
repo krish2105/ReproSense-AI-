@@ -110,10 +110,10 @@ test("an overdue follow-up is flagged, sorted after urgent records and counted o
 });
 
 test("the event timeline: the network sees every clinic, filters and pages; a clinic admin sees only hers", async ({ page }) => {
+  // Enough clinician activity for a second page: she opens three shared records and lists her patients 20 times
   await signIn(page, { role: "clinician" });
-  for (const pid of ["fatima", "noura", "sara", "priya", "hessa", "layla", "mariam"]) {
-    for (let i = 0; i < 3; i += 1) expect((await page.request.get(`/api/v1/clinic/patients/${pid}`)).ok()).toBeTruthy();
-  }
+  for (const pid of ["fatima", "noura", "sara"]) expect((await page.request.get(`/api/v1/clinic/patients/${pid}`)).ok()).toBeTruthy();
+  for (let i = 0; i < 20; i += 1) expect((await page.request.get("/api/v1/clinic/patients")).ok()).toBeTruthy();
 
   await signIn(page, { role: "admin" });
   await page.goto("/admin");
@@ -138,7 +138,7 @@ test("the event timeline: the network sees every clinic, filters and pages; a cl
   await tl.getByLabel(loop.filterRole, { exact: true }).selectOption("clinician");
   await tl.getByLabel(loop.filterAction, { exact: true }).selectOption("view_record");
   await tl.getByRole("button", { name: loop.apply }).click();
-  await expect(tl.getByText(/^Page 1 of 2 · 21 events$/)).toBeVisible();
+  await expect(tl.getByText(/^Page 1 of 1 · 3 events$/)).toBeVisible();
   const roles = await table.locator("tbody tr td:nth-child(2)").allTextContents();
   expect(new Set(roles)).toEqual(new Set([loop.roles.clinician]));
   await tl.getByRole("button", { name: loop.clear }).click();
