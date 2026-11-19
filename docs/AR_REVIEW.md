@@ -1142,3 +1142,68 @@ RF4. The Arabic crisis reply and RF4 text in `backend/app/agents/assistant.py` a
 | `safety.callSakina` | Call 800-SAKINA | اتصلي بـ 800-SAKINA | |
 | `safety.sakinaNote` | 800-SAKINA (800 725462) is the Department of Health's 24/7 support line, in Arabic or English. | ‎800-SAKINA‎ ‏(800 725462) هو خط الدعم التابع لدائرة الصحة، يعمل على مدار الساعة بالعربية أو الإنجليزية. | |
 | `safety.crisisBody` | If you might act on these thoughts, call 998 now. To talk to someone today, day or night, call 800-SAKINA, or speak to your doctor. You are not alone. | إذا كنتِ قد تتصرفين بناءً على هذه الأفكار، اتصلي بالرقم 998 الآن. وللتحدث مع مختص اليوم، في أي وقت ليلاً أو نهاراً، اتصلي بـ 800-SAKINA، أو تحدثي مع طبيبتكِ. لستِ وحدكِ. | |
+
+## Baby's first year (build week D1, 19 Nov, draft Arabic, for Dareen's native review)
+**For Dareen (native review, D5):** every Arabic string below is a draft written with Claude Code and not yet read by a
+native speaker. Feminine address on her card (`baby.*`); the baby is "طفلكِ" / "طفلي" (no name, masculine generic);
+status words are in the neutral/masculine form because the steps mix masculine (فحص) and feminine (زيارة، تطعيمات)
+nouns. `baby.clinic.*` is in clinician voice. The step labels and vaccine names come from the API
+(`backend/app/services/baby.py`, `LABELS` and `VACCINE_NAMES`), so a fix there changes the card and the phone app
+together. The five knowledge-base summaries (`knowledge_base/summaries/doh_immunization_schedule_2026.md`,
+`doh_rsv_antibody_2026.md`, `doh_newborn_screening_2025.md`, `doh_well_child_visits_2025.md`,
+`doh_immunization_recall_2022.md`) also have Arabic sections. Terms to check: زيارة الطفل السليم (well-baby visit),
+اللقاح السداسي (hexavalent), فحص وخز الكعب (heel prick), جهاز قياس الأكسجين (pulse oximeter), الجسم المضاد طويل المفعول
+للفيروس التنفسي المخلوي (long-acting RSV antibody), and «تمّ ذلك لطفلي» for "My baby had this".
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `baby.eyebrowDays` | {days, plural, =0 {Your baby, born today} one {Your baby, # day old} other {Your baby, # days old}} | {days, plural, =0 {طفلكِ وُلد اليوم} one {طفلكِ بعمر يوم واحد} two {طفلكِ بعمر يومين} few {طفلكِ بعمر # أيام} many {طفلكِ بعمر # يوماً} other {طفلكِ بعمر # يوم}} | |
+| `baby.eyebrow` | {weeks, plural, one {Your baby, # week old} other {Your baby, # weeks old}} | {weeks, plural, one {طفلكِ بعمر أسبوع واحد} two {طفلكِ بعمر أسبوعين} few {طفلكِ بعمر # أسابيع} many {طفلكِ بعمر # أسبوعاً} other {طفلكِ بعمر # أسبوع}} | |
+| `baby.eyebrowMonths` | {months, plural, one {Your baby, # month old} other {Your baby, # months old}} | {months, plural, one {طفلكِ بعمر شهر} two {طفلكِ بعمر شهرين} few {طفلكِ بعمر # أشهر} many {طفلكِ بعمر # شهراً} other {طفلكِ بعمر # شهر}} | |
+| `baby.title` | Baby's first year | السنة الأولى لطفلكِ | |
+| `baby.progress` | {done} of {total} done | تم {done} من {total} | |
+| `baby.intro` | Abu Dhabi's newborn screening, vaccinations and well-baby visits for the first 12 months. The hospital and your baby's clinic give them; tap “My baby had this” when one is done. | فحوص المواليد والتطعيمات وزيارات الطفل السليم في أبوظبي خلال أول 12 شهراً. يقدّمها المستشفى وعيادة طفلكِ؛ اضغطي «تمّ ذلك لطفلي» عند إتمام أي منها. | |
+| `baby.nextTitle` | Next for your baby | التالي لطفلكِ | |
+| `baby.restTitle` | The rest of the first year | بقية السنة الأولى | |
+| `baby.age` | {months, plural, =0 {At birth} one {At # month} other {At # months}} | {months, plural, =0 {عند الولادة} one {بعمر شهر} two {بعمر شهرين} few {بعمر # أشهر} many {بعمر # شهراً} other {بعمر # شهر}} | |
+| `baby.window` | {from} to {to} | من {from} إلى {to} | |
+| `baby.doneOn` | Done {date} | تمّ في {date} | |
+| `baby.vaccines` | Vaccines | اللقاحات | |
+| `baby.status.done` | Done | تمّ | |
+| `baby.status.due` | Due now | مستحق الآن | |
+| `baby.status.upcoming` | Coming up | قادم | |
+| `baby.status.not_recorded` | Not recorded | غير مسجّل | |
+| `baby.record` | My baby had this | تمّ ذلك لطفلي | |
+| `baby.recordFor` | My baby had this: {step} | تمّ ذلك لطفلي: {step} | |
+| `baby.recordTitle` | When did your baby have this? | متى تمّ ذلك لطفلكِ؟ | |
+| `baby.dateLabel` | Date it was done | تاريخ الإجراء | |
+| `baby.save` | Save | حفظ | |
+| `baby.cancel` | Cancel | إلغاء | |
+| `baby.saved` | Saved. Your baby's schedule was updated. | تم الحفظ. حُدّث جدول طفلكِ. | |
+| `baby.saveFailed` | It wasn't saved: {detail} | لم يتم الحفظ: {detail} | |
+| `baby.windowNote` | A vaccination or visit shows as due for 4 weeks from the age in the schedule. The screenings are done in hospital before you go home. | يظهر التطعيم أو الزيارة مستحقاً لمدة 4 أسابيع من العمر المحدد في الجدول. وتُجرى الفحوص في المستشفى قبل خروجكِ. | |
+| `baby.note` | These are the dates in Abu Dhabi's schedules, not advice about your baby's health. Ask your baby's doctor about anything else; in an emergency call 998. | هذه هي المواعيد في جداول أبوظبي، وليست نصيحة عن صحة طفلكِ. اسألي طبيب طفلكِ عن أي شيء آخر، وفي الحالات الطارئة اتصلي بالرقم 998. | |
+| `baby.clinic.title` | Baby's first year (DoH schedules) | السنة الأولى للطفل (جداول دائرة الصحة) | |
+| `baby.clinic.intro` | {done} of {total} steps recorded; the baby is {weeks, plural, one {# week} other {# weeks}} old. Status comes from her entries: “not recorded” means nothing was logged, not that it did not happen. | سُجّلت {done} من {total} خطوات؛ عمر الطفل {weeks, plural, one {أسبوع واحد} two {أسبوعان} few {# أسابيع} many {# أسبوعاً} other {# أسبوع}}. الحالة مأخوذة من إدخالاتها: «غير مسجّل» تعني أنه لم يُسجَّل شيء، لا أنه لم يحدث. | |
+| `privacy.actions.baby_check` | recorded a step of your baby's schedule | سجّل خطوة في جدول طفلكِ | |
+| `baby.py LABELS.newborn_exam` | Newborn examination by a paediatrician, in the first 24 hours | فحص المولود الشامل لدى طبيب الأطفال، خلال أول 24 ساعة | |
+| `baby.py LABELS.hearing_screen` | Hearing screening, in the first 48 hours | فحص السمع، خلال أول 48 ساعة | |
+| `baby.py LABELS.heart_screen` | Heart screening with a pulse oximeter, 24–36 hours after birth | فحص القلب بجهاز قياس الأكسجين، بعد 24 إلى 36 ساعة من الولادة | |
+| `baby.py LABELS.heel_prick` | Heel prick blood spot test, 24–48 hours after birth | فحص وخز الكعب (بقعة الدم)، بعد 24 إلى 48 ساعة من الولادة | |
+| `baby.py LABELS.vaccines_birth` | Vaccinations at birth | تطعيمات الولادة | |
+| `baby.py LABELS.rsv_antibody` | RSV antibody at birth, for babies born 1 September to 1 March | الجسم المضاد للفيروس التنفسي المخلوي عند الولادة، للمولودين من 1 سبتمبر إلى 1 مارس | |
+| `baby.py LABELS.check_1m` | Well-baby visit at 1 month | زيارة الطفل السليم بعمر شهر | |
+| `baby.py LABELS.check_2m` | Well-baby visit at 2 months | زيارة الطفل السليم بعمر شهرين | |
+| `baby.py LABELS.vaccines_2m` | Vaccinations at 2 months | تطعيمات عمر شهرين | |
+| `baby.py LABELS.check_4m` | Well-baby visit at 4 months | زيارة الطفل السليم بعمر 4 أشهر | |
+| `baby.py LABELS.vaccines_4m` | Vaccinations at 4 months | تطعيمات عمر 4 أشهر | |
+| `baby.py LABELS.check_6m` | Well-baby visit at 6 months | زيارة الطفل السليم بعمر 6 أشهر | |
+| `baby.py LABELS.vaccines_6m` | Vaccinations at 6 months | تطعيمات عمر 6 أشهر | |
+| `baby.py LABELS.check_9m` | Well-baby visit at 9 months | زيارة الطفل السليم بعمر 9 أشهر | |
+| `baby.py VACCINE_NAMES.BCG` | BCG, against tuberculosis | لقاح السل (BCG) | |
+| `baby.py VACCINE_NAMES.HepB` | Hepatitis B (HepB) | التهاب الكبد ب (HepB) | |
+| `baby.py VACCINE_NAMES.RSV mAb` | Long-acting RSV antibody | جسم مضاد طويل المفعول للفيروس التنفسي المخلوي (RSV) | |
+| `baby.py VACCINE_NAMES.Hexavalent` | 6-in-1 (hexavalent): diphtheria, tetanus, whooping cough, Hib, hepatitis B, polio | اللقاح السداسي: الدفتيريا والكزاز والسعال الديكي والمستدمية النزلية ب والتهاب الكبد ب وشلل الأطفال | |
+| `baby.py VACCINE_NAMES.PCV20` | Pneumococcal (PCV20) | المكورات الرئوية (PCV20) | |
+| `baby.py VACCINE_NAMES.RV1` | Rotavirus drops (RV1) | قطرات فيروس الروتا (RV1) | |
+| `baby.py VACCINE_NAMES.bOPV` | Polio drops (bOPV) | قطرات شلل الأطفال (bOPV) | |
