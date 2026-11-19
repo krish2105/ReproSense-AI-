@@ -1132,3 +1132,13 @@ Two voices: `family.manage.*` is her Privacy screen (feminine address); `family.
 | `family.patterns.OBS_HEAVY_WITH_FATIGUE` | heavy periods with tiredness | دورات غزيرة مع تعب | |
 | `family.patterns.OBS_PERIMENOPAUSE_SYMPTOMS` | perimenopause symptoms | أعراض ما قبل انقطاع الطمث | |
 | `family.patterns.OBS_RAISED_BLOOD_PRESSURE` | a raised blood pressure reading | قراءة ضغط دم مرتفعة | |
+
+## DoH support line in the crisis paths (19 Nov, draft Arabic, not yet reviewed)
+800-SAKINA (800 725462), DoH's 24/7 mental-health line, follows 998 on the crisis card, the chat's crisis answer and
+RF4. The Arabic crisis reply and RF4 text in `backend/app/agents/assistant.py` and `rules/translations_ar.yaml` also changed.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `safety.callSakina` | Call 800-SAKINA | اتصلي بـ 800-SAKINA | |
+| `safety.sakinaNote` | 800-SAKINA (800 725462) is the Department of Health's 24/7 support line, in Arabic or English. | ‎800-SAKINA‎ ‏(800 725462) هو خط الدعم التابع لدائرة الصحة، يعمل على مدار الساعة بالعربية أو الإنجليزية. | |
+| `safety.crisisBody` | If you might act on these thoughts, call 998 now. To talk to someone today, day or night, call 800-SAKINA, or speak to your doctor. You are not alone. | إذا كنتِ قد تتصرفين بناءً على هذه الأفكار، اتصلي بالرقم 998 الآن. وللتحدث مع مختص اليوم، في أي وقت ليلاً أو نهاراً، اتصلي بـ 800-SAKINA، أو تحدثي مع طبيبتكِ. لستِ وحدكِ. | |

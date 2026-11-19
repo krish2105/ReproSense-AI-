@@ -25,9 +25,9 @@ red_flags:   # evaluated FIRST by the safety guardian; any hit shows an urgent c
   - id: RF4_SELF_HARM_THOUGHTS
     when: "epds_item10 > 0"
     urgency: urgent
-    message_en: "You told us you have had thoughts of harming yourself. You deserve support right now. Please call 998 or speak to your doctor today. You are not alone."
+    message_en: "You told us you have had thoughts of harming yourself. You deserve support right now. If you might act on these thoughts, call 998 now. To talk to someone today, day or night, call the Department of Health's support line 800-SAKINA (800 725462), or speak to your doctor. You are not alone."
     crisis_path: true   # app shows support contacts and a one-tap call; never a score or a pattern card
-    source_ids: [nice_cg192, epds_cox_1987]
+    source_ids: [nice_cg192, epds_cox_1987, doh_800_sakina]   # 800-SAKINA added 19 Nov (G2 Krishna)
   # 19 Nov audit (QUESTIONS #49 R4), G2 pending Krishna, awaiting clinician sign-off. NICE NG133 1.1.1 tells pregnant
   # women to see a healthcare professional immediately for a severe headache, problems with vision or sudden swelling of
   # the face, hands or feet, EACH on its own. The NHS pre-eclampsia page (nhs_pre_eclampsia) says it can start in the days

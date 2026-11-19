@@ -37,6 +37,8 @@ test.describe("the crisis path", () => {
       const support = page.getByRole("region", { name: m.safety.crisisTitle });
       await expect(support).toBeVisible();
       await expect(support.getByRole("link", { name: m.safety.call })).toHaveAttribute("href", "tel:998");
+      // DoH's 24/7 mental-health line, Arabic and English (G2, 19 Nov): a second one-tap call, after 998
+      await expect(support.getByRole("link", { name: m.safety.callSakina })).toHaveAttribute("href", "tel:800725462");
       await expect(page.getByText(/(of|من) 30|EPDS total/)).toHaveCount(0); // no total, no score anywhere
 
       await page.getByRole("link", { name: m.checkin.back }).click();
