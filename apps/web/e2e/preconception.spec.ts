@@ -28,6 +28,10 @@ test.describe("planning a pregnancy", () => {
     const box = card.getByRole("checkbox", { name: en.preconception.items.folic_acid.title });
     await box.check();
     await expect(card.getByText("1 of 5 ticked")).toBeVisible();
+    // The tick shows at once; wait for the save to land (box enabled again, the toast) before reloading, or the reload
+    // can cancel the request (seen on the mobile project).
+    await expect(box).toBeEnabled();
+    await expect(page.getByText(en.preconception.saved).first()).toBeVisible();
     await page.reload();
     await expect(page.getByTestId("preconception-card").getByRole("checkbox", { name: en.preconception.items.folic_acid.title })).toBeChecked();
     await page.getByTestId("preconception-card").getByRole("checkbox", { name: en.preconception.items.folic_acid.title }).uncheck();
