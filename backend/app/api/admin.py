@@ -9,7 +9,7 @@ from fastapi import APIRouter, Depends, Response
 
 from app.db import Actor, session
 from app.security import audit
-from app.security.auth import require
+from app.security.auth import fresh_step_up, require
 
 router = APIRouter(prefix="/v1/admin", tags=["admin"])
 admin = require("admin")
@@ -159,9 +159,10 @@ AUDIT_COLUMNS = ("id", "at", "actor_role", "actor_id", "action", "subject_id", "
 
 
 @router.get("/audit/export.csv")
-def export_audit(actor: Actor = Depends(admin)):
+def export_audit(actor: Actor = Depends(admin), _fresh: None = Depends(fresh_step_up)):
     """The hash-chained audit log as CSV for a compliance review (SaaS scorecard; DoH privacy standard: access logs).
-    Who did what to which pseudonymous record, and when; the free-text detail column is left out. The export is logged."""
+    Who did what to which pseudonymous record, and when; the free-text detail column is left out. The export is logged.
+    Needs a fresh passkey check (step-up), or the one-tap confirm in a demo session."""
     with session(actor) as cur:
         audit.record(cur, actor, "export_audit_log", None, "admin")
         cur.execute(f"SELECT {', '.join(AUDIT_COLUMNS)} FROM audit_log ORDER BY id")  # noqa: S608 (fixed column list)

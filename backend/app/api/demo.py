@@ -6,13 +6,13 @@ import secrets
 from datetime import date, timedelta
 from typing import Literal
 
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from pydantic import BaseModel, Field
 
 from app.config import get_settings
 from app.db import SYSTEM, Actor, session
 from app.security import audit
-from app.security.auth import COOKIE, current_actor, require
+from app.security.auth import current_actor, device_label, require
 from app.security.auth import set_session as _set_session
 from app.services.patient_data import apply_period_log
 
@@ -63,7 +63,7 @@ DEMO_STAFF = {"clinician": "clin-01", "admin": "admin-01", "clinic_admin": "cadm
 
 
 @router.post("/login")
-def login(body: LoginIn, response: Response):
+def login(body: LoginIn, request: Request, response: Response):
     _demo_only()
     with session(SYSTEM) as cur:
         if body.role == "patient":
@@ -78,9 +78,12 @@ def login(body: LoginIn, response: Response):
                 "SELECT id, clinic_id FROM profiles WHERE id=%s AND role=%s", (DEMO_STAFF[body.role], body.role)
             )
         row = cur.fetchone()
+        if row and body.role != "patient":  # every staff sign-in is audited, a one-tap demo one too
+            audit.record(cur, Actor(body.role, row["id"], row["clinic_id"] or ""), "sign_in", None, "demo_one_tap")
     if not row:
         raise HTTPException(404, "Unknown demo person")
-    token = _set_session(response, row["id"], body.role, row["clinic_id"] or "")
+    device = device_label(request.headers.get("user-agent"))
+    token = _set_session(response, row["id"], body.role, row["clinic_id"] or "", how="demo", device=device)
     return {"role": body.role, "user_id": row["id"], "token": token}
 
 
@@ -114,7 +117,7 @@ class SignupIn(BaseModel):
 
 
 @router.post("/signup")
-def signup(body: SignupIn, response: Response):
+def signup(body: SignupIn, request: Request, response: Response):
     """Create a new fictional record, sign in as her, and (only if she ticks it) share it with the inviting clinic."""
     _demo_only()
     ref = get_settings().demo_ref_date
@@ -191,15 +194,18 @@ def signup(body: SignupIn, response: Response):
     from app.agents.pipeline import refresh
 
     refresh(pid, body.lang)
-    token = _set_session(response, pid, "patient", body.clinic_id or "")
+    device = device_label(request.headers.get("user-agent"))
+    token = _set_session(response, pid, "patient", body.clinic_id or "", how="signup", device=device)
     # The token in the body, as /login returns it, lets the phone app keep the session in its Keychain or Keystore.
     return {"role": "patient", "user_id": pid, "token": token}
 
 
 @router.post("/logout")
-def logout(response: Response):
-    response.delete_cookie(COOKIE, path="/")
-    return {"ok": True}
+def logout(request: Request, response: Response):
+    """The older path of POST /v1/sessions/sign-out: revokes the token as well as clearing the cookie."""
+    from app.api.sessions import sign_out
+
+    return sign_out(request, response)
 
 
 @router.get("/whoami")

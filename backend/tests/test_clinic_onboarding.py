@@ -40,6 +40,12 @@ def invite(client, h, **body) -> dict:
     return r.json()
 
 
+def confirm_export(client, h) -> dict:
+    """Exports need a fresh step-up; these are one-tap demo sessions, which confirm in one tap (test_staff_signin)."""
+    assert client.post("/v1/staff-auth/step-up/demo", headers=h).status_code == 200
+    return h
+
+
 def accept(client, token, name="Reem"):
     return client.post(f"/v1/clinic-invites/{token}/accept", json={"display_name": name})
 
@@ -212,7 +218,7 @@ def test_second_clinic_admin_cannot_see_or_export_the_first_clinics_data(client)
     assert not {c["id"] for c in team["clinicians"]} & {"clin-01", joined["user_id"]}
     dash = client.get("/v1/clinic-admin/dashboard", headers=hn).json()
     assert dash["clinic"]["id"] == NORTH
-    body = client.get("/v1/clinic-admin/export.csv", headers=hn).text
+    body = client.get("/v1/clinic-admin/export.csv", headers=confirm_export(client, hn)).text
     assert CORNICHE not in body and NORTH in body
 
     # Postgres itself, not just the API: as the north admin, nothing of clinic_corniche is visible
@@ -324,7 +330,7 @@ def test_closing_a_follow_up_moves_the_clinic_dashboard(client, reseed):
 
 def test_export_has_no_names_or_ids_and_hides_small_groups(client):
     h = login(client, role="clinic_admin")
-    r = client.get("/v1/clinic-admin/export.csv", headers=h)
+    r = client.get("/v1/clinic-admin/export.csv", headers=confirm_export(client, h))
     assert r.status_code == 200 and r.headers["content-type"].startswith("text/csv")
     assert "attachment" in r.headers["content-disposition"]
     rows = list(csv.DictReader(io.StringIO(r.text)))
@@ -375,7 +381,7 @@ def test_every_clinic_admin_action_is_audited(client):
     client.delete(f"/v1/clinic-admin/invites/{gone['id']}", headers=h)
     client.get("/v1/clinic-admin/team", headers=h)
     client.get("/v1/clinic-admin/dashboard", headers=h)
-    client.get("/v1/clinic-admin/export.csv", headers=h)
+    client.get("/v1/clinic-admin/export.csv", headers=confirm_export(client, h))
     with session(SYSTEM) as cur:
         cur.execute(
             "SELECT actor_id, actor_role, action, target FROM audit_log WHERE action LIKE '%%clinic%%' ORDER BY id"

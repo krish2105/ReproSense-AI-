@@ -21,7 +21,13 @@ class Settings(BaseSettings):
     allowed_origins: str = "http://localhost:3000"
     demo_token_secret: str = ""  # HMAC key for demo role tokens; random per process if unset
     notes_key: str = ""  # base64 32-byte AES-GCM key for field-level encryption
-    token_ttl_minutes: int = 720
+    token_ttl_minutes: int = 720  # her session (and a demo person's): 12 hours, no idle rule
+    # Staff and DoH sessions (clinician, clinic_admin, admin; the team's plan section 5): end after this many minutes
+    # without a request, and after the maximum however busy. A one-tap demo staff session follows the same rules.
+    staff_idle_minutes: int = 30
+    staff_session_max_minutes: int = 480
+    step_up_minutes: int = 5  # an export needs a passkey check (or, in a demo session, a one-tap confirm) this recent
+    setup_link_hours: int = 24  # a DoH admin's single-use setup link from the operator's CLI
     llm_provider: str = "auto"  # auto | claude | openrouter | none (auto: claude, else openrouter, if a key is set)
     anthropic_api_key: str = ""
     llm_model: str = "claude-opus-5-5"

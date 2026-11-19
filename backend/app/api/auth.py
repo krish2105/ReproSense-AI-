@@ -23,7 +23,7 @@ from webauthn import (
     verify_authentication_response,
     verify_registration_response,
 )
-from webauthn.helpers import base64url_to_bytes, bytes_to_base64url, parse_client_data_json
+from webauthn.helpers import base64url_to_bytes, bytes_to_base64url
 from webauthn.helpers.structs import (
     AuthenticatorSelectionCriteria,
     PublicKeyCredentialDescriptor,
@@ -34,23 +34,24 @@ from webauthn.helpers.structs import (
 from app.config import get_settings
 from app.db import SYSTEM, Actor, session
 from app.security import audit
-from app.security.auth import current_actor, set_session
+from app.security.auth import current_actor, device_label, set_session
 from app.security.crypto import keyed_hash
 from app.security.email import SendFailed, get_sender
+from app.security.passkeys import CHALLENGE_TTL, TRANSPORTS
+from app.security.passkeys import consume_challenge as _consume_challenge
+from app.security.passkeys import store_challenge as _store_challenge
 
 router = APIRouter(prefix="/v1/auth", tags=["sign-in"])
 
-CHALLENGE_TTL = timedelta(minutes=5)
 CODE_TTL = timedelta(minutes=10)
 CODE_TRIES = 5
 CODES_PER_ADDRESS = 3  # per address and purpose, in any 10 minutes
 CODES_PER_HOUR = 60  # all addresses together: keeps the email provider's free quota for the demo
-TRANSPORTS = {"usb", "nfc", "ble", "internal", "hybrid", "smart-card", "cable"}
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
 NOT_OWN = "Sign-in methods are for a record you started yourself on /join. Demo people open with one tap on /demo."
 NO_EMAIL = "Sign-in by email code is not set up on this server. Use a passkey, or open a demo person on /demo."
-STALE = "This sign-in request has expired or was already used. Try again."
+STAFF_PASSKEY = "This passkey belongs to a staff account. Clinicians and clinic admins sign in at /staff/signin."
 WRONG_CODE = "That code is not right, or it has expired. Check it, or ask for a new code."
 SENT = "If this address is linked to a record, a 6-digit code is on its way. It works for 10 minutes."
 
@@ -66,14 +67,14 @@ def her_own(actor: Actor = Depends(current_actor)) -> Actor:
     return actor
 
 
-def _signed_in(response: Response, pid: str, method: str) -> dict:
+def _signed_in(response: Response, pid: str, method: str, request: Request) -> dict:
     with session(SYSTEM) as cur:
         cur.execute("SELECT clinic_id FROM profiles WHERE id=%s AND role='patient'", (pid,))
         row = cur.fetchone()
         if not row:
             raise HTTPException(400, "This record no longer exists.")
         audit.record(cur, Actor("patient", pid), "sign_in", pid, method)
-    set_session(response, pid, "patient", row["clinic_id"] or "")
+    set_session(response, pid, "patient", row["clinic_id"] or "", how=method, device=_device(request))
     return {"role": "patient", "user_id": pid}
 
 
@@ -110,51 +111,8 @@ def my_methods(actor: Actor = Depends(current_actor)):
 
 
 # ---------- passkeys ----------
-def _store_challenge(purpose: str, pid: str | None) -> bytes:
-    challenge = secrets.token_bytes(32)
-    with session(SYSTEM) as cur:
-        cur.execute("DELETE FROM auth_challenges WHERE expires_at < now() - interval '1 day'")
-        cur.execute(
-            "INSERT INTO auth_challenges (challenge, purpose, profile_id, expires_at) VALUES (%s,%s,%s, now() + %s)",
-            (bytes_to_base64url(challenge), purpose, pid, CHALLENGE_TTL),
-        )
-    return challenge
-
-
-def _consume_challenge(credential: dict, purpose: str, pid: str | None) -> bytes:
-    """The challenge the browser signed, if we issued it, it is unexpired and unused. It is used up here, in its own
-    transaction, before the answer is checked: a second try with the same answer always fails."""
-    try:
-        client_data = parse_client_data_json(base64url_to_bytes(credential["response"]["clientDataJSON"]))
-        challenge = client_data.challenge
-    except Exception:
-        raise HTTPException(400, "That passkey answer could not be read. Try again.") from None
-    with session(SYSTEM) as cur:
-        cur.execute(
-            "UPDATE auth_challenges SET used_at = now() WHERE challenge=%s AND purpose=%s AND used_at IS NULL"
-            " AND expires_at > now() AND profile_id IS NOT DISTINCT FROM %s RETURNING challenge",
-            (bytes_to_base64url(challenge), purpose, pid),
-        )
-        ok = cur.fetchone() is not None
-    if not ok:
-        raise HTTPException(400, STALE)
-    return challenge
-
-
 def _device(request: Request) -> str | None:
-    ua = request.headers.get("user-agent", "")
-    for key, name in (
-        ("iPhone", "iPhone"),
-        ("iPad", "iPad"),
-        ("Android", "Android"),
-        ("CrOS", "Chromebook"),
-        ("Macintosh", "Mac"),
-        ("Windows", "Windows"),
-        ("Linux", "Linux"),
-    ):
-        if key in ua:
-            return name
-    return None
+    return device_label(request.headers.get("user-agent"))
 
 
 class CredentialIn(BaseModel):
@@ -235,15 +193,30 @@ def login_options():
 
 
 @router.post("/passkey/login/verify")
-def login_verify(body: CredentialIn, response: Response):
+def login_verify(body: CredentialIn, request: Request, response: Response):
     s = get_settings()
     challenge = _consume_challenge(body.credential, "login", None)
     cred_id = str(body.credential.get("rawId") or body.credential.get("id") or "")
     with session(SYSTEM) as cur:
-        cur.execute("SELECT id, profile_id, public_key, sign_count FROM passkeys WHERE credential_id=%s", (cred_id,))
+        cur.execute(
+            "SELECT k.id, k.profile_id, k.public_key, k.sign_count, p.role FROM passkeys k"
+            " JOIN profiles p ON p.id = k.profile_id WHERE k.credential_id=%s",
+            (cred_id,),
+        )
         pk = cur.fetchone()
     if not pk:
         raise HTTPException(400, "This passkey is not linked to a record here. It may have been removed.")
+    if pk["role"] != "patient":  # a staff or DoH passkey: their own doors, never her record
+        with session(SYSTEM) as cur:
+            audit.record(
+                cur,
+                Actor(pk["role"], pk["profile_id"]),
+                "sign_in_failed",
+                None,
+                "her_door",
+                {"reason": "staff_passkey"},
+            )
+        raise HTTPException(400, STAFF_PASSKEY)
     try:
         handle = body.credential.get("response", {}).get("userHandle")
         if handle and base64url_to_bytes(handle) != pk["profile_id"].encode():
@@ -262,7 +235,7 @@ def login_verify(body: CredentialIn, response: Response):
         raise HTTPException(400, "This passkey could not be checked. Try again.") from None
     with session(SYSTEM) as cur:
         cur.execute("UPDATE passkeys SET sign_count=%s, last_used_at=now() WHERE id=%s", (v.new_sign_count, pk["id"]))
-    return _signed_in(response, pk["profile_id"], "passkey")
+    return _signed_in(response, pk["profile_id"], "passkey", request)
 
 
 @router.delete("/passkeys/{passkey_id}")
@@ -377,7 +350,7 @@ def email_start(body: EmailIn):
 
 
 @router.post("/email/verify")
-def email_verify(body: CodeIn, response: Response):
+def email_verify(body: CodeIn, request: Request, response: Response):
     _sender()
     eh = _email_hash(body.email)
     right, pid = _check(eh, "sign_in", body.code)
@@ -386,7 +359,7 @@ def email_verify(body: CodeIn, response: Response):
             cur.execute("SELECT profile_id FROM sign_in_emails WHERE email_hash=%s", (eh,))
             linked = cur.fetchone()
         if linked and linked["profile_id"] == pid:
-            return _signed_in(response, pid, "email_code")
+            return _signed_in(response, pid, "email_code", request)
     if pid:
         _failed(pid, "email_code")
     raise HTTPException(400, WRONG_CODE)
