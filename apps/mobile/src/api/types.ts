@@ -447,7 +447,7 @@ export interface AskResponse {
   answer: string; // includes [n] markers that point at citations
   sentences: { text: string; cite: number }[];
   citations: Citation[];
-  urgent: { kind: string; message: string; number: string } | null; // kind: "crisis", "bleed", …
+  urgent: { kind: string; message: string; number: string; support_line?: { name: string; tel: string } } | null; // kind: "crisis", "bleed", …
   crisis: boolean;
   refused: boolean;
   grounded: boolean;

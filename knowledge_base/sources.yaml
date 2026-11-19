@@ -171,6 +171,13 @@
   url: "https://www.nhs.uk/nhs-services/mental-health-services/where-to-get-urgent-help-for-mental-health/"
   accessed: "2026-11-06"
   topics: [mental health, crisis, urgent help, self-harm, overdose]
+- id: doh_800_sakina
+  answers: false  # cite-only: backs the crisis reply's support line; never quoted in ordinary answers
+  title: "Department of Health – Abu Dhabi activates 24/7 mental health support hotline 800-SAKINA (725462)"
+  url: "https://www.doh.gov.ae/en/news/doh-activates-247-mental-health-support-hotline-800-sakina-(725462)"
+  accessed: "2026-11-19"
+  year: 2026
+  topics: [mental health, crisis, support line, Abu Dhabi]
 - id: nhs_period_pain
   title: "Period pain — NHS"
   url: "https://www.nhs.uk/conditions/period-pain/"

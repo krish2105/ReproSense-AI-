@@ -393,12 +393,14 @@
   },
   "safety": {
     "pregTitle": "Call 998 or go to your maternity unit now if you notice",
-    "pregSigns": "bleeding · severe tummy pain · fewer baby movements · a severe headache with changes in your vision",
+    "pregSigns": "bleeding · severe tummy pain · fewer baby movements · a severe headache · changes in your vision · sudden swelling of the face, hands or feet · a fever",
     "pregRule": "From red-flag rule RF5.",
     "crisisTitle": "You deserve support right now",
-    "crisisBody": "Please call 998 or speak to your doctor today. You are not alone.",
+    "crisisBody": "If you might act on these thoughts, call 998 now. To talk to someone today, day or night, call 800-SAKINA, or speak to your doctor. You are not alone.",
     "crisisNote": "This shows because of your last mood check. No score is shown.",
-    "call": "Call 998"
+    "call": "Call 998",
+    "callSakina": "Call 800-SAKINA",
+    "sakinaNote": "800-SAKINA (800 725462) is the Department of Health's 24/7 support line, in Arabic or English."
   },
   "navigator": {
     "eyebrow": "Care navigator · due now",
