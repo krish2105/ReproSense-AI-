@@ -1,5 +1,8 @@
 import { ar, en, expect, expectAccessible, expectNoSideScroll, test, useLanguage } from "./fixtures";
 
+/** Escapes every regular-expression metacharacter, backslash included (CodeQL js/incomplete-sanitization). */
+const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 // The pilot proposal for a clinic (docs/29) on /pilot#proposal: scope, the five KPIs with how the app counts each,
 // data protection, the 90 days, both sides' commitments, the price labelled a hypothesis, exit criteria, and the
 // one-page PDF from GET /v1/pilot/proposal.pdf (WeasyPrint, built from these same messages). English and Arabic.
@@ -16,7 +19,7 @@ test("a clinic manager reads the proposal and downloads the one-page PDF", async
   // the five KPIs, each with how the app counts it
   const kpis = proposal.getByTestId("proposal-kpis");
   for (const k of KPIS) {
-    const row = kpis.getByRole("row", { name: new RegExp(en.pilotProposal.kpis[k].name.replace(/[()]/g, "\\$&")) });
+    const row = kpis.getByRole("row", { name: new RegExp(escapeRegExp(en.pilotProposal.kpis[k].name)) });
     await expect(row).toContainText(en.pilotProposal.kpis[k].how);
   }
   await expect(kpis.getByText(en.pilotProposal.basis.app, { exact: true })).toHaveCount(2);

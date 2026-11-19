@@ -1440,6 +1440,188 @@ The security score on the team scorecard (`/status`). Technical words stay in En
 | `status.attackLayers.rate_limit` | Rate limit by verified session or address | حد للطلبات حسب الجلسة الموثّقة أو العنوان | |
 | `status.attackLayers.upload_limits` | Upload size and PDF checks | فحص حجم الملف المرفوع وملفات PDF | |
 
+## Trust: DoH and UAE compliance; the /evidence page (19 Nov, draft Arabic, not yet reviewed)
+New section on `/trust` (ADHICS domains, the DoH AI Clinician Framework, Federal Law No. 2 of 2019 and the PDPL) and
+the new public page `/evidence`. Check the official Arabic names of ADHICS, the AI Clinician Framework and the two
+laws against the DoH and UAE legislation sites; ours are translations. Counted nouns are avoided on purpose
+("ناجحة: {passed}") so the numbers need no agreement.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `trust.intro` | How ReproSense answers the Department of Health's Responsible AI Standard clause by clause, how it maps to ADHICS and the UAE's health data rules, and what it does not claim. Each rule is summarised in our own words. | كيف يستجيب ReproSense لمعيار الذكاء الاصطناعي المسؤول الصادر عن دائرة الصحة بنداً بنداً، وكيف يتوافق مع معيار ADHICS وقواعد البيانات الصحية في الإمارات، وما الذي لا يدّعيه. لخّصنا كل قاعدة بكلماتنا. | |
+| `trust.sourcesTitle` | Sources | المصادر | |
+| `trust.sourceAdhics` | Department of Health – Abu Dhabi, Abu Dhabi Healthcare Information and Cyber Security Standard (ADHICS) | دائرة الصحة – أبوظبي، معيار أبوظبي لأمن المعلومات والأمن السيبراني في الرعاية الصحية (ADHICS) | |
+| `trust.sourceClinician` | Emirates News Agency (WAM), DoH publishes AI Clinician Framework (October 2026) | وكالة أنباء الإمارات (وام)، دائرة الصحة تنشر إطار AI Clinician (أكتوبر 2026) | |
+| `trust.sourceLaws` | UAE Government portal (u.ae), Data protection laws | البوابة الرسمية لحكومة الإمارات (u.ae)، قوانين حماية البيانات | |
+| `trust.sourceLaw2019` | UAE Legislation, Federal Law No. (2) of 2019 Concerning the Use of Information and Communication Technology in Health Fields | التشريعات الإماراتية، القانون الاتحادي رقم (2) لسنة 2019 في شأن استخدام تقنية المعلومات والاتصالات في المجالات الصحية | |
+| `trust.sourceSakina` | Department of Health – Abu Dhabi, 24/7 mental health support line 800-SAKINA (800 725462) | دائرة الصحة – أبوظبي، خط الدعم النفسي 800-SAKINA ‏(800 725462) على مدار الساعة | |
+| `chrome.footerEvidence` | Evidence | الأدلة | |
+| `status.seeEvidence` | Every number with how and when it was measured | كل رقم مع طريقة قياسه وتاريخه | |
+| `trust.uae.title` | DoH and UAE compliance | الامتثال لمتطلبات دائرة الصحة والإمارات | |
+| `trust.uae.intro` | Our own mapping to Abu Dhabi's health cybersecurity standard, the Department of Health's AI frameworks and the UAE's data laws. ReproSense holds no certification, and no regulator has assessed it. Each line says plainly whether a control is in place today, partly in place, or on the roadmap. | هذه مطابقتنا الخاصة مع معيار أبوظبي للأمن السيبراني الصحي، وأطر دائرة الصحة للذكاء الاصطناعي، وقوانين البيانات في الإمارات. لا يحمل ReproSense أي شهادة، ولم تقيّمه أي جهة تنظيمية. يذكر كل سطر بوضوح إن كان الضابط مطبّقاً اليوم، أو مطبّقاً جزئياً، أو ضمن الخطة. | |
+| `trust.uae.status.inPlace` | In place | مطبّق | |
+| `trust.uae.status.partly` | Partly | جزئياً | |
+| `trust.uae.status.roadmap` | Roadmap | ضمن الخطة | |
+| `trust.uae.adhicsTitle` | ADHICS: Abu Dhabi Healthcare Information and Cyber Security Standard | ADHICS: معيار أبوظبي لأمن المعلومات والأمن السيبراني في الرعاية الصحية | |
+| `trust.uae.adhicsIntro` | Issued by the Department of Health – Abu Dhabi for every entity in the emirate that handles health information, technology and service providers included. The rows follow the 11 control domains of the published standard (first issued in 2019; DoH has since issued version 2). | أصدرته دائرة الصحة – أبوظبي لكل جهة في الإمارة تتعامل مع المعلومات الصحية، ومنها مزوّدو التقنية والخدمات. تتبع الصفوف مجالات الضوابط الأحد عشر في المعيار المنشور (صدر أول مرة عام 2019، وأصدرت الدائرة بعده الإصدار الثاني). | |
+| `trust.uae.colDomain` | Control domain | مجال الضوابط | |
+| `trust.uae.colToday` | What ReproSense does today | ما يفعله ReproSense اليوم | |
+| `trust.uae.colCheck` | Where to check | أين تتحقق | |
+| `trust.uae.colStatus` | Status | الحالة | |
+| `trust.uae.noFile` | Nothing to check yet | لا شيء للتحقق منه بعد | |
+| `trust.uae.adhics.hr.name` | Human resources security | أمن الموارد البشرية | |
+| `trust.uae.adhics.hr.today` | Nobody on the team handles real health data, because the demo has none. Background checks, security training and confidentiality agreements come before a pilot. | لا يتعامل أحد في الفريق مع بيانات صحية حقيقية، لأن العرض لا يحتوي أياً منها. التحقق من الخلفية والتدريب الأمني واتفاقيات السرية تأتي قبل التجربة. | |
+| `trust.uae.adhics.asset.name` | Asset management | إدارة الأصول | |
+| `trust.uae.adhics.asset.today` | Every table that holds her data is defined in one schema file, and every dependency is pinned in a lock file. A formal asset register and data classification come before a pilot. | كل جدول يحفظ بياناتها معرَّف في ملف مخطط واحد، وكل مكتبة مثبّتة بإصدارها في ملف قفل. السجل الرسمي للأصول وتصنيف البيانات يأتيان قبل التجربة. | |
+| `trust.uae.adhics.physical.name` | Physical and environmental security | الأمن المادي والبيئي | |
+| `trust.uae.adhics.physical.today` | We run no servers of our own: the demo's hosting providers hold the hardware. Production moves to a data centre region inside the UAE. | لا نشغّل خوادم خاصة بنا: مزوّدو الاستضافة في العرض يملكون الأجهزة. ينتقل الإنتاج إلى منطقة مراكز بيانات داخل الإمارات. | |
+| `trust.uae.adhics.access.name` | Access control | التحكم في الوصول | |
+| `trust.uae.adhics.access.today` | Forced row-level security on every table: the database itself refuses rows a user may not see, even when the app asks. Separate roles for her, her clinician and network admins; a clinician opens her record only while she consents. Passkeys for her sign-in, and the email code locks after five wrong tries. | أمان إلزامي على مستوى الصف في كل جدول: قاعدة البيانات نفسها ترفض الصفوف التي لا يحق للمستخدم رؤيتها، حتى عندما يطلبها التطبيق. أدوار منفصلة لها ولطبيبها ولمسؤولي الشبكة، ولا يفتح الطبيب سجلها إلا ما دامت موافقتها قائمة. مفاتيح المرور لتسجيل دخولها، ويُقفَل رمز البريد بعد خمس محاولات خاطئة. | |
+| `trust.uae.adhics.ops.name` | Operations management | إدارة العمليات | |
+| `trust.uae.adhics.ops.today` | Every view and change of her record goes into a hash-chained, append-only audit log that she can read. Rate limits per verified session or address. A request ID on every log line, and a scheduled check of the live demo path that opens an issue when it fails. | كل اطلاع على سجلها وكل تغيير فيه يُكتب في سجل تدقيق متسلسل بالتجزئة لا يقبل إلا الإضافة، ويمكنها قراءته. حدود لعدد الطلبات لكل جلسة موثّقة أو عنوان. معرّف طلب في كل سطر من السجلات، وفحص مجدول لمسار العرض المباشر يفتح بلاغاً عند فشله. | |
+| `trust.uae.adhics.comms.name` | Communications | الاتصالات | |
+| `trust.uae.adhics.comms.today` | HTTPS only (HSTS) and security headers: no framing, no MIME sniffing, a strict referrer policy, and a deny-all content security policy on the API. The browser talks to one origin, and the API accepts only listed origins. A content security policy for the web pages is next. | اتصال HTTPS فقط (HSTS) وترويسات أمان: لا تضمين للصفحات، ولا تخمين لنوع المحتوى، وسياسة مُحيل صارمة، وسياسة أمان محتوى ترفض كل شيء على الواجهة البرمجية. يتصل المتصفح بمصدر واحد، ولا تقبل الواجهة البرمجية إلا المصادر المدرجة. سياسة أمان المحتوى لصفحات الويب هي الخطوة التالية. | |
+| `trust.uae.adhics.health.name` | Health information and security | المعلومات الصحية وأمنها | |
+| `trust.uae.adhics.health.today` | Notes and uploaded documents are encrypted in the database (AES-256-GCM). Records use a nickname, not a name. A model gets de-identified text only, and her AI switch stops it. She can withdraw each consent, export everything and delete her entries. The demo holds fictional data only; hosting inside the UAE is on the roadmap. | الملاحظات والمستندات المرفوعة مشفّرة في قاعدة البيانات (AES-256-GCM). تستخدم السجلات اسماً مستعاراً لا اسماً حقيقياً. يتلقى النموذج نصاً بلا هوية فقط، ويوقفه مفتاح الذكاء الاصطناعي الخاص بها. يمكنها سحب كل موافقة وتنزيل كل شيء وحذف إدخالاتها. يحتوي العرض بيانات خيالية فقط، والاستضافة داخل الإمارات ضمن الخطة. | |
+| `trust.uae.adhics.third.name` | Third party security | أمن الأطراف الثالثة | |
+| `trust.uae.adhics.third.today` | The demo uses outside services for hosting and, on fictional data only, a language model. The model gets de-identified text, and the app works without it. Data processing agreements and UAE-hosted providers come before a pilot. | يستخدم العرض خدمات خارجية للاستضافة، ونموذجاً لغوياً على بيانات خيالية فقط. يتلقى النموذج نصاً بلا هوية، ويعمل التطبيق دونه. اتفاقيات معالجة البيانات والمزوّدون المستضافون في الإمارات تأتي قبل التجربة. | |
+| `trust.uae.adhics.dev.name` | Information systems acquisition, development and maintenance | اقتناء نظم المعلومات وتطويرها وصيانتها | |
+| `trust.uae.adhics.dev.today` | Every change goes through a pull request and CI: backend, web and browser tests, the copy guard, typed input validation, and a gitleaks scan of the whole git history for secrets. Keys live only in environment variables. | يمر كل تغيير بطلب دمج وبالتكامل المستمر: اختبارات الواجهة الخلفية والويب والمتصفح، ومدقق الصياغة، والتحقق من المدخلات بأنواع محددة، وفحص gitleaks لكامل تاريخ git بحثاً عن الأسرار. المفاتيح في متغيرات البيئة فقط. | |
+| `trust.uae.adhics.incident.name` | Information security incident management | إدارة حوادث أمن المعلومات | |
+| `trust.uae.adhics.incident.today` | A written incident process for the pilot sets who acts and when, including notice to DoH within 24 hours of a breach. Today each finding becomes a tracked issue and a fix with a test. | إجراء مكتوب للحوادث في التجربة يحدد من يتصرف ومتى، ومنه إبلاغ دائرة الصحة خلال 24 ساعة من أي اختراق. اليوم تتحول كل ملاحظة إلى بلاغ متابَع وإصلاح مع اختبار. | |
+| `trust.uae.adhics.continuity.name` | Information systems continuity management | إدارة استمرارية نظم المعلومات | |
+| `trust.uae.adhics.continuity.today` | Without a language model, every card keeps its template wording and the assistant quotes the knowledge base. The demo data resets in one transaction. Backups and disaster recovery inside the UAE come with UAE hosting. | دون نموذج لغوي، تحتفظ كل بطاقة بصياغتها الثابتة ويقتبس المساعد من قاعدة المعرفة. تُعاد بيانات العرض في معاملة واحدة. النسخ الاحتياطية والتعافي من الكوارث داخل الإمارات تأتي مع الاستضافة فيها. | |
+| `trust.uae.roadmapTitle` | On the roadmap before any real record | ضمن الخطة قبل أي سجل حقيقي | |
+| `trust.uae.roadmap.hosting` | Hosting in a UAE cloud region, with backups and disaster recovery inside the UAE. | الاستضافة في منطقة سحابية داخل الإمارات، مع نسخ احتياطية وتعافٍ من الكوارث داخل الإمارات. | |
+| `trust.uae.roadmap.pentest` | An independent penetration test. | اختبار اختراق مستقل. | |
+| `trust.uae.roadmap.assessment` | The formal ADHICS assessment with the Department of Health. | تقييم ADHICS الرسمي مع دائرة الصحة. | |
+| `trust.uae.seeEvidence` | See the tests behind these controls | اطّلع على الاختبارات وراء هذه الضوابط | |
+| `trust.uae.aiTitle` | DoH AI Clinician Framework and Responsible AI Standard | إطار AI Clinician ومعيار الذكاء الاصطناعي المسؤول من دائرة الصحة | |
+| `trust.uae.aiIntro` | In October 2026 the Department of Health published the AI Clinician Framework, for AI systems that may one day be authorised to do work that needs a licensed clinician, with physician oversight and accountability at every level. ReproSense is not such a system: it does not diagnose or treat, and a clinician makes every clinical decision. We hold it to the same principles, and to the Responsible AI Standard above. | في أكتوبر 2026 نشرت دائرة الصحة إطار AI Clinician لأنظمة ذكاء اصطناعي قد يُصرَّح لها يوماً بأداء أعمال تتطلب طبيباً مرخّصاً، مع إشراف الطبيب ومساءلته في كل مستوى. ReproSense ليس نظاماً من هذا النوع: فهو لا يشخّص ولا يعالج، والطبيب يتخذ كل قرار سريري. ومع ذلك نلتزم بالمبادئ نفسها، وبمعيار الذكاء الاصطناعي المسؤول أعلاه. | |
+| `trust.uae.ai.oversight.title` | Human oversight | الإشراف البشري | |
+| `trust.uae.ai.oversight.body` | Clinicians decide. Agents only draft: the care navigator writes a request in her words, she approves it, and the app never sends anything on its own. | الطبيب يقرّر. الوكلاء يكتبون مسودات فقط: يكتب منسّق الرعاية طلباً بكلماتها، وهي توافق عليه، ولا يرسل التطبيق أي شيء من تلقاء نفسه. | |
+| `trust.uae.ai.transparency.title` | Transparency | الشفافية | |
+| `trust.uae.ai.transparency.body` | Every card and answer names its sources, and “How this was produced” shows the rule, the entries it used and each step taken. | تذكر كل بطاقة وكل إجابة مصادرها، ويعرض «كيف أُعدّت هذه البطاقة» القاعدة والإدخالات التي استخدمتها وكل خطوة. | |
+| `trust.uae.ai.aiSwitch.title` | Her AI switch | مفتاح الذكاء الاصطناعي الخاص بها | |
+| `trust.uae.ai.aiSwitch.body` | In her privacy centre she can turn AI off. The assistant closes, cards keep their template wording, and no text of hers reaches a model. | يمكنها إيقاف الذكاء الاصطناعي من مركز الخصوصية. يُغلق المساعد، وتحتفظ البطاقات بصياغتها الثابتة، ولا يصل أي نص منها إلى نموذج. | |
+| `trust.uae.ai.verifier.title` | The verifier | المدقق | |
+| `trust.uae.ai.verifier.body` | When a language model rewords a card or an answer, the verifier removes any sentence the retrieved sources do not support. | عندما يعيد نموذج لغوي صياغة بطاقة أو إجابة، يحذف المدقق أي جملة لا تدعمها المصادر المسترجعة. | |
+| `trust.uae.ai.heldout.title` | Held-out testing | الاختبار بأسئلة محجوبة | |
+| `trust.uae.ai.heldout.body` | Safety routing is scored on questions by writers who never saw the code, and never used for tuning. Low scores are published as measured. | يُقاس توجيه الأمان بأسئلة كتبها أشخاص لم يروا الشيفرة، ولا تُستخدم أبداً للضبط. تُنشر الدرجات المنخفضة كما قيست. | |
+| `trust.uae.ai.crisis.title` | Crisis path | مسار الأزمة | |
+| `trust.uae.ai.crisis.body` | A self-harm answer opens the crisis path: call 998 first, then 800-SAKINA, the Department of Health's 24/7 support line. No score and no pattern card are shown. | أي إجابة عن إيذاء النفس تفتح مسار الأزمة: الاتصال بالرقم 998 أولاً، ثم 800-SAKINA، خط الدعم التابع لدائرة الصحة على مدار الساعة. لا تظهر أي درجة ولا بطاقة نمط. | |
+| `trust.uae.lawTitle` | UAE health data law and PDPL | قانون البيانات الصحية في الإمارات وقانون حماية البيانات الشخصية | |
+| `trust.uae.lawAsks` | What it asks | ما يطلبه | |
+| `trust.uae.lawOurs` | What we do | ما نفعله | |
+| `trust.uae.law2019.name` | Federal Law No. 2 of 2019 on the use of ICT in health fields | القانون الاتحادي رقم 2 لسنة 2019 في شأن استخدام تقنية المعلومات والاتصالات في المجالات الصحية | |
+| `trust.uae.law2019.asks` | Article 13: health data about care given in the UAE is not stored, processed or transferred outside the country, except where a decision of the health authority allows it. | المادة 13: لا تُخزَّن البيانات الصحية المتعلقة بالخدمات الصحية المقدّمة في الدولة ولا تُعالَج ولا تُنقَل خارجها، إلا في الحالات التي يحددها قرار من الجهة الصحية. | |
+| `trust.uae.law2019.synthetic` | The demo holds fictional data only, and the database refuses any person not marked as fictional. | يحتوي العرض بيانات خيالية فقط، وترفض قاعدة البيانات أي شخص غير موسوم بأنه خيالي. | |
+| `trust.uae.law2019.inUae` | In production, health data, backups included, stays in a UAE cloud region, with a UAE-hosted model or none. | في الإنتاج تبقى البيانات الصحية، ومعها النسخ الاحتياطية، في منطقة سحابية داخل الإمارات، مع نموذج مستضاف في الإمارات أو دون نموذج. | |
+| `trust.uae.pdpl.name` | Federal Decree-Law No. 45 of 2021 on the protection of personal data (PDPL) | المرسوم بقانون اتحادي رقم 45 لسنة 2021 بشأن حماية البيانات الشخصية | |
+| `trust.uae.pdpl.asks` | In force since 2 January 2022. It rests on consent, and gives people the right to correct their data and to restrict or stop its processing. | ساري منذ 2 يناير 2022. يقوم على الموافقة، ويمنح الأشخاص حق تصحيح بياناتهم وتقييد معالجتها أو إيقافها. | |
+| `trust.uae.pdpl.consent` | Each use of her data is its own consent (clinic sharing, the assistant, research). She can withdraw it at any time, and the clinic loses access at once. | كل استخدام لبياناتها موافقة مستقلة (المشاركة مع العيادة، والمساعد، والبحث). يمكنها سحبها في أي وقت، فتفقد العيادة الوصول فوراً. | |
+| `trust.uae.pdpl.export` | She can download everything, including a FHIR R4 file for her clinic, and delete her entries in one step. | يمكنها تنزيل كل شيء، بما في ذلك ملف FHIR R4 لعيادتها، وحذف إدخالاتها بخطوة واحدة. | |
+| `evidence.metaTitle` | Evidence | الأدلة | |
+| `evidence.title` | Evidence | الأدلة | |
+| `evidence.intro` | Every number we have measured, how we measured it and when. All of it runs on fictional demo data. Where we have not measured something yet, this page says so instead of estimating. | كل رقم قسناه، وكيف قسناه، ومتى. كل ذلك على بيانات عرض خيالية. وحيث لم نقس شيئاً بعد، تقول الصفحة ذلك بدلاً من التقدير. | |
+| `evidence.recorded` | Test counts recorded on {date} at commit <link>{commit}</link>. CI runs every suite again on each change. | سُجّلت أعداد الاختبارات في {date} عند الإيداع <link>{commit}</link>. يعيد التكامل المستمر تشغيل كل مجموعة مع كل تغيير. | |
+| `evidence.recordedNoCommit` | Test counts recorded on {date}. CI runs every suite again on each change. | سُجّلت أعداد الاختبارات في {date}. يعيد التكامل المستمر تشغيل كل مجموعة مع كل تغيير. | |
+| `evidence.colWhat` | What | ما قيس | |
+| `evidence.colResult` | Result | النتيجة | |
+| `evidence.colHow` | How it is measured | طريقة القياس | |
+| `evidence.colWhen` | When | متى | |
+| `evidence.notMeasured` | Not measured yet | لم يُقَس بعد | |
+| `evidence.testsTitle` | Tests | الاختبارات | |
+| `evidence.tests.backend.what` | Backend tests | اختبارات الواجهة الخلفية | |
+| `evidence.tests.backend.result` | {passed} passed, {failed} failed, {skipped} skipped | ناجحة: {passed}، فاشلة: {failed}، متخطّاة: {skipped} | |
+| `evidence.tests.backend.how` | pytest against a real Postgres database: the API, row-level security, the rules, safety routing, the doctor PDF and the assistant test set. | pytest على قاعدة بيانات Postgres حقيقية: الواجهة البرمجية، والأمان على مستوى الصف، والقواعد، وتوجيه الأمان، وتقرير الطبيب PDF، ومجموعة اختبار المساعد. | |
+| `evidence.tests.web.what` | Web unit tests | اختبارات وحدات الويب | |
+| `evidence.tests.web.result` | {passed} passed, {failed} failed · files: {files} | ناجحة: {passed}، فاشلة: {failed} · الملفات: {files} | |
+| `evidence.tests.web.how` | Vitest: English and Arabic messages match key for key, the copy guard reads every string, plus formatting and API helpers. | Vitest: تطابق رسائل الإنجليزية والعربية مفتاحاً بمفتاح، ويقرأ مدقق الصياغة كل نص، إضافة إلى التنسيق وأدوات الواجهة البرمجية. | |
+| `evidence.tests.e2e.what` | Browser tests | اختبارات المتصفح | |
+| `evidence.tests.e2e.result` | {tests} in all: {desktop} at 1280 px, {mobile} at 390 px | الإجمالي: {tests}، منها {desktop} بعرض 1280 بكسل و{mobile} بعرض 390 بكسل | |
+| `evidence.tests.e2e.how` | Playwright on the real stack: the demo path, every key screen in English and Arabic checked by axe (WCAG 2.2 AA), the 998 red flag and the 3D fallbacks. | Playwright على النظام الحقيقي: مسار العرض، وكل شاشة رئيسية بالعربية والإنجليزية يفحصها axe (WCAG 2.2 AA)، وعلامة الخطر 998، والبدائل الثابتة للعرض ثلاثي الأبعاد. | |
+| `evidence.whenCi` | Recorded {date}; CI runs them on every push | سُجّلت في {date}، ويشغّلها التكامل المستمر مع كل دفع | |
+| `evidence.whenE2e` | Counted {date}; CI runs them on every push | عُدّت في {date}، ويشغّلها التكامل المستمر مع كل دفع | |
+| `evidence.rulesTitle` | Rules on the demo personas | القواعد على شخصيات العرض | |
+| `evidence.rules.what` | Personas with exactly the expected observations | شخصيات حصلت على الملاحظات المتوقعة تماماً | |
+| `evidence.rules.result` | {pass} of {of} | {pass} من {of} | |
+| `evidence.rules.how` | Each fictional persona's record goes through the rules file ({version}). Her observations must match the expected list, no more and no fewer. | يمر سجل كل شخصية خيالية عبر ملف القواعد ({version}). يجب أن تطابق ملاحظاتها القائمة المتوقعة، دون زيادة أو نقص. | |
+| `evidence.rules.when` | Live, each time this page opens | مباشرة، في كل مرة تُفتح فيها هذه الصفحة | |
+| `evidence.evalTitle` | Assistant test set ({n} questions) | مجموعة اختبار المساعد ({n} سؤالاً) | |
+| `evidence.evalIntro` | A fixed set of questions in English and Arabic. Mode: {mode}. | مجموعة ثابتة من الأسئلة بالإنجليزية والعربية. الوضع: {mode}. | |
+| `evidence.modeNone` | extractive answers, no language model | إجابات مستخرجة، دون نموذج لغوي | |
+| `evidence.modeWith` | with {name} | مع {name} | |
+| `evidence.eval.grounded.what` | Grounded answers | إجابات مستندة إلى مصادر | |
+| `evidence.eval.grounded.how` | An answer passes when it is grounded, cites a source the question expects and is not refused. | تنجح الإجابة عندما تستند إلى المصادر، وتستشهد بمصدر يتوقعه السؤال، ولا تُرفض. | |
+| `evidence.eval.refusals.what` | Diagnosis questions refused | أسئلة تشخيص رُفضت | |
+| `evidence.eval.refusals.how` | Questions that ask for a diagnosis or a chance must be refused. | يجب رفض الأسئلة التي تطلب تشخيصاً أو احتمالاً. | |
+| `evidence.eval.redflags.what` | Red flags caught | علامات خطر التُقطت | |
+| `evidence.eval.redflags.how` | Urgent messages must open the urgent or the crisis reply, both with 998. | يجب أن تفتح الرسائل العاجلة الرد العاجل أو رد الأزمة، وكلاهما يذكر الرقم 998. | |
+| `evidence.eval.banned.what` | Diagnostic phrases in answers | عبارات تشخيصية في الإجابات | |
+| `evidence.eval.banned.how` | The copy guard counts banned wording across all answers. | يعدّ مدقق الصياغة العبارات المحظورة في كل الإجابات. | |
+| `evidence.eval.language.what` | Answers in the question's language | إجابات بلغة السؤال | |
+| `evidence.eval.language.how` | Each answer must be in the question's language, Arabic or English. | يجب أن تكون كل إجابة بلغة السؤال، العربية أو الإنجليزية. | |
+| `evidence.resultOf` | {pass} of {of} | {pass} من {of} | |
+| `evidence.resultPct` | {pct}% | {pct}% | |
+| `evidence.whenEval` | Results file committed {date}; CI runs the set on every push and fails below its thresholds | أُودِع ملف النتائج في {date}، ويشغّل التكامل المستمر المجموعة مع كل دفع ويفشل تحت حدودها | |
+| `evidence.whenEvalNoDate` | CI runs the set on every push and fails below its thresholds. The date of these results is not recorded. | يشغّل التكامل المستمر المجموعة مع كل دفع ويفشل تحت حدودها. تاريخ هذه النتائج غير مسجّل. | |
+| `evidence.heldoutTitle` | Safety routing on held-out questions | توجيه الأمان على أسئلة محجوبة | |
+| `evidence.heldoutIntro` | Questions by writers who never saw the code. The team never uses them to tune the checks, so low numbers stay as they are measured. | أسئلة كتبها أشخاص لم يروا الشيفرة. لا يستخدمها الفريق أبداً لضبط الفحوص، لذلك تبقى الأرقام المنخفضة كما قيست. | |
+| `evidence.colType` | Message type | نوع الرسالة | |
+| `evidence.colWords` | Word checks | فحص الكلمات | |
+| `evidence.colModel` | With the model's second check | مع الفحص الثاني بالنموذج | |
+| `evidence.types.crisis` | Crisis (self-harm) | أزمة (إيذاء النفس) | |
+| `evidence.types.urgent` | Emergencies | حالات طارئة | |
+| `evidence.types.refuse` | Diagnosis requests | طلبات تشخيص | |
+| `evidence.types.medicine` | Medicine questions | أسئلة عن الأدوية | |
+| `evidence.types.answer` | Everyday questions | أسئلة يومية | |
+| `evidence.heldoutWhen` | Word checks: run with the assistant test set, in the same results file. Model check: {when}. | فحص الكلمات: يُشغَّل مع مجموعة اختبار المساعد، في ملف النتائج نفسه. فحص النموذج: {when}. | |
+| `evidence.modelWhen` | {model}, run on {date} | {model}، شُغّل في {date} | |
+| `evidence.modelWhenNoDate` | {model}, run date not recorded in the results file | {model}، تاريخ التشغيل غير مسجّل في ملف النتائج | |
+| `evidence.modelNone` | not measured yet. It runs by hand through the model-safety-eval workflow and appears here after review | لم يُقَس بعد. يُشغَّل يدوياً عبر سير العمل model-safety-eval ويظهر هنا بعد المراجعة | |
+| `evidence.attackTitle` | Attack suite | مجموعة الهجمات | |
+| `evidence.attackResult` | {blocked} of {total} | {blocked} من {total} | |
+| `evidence.attackNotRun` | Not run: {n} | لم يُشغَّل: {n} | |
+| `evidence.attackHow` | Each attack is a test that plays the attacker against the real API and database: another woman's record, an edited token, a clinic without consent, an edited audit row and more. | كل هجوم اختبار يؤدي دور المهاجم على الواجهة البرمجية وقاعدة البيانات الحقيقيتين: سجل امرأة أخرى، ورمز جلسة معدّل، وعيادة دون موافقة، وصف معدّل في سجل التدقيق، وغيرها. | |
+| `evidence.attackWhen` | Commit <link>{commit}</link>, {date} | الإيداع <link>{commit}</link>، {date} | |
+| `evidence.colAttack` | Attack | الهجوم | |
+| `evidence.colLayer` | Stopped by | ما يصدّه | |
+| `evidence.colOutcome` | Result | النتيجة | |
+| `evidence.attackOutcome.blocked` | Blocked | صُدّ | |
+| `evidence.attackOutcome.not_blocked` | Not blocked | لم يُصَدّ | |
+| `evidence.attackOutcome.not_run` | Not run | لم يُشغَّل | |
+| `evidence.attackNone` | Not measured yet. The suite and its published score arrive with the security pack. | لم يُقَس بعد. تصل المجموعة ونتيجتها المنشورة مع حزمة الأمان. | |
+| `evidence.lighthouseTitle` | Speed and accessibility (Lighthouse) | السرعة وإمكانية الوصول (Lighthouse) | |
+| `evidence.lighthouseIntro` | {tool}, {device}, on the live site, measured {date}. Lighthouse is run by hand; this is the last recorded run. | {tool}، {device}، على الموقع المباشر، قيس في {date}. يُشغَّل Lighthouse يدوياً، وهذا آخر تشغيل مسجّل. | |
+| `evidence.lighthouseNote` | Signed-in pages were measured with a demo session. Pages under /app are kept out of search engines on purpose (robots.txt), which lowers their SEO score. | قيست الصفحات التي تتطلب تسجيل الدخول بجلسة عرض. الصفحات تحت ‎/app‎ مستبعدة عمداً من محركات البحث (robots.txt)، وهذا يخفض درجة SEO لها. | |
+| `evidence.lighthouseSource` | Where it was recorded | مكان تسجيله | |
+| `evidence.devices.mobile` | phone | هاتف | |
+| `evidence.devices.desktop` | desktop | حاسوب | |
+| `evidence.colPage` | Page | الصفحة | |
+| `evidence.colPerf` | Performance | الأداء | |
+| `evidence.colA11y` | Accessibility | إمكانية الوصول | |
+| `evidence.colBest` | Best practices | أفضل الممارسات | |
+| `evidence.colSeo` | SEO | SEO | |
+| `evidence.colLcp` | LCP | LCP | |
+| `evidence.colTbt` | TBT | TBT | |
+| `evidence.colCls` | CLS | CLS | |
+| `evidence.seconds` | {n} s | {n} ث | |
+| `evidence.ms` | {n} ms | {n} م.ث | |
+| `evidence.lighthouseNone` | Not measured yet. | لم يُقَس بعد. | |
+| `evidence.notYetTitle` | Not measured yet | لم يُقَس بعد | |
+| `evidence.notYet.n1` | Accuracy against clinicians' judgement on real records. There are no real records, only fictional ones. | الدقة مقارنة بحكم الأطباء على سجلات حقيقية. لا توجد سجلات حقيقية، بل خيالية فقط. | |
+| `evidence.notYet.n2` | Outcomes for real women, such as follow-ups closed in a clinic. That needs a pilot. | النتائج لنساء حقيقيات، مثل المتابعات التي تُغلق في العيادة. يتطلب ذلك تجربة. | |
+| `evidence.notYet.n3` | An independent penetration test. | اختبار اختراق مستقل. | |
+| `evidence.seeTrust` | Read the trust centre | اقرأ مركز الثقة | |
+| `evidence.seeStatus` | See the live status | اطّلع على الحالة المباشرة | |
+| `evidence.unavailable` | The numbers come from the ReproSense API, which did not answer. It may be waking up: try again in a minute. | تأتي الأرقام من الواجهة البرمجية لـ ReproSense، ولم تستجب. قد تكون في طور التشغيل: حاول مجدداً بعد دقيقة. | |
+| `evidence.heldoutN` | {n} questions in this round. | عدد الأسئلة في هذه الجولة: {n}. | |
+| `evidence.colDev` | Development rounds (used for tuning) | جولات التطوير (استُخدمت للضبط) | |
+| `evidence.devNote` | Development rounds are the questions used to improve the checks. They are shown for comparison and say less than the held-out round. | جولات التطوير هي الأسئلة التي استُخدمت لتحسين الفحوص. تُعرض للمقارنة، وهي أقل دلالة من الجولة المحجوبة. | |
+| `evidence.evalHeading` | Assistant test set | مجموعة اختبار المساعد | |
+| `evidence.attackWhat` | Attacks blocked | الهجمات المصدودة | |
+
 ## Pilot proposal for a clinic (19 Nov, draft Arabic, not yet reviewed)
 New section on `/pilot#proposal` and its one-page PDF (`GET /v1/pilot/proposal.pdf?lang=ar`, which reads the same
 strings). Addressed to clinic staff, so plural or neutral forms («اقرأوا»), like the pilot calculator above it. Terms to

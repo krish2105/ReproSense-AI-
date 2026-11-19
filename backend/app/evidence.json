@@ -1,0 +1,90 @@
+{
+ "recorded": "2026-11-19",
+ "commit": "3bc638e",
+ "tests": {
+  "backend": {
+   "passed": 731,
+   "failed": 0,
+   "skipped": 0,
+   "total": 731
+  },
+  "web_unit": {
+   "passed": 96,
+   "failed": 0,
+   "files": 24
+  },
+  "e2e": {
+   "tests": 252,
+   "per_project": {
+    "desktop": 126,
+    "mobile": 126
+   }
+  }
+ },
+ "eval_file": {
+  "fingerprint": "196965c68b96781c",
+  "committed": "2026-11-07",
+  "commit": "4917160"
+ },
+ "lighthouse": {
+  "measured": "2026-11-19",
+  "tool": "Lighthouse 13",
+  "device": "mobile",
+  "site": "https://reprosense.vercel.app",
+  "source": "PROGRESS.md",
+  "pages": [
+   {
+    "path": "/",
+    "performance": 98,
+    "accessibility": 100,
+    "best_practices": 100,
+    "seo": 100,
+    "lcp_s": 2.2,
+    "tbt_ms": 120,
+    "cls": 0
+   },
+   {
+    "path": "/demo",
+    "performance": 97,
+    "accessibility": 100,
+    "best_practices": 100,
+    "seo": 100,
+    "lcp_s": 2.2,
+    "tbt_ms": 140,
+    "cls": 0
+   },
+   {
+    "path": "/app",
+    "performance": 95,
+    "accessibility": 100,
+    "best_practices": 100,
+    "seo": 100,
+    "lcp_s": 2.4,
+    "tbt_ms": 170,
+    "cls": 0
+   },
+   {
+    "path": "/app/insights",
+    "performance": 91,
+    "accessibility": 100,
+    "best_practices": 100,
+    "seo": 66,
+    "lcp_s": 2.4,
+    "tbt_ms": 320,
+    "cls": 0
+   },
+   {
+    "path": "/clinic",
+    "performance": 98,
+    "accessibility": 100,
+    "best_practices": 100,
+    "seo": 100,
+    "lcp_s": 2.2,
+    "tbt_ms": 140,
+    "cls": 0
+   }
+  ],
+  "note": "Signed-in pages were measured with a demo session. SEO 66 on /app/insights is intended: robots.txt keeps /app/ out of search engines."
+ },
+ "note": "Written by tools/record_evidence.py (make evidence). Test counts are from one run at the commit named; CI runs every suite again on each push. Lighthouse is copied from the run it names."
+}
