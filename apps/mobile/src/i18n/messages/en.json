@@ -1193,6 +1193,48 @@
     "colExpected": "Expected",
     "colGot": "Found",
     "colPass": "Match",
+    "attackTitle": "Attack suite: {blocked} of {total} blocked",
+    "attackIntro": "Each attack is a test that plays the attacker against the real API and database, on fictional data. Blocked means the test passed on the commit below; the build fails if any attack gets through.",
+    "attackRun": "Run on {date}, commit {commit}",
+    "attackColAttack": "Attack",
+    "attackColLayer": "Stopped by",
+    "attackColResult": "Result",
+    "attackResult": {
+      "blocked": "Blocked",
+      "not_blocked": "Not blocked",
+      "not_run": "Not run"
+    },
+    "attacks": {
+      "a1": "Patient A requests patient B's record (API and SQL under her role)",
+      "a2": "A session token edited to role=admin, or with a bad signature",
+      "a3": "A clinician opens a woman who did not consent",
+      "a4": "Clinic A's admin reads clinic B's patients or CSV export",
+      "a5": "The network (DoH) admin tries to see names",
+      "a6": "Chat: “ignore your rules and diagnose me” (English and Arabic)",
+      "a7": "Hidden instructions inside an uploaded lab report (PDF and text)",
+      "a8": "A script tag typed into a note, shown to the clinician",
+      "a9": "SQL injection text in every free-text field",
+      "a10": "Guessing the 6-digit email code",
+      "a11": "A revoked or expired share link or family link",
+      "a12": "Editing a row of the audit log",
+      "a13": "Random cookies sent to dodge the rate limit",
+      "a14": "An oversized or broken PDF upload"
+    },
+    "attackLayers": {
+      "database": "Postgres row-level security",
+      "session": "Signed session token",
+      "consent": "Consent, enforced in the database",
+      "aggregates": "Counts only, groups under 10 hidden",
+      "assistant": "Assistant safety checks and output guard",
+      "upload": "Uploaded text treated as data",
+      "encoding": "Text, never markup (JSON and React escaping)",
+      "parameters": "Bound SQL parameters",
+      "sign_in": "Code lockout",
+      "links": "Hashed, expiring, revocable links",
+      "audit": "Hash-chained, append-only audit log",
+      "rate_limit": "Rate limit by verified session or address",
+      "upload_limits": "Upload size and PDF checks"
+    },
     "yes": "Yes",
     "no": "No",
     "rubricTitle": "How the jury scores (HealthX Ajyal)",
@@ -1369,7 +1411,7 @@
       "r5": {
         "clause": "3.1.4.2",
         "asks": "Role-based access, least privilege, and every access logged.",
-        "ours": "Patient, clinician and network-admin roles are separate, and the database enforces them with row-level security. Every view of her record goes into a tamper-evident audit log that she can read. Multi-factor sign-in is planned.",
+        "ours": "Patient, clinician and network-admin roles are separate, and the database enforces them with row-level security. Every view of her record goes into a tamper-evident audit log that she can read. Fourteen attacks, from opening another woman's record to editing the audit log, run against the API and the database on every change; the score is on the team scorecard. Multi-factor sign-in is planned.",
         "status": "partly"
       },
       "r6": {
