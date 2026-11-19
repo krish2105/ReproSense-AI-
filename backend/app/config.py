@@ -49,6 +49,7 @@ class Settings(BaseSettings):
     # again" and the render finishes and is cached. No clinical meaning.
     pdf_workers: int = 2
     pdf_timeout_s: float = 12.0
+    log_level: str = "INFO"  # the API's JSON logs (app/observability.py); no clinical meaning
     # Her own sign-in (K5). Passkeys: the relying party is the web app's host. Empty = the host of the first
     # ALLOWED_ORIGINS entry, and the accepted origins = ALLOWED_ORIGINS. No clinical meaning.
     webauthn_rp_id: str = ""

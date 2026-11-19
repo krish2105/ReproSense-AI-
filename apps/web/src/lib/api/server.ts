@@ -1,5 +1,5 @@
 import "server-only";
-import { cookies } from "next/headers";
+import { cookies, headers as incomingHeaders } from "next/headers";
 import { ApiError, errorDetail } from "./errors";
 
 export const API_URL = process.env.API_URL ?? "http://127.0.0.1:8010";
@@ -29,6 +29,9 @@ export async function apiServer<T>(path: string, call: ServerCall = {}): Promise
   const headers: Record<string, string> = { accept: "application/json" };
   if (token) headers.cookie = `${SESSION_COOKIE}=${token}`;
   if (call.body !== undefined) headers["content-type"] = "application/json";
+  // The page view's request ID (proxy.ts), so the API's log lines for this page carry the same ID.
+  const requestId = (await incomingHeaders()).get("x-request-id");
+  if (requestId) headers["x-request-id"] = requestId;
   const res = await fetch(apiUrl(path, call.query), {
     method: call.method ?? "GET",
     headers,
