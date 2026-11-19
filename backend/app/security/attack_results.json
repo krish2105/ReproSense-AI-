@@ -1,8 +1,8 @@
 {
  "suite": "backend/tests/test_attack_suite.py",
- "commit": "868a2bc",
+ "commit": "b04a37c",
  "date": "2026-11-19",
- "ran_at": "2026-11-19T09:37:42+00:00",
+ "ran_at": "2026-11-19T09:48:42+00:00",
  "total": 14,
  "blocked": 14,
  "not_blocked": 0,
