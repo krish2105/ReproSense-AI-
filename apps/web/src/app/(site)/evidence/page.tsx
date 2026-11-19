@@ -162,13 +162,13 @@ export default async function EvidencePage() {
         <ul className="ev-list">
           <Row
             what={t("tests.backend.what")}
-            result={tests ? t("tests.backend.result", { passed: num(tests.backend.passed), skipped: num(tests.backend.skipped) }) : notMeasured}
+            result={tests ? t("tests.backend.result", { passed: num(tests.backend.passed), failed: num(tests.backend.failed), skipped: num(tests.backend.skipped) }) : notMeasured}
             how={t("tests.backend.how")}
             when={tests && ev?.recorded ? t("whenCi", { date: day(ev.recorded) }) : ""}
           />
           <Row
             what={t("tests.web.what")}
-            result={tests ? t("tests.web.result", { passed: num(tests.web_unit.passed), files: num(tests.web_unit.files) }) : notMeasured}
+            result={tests ? t("tests.web.result", { passed: num(tests.web_unit.passed), failed: num(tests.web_unit.failed), files: num(tests.web_unit.files) }) : notMeasured}
             how={t("tests.web.how")}
             when={tests && ev?.recorded ? t("whenCi", { date: day(ev.recorded) }) : ""}
           />

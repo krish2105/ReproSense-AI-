@@ -1656,12 +1656,12 @@
     "tests": {
       "backend": {
         "what": "Backend tests",
-        "result": "{passed} passed, {skipped} skipped",
+        "result": "{passed} passed, {failed} failed, {skipped} skipped",
         "how": "pytest against a real Postgres database: the API, row-level security, the rules, safety routing, the doctor PDF and the assistant test set."
       },
       "web": {
         "what": "Web unit tests",
-        "result": "{passed} passed · files: {files}",
+        "result": "{passed} passed, {failed} failed · files: {files}",
         "how": "Vitest: English and Arabic messages match key for key, the copy guard reads every string, plus formatting and API helpers."
       },
       "e2e": {

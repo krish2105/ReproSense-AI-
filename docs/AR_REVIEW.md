@@ -1490,10 +1490,10 @@ laws against the DoH and UAE legislation sites; ours are translations. Counted n
 | `evidence.notMeasured` | Not measured yet | لم يُقَس بعد | |
 | `evidence.testsTitle` | Tests | الاختبارات | |
 | `evidence.tests.backend.what` | Backend tests | اختبارات الواجهة الخلفية | |
-| `evidence.tests.backend.result` | {passed} passed, {skipped} skipped | ناجحة: {passed}، متخطّاة: {skipped} | |
+| `evidence.tests.backend.result` | {passed} passed, {failed} failed, {skipped} skipped | ناجحة: {passed}، فاشلة: {failed}، متخطّاة: {skipped} | |
 | `evidence.tests.backend.how` | pytest against a real Postgres database: the API, row-level security, the rules, safety routing, the doctor PDF and the assistant test set. | pytest على قاعدة بيانات Postgres حقيقية: الواجهة البرمجية، والأمان على مستوى الصف، والقواعد، وتوجيه الأمان، وتقرير الطبيب PDF، ومجموعة اختبار المساعد. | |
 | `evidence.tests.web.what` | Web unit tests | اختبارات وحدات الويب | |
-| `evidence.tests.web.result` | {passed} passed · files: {files} | ناجحة: {passed} · الملفات: {files} | |
+| `evidence.tests.web.result` | {passed} passed, {failed} failed · files: {files} | ناجحة: {passed}، فاشلة: {failed} · الملفات: {files} | |
 | `evidence.tests.web.how` | Vitest: English and Arabic messages match key for key, the copy guard reads every string, plus formatting and API helpers. | Vitest: تطابق رسائل الإنجليزية والعربية مفتاحاً بمفتاح، ويقرأ مدقق الصياغة كل نص، إضافة إلى التنسيق وأدوات الواجهة البرمجية. | |
 | `evidence.tests.e2e.what` | Browser tests | اختبارات المتصفح | |
 | `evidence.tests.e2e.result` | {tests} in all: {desktop} at 1280 px, {mobile} at 390 px | الإجمالي: {tests}، منها {desktop} بعرض 1280 بكسل و{mobile} بعرض 390 بكسل | |
