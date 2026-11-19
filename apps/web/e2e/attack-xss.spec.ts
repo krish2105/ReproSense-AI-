@@ -19,7 +19,8 @@ test("a script typed into her note shows as text on her calendar and never runs"
   const saved = await page.request.post("/api/v1/logs", { data: { date: "2026-11-21", flow: "none", pain: 0, note: XSS } });
   expect(saved.ok(), "log with the note").toBeTruthy();
   await page.goto("/app/log?date=2026-11-21");
-  await expect(page.getByText(XSS, { exact: true })).toBeVisible();
+  // The day's details show it as text (the log form below holds it as text too, in its note box).
+  await expect(page.getByRole("definition").filter({ hasText: XSS })).toHaveText(XSS);
   await nothingRan(page);
 });
 
