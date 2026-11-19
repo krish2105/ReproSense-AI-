@@ -832,7 +832,7 @@ Addressed to a judge, so the imperative is masculine/neutral (the patient app ad
 | `tour.failed` | That step didn't open: {detail} | لم تُفتح هذه الخطوة: {detail} | |
 | `tour.done` | Tour finished. Everything you saw runs on fictional demo data. | انتهت الجولة. كل ما رأيته يعمل على بيانات عرض خيالية. | |
 | `tour.steps.people.title` | Eight fictional women | ثماني نساء خياليات | |
-| `tour.steps.people.body` | Every record here is synthetic. Next, we open Noura (27), who has logged irregular cycles and skin changes for a year. | كل سجل هنا مُصطنع. في الخطوة التالية نفتح سجل نورة (27 عامًا) التي سجّلت دورات غير منتظمة وتغيّرات في البشرة لمدة عام. | |
+| `tour.steps.people.body` | Every record here is synthetic. Next, we open Noura (24), who has logged irregular cycles and skin changes for a year. | كل سجل هنا مُصطنع. في الخطوة التالية نفتح سجل نورة (24 عامًا) التي سجّلت دورات غير منتظمة وتغيّرات في البشرة لمدة عام. | |
 | `tour.steps.home.title` | Her home screen | شاشتها الرئيسية | |
 | `tour.steps.home.body` | Her cycle on one arc, with today's day and her phases, built only from her own entries. | دورتها على قوس واحد، مع يوم اليوم ومراحلها، مبنية فقط من إدخالاتها. | |
 | `tour.steps.patterns.title` | Patterns, with their evidence | أنماط مع أدلتها | |
@@ -969,6 +969,80 @@ The tour now walks a day's log (voice, body map) and Fatima after the birth. Edi
 | `tour.steps.afterBirth.title` | After the birth: Fatima | بعد الولادة: فاطمة | |
 | `tour.steps.afterBirth.body` | Fatima gave birth 9 weeks ago. Her home shows the DoH postnatal steps with their dates and sources, the glucose test now due after diabetes in pregnancy, and her blood-pressure readings with the warning signs that mean calling 998. | أنجبت فاطمة قبل 9 أسابيع. تعرض شاشتها خطوات الرعاية بعد الولادة من معيار دائرة الصحة مع مواعيدها ومصادرها، وفحص الجلوكوز المستحق الآن بعد سكري الحمل، وقراءات ضغط الدم مع علامات الخطر التي تستدعي الاتصال بالرقم 998. | |
 
+
+## Pilot value page (build week Y3, 18 Nov, draft Arabic, not yet reviewed)
+The public /pilot page for a clinic manager or an insurer, so the address is plural and neutral (أنتم), not the feminine used on her screens. Terms to confirm: سكري الحمل (gestational diabetes), مؤشر جودة PC008.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `pilot.metaTitle` | Pilot value | قيمة البرنامج التجريبي | |
+| `pilot.title` | What a pilot could be worth to your clinic | ما قد يساويه برنامج تجريبي لعيادتكم | |
+| `pilot.intro` | Set the numbers for your own clinic or insurer. This page multiplies them, nothing more: it is not a measured result and promises no outcome. Each default comes from an Abu Dhabi study or our price list, or is marked as an assumption. | أدخلوا أرقام عيادتكم أو شركة التأمين. هذه الصفحة تضرب الأرقام فقط: ليست نتيجة مُقاسة ولا تَعِد بأي نتيجة. كل قيمة افتراضية مأخوذة من دراسة في أبوظبي أو من قائمة أسعارنا، أو مكتوب بجانبها أنها افتراض. | |
+| `pilot.inputsTitle` | Your numbers | أرقامكم | |
+| `pilot.inputs.women` | Women who give birth during the pilot | النساء اللواتي يلدن خلال البرنامج | |
+| `pilot.inputs.gdmPct` | Share with diabetes in pregnancy (gestational diabetes) | نسبة سكري الحمل بينهن | |
+| `pilot.inputs.beforePct` | After-birth glucose follow-up completed today | نسبة إكمال فحص السكر بعد الولادة حالياً | |
+| `pilot.inputs.afterPct` | Completion you aim for with ReproSense | نسبة الإكمال التي تستهدفونها مع ReproSense | |
+| `pilot.inputs.missedCostAed` | Cost of one missed follow-up | تكلفة متابعة واحدة فائتة | |
+| `pilot.inputs.priceAedMonth` | ReproSense subscription per month | اشتراك ReproSense شهرياً | |
+| `pilot.inputs.months` | Pilot length | مدة البرنامج | |
+| `pilot.units.count` | women | امرأة | |
+| `pilot.units.pct` | % | % | |
+| `pilot.units.aed` | AED | درهم | |
+| `pilot.units.months` | months | أشهر | |
+| `pilot.basis.source` | Source | المصدر | |
+| `pilot.basis.price` | Our price list | قائمة أسعارنا | |
+| `pilot.basis.assumption` | Assumption: replace it with your own figure | افتراض: استبدلوه برقمكم | |
+| `pilot.resultTitle` | The arithmetic | الحساب | |
+| `pilot.out.gdm` | Women with gestational diabetes | النساء اللواتي لديهن سكري الحمل | |
+| `pilot.out.closedBefore` | Follow-ups completed at today's rate | المتابعات المكتملة بالنسبة الحالية | |
+| `pilot.out.closedAfter` | Follow-ups completed at your target | المتابعات المكتملة بالنسبة المستهدفة | |
+| `pilot.out.extraClosed` | Follow-ups closed that would otherwise be missed | متابعات إضافية مكتملة كانت ستفوت | |
+| `pilot.out.value` | Value of those follow-ups | قيمة هذه المتابعات | |
+| `pilot.out.subscription` | Subscription for {months, plural, one {# month} other {# months}} | الاشتراك لمدة {months} أشهر | |
+| `pilot.out.net` | Value minus subscription | القيمة بعد خصم الاشتراك | |
+| `pilot.aed` | AED {n} | {n} درهم | |
+| `pilot.per1000` | Per 1,000 women who give birth: {closed} more follow-ups closed, worth AED {value} at your cost per missed follow-up. | لكل 1,000 امرأة تلد: {closed} متابعة إضافية مكتملة، قيمتها {value} درهم بحسب تكلفتكم للمتابعة الفائتة. | |
+| `pilot.assumptions` | The target completion and the cost of a missed follow-up are yours to set; ReproSense has not measured either yet. Follow-up here means the glucose test after gestational diabetes, one part of DoH Jawda KPI PC008. This is not a forecast and not a clinical claim. | نسبة الإكمال المستهدفة وتكلفة المتابعة الفائتة تحددونها أنتم، ولم تقِسهما ReproSense بعد. المتابعة هنا هي فحص السكر بعد سكري الحمل، وهو جزء من مؤشر جودة PC008 لدى دائرة الصحة. هذا ليس توقعاً ولا ادعاءً طبياً. | |
+| `pilot.toPricing` | See pricing | الأسعار | |
+| `pilot.toDemo` | Open the demo | فتح العرض التجريبي | |
+| `chrome.footerPilot` | Pilot value | قيمة البرنامج التجريبي | |
+
+## Clinical-gap audit (19 Nov, draft Arabic, not yet reviewed)
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `safety.pregSigns` | bleeding · severe tummy pain · fewer baby movements · a severe headache · changes in your vision · sudden swelling of the face, hands or feet · a fever | نزيفاً · ألماً شديداً في البطن · قلة حركة الجنين · صداعاً شديداً · تغيّراً في الرؤية · تورّماً مفاجئاً في الوجه أو اليدين أو القدمين · حرارة | changed 19 Nov to match RF5 |
+| RF6 message (`rules/translations_ar.yaml`) | After birth, a severe headache, changes in vision, sudden swelling of the face, hands or feet, very heavy bleeding or a fever needs urgent care. Call 998 or go to the nearest emergency department now. | بعد الولادة، الصداع الشديد أو تغيّر الرؤية أو التورّم المفاجئ في الوجه أو اليدين أو القدمين أو النزيف الغزير جداً أو الحرارة يحتاج رعاية عاجلة. اتصلي بالرقم 998 أو توجّهي إلى أقرب قسم طوارئ الآن. | |
+| After-birth urgent reply, added clause (`assistant.py` `URGENT_TEXT`) | … a severe headache, changes in your vision, or sudden swelling of your face, hands or feet. | … أو الصداع الشديد، أو تغيّر الرؤية، أو التورّم المفاجئ في الوجه أو اليدين أو القدمين. | |
+| `knowledge_base/summaries/nhs_pre_eclampsia.md` (Arabic section) | (new summary) | see the file | |
+
+## Planning a pregnancy checklist (build week Y1, 18 Nov, draft Arabic, not yet reviewed)
+The checklist on Home for the Trying stage (Mariam). Feminine address throughout (her screen). The two new
+knowledge-base summaries (`knowledge_base/summaries/doh_premarital_screening_2024.md`,
+`ukhsa_rubella_before_pregnancy.md`) also have Arabic sections. Medical terms to confirm: الحصبة الألمانية (rubella),
+اللقاح الثلاثي (MMR), أمراض الدم الوراثية, فحص ما قبل الزواج.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `preconception.eyebrow` | Planning a pregnancy | التخطيط للحمل | |
+| `preconception.title` | Things to look at before or while trying | أمور يمكنكِ مراجعتها قبل محاولة الحمل أو أثناءها | |
+| `preconception.intro` | Tick an item once it is done. Ticks are saved to your record, and you can untick them any time. | ضعي علامة على البند بعد إنجازه. تُحفظ العلامات في سجلّكِ، ويمكنكِ إزالتها في أي وقت. | |
+| `preconception.progress` | {done} of {total} ticked | {done} من {total} مُعلَّمة | |
+| `preconception.relevant` | Your entries point to this | إدخالاتكِ تشير إلى هذا | |
+| `preconception.items.folic_acid.title` | Folic acid | حمض الفوليك | |
+| `preconception.items.folic_acid.body` | The NHS advises 400 micrograms of folic acid a day while trying and until 12 weeks of pregnancy. Some women are prescribed a higher dose; ask your doctor if that applies to you. | تنصح الخدمة الصحية البريطانية (NHS) بتناول 400 ميكروغرام من حمض الفوليك يومياً أثناء محاولة الحمل وحتى الأسبوع 12 من الحمل. تُوصف لبعض النساء جرعة أعلى؛ اسألي طبيبتكِ إن كان ذلك ينطبق عليكِ. | |
+| `preconception.items.premarital_results.title` | Your premarital screening results | نتائج فحص ما قبل الزواج | |
+| `preconception.items.premarital_results.body` | If you had premarital screening in Abu Dhabi, its results (such as blood group, inherited blood conditions and German measles immunity) are useful to bring to a check-up before a pregnancy. | إذا أجريتِ فحص ما قبل الزواج في أبوظبي، فنتائجه (مثل فصيلة الدم وأمراض الدم الوراثية والمناعة ضد الحصبة الألمانية) مفيدة لإحضارها إلى فحص ما قبل الحمل. | |
+| `preconception.items.rubella.title` | German measles (rubella) protection | الحماية من الحصبة الألمانية | |
+| `preconception.items.rubella.body` | Check whether you are protected, for example in your vaccination record or your screening results. If you are not, the MMR vaccine is given before pregnancy, and pregnancy is avoided for one month after it. | تأكدي من حمايتكِ، مثلاً من سجل تطعيماتكِ أو نتائج فحصكِ. إن لم تكوني محمية، يُعطى اللقاح الثلاثي (MMR) قبل الحمل، ويُتجنّب الحمل لمدة شهر بعده. | |
+| `preconception.items.cycle_checkup.title` | A check-up if your cycles are irregular | فحص إذا كانت دوراتكِ غير منتظمة | |
+| `preconception.items.cycle_checkup.body` | If your cycle lengths vary a lot, consider asking a doctor to look at them before or while you try. Your cycle record helps. | إذا كانت أطوال دوراتكِ تختلف كثيراً، فكّري في أن تطلبي من الطبيبة مراجعتها قبل محاولة الحمل أو أثناءها. سجل دوراتكِ يساعد. | |
+| `preconception.items.fertility_check.title` | When to ask about a fertility check | متى تسألين عن فحص الخصوبة | |
+| `preconception.items.fertility_check.body` | Guidance suggests asking after 12 months of trying, or after 6 months from age 35. Both partners can be assessed. Irregular periods are a reason to ask sooner. | تقترح الإرشادات السؤال بعد 12 شهراً من المحاولة، أو بعد 6 أشهر من سن 35. يمكن تقييم الشريكين كليهما. الدورات غير المنتظمة سبب للسؤال مبكراً. | |
+| `preconception.saved` | Saved to your record. | حُفظت في سجلّكِ. | |
+| `preconception.removed` | Removed from your record. | أُزيلت من سجلّكِ. | |
+| `preconception.saveFailed` | It wasn't saved: {detail} | لم تُحفظ: {detail} | |
+| `preconception.note` | This is information to discuss with your doctor. Nothing here is required, and none of it is a diagnosis. | هذه معلومات لمناقشتها مع طبيبتكِ. لا شيء هنا إلزامي، ولا شيء منها تشخيص. | |
 
 ## Family support view (build week Y4, 18 Nov, draft Arabic, not yet reviewed)
 Two voices: `family.manage.*` is her Privacy screen (feminine address); `family.view.*`, `family.steps.*` and `family.tips.*` are read by her husband, mother or someone she trusts, so they use the plural (أنتم) and speak about her in the third person. Steps carry neutral names on purpose (no reason for a test is shown). Krishna reviews the privacy wording.
