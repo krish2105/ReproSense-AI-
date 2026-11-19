@@ -1966,7 +1966,8 @@
       "clinician": "طبيب",
       "clinic_admin": "مسؤول العيادة",
       "admin": "مسؤول الشبكة",
-      "system": "النظام"
+      "system": "النظام",
+      "family": "رابط العائلة"
     },
     "actions": {
       "accept_clinic_invite": "انضم إلى العيادة من دعوة",
@@ -1982,6 +1983,7 @@
       "consent_revoke": "أوقف خياراً",
       "create_bp_reading": "سجّل ضغط الدم",
       "create_clinic_invite": "أنشأ دعوة لطبيب",
+      "create_family_link": "أنشأ رابطاً للعائلة",
       "create_log": "أضاف إدخالاً",
       "create_report": "أعدّ تقريراً",
       "create_share": "شارك رابط تقرير",
@@ -2009,6 +2011,7 @@
       "reminder_discarded": "تجاهل مسودة تذكير",
       "reminder_drafted": "صاغ مسودة تذكير (لم تُرسل)",
       "revoke_clinic_invite": "سحب دعوة طبيب",
+      "revoke_family_link": "أوقف رابط العائلة",
       "revoke_share": "أوقف رابط تقرير",
       "save_visit_note": "حفظ ملاحظة زيارة",
       "sign_in": "سجّل الدخول",
@@ -2022,6 +2025,7 @@
       "view_clinic_events": "عرض سجل أحداث العيادة",
       "view_clinic_invite": "فتح رابط دعوة",
       "view_clinic_team": "عرض فريق العيادة",
+      "view_family_link": "فتح رابط العائلة",
       "view_followup_history": "عرض سجل متابعة",
       "view_insights": "عرض الأنماط",
       "view_previsit_brief": "عرض ملخص ما قبل الزيارة",

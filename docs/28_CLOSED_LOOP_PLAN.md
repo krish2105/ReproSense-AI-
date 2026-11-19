@@ -23,7 +23,7 @@ the **code freeze, Sat 21 Nov 18:00**. Whatever isn't merged by then is roadmap,
 | 5 Logins and roles | Full plan: /staff/signin and /doh/signin with passkeys (DoH plus a second check), 30-minute idle and 8-hour staff sessions, revoked-token logout, step-up for exports. Demo one-tap logins stay. | Claude for Krishna | open (staff sign-in) |
 | 6 Watertight security | The 14-attack suite with a published score on /status, a content security policy, `pip-audit` and `pnpm audit`, CodeQL, Dependabot | Claude for Krishna | open (security pack) |
 | 7 Chatbot | Record lane (her own numbers computed by code, with dated chips) and a next-step lane she approves; a LangGraph router. G2 approved. | Claude for Krishna | open (record lane) |
-| 4 and 8 Loop and backtracking | Follow-up history, the event timeline (DoH and clinic admin), loop metrics, overdue flags with reminder drafts | Claude for Krishna | open (closed loop) |
+| 4 and 8 Loop and backtracking | Follow-up history, the event timeline (DoH and clinic admin), loop metrics, overdue flags with reminder drafts | Claude for Krishna | this PR (closed loop) |
 | 9 Emergency help | 800-SAKINA, DoH's 24/7 mental-health line, after 998 in every crisis path. G2 approved. | Krishna | #143 |
 | Automation | Live demo check every 3 hours (every 30 minutes on 22 Nov); a failure opens an issue | Krishna | this PR |
 | 3 Newborn (D1, D2) | The baby's first-year checks and vaccinations, feeding log | Dareen | not started |

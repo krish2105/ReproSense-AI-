@@ -5,7 +5,6 @@ from __future__ import annotations
 import csv
 import io
 from datetime import date
-from typing import Literal
 
 from fastapi import APIRouter, Depends, Query, Response
 
@@ -169,7 +168,7 @@ def verify_audit(actor: Actor = Depends(admin)):
 
 @router.get("/events")
 def events(
-    role: Literal["patient", "clinician", "clinic_admin", "admin", "system"] | None = None,
+    role: str | None = Query(None, pattern=r"^[a-z_]{1,20}$"),
     action: str | None = Query(None, pattern=r"^[a-z_]{1,60}$"),
     since: date | None = Query(None, alias="from"),
     until: date | None = Query(None, alias="to"),

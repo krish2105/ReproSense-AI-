@@ -1966,7 +1966,8 @@
       "clinician": "Clinician",
       "clinic_admin": "Clinic admin",
       "admin": "Network admin",
-      "system": "System"
+      "system": "System",
+      "family": "Family link"
     },
     "actions": {
       "accept_clinic_invite": "Joined the clinic from an invite",
@@ -1982,6 +1983,7 @@
       "consent_revoke": "Stopped a choice",
       "create_bp_reading": "Logged blood pressure",
       "create_clinic_invite": "Created a clinician invite",
+      "create_family_link": "Created a family link",
       "create_log": "Added an entry",
       "create_report": "Prepared a report",
       "create_share": "Shared a report link",
@@ -2009,6 +2011,7 @@
       "reminder_discarded": "Discarded a reminder draft",
       "reminder_drafted": "Drafted a reminder (not sent)",
       "revoke_clinic_invite": "Withdrew a clinician invite",
+      "revoke_family_link": "Stopped a family link",
       "revoke_share": "Stopped a report link",
       "save_visit_note": "Saved a visit note",
       "sign_in": "Signed in",
@@ -2022,6 +2025,7 @@
       "view_clinic_events": "Viewed the clinic's event timeline",
       "view_clinic_invite": "Opened an invite link",
       "view_clinic_team": "Viewed the clinic team",
+      "view_family_link": "Opened a family link",
       "view_followup_history": "Viewed a follow-up's history",
       "view_insights": "Viewed patterns",
       "view_previsit_brief": "Viewed the pre-visit brief",

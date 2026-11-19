@@ -1289,6 +1289,7 @@ loop figures and event timeline (`loop.*`, neutral forms). Plural forms use the 
 | `loop.roles.clinic_admin` | Clinic admin | مسؤول العيادة | |
 | `loop.roles.admin` | Network admin | مسؤول الشبكة | |
 | `loop.roles.system` | System | النظام | |
+| `loop.roles.family` | Family link | رابط العائلة | |
 | `loop.actions.accept_clinic_invite` | Joined the clinic from an invite | انضم إلى العيادة من دعوة | |
 | `loop.actions.ask_record` | Searched a shared record | بحث في سجل مُشارَك | |
 | `loop.actions.assistant_ask` | Asked the assistant | سأل المساعد | |
@@ -1302,6 +1303,7 @@ loop figures and event timeline (`loop.*`, neutral forms). Plural forms use the 
 | `loop.actions.consent_revoke` | Stopped a choice | أوقف خياراً | |
 | `loop.actions.create_bp_reading` | Logged blood pressure | سجّل ضغط الدم | |
 | `loop.actions.create_clinic_invite` | Created a clinician invite | أنشأ دعوة لطبيب | |
+| `loop.actions.create_family_link` | Created a family link | أنشأ رابطاً للعائلة | |
 | `loop.actions.create_log` | Added an entry | أضاف إدخالاً | |
 | `loop.actions.create_report` | Prepared a report | أعدّ تقريراً | |
 | `loop.actions.create_share` | Shared a report link | شارك رابط تقرير | |
@@ -1329,6 +1331,7 @@ loop figures and event timeline (`loop.*`, neutral forms). Plural forms use the 
 | `loop.actions.reminder_discarded` | Discarded a reminder draft | تجاهل مسودة تذكير | |
 | `loop.actions.reminder_drafted` | Drafted a reminder (not sent) | صاغ مسودة تذكير (لم تُرسل) | |
 | `loop.actions.revoke_clinic_invite` | Withdrew a clinician invite | سحب دعوة طبيب | |
+| `loop.actions.revoke_family_link` | Stopped a family link | أوقف رابط العائلة | |
 | `loop.actions.revoke_share` | Stopped a report link | أوقف رابط تقرير | |
 | `loop.actions.save_visit_note` | Saved a visit note | حفظ ملاحظة زيارة | |
 | `loop.actions.sign_in` | Signed in | سجّل الدخول | |
@@ -1342,6 +1345,7 @@ loop figures and event timeline (`loop.*`, neutral forms). Plural forms use the 
 | `loop.actions.view_clinic_events` | Viewed the clinic's event timeline | عرض سجل أحداث العيادة | |
 | `loop.actions.view_clinic_invite` | Opened an invite link | فتح رابط دعوة | |
 | `loop.actions.view_clinic_team` | Viewed the clinic team | عرض فريق العيادة | |
+| `loop.actions.view_family_link` | Opened a family link | فتح رابط العائلة | |
 | `loop.actions.view_followup_history` | Viewed a follow-up's history | عرض سجل متابعة | |
 | `loop.actions.view_insights` | Viewed patterns | عرض الأنماط | |
 | `loop.actions.view_previsit_brief` | Viewed the pre-visit brief | عرض ملخص ما قبل الزيارة | |
