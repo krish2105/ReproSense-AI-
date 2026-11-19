@@ -43,9 +43,14 @@ test("every page has a content security policy with a fresh nonce on each of its
   const scriptSrc = policy.split(";").map((d) => d.trim()).find((d) => d.startsWith("script-src ")) ?? "";
   expect(scriptSrc).toMatch(/^script-src 'self' 'nonce-[^']+' 'strict-dynamic'$/); // no 'unsafe-inline', no eval
   const nonce = /'nonce-([^']+)'/.exec(scriptSrc)?.[1];
-  const tags = (await res.text()).match(/<script\b[^>]*>/g) ?? [];
-  expect(tags.length).toBeGreaterThan(0);
-  for (const tag of tags) expect(tag, "every script in the page carries this response's nonce").toContain(`nonce="${nonce}"`);
+  // Parse the server's HTML with the browser's own parser (no regular expressions over HTML).
+  const html = await res.text();
+  const nonces = await page.evaluate(
+    (doc) => [...new DOMParser().parseFromString(doc, "text/html").querySelectorAll("script")].map((s) => s.getAttribute("nonce") || s.nonce),
+    html,
+  );
+  expect(nonces.length).toBeGreaterThan(0);
+  expect(new Set(nonces), "every script in the page carries this response's nonce").toEqual(new Set([nonce]));
   const again = (await page.request.get("/")).headers()["content-security-policy"] ?? "";
   expect(/'nonce-([^']+)'/.exec(again)?.[1], "a new nonce for every response").not.toBe(nonce);
   // The browser loads the page under the policy with nothing refused (the fixture fails on any console error).
