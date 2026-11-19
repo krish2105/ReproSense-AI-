@@ -47,7 +47,9 @@ CODE_TTL = timedelta(minutes=10)
 CODE_TRIES = 5
 CODES_PER_ADDRESS = 3  # per address and purpose, in any 10 minutes
 CODES_PER_HOUR = 60  # all addresses together: keeps the email provider's free quota for the demo
-EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+# Domain labels cannot contain a dot, so every character is matched one way only (no polynomial backtracking; CodeQL
+# py/polynomial-redos).
+EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s.]+(?:\.[^@\s.]+)+$")
 
 NOT_OWN = "Sign-in methods are for a record you started yourself on /join. Demo people open with one tap on /demo."
 NO_EMAIL = "Sign-in by email code is not set up on this server. Use a passkey, or open a demo person on /demo."
