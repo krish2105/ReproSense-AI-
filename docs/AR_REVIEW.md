@@ -968,3 +968,11 @@ The tour now walks a day's log (voice, body map) and Fatima after the birth. Edi
 | `tour.steps.report.body` | Prepare a two-page PDF she can download, or share with her own clinic only after she agrees. "Before your visit" lists what changed since her last visit. | جهّز ملف PDF من صفحتين يمكنها تنزيله، أو مشاركته مع عيادتها فقط بعد موافقتها. ويعرض قسم «قبل زيارتك» ما تغيّر منذ زيارتها الأخيرة. | |
 | `tour.steps.afterBirth.title` | After the birth: Fatima | بعد الولادة: فاطمة | |
 | `tour.steps.afterBirth.body` | Fatima gave birth 9 weeks ago. Her home shows the DoH postnatal steps with their dates and sources, the glucose test now due after diabetes in pregnancy, and her blood-pressure readings with the warning signs that mean calling 998. | أنجبت فاطمة قبل 9 أسابيع. تعرض شاشتها خطوات الرعاية بعد الولادة من معيار دائرة الصحة مع مواعيدها ومصادرها، وفحص الجلوكوز المستحق الآن بعد سكري الحمل، وقراءات ضغط الدم مع علامات الخطر التي تستدعي الاتصال بالرقم 998. | |
+
+## Clinical-gap audit (19 Nov, draft Arabic, not yet reviewed)
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `safety.pregSigns` | bleeding · severe tummy pain · fewer baby movements · a severe headache · changes in your vision · sudden swelling of the face, hands or feet · a fever | نزيفاً · ألماً شديداً في البطن · قلة حركة الجنين · صداعاً شديداً · تغيّراً في الرؤية · تورّماً مفاجئاً في الوجه أو اليدين أو القدمين · حرارة | changed 19 Nov to match RF5 |
+| RF6 message (`rules/translations_ar.yaml`) | After birth, a severe headache, changes in vision, sudden swelling of the face, hands or feet, very heavy bleeding or a fever needs urgent care. Call 998 or go to the nearest emergency department now. | بعد الولادة، الصداع الشديد أو تغيّر الرؤية أو التورّم المفاجئ في الوجه أو اليدين أو القدمين أو النزيف الغزير جداً أو الحرارة يحتاج رعاية عاجلة. اتصلي بالرقم 998 أو توجّهي إلى أقرب قسم طوارئ الآن. | |
+| After-birth urgent reply, added clause (`assistant.py` `URGENT_TEXT`) | … a severe headache, changes in your vision, or sudden swelling of your face, hands or feet. | … أو الصداع الشديد، أو تغيّر الرؤية، أو التورّم المفاجئ في الوجه أو اليدين أو القدمين. | |
+| `knowledge_base/summaries/nhs_pre_eclampsia.md` (Arabic section) | (new summary) | see the file | |
