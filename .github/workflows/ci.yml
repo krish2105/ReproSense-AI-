@@ -38,6 +38,18 @@ jobs:
       - name: Tests (rules, API, RLS, security, 60-question AI eval)
         working-directory: backend
         run: uv run pytest -q
+      # docs/07 "Attack suite": the 14 attacks again, scored as /status publishes them. Fails if any gets through.
+      - name: Attack suite (fails if any attack gets through)
+        working-directory: backend
+        run: uv run python -m app.security.attack_report --no-write
+      # docs/07 "Dependency and code scanning": every locked dependency, runtime and dev, against the PyPI advisory
+      # database. pip-audit has no severity filter, so any known vulnerability fails; accepted exceptions are listed in
+      # docs/07 and passed as --ignore-vuln.
+      - name: Dependency audit (pip-audit)
+        working-directory: backend
+        run: |
+          uv export --frozen --all-groups --no-hashes --no-emit-project -o "$RUNNER_TEMP/requirements-audit.txt"
+          uvx pip-audit@2.10.1 -r "$RUNNER_TEMP/requirements-audit.txt" --disable-pip --no-deps --progress-spinner off
 
   web:
     runs-on: ubuntu-latest
@@ -56,6 +68,9 @@ jobs:
           cache-dependency-path: apps/web/pnpm-lock.yaml
       - name: Install
         run: pnpm install --frozen-lockfile
+      # docs/07 "Dependency and code scanning": the packages the app ships with; fails on a high or critical advisory.
+      - name: Dependency audit (high and critical)
+        run: pnpm audit --prod --audit-level=high
       - name: Lint
         run: pnpm lint
       - name: Typecheck
