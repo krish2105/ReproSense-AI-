@@ -832,7 +832,7 @@ Addressed to a judge, so the imperative is masculine/neutral (the patient app ad
 | `tour.failed` | That step didn't open: {detail} | لم تُفتح هذه الخطوة: {detail} | |
 | `tour.done` | Tour finished. Everything you saw runs on fictional demo data. | انتهت الجولة. كل ما رأيته يعمل على بيانات عرض خيالية. | |
 | `tour.steps.people.title` | Eight fictional women | ثماني نساء خياليات | |
-| `tour.steps.people.body` | Every record here is synthetic. Next, we open Noura (27), who has logged irregular cycles and skin changes for a year. | كل سجل هنا مُصطنع. في الخطوة التالية نفتح سجل نورة (27 عامًا) التي سجّلت دورات غير منتظمة وتغيّرات في البشرة لمدة عام. | |
+| `tour.steps.people.body` | Every record here is synthetic. Next, we open Noura (24), who has logged irregular cycles and skin changes for a year. | كل سجل هنا مُصطنع. في الخطوة التالية نفتح سجل نورة (24 عامًا) التي سجّلت دورات غير منتظمة وتغيّرات في البشرة لمدة عام. | |
 | `tour.steps.home.title` | Her home screen | شاشتها الرئيسية | |
 | `tour.steps.home.body` | Her cycle on one arc, with today's day and her phases, built only from her own entries. | دورتها على قوس واحد، مع يوم اليوم ومراحلها، مبنية فقط من إدخالاتها. | |
 | `tour.steps.patterns.title` | Patterns, with their evidence | أنماط مع أدلتها | |
