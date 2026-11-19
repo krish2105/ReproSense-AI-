@@ -17,6 +17,18 @@ Blockers / questions:
 
 ---
 
+## 2026-11-19 — C7 step 1: three full e2e runs in a row on main — Atharva with Claude Code
+Done:
+- Main `899416a` (Next 16, A1–A8, #130's demo-reset deadlock retry): **three full Playwright runs in a row, 208 passed
+  each, 0 failed, 10 skipped by design** (10.8, 9.2 and 10.8 min). `postnatal.spec.ts:25`, which failed twice last night
+  on the reset, passes in all three.
+- Setup: production build (`next start` on :3100, the api-down copy on :3101), API image built from the same commit in
+  Docker with `LLM_PROVIDER=none` and CI's raised rate limits, freshly seeded database.
+Next (C7): Lighthouse on 5 mobile screens, demo-readiness and a senior-judge rescore, backup video v2, then Krishna tags
+`freeze-2026-11-21` before Sat 21 Nov 18:00.
+
+---
+
 ## 2026-11-19 — Build week: iOS app, Next 16, every open PR merged, rescore 73/100, judge's UI points — Krishna with Claude Code
 Done:
 - **Merged (all CI green, e2e included):**
