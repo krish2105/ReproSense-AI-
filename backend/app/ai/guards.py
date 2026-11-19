@@ -17,10 +17,10 @@ _YOU_HAVE_OK = (
 _HEDGE = r"(?:likely|probably|possibly|may|might|could)"
 _CONDITION_EN = (
     r"(?:pcos|polycystic|endometriosis|adenomyosis|fibroids|infertility|an? ectopic|a miscarriage|anaemia|anemia|"
-    r"diabetes|a thyroid|thyroid disease|postnatal depression|postpartum depression)"
+    r"diabetes|a thyroid|thyroid disease|postnatal depression|postpartum depression|pre-?eclampsia)"
 )
 # Arabic condition words, written as they look after _norm (no short vowels, bare alef).
-_CONDITION_AR = r"(?:متلازمة|تكيس|انتباذ|بطانة الرحم المهاجرة|عقم|فقر الدم|سكري|اكتئاب|قصور الغدة|خمول الغدة)"
+_CONDITION_AR = r"(?:متلازمة|تكيس|انتباذ|بطانة الرحم المهاجرة|عقم|فقر الدم|سكري|اكتئاب|قصور الغدة|خمول الغدة|تسمم الحمل|حمل خارج الرحم)"
 BANNED_PATTERNS: list[tuple[str, re.Pattern]] = [
     ("you have <condition>", re.compile(rf"\byou have (?!{_YOU_HAVE_OK}\b)", re.I)),
     ("you likely have <condition>", re.compile(rf"\byou {_HEDGE} have (?!{_YOU_HAVE_OK}\b)", re.I)),
@@ -36,6 +36,31 @@ BANNED_PATTERNS: list[tuple[str, re.Pattern]] = [
     ("تم تشخيصك", re.compile(r"تم\s+تشخيصك")),
     ("نسبة احتمال", re.compile(r"نسبة\s+احتمال")),
     ("أنت مصابة", re.compile(r"انت(?:ي)?\s+مصابة")),
+    # Issue #99 (19 Nov audit): diagnosis by inference or hedging. Teaching sentences ("doctors look at when
+    # considering PCOS", "symptoms that suggest heavy bleeding") still pass: these need a condition name right after.
+    (
+        "suggests <condition>",
+        re.compile(
+            rf"\b(?:suggests?|suggesting|indicates?|indicating|points? to|(?:is |are )?consistent with|typical of)\s+(?:an?\s+|the\s+)?{_CONDITION_EN}\b",
+            re.I,
+        ),
+    ),
+    ("you seem to have", re.compile(rf"\byou (?:seem|appear) to have (?!{_YOU_HAVE_OK}\b)", re.I)),
+    (
+        "it is likely <condition>",
+        re.compile(rf"\b(?:it|this|that)(?:'s|’s| is| was) (?:likely|probably|possibly|most likely|definitely)\s+(?:an?\s+)?{_CONDITION_EN}\b", re.I),
+    ),
+    (
+        "you are suffering from <condition>",
+        re.compile(rf"\byou(?:'re|’re| are| might be| may be| could be)?\s+suffer(?:ing|s)? from\s+(?:an?\s+)?{_CONDITION_EN}\b", re.I),
+    ),
+    ("you've got <condition>", re.compile(rf"\byou(?:'ve|’ve| have)? got\s+(?:an?\s+)?{_CONDITION_EN}\b", re.I)),
+    ("this could be <condition>", re.compile(rf"\b(?:this|that|it) (?:could|may|might|must) be\s+(?:an?\s+)?{_CONDITION_EN}\b", re.I)),
+    ("تعانين من <condition>", re.compile(rf"تعانين\s+من\s+{_CONDITION_AR}")),
+    ("قد تكونين مصابة", re.compile(r"(?:قد|ربما)\s+تكونين\s+مصاب")),
+    ("يبدو أنك مصابة", re.compile(r"يبدو\s+ان(?:ك|كي)\s+مصاب")),
+    ("فيك / عندج <condition>", re.compile(rf"(?:فيك|فيج|عندج|عندكي)\s+{_CONDITION_AR}")),
+    ("تدل على <condition>", re.compile(rf"(?:تدل|يدل|تشير|يشير)\s+(?:على|علي|الى|الي)\s+{_CONDITION_AR}")),
 ]
 _TASHKEEL = re.compile(r"[\u064B-\u0652\u0670\u0640]")  # short vowels, shadda, sukun, dagger alef, tatweel
 _ALEF = str.maketrans("أإآ", "ااا")
