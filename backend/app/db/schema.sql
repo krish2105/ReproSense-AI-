@@ -117,11 +117,14 @@ CREATE TABLE shares (
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
+-- opened_at: when a rule opened it (the loop's first step). window_end: the last day of its guideline window, never
+-- moved forward to "today" the way due_date is, so a follow-up past its window with no booking can be flagged overdue.
 CREATE TABLE care_gaps (
   id serial PRIMARY KEY, profile_id text NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   clinic_id text REFERENCES clinics(id), type text NOT NULL, rule_id text NOT NULL, due_date date,
   status text NOT NULL DEFAULT 'open' CHECK (status IN ('open', 'in_progress', 'closed')),
-  updated_at timestamptz NOT NULL DEFAULT now(), updated_by text, UNIQUE (profile_id, type)
+  updated_at timestamptz NOT NULL DEFAULT now(), updated_by text, opened_at timestamptz NOT NULL DEFAULT now(),
+  window_end date, UNIQUE (profile_id, type)
 );
 
 CREATE TABLE clinic_reviews (
@@ -129,11 +132,15 @@ CREATE TABLE clinic_reviews (
   clinician_id text NOT NULL, reviewed_at timestamptz, visit_note text, updated_at timestamptz NOT NULL DEFAULT now()
 );
 
+-- origin 'patient': her own appointment request. origin 'clinic': a reminder her clinician drafted for an open follow-up
+-- (care_gap_id). Either way the app only drafts; the person who approves it sends it herself.
 CREATE TABLE navigator_drafts (
   id serial PRIMARY KEY, profile_id text NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   rule_id text NOT NULL, draft jsonb NOT NULL,
   status text NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'approved', 'discarded')),  -- no 'sent': the app never sends
-  created_at timestamptz NOT NULL DEFAULT now(), approved_at timestamptz
+  created_at timestamptz NOT NULL DEFAULT now(), approved_at timestamptz,
+  origin text NOT NULL DEFAULT 'patient' CHECK (origin IN ('patient', 'clinic')),
+  care_gap_id int REFERENCES care_gaps(id) ON DELETE CASCADE, created_by text
 );
 
 CREATE TABLE cohort_members (
@@ -142,7 +149,11 @@ CREATE TABLE cohort_members (
   obs_irregular_cycles boolean, obs_irregular_plus_androgen boolean, obs_severe_cyclical_pain boolean, obs_heavy_periods boolean,
   recent_delivery boolean, gdm_history boolean, trying_to_conceive boolean, obs_ttc_fertility_assessment boolean,
   postpartum_glucose_test_done boolean, consented_care_share boolean, report_shared boolean,
-  care_gap_type text, care_gap_status text, days_overdue int
+  care_gap_type text, care_gap_status text, days_overdue int,
+  -- The loop's dates for the synthetic cohort (app/services/followups.py cohort_loop: derived from the member's id and
+  -- the demo date, so a demo reset gives the same figures). No real person's timings.
+  gap_opened_on date, gap_booked_on date, gap_done_on date, gap_result_on date, gap_window_end date,
+  report_opened_on date, birth_on date, postnatal_steps jsonb
 );
 
 CREATE TABLE kb_chunks (
@@ -203,6 +214,10 @@ BEGIN
   EXECUTE $p$CREATE POLICY clinician_update ON observations FOR UPDATE USING (clinician_can_see(profile_id)) WITH CHECK (clinician_can_see(profile_id))$p$;
   EXECUTE $p$CREATE POLICY clinician_write ON clinic_reviews FOR INSERT WITH CHECK (clinician_can_see(profile_id))$p$;
   EXECUTE $p$CREATE POLICY clinician_rewrite ON clinic_reviews FOR UPDATE USING (clinician_can_see(profile_id)) WITH CHECK (clinician_can_see(profile_id))$p$;
+  -- a clinician drafts (and approves or discards) reminders for a consented patient; she never edits her requests
+  EXECUTE $p$CREATE POLICY clinician_draft ON navigator_drafts FOR INSERT WITH CHECK (origin = 'clinic' AND clinician_can_see(profile_id))$p$;
+  EXECUTE $p$CREATE POLICY clinician_decide ON navigator_drafts FOR UPDATE USING (origin = 'clinic' AND clinician_can_see(profile_id))
+            WITH CHECK (origin = 'clinic' AND clinician_can_see(profile_id))$p$;
 END $$;
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
@@ -215,6 +230,9 @@ CREATE POLICY clinician_read ON profiles FOR SELECT USING (clinician_can_see(id)
 -- a clinic admin sees her own clinic's staff (never a patient row)
 CREATE POLICY clinic_admin_team ON profiles FOR SELECT
   USING (app_role() = 'clinic_admin' AND role IN ('clinician', 'clinic_admin') AND clinic_id = app_clinic());
+-- the network admin sees staff rows only (which clinic a clinician works at, for the event timeline), never a patient
+CREATE POLICY admin_staff ON profiles FOR SELECT
+  USING (app_role() = 'admin' AND role IN ('clinician', 'clinic_admin', 'admin'));
 
 ALTER TABLE cohort_members ENABLE ROW LEVEL SECURITY;
 ALTER TABLE cohort_members FORCE ROW LEVEL SECURITY;
@@ -282,6 +300,65 @@ LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
   ELSE 0 END
 $$;
 GRANT EXECUTE ON FUNCTION clinic_follow_up_counts(), clinic_shared_record_count() TO reprosense_app;
+
+-- ---------- the closed loop, made visible (sections 4 and 8) ----------
+-- One follow-up's audit trail, for the woman herself or a clinician she shares with: the actions on this follow-up,
+-- her care_share choices, her confirmed lab uploads and the clinicians' opens of her record. Nothing for anyone else.
+CREATE OR REPLACE FUNCTION follow_up_audit(pid text, gap int)
+RETURNS TABLE(id bigint, at timestamptz, actor_role text, actor_id text, action text, target text, detail jsonb, hash text)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+  SELECT a.id, a.at, a.actor_role, a.actor_id, a.action, a.target, a.detail, a.hash FROM audit_log a
+  WHERE (clinician_can_see(pid) OR (app_role() = 'patient' AND pid = app_user()))
+    AND a.subject_id = pid
+    AND (a.target = 'care_gap:' || gap OR a.target = 'care_share' OR a.action IN ('confirm_document', 'view_record',
+         'view_shared_report', 'download_shared_report'))
+  ORDER BY a.id
+$$;
+
+-- Every live follow-up as dates only (no profile id): when a rule opened it, when it was booked, done, when a result
+-- came back and when a clinician first opened her record after it opened. Network admin: all; a clinic admin: those
+-- shared with her clinic (an active care_share consent), as in clinic_follow_up_counts(). Reads only tables whose
+-- RLS is not forced (care_gaps, consents, audit_log), so it also works under a managed database's owner.
+CREATE OR REPLACE FUNCTION follow_up_loop()
+RETURNS TABLE(clinic_id text, type text, status text, opened_at timestamptz, window_end date, booked_at timestamptz,
+              done_at timestamptz, result_at timestamptz, report_opened_at timestamptz)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+  SELECT g.clinic_id, g.type, g.status, g.opened_at, g.window_end,
+    (SELECT min(a.at) FROM audit_log a WHERE a.target = 'care_gap:' || g.id AND a.action = 'care_gap_in_progress'),
+    CASE WHEN g.status = 'closed' THEN g.updated_at END,
+    (SELECT min(a.at) FROM audit_log a WHERE a.subject_id = g.profile_id AND a.action = 'confirm_document'
+       AND a.at >= g.opened_at AND coalesce(a.detail -> 'codes', '[]'::jsonb) ? 'OGTT2H'),
+    (SELECT min(a.at) FROM audit_log a WHERE a.subject_id = g.profile_id AND a.actor_role = 'clinician'
+       AND a.action IN ('view_record', 'view_shared_report', 'download_shared_report') AND a.at >= g.opened_at)
+  FROM care_gaps g
+  WHERE app_role() = 'admin'
+     OR (app_role() = 'clinic_admin' AND app_clinic() <> '' AND g.clinic_id = app_clinic() AND EXISTS (
+          SELECT 1 FROM consents c WHERE c.profile_id = g.profile_id AND c.purpose = 'care_share' AND c.granted
+            AND c.revoked_at IS NULL AND c.clinic_id = app_clinic()))
+$$;
+
+-- The event timeline: the audit log with the clinic each row belongs to (a staff actor's clinic, an invite's clinic,
+-- the clinic a follow-up the rules engine opened or closed is shared with, or a clinic's own target). The network
+-- admin reads every row, or one clinic's with p_clinic; a clinic admin always and only her own clinic's, whatever she
+-- asks for. Ids only: the API pseudonymises patients' ids.
+CREATE OR REPLACE FUNCTION audit_event_rows(p_clinic text DEFAULT NULL)
+RETURNS TABLE(id bigint, at timestamptz, actor_role text, actor_id text, action text, subject_id text, target text,
+              clinic_id text)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+  SELECT e.* FROM (
+    SELECT a.id, a.at, a.actor_role, a.actor_id, a.action, a.subject_id, a.target,
+      coalesce(s.clinic_id, i.clinic_id, g.clinic_id,
+               CASE WHEN a.target LIKE 'clinic:%' THEN substr(a.target, 8) END) AS clinic_id
+    FROM audit_log a
+    LEFT JOIN profiles s ON s.id = a.actor_id AND s.role IN ('clinician', 'clinic_admin')
+    LEFT JOIN clinic_invites i ON a.target = 'clinic_invite:' || i.id
+    -- the rules engine opening or closing a follow-up belongs to the clinic the record is shared with
+    LEFT JOIN care_gaps g ON a.actor_role = 'system' AND a.target = 'care_gap:' || g.id
+  ) e
+  WHERE (app_role() = 'admin' AND (p_clinic IS NULL OR e.clinic_id = p_clinic))
+     OR (app_role() = 'clinic_admin' AND app_clinic() <> '' AND e.clinic_id = app_clinic())
+$$;
+GRANT EXECUTE ON FUNCTION follow_up_audit(text, int), follow_up_loop(), audit_event_rows(text) TO reprosense_app;
 
 -- The three SECURITY DEFINER helpers above read consents, audit_log and care_gaps as the table owner and rely on the
 -- owner bypassing RLS. A superuser (local Postgres) always does; a managed database owner such as Supabase's

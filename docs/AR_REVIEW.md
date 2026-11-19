@@ -1187,3 +1187,212 @@ in words, 3–10 plural, 11 or more singular). Lab test names stay as the lab pr
 | Next steps lead (`NEXT_INTRO`) | Here is a short list from your record for your next appointment. Approve what you want to keep. Nothing is sent. | هذه قائمة قصيرة من سجلّكِ لموعدكِ القادم. وافقي على ما تريدين الاحتفاظ به. لا يُرسَل أي شيء. | |
 | Next steps, red flag first (`NEXT_URGENT`) | Start with the urgent step. Call 998 if this is happening now. | ابدئي بالخطوة العاجلة. اتصلي بالرقم 998 إذا كان هذا يحدث الآن. | |
 | Next steps, nothing due (`NOTHING`) | No pattern in your entries needs discussing right now, and no care step is due. Keep logging, and bring your report to your next visit. | لا يوجد في إدخالاتكِ نمط يحتاج نقاشاً الآن، ولا توجد خطوة رعاية مستحقة. استمري في التسجيل، وأحضري تقريركِ إلى زيارتكِ القادمة. | |
+
+## The closed loop: follow-up history, event timeline, loop metrics, overdue (19 Nov, draft Arabic, not yet reviewed)
+
+Her follow-ups told as the loop on Home (`followups.*`, her voice, feminine address), what she sees in "Who saw my
+data" (`privacy.actions.*`), the clinician's follow-up history and overdue flag (`clinic.*`) and the staff screens'
+loop figures and event timeline (`loop.*`, neutral forms). Plural forms use the ICU Arabic categories; keep `{date}`,
+`{clinic}`, `{n}` and the other placeholders unchanged.
+
+| Key | English | Arabic | OK? |
+| --- | --- | --- | --- |
+| `followups.eyebrow` | Your follow-ups | متابعاتك | |
+| `followups.title` | What happened with each follow-up | ما حدث في كل متابعة | |
+| `followups.intro` | Each step with its date, from the moment ReproSense opened it. Your clinic is named here; no staff member is. | كل خطوة بتاريخها، منذ أن فتحها ReproSense. تظهر هنا عيادتك، ولا يظهر اسم أي موظف. | |
+| `followups.yourClinic` | your clinic | عيادتك | |
+| `followups.overdue` | Past its window | بعد انتهاء نافذتها | |
+| `followups.type.postpartum_glucose_test` | Glucose test after the birth | فحص السكر بعد الولادة | |
+| `followups.type.pregnancy_glucose_screen` | Pregnancy glucose test, weeks 24 to 28 | فحص سكر الحمل، الأسابيع 24 إلى 28 | |
+| `followups.type.other` | Follow-up | متابعة | |
+| `followups.status.open` | Open | مفتوحة | |
+| `followups.status.in_progress` | Booked | محجوزة | |
+| `followups.status.closed` | Done | منجزة | |
+| `followups.steps.opened` | ReproSense opened this on {date}: {title}. | فتح ReproSense هذه المتابعة في {date}: {title}. | |
+| `followups.steps.shared` | You shared your record with {clinic} on {date}. | شاركتِ سجلك مع {clinic} في {date}. | |
+| `followups.steps.sharedBefore` | Your record was already shared with {clinic}. | كان سجلك مُشارَكاً مسبقاً مع {clinic}. | |
+| `followups.steps.unshared` | You stopped sharing your record on {date}. | أوقفتِ مشاركة سجلك في {date}. | |
+| `followups.steps.reminder` | Your clinic drafted a reminder for you on {date}. Nothing is sent automatically. | صاغت عيادتك مسودة تذكير لك في {date}. لا يُرسل شيء تلقائياً. | |
+| `followups.steps.reminder_approved` | Your clinic approved that reminder on {date}. The clinic sends it itself. | اعتمدت عيادتك ذلك التذكير في {date}. ترسله العيادة بنفسها. | |
+| `followups.steps.reminder_discarded` | Your clinic set the reminder draft aside on {date}. | تجاهلت عيادتك مسودة التذكير في {date}. | |
+| `followups.steps.booked` | Your clinic booked this on {date}. | حجزت عيادتك هذه المتابعة في {date}. | |
+| `followups.steps.reopened` | Your clinic reopened this on {date}. | أعادت عيادتك فتح هذه المتابعة في {date}. | |
+| `followups.steps.done` | Your clinic marked this done on {date}. | علّمت عيادتك هذه المتابعة كمنجزة في {date}. | |
+| `followups.steps.doneByRule` | This closed on {date} because your result is in your record. | أُغلقت هذه المتابعة في {date} لأن نتيجتك موجودة في سجلك. | |
+| `followups.steps.result` | Your result came back on {date}. You confirmed it from your uploaded report. | وصلت نتيجتك في {date}. أكّدتِها من التقرير الذي رفعتِه. | |
+| `followups.pending.booked` | Not booked yet. | لم تُحجز بعد. | |
+| `followups.pending.done` | Not done yet. | لم تُنجز بعد. | |
+| `followups.pending.result` | No result back yet. When you get it, upload the report in Documents. | لم تصل النتيجة بعد. عندما تحصلين عليها، ارفعي التقرير في المستندات. | |
+| `followups.daysAfter` | {count, plural, one {# day after the step before} other {# days after the step before}} | {count, plural, zero {في اليوم نفسه} one {بعد يوم واحد من الخطوة السابقة} two {بعد يومين من الخطوة السابقة} few {بعد # أيام من الخطوة السابقة} many {بعد # يوماً من الخطوة السابقة} other {بعد # يوم من الخطوة السابقة}} | |
+| `privacy.actions.care_gap_opened` | opened a follow-up from a rule | فتح متابعة بناءً على قاعدة | |
+| `privacy.actions.care_gap_resolved` | closed a follow-up: your result is in your record | أغلق متابعة: نتيجتك في سجلك | |
+| `privacy.actions.reminder_drafted` | drafted a reminder for you (not sent) | صاغ مسودة تذكير لك (لم تُرسل) | |
+| `privacy.actions.reminder_approved` | approved a reminder for you (the clinic sends it) | اعتمد تذكيراً لك (ترسله العيادة) | |
+| `privacy.actions.reminder_discarded` | discarded a reminder draft | تجاهل مسودة تذكير | |
+| `privacy.actions.view_followup_history` | looked at a follow-up's history | اطّلع على سجل متابعة | |
+| `clinic.overdue` | Overdue | متأخرة | |
+| `clinic.overdueNote` | Its window ended on {date} and it has not been booked. | انتهت نافذتها في {date} ولم تُحجز. | |
+| `clinic.reminderApprove` | Approve draft | اعتماد المسودة | |
+| `clinic.reminderDiscard` | Discard draft | تجاهل المسودة | |
+| `clinic.reminderApproved` | Reminder approved. Nothing was sent: send it from your clinic's own messaging system. | اعتُمد التذكير. لم يُرسل شيء: أرسله من نظام الرسائل الخاص بعيادتك. | |
+| `clinic.reminderDiscarded` | Reminder draft discarded. | تم تجاهل مسودة التذكير. | |
+| `clinic.history.toggle` | Follow-up history ({count, plural, one {# step} other {# steps}}) | سجل المتابعة ({count, plural, zero {# خطوة} one {خطوة واحدة} two {خطوتان} few {# خطوات} many {# خطوة} other {# خطوة}}) | |
+| `clinic.history.steps.opened` | Opened by rule {rule} | فُتحت بواسطة القاعدة {rule} | |
+| `clinic.history.steps.shared` | She shared her record with {clinic} | شاركت سجلها مع {clinic} | |
+| `clinic.history.steps.sharedBefore` | Her record was already shared with {clinic} before this opened | كان سجلها مُشارَكاً مع {clinic} قبل فتح المتابعة | |
+| `clinic.history.steps.unshared` | She stopped sharing her record | أوقفت مشاركة سجلها | |
+| `clinic.history.steps.reminder` | Reminder drafted, not sent | صيغت مسودة تذكير ولم تُرسل | |
+| `clinic.history.steps.reminder_approved` | Reminder approved, to send from the clinic's own system | اعتُمد التذكير لإرساله من نظام العيادة | |
+| `clinic.history.steps.reminder_discarded` | Reminder draft discarded | تم تجاهل مسودة التذكير | |
+| `clinic.history.steps.booked` | Booked | حُجزت | |
+| `clinic.history.steps.reopened` | Reopened | أُعيد فتحها | |
+| `clinic.history.steps.done` | Marked done | عُلّمت كمنجزة | |
+| `clinic.history.steps.doneByRule` | Closed by the rules engine: the result is in her record | أغلقها محرك القواعد: النتيجة في سجلها | |
+| `clinic.history.steps.result` | Result back: {tests} | وصلت النتيجة: {tests} | |
+| `clinic.history.kind.opened` | Opened | فُتحت | |
+| `clinic.history.kind.shared` | Shared | مُشارَك | |
+| `clinic.history.kind.unshared` | Not shared | غير مُشارَك | |
+| `clinic.history.kind.reminder` | Draft | مسودة | |
+| `clinic.history.kind.reminder_approved` | Approved | معتمدة | |
+| `clinic.history.kind.reminder_discarded` | Discarded | مُتجاهَلة | |
+| `clinic.history.kind.booked` | Booked | محجوزة | |
+| `clinic.history.kind.reopened` | Reopened | مُعاد فتحها | |
+| `clinic.history.kind.done` | Done | منجزة | |
+| `clinic.history.kind.result` | Result | نتيجة | |
+| `clinic.history.pending.booked` | Not booked yet | لم تُحجز بعد | |
+| `clinic.history.pending.done` | Not done yet | لم تُنجز بعد | |
+| `clinic.history.pending.result` | No result back yet | لم تصل نتيجة بعد | |
+| `clinic.history.roles.system` | Rules engine | محرك القواعد | |
+| `clinic.history.roles.patient` | Her, in her app | هي، من تطبيقها | |
+| `clinic.history.roles.clinician` | Clinician | طبيب | |
+| `clinic.history.roles.clinic_admin` | Clinic admin | مسؤول العيادة | |
+| `clinic.history.roles.admin` | Network admin | مسؤول الشبكة | |
+| `clinic.history.actorWithId` | {role} · {id} | {role} · {id} | |
+| `clinic.history.daysAfter` | {count, plural, =0 {same day as the step before} one {# day after the step before} other {# days after the step before}} | {count, plural, =0 {في يوم الخطوة السابقة نفسه} one {بعد يوم واحد من الخطوة السابقة} two {بعد يومين من الخطوة السابقة} few {بعد # أيام من الخطوة السابقة} many {بعد # يوماً من الخطوة السابقة} other {بعد # يوم من الخطوة السابقة}} | |
+| `clinic.history.dayCount` | {count, plural, =0 {same day} one {# day} other {# days}} | {count, plural, =0 {اليوم نفسه} one {يوم واحد} two {يومان} few {# أيام} many {# يوماً} other {# يوم}} | |
+| `clinic.history.none` | not yet | ليس بعد | |
+| `clinic.history.recordOpened` | Her record was opened on {date}, before the visit. | فُتح سجلها في {date}، قبل الزيارة. | |
+| `clinic.history.recordNotOpened` | Her record was not opened before this was marked done. | لم يُفتح سجلها قبل تعليم المتابعة كمنجزة. | |
+| `clinic.history.auditEntry` | Audit entry #{id} | قيد التدقيق رقم {id} | |
+| `clinic.history.sumBooked` | Opened to booked | من الفتح إلى الحجز | |
+| `clinic.history.sumDone` | Booked to done | من الحجز إلى الإنجاز | |
+| `clinic.history.sumResult` | Opened to result | من الفتح إلى النتيجة | |
+| `loop.title` | The loop, measured | الحلقة بالأرقام | |
+| `loop.introNetwork` | From a rule opening a follow-up to her result coming back, across the network. Synthetic cohort plus the live demo. | من فتح القاعدة للمتابعة حتى وصول نتيجتها، على مستوى الشبكة. مجموعة اصطناعية مع العرض الحي. | |
+| `loop.introClinic` | From a rule opening a follow-up to her result coming back, in this clinic. Synthetic cohort plus the live records shared with it. | من فتح القاعدة للمتابعة حتى وصول نتيجتها، في هذه العيادة. مجموعة اصطناعية مع السجلات الحية المُشارَكة معها. | |
+| `loop.figsLabel` | Median days between the loop's steps, and overdue follow-ups | الوسيط بالأيام بين خطوات الحلقة، والمتابعات المتأخرة | |
+| `loop.openedToBooked` | Opened to booked | من الفتح إلى الحجز | |
+| `loop.bookedToDone` | Booked to done | من الحجز إلى الإنجاز | |
+| `loop.openedToResult` | Opened to result back | من الفتح إلى وصول النتيجة | |
+| `loop.days` | {days, plural, one {# day} other {# days}} | {days, plural, zero {# يوم} one {يوم واحد} two {يومان} few {# أيام} many {# يوماً} other {# يوم}} | |
+| `loop.ofFollowUps` | Median of {n} follow-ups | الوسيط من {n} متابعة | |
+| `loop.overdue` | Overdue follow-ups | متابعات متأخرة | |
+| `loop.overdueNote` | Past their window and never booked | تجاوزت نافذتها ولم تُحجز | |
+| `loop.doneInWindow` | Done inside their window | أُنجزت داخل نافذتها | |
+| `loop.doneInWindowNote` | Of the follow-ups done or past their window. Windows: glucose test 4 to 12 weeks after birth; pregnancy glucose screen weeks 24 to 28. | من المتابعات المنجزة أو التي تجاوزت نافذتها. النوافذ: فحص السكر من 4 إلى 12 أسبوعاً بعد الولادة، وفحص سكر الحمل في الأسابيع 24 إلى 28. | |
+| `loop.postnatalInWindow` | Postnatal steps done inside their DoH window | خطوات ما بعد الولادة المنجزة داخل نافذة دائرة الصحة | |
+| `loop.postnatalNote` | Of the steps whose window has ended (DoH Postnatal Care Program Standard, 2025). | من الخطوات التي انتهت نافذتها (معيار برنامج رعاية ما بعد الولادة، دائرة الصحة، 2025). | |
+| `loop.recordBefore` | Record opened by a clinician before the visit | سجل فتحه طبيب قبل الزيارة | |
+| `loop.recordBeforeNote` | Of the follow-ups done. A visit is the moment the follow-up was marked done. | من المتابعات المنجزة. الزيارة هي لحظة تعليم المتابعة كمنجزة. | |
+| `loop.ratio` | {n} of {of} ({pct}%) | {n} من {of} ({pct}%) | |
+| `loop.hidden` | Fewer than {k} | أقل من {k} | |
+| `loop.note` | Groups under {k} are hidden. A gynaecology review has no guideline window; the synthetic cohort uses a 42-day clinic target for it. | تُخفى المجموعات الأقل من {k}. لا توجد نافذة إرشادية لمراجعة النساء؛ تستخدم المجموعة الاصطناعية هدفاً للعيادة مدته 42 يوماً. | |
+| `loop.eventsTitle` | Event timeline | سجل الأحداث | |
+| `loop.tableLabel` | Events, newest first | الأحداث، الأحدث أولاً | |
+| `loop.eventsIntroNetwork` | Who did what and when, in every clinic, from the hash-chained audit log. Pseudonymous ids only, never names. | من فعل ماذا ومتى في كل عيادة، من سجل التدقيق المتسلسل. معرّفات مستعارة فقط، دون أسماء. | |
+| `loop.eventsIntroClinic` | Who did what and when in your clinic, from the hash-chained audit log. Pseudonymous ids only, never names. | من فعل ماذا ومتى في عيادتك، من سجل التدقيق المتسلسل. معرّفات مستعارة فقط، دون أسماء. | |
+| `loop.chainOk` | Chain intact · {n, plural, one {# entry} other {# entries}} | السلسلة سليمة · {n, plural, zero {لا قيود} one {قيد واحد} two {قيدان} few {# قيود} many {# قيداً} other {# قيد}} | |
+| `loop.chainBad` | Chain broken at entry #{id} | السلسلة مكسورة عند القيد رقم {id} | |
+| `loop.filtersLabel` | Filter the event timeline | تصفية سجل الأحداث | |
+| `loop.filterRole` | Role | الدور | |
+| `loop.allRoles` | All roles | كل الأدوار | |
+| `loop.filterAction` | Action | الإجراء | |
+| `loop.allActions` | All actions | كل الإجراءات | |
+| `loop.filterClinic` | Clinic | العيادة | |
+| `loop.allClinics` | All clinics | كل العيادات | |
+| `loop.filterFrom` | From | من | |
+| `loop.filterTo` | To | إلى | |
+| `loop.apply` | Apply filters | تطبيق التصفية | |
+| `loop.clear` | Clear filters | مسح التصفية | |
+| `loop.pageOf` | Page {page} of {pages} · {total, plural, one {# event} other {# events}} | الصفحة {page} من {pages} · {total, plural, zero {لا أحداث} one {حدث واحد} two {حدثان} few {# أحداث} many {# حدثاً} other {# حدث}} | |
+| `loop.pagesLabel` | Event timeline pages | صفحات سجل الأحداث | |
+| `loop.newer` | Newer events | أحداث أحدث | |
+| `loop.older` | Older events | أحداث أقدم | |
+| `loop.empty` | No events match these filters. Clear the filters to see every event. | لا توجد أحداث تطابق هذه التصفية. امسح التصفية لرؤية كل الأحداث. | |
+| `loop.loadFailed` | The timeline didn't load: {detail} | لم يُحمّل السجل: {detail} | |
+| `loop.retry` | Load the timeline again | تحميل السجل مرة أخرى | |
+| `loop.colTime` | Time (Abu Dhabi) | الوقت (أبوظبي) | |
+| `loop.colRole` | Role | الدور | |
+| `loop.colActor` | Actor id | معرّف المنفّذ | |
+| `loop.colAction` | Action | الإجراء | |
+| `loop.colRecord` | Record | السجل | |
+| `loop.colTarget` | Target | الهدف | |
+| `loop.colClinic` | Clinic | العيادة | |
+| `loop.noClinic` | Network | الشبكة | |
+| `loop.roles.patient` | Patient | مراجِعة | |
+| `loop.roles.clinician` | Clinician | طبيب | |
+| `loop.roles.clinic_admin` | Clinic admin | مسؤول العيادة | |
+| `loop.roles.admin` | Network admin | مسؤول الشبكة | |
+| `loop.roles.system` | System | النظام | |
+| `loop.roles.family` | Family link | رابط العائلة | |
+| `loop.actions.accept_clinic_invite` | Joined the clinic from an invite | انضم إلى العيادة من دعوة | |
+| `loop.actions.ask_record` | Searched a shared record | بحث في سجل مُشارَك | |
+| `loop.actions.assistant_ask` | Asked the assistant | سأل المساعد | |
+| `loop.actions.care_gap_closed` | Marked a follow-up done | أنجز متابعة | |
+| `loop.actions.care_gap_in_progress` | Booked a follow-up | حجز متابعة | |
+| `loop.actions.care_gap_open` | Reopened a follow-up | أعاد فتح متابعة | |
+| `loop.actions.care_gap_opened` | Opened a follow-up (rule) | فتح متابعة (قاعدة) | |
+| `loop.actions.care_gap_resolved` | Closed a follow-up (result in the record) | أغلق متابعة (النتيجة في السجل) | |
+| `loop.actions.confirm_document` | Confirmed lab results | أكّد نتائج تحاليل | |
+| `loop.actions.consent_grant` | Allowed a choice | سمح بخيار | |
+| `loop.actions.consent_revoke` | Stopped a choice | أوقف خياراً | |
+| `loop.actions.create_bp_reading` | Logged blood pressure | سجّل ضغط الدم | |
+| `loop.actions.create_clinic_invite` | Created a clinician invite | أنشأ دعوة لطبيب | |
+| `loop.actions.create_family_link` | Created a family link | أنشأ رابطاً للعائلة | |
+| `loop.actions.create_log` | Added an entry | أضاف إدخالاً | |
+| `loop.actions.create_report` | Prepared a report | أعدّ تقريراً | |
+| `loop.actions.create_share` | Shared a report link | شارك رابط تقرير | |
+| `loop.actions.delete_data` | Deleted entries | حذف إدخالات | |
+| `loop.actions.download_report` | Downloaded a report | نزّل تقريراً | |
+| `loop.actions.download_shared_report` | Downloaded a shared report | نزّل تقريراً مُشارَكاً | |
+| `loop.actions.email_linked` | Linked an email address | ربط بريداً إلكترونياً | |
+| `loop.actions.email_unlinked` | Unlinked an email address | ألغى ربط البريد الإلكتروني | |
+| `loop.actions.export_audit_log` | Exported the audit log | صدّر سجل التدقيق | |
+| `loop.actions.export_clinic_follow_ups` | Exported the clinic's follow-up counts | صدّر أعداد متابعات العيادة | |
+| `loop.actions.export_data` | Downloaded her data | نزّل بياناتها | |
+| `loop.actions.export_fhir` | Downloaded the FHIR export | نزّل ملف FHIR | |
+| `loop.actions.list_clinic_invites` | Listed clinician invites | عرض دعوات الأطباء | |
+| `loop.actions.list_patients` | Listed shared records | عرض السجلات المُشارَكة | |
+| `loop.actions.mark_reviewed` | Marked a record reviewed | علّم سجلاً بأنه رُوجع | |
+| `loop.actions.navigator_approved` | Approved her request draft | وافق على مسودة طلب | |
+| `loop.actions.navigator_discarded` | Discarded her request draft | تجاهل مسودة طلب | |
+| `loop.actions.navigator_draft` | Drafted a request | صاغ مسودة طلب | |
+| `loop.actions.passkey_added` | Added a passkey | أضاف مفتاح مرور | |
+| `loop.actions.passkey_removed` | Removed a passkey | أزال مفتاح مرور | |
+| `loop.actions.postnatal_check` | Recorded a postnatal check | سجّل فحصاً بعد الولادة | |
+| `loop.actions.preconception_tick` | Ticked a planning item | علّم بنداً في قائمة التخطيط | |
+| `loop.actions.questionnaire_epds` | Completed a mood check | أكمل فحص المزاج | |
+| `loop.actions.reminder_approved` | Approved a reminder draft (not sent) | وافق على مسودة تذكير (لم تُرسل) | |
+| `loop.actions.reminder_discarded` | Discarded a reminder draft | تجاهل مسودة تذكير | |
+| `loop.actions.reminder_drafted` | Drafted a reminder (not sent) | صاغ مسودة تذكير (لم تُرسل) | |
+| `loop.actions.revoke_clinic_invite` | Withdrew a clinician invite | سحب دعوة طبيب | |
+| `loop.actions.revoke_family_link` | Stopped a family link | أوقف رابط العائلة | |
+| `loop.actions.revoke_share` | Stopped a report link | أوقف رابط تقرير | |
+| `loop.actions.save_visit_note` | Saved a visit note | حفظ ملاحظة زيارة | |
+| `loop.actions.sign_in` | Signed in | سجّل الدخول | |
+| `loop.actions.sign_in_failed` | Sign-in failed | فشل تسجيل الدخول | |
+| `loop.actions.signup` | Started a record | بدأ سجلاً | |
+| `loop.actions.update_settings` | Changed a setting | غيّر إعداداً | |
+| `loop.actions.upload_document` | Uploaded a lab report | رفع تقرير تحاليل | |
+| `loop.actions.view_admin_metrics` | Viewed the network figures | عرض أرقام الشبكة | |
+| `loop.actions.view_audit_events` | Viewed the event timeline | عرض سجل الأحداث | |
+| `loop.actions.view_clinic_dashboard` | Viewed the clinic figures | عرض أرقام العيادة | |
+| `loop.actions.view_clinic_events` | Viewed the clinic's event timeline | عرض سجل أحداث العيادة | |
+| `loop.actions.view_clinic_invite` | Opened an invite link | فتح رابط دعوة | |
+| `loop.actions.view_clinic_team` | Viewed the clinic team | عرض فريق العيادة | |
+| `loop.actions.view_family_link` | Opened a family link | فتح رابط العائلة | |
+| `loop.actions.view_followup_history` | Viewed a follow-up's history | عرض سجل متابعة | |
+| `loop.actions.view_insights` | Viewed patterns | عرض الأنماط | |
+| `loop.actions.view_previsit_brief` | Viewed the pre-visit brief | عرض ملخص ما قبل الزيارة | |
+| `loop.actions.view_record` | Opened a shared record | فتح سجلاً مُشارَكاً | |
+| `loop.actions.view_shared_report` | Opened a shared report | فتح تقريراً مُشارَكاً | |

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from typing import Literal
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -15,7 +16,7 @@ from app.db import Actor, session
 from app.rules.engine import evaluate
 from app.security import audit
 from app.security.auth import require
-from app.services import blood_pressure, postnatal, previsit, views
+from app.services import blood_pressure, followups, postnatal, previsit, views
 from app.services.patient_data import load_bundle
 
 router = APIRouter(prefix="/v1/clinic", tags=["clinic"])
@@ -37,13 +38,23 @@ def patients(actor: Actor = Depends(clinician)):
             " (SELECT array_agg(o.rule_id ORDER BY o.rule_id) FROM observations o WHERE o.profile_id=p.id) AS rules,"
             " (SELECT max(r.created_at) FROM reports r WHERE r.profile_id=p.id) AS last_report,"
             " (SELECT count(*) FROM care_gaps g WHERE g.profile_id=p.id AND g.status<>'closed') AS open_gaps,"
+            # past its window with no booking (followups.is_overdue, in SQL)
+            " (SELECT count(*) FROM care_gaps g WHERE g.profile_id=p.id AND g.status='open' AND g.window_end < %s)"
+            " AS overdue_gaps,"
             " (SELECT reviewed_at FROM clinic_reviews cr WHERE cr.profile_id=p.id) AS reviewed_at"
-            " FROM profiles p WHERE p.role='patient'"
+            " FROM profiles p WHERE p.role='patient'",
+            (_ref(),),
         )
         rows = cur.fetchall()
         audit.record(cur, actor, "list_patients", None, "clinic_list", {"count": len(rows)})
+    # Urgent (red flags) first, then anyone with an overdue follow-up, then the rest
     rows.sort(
-        key=lambda r: (-r["red_flags"], -r["open_obs"], -(r["last_report"].timestamp() if r["last_report"] else 0))
+        key=lambda r: (
+            -r["red_flags"],
+            -min(r["overdue_gaps"], 1),
+            -r["open_obs"],
+            -(r["last_report"].timestamp() if r["last_report"] else 0),
+        )
     )
     return {"patients": rows, "clinic_id": actor.clinic_id}
 
@@ -55,8 +66,10 @@ def patient_view(pid: str, actor: Actor = Depends(clinician)):
         if not b:
             raise HTTPException(404, "No shared record for this patient (no active consent).")
         cur.execute(
-            "SELECT id, type, status, due_date, updated_at FROM care_gaps WHERE profile_id=%s ORDER BY id", (pid,)
+            "SELECT id, type, status, due_date, updated_at, window_end FROM care_gaps WHERE profile_id=%s ORDER BY id",
+            (pid,),
         )
+        ref = _ref()
         gaps = cur.fetchall()
         cur.execute("SELECT reviewed_at, visit_note FROM clinic_reviews WHERE profile_id=%s", (pid,))
         review = cur.fetchone()
@@ -64,7 +77,10 @@ def patient_view(pid: str, actor: Actor = Depends(clinician)):
         report = cur.fetchone()
         inputs = previsit.visit_inputs(cur, pid)
         audit.record(cur, actor, "view_record", pid, "clinician_view")
-    ref = _ref()
+        # each follow-up's loop, told step by step (expandable in the record view); read after this view is logged
+        for g in gaps:
+            g["overdue"] = followups.is_overdue(g["status"], g["window_end"], ref)
+            g["history"] = followups.history(cur, pid, g["id"], ref, "clinician")
     visit = previsit.last_visit(previsit.last_shared_at(pid), inputs["reviewed_at"], ref)
     ev = evaluate(b, ref, get_settings().red_flag_window_days)
     cards, trace, crisis = cards_for(b, "en")
@@ -156,7 +172,23 @@ def care_gaps(actor: Actor = Depends(clinician)):
         cur.execute(
             "SELECT g.*, p.alias, p.language FROM care_gaps g JOIN profiles p ON p.id=g.profile_id ORDER BY g.status, g.due_date"
         )
-        return cur.fetchall()
+        rows = cur.fetchall()
+    ref = _ref()
+    for g in rows:
+        g["overdue"] = followups.is_overdue(g["status"], g["window_end"], ref)
+    rows.sort(key=lambda g: not g["overdue"])  # stable: overdue first, then the order above
+    return rows
+
+
+@router.get("/patients/{pid}/followups/{gap_id}/history")
+def follow_up_history(pid: str, gap_id: int, actor: Actor = Depends(clinician)):
+    with session(actor) as cur:
+        _require_shared(cur, pid)
+        h = followups.history(cur, pid, gap_id, _ref(), "clinician")
+        if not h:
+            raise HTTPException(404, "Follow-up not found for this shared record.")
+        audit.record(cur, actor, "view_followup_history", pid, f"care_gap:{gap_id}")
+    return h
 
 
 class GapIn(BaseModel):
@@ -189,27 +221,84 @@ REMINDER = {
 }
 
 
+REMINDER_NOTE = "Draft only. Review and send it from your clinic's own messaging system."
+
+
+def _reminder_out(d: dict) -> dict:
+    body = d["draft"]
+    return {
+        "id": d["id"],
+        "status": d["status"],
+        "care_gap_id": d["care_gap_id"],
+        "en": body["en"],
+        "ar": body["ar"],
+        "sent": False,
+        "note": REMINDER_NOTE,
+    }
+
+
 @router.post("/care-gaps/{gap_id}/reminder")
 def reminder_draft(gap_id: int, actor: Actor = Depends(clinician)):
+    """The care navigator drafts a reminder for her (navigator_drafts, origin 'clinic', status 'draft'). Nothing is
+    sent: the clinician approves it and sends it from the clinic's own system, or discards it. One open draft per
+    follow-up: asking again returns the same draft."""
     with session(actor) as cur:
         cur.execute(
-            "SELECT g.type, p.alias FROM care_gaps g JOIN profiles p ON p.id=g.profile_id WHERE g.id=%s", (gap_id,)
+            "SELECT g.id, g.type, g.rule_id, g.profile_id FROM care_gaps g WHERE g.id=%s AND g.status <> 'closed'",
+            (gap_id,),
         )
         g = cur.fetchone()
         if not g:
-            raise HTTPException(404, "Care gap not found")
+            raise HTTPException(404, "Open follow-up not found for your clinic.")
+        cur.execute(
+            "SELECT * FROM navigator_drafts WHERE care_gap_id=%s AND origin='clinic' AND status='draft'"
+            " ORDER BY id DESC LIMIT 1",
+            (gap_id,),
+        )
+        d = cur.fetchone()
+        if d:
+            return _reminder_out(d)
         cur.execute("SELECT name FROM clinics WHERE id=%s", (actor.clinic_id,))
         clinic = cur.fetchone()["name"]
-    en, ar = REMINDER.get(
-        g["type"],
-        (
-            "Please contact the clinic about your follow-up. — {clinic}",
-            "يرجى التواصل مع العيادة بخصوص المتابعة. — {clinic}",
-        ),
-    )
+        en, ar = REMINDER.get(
+            g["type"],
+            (
+                "Please contact the clinic about your follow-up. — {clinic}",
+                "يرجى التواصل مع العيادة بخصوص المتابعة. — {clinic}",
+            ),
+        )
+        body = {"kind": "clinic_reminder", "en": en.format(clinic=clinic), "ar": ar.format(clinic=clinic)}
+        cur.execute(
+            "INSERT INTO navigator_drafts (profile_id, rule_id, draft, origin, care_gap_id, created_by)"
+            " VALUES (%s,%s,%s,'clinic',%s,%s) RETURNING *",
+            (g["profile_id"], g["rule_id"], json.dumps(body, ensure_ascii=False), gap_id, actor.user_id),
+        )
+        d = cur.fetchone()
+        audit.record(cur, actor, "reminder_drafted", g["profile_id"], f"care_gap:{gap_id}", {"draft_id": d["id"]})
+    return _reminder_out(d)
+
+
+@router.post("/reminders/{draft_id}/{action}")
+def reminder_decide(draft_id: int, action: Literal["approve", "discard"], actor: Actor = Depends(clinician)):
+    """Approve (she sends it from the clinic's own system) or discard. There is no 'sent' status."""
+    with session(actor) as cur:
+        cur.execute("SELECT * FROM navigator_drafts WHERE id=%s AND origin='clinic'", (draft_id,))
+        d = cur.fetchone()
+        if not d:
+            raise HTTPException(404, "Reminder draft not found for your clinic.")
+        if d["status"] != "draft":
+            raise HTTPException(409, f"This draft is already {d['status']}.")
+        status = "approved" if action == "approve" else "discarded"
+        cur.execute(
+            "UPDATE navigator_drafts SET status=%s, approved_at=CASE WHEN %s='approved' THEN now() END WHERE id=%s"
+            " RETURNING *",
+            (status, status, draft_id),
+        )
+        d = cur.fetchone()
+        audit.record(cur, actor, f"reminder_{status}", d["profile_id"], f"care_gap:{d['care_gap_id']}")
     return {
-        "en": en.format(clinic=clinic),
-        "ar": ar.format(clinic=clinic),
-        "sent": False,
-        "note": "Draft only. Review and send it from your clinic's own messaging system.",
+        **_reminder_out(d),
+        "message": "Approved. Nothing was sent: send it from your clinic's own messaging system."
+        if status == "approved"
+        else "Draft discarded.",
     }

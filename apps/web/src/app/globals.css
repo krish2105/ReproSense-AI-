@@ -680,3 +680,26 @@ html.touring body{padding-bottom:min(60vh,520px)}
 .ring3d-more[open] summary{margin-bottom:6px}
 /* Page transitions (A8): each page fades in; prefers-reduced-motion switches every animation off above. */
 .page-in{animation:in .28s ease-out}
+/* The closed loop (sections 4 and 8): a follow-up's story, one line per step on a thin rule; loop figures; the event
+   timeline's filters. Time runs top to bottom; the rule sits on the inline start, so Arabic mirrors it. */
+.loop-story{margin-top:6px;border-top:1px solid var(--rule);padding-top:8px}
+.loop-story > summary{min-height:44px;display:flex;align-items:center;color:var(--plum)}
+.story{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column}
+.story > li{display:grid;grid-template-columns:76px 1fr;gap:10px}
+.story-when{display:flex;flex-direction:column;font-size:13px;font-weight:700;padding-top:2px}
+.story-body{border-inline-start:2px solid var(--rule-2);padding:0 0 12px;padding-inline:12px 0;min-width:0;display:flex;flex-direction:column;gap:3px;overflow-wrap:anywhere}
+.story > li:not(.pending) .story-body{border-inline-start-color:var(--plum)}
+.story > li.pending .story-body{border-inline-start-style:dashed}
+.story-her > li{grid-template-columns:64px 1fr}
+.story-sum{display:flex;flex-wrap:wrap;gap:6px 18px;margin:4px 0 0}
+.story-sum div{display:flex;gap:6px}
+.story-sum dd{margin:0;font-weight:700}
+.fu-item{border-top:1px solid var(--rule);padding-top:10px;margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.loop-figs .big{font-size:30px}
+.loop-ratios{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:860px){.loop-ratios{grid-template-columns:1fr}}
+.loop-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px;align-items:end}
+.loop-filters input[type=date]{border:1px solid var(--rule-2);background:var(--sheet);border-radius:16px;padding:0 12px;width:100%}
+.loop-filters select,.loop-filters input[type=date]{height:44px}
+.loop-filter-actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.loop-pages{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
