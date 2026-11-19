@@ -1,0 +1,44 @@
+name: codeql
+# Code scanning (docs/07, "Dependency and code scanning"): GitHub CodeQL over the web app (JavaScript/TypeScript) and the
+# API (Python) on every pull request, every push to main and once a week. Findings appear under Security → Code scanning.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 3 * * 1" # Mondays 03:17 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    name: analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [javascript-typescript, python]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+          queries: security-extended
+          # Generated files, fixtures and the static mock-up are not product code.
+          config: |
+            paths-ignore:
+              - mockup
+              - "**/node_modules"
+              - "**/.next"
+              - apps/web/playwright-report
+              - data/synthetic/output
+      - uses: github/codeql-action/analyze@v4
+        with:
+          category: /language:${{ matrix.language }}
