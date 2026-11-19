@@ -72,16 +72,7 @@ def test_every_view_is_in_her_who_saw_my_data(client, reseed):
     assert links[0]["last_viewed_at"] is not None and "token" not in links[0] and "token_hash" not in links[0]
 
 
-def test_revoked_and_expired_links_stop_working(client, reseed):
-    h = login(client, "fatima")
-    a, b = _link(client, h), _link(client, h, relation="mother")
-    assert client.delete(f"/v1/family-links/{a['id']}", headers=h).status_code == 200
-    assert client.get(f"/v1/family/{a['token']}").status_code == 404
-    assert client.delete(f"/v1/family-links/{a['id']}", headers=h).status_code == 404  # already off
-    with psycopg.connect(get_settings().database_url, autocommit=True) as conn:
-        conn.execute("UPDATE family_links SET expires_at = now() - interval '1 minute' WHERE id = %s", (b["id"],))
-    assert client.get(f"/v1/family/{b['token']}").status_code == 410
-    assert client.get("/v1/family/not-a-real-token-at-all-0123456789").status_code == 404
+# Revoked and expired family links under attack: attack 11 in test_attack_suite.py.
 
 
 def test_she_only_sees_and_revokes_her_own_links(client, reseed):
