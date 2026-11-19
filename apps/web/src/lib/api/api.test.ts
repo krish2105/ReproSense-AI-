@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 vi.mock("server-only", () => ({}));
 vi.mock("next/headers", () => ({
   cookies: async () => ({ get: (n: string) => (n === "rs_token" ? { value: "tok123" } : undefined) }),
+  headers: async () => new Headers({ "x-request-id": "req-abc-123" }),
 }));
 
 import { apiClient } from "./client";
@@ -27,6 +28,7 @@ describe("apiServer", () => {
     expect(headers.cookie).toBe("rs_token=tok123");
     expect(headers.authorization).toBeUndefined();
     expect(init.cache).toBe("no-store");
+    expect(headers["x-request-id"]).toBe("req-abc-123"); // the page view's ID joins the API's log lines
   });
   it("throws ApiError with the FastAPI detail", async () => {
     stubFetch(403, { detail: "This needs the clinician role." });
