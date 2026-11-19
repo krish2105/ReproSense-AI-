@@ -464,7 +464,7 @@ export interface AskResponse {
   answer: string; // includes [n] markers that point at citations
   sentences: { text: string; cite: number }[];
   citations: Citation[];
-  urgent: { kind: string; message: string; number: string } | null; // kind: "crisis", "bleed", …
+  urgent: { kind: string; message: string; number: string; support_line?: { name: string; tel: string } } | null; // kind: "crisis", "bleed", …
   crisis: boolean;
   refused: boolean;
   grounded: boolean;
@@ -792,6 +792,35 @@ export interface DocumentRow {
   extraction: { rows: ExtractedRow[]; sample_date: string | null; injection_lines_removed: number } | null;
   created_at: string;
 }
+/** Family support links (build week Y4): GET/POST /v1/family-links, DELETE /v1/family-links/{id}, GET /v1/family/{token} */
+export type FamilyRelation = "husband" | "mother" | "sister" | "friend" | "other";
+export interface FamilyLink {
+  id: number;
+  relation: FamilyRelation;
+  include_details: boolean;
+  expires_at: string;
+  revoked_at: string | null;
+  last_viewed_at: string | null;
+  created_at: string;
+  active: boolean; // not turned off and not expired (decided by the API)
+}
+export interface FamilyLinkCreated {
+  id: number;
+  token: string;
+  path: string;
+  expires_at: string;
+}
+export interface FamilyView {
+  first_name: string;
+  stage: "periods" | "trying_to_conceive" | "pregnancy" | "after_birth" | "perimenopause";
+  relation: FamilyRelation;
+  steps: { id: string; from: string | null; to: string | null; status: "due" | "upcoming" }[];
+  steps_done: number | null;
+  details: { pregnancy_weeks: number | null; weeks_since_birth: number | null; patterns: string[] /* rule ids */ } | null;
+  expires_at: string;
+  ref_date: string;
+}
+
 /** GET /v1/privacy */
 export interface PrivacyResponse {
   consents: { purpose: "care_share" | "assistant" | "research"; granted: boolean; granted_at: string | null; revoked_at: string | null; clinic_id: string | null; clinic_name: string | null }[];

@@ -18,8 +18,15 @@ _pool: ConnectionPool | None = None
 def pool() -> ConnectionPool:
     global _pool
     if _pool is None:
+        s = get_settings()
         _pool = ConnectionPool(
-            get_settings().database_url, min_size=1, max_size=10, kwargs={"row_factory": dict_row}, open=True
+            s.database_url,
+            min_size=s.db_pool_min,
+            max_size=s.db_pool_max,
+            timeout=s.db_pool_timeout_s,
+            kwargs={"row_factory": dict_row},
+            check=ConnectionPool.check_connection,  # a connection the database dropped is replaced, not handed out
+            open=True,
         )
     return _pool
 
@@ -45,7 +52,12 @@ SYSTEM = Actor("system", "system")
 
 @contextmanager
 def session(actor: Actor) -> Iterator:
-    """A transaction as `actor`. RLS policies read app.role / app.user_id / app.clinic_id."""
+    """A transaction as `actor`. RLS policies read app.role / app.user_id / app.clinic_id.
+
+    Never open a session while holding another one, and never run the insights pipeline (`pipeline.run`) inside a
+    session: retrieval takes its own connection, so N concurrent requests holding one connection each and waiting for a
+    second exhausted the pool and all timed out together (tests/test_pool_and_pdf.py runs the app on a 1-connection
+    pool to catch this)."""
     with pool().connection() as conn:
         with conn.transaction():
             with conn.cursor() as cur:

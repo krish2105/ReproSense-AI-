@@ -8,6 +8,11 @@ export interface SourceRef {
 }
 
 export const SOURCES = {
+  doh_800_sakina: {
+    id: "doh_800_sakina",
+    title: "Department of Health – Abu Dhabi activates 24/7 mental health support hotline 800-SAKINA (725462)",
+    url: "https://www.doh.gov.ae/en/news/doh-activates-247-mental-health-support-hotline-800-sakina-(725462)",
+  },
   nhs_pregnancy_urgent: {
     id: "nhs_pregnancy_urgent",
     title: "NHS: Signs and symptoms in pregnancy you should not ignore",
