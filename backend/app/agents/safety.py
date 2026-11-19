@@ -293,6 +293,24 @@ _SUDDEN_PAIN = _c(
 )
 
 
+# Krishna's G2 decision, 19 Nov (review C4, QUESTIONS #63): in a possible or early pregnancy (unconfirmed, a positive
+# test, the first trimester or under 20 weeks), severe pain goes to the emergency department, not the maternity unit:
+# the danger is an ectopic pregnancy (NICE NG126; the NHS sends sudden, intense pain then to A&E). Later pregnancy, an
+# unstated stage, and signs that are not pain keep the maternity-unit reply.
+_EARLY_PREG = _c(
+    r"\b(might|may|could|maybe|possibly|think i'?m|think i am|probably) (be )?pregnant\b|\bnot sure if i'?m pregnant\b",
+    r"positive (pregnancy )?test|\bearly pregnancy\b|\bfirst trimester\b",
+    r"\b([1-9]|1[0-9]) ?(weeks?|wks?|w) (pregnant|along)\b|\b(i'?m|i am|im) ([1-9]|1[0-9]) ?(weeks?|wks?)\b",
+    r"(يمكن|ممكن|احتمال|اظن|اعتقد|يمكن اني|ممكن اني|ممكن اكون|يمكن اكون) ?(اني |انني |اكون )?حامل",
+    r"(اختبار|تحليل|فحص) الحمل (ايجابي|طلع ايجابي|positive)|الحمل (طلع )?ايجابي",
+    r"حامل (في |ب|بال|ف)?(ال)?(اسبوع|الاسبوع) ?([1-9]|1[0-9])\b|حامل (في |ب|بال)?(ال)?شهر (الاول|الثاني|الثالث|الرابع)",
+    r"حامل ([1-9]|1[0-9]) (اسبوع|اسابيع)",
+)
+_SEVERE_PAIN = _c(
+    r"sharp pain|stabbing|severe pain|pain (low )?on (my )?(left|right)|(left|right) side.{0,30}pain|pain.{0,30}shoulder|shoulder.{0,20}pain",
+)
+
+
 def urgent_kind(text: str) -> str | None:
     """Which urgent message applies, if any. A message about the weeks after a birth or a pregnancy loss is not treated
     as a pregnancy (both mention weeks), unless she says she is pregnant now. Negated signs ("no fever") and clauses
@@ -321,6 +339,9 @@ def urgent_kind(text: str) -> str | None:
     severe_t = _NOT_SEVERE.sub(" ", t)  # "cramps are mild, not severe" does not count as severe pain
     if heavy_faint and not pregnant and not after_birth:
         return "bleed"
+    early_pain = _PREG_SIGN_59.search(severe_t) or _ECTOPIC_PAIN.search(severe_t) or _SEVERE_PAIN.search(severe_t)
+    if pregnant and not after_birth and _EARLY_PREG.search(t) and (early_pain or (faint and _ANY_PAIN.search(t))):
+        return "pain"  # possible or early pregnancy with severe pain: emergency department (possible ectopic, NG126)
     if now_preg and preg_sign:
         return "pregnancy"
     if after_birth and (
@@ -337,7 +358,9 @@ def urgent_kind(text: str) -> str | None:
         return "bleed"
     if _SUDDEN_PAIN.search(t) or _PAIN_BREATH.search(t) or _SUDDEN_AR2.search(t):
         return "pain"
-    if _LATE_PERIOD.search(t) and (_PREG_SIGN_59.search(severe_t) or _ECTOPIC_PAIN.search(severe_t) or (faint and _ANY_PAIN.search(t))):
+    if _LATE_PERIOD.search(t) and (
+        _PREG_SIGN_59.search(severe_t) or _ECTOPIC_PAIN.search(severe_t) or (faint and _ANY_PAIN.search(t))
+    ):
         return "pain"  # issue #98: possible ectopic pregnancy (NG126); the emergency department, not a maternity unit
     if worse_pain and (faint or heavy or _CANT_COPE.search(t)):
         return "pain"
@@ -642,7 +665,9 @@ _ECTOPIC_PAIN = _c(
     r"(طرف الكتف|كتفي).{0,15}(يعور|يوجع|الم|وجع)",
 )
 _ANY_PAIN = _c(r"\b(pain|cramps?|cramping|ache|hurts?)\b", r"الم|وجع|مغص|عوار|تقلصات")
-_NOT_SEVERE = re.compile(r"\b(not|isn'?t|aren'?t|no|nothing|never)\b (\w+ ){0,2}(severe|sharp|stabbing|unbearable|bad)\b")
+_NOT_SEVERE = re.compile(
+    r"\b(not|isn'?t|aren'?t|no|nothing|never)\b (\w+ ){0,2}(severe|sharp|stabbing|unbearable|bad)\b"
+)
 _NOT_WOMB = _c(
     r"\b(cut|cuts|knee|finger|toe|arm|lip|mouth|ear|wound|scratch\w*|graze\w*|scrape\w*)\b",
     r"\b(gave|giving|give|donat\w*) (some )?blood\b|\bdonat\w*|\bblood (tests?|work|draw\w*|samples?|bank)\b",

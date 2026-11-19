@@ -131,7 +131,7 @@ URGENT_TEXT = {
 URGENT_SOURCES = {  # each urgent reply cites sources that cover its own text, first one first (QUESTIONS #52, #59)
     "bleed": ["nhs_heavy_periods"],
     "pregnancy": ["nhs_pregnancy_urgent"],  # also lists fluid leaking, swelling, vision problems, fever
-    "pain": ["nhs_pelvic_pain"],
+    "pain": ["nhs_pelvic_pain", "nice_ng126"],  # NG126: severe pain in a possible or early pregnancy (ectopic)
     "postnatal": ["nice_ng194", "nice_ng126", "nhs_pre_eclampsia"],  # after a birth (NG194) or a pregnancy loss (NG126)
     "crisis": ["nhs_urgent_mental_health", "nhs_suicidal_thoughts", "nice_cg192"],  # 998 and tablets lines, then perinatal
 }

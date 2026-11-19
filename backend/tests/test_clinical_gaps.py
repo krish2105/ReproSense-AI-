@@ -112,14 +112,18 @@ def route(q: str) -> str:
         ("period late, stabbing pain low on the left", "pain"),
         ("دورتي متأخرة وعندي ألم شديد في جهة واحدة", "pain"),
         ("الدورة ما نزلت وعندي مغص قوي في الجنب اليمين", "pain"),
-        # "might be pregnant" with severe pain keeps the pregnancy reply Krishna approved in #95 (G2); whether it should be
-        # the emergency reply like a late period is a question for the clinical advisor (review C4)
-        ("I might be pregnant and my pain is really bad", "pregnancy"),
+        # Krishna's G2 decision, 19 Nov (review C4): a possible or early pregnancy with severe pain gets the emergency
+        # reply, like a late period: the danger is an ectopic pregnancy (NICE NG126), not a maternity-unit matter
+        ("I might be pregnant and my pain is really bad", "pain"),
         # saying "ectopic" must not switch the route off (M1); any pain with feeling faint (M2); shoulder tip (C6)
         ("My period is late and I have sharp pain on one side, could it be ectopic?", "pain"),
         ("period is late, I have cramps and feel faint", "pain"),
         ("my period is late and I have shoulder tip pain", "pain"),
-        ("a confirmed pregnancy keeps the maternity-unit reply: I am 8 weeks pregnant and the pain is severe", "pregnancy"),
+        (
+            "an early pregnancy (under 20 weeks) also gets the emergency reply: I am 8 weeks pregnant and the pain is severe",
+            "pain",
+        ),
+        ("later in pregnancy the maternity unit stays: I am 30 weeks pregnant and the pain is severe", "pregnancy"),
         # after the birth, pre-eclampsia signs (NG133 1.1.1)
         ("2 weeks postpartum and my vision is blurry", "postnatal"),
         ("I gave birth 10 days ago and my face suddenly swelled up", "postnatal"),
@@ -145,7 +149,16 @@ def test_late_period_with_severe_pain_and_after_birth_signs(q, expected):
 # --------------------------------------------------------------------------------------------- 3. RF5 and RF6 (R4)
 def _with_log(pid: str, **log) -> dict:
     p = copy.deepcopy(PERSONAS[pid])
-    entry = {"id": f"{pid}-gap", "date": REF.isoformat(), "flow": "none", "pain": 0, "pain_sites": [], "symptoms": [], "impact": "none", "pbac": 0}
+    entry = {
+        "id": f"{pid}-gap",
+        "date": REF.isoformat(),
+        "flow": "none",
+        "pain": 0,
+        "pain_sites": [],
+        "symptoms": [],
+        "impact": "none",
+        "pbac": 0,
+    }
     entry.update(log)
     p["daily_logs"].append(entry)
     return p
@@ -174,7 +187,10 @@ def test_rf6_each_pre_eclampsia_sign_alone_after_birth(sign):
 
 
 def test_rf5_and_rf6_stay_quiet_outside_pregnancy_and_the_six_weeks():
-    assert not _rf(_with_log("noura", symptoms=["severe headache"])) & {"RF5_PREGNANCY_WARNING_SIGNS", "RF6_POSTPARTUM_WARNING_SIGNS"}
+    assert not _rf(_with_log("noura", symptoms=["severe headache"])) & {
+        "RF5_PREGNANCY_WARNING_SIGNS",
+        "RF6_POSTPARTUM_WARNING_SIGNS",
+    }
     assert "RF6_POSTPARTUM_WARNING_SIGNS" not in _rf(_with_log("fatima", symptoms=["severe headache"]))  # 9 weeks after
     assert "RF5_PREGNANCY_WARNING_SIGNS" not in _rf(_with_log("hessa", symptoms=["headache"]))  # an ordinary headache
 
@@ -184,3 +200,34 @@ def test_the_after_birth_reply_names_vision_and_swelling_and_cites_pre_eclampsia
         text = assistant.URGENT_TEXT[lang]["postnatal"]
         assert all(w in text for w in words), (lang, text)
     assert "nhs_pre_eclampsia" in assistant.URGENT_SOURCES["postnatal"]
+
+
+# Krishna's G2 decision, 19 Nov: severe pain in a possible or early (under 20 weeks) pregnancy -> the emergency department
+# (998), because of the risk of an ectopic pregnancy (NICE NG126). Later pregnancy, an unstated stage, and signs that are
+# not pain (bleeding, headache, vision, swelling, fewer movements) keep the maternity-unit reply.
+@pytest.mark.parametrize(
+    "q,expected",
+    [
+        ("I might be pregnant and I have severe tummy pain", "pain"),
+        ("positive test yesterday and stabbing pain on one side", "pain"),
+        ("I'm 7 weeks pregnant with sharp pain on my right side", "pain"),
+        ("first trimester and the cramps are unbearable", "pain"),
+        ("يمكن اني حامل وعندي ألم شديد", "pain"),  # maybe I'm pregnant and I have severe pain
+        ("حامل في الأسبوع 6 وعندي مغص قوي", "pain"),  # pregnant at week 6 with strong cramps
+        ("I'm 24 weeks pregnant and have severe tummy pain", "pregnancy"),
+        ("I'm pregnant and I have a severe headache", "pregnancy"),
+        ("I might be pregnant and I have a severe headache", "pregnancy"),
+        ("I'm 8 weeks pregnant and spotting", "pregnancy"),
+        ("حامل ومغص قوي ما ينطاق", "pregnancy"),  # pregnant (stage not said), unbearable cramps
+        ("I might be pregnant and have mild cramps", "answer"),
+    ],
+)
+def test_early_or_possible_pregnancy_with_severe_pain_goes_to_the_emergency_department(q, expected):
+    assert route(q) == expected
+
+
+def test_the_emergency_reply_cites_the_ectopic_pregnancy_guideline():
+    out = assistant.answer("I might be pregnant and I have severe tummy pain", "en")
+    ids = [c.get("source_id") or c.get("id") for c in out["citations"]]
+    assert out["urgent"]["kind"] == "pain" and "998" in out["urgent"]["message"]
+    assert "nice_ng126" in ids, ids

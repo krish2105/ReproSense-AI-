@@ -46,7 +46,10 @@ def route(q: str) -> str:
         ("pregnant and fell down the stairs, tummy hurts", "pregnancy"),
         # pregnant now, even when an earlier birth is mentioned; one-sided pain in early pregnancy
         ("I'm 20 weeks pregnant, I had a c-section with my first, now bleeding", "pregnancy"),
-        ("7 weeks pregnant, bad pain on one side", "pregnancy"),
+        (
+            "7 weeks pregnant, bad pain on one side",
+            "pain",
+        ),  # G2 19 Nov: early pregnancy + severe pain -> emergency (NG126)
         # pain getting worse with fainting
         ("my period pain keeps getting worse and I nearly fainted", "pain"),
         # negation: the space before the sign was missing, so "no fever" raised a false 998
@@ -184,17 +187,18 @@ def test_severe_bleeding_wordings_need_both_halves_of_rf1(q, expected):
 
 # QUESTIONS #59 (Atharva's 7 Nov handoff, step 4c): a possible pregnancy with severe pain can be an ectopic pregnancy,
 # an emergency (NICE NG126). "my period pain is severe" and «ألم شديد» were not pregnancy warning signs, so these got an
-# ordinary answer. They now reach the pregnancy urgent reply, like "severe pain low in my tummy" already did.
+# ordinary answer. They now reach an urgent reply; since Krishna's G2 decision of 19 Nov, a possible pregnancy with
+# severe pain gets the emergency-department reply (possible ectopic), and a pregnancy of unstated stage the maternity one.
 @pytest.mark.parametrize(
     "q,expected",
     [
-        ("I might be pregnant and my period pain is severe", "pregnancy"),
-        ("I could be pregnant and the cramps are unbearable", "pregnancy"),
-        ("I had a positive pregnancy test and now severe period pain", "pregnancy"),
-        ("ممكن أكون حامل وعندي ألم شديد", "pregnancy"),  # I might be pregnant and I have severe pain
+        ("I might be pregnant and my period pain is severe", "pain"),
+        ("I could be pregnant and the cramps are unbearable", "pain"),
+        ("I had a positive pregnancy test and now severe period pain", "pain"),
+        ("ممكن أكون حامل وعندي ألم شديد", "pain"),  # I might be pregnant and I have severe pain
         ("حامل ومغص قوي ما ينطاق", "pregnancy"),  # pregnant, with strong unbearable cramps
         # unchanged: already urgent, or not urgent
-        ("I could be pregnant and have severe pain low in my tummy", "pregnancy"),
+        ("I could be pregnant and have severe pain low in my tummy", "pain"),
         ("is period pain normal if I might be pregnant?", "answer"),
         ("I might be pregnant and have mild cramps", "answer"),
         ("I'm pregnant, no pain, is it ok to swim?", "answer"),
