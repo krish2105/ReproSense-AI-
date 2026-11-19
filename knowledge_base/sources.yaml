@@ -211,3 +211,38 @@
   url: "https://www.gov.uk/government/publications/thinking-of-getting-pregnant-make-sure-you-re-protected-against-german-measles"
   accessed: "2026-11-18"
   topics: [rubella, german measles, MMR vaccine, planning a pregnancy]
+- id: doh_immunization_schedule_2026
+  answers: false  # cite-only: backs the baby's first-year schedule (D1); not quoted in general answers
+  title: "Updates to the Immunization Program (Childhood and School Vaccination) — DoH Abu Dhabi Circular 2026/77 (14 May 2026), Appendix 1: The Immunization Schedule, updated April 2026"
+  publisher: "Department of Health – Abu Dhabi (Abu Dhabi Public Health Centre)"
+  url: "https://www.doh.gov.ae/-/media/950546F00B64465CA91D7729996B3487.ashx"
+  accessed: "2026-11-19"
+  topics: [childhood immunisation, vaccination schedule, newborn, infants, abu dhabi]
+- id: doh_rsv_antibody_2026
+  answers: false  # cite-only: backs the baby's first-year schedule (D1); not quoted in general answers
+  title: "Introduction of Long-Acting Monoclonal Antibodies for RSV at birth in the Immunization Program — DoH Abu Dhabi Circular 2026/37 (3 March 2026)"
+  publisher: "Department of Health – Abu Dhabi (Abu Dhabi Public Health Centre)"
+  url: "https://www.doh.gov.ae/-/media/Feature/Resources/Circulars/2026/37--2026.ashx"
+  accessed: "2026-11-19"
+  topics: [RSV, respiratory syncytial virus, monoclonal antibody, newborn, abu dhabi]
+- id: doh_newborn_screening_2025
+  answers: false  # cite-only: backs the baby's first-year schedule (D1); not quoted in general answers
+  title: "Standard for Newborn Screening Requirements — DoH Abu Dhabi (DOH/NBSC/SD/V4/2024, January 2025)"
+  publisher: "Department of Health – Abu Dhabi"
+  url: "https://www.doh.gov.ae/-/media/5CF37EB2567A4964843F5BC9D83DD156.ashx"
+  accessed: "2026-11-19"
+  topics: [newborn screening, heel prick, hearing screening, heart screening, abu dhabi]
+- id: doh_well_child_visits_2025
+  answers: false  # cite-only: backs the baby's first-year schedule (D1); not quoted in general answers
+  title: "Standard for Well-Child Visits — DoH Abu Dhabi (DOH/WCV/SD/10/2025, revised, December 2025)"
+  publisher: "Department of Health – Abu Dhabi"
+  url: "https://www.doh.gov.ae/-/media/E3D10B966E2B431982AC28A0A6EC3A1B.ashx"
+  accessed: "2026-11-19"
+  topics: [well-child visits, child growth, development, infants, abu dhabi]
+- id: doh_immunization_recall_2022
+  answers: false  # cite-only: backs the 4-week window of the baby's vaccinations (D1); not quoted in general answers
+  title: "Tracing Defaulters of Childhood Immunization Program — DoH Abu Dhabi Circular 2022/257 (21 November 2022)"
+  publisher: "Department of Health – Abu Dhabi (Abu Dhabi Public Health Centre)"
+  url: "https://www.doh.gov.ae/-/media/D24C9A53ACBE41C6ADCFFAD15D3278C9.ashx"
+  accessed: "2026-11-19"
+  topics: [childhood immunisation, reminders, recall, abu dhabi]

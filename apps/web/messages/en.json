@@ -972,6 +972,7 @@
       "care_gap_closed": "closed a follow-up",
       "care_gap_in_progress": "booked a follow-up",
       "care_gap_open": "reopened a follow-up",
+      "baby_check": "recorded a step of your baby's schedule",
       "sign_in": "signed in",
       "sign_in_failed": "a sign-in attempt failed",
       "passkey_added": "added a passkey",
@@ -1857,6 +1858,44 @@
       }
     }
   },
+  "baby": {
+    "eyebrowDays": "{days, plural, =0 {Your baby, born today} one {Your baby, # day old} other {Your baby, # days old}}",
+    "eyebrow": "{weeks, plural, one {Your baby, # week old} other {Your baby, # weeks old}}",
+    "eyebrowMonths": "{months, plural, one {Your baby, # month old} other {Your baby, # months old}}",
+    "title": "Baby's first year",
+    "progress": "{done} of {total} recorded",
+    "intro": "Abu Dhabi's newborn screening, vaccinations and well-baby visits for the first 12 months. The hospital and your baby's clinic give them; tap “My baby had this” when one is done.",
+    "nextTitle": "Next for your baby",
+    "restTitle": "The rest of the first year",
+    "nextYear": "The next visit and vaccinations in Abu Dhabi's schedule are at 12 months.",
+    "age": "{months, plural, =0 {At birth} one {At # month} other {At # months}}",
+    "window": "{from} to {to}",
+    "doneOn": "Done {date}",
+    "vaccines": "Vaccines",
+    "status": {
+      "done": "Done",
+      "due": "Due now",
+      "upcoming": "Coming up",
+      "not_recorded": "Not recorded yet"
+    },
+    "record": "My baby had this",
+    "recordFor": "My baby had this: {step}",
+    "changeDate": "Change the date",
+    "changeDateFor": "Change the date: {step}",
+    "recordTitle": "When did your baby have this?",
+    "dateLabel": "Date it was done",
+    "dateHint": "Not sure of the exact day? An approximate date is fine.",
+    "save": "Save",
+    "cancel": "Cancel",
+    "saved": "Saved. Your baby's schedule was updated.",
+    "saveFailed": "It wasn't saved: {detail}",
+    "windowNote": "A vaccination or visit shows as “Due now” for 4 weeks from the age in the schedule. That window is the app's way of showing it, not a DoH deadline, and “Not recorded yet” only means it isn't saved here. The newborn screenings are usually done in hospital before you go home.",
+    "note": "The ages come from Abu Dhabi's schedules for a baby born at term and well; if your baby was born early or needed special care, their doctor may follow a different plan. This is not advice about your baby's health: ask your baby's doctor about anything else, and in an emergency call 998.",
+    "clinic": {
+      "title": "Baby's first year (DoH schedules)",
+      "intro": "{done} of {total} steps recorded; the baby is {weeks, plural, one {# week} other {# weeks}} old. Status comes from her entries: “not recorded yet” means nothing was logged, not that it did not happen."
+    }
+  },
   "preconception": {
     "eyebrow": "Planning a pregnancy",
     "title": "Things to look at before or while trying",
@@ -2282,6 +2321,7 @@
       "accept_clinic_invite": "Joined the clinic from an invite",
       "ask_record": "Searched a shared record",
       "assistant_ask": "Asked the assistant",
+      "baby_check": "Recorded a step of her baby's schedule",
       "care_gap_closed": "Marked a follow-up done",
       "care_gap_in_progress": "Booked a follow-up",
       "care_gap_open": "Reopened a follow-up",

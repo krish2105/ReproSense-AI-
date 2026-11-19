@@ -21,7 +21,7 @@ from app.rules.engine import evaluate, load_rules
 from app.security import audit
 from app.security.auth import require
 from app.security.crypto import decrypt, encrypt
-from app.services import blood_pressure, fhir, followups, lognote, postnatal, preconception, previsit, views
+from app.services import baby, blood_pressure, fhir, followups, lognote, postnatal, preconception, previsit, views
 from app.services import documents as docs
 from app.services.patient_data import ai_allowed, apply_period_log, load_bundle
 from app.services.vocab import SYMPTOMS
@@ -133,6 +133,7 @@ def home(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         "record_strength": ev.features.values.get("record_strength"),
         "days_logged": views.days_logged(b),
         "postnatal": postnatal.pathway(b, ref()),  # her first 6 weeks after a birth (DoH Postnatal Care Standard)
+        "baby": baby.schedule(b, ref(), lang),  # D1: her baby's first 12 months (DoH screening, vaccines, visits)
         # Y1: planning a pregnancy (Trying stage only); two items say when her own record points to them
         "preconception": preconception.checklist(b, {h.rule_id for h in ev.all_hits}),
         "blood_pressure": blood_pressure.summary(b, ref()),  # K6: pregnancy and the 12 weeks after birth
@@ -182,6 +183,42 @@ def record_postnatal_check(step: str, body: PostnatalCheckIn, actor: Actor = Dep
         audit.record(cur, actor, "postnatal_check", actor.user_id, f"postnatal:{step}")
         b = _bundle(cur, actor)
     return postnatal.pathway(b, ref())
+
+
+class BabyCheckIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    date: date
+
+
+@router.post("/baby/{item}")
+def record_baby_check(item: str, body: BabyCheckIn, lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
+    """She records a step of her baby's first-year schedule ("I had this"): a screening, vaccination or visit done by
+    the hospital or her baby's clinic. Any date from the birth to today, so a visit a few days early still counts."""
+    if item not in baby.IDS:
+        raise HTTPException(422, "Unknown step in the baby's schedule.")
+    with session(actor) as cur:
+        b = _bundle(cur, actor)
+        s = baby.schedule(b, ref(), lang)
+        if not s:
+            raise HTTPException(404, "There is no birth in the last 12 months in your record.")
+        if item not in {i["id"] for i in s["items"]}:
+            raise HTTPException(422, "This step is not part of your baby's schedule.")
+        if not date.fromisoformat(s["birth_date"]) <= body.date <= ref():
+            raise HTTPException(422, "The date must be between the birth and today.")
+        cur.execute(
+            "INSERT INTO events (id, profile_id, type, date, details) VALUES (%s,%s,%s,%s,%s)"
+            " ON CONFLICT (id) DO UPDATE SET date=EXCLUDED.date, details=EXCLUDED.details",
+            (
+                f"{actor.user_id}-baby-{item}",
+                actor.user_id,
+                baby.EVENT,
+                body.date,
+                json.dumps({"item": item, "source": "her entry"}),
+            ),
+        )
+        audit.record(cur, actor, "baby_check", actor.user_id, f"baby:{item}")
+        b = _bundle(cur, actor)
+    return baby.schedule(b, ref(), lang)
 
 
 class PreconceptionTickIn(BaseModel):

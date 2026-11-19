@@ -251,6 +251,49 @@ export interface Postnatal {
   total: number;
 }
 
+/** Her baby's first 12 months (GET /v1/me/home .baby, POST /v1/baby/{id}; build week D1). DoH Abu Dhabi's newborn
+ * screening standard, the ADPHC immunisation schedule (April 2026) and the well-child visits standard. `label` and
+ * `vaccines` come in the language asked for; `vaccine_codes` are the schedule's own names (BCG, PCV20, ...). */
+export type BabyItemId =
+  | "newborn_exam"
+  | "hearing_screen"
+  | "heart_screen"
+  | "heel_prick"
+  | "vaccines_birth"
+  | "rsv_antibody"
+  | "check_1m"
+  | "check_2m"
+  | "vaccines_2m"
+  | "check_4m"
+  | "vaccines_4m"
+  | "check_6m"
+  | "vaccines_6m"
+  | "check_9m";
+export interface BabyItem {
+  id: BabyItemId;
+  kind: "screening" | "vaccination" | "check";
+  age_months: number; // the published age (0: at birth)
+  label: string;
+  vaccine_codes: string[];
+  vaccines: string[];
+  due_from: string;
+  due_to: string;
+  status: "done" | "due" | "upcoming" | "not_recorded"; // never "missed": the app cannot know what happened
+  done_on: string | null;
+  sources: string[];
+  source_links: Source[];
+}
+export interface BabySchedule {
+  birth_date: string;
+  age_days: number;
+  age_weeks: number;
+  age_months: number;
+  items: BabyItem[];
+  next: BabyItemId[]; // due now, or else the nearest items to come
+  done: number;
+  total: number;
+}
+
 /** Planning a pregnancy (GET /v1/me/home .preconception, POST /v1/preconception/{id}; build week Y1, Trying stage). */
 export type PreconceptionItemId = "folic_acid" | "premarital_results" | "rubella" | "cycle_checkup" | "fertility_check";
 export interface PreconceptionItem {
@@ -323,6 +366,7 @@ export interface HomeResponse {
   record_strength: "strong" | "building" | "early";
   days_logged: number; // distinct dates with a daily log (same number on home, Patterns, clinician)
   postnatal: Postnatal | null;
+  baby: BabySchedule | null;
   preconception: Preconception | null;
   blood_pressure: BpSummary;
 }
@@ -699,6 +743,7 @@ export interface ClinicRecord {
   timeline: TimelineResponse;
   her_questions: string[];
   postnatal: Postnatal | null;
+  baby: BabySchedule | null; // D1, read-only for the clinician
   bp_readings: BpReading[]; // newest first
   days_logged: number;
   visit_note_draft: string;
