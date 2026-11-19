@@ -1007,3 +1007,11 @@ The public /pilot page for a clinic manager or an insurer, so the address is plu
 | `pilot.toPricing` | See pricing | الأسعار | |
 | `pilot.toDemo` | Open the demo | فتح العرض التجريبي | |
 | `chrome.footerPilot` | Pilot value | قيمة البرنامج التجريبي | |
+
+## Clinical-gap audit (19 Nov, draft Arabic, not yet reviewed)
+| Key | English | Arabic (draft) | Reviewer note |
+| --- | --- | --- | --- |
+| `safety.pregSigns` | bleeding · severe tummy pain · fewer baby movements · a severe headache · changes in your vision · sudden swelling of the face, hands or feet · a fever | نزيفاً · ألماً شديداً في البطن · قلة حركة الجنين · صداعاً شديداً · تغيّراً في الرؤية · تورّماً مفاجئاً في الوجه أو اليدين أو القدمين · حرارة | changed 19 Nov to match RF5 |
+| RF6 message (`rules/translations_ar.yaml`) | After birth, a severe headache, changes in vision, sudden swelling of the face, hands or feet, very heavy bleeding or a fever needs urgent care. Call 998 or go to the nearest emergency department now. | بعد الولادة، الصداع الشديد أو تغيّر الرؤية أو التورّم المفاجئ في الوجه أو اليدين أو القدمين أو النزيف الغزير جداً أو الحرارة يحتاج رعاية عاجلة. اتصلي بالرقم 998 أو توجّهي إلى أقرب قسم طوارئ الآن. | |
+| After-birth urgent reply, added clause (`assistant.py` `URGENT_TEXT`) | … a severe headache, changes in your vision, or sudden swelling of your face, hands or feet. | … أو الصداع الشديد، أو تغيّر الرؤية، أو التورّم المفاجئ في الوجه أو اليدين أو القدمين. | |
+| `knowledge_base/summaries/nhs_pre_eclampsia.md` (Arabic section) | (new summary) | see the file | |

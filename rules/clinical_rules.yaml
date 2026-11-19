@@ -28,16 +28,22 @@ red_flags:   # evaluated FIRST by the safety guardian; any hit shows an urgent c
     message_en: "You told us you have had thoughts of harming yourself. You deserve support right now. Please call 998 or speak to your doctor today. You are not alone."
     crisis_path: true   # app shows support contacts and a one-tap call; never a score or a pattern card
     source_ids: [nice_cg192, epds_cox_1987]
+  # 19 Nov audit (QUESTIONS #49 R4), G2 pending Krishna, awaiting clinician sign-off. NICE NG133 1.1.1 tells pregnant
+  # women to see a healthcare professional immediately for a severe headache, problems with vision or sudden swelling of
+  # the face, hands or feet, EACH on its own. The NHS pre-eclampsia page (nhs_pre_eclampsia) says it can start in the days
+  # or weeks after the birth and sends these signs to urgent help then too. NG194 (1.2.4, number to confirm): a
+  # persistent or severe headache after birth needs medical advice without delay. nhs_pregnancy_urgent lists a high
+  # temperature in pregnancy. Before, a severe headache counted only together with a vision change.
   - id: RF5_PREGNANCY_WARNING_SIGNS
-    when: "pregnant and (bleeding_today or severe_abdominal_pain_today or reduced_fetal_movements_today or (severe_headache_today and vision_change_today))"
+    when: "pregnant and (bleeding_today or severe_abdominal_pain_today or reduced_fetal_movements_today or severe_headache_today or vision_change_today or sudden_swelling_today or fever_today)"
     urgency: urgent
     message_en: "These signs in pregnancy need checking today. Call 998 or go to your maternity unit now."
-    source_ids: [nhs_pregnancy_urgent, nice_ng201]
+    source_ids: [nhs_pregnancy_urgent, nice_ng201, nice_ng133, nhs_pre_eclampsia]
   - id: RF6_POSTPARTUM_WARNING_SIGNS
-    when: "weeks_since_delivery <= 6 and (severe_headache_today and vision_change_today or heavy_flow_today or fever_today)"
+    when: "weeks_since_delivery <= 6 and (severe_headache_today or vision_change_today or sudden_swelling_today or heavy_flow_today or fever_today)"
     urgency: urgent
-    message_en: "After birth, a severe headache with vision changes, very heavy bleeding or fever needs urgent care. Call 998."
-    source_ids: [nice_ng194]
+    message_en: "After birth, a severe headache, changes in vision, sudden swelling of the face, hands or feet, very heavy bleeding or a fever needs urgent care. Call 998 or go to the nearest emergency department now."
+    source_ids: [nice_ng194, nhs_pre_eclampsia]
   # K6 (build week, 18 Nov 2026), awaiting clinician sign-off; G2 approved by Krishna (build-week instruction).
   # NICE NG133 Hypertension in pregnancy (2019), text checked 18 Nov 2026:
   #   "Terms used": hypertension = 140 mmHg systolic or higher, or 90 mmHg diastolic or higher; severe hypertension =
