@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { AfterBirthArc, CycleArc, PregnancyArc } from "@/components/charts/Arc";
 import { BloodPressureCard } from "@/components/home/BloodPressureCard";
 import { DayPills } from "@/components/home/DayPills";
+import { FollowUpStory } from "@/components/home/FollowUpStory";
 import { MoodRow } from "@/components/home/MoodRow";
 import { NavigatorCard } from "@/components/home/NavigatorCard";
 import { PatternSummary } from "@/components/home/PatternSummary";
@@ -19,7 +20,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import Link from "next/link";
 import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
-import type { AuthMe, HomeResponse } from "@/lib/api/types";
+import type { AuthMe, FollowUpsResponse, HomeResponse } from "@/lib/api/types";
 import { firstName, formatDate, isolate, shownName } from "@/lib/format";
 import { requireRole } from "@/lib/session";
 import { PregnancyRingSection } from "@/components/home/PregnancyRingSection";
@@ -37,7 +38,11 @@ export default async function Home() {
   const raw = await getLocale();
   const locale = isLocale(raw) ? raw : "en";
   const t = await getTranslations();
-  const h = await apiServer<HomeResponse>("/me/home", { query: { lang: locale } });
+  // Her follow-ups, told as the loop. A failure here never blocks Home: the card is left out instead.
+  const [h, fu] = await Promise.all([
+    apiServer<HomeResponse>("/me/home", { query: { lang: locale } }),
+    apiServer<FollowUpsResponse>("/me/followups", { query: { lang: locale } }).catch(() => null),
+  ]);
   const name = firstName(h.profile.alias, locale);
   const soon = h.observations.find((o) => o.urgency === "soon");
   const gap = soon ? h.care_gaps.find((g) => g.type === soon.creates_care_gap) : undefined;
@@ -127,6 +132,8 @@ export default async function Home() {
         {h.blood_pressure.eligible && !h.crisis && <BloodPressureCard bp={h.blood_pressure} locale={locale} />}
 
         {soon && <NavigatorCard key={`${h.profile.id}-${soon.observation_id}`} card={soon} dueDate={gap?.due_date} latest={latestDraft} />}
+
+        {fu && !h.crisis && <FollowUpStory items={fu.follow_ups} locale={locale} />}
 
         {noWayBack && !h.crisis && (
           <Box>
