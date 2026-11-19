@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
+import { EventTimeline } from "@/components/admin/EventTimeline";
+import { LoopMetrics } from "@/components/admin/LoopMetrics";
 import { InvitePanel } from "@/components/clinicAdmin/InvitePanel";
 import { isLocale } from "@/i18n/config";
 import { apiServer } from "@/lib/api/server";
@@ -67,6 +69,8 @@ export default async function ClinicAdminPage() {
         <p className="xs faint" style={{ marginTop: 6 }}>{t("pc008Note")}</p>
       </section>
 
+      <LoopMetrics m={dash.loop} locale={locale} scope="clinic" />
+
       <div className="ca-grid">
         <InvitePanel invites={invites.invites} />
 
@@ -97,6 +101,8 @@ export default async function ClinicAdminPage() {
           </a>
         </section>
       </div>
+      <EventTimeline endpoint="/clinic-admin/events" scope="clinic" />
+
       <p className="xs faint" style={{ marginTop: 14 }}>
         {t("syntheticNote")}
       </p>

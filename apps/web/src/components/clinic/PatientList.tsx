@@ -29,7 +29,15 @@ export async function PatientList({ patients, selected }: { patients: ClinicPati
                   <br />
                   <span className="xs faint">{t("clinic.rowMeta", { age: p.age, open: p.open_obs + p.open_gaps, reviewed: p.reviewed_at ? "yes" : "no" })}</span>
                 </span>
-                {tone && <Tag tone={tone}>{t(`tags.${tone}`)}</Tag>}
+                {/* Urgent first; an overdue follow-up takes the place of the pattern tag (the list sorts the same way) */}
+                <span style={{ display: "inline-flex", gap: 4, flexWrap: "wrap", justifyContent: "flex-end" }}>
+                  {tone === "urgent" && <Tag tone={tone}>{t(`tags.${tone}`)}</Tag>}
+                  {p.overdue_gaps > 0 ? (
+                    <Tag tone="discuss">{t("clinic.overdue")}</Tag>
+                  ) : (
+                    tone && tone !== "urgent" && <Tag tone={tone}>{t(`tags.${tone}`)}</Tag>
+                  )}
+                </span>
                 <LinkPending />
               </Link>
             </li>
