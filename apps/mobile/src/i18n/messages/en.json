@@ -45,7 +45,8 @@
       "playing": "Reading aloud",
       "paused": "Paused"
     },
-    "footerPilot": "Pilot value"
+    "footerPilot": "Pilot value",
+    "footerEvidence": "Evidence"
   },
   "tabs": {
     "home": "Home",
@@ -1303,7 +1304,8 @@
     "liveUpBody": "The API and its database answered in {ms} ms. Checked {at} Gulf time, each time this page opens.",
     "liveDownBody": "The API did not answer within 10 seconds. Checked {at} Gulf time. The demo may be waking up: reload in a minute.",
     "liveMonitor": "Uptime history (external monitor, checks every few minutes)",
-    "liveSupport": "Support for pilot clinics:"
+    "liveSupport": "Support for pilot clinics:",
+    "seeEvidence": "Every number with how and when it was measured"
   },
   "join": {
     "metaTitle": "Start your own record",
@@ -1409,7 +1411,7 @@
   "trust": {
     "metaTitle": "Trust centre",
     "title": "Trust centre",
-    "intro": "How ReproSense answers the Department of Health's Responsible AI Standard, clause by clause, and what it does not claim. Each clause is summarised in our own words.",
+    "intro": "How ReproSense answers the Department of Health's Responsible AI Standard clause by clause, how it maps to ADHICS and the UAE's health data rules, and what it does not claim. Each rule is summarised in our own words.",
     "tableTitle": "DoH Responsible AI Standard (V1, October 2025)",
     "colClause": "Clause",
     "colAsks": "What it asks",
@@ -1513,14 +1515,263 @@
     "data1": "She decides who sees her record: sharing with a clinic is a separate choice she can stop at any time, and the clinic loses access at once.",
     "data2": "She can read who viewed her record, download everything (including a FHIR R4 export for her clinic's system) and delete her entries.",
     "data3": "We never sell health data or show ads.",
-    "sourcesTitle": "Source",
+    "sourcesTitle": "Sources",
     "sourceDoh": "Department of Health Abu Dhabi, Responsible AI Standard, version 1 (October 2025)",
     "seeScorecard": "See the test results",
     "seePrivacy": "Try the privacy centre as Noura",
     "intendedTitle": "What ReproSense is for",
     "intendedBody": "ReproSense is a personal health record and consultation-preparation tool. A woman records her own cycles, symptoms, questionnaires and lab results. ReproSense organises them, shows where her entries meet published guideline thresholds that are worth discussing, and creates a summary she can choose to share with her clinic. It does not diagnose, treat, predict or prevent disease, does not give contraceptive advice, and does not replace a clinician's judgement. Clinicians see the entries and the guideline behind every item.",
     "data4": "In this demo, deleting removes your entries at once. UAE law asks health records to be kept for 25 years, so before any real data we will agree with the Department of Health how deletion and that rule work together.",
-    "data5": "We do not connect to Malaffi. Only licensed facilities do, and DoH policy forbids copying Malaffi data into other systems. Her FHIR R4 export goes into her clinic's own system, which reports to Malaffi."
+    "data5": "We do not connect to Malaffi. Only licensed facilities do, and DoH policy forbids copying Malaffi data into other systems. Her FHIR R4 export goes into her clinic's own system, which reports to Malaffi.",
+    "sourceAdhics": "Department of Health – Abu Dhabi, Abu Dhabi Healthcare Information and Cyber Security Standard (ADHICS)",
+    "sourceClinician": "Emirates News Agency (WAM), DoH publishes AI Clinician Framework (October 2026)",
+    "sourceLaws": "UAE Government portal (u.ae), Data protection laws",
+    "sourceLaw2019": "UAE Legislation, Federal Law No. (2) of 2019 Concerning the Use of Information and Communication Technology in Health Fields",
+    "sourceSakina": "Department of Health – Abu Dhabi, 24/7 mental health support line 800-SAKINA (800 725462)",
+    "uae": {
+      "title": "DoH and UAE compliance",
+      "intro": "Our own mapping to Abu Dhabi's health cybersecurity standard, the Department of Health's AI frameworks and the UAE's data laws. ReproSense holds no certification, and no regulator has assessed it. Each line says plainly whether a control is in place today, partly in place, or on the roadmap.",
+      "status": {
+        "inPlace": "In place",
+        "partly": "Partly",
+        "roadmap": "Roadmap"
+      },
+      "adhicsTitle": "ADHICS: Abu Dhabi Healthcare Information and Cyber Security Standard",
+      "adhicsIntro": "Issued by the Department of Health – Abu Dhabi for every entity in the emirate that handles health information, technology and service providers included. The rows follow the 11 control domains of the published standard (first issued in 2019; DoH has since issued version 2).",
+      "colDomain": "Control domain",
+      "colToday": "What ReproSense does today",
+      "colCheck": "Where to check",
+      "colStatus": "Status",
+      "noFile": "Nothing to check yet",
+      "adhics": {
+        "hr": {
+          "name": "Human resources security",
+          "today": "Nobody on the team handles real health data, because the demo has none. Background checks, security training and confidentiality agreements come before a pilot."
+        },
+        "asset": {
+          "name": "Asset management",
+          "today": "Every table that holds her data is defined in one schema file, and every dependency is pinned in a lock file. A formal asset register and data classification come before a pilot."
+        },
+        "physical": {
+          "name": "Physical and environmental security",
+          "today": "We run no servers of our own: the demo's hosting providers hold the hardware. Production moves to a data centre region inside the UAE."
+        },
+        "access": {
+          "name": "Access control",
+          "today": "Forced row-level security on every table: the database itself refuses rows a user may not see, even when the app asks. Separate roles for her, her clinician and network admins; a clinician opens her record only while she consents. Passkeys for her sign-in, and the email code locks after five wrong tries."
+        },
+        "ops": {
+          "name": "Operations management",
+          "today": "Every view and change of her record goes into a hash-chained, append-only audit log that she can read. Rate limits per verified session or address. A request ID on every log line, and a scheduled check of the live demo path that opens an issue when it fails."
+        },
+        "comms": {
+          "name": "Communications",
+          "today": "HTTPS only (HSTS) and security headers: no framing, no MIME sniffing, a strict referrer policy, and a deny-all content security policy on the API. The browser talks to one origin, and the API accepts only listed origins. A content security policy for the web pages is next."
+        },
+        "health": {
+          "name": "Health information and security",
+          "today": "Notes and uploaded documents are encrypted in the database (AES-256-GCM). Records use a nickname, not a name. A model gets de-identified text only, and her AI switch stops it. She can withdraw each consent, export everything and delete her entries. The demo holds fictional data only; hosting inside the UAE is on the roadmap."
+        },
+        "third": {
+          "name": "Third party security",
+          "today": "The demo uses outside services for hosting and, on fictional data only, a language model. The model gets de-identified text, and the app works without it. Data processing agreements and UAE-hosted providers come before a pilot."
+        },
+        "dev": {
+          "name": "Information systems acquisition, development and maintenance",
+          "today": "Every change goes through a pull request and CI: backend, web and browser tests, the copy guard, typed input validation, and a gitleaks scan of the whole git history for secrets. Keys live only in environment variables."
+        },
+        "incident": {
+          "name": "Information security incident management",
+          "today": "A written incident process for the pilot sets who acts and when, including notice to DoH within 24 hours of a breach. Today each finding becomes a tracked issue and a fix with a test."
+        },
+        "continuity": {
+          "name": "Information systems continuity management",
+          "today": "Without a language model, every card keeps its template wording and the assistant quotes the knowledge base. The demo data resets in one transaction. Backups and disaster recovery inside the UAE come with UAE hosting."
+        }
+      },
+      "roadmapTitle": "On the roadmap before any real record",
+      "roadmap": {
+        "hosting": "Hosting in a UAE cloud region, with backups and disaster recovery inside the UAE.",
+        "pentest": "An independent penetration test.",
+        "assessment": "The formal ADHICS assessment with the Department of Health."
+      },
+      "seeEvidence": "See the tests behind these controls",
+      "aiTitle": "DoH AI Clinician Framework and Responsible AI Standard",
+      "aiIntro": "In October 2026 the Department of Health published the AI Clinician Framework, for AI systems that may one day be authorised to do work that needs a licensed clinician, with physician oversight and accountability at every level. ReproSense is not such a system: it does not diagnose or treat, and a clinician makes every clinical decision. We hold it to the same principles, and to the Responsible AI Standard above.",
+      "ai": {
+        "oversight": {
+          "title": "Human oversight",
+          "body": "Clinicians decide. Agents only draft: the care navigator writes a request in her words, she approves it, and the app never sends anything on its own."
+        },
+        "transparency": {
+          "title": "Transparency",
+          "body": "Every card and answer names its sources, and “How this was produced” shows the rule, the entries it used and each step taken."
+        },
+        "aiSwitch": {
+          "title": "Her AI switch",
+          "body": "In her privacy centre she can turn AI off. The assistant closes, cards keep their template wording, and no text of hers reaches a model."
+        },
+        "verifier": {
+          "title": "The verifier",
+          "body": "When a language model rewords a card or an answer, the verifier removes any sentence the retrieved sources do not support."
+        },
+        "heldout": {
+          "title": "Held-out testing",
+          "body": "Safety routing is scored on questions by writers who never saw the code, and never used for tuning. Low scores are published as measured."
+        },
+        "crisis": {
+          "title": "Crisis path",
+          "body": "A self-harm answer opens the crisis path: call 998 first, then 800-SAKINA, the Department of Health's 24/7 support line. No score and no pattern card are shown."
+        }
+      },
+      "lawTitle": "UAE health data law and PDPL",
+      "lawAsks": "What it asks",
+      "lawOurs": "What we do",
+      "law2019": {
+        "name": "Federal Law No. 2 of 2019 on the use of ICT in health fields",
+        "asks": "Article 13: health data about care given in the UAE is not stored, processed or transferred outside the country, except where a decision of the health authority allows it.",
+        "synthetic": "The demo holds fictional data only, and the database refuses any person not marked as fictional.",
+        "inUae": "In production, health data, backups included, stays in a UAE cloud region, with a UAE-hosted model or none."
+      },
+      "pdpl": {
+        "name": "Federal Decree-Law No. 45 of 2021 on the protection of personal data (PDPL)",
+        "asks": "In force since 2 January 2022. It rests on consent, and gives people the right to correct their data and to restrict or stop its processing.",
+        "consent": "Each use of her data is its own consent (clinic sharing, the assistant, research). She can withdraw it at any time, and the clinic loses access at once.",
+        "export": "She can download everything, including a FHIR R4 file for her clinic, and delete her entries in one step."
+      }
+    }
+  },
+  "evidence": {
+    "metaTitle": "Evidence",
+    "title": "Evidence",
+    "intro": "Every number we have measured, how we measured it and when. All of it runs on fictional demo data. Where we have not measured something yet, this page says so instead of estimating.",
+    "recorded": "Test counts recorded on {date} at commit <link>{commit}</link>. CI runs every suite again on each change.",
+    "recordedNoCommit": "Test counts recorded on {date}. CI runs every suite again on each change.",
+    "colWhat": "What",
+    "colResult": "Result",
+    "colHow": "How it is measured",
+    "colWhen": "When",
+    "notMeasured": "Not measured yet",
+    "testsTitle": "Tests",
+    "tests": {
+      "backend": {
+        "what": "Backend tests",
+        "result": "{passed} passed, {failed} failed, {skipped} skipped",
+        "how": "pytest against a real Postgres database: the API, row-level security, the rules, safety routing, the doctor PDF and the assistant test set."
+      },
+      "web": {
+        "what": "Web unit tests",
+        "result": "{passed} passed, {failed} failed · files: {files}",
+        "how": "Vitest: English and Arabic messages match key for key, the copy guard reads every string, plus formatting and API helpers."
+      },
+      "e2e": {
+        "what": "Browser tests",
+        "result": "{tests} in all: {desktop} at 1280 px, {mobile} at 390 px",
+        "how": "Playwright on the real stack: the demo path, every key screen in English and Arabic checked by axe (WCAG 2.2 AA), the 998 red flag and the 3D fallbacks."
+      }
+    },
+    "whenCi": "Recorded {date}; CI runs them on every push",
+    "whenE2e": "Counted {date}; CI runs them on every push",
+    "rulesTitle": "Rules on the demo personas",
+    "rules": {
+      "what": "Personas with exactly the expected observations",
+      "result": "{pass} of {of}",
+      "how": "Each fictional persona's record goes through the rules file ({version}). Her observations must match the expected list, no more and no fewer.",
+      "when": "Live, each time this page opens"
+    },
+    "evalTitle": "Assistant test set ({n} questions)",
+    "evalIntro": "A fixed set of questions in English and Arabic. Mode: {mode}.",
+    "modeNone": "extractive answers, no language model",
+    "modeWith": "with {name}",
+    "eval": {
+      "grounded": {
+        "what": "Grounded answers",
+        "how": "An answer passes when it is grounded, cites a source the question expects and is not refused."
+      },
+      "refusals": {
+        "what": "Diagnosis questions refused",
+        "how": "Questions that ask for a diagnosis or a chance must be refused."
+      },
+      "redflags": {
+        "what": "Red flags caught",
+        "how": "Urgent messages must open the urgent or the crisis reply, both with 998."
+      },
+      "banned": {
+        "what": "Diagnostic phrases in answers",
+        "how": "The copy guard counts banned wording across all answers."
+      },
+      "language": {
+        "what": "Answers in the question's language",
+        "how": "Each answer must be in the question's language, Arabic or English."
+      }
+    },
+    "resultOf": "{pass} of {of}",
+    "resultPct": "{pct}%",
+    "whenEval": "Results file committed {date}; CI runs the set on every push and fails below its thresholds",
+    "whenEvalNoDate": "CI runs the set on every push and fails below its thresholds. The date of these results is not recorded.",
+    "heldoutTitle": "Safety routing on held-out questions",
+    "heldoutIntro": "Questions by writers who never saw the code. The team never uses them to tune the checks, so low numbers stay as they are measured.",
+    "colType": "Message type",
+    "colWords": "Word checks",
+    "colModel": "With the model's second check",
+    "types": {
+      "crisis": "Crisis (self-harm)",
+      "urgent": "Emergencies",
+      "refuse": "Diagnosis requests",
+      "medicine": "Medicine questions",
+      "answer": "Everyday questions"
+    },
+    "heldoutWhen": "Word checks: run with the assistant test set, in the same results file. Model check: {when}.",
+    "modelWhen": "{model}, run on {date}",
+    "modelWhenNoDate": "{model}, run date not recorded in the results file",
+    "modelNone": "not measured yet. It runs by hand through the model-safety-eval workflow and appears here after review",
+    "attackTitle": "Attack suite",
+    "attackResult": "{blocked} of {total}",
+    "attackNotRun": "Not run: {n}",
+    "attackHow": "Each attack is a test that plays the attacker against the real API and database: another woman's record, an edited token, a clinic without consent, an edited audit row and more.",
+    "attackWhen": "Commit <link>{commit}</link>, {date}",
+    "colAttack": "Attack",
+    "colLayer": "Stopped by",
+    "colOutcome": "Result",
+    "attackOutcome": {
+      "blocked": "Blocked",
+      "not_blocked": "Not blocked",
+      "not_run": "Not run"
+    },
+    "attackNone": "Not measured yet. The suite and its published score arrive with the security pack.",
+    "lighthouseTitle": "Speed and accessibility (Lighthouse)",
+    "lighthouseIntro": "{tool}, {device}, on the live site, measured {date}. Lighthouse is run by hand; this is the last recorded run.",
+    "lighthouseNote": "Signed-in pages were measured with a demo session. Pages under /app are kept out of search engines on purpose (robots.txt), which lowers their SEO score.",
+    "lighthouseSource": "Where it was recorded",
+    "devices": {
+      "mobile": "phone",
+      "desktop": "desktop"
+    },
+    "colPage": "Page",
+    "colPerf": "Performance",
+    "colA11y": "Accessibility",
+    "colBest": "Best practices",
+    "colSeo": "SEO",
+    "colLcp": "LCP",
+    "colTbt": "TBT",
+    "colCls": "CLS",
+    "seconds": "{n} s",
+    "ms": "{n} ms",
+    "lighthouseNone": "Not measured yet.",
+    "notYetTitle": "Not measured yet",
+    "notYet": {
+      "n1": "Accuracy against clinicians' judgement on real records. There are no real records, only fictional ones.",
+      "n2": "Outcomes for real women, such as follow-ups closed in a clinic. That needs a pilot.",
+      "n3": "An independent penetration test."
+    },
+    "seeTrust": "Read the trust centre",
+    "seeStatus": "See the live status",
+    "unavailable": "The numbers come from the ReproSense API, which did not answer. It may be waking up: try again in a minute.",
+    "heldoutN": "{n} questions in this round.",
+    "colDev": "Development rounds (used for tuning)",
+    "devNote": "Development rounds are the questions used to improve the checks. They are shown for comparison and say less than the held-out round.",
+    "evalHeading": "Assistant test set",
+    "attackWhat": "Attacks blocked"
   },
   "postnatal": {
     "eyebrow": "After the birth",
