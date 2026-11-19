@@ -31,8 +31,8 @@ Health**: *"How might we use AI to improve women's health and maternal, newborn 
 | --- | --- | --- |
 | **Women's health** (ours) | **Yes, core** | Periods: irregular cycles and androgen signs (PCOS guideline 2023), severe cyclical pain (endometriosis), heavy bleeding (PBAC score), iron. Red flags first with 998. Five life stages. |
 | ↳ maternal | **Yes** | Pregnancy: glucose screening window (24–28 weeks); pregnancy warning signs; **blood-pressure log with the NICE NG133 warning** (pregnancy and 12 weeks after birth). After birth: **the DoH Postnatal Care Program steps** (teleconsult, 2-week and 6-week visits, mood check with the EPDS questionnaire, glucose test after gestational diabetes). |
-| ↳ newborn and early childhood | **Partly** | Today through the mother: the postnatal pathway and her follow-ups. A baby's own schedule and feeding log (Dareen's D1–D2) are **not built yet**; say it is next. |
-| **Fertility** (neighbouring theme) | **Yes, a slice** | "Trying to conceive" life stage: when to ask for a fertility assessment (Mariam's story); the planning-a-pregnancy checklist (Yash's Y1, in review). |
+| ↳ newborn and early childhood | **Yes** | **The baby's first year** (Fatima → Home): newborn screening, well-baby visits and vaccinations from DoH Abu Dhabi's immunization circular and newborn screening standard, each with its source and "I had this". The feeding log (D2) is next. |
+| **Fertility** (neighbouring theme) | **Yes, a slice** | "Trying to conceive" life stage: when to ask for a fertility assessment (Mariam's story); the planning-a-pregnancy checklist (Mariam → Home). |
 | **Longevity** | **A slice** | Perimenopause (Layla: hot flushes, night sweats, changing cycles) and iron levels; the record follows her across life stages. |
 | **Alzheimer's** | **No** | Not our theme. Don't claim it. |
 
@@ -57,6 +57,16 @@ Health**: *"How might we use AI to improve women's health and maternal, newborn 
 ---
 
 ## 4. The 3-minute script (four voices)
+
+**Numbers to know by heart (all on /status and /evidence):**
+- **Safety, held-out (132 reviewer questions, never tuned on), with the AI second check:** crisis **30/30**,
+  emergencies **32/32**, everyday questions answered normally 42/50 (no new false alarms). Word checks alone: 11/30 and
+  24/32.
+- **Security:** an attack suite of 14 attacks, all blocked, runs on every change.
+- **Tests:** 800+ backend tests and about 250 browser tests on every pull request.
+- **The loop on demo data:** a median of 8 days from a follow-up opening to it being booked, and 66% of postnatal steps
+  done inside their DoH window.
+
 Read it out loud three times with a timer. Speak to the judges, not the screen. Short sentences; pause after numbers.
 **Bold** = stress. *[Brackets]* = what Atharva clicks.
 
@@ -79,8 +89,11 @@ Read it out loud three times with a timer. Speak to the judges, not the screen. 
 >
 > It **never diagnoses** and never gives a fake percentage. Urgent signs always come first, with a call to 998.
 >
-> The AI is checked, not trusted: rules decide, sources ground every answer, and the model only rewords. Anything her
-> data doesn't support is removed. And she can switch AI off. Let me show you."
+> The AI is checked, not trusted: rules decide, sources ground every answer, and the model only rewords.
+>
+> And it is safe. On 132 questions written by independent reviewers, and never used to tune it, our safety layer sent
+> **all 30 crisis messages** to support and **all 32 emergencies** to 998 first, with no new false alarms. Let me show
+> you."
 
 ### 1:05–2:20 · Atharva drives, Krishna narrates: the live demo
 *[Demo people → **Open Noura's record**]*
@@ -111,7 +124,8 @@ slow)]*
 > she checks it.
 >
 > For a mother, the same record carries her through pregnancy and the first weeks after birth, with the DoH postnatal
-> steps, blood pressure warnings and the mood check. Next, we bring the baby's first year into it."
+> steps, blood pressure warnings and the mood check. And now her baby's first year too: the DoH checks and
+> vaccinations, each with its source."
 
 ### 2:50–3:00 · Krishna: the ask
 > "We're asking for one pilot clinic, a clinical advisor to sign our rules, and the HealthX Ajyal grant to become a
@@ -165,18 +179,16 @@ minutes." **Only say what actually happened.** If you didn't manage it, use the 
 ## 7. Where it is missing, and the line to use
 | Gap | What a judge sees | What to say |
 | --- | --- | --- |
-| **Live AI is off** until the OpenRouter key is in Render (`llm: none`) | Template wording; the photo reader is hidden | Fix before Sunday (Krishna adds the key). If not: "The demo runs with AI off on purpose, to show the rules and safety work without it; the model only rewords." |
 | **No real users or clinic yet** | Venture (30) and impact | Section 6 today. Otherwise Q4. |
-| **Newborn and early childhood** is mostly the mother's side | Theme fit | "The postnatal pathway is live; the baby's first-year schedule is next, led by Dareen." |
+| **Newborn**: the baby's schedule is live, the feeding log isn't | Theme fit | "Her baby's first year is in the record now; feeding support is next, led by Dareen." |
 | **Clinical sign-off** is pending (rules reviewed by AI agents and us, not yet by a licensed clinician) | Safety | "Every rule cites its guideline and is logged for sign-off; a clinical advisor is our first ask." |
-| **Crisis wording**: the word checks caught 11 of 30 held-out crisis messages | Safety | "That's why the 998 button is on every chat screen whatever the message says, and why a model second check is built. We publish the number on our status page rather than hide it." |
+| **Diagnosis and medicine questions**: on the held-out set, 6 of 10 diagnosis requests and 4 of 10 medicine questions got the exact refusal; the rest got a sourced answer, never a diagnosis or a dose | Safety | "Crisis and emergencies are 30 of 30 and 32 of 32. The rest still never get a diagnosis or a dose; tightening those refusals is next, and we publish every miss on /status." |
 | **Free hosting** sleeps, and the data is in Frankfurt for the demo | Tech and regulation | "Demo data is synthetic. Production runs on UAE-hosted infrastructure, as the Health Data Law requires; the code is ready to move." |
-| Five PRs in review (Y1 checklist, Y4 family view, API hardening ×3) and Atharva's safety PR (#142) | Nothing on screen | Merge or leave them out of the demo; don't mention unmerged features. |
 
 ## 8. How likely we are to win (honest)
-- **Score today:** about **73/100** on the official rubric (rescored 19 Nov). Strong on prototype, safety and
-  evidence; weakest on validation.
-- **With the AI key on, 5 interviews plus a doctor, and a clean 3-minute run:** about **80–82**. That's a **top-3
+- **Score today:** about **79/100** on the official rubric (rescored 19 Nov evening, AI live, safety 30/30 and 32/32).
+  Strong on prototype, safety and evidence; weakest on validation.
+- **With 5 interviews plus a doctor, a letter of intent, and a clean 3-minute run:** about **85**. That's a **top-3
   contender**.
 - **Winning first place** depends on the other teams, which we can't see. What separates us:
   - It's a working product with safety evidence, not a slide.
@@ -214,8 +226,8 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 
 **Q5. Mental health: what if she writes something worrying?** *(Dareen)*
 > If her words suggest crisis, the app shows support and 998, never a score. After birth, the mood check uses the
-> EPDS questionnaire, and its self-harm question goes straight to support. The 998 button is on every chat screen
-> whatever she writes.
+> EPDS questionnaire, and its self-harm question goes straight to support, with 998 and DoH's 24/7 line 800-SAKINA.
+> On held-out messages written by independent reviewers, our safety layer caught all 30 crisis messages.
 
 ### AI (NYU Abu Dhabi)
 **Q6. Where is the AI, if rules decide everything?** *(Krishna)*
@@ -227,7 +239,8 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 **Q7. How do you stop hallucinations?** *(Krishna)*
 > Retrieval from a curated library with citations, a check that every sentence is supported, and a fixed template
 > fallback. On our 60-question test set every answer was grounded, every diagnosis request was refused, and every red
-> flag was caught. On a held-out set written by independent reviewers we publish the misses too.
+> flag was caught. On 132 held-out questions written by independent reviewers, the safety layer with the AI second
+> check routed 30 of 30 crisis messages and 32 of 32 emergencies correctly, and we publish every miss on /status.
 
 **Q8. Which model, and where does the data go?** *(Krishna)*
 > The code is provider-agnostic. For the hackathon it calls a commercial model on synthetic data only; in production
