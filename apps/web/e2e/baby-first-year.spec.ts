@@ -16,7 +16,7 @@ test.describe("baby's first year", () => {
     await page.goto("/app");
     const card = page.getByTestId("baby-card");
     await expect(card.getByRole("heading", { name: en.baby.title })).toBeVisible();
-    await expect(card.getByText("7 of 14 done")).toBeVisible();
+    await expect(card.getByText("7 of 14 recorded")).toBeVisible();
 
     const next = card.getByTestId("baby-next");
     await expect(next.locator("[data-item]")).toHaveCount(2);
@@ -46,7 +46,7 @@ test.describe("baby's first year", () => {
     await dialog.getByLabel(en.baby.dateLabel).fill("2026-11-21");
     await dialog.getByRole("button", { name: en.baby.save }).click();
     await expect(page.getByText(en.baby.saved).first()).toBeVisible();
-    await expect(card.getByText("8 of 14 done")).toBeVisible();
+    await expect(card.getByText("8 of 14 recorded")).toBeVisible();
     await expect(card.locator('[data-item="vaccines_2m"]').getByText(en.baby.status.done, { exact: true })).toBeVisible();
 
     await signIn(page, { role: "clinician" });
@@ -77,7 +77,7 @@ test.describe("baby's first year in Arabic, dark", () => {
     const card = page.getByTestId("baby-card");
     await expect(card.getByRole("heading", { name: ar.baby.title })).toBeVisible();
     const vaccines = card.getByTestId("baby-next").locator('[data-item="vaccines_2m"]');
-    await expect(vaccines).toContainText("تطعيمات عمر شهرين");
+    await expect(vaccines).toContainText("تطعيمات بعمر شهرين");
     await expect(vaccines.getByText(ar.baby.status.due, { exact: true })).toBeVisible();
     await card.locator('[data-item="vaccines_birth"] summary').click();
     await expect(card.locator('[data-item="vaccines_birth"]')).toContainText("BCG");

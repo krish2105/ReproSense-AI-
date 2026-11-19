@@ -73,16 +73,16 @@ IDS = tuple(i.id for i in ITEMS)
 # What she reads. Plain words first, then the name her baby's clinic uses. Arabic: draft, AR-REVIEW (docs/AR_REVIEW.md).
 LABELS: dict[str, tuple[str, str]] = {
     "newborn_exam": (
-        "Newborn examination by a paediatrician, in the first 24 hours",
-        "فحص المولود الشامل لدى طبيب الأطفال، خلال أول 24 ساعة",
+        "Newborn examination by a paediatrician or neonatologist, in the first 24 hours",
+        "فحص شامل للمولود يجريه طبيب الأطفال أو طبيب حديثي الولادة، خلال أول 24 ساعة",
     ),
     "hearing_screen": (
         "Hearing screening, in the first 48 hours",
         "فحص السمع، خلال أول 48 ساعة",
     ),
     "heart_screen": (
-        "Heart screening with a pulse oximeter, 24–36 hours after birth",
-        "فحص القلب بجهاز قياس الأكسجين، بعد 24 إلى 36 ساعة من الولادة",
+        "Oxygen-level check for serious heart problems (pulse oximetry), 24–36 hours after birth",
+        "فحص مستوى الأكسجين للكشف عن مشكلات القلب الخطيرة (قياس التأكسج النبضي)، بعد 24 إلى 36 ساعة من الولادة",
     ),
     "heel_prick": (
         "Heel prick blood spot test, 24–48 hours after birth",
@@ -90,29 +90,33 @@ LABELS: dict[str, tuple[str, str]] = {
     ),
     "vaccines_birth": ("Vaccinations at birth", "تطعيمات الولادة"),
     "rsv_antibody": (
-        "RSV antibody at birth, for babies born 1 September to 1 March",
-        "الجسم المضاد للفيروس التنفسي المخلوي عند الولادة، للمولودين من 1 سبتمبر إلى 1 مارس",
+        "RSV antibody at birth, for babies born 1 September to 1 March. Whether it is given depends on whether you had"
+        " the RSV vaccine in pregnancy",
+        "الجسم المضاد للفيروس التنفسي المخلوي عند الولادة، للمولودين من 1 سبتمبر إلى 1 مارس، ويعتمد ذلك على تلقيكِ"
+        " لقاح الفيروس التنفسي المخلوي أثناء الحمل",
     ),
     "check_1m": ("Well-baby visit at 1 month", "زيارة الطفل السليم بعمر شهر"),
     "check_2m": ("Well-baby visit at 2 months", "زيارة الطفل السليم بعمر شهرين"),
-    "vaccines_2m": ("Vaccinations at 2 months", "تطعيمات عمر شهرين"),
+    "vaccines_2m": ("Vaccinations at 2 months", "تطعيمات بعمر شهرين"),
     "check_4m": ("Well-baby visit at 4 months", "زيارة الطفل السليم بعمر 4 أشهر"),
-    "vaccines_4m": ("Vaccinations at 4 months", "تطعيمات عمر 4 أشهر"),
+    "vaccines_4m": ("Vaccinations at 4 months", "تطعيمات بعمر 4 أشهر"),
     "check_6m": ("Well-baby visit at 6 months", "زيارة الطفل السليم بعمر 6 أشهر"),
-    "vaccines_6m": ("Vaccinations at 6 months", "تطعيمات عمر 6 أشهر"),
+    "vaccines_6m": ("Vaccinations at 6 months", "تطعيمات بعمر 6 أشهر"),
     "check_9m": ("Well-baby visit at 9 months", "زيارة الطفل السليم بعمر 9 أشهر"),
 }
 VACCINE_NAMES: dict[str, tuple[str, str]] = {
     "BCG": ("BCG, against tuberculosis", "لقاح السل (BCG)"),
     "HepB": ("Hepatitis B (HepB)", "التهاب الكبد ب (HepB)"),
-    "RSV mAb": ("Long-acting RSV antibody", "جسم مضاد طويل المفعول للفيروس التنفسي المخلوي (RSV)"),
+    "RSV mAb": ("Long-acting RSV antibody injection", "حقنة جسم مضاد طويل المفعول للفيروس التنفسي المخلوي (RSV)"),
     "Hexavalent": (
-        "6-in-1 (hexavalent): diphtheria, tetanus, whooping cough, Hib, hepatitis B, polio",
-        "اللقاح السداسي: الدفتيريا والكزاز والسعال الديكي والمستدمية النزلية ب والتهاب الكبد ب وشلل الأطفال",
+        "6-in-1 injection (hexavalent): diphtheria, tetanus, whooping cough, Haemophilus influenzae type b (Hib),"
+        " hepatitis B, polio",
+        "اللقاح السداسي (حقنة): الدفتيريا والكزاز والسعال الديكي والمستدمية النزلية من النوع ب (Hib) والتهاب الكبد ب"
+        " وشلل الأطفال",
     ),
     "PCV20": ("Pneumococcal (PCV20)", "المكورات الرئوية (PCV20)"),
-    "RV1": ("Rotavirus drops (RV1)", "قطرات فيروس الروتا (RV1)"),
-    "bOPV": ("Polio drops (bOPV)", "قطرات شلل الأطفال (bOPV)"),
+    "RV1": ("Rotavirus drops by mouth (RV1)", "قطرات فيروس الروتا بالفم (RV1)"),
+    "bOPV": ("Polio drops by mouth (bOPV)", "قطرات شلل الأطفال بالفم (bOPV)"),
 }
 
 

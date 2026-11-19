@@ -117,6 +117,11 @@ export function BabyCard({ s, refDate }: { s: BabySchedule; refDate: string }) {
                             {t("record")}
                           </Button>
                         )}
+                        {i.status === "done" && (
+                          <Button variant="outline" size="sm" onClick={() => setRecording(i)} style={{ marginTop: 8 }} aria-label={t("changeDateFor", { step: i.label })}>
+                            {t("changeDate")}
+                          </Button>
+                        )}
                         <SourceLinks sources={i.source_links} />
                       </div>
                     </details>
@@ -128,6 +133,11 @@ export function BabyCard({ s, refDate }: { s: BabySchedule; refDate: string }) {
         </>
       )}
 
+      {s.age_months >= 9 && (
+        <p className="s" style={{ marginTop: 12 }}>
+          {t("nextYear")}
+        </p>
+      )}
       <p className="xs faint" style={{ marginTop: 12 }}>
         {t("windowNote")}
       </p>
@@ -155,8 +165,8 @@ function RecordDialog({ item, min, max, onClose }: { item: BabyItem; min: string
   const router = useRouter();
   const toast = useToast();
   const inputId = useId();
-  // The last day of its window when that has passed, otherwise today: the date she most likely means.
-  const [day, setDay] = useState(item.due_to < max ? item.due_to : max);
+  // The date she saved before; else the last day of its window when that has passed, otherwise today.
+  const [day, setDay] = useState(item.done_on ?? (item.due_to < max ? item.due_to : max));
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
   const save = () =>
@@ -176,7 +186,19 @@ function RecordDialog({ item, min, max, onClose }: { item: BabyItem; min: string
       <p className="s">{item.label}</p>
       <div className="field" style={{ marginTop: 10 }}>
         <label htmlFor={inputId}>{t("dateLabel")}</label>
-        <input id={inputId} type="date" dir="ltr" min={min} max={max} value={day} onChange={(e) => setDay(e.target.value)} />
+        <input
+          id={inputId}
+          type="date"
+          dir="ltr"
+          min={min}
+          max={max}
+          value={day}
+          aria-describedby={`${inputId}-hint`}
+          onChange={(e) => setDay(e.target.value)}
+        />
+        <p id={`${inputId}-hint`} className="xs faint" style={{ margin: "4px 0 0" }}>
+          {t("dateHint")}
+        </p>
       </div>
       {error && (
         <p className="state err s" role="alert">
