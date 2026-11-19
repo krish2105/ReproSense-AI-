@@ -1,11 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 /**
- * A request ID per page view and per proxied API call (X-Request-ID). Server-rendered pages forward it on every API call
+ * Next 16's request proxy (formerly middleware.ts). A request ID per page view and per proxied API call
+ * (X-Request-ID). Server-rendered pages forward it on every API call
  * they make (lib/api/server.ts) and the API logs it on every line and returns it, so one ID joins the web and API logs.
  * Always generated here: a visitor-chosen ID could collide with or spoof another visit's.
  */
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const requestId = crypto.randomUUID();
   const headers = new Headers(req.headers);
   headers.set("x-request-id", requestId);

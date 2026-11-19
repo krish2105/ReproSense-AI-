@@ -1,7 +1,7 @@
 """Request IDs and one JSON log line per request (18 Nov production audit: no request IDs, no latency, and no way to
 match a failed page to the API log).
 
-Every request gets an ID: the web tier's X-Request-ID when it sends a well-formed one (apps/web/src/middleware.ts makes
+Every request gets an ID: the web tier's X-Request-ID when it sends a well-formed one (apps/web/src/proxy.ts makes
 one per page view and forwards it on every API call that page makes), else a new one. It is returned in X-Request-ID
 and stamped on every log line written while the request runs, so one ID joins the web log and the API log.
 

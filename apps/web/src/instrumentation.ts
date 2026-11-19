@@ -2,7 +2,7 @@ import type { Instrumentation } from "next";
 
 /**
  * Server-side errors from pages, layouts and route handlers as one JSON line each (Vercel keeps function logs), with
- * the request ID middleware.ts gave the request, so a failed page can be matched to the API's log lines. Logs the
+ * the request ID proxy.ts gave the request, so a failed page can be matched to the API's log lines. Logs the
  * route template only (`/shared/[token]`, never the token) and nothing from the body, query or cookies.
  */
 export const onRequestError: Instrumentation.onRequestError = async (err, request, context) => {
