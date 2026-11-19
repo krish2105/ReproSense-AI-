@@ -832,7 +832,7 @@ Addressed to a judge, so the imperative is masculine/neutral (the patient app ad
 | `tour.failed` | That step didn't open: {detail} | لم تُفتح هذه الخطوة: {detail} | |
 | `tour.done` | Tour finished. Everything you saw runs on fictional demo data. | انتهت الجولة. كل ما رأيته يعمل على بيانات عرض خيالية. | |
 | `tour.steps.people.title` | Eight fictional women | ثماني نساء خياليات | |
-| `tour.steps.people.body` | Every record here is synthetic. Next, we open Noura (27), who has logged irregular cycles and skin changes for a year. | كل سجل هنا مُصطنع. في الخطوة التالية نفتح سجل نورة (27 عامًا) التي سجّلت دورات غير منتظمة وتغيّرات في البشرة لمدة عام. | |
+| `tour.steps.people.body` | Every record here is synthetic. Next, we open Noura (24), who has logged irregular cycles and skin changes for a year. | كل سجل هنا مُصطنع. في الخطوة التالية نفتح سجل نورة (24 عامًا) التي سجّلت دورات غير منتظمة وتغيّرات في البشرة لمدة عام. | |
 | `tour.steps.home.title` | Her home screen | شاشتها الرئيسية | |
 | `tour.steps.home.body` | Her cycle on one arc, with today's day and her phases, built only from her own entries. | دورتها على قوس واحد، مع يوم اليوم ومراحلها، مبنية فقط من إدخالاتها. | |
 | `tour.steps.patterns.title` | Patterns, with their evidence | أنماط مع أدلتها | |
@@ -968,3 +968,42 @@ The tour now walks a day's log (voice, body map) and Fatima after the birth. Edi
 | `tour.steps.report.body` | Prepare a two-page PDF she can download, or share with her own clinic only after she agrees. "Before your visit" lists what changed since her last visit. | جهّز ملف PDF من صفحتين يمكنها تنزيله، أو مشاركته مع عيادتها فقط بعد موافقتها. ويعرض قسم «قبل زيارتك» ما تغيّر منذ زيارتها الأخيرة. | |
 | `tour.steps.afterBirth.title` | After the birth: Fatima | بعد الولادة: فاطمة | |
 | `tour.steps.afterBirth.body` | Fatima gave birth 9 weeks ago. Her home shows the DoH postnatal steps with their dates and sources, the glucose test now due after diabetes in pregnancy, and her blood-pressure readings with the warning signs that mean calling 998. | أنجبت فاطمة قبل 9 أسابيع. تعرض شاشتها خطوات الرعاية بعد الولادة من معيار دائرة الصحة مع مواعيدها ومصادرها، وفحص الجلوكوز المستحق الآن بعد سكري الحمل، وقراءات ضغط الدم مع علامات الخطر التي تستدعي الاتصال بالرقم 998. | |
+
+
+## Pilot value page (build week Y3, 18 Nov, draft Arabic, not yet reviewed)
+The public /pilot page for a clinic manager or an insurer, so the address is plural and neutral (أنتم), not the feminine used on her screens. Terms to confirm: سكري الحمل (gestational diabetes), مؤشر جودة PC008.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `pilot.metaTitle` | Pilot value | قيمة البرنامج التجريبي | |
+| `pilot.title` | What a pilot could be worth to your clinic | ما قد يساويه برنامج تجريبي لعيادتكم | |
+| `pilot.intro` | Set the numbers for your own clinic or insurer. This page multiplies them, nothing more: it is not a measured result and promises no outcome. Each default comes from an Abu Dhabi study or our price list, or is marked as an assumption. | أدخلوا أرقام عيادتكم أو شركة التأمين. هذه الصفحة تضرب الأرقام فقط: ليست نتيجة مُقاسة ولا تَعِد بأي نتيجة. كل قيمة افتراضية مأخوذة من دراسة في أبوظبي أو من قائمة أسعارنا، أو مكتوب بجانبها أنها افتراض. | |
+| `pilot.inputsTitle` | Your numbers | أرقامكم | |
+| `pilot.inputs.women` | Women who give birth during the pilot | النساء اللواتي يلدن خلال البرنامج | |
+| `pilot.inputs.gdmPct` | Share with diabetes in pregnancy (gestational diabetes) | نسبة سكري الحمل بينهن | |
+| `pilot.inputs.beforePct` | After-birth glucose follow-up completed today | نسبة إكمال فحص السكر بعد الولادة حالياً | |
+| `pilot.inputs.afterPct` | Completion you aim for with ReproSense | نسبة الإكمال التي تستهدفونها مع ReproSense | |
+| `pilot.inputs.missedCostAed` | Cost of one missed follow-up | تكلفة متابعة واحدة فائتة | |
+| `pilot.inputs.priceAedMonth` | ReproSense subscription per month | اشتراك ReproSense شهرياً | |
+| `pilot.inputs.months` | Pilot length | مدة البرنامج | |
+| `pilot.units.count` | women | امرأة | |
+| `pilot.units.pct` | % | % | |
+| `pilot.units.aed` | AED | درهم | |
+| `pilot.units.months` | months | أشهر | |
+| `pilot.basis.source` | Source | المصدر | |
+| `pilot.basis.price` | Our price list | قائمة أسعارنا | |
+| `pilot.basis.assumption` | Assumption: replace it with your own figure | افتراض: استبدلوه برقمكم | |
+| `pilot.resultTitle` | The arithmetic | الحساب | |
+| `pilot.out.gdm` | Women with gestational diabetes | النساء اللواتي لديهن سكري الحمل | |
+| `pilot.out.closedBefore` | Follow-ups completed at today's rate | المتابعات المكتملة بالنسبة الحالية | |
+| `pilot.out.closedAfter` | Follow-ups completed at your target | المتابعات المكتملة بالنسبة المستهدفة | |
+| `pilot.out.extraClosed` | Follow-ups closed that would otherwise be missed | متابعات إضافية مكتملة كانت ستفوت | |
+| `pilot.out.value` | Value of those follow-ups | قيمة هذه المتابعات | |
+| `pilot.out.subscription` | Subscription for {months, plural, one {# month} other {# months}} | الاشتراك لمدة {months} أشهر | |
+| `pilot.out.net` | Value minus subscription | القيمة بعد خصم الاشتراك | |
+| `pilot.aed` | AED {n} | {n} درهم | |
+| `pilot.per1000` | Per 1,000 women who give birth: {closed} more follow-ups closed, worth AED {value} at your cost per missed follow-up. | لكل 1,000 امرأة تلد: {closed} متابعة إضافية مكتملة، قيمتها {value} درهم بحسب تكلفتكم للمتابعة الفائتة. | |
+| `pilot.assumptions` | The target completion and the cost of a missed follow-up are yours to set; ReproSense has not measured either yet. Follow-up here means the glucose test after gestational diabetes, one part of DoH Jawda KPI PC008. This is not a forecast and not a clinical claim. | نسبة الإكمال المستهدفة وتكلفة المتابعة الفائتة تحددونها أنتم، ولم تقِسهما ReproSense بعد. المتابعة هنا هي فحص السكر بعد سكري الحمل، وهو جزء من مؤشر جودة PC008 لدى دائرة الصحة. هذا ليس توقعاً ولا ادعاءً طبياً. | |
+| `pilot.toPricing` | See pricing | الأسعار | |
+| `pilot.toDemo` | Open the demo | فتح العرض التجريبي | |
+| `chrome.footerPilot` | Pilot value | قيمة البرنامج التجريبي | |
