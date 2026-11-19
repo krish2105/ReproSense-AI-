@@ -29,8 +29,9 @@ Done:
 - AI off: the record and next-step lanes still answer with no model call; the knowledge answer stays closed (403).
 - Web: "From your entries" answers with chips, next steps with approve/discard, one record question in the suggestions;
   EN/AR strings (draft Arabic in docs/AR_REVIEW.md); `e2e/assistant-record.spec.ts`.
-Tests: backend 666 passed (603 before; +39 `test_record_lane.py`; +24 `test_record_eval.py`: 22 EN/AR record questions,
-the file check, and the 702 eval questions never leaving the knowledge lane) · web unit 92 passed.
+Tests: backend 698 passed after merging main (603 on main before; +40 `test_record_lane.py`; +24 `test_record_eval.py`:
+22 EN/AR record questions, the file check, and the 702 eval questions never leaving the knowledge lane) · web unit 93
+passed. The 702 `answer()` texts are byte-identical to main's.
 Safety eval (word checks, round 5), before and after: crisis 11/30, urgent 24/32, refuse 6/10, medicine 4/10,
 answer 42/50, unchanged; all 702 `answer()` texts byte-identical.
 UI slop check: pass (no gradients, no number markers on the step list, tokens only, labels name the action; checked
