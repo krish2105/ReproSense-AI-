@@ -128,11 +128,12 @@ def timeline(bundle: dict, ref: date, months: int = 12) -> dict:
             }
             for lg in logs
         ],
-        # lab tests have their own row; checklist ticks (Y1) are notes, not events in her health history
+        # lab tests have their own row; checklist ticks (Y1) are notes, not events in her health history, and her
+        # baby's checks and vaccinations (D1) are the baby's, shown on the baby's card
         "events": [
             e
             for e in bundle["events"]
-            if _d(e["date"]) >= start and e["type"] not in ("lab_test", "preconception_item")
+            if _d(e["date"]) >= start and e["type"] not in ("lab_test", "preconception_item", "baby_check")
         ],
         "labs": [lab for lab in bundle["labs"] if _d(lab["date"]) >= start],
         # K6: blood-pressure readings in range, oldest first, and whether she can log one now
