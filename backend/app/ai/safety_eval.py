@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import json
 import sys
+from datetime import date
 from pathlib import Path
 
 HELDOUT_ROUND = 5
@@ -116,7 +117,8 @@ def main() -> int:
             )
             return 1
         res = json.loads(OUT.read_text()) if OUT.exists() else {}
-        res["heldout_with_model"] = {**held, "model": name, "round": HELDOUT_ROUND}
+        # The date travels with the score, so /evidence can say when the model run happened (build week K7).
+        res["heldout_with_model"] = {**held, "model": name, "round": HELDOUT_ROUND, "date": date.today().isoformat()}
         OUT.write_text(json.dumps(res, indent=1, ensure_ascii=False))
         print(f"written to {OUT.name} under heldout_with_model")
     return 0

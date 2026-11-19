@@ -170,3 +170,4 @@ def test_the_eval_writes_a_model_score_only_when_the_model_answered(monkeypatch,
     assert ("heldout_with_model" in saved) is written
     if written:
         assert saved["heldout_with_model"]["model"] == model.name
+        assert saved["heldout_with_model"]["date"]  # /evidence shows when the model run happened

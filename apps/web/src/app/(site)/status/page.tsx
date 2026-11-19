@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ErrorState } from "@/components/ui/States";
 import { Tag } from "@/components/ui/Tag";
@@ -104,6 +105,9 @@ export default async function StatusPage() {
     <>
       <h1 className="page-title">{t("title")}</h1>
       <p className="page-intro">{t("intro")}</p>
+      <p className="s" style={{ marginTop: 10 }}>
+        <Link href="/evidence">{t("seeEvidence")}</Link>
+      </p>
 
       {liveSection}
 
