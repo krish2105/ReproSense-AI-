@@ -6,7 +6,7 @@ Last updated: 2026-11-19 (build week day 3: K1–K7, A1–A8, the iOS app and Ne
 Live: web https://reprosense.vercel.app (Next 16) · API https://reprosense-api.onrender.com (Render free tier, sleeps; live AI off until `OPENROUTER_API_KEY` is set).
 
 **Owners.** Krishna (`krish2105`): backend, AI, data, security, deploy. Atharva (`mercydeez`): web app (design + frontend).
-Yash (`Yashpetkar7`, invite pending): not assigned yet.
+Yash (`Yashpetkar7`): content, product and the submission (build week Y1–Y6, issue #104).
 **Start here:** `HANDOFF.md`.
 
 | Phase | Name | Status | Owner | Done when | Where it stands |
@@ -36,7 +36,13 @@ Yash (`Yashpetkar7`, invite pending): not assigned yet.
 | A1–A8 | 3D body map, judge tour, clinic admin screens, year in 3D, read aloud, installable app, 3D pregnancy ring, polish | ✅ | #112, #115, #117, #120, #122, #123, #124, #127 |
 | iOS | Expo phone app on the live API, clinician view, postnatal, BP, brief; Simulator and iPhone verified | ✅ | #125, #126 |
 | Next 16 | Upgrade after 3 green e2e runs | ✅ | #72 |
-| Y1–Y6 | Preconception checklist, phone testing, ROI page, family view, MP4 and 3-slide deck, rehearsals | ⬜ not started | |
+| Y1 | Planning-a-pregnancy checklist (Trying stage, every item sourced) | 🟨 PR open, health wording review | `feat/preconception-checklist` |
+| Y2 | Phone testing | 🟨 emulated 390/1280 px EN/AR/dark done (2 findings fixed); real iPhone and Android left | `fix/tour-noura-age` |
+| Y3 | Pilot value page `/pilot` for clinics and insurers | 🟨 PR open | `feat/pilot-roi` |
+| Y4 | Family support view, read-only and revocable | 🟨 PR open, privacy wording review | `feat/family-support` |
+| Y5 | 3-slide deck (PPTX, PDF) and the 98 s MP4 | 🟨 PR open; upload by 22 Nov 15:15 | `docs/submission-deck` |
+| Y6 | Showcase-day checklist and rehearsal log | 🟨 PR open; rehearsals to run | `docs/showcase-day` |
+| Audit | Pool deadlock and PDF speed, abuse and input hardening, request IDs (G2: operational settings only) | 🟨 PRs open | `fix/db-pool-and-pdf-speed`, `fix/abuse-and-input-hardening`, `feat/request-ids` |
 | D1–D6 | Baby schedule, feeding log, discharge reader, reminders, Arabic-first pass, mother–baby board | ⬜ not started | |
 
 ## State audit (build week A8, 18 Nov)
