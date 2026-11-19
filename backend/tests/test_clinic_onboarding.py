@@ -179,7 +179,7 @@ def test_unknown_token_and_bad_names(client):
     assert accept(client, inv["token"], "Hind").status_code == 200  # a refused name does not use up the invite
 
 
-# ---------- each clinic sees only itself ----------
+# ---------- each clinic sees only itself (one clinic admin attacking another: attack 4, test_attack_suite.py) ----------
 
 
 def test_new_clinician_sees_only_their_clinics_consented_patients(client):
@@ -196,42 +196,6 @@ def test_new_clinician_sees_only_their_clinics_consented_patients(client):
     assert client.get("/v1/clinic/patients", headers=hn).json()["patients"] == []
     assert client.get("/v1/clinic/patients/noura", headers=hn).status_code == 404
     assert client.get("/v1/clinic/care-gaps", headers=hn).json() == []
-
-
-def test_second_clinic_admin_cannot_see_or_export_the_first_clinics_data(client):
-    hc = login(client, role="clinic_admin")
-    inv = invite(client, hc)
-    joined = accept(client, invite(client, hc)["token"], "Dana").json()
-    hn = north_admin()
-
-    assert inv["id"] not in statuses(client, hn)
-    assert client.delete(f"/v1/clinic-admin/invites/{inv['id']}", headers=hn).status_code == 404
-    assert statuses(client, hc)[inv["id"]] == "pending"  # untouched
-    team = client.get("/v1/clinic-admin/team", headers=hn).json()
-    assert team["clinic"]["id"] == NORTH
-    assert not {c["id"] for c in team["clinicians"]} & {"clin-01", joined["user_id"]}
-    dash = client.get("/v1/clinic-admin/dashboard", headers=hn).json()
-    assert dash["clinic"]["id"] == NORTH
-    body = client.get("/v1/clinic-admin/export.csv", headers=hn).text
-    assert CORNICHE not in body and NORTH in body
-
-    # Postgres itself, not just the API: as the north admin, nothing of clinic_corniche is visible
-    with session(CADMIN_NORTH) as cur:
-        cur.execute("SELECT count(*) n FROM clinic_invites WHERE clinic_id <> %s", (NORTH,))
-        assert cur.fetchone()["n"] == 0
-        cur.execute("SELECT count(*) n FROM profiles WHERE clinic_id <> %s OR role = 'patient'", (NORTH,))
-        assert cur.fetchone()["n"] == 0
-        cur.execute("SELECT count(*) n FROM cohort_members WHERE clinic_id <> %s", (NORTH,))
-        assert cur.fetchone()["n"] == 0
-        cur.execute("SELECT count(*) n FROM daily_logs")
-        assert cur.fetchone()["n"] == 0
-        cur.execute("SELECT count(*) n FROM consents")
-        assert cur.fetchone()["n"] == 0
-        cur.execute("SELECT coalesce(sum(n), 0) AS n FROM clinic_follow_up_counts()")
-        north_total = cur.fetchone()["n"]
-    with session(SYSTEM) as cur:
-        cur.execute("SELECT count(*) n FROM cohort_members WHERE clinic_id=%s AND care_gap_type IS NOT NULL", (NORTH,))
-        assert north_total == cur.fetchone()["n"]  # no live demo gaps belong to north
 
 
 def test_rls_refuses_writes_into_another_clinic():

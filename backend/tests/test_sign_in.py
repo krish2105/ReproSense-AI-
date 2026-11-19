@@ -256,7 +256,7 @@ def test_export_and_delete_work_after_signing_in(client):
     assert passkey_sign_in(client, auth)[0].status_code == 200
 
 
-# ---------- email code ----------
+# ---------- email code (guessing a code until it locks: attack 10 in test_attack_suite.py) ----------
 class FakeSender:
     def __init__(self) -> None:
         self.sent: list[tuple[str, str]] = []
@@ -321,18 +321,6 @@ def test_the_right_email_code_signs_her_in(client, mailbox):
     # A code works once.
     client.cookies.clear()
     assert client.post("/v1/auth/email/verify", json={"email": EMAIL, "code": code}).status_code == 400
-
-
-def test_five_wrong_codes_lock_the_code(client, mailbox):
-    pid = link_email(client, mailbox)
-    code = start_code(client, mailbox)
-    wrong = "000000" if code != "000000" else "111111"
-    for _ in range(5):
-        assert client.post("/v1/auth/email/verify", json={"email": EMAIL, "code": wrong}).status_code == 400
-    locked = client.post("/v1/auth/email/verify", json={"email": EMAIL, "code": code})
-    assert locked.status_code == 400 and "new code" in locked.json()["detail"].lower()
-    assert client.get("/v1/demo/whoami").status_code == 401
-    assert ("sign_in_failed", "email_code") in audit_actions(pid)
 
 
 def test_an_expired_code_does_not_sign_in(client, mailbox):
