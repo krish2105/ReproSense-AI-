@@ -592,10 +592,6 @@ def test_attack_12_edited_audit_row_breaks_the_chain_and_is_named(client):
 def test_attack_13_random_cookies_do_not_dodge_the_rate_limit(client, monkeypatch):
     """A client sends a fresh made-up session cookie with every request, hoping each gets its own allowance. An
     unsigned cookie counts against the client's address, so it is limited like any other caller."""
-    from app.security import middleware
-
-    if not hasattr(middleware, "client_key"):
-        pytest.skip("needs signed-session rate limits (PR #139); on this commit a random cookie gets its own bucket")
     monkeypatch.setattr(get_settings(), "rate_limit_sensitive_per_min", 3)
     codes = []
     try:
@@ -612,10 +608,6 @@ def test_attack_13_random_cookies_do_not_dodge_the_rate_limit(client, monkeypatc
 def test_attack_14_oversized_or_broken_pdf_is_refused_without_a_crash(client, reseed):
     """A PDF over 10 MB, a damaged one, one with no pages, and one that claims to be a PDF but is not: each is a clear
     4xx (413 for the size, 422 for the content) with a message, never a 500, and the API keeps answering."""
-    from app.services import documents
-
-    if not hasattr(documents, "UnreadablePdf"):
-        pytest.skip("needs the PDF input hardening (PR #139); on this commit a damaged PDF is a 500")
     h = login(client, "noura")
 
     def upload(blob: bytes, name: str = "lab.pdf"):
