@@ -250,6 +250,22 @@ export interface Postnatal {
   total: number;
 }
 
+/** Planning a pregnancy (GET /v1/me/home .preconception, POST /v1/preconception/{id}; build week Y1, Trying stage). */
+export type PreconceptionItemId = "folic_acid" | "premarital_results" | "rubella" | "cycle_checkup" | "fertility_check";
+export interface PreconceptionItem {
+  id: PreconceptionItemId;
+  done: boolean;
+  done_on: string | null;
+  relevant: boolean; // her own record points to it (the matching rule fires)
+  sources: string[];
+  source_links: Source[];
+}
+export interface Preconception {
+  items: PreconceptionItem[];
+  done: number;
+  total: number;
+}
+
 /** One blood-pressure reading (build week K6; POST /v1/bp). time is "HH:MM" or null. */
 export interface BpReading {
   id: string;
@@ -306,6 +322,7 @@ export interface HomeResponse {
   record_strength: "strong" | "building" | "early";
   days_logged: number; // distinct dates with a daily log (same number on home, Patterns, clinician)
   postnatal: Postnatal | null;
+  preconception: Preconception | null;
   blood_pressure: BpSummary;
 }
 

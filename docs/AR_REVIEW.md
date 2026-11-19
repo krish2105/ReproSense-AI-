@@ -1016,6 +1016,34 @@ The public /pilot page for a clinic manager or an insurer, so the address is plu
 | After-birth urgent reply, added clause (`assistant.py` `URGENT_TEXT`) | … a severe headache, changes in your vision, or sudden swelling of your face, hands or feet. | … أو الصداع الشديد، أو تغيّر الرؤية، أو التورّم المفاجئ في الوجه أو اليدين أو القدمين. | |
 | `knowledge_base/summaries/nhs_pre_eclampsia.md` (Arabic section) | (new summary) | see the file | |
 
+## Planning a pregnancy checklist (build week Y1, 18 Nov, draft Arabic, not yet reviewed)
+The checklist on Home for the Trying stage (Mariam). Feminine address throughout (her screen). The two new
+knowledge-base summaries (`knowledge_base/summaries/doh_premarital_screening_2024.md`,
+`ukhsa_rubella_before_pregnancy.md`) also have Arabic sections. Medical terms to confirm: الحصبة الألمانية (rubella),
+اللقاح الثلاثي (MMR), أمراض الدم الوراثية, فحص ما قبل الزواج.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `preconception.eyebrow` | Planning a pregnancy | التخطيط للحمل | |
+| `preconception.title` | Things to look at before or while trying | أمور يمكنكِ مراجعتها قبل محاولة الحمل أو أثناءها | |
+| `preconception.intro` | Tick an item once it is done. Ticks are saved to your record, and you can untick them any time. | ضعي علامة على البند بعد إنجازه. تُحفظ العلامات في سجلّكِ، ويمكنكِ إزالتها في أي وقت. | |
+| `preconception.progress` | {done} of {total} ticked | {done} من {total} مُعلَّمة | |
+| `preconception.relevant` | Your entries point to this | إدخالاتكِ تشير إلى هذا | |
+| `preconception.items.folic_acid.title` | Folic acid | حمض الفوليك | |
+| `preconception.items.folic_acid.body` | The NHS advises 400 micrograms of folic acid a day while trying and until 12 weeks of pregnancy. Some women are prescribed a higher dose; ask your doctor if that applies to you. | تنصح الخدمة الصحية البريطانية (NHS) بتناول 400 ميكروغرام من حمض الفوليك يومياً أثناء محاولة الحمل وحتى الأسبوع 12 من الحمل. تُوصف لبعض النساء جرعة أعلى؛ اسألي طبيبتكِ إن كان ذلك ينطبق عليكِ. | |
+| `preconception.items.premarital_results.title` | Your premarital screening results | نتائج فحص ما قبل الزواج | |
+| `preconception.items.premarital_results.body` | If you had premarital screening in Abu Dhabi, its results (such as blood group, inherited blood conditions and German measles immunity) are useful to bring to a check-up before a pregnancy. | إذا أجريتِ فحص ما قبل الزواج في أبوظبي، فنتائجه (مثل فصيلة الدم وأمراض الدم الوراثية والمناعة ضد الحصبة الألمانية) مفيدة لإحضارها إلى فحص ما قبل الحمل. | |
+| `preconception.items.rubella.title` | German measles (rubella) protection | الحماية من الحصبة الألمانية | |
+| `preconception.items.rubella.body` | Check whether you are protected, for example in your vaccination record or your screening results. If you are not, the MMR vaccine is given before pregnancy, and pregnancy is avoided for one month after it. | تأكدي من حمايتكِ، مثلاً من سجل تطعيماتكِ أو نتائج فحصكِ. إن لم تكوني محمية، يُعطى اللقاح الثلاثي (MMR) قبل الحمل، ويُتجنّب الحمل لمدة شهر بعده. | |
+| `preconception.items.cycle_checkup.title` | A check-up if your cycles are irregular | فحص إذا كانت دوراتكِ غير منتظمة | |
+| `preconception.items.cycle_checkup.body` | If your cycle lengths vary a lot, consider asking a doctor to look at them before or while you try. Your cycle record helps. | إذا كانت أطوال دوراتكِ تختلف كثيراً، فكّري في أن تطلبي من الطبيبة مراجعتها قبل محاولة الحمل أو أثناءها. سجل دوراتكِ يساعد. | |
+| `preconception.items.fertility_check.title` | When to ask about a fertility check | متى تسألين عن فحص الخصوبة | |
+| `preconception.items.fertility_check.body` | Guidance suggests asking after 12 months of trying, or after 6 months from age 35. Both partners can be assessed. Irregular periods are a reason to ask sooner. | تقترح الإرشادات السؤال بعد 12 شهراً من المحاولة، أو بعد 6 أشهر من سن 35. يمكن تقييم الشريكين كليهما. الدورات غير المنتظمة سبب للسؤال مبكراً. | |
+| `preconception.saved` | Saved to your record. | حُفظت في سجلّكِ. | |
+| `preconception.removed` | Removed from your record. | أُزيلت من سجلّكِ. | |
+| `preconception.saveFailed` | It wasn't saved: {detail} | لم تُحفظ: {detail} | |
+| `preconception.note` | This is information to discuss with your doctor. Nothing here is required, and none of it is a diagnosis. | هذه معلومات لمناقشتها مع طبيبتكِ. لا شيء هنا إلزامي، ولا شيء منها تشخيص. | |
+
 ## DoH support line in the crisis paths (19 Nov, draft Arabic, not yet reviewed)
 800-SAKINA (800 725462), DoH's 24/7 mental-health line, follows 998 on the crisis card, the chat's crisis answer and
 RF4. The Arabic crisis reply and RF4 text in `backend/app/agents/assistant.py` and `rules/translations_ar.yaml` also changed.
