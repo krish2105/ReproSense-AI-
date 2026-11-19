@@ -115,6 +115,39 @@ export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Loc
         </section>
       )}
 
+      {r.baby && (
+        <section aria-labelledby="baby-c" data-testid="clinic-baby">
+          <h2 id="baby-c" style={{ fontSize: 17 }}>
+            {t("baby.clinic.title")}
+          </h2>
+          <p className="xs faint" style={{ margin: "4px 0 8px" }}>
+            {t("baby.clinic.intro", { done: r.baby.done, total: r.baby.total, weeks: r.baby.age_weeks })}
+          </p>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+            {r.baby.items.map((s) => (
+              <li key={s.id} data-item={s.id} className="kv" style={{ gap: 8 }}>
+                <span className="s">
+                  <span lang="en" dir="auto">
+                    {s.label}
+                  </span>
+                  {s.vaccine_codes.length > 0 && (
+                    <span className="xs faint" dir="ltr">
+                      {" "}
+                      ({s.vaccine_codes.join(", ")})
+                    </span>
+                  )}{" "}
+                  <span className="xs faint" dir="ltr">
+                    {s.done_on ? formatDayMonth(s.done_on, locale) : `${formatDayMonth(s.due_from, locale)}–${formatDayMonth(s.due_to, locale)}`}
+                  </span>
+                </span>
+                <Tag tone={s.status === "done" ? "ok" : s.status === "due" ? "soon" : "info"}>{t(`baby.status.${s.status}`)}</Tag>
+              </li>
+            ))}
+          </ul>
+          <SourceLinks sources={[...new Map(r.baby.items.flatMap((s) => s.source_links).map((l) => [l.source_id, l])).values()]} />
+        </section>
+      )}
+
       {r.bp_readings.length > 0 && (
         <section aria-labelledby="bp-c" data-testid="clinic-bp">
           <h2 id="bp-c" style={{ fontSize: 17 }}>
