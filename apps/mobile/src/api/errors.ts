@@ -1,13 +1,29 @@
 // Copied from apps/web/src/lib/api/errors.ts by apps/mobile/scripts/sync-shared.mjs. Edit the web file, then run npm run sync.
-/** An API call that returned a non-2xx status. `detail` is the FastAPI "detail" message when there is one. */
+/** Why the API refused a session it once issued (header X-Session-Ended): staff idle for 30 minutes, past the 8-hour
+ *  limit, signed out (here or everywhere), or expired. */
+export type SessionEnded = "idle" | "max" | "revoked" | "expired";
+const ENDED: readonly SessionEnded[] = ["idle", "max", "revoked", "expired"];
+
+/** An API call that returned a non-2xx status. `detail` is the FastAPI "detail" message when there is one. `ended`
+ *  says why a session stopped working; `stepUp` that an export needs a fresh passkey check first. */
 export class ApiError extends Error {
   constructor(
     public readonly status: number,
     public readonly detail: string,
+    public readonly ended: SessionEnded | null = null,
+    public readonly stepUp: boolean = false,
   ) {
     super(`API ${status}: ${detail}`);
     this.name = "ApiError";
   }
+}
+
+/** Builds the ApiError for a failed response, reading the session and step-up headers. */
+export async function apiError(res: Response): Promise<ApiError> {
+  const h = res.headers.get("x-session-ended");
+  const ended = res.status === 401 && ENDED.includes(h as SessionEnded) ? (h as SessionEnded) : null;
+  const stepUp = res.status === 403 && res.headers.get("x-step-up") === "required";
+  return new ApiError(res.status, await errorDetail(res), ended, stepUp);
 }
 
 /** Reads FastAPI's {"detail": "..."} (or a validation list) from an error response. */

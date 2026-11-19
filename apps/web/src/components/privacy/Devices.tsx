@@ -7,18 +7,16 @@ import { useProblemText } from "@/components/signin/SignInFlow";
 import { Button } from "@/components/ui/Button";
 import { Dialog } from "@/components/ui/Dialog";
 import { useToast } from "@/components/ui/Toast";
-import type { Locale } from "@/i18n/config";
 import { apiClient } from "@/lib/api/client";
 import type { SessionRow, SessionsList } from "@/lib/api/types";
 import { enterAs } from "@/lib/enter";
-import { formatDate } from "@/lib/format";
 
 /**
  * Her signed-in devices (plan section 5): where her own record is open, sign one device out, sign out everywhere,
  * and sign out of this device. Signing out revokes the session on the server, so a copied cookie stops working too.
  * A demo person is shared by every visitor, so she only signs this browser out.
  */
-export function Devices({ sessions, ownRecord, locale }: { sessions: SessionsList; ownRecord: boolean; locale: Locale }) {
+export function Devices({ sessions, ownRecord, lastActive }: { sessions: SessionsList; ownRecord: boolean; lastActive: Record<number, string> }) {
   const t = useTranslations("privacy.devices");
   const problemText = useProblemText();
   const router = useRouter();
@@ -26,7 +24,6 @@ export function Devices({ sessions, ownRecord, locale }: { sessions: SessionsLis
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [everywhere, setEverywhere] = useState(false);
-  const time = new Intl.DateTimeFormat(locale === "ar" ? "ar-AE-u-nu-latn" : "en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Dubai" });
   const name = (s: SessionRow) => (s.current ? t("this") : s.device ?? t("unknown"));
   const after = ownRecord ? "/signin?signed_out=1" : "/demo";
 
@@ -80,7 +77,7 @@ export function Devices({ sessions, ownRecord, locale }: { sessions: SessionsLis
               <b className="s">{name(s)}</b>
               <br />
               <span className="xs dim">
-                {t(`how.${s.how}`)} · {t("lastActive", { time: `${formatDate(s.last_seen_at.slice(0, 10), locale)} · ${time.format(new Date(s.last_seen_at))}` })}
+                {t(`how.${s.how}`)} · {t("lastActive", { time: lastActive[s.id] ?? "" })}
               </span>
             </span>
             {!s.current && (

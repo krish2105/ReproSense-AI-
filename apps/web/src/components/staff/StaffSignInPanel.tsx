@@ -20,7 +20,19 @@ import { addStaffPasskey } from "@/lib/passkey";
  * account (clinicians and clinic admins add theirs here), the devices it is signed in on, sign out and sign out
  * everywhere. Shared fictional demo accounts say so, and cannot sign every judge out.
  */
-export function StaffSignInPanel({ me, sessions, door, locale }: { me: StaffMe; sessions: SessionsList; door: string; locale: Locale }) {
+export function StaffSignInPanel({
+  me,
+  sessions,
+  door,
+  locale,
+  times,
+}: {
+  me: StaffMe;
+  sessions: SessionsList;
+  door: string;
+  locale: Locale;
+  times: { endsAt: string; lastActive: Record<number, string> }; // formatted on the server (no hydration mismatch)
+}) {
   const t = useTranslations("staffAuth.panel");
   const problem = useStaffProblem();
   const router = useRouter();
@@ -30,8 +42,6 @@ export function StaffSignInPanel({ me, sessions, door, locale }: { me: StaffMe; 
   const [removing, setRemoving] = useState<StaffPasskey | null>(null);
   const [everywhere, setEverywhere] = useState(false);
 
-  const time = new Intl.DateTimeFormat(locale === "ar" ? "ar-AE-u-nu-latn" : "en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Dubai" });
-  const when = (iso: string) => `${formatDate(iso.slice(0, 10), locale)} · ${time.format(new Date(iso))}`;
   const pkName = (p: StaffPasskey) => (p.label ? t("passkeyOn", { device: p.label }) : t("passkey"));
   const deviceName = (s: SessionRow) => (s.current ? t("thisDevice") : s.device ?? t("unknownDevice"));
 
@@ -89,7 +99,7 @@ export function StaffSignInPanel({ me, sessions, door, locale }: { me: StaffMe; 
           {t(`how.${me.session.how}`)}
         </p>
         <p className="s dim" style={{ marginTop: 4 }}>
-          {t("rules", { minutes: me.session.idle_minutes, hours: me.session.max_hours, time: time.format(new Date(me.session.expires_at)) })}
+          {t("rules", { minutes: me.session.idle_minutes, hours: me.session.max_hours, time: times.endsAt })}
         </p>
         <Button variant="outline" size="sm" className="self-start" style={{ marginTop: 10 }} pending={busy === "out"} onClick={signOutHere}>
           {t("signOut")}
@@ -148,7 +158,7 @@ export function StaffSignInPanel({ me, sessions, door, locale }: { me: StaffMe; 
                 <b className="s">{deviceName(s)}</b>
                 <br />
                 <span className="xs dim">
-                  {t(`how.${s.how}`)} · {t("lastActive", { time: when(s.last_seen_at) })}
+                  {t(`how.${s.how}`)} · {t("lastActive", { time: times.lastActive[s.id] ?? "" })}
                 </span>
               </span>
               {!s.current && !sessions.shared_demo_account && (

@@ -12,6 +12,7 @@ import { apiServer } from "@/lib/api/server";
 import type { AuthMe, FamilyLink, PrivacyResponse, SessionsList } from "@/lib/api/types";
 import { formatDate } from "@/lib/format";
 import { requireRole } from "@/lib/session";
+import { lastActive } from "@/lib/when";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("privacy");
@@ -56,7 +57,7 @@ export default async function PrivacyPage() {
           {t("signin.title")}
         </h2>
         <SignInMethods me={me} locale={locale} />
-        <Devices sessions={sessions} ownRecord={me.own_record} locale={locale} />
+        <Devices sessions={sessions} ownRecord={me.own_record} lastActive={lastActive(sessions.sessions, locale)} />
       </Box>
 
       <Box>
