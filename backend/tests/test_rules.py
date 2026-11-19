@@ -249,8 +249,9 @@ def test_missing_menarche_age_is_treated_as_more_than_3_years_for_adults():
     assert "OBS_IRREGULAR_CYCLES" in _obs(p)
 
 
-def test_rf5_needs_both_headache_and_vision_change():
-    assert "RF5_PREGNANCY_WARNING_SIGNS" not in _rf(_with_log("hessa", symptoms=["severe headache"]))
+def test_rf5_counts_a_severe_headache_alone():
+    # Reversed 19 Nov (QUESTIONS #49 R4, NICE NG133 1.1.1): each pre-eclampsia symptom alone; see test_clinical_gaps.py
+    assert "RF5_PREGNANCY_WARNING_SIGNS" in _rf(_with_log("hessa", symptoms=["severe headache"]))
 
 
 def test_rf6_after_birth_warning_signs_within_six_weeks():

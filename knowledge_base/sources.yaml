@@ -126,6 +126,13 @@
   url: "https://www.nice.org.uk/guidance/ng3"
   accessed: "2026-11-06"
   topics: [gestational diabetes, screening]
+- id: nhs_pre_eclampsia
+  answers: false  # cite-only (19 Nov audit): backs RF5, RF6 and the after-birth urgent reply; the eval set is frozen
+  title: "NHS: Pre-eclampsia"
+  publisher: "NHS"
+  url: "https://www.nhs.uk/conditions/pre-eclampsia/"
+  accessed: "2026-11-19"
+  topics: [pregnancy, after birth, pre-eclampsia warning signs]
 - id: nhs_pregnancy_urgent
   title: "NHS: Signs and symptoms in pregnancy you should not ignore"
   url: "https://www.nhs.uk/pregnancy/common-symptoms/"
