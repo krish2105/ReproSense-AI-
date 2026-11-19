@@ -251,7 +251,9 @@ def seed(url: str | None = None, with_kb: bool = True) -> dict:
                 raise
             time.sleep(RETRY_PAUSE_S * attempt)
     from app.agents.pipeline import refresh_all
+    from app.rag.retrieve import clear_cache
 
+    clear_cache()  # requests that ran during the reset may have cached rows of the old index
     refresh_all(ids)
     return {"personas": len(ids), "cohort": n, "ref_date": str(get_settings().demo_ref_date or date.today())}
 

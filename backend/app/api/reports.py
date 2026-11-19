@@ -14,7 +14,8 @@ from pydantic import BaseModel
 from app.agents.pipeline import cards_for
 from app.config import get_settings
 from app.db import SYSTEM, Actor, session
-from app.reports.pdf import build_payload, render_pdf
+from app.reports import render_pool
+from app.reports.pdf import build_payload
 from app.rules.engine import evaluate
 from app.security import audit
 from app.security.auth import require
@@ -24,8 +25,10 @@ router = APIRouter(prefix="/v1", tags=["reports"])
 patient = require("patient")
 
 
-def _payload(cur, profile_id: str) -> dict:
-    b = load_bundle(cur, profile_id)
+def _payload(actor: Actor) -> dict:
+    """Read her record, then build the report with no connection held (retrieval takes its own; see app.db.session)."""
+    with session(actor) as cur:
+        b = load_bundle(cur, actor.user_id)
     if not b:
         raise HTTPException(404, "Record not found")
     ref = get_settings().demo_ref_date
@@ -35,7 +38,11 @@ def _payload(cur, profile_id: str) -> dict:
 
 def _pdf_response(payload: dict, name: str) -> Response:
     try:
-        pdf = render_pdf(payload)
+        pdf = render_pool.render(payload)  # worker processes, a time limit and a cache (app/reports/render_pool.py)
+    except render_pool.RenderTimeout as e:
+        raise HTTPException(
+            503, "The report is still being prepared. Please try again in a moment.", headers={"Retry-After": "5"}
+        ) from e
     except OSError as e:  # Pango/Cairo missing on the host
         raise HTTPException(503, "PDF engine unavailable on this server; the preview still works.") from e
     return Response(pdf, media_type="application/pdf", headers={"Content-Disposition": f'inline; filename="{name}"'})
@@ -43,8 +50,8 @@ def _pdf_response(payload: dict, name: str) -> Response:
 
 @router.post("/reports")
 def create_report(actor: Actor = Depends(patient)):
+    pl = _payload(actor)
     with session(actor) as cur:
-        pl = _payload(cur, actor.user_id)
         cur.execute(
             "INSERT INTO reports (profile_id, payload) VALUES (%s,%s) RETURNING id, created_at",
             (actor.user_id, json.dumps(pl, default=str, ensure_ascii=False)),

@@ -370,12 +370,19 @@ def persist(cur, profile_id: str, out: State) -> None:
             )
 
 
-def refresh(profile_id: str, lang: str = "en") -> State:
+def refresh(profile_id: str, lang: str = "en") -> State | None:
+    """Re-run the pipeline and store the result, in three steps that never nest: read the record (one connection), run
+    the pipeline with no connection held (retrieval takes its own, and a model call can take seconds), then write.
+    Running it inside the read transaction held two pool connections per request and starved the pool under load."""
     from app.services.patient_data import load_bundle
 
     with session(SYSTEM) as cur:
         bundle = load_bundle(cur, profile_id)
-        out = run(bundle, lang=lang)
+    if not bundle:
+        return None
+    out = run(bundle, lang=lang)
+    with session(SYSTEM) as cur:
+        cur.execute("SELECT pg_advisory_xact_lock(hashtext('refresh:' || %s))", (profile_id,))  # one writer per record
         persist(cur, profile_id, out)
     return out
 
