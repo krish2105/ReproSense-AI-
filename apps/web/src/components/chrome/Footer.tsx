@@ -11,6 +11,7 @@ export function Footer() {
       <nav aria-label={t("footerLinks")} className="foot-links">
         <Link href="/trust">{t("footerTrust")}</Link>
         <Link href="/pricing">{t("footerPricing")}</Link>
+        <Link href="/pilot">{t("footerPilot")}</Link>
       </nav>
     </footer>
   );

@@ -20,7 +20,7 @@ from app.rules.engine import evaluate, load_rules
 from app.security import audit
 from app.security.auth import require
 from app.security.crypto import decrypt, encrypt
-from app.services import blood_pressure, fhir, lognote, postnatal, previsit, views
+from app.services import blood_pressure, fhir, lognote, postnatal, preconception, previsit, views
 from app.services import documents as docs
 from app.services.patient_data import ai_allowed, apply_period_log, load_bundle
 from app.services.vocab import SYMPTOMS
@@ -131,6 +131,8 @@ def home(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         "record_strength": ev.features.values.get("record_strength"),
         "days_logged": views.days_logged(b),
         "postnatal": postnatal.pathway(b, ref()),  # her first 6 weeks after a birth (DoH Postnatal Care Standard)
+        # Y1: planning a pregnancy (Trying stage only); two items say when her own record points to them
+        "preconception": preconception.checklist(b, {h.rule_id for h in ev.all_hits}),
         "blood_pressure": blood_pressure.summary(b, ref()),  # K6: pregnancy and the 12 weeks after birth
     }
 
@@ -161,6 +163,37 @@ def record_postnatal_check(step: str, body: PostnatalCheckIn, actor: Actor = Dep
         audit.record(cur, actor, "postnatal_check", actor.user_id, f"postnatal:{step}")
         b = _bundle(cur, actor)
     return postnatal.pathway(b, ref())
+
+
+class PreconceptionTickIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    done: bool
+
+
+@router.post("/preconception/{item}")
+def tick_preconception(item: str, body: PreconceptionTickIn, actor: Actor = Depends(patient)):
+    """She ticks (or unticks) an item on her planning-a-pregnancy checklist. Her own note; nothing is checked or sent."""
+    if item not in preconception.IDS:
+        raise HTTPException(422, "Unknown checklist item.")
+    with session(actor) as cur:
+        b = _bundle(cur, actor)
+        if not preconception.applies(b):
+            raise HTTPException(404, "The planning-a-pregnancy checklist is for the Trying stage.")
+        eid = f"{actor.user_id}-pc-{item}"
+        if body.done:
+            cur.execute(
+                "INSERT INTO events (id, profile_id, type, date, details) VALUES (%s,%s,%s,%s,%s)"
+                " ON CONFLICT (id) DO NOTHING",
+                (eid, actor.user_id, preconception.EVENT, ref(), json.dumps({"item": item, "source": "her entry"})),
+            )
+        else:
+            cur.execute("DELETE FROM events WHERE id=%s AND profile_id=%s", (eid, actor.user_id))
+        audit.record(
+            cur, actor, "preconception_" + ("tick" if body.done else "untick"), actor.user_id, f"preconception:{item}"
+        )
+        b = _bundle(cur, actor)
+    ev = evaluate(b, ref(), get_settings().red_flag_window_days)
+    return preconception.checklist(b, {h.rule_id for h in ev.all_hits})
 
 
 @router.get("/timeline")
@@ -690,6 +723,7 @@ def delete_my_data(actor: Actor = Depends(patient)):
         for t in (
             "navigator_drafts",
             "shares",
+            "family_links",  # Y4: deleting her entries also ends every family link
             "reports",
             "observations",
             "care_gaps",
