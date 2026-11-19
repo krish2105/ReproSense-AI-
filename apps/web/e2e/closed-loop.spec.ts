@@ -120,7 +120,7 @@ test("the event timeline: the network sees every clinic, filters and pages; a cl
   const tl = page.getByTestId("event-timeline");
   await expect(tl.getByRole("heading", { name: loop.eventsTitle })).toBeVisible();
   await expect(tl.getByText(/^Chain intact · \d+ entries$/)).toBeVisible();
-  const table = tl.getByRole("region", { name: loop.eventsTitle });
+  const table = tl.getByRole("region", { name: loop.tableLabel });
   await expect(table.locator("tbody tr").first()).toBeVisible();
   await expect(tl.getByText(/^Page 1 of \d+ · \d+ events$/)).toBeVisible();
   await expect(table).not.toContainText(/Fatima|Noura|fatima|noura/); // pseudonymous ids only
@@ -149,11 +149,11 @@ test("the event timeline: the network sees every clinic, filters and pages; a cl
   await expect(page.getByTestId("loop-metrics")).toBeVisible();
   const mine = page.getByTestId("event-timeline");
   await expect(mine.getByText(/^Chain intact/)).toBeVisible();
-  await expect(mine.getByRole("region", { name: loop.eventsTitle }).locator("tbody tr").first()).toBeVisible();
+  await expect(mine.getByRole("region", { name: loop.tableLabel }).locator("tbody tr").first()).toBeVisible();
   await expect(mine.getByLabel(loop.filterClinic, { exact: true })).toHaveCount(0); // her clinic only: there is nothing to choose
   await mine.getByLabel(loop.filterRole, { exact: true }).selectOption("clinician");
   await mine.getByRole("button", { name: loop.apply }).click();
-  await expect(mine.getByRole("region", { name: loop.eventsTitle })).toContainText("clin-01");
+  await expect(mine.getByRole("region", { name: loop.tableLabel })).toContainText("clin-01");
   await expectAccessible(page, "clinic event timeline");
   await expectNoSideScroll(page, "clinic event timeline");
 });

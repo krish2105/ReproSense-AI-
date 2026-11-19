@@ -1819,6 +1819,7 @@
     "hidden": "Fewer than {k}",
     "note": "Groups under {k} are hidden. A gynaecology review has no guideline window; the synthetic cohort uses a 42-day clinic target for it.",
     "eventsTitle": "Event timeline",
+    "tableLabel": "Events, newest first",
     "eventsIntroNetwork": "Who did what and when, in every clinic, from the hash-chained audit log. Pseudonymous ids only, never names.",
     "eventsIntroClinic": "Who did what and when in your clinic, from the hash-chained audit log. Pseudonymous ids only, never names.",
     "chainOk": "Chain intact · {n, plural, one {# entry} other {# entries}}",

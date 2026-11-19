@@ -177,7 +177,7 @@ export function EventTimeline({ endpoint, scope, clinics = [] }: { endpoint: "/a
           </p>
         ) : (
           <>
-            <TableScroll label={t("eventsTitle")} style={{ marginTop: 6 }}>
+            <TableScroll label={t("tableLabel")} style={{ marginTop: 6 }}>
               <table aria-busy={loading || undefined}>
                 <thead>
                   <tr>

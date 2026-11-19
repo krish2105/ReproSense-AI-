@@ -1154,6 +1154,7 @@ loop figures and event timeline (`loop.*`, neutral forms). Plural forms use the 
 | `loop.hidden` | Fewer than {k} | أقل من {k} | |
 | `loop.note` | Groups under {k} are hidden. A gynaecology review has no guideline window; the synthetic cohort uses a 42-day clinic target for it. | تُخفى المجموعات الأقل من {k}. لا توجد نافذة إرشادية لمراجعة النساء؛ تستخدم المجموعة الاصطناعية هدفاً للعيادة مدته 42 يوماً. | |
 | `loop.eventsTitle` | Event timeline | سجل الأحداث | |
+| `loop.tableLabel` | Events, newest first | الأحداث، الأحدث أولاً | |
 | `loop.eventsIntroNetwork` | Who did what and when, in every clinic, from the hash-chained audit log. Pseudonymous ids only, never names. | من فعل ماذا ومتى في كل عيادة، من سجل التدقيق المتسلسل. معرّفات مستعارة فقط، دون أسماء. | |
 | `loop.eventsIntroClinic` | Who did what and when in your clinic, from the hash-chained audit log. Pseudonymous ids only, never names. | من فعل ماذا ومتى في عيادتك، من سجل التدقيق المتسلسل. معرّفات مستعارة فقط، دون أسماء. | |
 | `loop.chainOk` | Chain intact · {n, plural, one {# entry} other {# entries}} | السلسلة سليمة · {n, plural, zero {لا قيود} one {قيد واحد} two {قيدان} few {# قيود} many {# قيداً} other {# قيد}} | |
