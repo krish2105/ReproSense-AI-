@@ -1016,6 +1016,133 @@ The public /pilot page for a clinic manager or an insurer, so the address is plu
 | After-birth urgent reply, added clause (`assistant.py` `URGENT_TEXT`) | … a severe headache, changes in your vision, or sudden swelling of your face, hands or feet. | … أو الصداع الشديد، أو تغيّر الرؤية، أو التورّم المفاجئ في الوجه أو اليدين أو القدمين. | |
 | `knowledge_base/summaries/nhs_pre_eclampsia.md` (Arabic section) | (new summary) | see the file | |
 
+## Planning a pregnancy checklist (build week Y1, 18 Nov, draft Arabic, not yet reviewed)
+The checklist on Home for the Trying stage (Mariam). Feminine address throughout (her screen). The two new
+knowledge-base summaries (`knowledge_base/summaries/doh_premarital_screening_2024.md`,
+`ukhsa_rubella_before_pregnancy.md`) also have Arabic sections. Medical terms to confirm: الحصبة الألمانية (rubella),
+اللقاح الثلاثي (MMR), أمراض الدم الوراثية, فحص ما قبل الزواج.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `preconception.eyebrow` | Planning a pregnancy | التخطيط للحمل | |
+| `preconception.title` | Things to look at before or while trying | أمور يمكنكِ مراجعتها قبل محاولة الحمل أو أثناءها | |
+| `preconception.intro` | Tick an item once it is done. Ticks are saved to your record, and you can untick them any time. | ضعي علامة على البند بعد إنجازه. تُحفظ العلامات في سجلّكِ، ويمكنكِ إزالتها في أي وقت. | |
+| `preconception.progress` | {done} of {total} ticked | {done} من {total} مُعلَّمة | |
+| `preconception.relevant` | Your entries point to this | إدخالاتكِ تشير إلى هذا | |
+| `preconception.items.folic_acid.title` | Folic acid | حمض الفوليك | |
+| `preconception.items.folic_acid.body` | The NHS advises 400 micrograms of folic acid a day while trying and until 12 weeks of pregnancy. Some women are prescribed a higher dose; ask your doctor if that applies to you. | تنصح الخدمة الصحية البريطانية (NHS) بتناول 400 ميكروغرام من حمض الفوليك يومياً أثناء محاولة الحمل وحتى الأسبوع 12 من الحمل. تُوصف لبعض النساء جرعة أعلى؛ اسألي طبيبتكِ إن كان ذلك ينطبق عليكِ. | |
+| `preconception.items.premarital_results.title` | Your premarital screening results | نتائج فحص ما قبل الزواج | |
+| `preconception.items.premarital_results.body` | If you had premarital screening in Abu Dhabi, its results (such as blood group, inherited blood conditions and German measles immunity) are useful to bring to a check-up before a pregnancy. | إذا أجريتِ فحص ما قبل الزواج في أبوظبي، فنتائجه (مثل فصيلة الدم وأمراض الدم الوراثية والمناعة ضد الحصبة الألمانية) مفيدة لإحضارها إلى فحص ما قبل الحمل. | |
+| `preconception.items.rubella.title` | German measles (rubella) protection | الحماية من الحصبة الألمانية | |
+| `preconception.items.rubella.body` | Check whether you are protected, for example in your vaccination record or your screening results. If you are not, the MMR vaccine is given before pregnancy, and pregnancy is avoided for one month after it. | تأكدي من حمايتكِ، مثلاً من سجل تطعيماتكِ أو نتائج فحصكِ. إن لم تكوني محمية، يُعطى اللقاح الثلاثي (MMR) قبل الحمل، ويُتجنّب الحمل لمدة شهر بعده. | |
+| `preconception.items.cycle_checkup.title` | A check-up if your cycles are irregular | فحص إذا كانت دوراتكِ غير منتظمة | |
+| `preconception.items.cycle_checkup.body` | If your cycle lengths vary a lot, consider asking a doctor to look at them before or while you try. Your cycle record helps. | إذا كانت أطوال دوراتكِ تختلف كثيراً، فكّري في أن تطلبي من الطبيبة مراجعتها قبل محاولة الحمل أو أثناءها. سجل دوراتكِ يساعد. | |
+| `preconception.items.fertility_check.title` | When to ask about a fertility check | متى تسألين عن فحص الخصوبة | |
+| `preconception.items.fertility_check.body` | Guidance suggests asking after 12 months of trying, or after 6 months from age 35. Both partners can be assessed. Irregular periods are a reason to ask sooner. | تقترح الإرشادات السؤال بعد 12 شهراً من المحاولة، أو بعد 6 أشهر من سن 35. يمكن تقييم الشريكين كليهما. الدورات غير المنتظمة سبب للسؤال مبكراً. | |
+| `preconception.saved` | Saved to your record. | حُفظت في سجلّكِ. | |
+| `preconception.removed` | Removed from your record. | أُزيلت من سجلّكِ. | |
+| `preconception.saveFailed` | It wasn't saved: {detail} | لم تُحفظ: {detail} | |
+| `preconception.note` | This is information to discuss with your doctor. Nothing here is required, and none of it is a diagnosis. | هذه معلومات لمناقشتها مع طبيبتكِ. لا شيء هنا إلزامي، ولا شيء منها تشخيص. | |
+
+## Family support view (build week Y4, 18 Nov, draft Arabic, not yet reviewed)
+Two voices: `family.manage.*` is her Privacy screen (feminine address); `family.view.*`, `family.steps.*` and `family.tips.*` are read by her husband, mother or someone she trusts, so they use the plural (أنتم) and speak about her in the third person. Steps carry neutral names on purpose (no reason for a test is shown). Krishna reviews the privacy wording.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `family.relation.husband` | Husband | الزوج | |
+| `family.relation.mother` | Mother | الأم | |
+| `family.relation.sister` | Sister | الأخت | |
+| `family.relation.friend` | Friend | صديق أو صديقة | |
+| `family.relation.other` | Someone else | شخص آخر | |
+| `family.manage.intro` | Share a read-only page with someone who supports you: your upcoming care steps and ways they can help. Health details stay private unless you tick the box. You can turn a link off at any time, and every visit shows in “Who saw your data”. | شاركي صفحة للقراءة فقط مع من يدعمكِ: خطوات رعايتكِ القادمة وطرق يمكنه بها المساعدة. تبقى تفاصيلكِ الصحية خاصة ما لم تضعي علامة على المربع. يمكنكِ إيقاف الرابط في أي وقت، وتظهر كل زيارة في «من اطّلع على بياناتكِ». | |
+| `family.manage.relationLabel` | Who is this link for? | لمن هذا الرابط؟ | |
+| `family.manage.detailsLabel` | Include my health details | تضمين تفاصيلي الصحية | |
+| `family.manage.detailsHint` | Your pregnancy week or weeks since the birth, and the names of patterns worth discussing with your doctor. Never your entries or notes. | أسبوع الحمل أو عدد الأسابيع منذ الولادة، وأسماء الأنماط التي تستحق النقاش مع طبيبتكِ. لا تُعرض إدخالاتكِ أو ملاحظاتكِ أبداً. | |
+| `family.manage.consentLabel` | I want to share this page. The link works for 30 days unless I turn it off. | أريد مشاركة هذه الصفحة. يعمل الرابط 30 يوماً ما لم أوقفه. | |
+| `family.manage.create` | Make a family link | إنشاء رابط للعائلة | |
+| `family.manage.created` | Link made. Nothing was sent: copy it and share it yourself. | تم إنشاء الرابط. لم يُرسَل شيء: انسخيه وشاركيه بنفسكِ. | |
+| `family.manage.madeIntro` | Your link works until {date}. Copy it and send it yourself; ReproSense sends nothing. | يعمل رابطكِ حتى {date}. انسخيه وأرسليه بنفسكِ؛ ReproSense لا ترسل شيئاً. | |
+| `family.manage.copy` | Copy link | نسخ الرابط | |
+| `family.manage.copied` | Link copied. | تم نسخ الرابط. | |
+| `family.manage.copyFailed` | Copying didn't work; select the link and copy it. | لم ينجح النسخ؛ حدّدي الرابط وانسخيه. | |
+| `family.manage.preview` | Preview the page | معاينة الصفحة | |
+| `family.manage.activeTitle` | Links that work now | الروابط التي تعمل الآن | |
+| `family.manage.withDetails` | With health details | مع التفاصيل الصحية | |
+| `family.manage.until` | Works until {date} | يعمل حتى {date} | |
+| `family.manage.lastViewed` | last opened {date} | آخر فتح {date} | |
+| `family.manage.notViewed` | not opened yet | لم يُفتح بعد | |
+| `family.manage.revoke` | Turn off | إيقاف | |
+| `family.manage.revoked` | Link turned off. It no longer opens. | تم إيقاف الرابط. لم يعد يفتح. | |
+| `family.manage.failed` | That didn't work: {detail} | لم ينجح ذلك: {detail} | |
+| `family.view.metaTitle` | Family support | دعم العائلة | |
+| `family.view.title` | Supporting {name} | دعم {name} | |
+| `family.view.intro` | {name} shared this page with you ({relation}). It shows her upcoming care steps and ways you can help. | شاركت {name} هذه الصفحة معكم ({relation}). تعرض خطوات رعايتها القادمة وطرقاً يمكنكم بها المساعدة. | |
+| `family.view.her` | her | صاحبة هذا السجل | |
+| `family.view.stepsTitle` | Her upcoming care steps | خطوات رعايتها القادمة | |
+| `family.view.noSteps` | No care steps are due in the next weeks. | لا توجد خطوات رعاية مستحقة في الأسابيع القادمة. | |
+| `family.view.window` | {from} to {to} | {from} إلى {to} | |
+| `family.view.by` | By {date} | قبل {date} | |
+| `family.view.status.due` | Due now | مستحقة الآن | |
+| `family.view.status.upcoming` | Coming up | قادمة | |
+| `family.view.stepsNote` | Her clinic books these. Offer to help her get there. | تحجز عيادتها هذه المواعيد. اعرضوا مساعدتها في الوصول إليها. | |
+| `family.view.helpTitle` | How you can help | كيف يمكنكم المساعدة | |
+| `family.view.detailsTitle` | What she chose to share | ما اختارت مشاركته | |
+| `family.view.pregnancyWeeks` | {weeks} weeks pregnant | حامل في الأسبوع {weeks} | |
+| `family.view.weeksSinceBirth` | {weeks, plural, one {# week} other {# weeks}} since the birth | {weeks} أسابيع منذ الولادة | |
+| `family.view.patterns` | Patterns she may discuss with her doctor: | أنماط قد تناقشها مع طبيبتها: | |
+| `family.view.emergency` | In an emergency, call 998. | في حالات الطوارئ، اتصلوا بالرقم 998. | |
+| `family.view.privacy` | {name} chose what this page shows and can turn it off at any time. The link works until {date}. This is not a medical record and not a diagnosis. | اختارت {name} ما تعرضه هذه الصفحة ويمكنها إيقافها في أي وقت. يعمل الرابط حتى {date}. هذه ليست سجلاً طبياً ولا تشخيصاً. | |
+| `family.view.expiredTitle` | This link has expired | انتهت صلاحية هذا الرابط | |
+| `family.view.expiredBody` | Ask her to share a new one. | اطلبوا منها مشاركة رابط جديد. | |
+| `family.view.invalidTitle` | This link does not work | هذا الرابط لا يعمل | |
+| `family.view.invalidBody` | It may have been turned off. Ask her to share a new one. | ربما تم إيقافه. اطلبوا منها مشاركة رابط جديد. | |
+| `family.steps.teleconsult` | A check-in call or home visit after leaving hospital | مكالمة متابعة أو زيارة منزلية بعد الخروج من المستشفى | |
+| `family.steps.visit_2w` | A check-up 1–2 weeks after leaving hospital | زيارة متابعة بعد أسبوع إلى أسبوعين من الخروج من المستشفى | |
+| `family.steps.mood` | A wellbeing check | فحص للاطمئنان على حالها | |
+| `family.steps.visit_6w` | The 6-week check-up after the birth | فحص الأسبوع السادس بعد الولادة | |
+| `family.steps.glucose_test` | A blood sugar test | فحص سكر الدم | |
+| `family.steps.pregnancy_glucose_screen` | A blood sugar test in pregnancy | فحص سكر الدم أثناء الحمل | |
+| `family.tips.periods.0` | Ask how she is feeling, and help with plans or chores on days she needs rest. | اسألوها عن شعورها، وساعدوها في الخطط أو المهام المنزلية في الأيام التي تحتاج فيها إلى الراحة. | |
+| `family.tips.periods.1` | If she wants company at an appointment, offer to go with her. | إذا أرادت رفقة في موعد طبي، اعرضوا مرافقتها. | |
+| `family.tips.periods.2` | Keep what she shares private: this page shows only what she chose. | حافظوا على خصوصية ما تشاركه: هذه الصفحة تعرض فقط ما اختارته. | |
+| `family.tips.trying_to_conceive.0` | Trying can take time. Offer support without pressure or blame. | قد تستغرق محاولة الحمل وقتاً. قدّموا الدعم دون ضغط أو لوم. | |
+| `family.tips.trying_to_conceive.1` | If she plans a check-up, offer to go with her; both partners can be assessed. | إذا خطّطت لفحص، اعرضوا مرافقتها؛ يمكن تقييم الشريكين كليهما. | |
+| `family.tips.trying_to_conceive.2` | Share healthy routines with her, such as meals together and walks. | شاركوها عادات صحية، مثل الوجبات المشتركة والمشي. | |
+| `family.tips.pregnancy.0` | Offer to come to her appointments, or to drive her. | اعرضوا مرافقتها إلى مواعيدها أو توصيلها. | |
+| `family.tips.pregnancy.1` | Help at home so she can rest. | ساعدوا في المنزل لتتمكن من الراحة. | |
+| `family.tips.pregnancy.2` | Save her clinic's number, and know the emergency number: 998. | احفظوا رقم عيادتها، واعرفوا رقم الطوارئ: 998. | |
+| `family.tips.after_birth.0` | Take on night feeds, chores or visitors so she can rest. | تولّوا الرضعات الليلية أو المهام المنزلية أو استقبال الزوار لتتمكن من الراحة. | |
+| `family.tips.after_birth.1` | Offer to drive her to her check-ups after the birth. | اعرضوا توصيلها إلى فحوصاتها بعد الولادة. | |
+| `family.tips.after_birth.2` | Ask how she is feeling, and listen. If she seems very low or not herself, encourage her to talk to her clinic. | اسألوها عن شعورها واستمعوا إليها. إذا بدت حزينة جداً أو على غير طبيعتها، شجّعوها على التحدث مع عيادتها. | |
+| `family.tips.perimenopause.0` | Ask what helps on difficult days: a cooler room, an early night, less on her plate. | اسألوها عمّا يساعدها في الأيام الصعبة: غرفة أبرد، أو نوم مبكر، أو مهام أقل. | |
+| `family.tips.perimenopause.1` | Offer to come to appointments if she would like company. | اعرضوا مرافقتها إلى المواعيد إذا أرادت رفقة. | |
+| `family.tips.perimenopause.2` | Keep what she shares private: this page shows only what she chose. | حافظوا على خصوصية ما تشاركه: هذه الصفحة تعرض فقط ما اختارته. | |
+| `privacy.familyTitle` | Family support | دعم العائلة | |
+| `privacy.roles.family` | Someone with your family link | شخص لديه رابط العائلة الخاص بكِ | |
+| `privacy.actions.view_family_link` | opened your family page | فتح صفحة العائلة الخاصة بكِ | |
+| `privacy.actions.create_family_link` | made a family link | أنشأ رابطاً للعائلة | |
+| `privacy.actions.revoke_family_link` | turned off a family link | أوقف رابطاً للعائلة | |
+| `family.patterns.OBS_IRREGULAR_CYCLES` | irregular cycles | دورات غير منتظمة | |
+| `family.patterns.OBS_IRREGULAR_PLUS_ANDROGEN` | irregular cycles with skin or hair changes | دورات غير منتظمة مع تغيّرات في البشرة أو الشعر | |
+| `family.patterns.OBS_SEVERE_CYCLICAL_PAIN` | severe period pain | ألم شديد مع الدورة | |
+| `family.patterns.OBS_CYCLICAL_BOWEL_BLADDER_PAIN` | pain with periods when using the toilet | ألم مع الدورة عند دخول الحمام | |
+| `family.patterns.OBS_HEAVY_OR_LONG_PERIODS` | heavy or long periods | دورات غزيرة أو طويلة | |
+| `family.patterns.OBS_NO_PERIOD_90_DAYS` | no period for 3 months | غياب الدورة لمدة 3 أشهر | |
+| `family.patterns.OBS_TTC_FERTILITY_ASSESSMENT` | when to ask about a fertility check | متى تسأل عن فحص الخصوبة | |
+| `family.patterns.OBS_HEAVY_WITH_FATIGUE` | heavy periods with tiredness | دورات غزيرة مع تعب | |
+| `family.patterns.OBS_PERIMENOPAUSE_SYMPTOMS` | perimenopause symptoms | أعراض ما قبل انقطاع الطمث | |
+| `family.patterns.OBS_RAISED_BLOOD_PRESSURE` | a raised blood pressure reading | قراءة ضغط دم مرتفعة | |
+
+## DoH support line in the crisis paths (19 Nov, draft Arabic, not yet reviewed)
+800-SAKINA (800 725462), DoH's 24/7 mental-health line, follows 998 on the crisis card, the chat's crisis answer and
+RF4. The Arabic crisis reply and RF4 text in `backend/app/agents/assistant.py` and `rules/translations_ar.yaml` also changed.
+
+| Key | English | Arabic | OK |
+| --- | --- | --- | --- |
+| `safety.callSakina` | Call 800-SAKINA | اتصلي بـ 800-SAKINA | |
+| `safety.sakinaNote` | 800-SAKINA (800 725462) is the Department of Health's 24/7 support line, in Arabic or English. | ‎800-SAKINA‎ ‏(800 725462) هو خط الدعم التابع لدائرة الصحة، يعمل على مدار الساعة بالعربية أو الإنجليزية. | |
+| `safety.crisisBody` | If you might act on these thoughts, call 998 now. To talk to someone today, day or night, call 800-SAKINA, or speak to your doctor. You are not alone. | إذا كنتِ قد تتصرفين بناءً على هذه الأفكار، اتصلي بالرقم 998 الآن. وللتحدث مع مختص اليوم، في أي وقت ليلاً أو نهاراً، اتصلي بـ 800-SAKINA، أو تحدثي مع طبيبتكِ. لستِ وحدكِ. | |
+
 ## Assistant: her record and next steps (section 7, 19 Nov, draft Arabic, not yet reviewed)
 
 Answers to questions about her own data are built by code in `backend/app/agents/record.py` (the numbers come from her
