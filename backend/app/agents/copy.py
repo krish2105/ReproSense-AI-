@@ -211,7 +211,7 @@ AR_SYMPTOM = {
     "acne": "حب الشباب",
     "excess hair growth": "نمو زائد للشعر",
     "scalp hair thinning": "ترقق شعر الرأس",
-    "flooding": "نزيف متدفق",
+    "flooding": "تسرّب الدم من الفوطة",
     "pain with bowel movements": "ألم عند التبرز",
     "pain passing urine": "ألم عند التبول",
     "dizziness": "دوخة",
@@ -231,7 +231,7 @@ AR_SYMPTOM = {
     "sudden swelling": "تورّم مفاجئ في الوجه أو اليدين أو القدمين",
     "bleeding": "نزيف",
     "heartburn": "حرقة المعدة",
-    "clots larger than a coin": "جلطات أكبر من قطعة نقدية",
+    "clots larger than a coin": "كتل دموية أكبر من قطعة نقدية",
 }
 AR_IMPACT = {
     "reduced activity": "نشاط أقل من المعتاد",
