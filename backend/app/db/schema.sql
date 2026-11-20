@@ -22,7 +22,7 @@ END $$;
 -- joined record and every passkey, authenticator and setup link. auth_sessions and revoked_tokens stay: a reset signs
 -- nobody out and never brings a signed-out token back.
 DROP TABLE IF EXISTS family_links, mfa_tickets, staff_setup_links, staff_totp, email_codes, auth_challenges, sign_in_emails, passkeys, clinic_invites, audit_log, kb_chunks, cohort_members, navigator_drafts, clinic_reviews, care_gaps, shares, reports,
-  observations, documents, lab_results, bp_readings, events, daily_logs, cycles, consents, profiles, clinics CASCADE;
+  observations, documents, lab_results, feeds, bp_readings, events, daily_logs, cycles, consents, profiles, clinics CASCADE;
 
 CREATE OR REPLACE FUNCTION app_role() RETURNS text LANGUAGE sql STABLE AS $$ SELECT coalesce(current_setting('app.role', true), '') $$;
 CREATE OR REPLACE FUNCTION app_user() RETURNS text LANGUAGE sql STABLE AS $$ SELECT coalesce(current_setting('app.user_id', true), '') $$;
@@ -85,6 +85,17 @@ CREATE TABLE bp_readings (
   CHECK (systolic > diastolic)
 );
 CREATE INDEX ON bp_readings (profile_id, date);
+
+-- Feeding log in the 12 months after a birth (build week D2): one row per feed she taps, with any worry she marks.
+-- Information only: no amounts, no score (app/services/feeding.py). Not in clinician_read: the clinic record omits it.
+CREATE TABLE feeds (
+  id text PRIMARY KEY, profile_id text NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  date date NOT NULL, time time,
+  kind text NOT NULL CHECK (kind IN ('breast','expressed','formula')),
+  worries text[] NOT NULL DEFAULT '{}' CHECK (worries <@ ARRAY['latch','pain','few_wet_nappies']::text[]),
+  source text NOT NULL DEFAULT 'app', created_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX ON feeds (profile_id, date);
 
 CREATE TABLE documents (
   id serial PRIMARY KEY, profile_id text NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
@@ -198,7 +209,7 @@ DO $$
 DECLARE t text;
 BEGIN
   FOREACH t IN ARRAY ARRAY['consents','cycles','daily_logs','events','documents','lab_results','observations','reports',
-                           'shares','care_gaps','clinic_reviews','navigator_drafts','bp_readings'] LOOP
+                           'shares','care_gaps','clinic_reviews','navigator_drafts','bp_readings','feeds'] LOOP
     EXECUTE format('ALTER TABLE %I ENABLE ROW LEVEL SECURITY', t);
     EXECUTE format('ALTER TABLE %I FORCE ROW LEVEL SECURITY', t);
     EXECUTE format($p$CREATE POLICY sys_all ON %I USING (app_role() = 'system') WITH CHECK (app_role() = 'system')$p$, t);

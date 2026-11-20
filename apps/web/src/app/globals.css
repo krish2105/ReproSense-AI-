@@ -763,3 +763,14 @@ html.touring body{padding-bottom:min(60vh,520px)}
 [dir="rtl"] .baby-row[open] .baby-chev{rotate:-90deg}
 .baby-row-body{padding:0 12px 10px}
 ul.baby-vaccines{margin:6px 0 0;font-size:12.5px}
+/* D2 feeding log on home */
+.feed-worries{border:0;margin:0 0 10px;padding:0}
+.feed-worries legend{padding:0;margin-bottom:6px;color:var(--ink-2)}
+.feed-worries .chips button{min-height:28px}
+.feed-worries .chips button[aria-pressed="true"]{background:var(--plum);color:var(--plum-ink);border-color:var(--plum)}
+.feed-kinds{display:flex;flex-wrap:wrap;gap:8px}
+ul.feed-legend{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:12px;margin:6px 0 4px}
+.feed-legend li{display:inline-flex;align-items:center;gap:5px}
+ul.feed-support{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:10px}
+.feed-support li{background:var(--tint);border-radius:16px;padding:12px}
+.feed-table{margin-top:6px}

@@ -282,6 +282,7 @@ def simulate_persona(spec: PersonaSpec, ref: date, rng: random.Random) -> dict:
     data = {"profile": profile, "cycles": cycles, "daily_logs": sorted(logs, key=lambda x: x["date"]),
             "events": sorted(events, key=lambda x: x["date"]), "labs": labs}
     data["bp_readings"] = bp_readings(spec, data["events"], ref)
+    data["feeds"] = feeds(spec, ref)
     data["features"] = compute_features(data, ref)
     data["expected_observations"] = evaluate_rules(data["features"])
     return data
@@ -318,6 +319,26 @@ def bp_readings(spec: PersonaSpec, events: list[dict], ref: date) -> list[dict]:
         return [reading(1, birth + timedelta(days=3), 128, 84, "09:30"), reading(2, birth + timedelta(days=12), 124, 80),
                 reading(3, birth + timedelta(days=43), 118, 78)]
     return []
+
+
+def feeds(spec: PersonaSpec, ref: date) -> list[dict]:
+    """Fatima's feeding log for the last 7 days (build week D2, backend/app/services/feeding.py): 7 to 9 breastfeeds a
+    day, an expressed-milk feed most evenings, 4 feeds so far on the demo date, and one feed 3 days ago where she marked
+    pain, so home shows the sourced support line. Fixed values, no random draws, so every other number in the demo stays
+    the same; no rule reads these rows."""
+    if spec.id != "fatima":
+        return []
+    times = ["01:40", "04:50", "07:30", "10:15", "13:00", "15:45", "18:30", "21:20", "23:10"]
+    per_day = [8, 7, 9, 8, 8, 7, 4]  # 6 days ago .. the demo date
+    out = []
+    for i, n in enumerate(per_day):
+        day = ref - timedelta(days=6 - i)
+        for t in times[:n]:
+            kind = "expressed" if t == "18:30" and i % 3 != 2 else "breast"
+            worries = ["pain"] if i == 3 and t == "04:50" else []
+            out.append({"id": f"{spec.id}-feed{len(out) + 1:03d}", "date": iso(day), "time": t, "kind": kind,
+                        "worries": worries})
+    return out
 
 
 def synthetic_labs(spec: PersonaSpec, ref: date, rng: random.Random) -> list[dict]:

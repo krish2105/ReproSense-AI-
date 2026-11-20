@@ -274,3 +274,17 @@
   url: "https://doi.org/10.1080/10447318.2018.1455307"
   accessed: "2026-11-19"
   topics: [usability, SUS, questionnaire, satisfaction]
+- id: nhs_breastfeeding_enough_milk
+  answers: false  # cite-only: backs the feeding log's wet-nappy line (D2); not quoted in general answers
+  title: "Breastfeeding: is my baby getting enough milk? — NHS"
+  publisher: "NHS (UK)"
+  url: "https://www.nhs.uk/baby/breastfeeding-and-bottle-feeding/breastfeeding-problems/enough-milk/"
+  accessed: "2026-11-20"
+  topics: [breastfeeding, wet nappies, newborn, feeding]
+- id: nhs_breastfeeding_problems
+  answers: false  # cite-only: backs the feeding log's latch and pain lines (D2); not quoted in general answers
+  title: "Common breastfeeding problems — NHS"
+  publisher: "NHS (UK)"
+  url: "https://www.nhs.uk/baby/breastfeeding-and-bottle-feeding/breastfeeding-problems/common-problems/"
+  accessed: "2026-11-20"
+  topics: [breastfeeding, latch, sore nipples, mastitis, feeding]
