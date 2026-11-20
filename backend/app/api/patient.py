@@ -21,7 +21,18 @@ from app.rules.engine import evaluate, load_rules
 from app.security import audit
 from app.security.auth import require
 from app.security.crypto import decrypt, encrypt
-from app.services import baby, blood_pressure, fhir, followups, lognote, postnatal, preconception, previsit, views
+from app.services import (
+    baby,
+    blood_pressure,
+    feeding,
+    fhir,
+    followups,
+    lognote,
+    postnatal,
+    preconception,
+    previsit,
+    views,
+)
 from app.services import documents as docs
 from app.services.patient_data import ai_allowed, apply_period_log, load_bundle
 from app.services.vocab import SYMPTOMS
@@ -137,6 +148,7 @@ def home(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         # Y1: planning a pregnancy (Trying stage only); two items say when her own record points to them
         "preconception": preconception.checklist(b, {h.rule_id for h in ev.all_hits}),
         "blood_pressure": blood_pressure.summary(b, ref()),  # K6: pregnancy and the 12 weeks after birth
+        "feeding": feeding.summary(b, ref(), lang),  # D2: her feeding log, the 12 months after a birth
     }
 
 
@@ -416,6 +428,36 @@ def create_bp_reading(body: BloodPressureIn, lang: Literal["en", "ar"] = "en", a
         "crisis": crisis,
         "patterns": [h.rule_id for h in out["evaluation"].observations],
     }
+
+
+class FeedIn(BaseModel):
+    """One feed she taps (build week D2): the kind, the time if she gives it, and any worry. No amounts."""
+
+    model_config = ConfigDict(extra="forbid")
+    date: date
+    time: clock_time | None = None
+    kind: Literal["breast", "expressed", "formula"]
+    worries: list[Literal["latch", "pain", "few_wet_nappies"]] = Field(default_factory=list, max_length=3)
+
+
+@router.post("/feeds")
+def create_feed(body: FeedIn, lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
+    """Save a feed and return her last 7 days, with a sourced line for any worry. Nothing here feeds the rules."""
+    if body.date > ref():
+        raise HTTPException(422, "You can't log a feed for a future day.")
+    with session(actor) as cur:
+        b = _bundle(cur, actor)
+        birth = baby.latest_birth(b)
+        if not feeding.eligible(b, ref()) or body.date < birth:
+            raise HTTPException(422, "Feeds can be logged from the birth and for the 12 months after it.")
+        fid = f"{actor.user_id}-feed-{secrets.token_hex(5)}"
+        cur.execute(
+            "INSERT INTO feeds (id, profile_id, date, time, kind, worries, source) VALUES (%s,%s,%s,%s,%s,%s,'app')",
+            (fid, actor.user_id, body.date, body.time, body.kind, list(dict.fromkeys(body.worries))),
+        )
+        audit.record(cur, actor, "create_feed", actor.user_id, fid)
+        b = _bundle(cur, actor)
+    return feeding.summary(b, ref(), lang)
 
 
 class ParseIn(BaseModel):
@@ -738,7 +780,7 @@ def privacy(actor: Actor = Depends(patient)):
         )
         log = cur.fetchall()
         counts = {}
-        for t in ("daily_logs", "bp_readings", "events", "lab_results", "documents", "reports", "shares"):
+        for t in ("daily_logs", "bp_readings", "feeds", "events", "lab_results", "documents", "reports", "shares"):
             cur.execute(f"SELECT count(*) AS n FROM {t} WHERE profile_id=%s", (actor.user_id,))  # noqa: S608 (fixed table list)
             counts[t] = cur.fetchone()["n"]
     return {
@@ -824,6 +866,7 @@ def delete_my_data(actor: Actor = Depends(patient)):
             "documents",
             "events",
             "bp_readings",
+            "feeds",
             "daily_logs",
             "cycles",
         ):

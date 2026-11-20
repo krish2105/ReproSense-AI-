@@ -78,6 +78,14 @@ def load_bundle(cur, profile_id: str, include_notes: bool = True) -> dict | None
         }
         for r in cur.fetchall()
     ]
+    cur.execute(
+        "SELECT id, date, time, kind, worries FROM feeds WHERE profile_id=%s ORDER BY date, time NULLS FIRST, id",
+        (profile_id,),
+    )
+    feeds = [
+        {**r, "date": _iso(r["date"]), "time": r["time"].strftime("%H:%M") if r["time"] else None}
+        for r in cur.fetchall()
+    ]
     profile = {k: _iso(v) for k, v in prof.items()}
     return {
         "profile": profile,
@@ -86,6 +94,7 @@ def load_bundle(cur, profile_id: str, include_notes: bool = True) -> dict | None
         "events": events,
         "labs": labs,
         "bp_readings": bp,  # build week K6: blood pressure in pregnancy and after birth
+        "feeds": feeds,  # build week D2: her feeding log after a birth
         "ai_ok": ai_allowed(cur, profile_id),
     }
 

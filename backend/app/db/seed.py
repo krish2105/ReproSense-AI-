@@ -33,7 +33,7 @@ STAFF = [
     # authenticator code. No one-tap login; the operator's CLI makes her setup link (create_doh_admin --setup doh-01).
     ("doh-01", "DoH network admin (fictional)", "admin", None),
 ]
-NEWEST_TABLES = ("clinic_invites", "bp_readings")  # seed_if_empty: a database without these predates the code
+NEWEST_TABLES = ("clinic_invites", "bp_readings", "feeds")  # seed_if_empty: a database without these predates the code
 NOT_SHARING = {"amina"}  # shows the consent gate: Amina has not shared with a clinic
 
 
@@ -154,6 +154,11 @@ def load_personas(cur) -> list[str]:
                 "INSERT INTO bp_readings (id, profile_id, date, time, systolic, diastolic, source)"
                 " VALUES (%s,%s,%s,%s,%s,%s,'seed')",
                 (bp["id"], p["id"], bp["date"], bp.get("time"), bp["systolic"], bp["diastolic"]),
+            )
+        for f in d.get("feeds", []):
+            cur.execute(
+                "INSERT INTO feeds (id, profile_id, date, time, kind, worries, source) VALUES (%s,%s,%s,%s,%s,%s,'seed')",
+                (f["id"], p["id"], f["date"], f.get("time"), f["kind"], f.get("worries", [])),
             )
         for lab in d["labs"]:
             cur.execute(

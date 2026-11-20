@@ -142,7 +142,7 @@ T = {
 }
 CARE_STEP = {
     "postpartum_glucose_test": ("the glucose test after birth (OGTT)", "فحص تحمّل السكر بعد الولادة (OGTT)"),
-    "pregnancy_glucose_screen": ("the pregnancy glucose test (24–28 weeks)", "فحص سكر الحمل (الأسبوع 24–28)"),
+    "pregnancy_glucose_screen": ("the pregnancy glucose test (24–28 weeks)", "فحص سكر الحمل (الأسابيع 24–28)"),
 }
 
 

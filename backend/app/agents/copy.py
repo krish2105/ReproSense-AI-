@@ -118,7 +118,7 @@ def detail(rule_id: str, v: dict, f: dict, lang: str = "en", entry_date: str | N
         "CARE_PREGNANCY_GLUCOSE_SCREEN": f"أنتِ في الأسبوع {f.get('pregnancy_weeks')} من الحمل ولا يوجد فحص سكر مسجّل في هذا الحمل بعد.",
         "OBS_POSTPARTUM_MOOD": f"كان مجموع آخر فحص للمزاج (EPDS) {f.get('epds_latest_total')}، بعد {_ar_n(f.get('weeks_since_delivery'), *WEEKS_AR)} من الولادة.",
         "OBS_PERIMENOPAUSE_SYMPTOMS": f"سجّلتِ الهبّات الساخنة أو التعرق الليلي في {f.get('vasomotor_days_90')} من آخر 90 يوماً.",
-        "OBS_RAISED_BLOOD_PRESSURE": f"كانت آخر قراءة لضغط الدم {f.get('bp_latest_systolic')}/{f.get('bp_latest_diastolic')} ملم زئبقي.",
+        "OBS_RAISED_BLOOD_PRESSURE": f"كانت آخر قراءة لضغط الدم {f.get('bp_latest_systolic')}/{f.get('bp_latest_diastolic')} ملم زئبق.",
     }
     if rule_id.startswith("RF"):
         when = _fmt_day(entry_date, lang) if entry_date else ""
@@ -211,7 +211,7 @@ AR_SYMPTOM = {
     "acne": "حب الشباب",
     "excess hair growth": "نمو زائد للشعر",
     "scalp hair thinning": "ترقق شعر الرأس",
-    "flooding": "نزيف متدفق",
+    "flooding": "تسرّب الدم من الفوطة",
     "pain with bowel movements": "ألم عند التبرز",
     "pain passing urine": "ألم عند التبول",
     "dizziness": "دوخة",
@@ -231,7 +231,7 @@ AR_SYMPTOM = {
     "sudden swelling": "تورّم مفاجئ في الوجه أو اليدين أو القدمين",
     "bleeding": "نزيف",
     "heartburn": "حرقة المعدة",
-    "clots larger than a coin": "جلطات أكبر من قطعة نقدية",
+    "clots larger than a coin": "كتل دموية أكبر من قطعة نقدية",
 }
 AR_IMPACT = {
     "reduced activity": "نشاط أقل من المعتاد",
@@ -262,7 +262,7 @@ def entry_text(e: dict, lang: str = "en") -> str:
     if "systolic" in e:  # a blood-pressure reading (K6); Western digits, as everywhere else in the app
         at = f" {e['time']}" if e.get("time") else ""
         bp = f"{e['systolic']}/{e['diastolic']}"
-        return f"{day}{at} · ضغط الدم {bp} ملم زئبقي" if ar else f"{day}{at} · blood pressure {bp} mmHg"
+        return f"{day}{at} · ضغط الدم {bp} ملم زئبق" if ar else f"{day}{at} · blood pressure {bp} mmHg"
     if "type" in e:  # event
         t = e["type"].replace("_", " ")
         d = e.get("details") or {}

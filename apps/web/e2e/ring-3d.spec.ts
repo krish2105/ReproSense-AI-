@@ -24,7 +24,7 @@ test.describe("motion allowed", () => {
     await ring.scrollIntoViewIfNeeded();
     await expect(ring.locator('[data-3d="ready"]')).toBeVisible({ timeout: 30_000 });
     await expect(ring).toContainText("Week 24 of 40");
-    await expect(page.locator('main svg[role="img"]')).toHaveCount(0); // the 2D arc gives way to the ring
+    await expect(page.locator('main svg[role="img"]:not([data-chart="feeding"])')).toHaveCount(0); // the 2D arc is not drawn (the feeding chart is its own figure) // the 2D arc gives way to the ring
     await ring.locator("summary").click(); // the list starts folded
     const row = ring.getByRole("list", { name: r.list }).getByRole("button", { name: /Glucose test window, weeks 24–28/ });
     await expect(row).toHaveAttribute("aria-pressed", "true"); // the due window opens first
@@ -53,7 +53,7 @@ test.describe("motion allowed", () => {
     await ring.scrollIntoViewIfNeeded();
     await expect(ring.locator('[data-3d="ready"]')).toBeVisible({ timeout: 30_000 });
     await expect(ring).toContainText("Week 9 after the birth");
-    await expect(page.locator('main svg[role="img"]')).toHaveCount(0);
+    await expect(page.locator('main svg[role="img"]:not([data-chart="feeding"])')).toHaveCount(0); // the 2D arc is not drawn (the feeding chart is its own figure)
     await expect(ring.getByRole("list", { name: r.list })).toBeHidden(); // folded: the postnatal card below has the steps
     await ring.locator("summary").click();
     const list = ring.getByRole("list", { name: r.list });
