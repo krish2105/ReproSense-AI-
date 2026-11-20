@@ -51,7 +51,7 @@ Health**: *"How might we use AI to improve women's health and maternal, newborn 
 | --- | --- | --- |
 | **Krishna Mathur** | AI, backend, clinical safety | Postnatal pathway, Arabic/English voice logging, pre-visit brief, clinic onboarding API, passkey sign-in, blood-pressure log and warning, model safety scoring, lab-photo reader, OpenRouter AI provider, iOS app |
 | **Atharva Soundankar** | Web, 3D, design | 3D body pain map, "Show me in 3 minutes" judge tour, clinic-admin screens, her year in 3D, read aloud in Arabic and English, installable app, 3D pregnancy ring, polish |
-| **Yash Petkar** | Product, demo, submission | Pilot value page for clinics and insurers, the 3-slide deck and MP4, showcase checklist and rehearsals, live testing on phones; family support view, planning-a-pregnancy checklist and API hardening (in review) |
+| **Yash Petkar** | Product, demo, submission | Pilot value page for clinics and insurers, family support view, planning-a-pregnancy checklist, API hardening (connection pool, abuse limits, request IDs), the 3-slide deck and MP4, showcase checklist and rehearsals, live testing |
 | **Dareen** | Mother and baby, Arabic | Native Arabic voice of the product; owns the mother–baby roadmap (baby's first-year schedule, feeding log) |
 
 ---

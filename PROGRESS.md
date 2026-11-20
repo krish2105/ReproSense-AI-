@@ -17,6 +17,29 @@ Blockers / questions:
 
 ---
 
+## 2026-11-20 — Submission refreshed for the current product; trackers brought up to date — Yash with Claude Code
+Done (branch `docs/submission-refresh`):
+- **Deck (Y5):** slide 2 now carries the held-out safety score with the AI check (crisis 30/30, emergencies 32/32),
+  the attack suite (14 of 14 blocked) and the baby's first year; speaker notes to match. Rebuilt PPTX and PDF
+  (`pitch/build_submission_deck.js`, LibreOffice); every line checked to fit its box.
+- **MP4 (Y5):** re-recorded from `main` at e2e0bdb on a freshly reset local stack, 95 s, in the pitch script's demo
+  order: patterns with evidence, the assistant with sources, "Before your visit", the Arabic sentence filling the log,
+  the clinician booking Fatima's glucose follow-up and opening its history, the network's loop metrics, Fatima's
+  postnatal steps and her baby's first year. Every caption checked against the screens (e.g. 800-SAKINA in the
+  crisis reply).
+- **Trackers:** BUILD_STATUS rows for Y1–Y6, the audit fixes and D1 now show the merged PRs; the pitch pack's team row
+  lists Yash's merged work.
+- My staff/DoH sign-in draft from 19 Nov was not opened as a PR: Krishna's #149 already covers it (and adds the DoH
+  authenticator code and export step-up). The draft is kept in a local git stash only.
+Next:
+- **Yash:** upload the deck PDF and the MP4 at programs.upstartbar.com before Sun 22 Nov 15:15; the real iPhone and
+  Android pass of the live site; three timed rehearsals (log in docs/drafts/27-showcase-day-checklist.md); copy the MP4
+  to two laptops and a USB stick; the validation sprint in docs/27 section 6.
+Blockers / questions:
+- None for code. The shared plan doc still asks what "don't change the themes" meant.
+
+---
+
 ## 2026-11-19 — Trust: DoH and UAE compliance; new public /evidence page — Krishna with Claude Code
 Done (branch `feat/trust-evidence`; no clinical logic changed):
 - `/trust` keeps everything and adds "DoH and UAE compliance": ADHICS's 11 control domains mapped to what runs today
