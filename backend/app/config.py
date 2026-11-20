@@ -15,7 +15,9 @@ ROOT = Path(__file__).resolve().parents[2]  # repository root
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=(ROOT / ".env", ROOT / "backend" / ".env"), extra="ignore")
 
-    demo_mode: bool = True
+    # Off unless the environment says DEMO_MODE=true (make env, CI and render.yaml all do). On, it opens one-tap staff
+    # and DoH-admin sessions and the demo reset, so a deploy that forgets the variable must not get it by default.
+    demo_mode: bool = False
     demo_ref_date: date = date(2026, 11, 22)  # "today" inside the demo (showcase day), see QUESTIONS #16
     database_url: str = "postgresql:///reprosense?host=/tmp"
     allowed_origins: str = "http://localhost:3000"
