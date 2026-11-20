@@ -44,7 +44,7 @@ TEMPLATES = {
         "to": "Maternity unit",
         "subject": "Request: blood pressure recheck today",
         "en": "Hello, my blood pressure reading was {bp} mmHg. Could it be rechecked today, please? Thank you.",
-        "ar": "مرحباً، كانت قراءة ضغط الدم لديّ {bp} ملم زئبقي. هل يمكن إعادة قياسه اليوم من فضلكم؟ شكراً لكم.",
+        "ar": "مرحباً، كانت قراءة ضغط الدم لديّ {bp} ملم زئبق. هل يمكن إعادة قياسه اليوم من فضلكم؟ شكراً لكم.",
         "bring": [
             "Your blood pressure readings with their dates and times",
             "Your pregnancy record or discharge summary",

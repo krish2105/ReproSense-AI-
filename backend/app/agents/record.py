@@ -412,7 +412,7 @@ def _bp(b: dict, q: str, lang: str, ref: date) -> list[dict]:
     at = f" {last['time']}" if last.get("time") else ""
     day = _day(last["date"], lang, True)
     if lang == "ar":
-        first = f"آخر قراءة لضغط الدم في سجلّكِ: {last['systolic']}/{last['diastolic']} ملم زئبقي في {day}{at}."
+        first = f"آخر قراءة لضغط الدم في سجلّكِ: {last['systolic']}/{last['diastolic']} ملم زئبق في {day}{at}."
         n = len(rs)
         count = _ar_n(n, "قراءة واحدة", "قراءتين", "قراءات", "قراءة")
         second = f"سجّلتِ {count} بين {_day(rs[0]['date'], lang)} و{_day(last['date'], lang)}." if n > 1 else ""
