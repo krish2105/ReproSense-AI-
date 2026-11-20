@@ -77,93 +77,103 @@ async function scrollTo(locator) {
   await pause(300);
 }
 
+// The order follows the 3-minute pitch script (docs/27 section 4), so the MP4 doubles as the stage backup.
 // 1 · Landing (0:00)
 await load("/");
-await say("ReproSense AI: months of her own logs turned into explainable, non-diagnostic patterns. All data here is fictional.", 5000);
+await say("ReproSense AI: months of her own logs turned into explainable, non-diagnostic patterns. All data here is fictional.", 4500);
 
-// 2 · Noura's home (0:06)
+// 2 · Noura's home (0:05)
 await page.getByRole("button", { name: en.landing.cta1, exact: true }).click();
 await page.waitForURL(/\/app$/);
 await settle();
-await say("Noura, 24, Al Ain (fictional). Her cycle, today's phase and what stands out, built only from her entries.", 6000);
+await say("Noura, 24, Al Ain (fictional). Her whole cycle on one ring, built only from her own entries.", 5000);
 
-// 3 · Patterns with evidence (0:13)
+// 3 · Patterns with evidence (0:10)
 await tabs().getByRole("link", { name: en.tabs.insights }).click();
 await page.waitForURL(/\/app\/insights$/);
 await settle();
 const card = page.getByRole("article").first();
-await say("Each pattern names the entries behind it, what to consider next and its guideline source. No diagnosis, no risk score.", 6000);
+await say("A pattern worth discussing: the exact days behind it and the 2023 PCOS guideline it comes from. No diagnosis, no risk score.", 5500);
 await card.getByRole("button", { name: en.insights.how }).click();
-await say("Transparent rules decide; the trace shows the inputs and every step of the AI pipeline.", 5000);
+await say("Written rules decide; the trace shows the inputs and every step. The model only rewords.", 4000);
 await page.keyboard.press("Escape");
 
-// 4 · Assistant with sources (0:24)
+// 4 · Assistant with sources (0:20)
 await tabs().getByRole("link", { name: en.tabs.assistant }).click();
 await page.waitForURL(/\/app\/assistant$/);
 await settle();
-await say("She asks the assistant. Every answer cites its sources; urgent words get the UAE 998 guidance first.", 1500);
+await say("Every answer cites its sources. Urgent words get 998 first; crisis words get 998 and DoH's 800-SAKINA line.", 1500);
 const ask = page.getByRole("textbox").last();
 await ask.fill("What counts as a heavy period?");
 await ask.press("Enter");
 await page.getByRole("list", { name: en.assistant.sources }).last().waitFor({ timeout: 30_000 });
 await scrollTo(page.getByRole("list", { name: en.assistant.sources }).last());
-await pause(6000);
+await pause(5000);
 
-// 5 · Doctor report (0:33)
+// 5 · Before your visit (0:28)
 await tabs().getByRole("link", { name: en.tabs.report }).click();
 await page.waitForURL(/\/app\/report$/);
 await settle();
-await say("One tap prepares a two-page doctor-ready report, in English or Arabic, shared only with her consent.", 1000);
-const prepare = page.getByRole("button", { name: en.report.prepare });
-if (await prepare.isVisible().catch(() => false)) await prepare.click();
-await page.getByRole("link", { name: en.report.download }).waitFor({ timeout: 30_000 });
-await pause(5500);
+const brief = page.getByRole("region", { name: en.brief.title });
+if (await brief.isVisible().catch(() => false)) await scrollTo(brief);
+await say("Before her appointment: what changed since her last visit, from her own entries, and a two-page report her doctor reads in a minute.", 6000);
 
-// 6 · Clinician view (0:40)
-await load("/demo");
-await page.getByRole("button", { name: en.demo.openClinic }).click();
-await page.waitForURL(/\/clinic$/);
+// 6 · Her own words, in Arabic (0:34)
+await tabs().getByRole("link", { name: en.tabs.log }).click();
+await page.waitForURL(/\/app\/log/);
 await settle();
-await say("The clinician sees only patients who consented, most urgent first.", 4000);
-await page.getByRole("navigation", { name: en.clinic.listLabel }).getByRole("link", { name: /Noura/ }).click();
-await page.waitForURL(/\/clinic\/patients\/noura$/);
-await settle();
-await say("Same patient: a handover summary, her red flags and follow-ups, with the evidence a click away.", 4500);
-const askRecord = page.getByRole("region", { name: en.clinic.askTitle });
-await scrollTo(askRecord);
-await askRecord.getByRole("textbox", { name: en.clinic.askLabel }).fill("pain that stopped work");
-await askRecord.getByRole("button", { name: en.clinic.askSend, exact: true }).click();
-await askRecord.locator(".msg.ai").waitFor({ timeout: 20_000 });
-await say("Ask the record: answers come only from her own dated entries.", 5000);
+await say("She can tell it in her own words, in Arabic or English: cramps, missed work, pain 7 out of 10.");
+const example = page.getByRole("button", { name: en.log.example });
+await scrollTo(example);
+await example.click();
+await pause(1500);
+const read = page.getByRole("button", { name: en.log.readNote });
+if (await read.isEnabled().catch(() => false)) await read.click();
+await pause(3500);
+await say("The form fills itself; nothing is saved until she checks it.", 3500);
 
-// 7 · Fatima after the birth: the care gap closes (0:54)
+// 7 · The clinic acts: Fatima's follow-up, and its history (0:44)
+await page.request.post("/api/v1/demo/login", { data: { role: "clinician" } });
 await load("/clinic/patients/fatima");
-await say("Fatima, 9 weeks after a birth with gestational diabetes: the glucose test is due under DoH's postnatal pathway.", 1000);
+await say("The clinic sees only women who chose to share. Fatima had gestational diabetes; 9 weeks after the birth her glucose test is due (DoH PC008).", 1000);
 const gaps = page.getByRole("region", { name: en.clinic.gapsTitle });
 await scrollTo(gaps);
-await pause(4000);
-const done = gaps.getByRole("button", { name: en.clinic.gapDone }).first();
-if (await done.isVisible().catch(() => false)) {
-  await done.click();
-  await say("The clinic books and completes it: one care gap closed.", 4000);
+await pause(4500);
+const book = gaps.getByRole("button", { name: en.clinic.gapBook }).first();
+if (await book.isVisible().catch(() => false)) {
+  await book.click();
+  await say("One tap: booked.", 2000);
+}
+const story = gaps.getByTestId(/^history-/).first();
+if (await story.isVisible().catch(() => false)) {
+  await story.locator("summary").click();
+  await scrollTo(story);
+  await say("Every step of the loop is on record: which rule opened it and why, when she shared, who booked it. From the hash-chained audit log.", 6500);
 }
 
-// 8 · Clinic network (1:05)
-await load("/demo");
-await page.getByRole("button", { name: en.demo.openAdmin }).click();
-await page.waitForURL(/\/admin$/);
-await settle();
-await say("The network view counts follow-ups closed live, by region, with a fairness check. Names never leave the clinic.", 6000);
-await page.mouse.wheel(0, 700);
-await pause(2500);
+// 8 · The network view: the loop, measured (0:58)
+await page.request.post("/api/v1/demo/login", { data: { role: "admin" } });
+await load("/admin");
+await say("DoH's network view counts follow-ups closing across clinics. Counts only, never names.", 4500);
+const loopBox = page.getByRole("heading", { name: en.loop.title }).first();
+if (await loopBox.isVisible().catch(() => false)) {
+  await scrollTo(loopBox);
+  await say("The loop, measured: days from a follow-up opening to booking, and postnatal steps done inside their DoH window.", 5500);
+}
 
-// 9 · Pilot value for a clinic or insurer (1:15)
-await load("/pilot");
-await say("For clinics and insurers: follow-ups closed and value per 1,000 women, with every assumption visible and editable.", 6000);
+// 9 · Mother and baby: Fatima's own app (1:09)
+await page.request.post("/api/v1/demo/login", { data: { persona: "fatima" } });
+await load("/app");
+await say("For a mother, the same record carries her through the first weeks after birth: DoH's postnatal steps and what happened with each follow-up.", 5000);
+const baby = page.getByTestId("baby-card");
+if (await baby.isVisible().catch(() => false)) {
+  await scrollTo(baby);
+  await say("And her baby's first year: newborn screening, well-baby visits and vaccinations from DoH Abu Dhabi's schedules, each with its source.", 6000);
+}
 
 // 10 · Close (1:21)
 await load("/");
-await say("ReproSense AI · Understand your body. Recognise the patterns. Take informed action. Built with AI tools; demo data fictional.", 6000);
+await say("ReproSense AI · Understand your body. Recognise the patterns. Take informed action. Built with AI tools; demo data fictional.", 5500);
 
 await page.close();
 await ctx.close();

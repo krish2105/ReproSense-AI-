@@ -95,8 +95,8 @@ s2.addText("ReproSense turns her record into a next step", { placeholder: "title
 const ROWS = [
   ["Her record in 20 seconds", "Logs by tap or voice in Arabic or English. Lab reports read from a PDF or photo, and she checks every value."],
   ["Patterns, never a diagnosis", "Written rules from published guidelines. Each pattern shows the entries behind it and its source. Red flags come first, with 998."],
-  ["AI that is checked", "Rules decide, retrieval grounds, the model only rewords; unsupported sentences are dropped. She can switch AI off."],
-  ["The clinic loop", "With her consent: a pre-visit brief, a two-page doctor report, and follow-ups that close DoH's PC008 indicator."],
+  ["AI that is checked", "Rules decide; the model only rewords. Held-out safety with the AI check: crisis 30/30, emergencies 32/32. 14 of 14 security attacks blocked."],
+  ["The clinic loop", "With consent: a pre-visit brief, a doctor report, follow-ups that close DoH's PC008. After birth: DoH postnatal steps and the baby's first year."],
 ];
 ROWS.forEach(([head, body], i) => {
   const y = 1.55 + i * 1.12;
@@ -124,7 +124,8 @@ s2.addImage({
 s2.addText("Noura (fictional): a pattern, its evidence and its source", { x: 8.75, y: 6.8, w: 4.0, h: 0.25, fontSize: 10, italic: true, color: C.accent5, align: "center", margin: 0, isTextBox: true });
 s2.addNotes(
   "She logs in seconds, by voice if she likes, in Arabic or English. Written rules from published guidelines find patterns worth discussing; every card shows the entries and the guideline, never a diagnosis, and red flags come first with 998. " +
-    "The AI is checked: rules decide, retrieval grounds, the model only rewords, and sentences her data doesn't support are dropped. With her consent the clinic gets a pre-visit brief and a doctor report, and follow-ups close DoH's PC008 indicator. " +
+    "The AI is checked: rules decide, retrieval grounds, the model only rewords, and sentences her data doesn't support are dropped; she can switch AI off. On 132 held-out reviewer questions we never tuned on, the AI second check routed every crisis message (30 of 30) and every emergency (32 of 32) to support or 998, and an attack suite of 14 attacks, all blocked, runs on every change. " +
+    "With her consent the clinic gets a pre-visit brief and a doctor report, and follow-ups close DoH's PC008 indicator. After a birth, the same record carries DoH's postnatal steps and her baby's first year: newborn screening, well-baby visits and vaccinations, each with its source. " +
     "Trackers like Flo and Clue print reports too; our moat is the clinic loop, cited rules, Arabic first, and no selling of health data.",
 );
 

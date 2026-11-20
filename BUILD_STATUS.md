@@ -37,14 +37,15 @@ Yash (`Yashpetkar7`): content, product and the submission (build week Y1–Y6, i
 | A1–A8 | 3D body map, judge tour, clinic admin screens, year in 3D, read aloud, installable app, 3D pregnancy ring, polish | ✅ | #112, #115, #117, #120, #122, #123, #124, #127 |
 | iOS | Expo phone app on the live API, clinician view, postnatal, BP, brief; Simulator and iPhone verified | ✅ | #125, #126 |
 | Next 16 | Upgrade after 3 green e2e runs | ✅ | #72 |
-| Y1 | Planning-a-pregnancy checklist (Trying stage, every item sourced) | 🟨 PR open, health wording review | `feat/preconception-checklist` |
-| Y2 | Phone testing | 🟨 emulated 390/1280 px EN/AR/dark done (2 findings fixed); real iPhone and Android left | `fix/tour-noura-age` |
-| Y3 | Pilot value page `/pilot` for clinics and insurers | 🟨 PR open | `feat/pilot-roi` |
-| Y4 | Family support view, read-only and revocable | 🟨 PR open, privacy wording review | `feat/family-support` |
-| Y5 | 3-slide deck (PPTX, PDF) and the 98 s MP4 | 🟨 PR open; upload by 22 Nov 15:15 | `docs/submission-deck` |
-| Y6 | Showcase-day checklist and rehearsal log | 🟨 PR open; rehearsals to run | `docs/showcase-day` |
-| Audit | Pool deadlock and PDF speed, abuse and input hardening, request IDs (G2: operational settings only) | 🟨 PRs open | `fix/db-pool-and-pdf-speed`, `fix/abuse-and-input-hardening`, `feat/request-ids` |
-| D1–D6 | Baby schedule, feeding log, discharge reader, reminders, Arabic-first pass, mother–baby board | ⬜ not started | |
+| Y1 | Planning-a-pregnancy checklist (Trying stage, every item sourced) | ✅ | #132 |
+| Y2 | Phone testing | 🟨 emulated 390/1280 px EN/AR/dark done (2 findings fixed, #137); real iPhone and Android left | #137 |
+| Y3 | Pilot value page `/pilot` for clinics and insurers | ✅ | #133 |
+| Y4 | Family support view, read-only and revocable | ✅ | #134 |
+| Y5 | 3-slide deck (PPTX, PDF) and the MP4 (95 s, refreshed 20 Nov with the closed loop, safety score and baby's first year) | 🟨 files ready; upload at programs.upstartbar.com by 22 Nov 15:15 | #135, `docs/submission-refresh` |
+| Y6 | Showcase-day checklist and rehearsal log | 🟨 merged; the three timed rehearsals still to run | #136 |
+| Audit | Pool deadlock and PDF speed, abuse and input hardening, request IDs (G2: operational settings only) | ✅ | #138, #139, #140 |
+| D1 | Baby's first year: checks, vaccinations and screening from DoH Abu Dhabi's schedules | ✅ | #152 |
+| D2–D6 | Feeding log, discharge reader, reminders, Arabic-first pass, mother–baby board | ⬜ not started | |
 
 ## State audit (build week A8, 18 Nov)
 Every route's empty, loading and error state (C7 step 4). Loading: no route `loading.tsx` on purpose. With Next 15.5

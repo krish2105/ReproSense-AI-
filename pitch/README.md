@@ -47,10 +47,12 @@ soffice --headless --convert-to pdf --outdir pitch pitch/ReproSense-submission.p
 The slide-2 picture is `img/noura-insights.jpg` (fictional persona, demo badge visible).
 
 ## The MP4 demo (build week Y5)
-`ReproSense-demo.mp4`: about 98 seconds, 1280×720, captions burned in, no sound (add a voice-over if you like). The
-path: landing → Noura's home → a pattern with its evidence and "How this was produced" → the assistant answering
-"What counts as a heavy period?" with sources → the doctor report → the clinician list, Noura's handover and Ask the
-record → Fatima's after-birth glucose follow-up marked done → the clinic network → the pilot value page → close.
+`ReproSense-demo.mp4`: about 95 seconds, 1280×720, captions burned in, no sound (add a voice-over if you like). It
+follows the pitch script's demo order (docs/27 section 4), so it doubles as the stage backup: landing → Noura's home →
+a pattern with its evidence and "How this was produced" → the assistant answering "What counts as a heavy period?"
+with sources → "Before your visit" → her Arabic sentence filling the log form → the clinician books Fatima's
+after-birth glucose follow-up and opens its history → the network's loop metrics → Fatima's postnatal steps and her
+baby's first year → close. Refreshed on 20 Nov from `main` at e2e0bdb.
 Every record is fictional. Recorded by `apps/web/scripts/demo-video.mjs` from a freshly reset local stack, so every
 number is the seeded one; re-record after any screen change:
 ```
