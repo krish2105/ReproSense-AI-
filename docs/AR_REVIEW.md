@@ -1962,3 +1962,37 @@ baseline, «مقياس سهولة الاستخدام (SUS)», «مؤشر «جو�
 | `pilotProposal.sourcesTitle` | Sources | المصادر | |
 | `pilotProposal.pdf.subtitle` | ReproSense: her health record in Arabic and English, with patterns worth discussing with a doctor and follow-ups tracked until they close. | ReproSense: سجلها الصحي بالعربية والإنجليزية، مع أنماط تستحق النقاش مع الطبيب ومتابعات تُتابَع حتى تُغلق. | |
 | `pilotProposal.pdf.footer` | Draft offer: no clinic has signed it, and no partnership exists. Prices are hypotheses. | عرض أولي: لم توقّعه أي عيادة، ولا توجد أي شراكة. الأسعار فرضيات. | |
+
+## Feeding log (build week D2, 20 Nov, draft Arabic, not native-reviewed)
+Every Arabic string below is a draft written with Claude Code (an AI review, not a native speaker's; #23 still applies).
+Feminine address on her card (`feeding.*`). Terms to check: «رضعة/رضعات» (a feed), «حليب مشفوط» (expressed milk),
+«حليب صناعي» (formula), «التقام الثدي» (latch), «حفاضات مبللة» (wet nappies), «أخصائية الرضاعة الطبيعية» (breastfeeding
+specialist). The support lines and the note come from the API (`backend/app/services/feeding.py`, `SUPPORT` and `NOTE`);
+the two NHS summaries (`knowledge_base/summaries/nhs_breastfeeding_enough_milk.md`, `nhs_breastfeeding_problems.md`)
+also have Arabic sections.
+
+| Key | English | Arabic (draft) | Note |
+| --- | --- | --- | --- |
+| `feeding.title` | Feeds | الرضعات | |
+| `feeding.today` | {count, plural, =0 {No feeds logged today} one {# feed today} other {# feeds today}} | {count, plural, =0 {لم تُسجَّل رضعات اليوم} one {رضعة واحدة اليوم} two {رضعتان اليوم} few {# رضعات اليوم} many {# رضعة اليوم} other {# رضعة اليوم}} | |
+| `feeding.intro` | Tap after each feed: a simple log you can show your midwife, nurse or doctor. | اضغطي بعد كل رضعة: سجل بسيط يمكنكِ عرضه على القابلة أو الممرضة أو الطبيب. | |
+| `feeding.kind.breast` | Breastfeed | رضاعة طبيعية | |
+| `feeding.kind.expressed` | Expressed milk | حليب مشفوط | |
+| `feeding.kind.formula` | Formula | حليب صناعي | |
+| `feeding.logAs` | {kind}: log a feed now | {kind}: سجّلي رضعة الآن | |
+| `feeding.worryLegend` | Anything worrying you? Tap it before you log the feed (optional). | هل يقلقكِ شيء؟ اختاريه قبل تسجيل الرضعة (اختياري). | |
+| `feeding.worry.latch` | Latch | التقام الثدي | |
+| `feeding.worry.pain` | Pain | ألم | |
+| `feeding.worry.few_wet_nappies` | Fewer wet nappies | حفاضات مبللة أقل | |
+| `feeding.saved` | Logged: {kind} | تم التسجيل: {kind} | |
+| `feeding.saveFailed` | Not saved: {detail} | لم يُحفظ: {detail} | |
+| `feeding.chartTitle` | Your last 7 days | آخر 7 أيام | |
+| `feeding.chartSummary` | {total, plural, =0 {No feeds logged} one {# feed logged} other {# feeds logged}} in the last {days} days. | {total, plural, =0 {لم تُسجَّل رضعات} one {رضعة واحدة مسجّلة} two {رضعتان مسجّلتان} few {# رضعات مسجّلة} many {# رضعة مسجّلة} other {# رضعة مسجّلة}} في آخر {days} أيام. | |
+| `feeding.dayLabel` | {date}: {total, plural, =0 {no feeds} one {# feed} other {# feeds}} (breast {breast}, expressed {expressed}, formula {formula}) | {date}: {total, plural, =0 {لا رضعات} one {رضعة واحدة} two {رضعتان} few {# رضعات} many {# رضعة} other {# رضعة}} (طبيعية {breast}، حليب مشفوط {expressed}، حليب صناعي {formula}) | |
+| `feeding.tableToggle` | Show as a list | عرض كقائمة | |
+| `feeding.supportTitle` | About the worries you logged | عن المخاوف التي سجّلتِها | |
+| `feeding.worryLogged` | {worry}: logged {times, plural, one {once} other {# times}}, last on {date} | {worry}: سُجّل {times, plural, one {مرة واحدة} two {مرتين} few {# مرات} many {# مرة} other {# مرة}}، آخرها في {date} | |
+| API `SUPPORT.latch` | Latching can take practice for you and your baby. A midwife, nurse or breastfeeding specialist can watch a feed and help with positioning, and it helps to ask early. | قد يحتاج التقام الثدي إلى بعض التمرّن منكِ ومن طفلكِ. تستطيع القابلة أو الممرضة أو أخصائية الرضاعة الطبيعية مشاهدة رضعة ومساعدتكِ في وضعية الرضاعة، ومن الأفضل أن تطلبي المساعدة مبكراً. | safety-adjacent: read first |
+| API `SUPPORT.pain` | Pain during feeds is common in the first weeks but it should not be ignored. A midwife, nurse or breastfeeding specialist can check how your baby latches. If a breast stays red, hot and painful, talk to your doctor. | الألم أثناء الرضاعة شائع في الأسابيع الأولى، لكن لا ينبغي تجاهله. تستطيع القابلة أو الممرضة أو أخصائية الرضاعة الطبيعية التحقق من طريقة التقام طفلكِ للثدي. وإذا بقي الثدي أحمر وساخناً ومؤلماً، تحدّثي مع طبيبتكِ أو طبيبكِ. | safety-adjacent: read first |
+| API `SUPPORT.few_wet_nappies` | From day 5, babies usually have at least 6 heavy wet nappies every 24 hours. If you are seeing fewer, talk to your midwife, nurse or your baby's doctor. | بدءاً من اليوم الخامس، يبلّل الطفل عادةً 6 حفاضات ثقيلة على الأقل كل 24 ساعة. إذا لاحظتِ عدداً أقل، تحدّثي مع القابلة أو الممرضة أو طبيب طفلكِ. | safety-adjacent: read first |
+| API `NOTE` | This log is for you and your care team. It does not tell whether your baby is getting enough milk; your baby's weight checks and your midwife, nurse or doctor do. | هذا السجل لكِ ولفريق رعايتكِ. وهو لا يحدد ما إذا كان طفلكِ يحصل على ما يكفيه من الحليب؛ فهذا ما يبيّنه قياس وزن طفلكِ والقابلة أو الممرضة أو الطبيب. | |

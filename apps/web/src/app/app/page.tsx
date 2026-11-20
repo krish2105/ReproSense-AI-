@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AfterBirthArc, CycleArc, PregnancyArc } from "@/components/charts/Arc";
 import { BabyCard } from "@/components/home/BabyCard";
+import { FeedingCard } from "@/components/home/FeedingCard";
 import { BloodPressureCard } from "@/components/home/BloodPressureCard";
 import { DayPills } from "@/components/home/DayPills";
 import { FollowUpStory } from "@/components/home/FollowUpStory";
@@ -129,6 +130,8 @@ export default async function Home() {
         {h.postnatal && !h.crisis && <PostnatalCard p={h.postnatal} refDate={h.ref_date} />}
 
         {h.baby && !h.crisis && <BabyCard key={h.profile.id} s={h.baby} refDate={h.ref_date} />}
+
+        {h.feeding && !h.crisis && <FeedingCard s={h.feeding} refDate={h.ref_date} />}
 
         {h.preconception && !h.crisis && <PreconceptionCard key={h.profile.id} initial={h.preconception} />}
 

@@ -338,6 +338,24 @@ export interface BpSummary {
   recent: BpReading[]; // newest first
 }
 
+/** GET /v1/me/home .feeding, POST /v1/feeds (build week D2): her last 7 days of feeds after a birth. No amounts. */
+export type FeedKind = "breast" | "expressed" | "formula";
+export type FeedWorryId = "latch" | "pain" | "few_wet_nappies";
+export interface FeedDay {
+  date: string;
+  breast: number;
+  expressed: number;
+  formula: number;
+  total: number;
+}
+export interface FeedingSummary {
+  days: FeedDay[]; // 7 days, oldest first, the last is ref_date
+  today: number;
+  last: { id: string; date: string; time: string | null; kind: FeedKind; worries: FeedWorryId[] } | null;
+  worries: { id: FeedWorryId; times: number; last_on: string; text: string; sources: string[]; source_links: Source[] }[];
+  note: string;
+}
+
 export interface HomeResponse {
   profile: {
     id: string;
@@ -368,6 +386,7 @@ export interface HomeResponse {
   baby: BabySchedule | null;
   preconception: Preconception | null;
   blood_pressure: BpSummary;
+  feeding: FeedingSummary | null;
 }
 
 /** POST /v1/logs */
