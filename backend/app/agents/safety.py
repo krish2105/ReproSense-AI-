@@ -391,7 +391,7 @@ _FOLIC = _c(r"folic|فوليك")
 def medicine(text: str) -> bool:
     t = norm(text)
     med = _MED.search(t) or _MED_R3.search(t)
-    act = _MED_ACT.search(t) or _MED_ACT_R3.search(t)
+    act = _MED_ACT.search(t) or _MED_ACT_R3.search(t) or _DOSE_AR.search(t)  # D5: «كم جرعة …» is a dose question
     return bool(med and act and not _FOLIC.search(t))
 
 
@@ -682,9 +682,20 @@ def _clauses_without(t: str, pattern: re.Pattern) -> str:
     return " . ".join(c for c in re.split(r"[.!?؟،,\n]+", t) if not pattern.search(c))
 
 
+# D5 (19 Nov, Arabic-first pass, G2 pending Krishna): Gulf forms the word checks missed in 30 new Arabic probes.
+# «أأذي» (I harm) folds to «ااذي», which the "harm the baby" pattern's \b(اذي) could not match; "sleep and not wake up"
+# was only caught after «أتمنى»; and taking a lot of pills had no Arabic form. English already routes all three.
+CRISIS_D5 = _c(
+    r"(افكار|افكر|فكره|ابي|ابا|ودي|اخاف|خايفه|اتخيل) .{0,20}(ااذي|ااوذي|اذي|اوذي|اقتل) (البيبي|الطفل|الياهل|بنتي|ابني|ولدي|طفلي|الرضيع|المولود|بنيتي)",
+    r"(ابي |ابا |ودي |ابغي |عشان |حتي |اريد )?(انام|انوم) .{0,12}(وما|ولا|و ما|وما عاد|ولا عاد) (اصحي|اقوم|اصحا)",
+    r"(اخذت|خذيت|بلعت|شربت|اكلت) .{0,12}(حبوب|حبات|اقراص|دوا|ادويه)\w* .{0,12}(وايد|واجد|كثير|كثيره|كلها|كله|الشريط|العلبه)",
+)
+_DOSE_AR = _c(r"جرعه|الجرعه|جرعات|كم (حبه|حبات|قرص|اقراص|ملغ|مليغرام|مل|وحده|ابره)")
+
+
 def crisis(text: str) -> bool:
     t = norm(text)
-    if CRISIS.search(t) or CRISIS_MORE.search(t) or CRISIS_R3.search(t) or CRISIS_FIX.search(t):
+    if CRISIS.search(t) or CRISIS_MORE.search(t) or CRISIS_R3.search(t) or CRISIS_FIX.search(t) or CRISIS_D5.search(t):
         return True
     if _TAKE_WITH_R3.search(t) and _GONE_R3.search(t):
         return True
