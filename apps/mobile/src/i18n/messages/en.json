@@ -1890,6 +1890,31 @@
       }
     }
   },
+  "feeding": {
+    "title": "Feeds",
+    "today": "{count, plural, =0 {No feeds logged today} one {# feed today} other {# feeds today}}",
+    "intro": "Tap after each feed: a simple log you can show your midwife, nurse or doctor.",
+    "kind": {
+      "breast": "Breastfeed",
+      "expressed": "Expressed milk",
+      "formula": "Formula"
+    },
+    "logAs": "{kind}: log a feed now",
+    "worryLegend": "Anything worrying you? Tap it before you log the feed (optional).",
+    "worry": {
+      "latch": "Latch",
+      "pain": "Pain",
+      "few_wet_nappies": "Fewer wet nappies"
+    },
+    "saved": "Logged: {kind}",
+    "saveFailed": "Not saved: {detail}",
+    "chartTitle": "Your last 7 days",
+    "chartSummary": "{total, plural, =0 {No feeds logged} one {# feed logged} other {# feeds logged}} in the last {days} days.",
+    "dayLabel": "{date}: {total, plural, =0 {no feeds} one {# feed} other {# feeds}} (breast {breast}, expressed {expressed}, formula {formula})",
+    "tableToggle": "Show as a list",
+    "supportTitle": "About the worries you logged",
+    "worryLogged": "{worry}: logged {times, plural, one {once} other {# times}}, last on {date}"
+  },
   "baby": {
     "eyebrowDays": "{days, plural, =0 {Your baby, born today} one {Your baby, # day old} other {Your baby, # days old}}",
     "eyebrow": "{weeks, plural, one {Your baby, # week old} other {Your baby, # weeks old}}",

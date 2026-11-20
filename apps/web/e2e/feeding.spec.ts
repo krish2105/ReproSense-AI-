@@ -16,7 +16,7 @@ test.describe("feeding log", () => {
     await expect(card.getByRole("heading", { name: en.feeding.title })).toBeVisible();
     await expect(card.getByTestId("feeding-today")).toHaveText("4 feeds today");
     await expect(card.locator('[data-worry="pain"]')).toContainText("midwife, nurse or breastfeeding specialist");
-    await expect(card.getByRole("link", { name: /Common breastfeeding problems/ })).toHaveAttribute("href", /nhs\.uk/);
+    await expect(card.getByRole("link", { name: /Common breastfeeding problems/ })).toHaveAttribute("href", "https://www.nhs.uk/baby/breastfeeding-and-bottle-feeding/breastfeeding-problems/common-problems/");
     await expect(card.getByRole("img", { name: new RegExp(en.feeding.chartTitle) })).toBeVisible();
 
     const worry = card.getByRole("button", { name: en.feeding.worry.few_wet_nappies });

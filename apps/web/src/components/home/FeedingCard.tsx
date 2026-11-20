@@ -143,7 +143,7 @@ function FeedChart({ days, locale }: { days: FeedDay[]; locale: Locale }) {
         ))}
       </ul>
       <div dir="ltr">
-        <svg viewBox={`0 0 ${W} ${H}`} width="100%" role="img" aria-labelledby={`${id}-title ${id}-sum`}>
+        <svg data-chart="feeding" viewBox={`0 0 ${W} ${H}`} width="100%" role="img" aria-labelledby={`${id}-title ${id}-sum`}>
           <defs>
             <pattern id="feed-hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
               <rect width="5" height="5" fill="var(--sheet)" />
