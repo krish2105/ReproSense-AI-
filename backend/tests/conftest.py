@@ -5,6 +5,7 @@ os.environ.setdefault("RATE_LIMIT_PER_MIN", "100000")
 os.environ.setdefault("RATE_LIMIT_SENSITIVE_PER_MIN", "100000")
 os.environ.setdefault("DEMO_RESET_COOLDOWN_S", "0")  # tests reset often; test_hardening.py checks the cooldown
 os.environ["LLM_PROVIDER"] = "none"  # tests are deterministic and offline
+os.environ.setdefault("DEMO_MODE", "true")  # the tests exercise the demo doors; the setting's own default is off
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402

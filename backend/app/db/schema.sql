@@ -191,7 +191,7 @@ CREATE TABLE audit_log (
 );
 
 -- clinician visibility: an active care_share consent to the clinician's clinic. SECURITY DEFINER avoids RLS recursion.
-CREATE OR REPLACE FUNCTION clinician_can_see(pid text) RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER AS $$
+CREATE OR REPLACE FUNCTION clinician_can_see(pid text) RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public, pg_temp AS $$
   SELECT app_role() = 'clinician' AND EXISTS (
     SELECT 1 FROM consents c WHERE c.profile_id = pid AND c.purpose = 'care_share' AND c.granted
       AND c.revoked_at IS NULL AND c.clinic_id = app_clinic())
@@ -203,6 +203,11 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO reprosens
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO reprosense_app;
 REVOKE UPDATE, DELETE ON audit_log FROM reprosense_app;      -- append-only
 REVOKE DELETE ON clinic_invites FROM reprosense_app;          -- revoked, never deleted: the history stays
+-- Who a profile is (role, clinic, is_synthetic, alias, age...) is set once, when it is made. The API may change only her
+-- three settings (PATCH /v1/me), so a mass-assignment slip can never turn her into a clinician: her passkey would then
+-- open the staff door with her clinic (20 Nov security assessment, F4). Owner connections (seed, CLI) are unaffected.
+REVOKE UPDATE ON profiles FROM reprosense_app;
+GRANT UPDATE (discreet, language, onboarded) ON profiles TO reprosense_app;
 
 -- ---------- row-level security ----------
 DO $$
@@ -270,18 +275,18 @@ CREATE POLICY anyone_append ON audit_log FOR INSERT WITH CHECK (app_role() IN ('
 CREATE POLICY subject_read ON audit_log FOR SELECT USING (app_role() = 'patient' AND subject_id = app_user());
 CREATE POLICY admin_read ON audit_log FOR SELECT USING (app_role() = 'admin');
 -- the hash chain needs the latest hash; a SECURITY DEFINER helper exposes only that value
-CREATE OR REPLACE FUNCTION audit_last_hash() RETURNS text LANGUAGE sql STABLE SECURITY DEFINER AS $$
+CREATE OR REPLACE FUNCTION audit_last_hash() RETURNS text LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public, pg_temp AS $$
   SELECT coalesce((SELECT hash FROM audit_log ORDER BY id DESC LIMIT 1), 'GENESIS')
 $$;
 GRANT EXECUTE ON FUNCTION audit_last_hash(), clinician_can_see(text), app_role(), app_user(), app_clinic() TO reprosense_app;
 
 -- admin dashboard: live care-gap counts as aggregates only (no row access to patient tables)
-CREATE OR REPLACE FUNCTION care_gap_counts() RETURNS TABLE(status text, n bigint) LANGUAGE sql STABLE SECURITY DEFINER AS $$
+CREATE OR REPLACE FUNCTION care_gap_counts() RETURNS TABLE(status text, n bigint) LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public, pg_temp AS $$
   SELECT status, count(*) FROM care_gaps WHERE app_role() IN ('admin', 'system') GROUP BY status
 $$;
 GRANT EXECUTE ON FUNCTION care_gap_counts() TO reprosense_app;
 -- The same counts by follow-up type (the after-birth glucose test is one part of DoH Jawda KPI PC008).
-CREATE OR REPLACE FUNCTION care_gap_counts_by_type() RETURNS TABLE(type text, status text, n bigint) LANGUAGE sql STABLE SECURITY DEFINER AS $$
+CREATE OR REPLACE FUNCTION care_gap_counts_by_type() RETURNS TABLE(type text, status text, n bigint) LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public, pg_temp AS $$
   SELECT type, status, count(*) FROM care_gaps WHERE app_role() IN ('admin', 'system') GROUP BY type, status
 $$;
 GRANT EXECUTE ON FUNCTION care_gap_counts_by_type() TO reprosense_app;
@@ -290,7 +295,7 @@ GRANT EXECUTE ON FUNCTION care_gap_counts_by_type() TO reprosense_app;
 -- share with her clinic (an active care_share consent), by type, status and age band. Nothing for any other role or
 -- clinic. Under a non-superuser owner the profiles join is filtered by RLS and the band reads 'not recorded'.
 CREATE OR REPLACE FUNCTION clinic_follow_up_counts() RETURNS TABLE(type text, status text, age_band text, n bigint)
-LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public, pg_temp AS $$
   SELECT f.type, f.status, f.age_band, count(*) FROM (
     SELECT m.care_gap_type AS type, m.care_gap_status AS status, m.age_band
       FROM cohort_members m WHERE m.clinic_id = app_clinic() AND m.care_gap_type IS NOT NULL
@@ -304,7 +309,7 @@ LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
 $$;
 -- Records shared with her clinic: synthetic cohort members who consented plus live demo records with an active consent.
 CREATE OR REPLACE FUNCTION clinic_shared_record_count() RETURNS bigint
-LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public, pg_temp AS $$
   SELECT CASE WHEN app_role() = 'clinic_admin' AND app_clinic() <> '' THEN
     (SELECT count(*) FROM cohort_members WHERE clinic_id = app_clinic() AND consented_care_share)
     + (SELECT count(DISTINCT profile_id) FROM consents WHERE purpose = 'care_share' AND granted AND revoked_at IS NULL
@@ -318,7 +323,7 @@ GRANT EXECUTE ON FUNCTION clinic_follow_up_counts(), clinic_shared_record_count(
 -- her care_share choices, her confirmed lab uploads and the clinicians' opens of her record. Nothing for anyone else.
 CREATE OR REPLACE FUNCTION follow_up_audit(pid text, gap int)
 RETURNS TABLE(id bigint, at timestamptz, actor_role text, actor_id text, action text, target text, detail jsonb, hash text)
-LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public, pg_temp AS $$
   SELECT a.id, a.at, a.actor_role, a.actor_id, a.action, a.target, a.detail, a.hash FROM audit_log a
   WHERE (clinician_can_see(pid) OR (app_role() = 'patient' AND pid = app_user()))
     AND a.subject_id = pid
@@ -334,7 +339,7 @@ $$;
 CREATE OR REPLACE FUNCTION follow_up_loop()
 RETURNS TABLE(clinic_id text, type text, status text, opened_at timestamptz, window_end date, booked_at timestamptz,
               done_at timestamptz, result_at timestamptz, report_opened_at timestamptz)
-LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public, pg_temp AS $$
   SELECT g.clinic_id, g.type, g.status, g.opened_at, g.window_end,
     (SELECT min(a.at) FROM audit_log a WHERE a.target = 'care_gap:' || g.id AND a.action = 'care_gap_in_progress'),
     CASE WHEN g.status = 'closed' THEN g.updated_at END,
@@ -356,7 +361,7 @@ $$;
 CREATE OR REPLACE FUNCTION audit_event_rows(p_clinic text DEFAULT NULL)
 RETURNS TABLE(id bigint, at timestamptz, actor_role text, actor_id text, action text, subject_id text, target text,
               clinic_id text)
-LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public, pg_temp AS $$
   SELECT e.* FROM (
     SELECT a.id, a.at, a.actor_role, a.actor_id, a.action, a.subject_id, a.target,
       coalesce(s.clinic_id, i.clinic_id, g.clinic_id,

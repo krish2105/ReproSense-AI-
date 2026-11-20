@@ -181,7 +181,16 @@ table {{ width: 100%; border-collapse: collapse; font-size: 8.6pt; }} td, th {{ 
 </body></html>"""
 
 
+def url_fetcher():
+    """The doctor report loads nothing from outside: no images, fonts or style sheets by URL. Every value in it is
+    escaped text already; refusing every protocol but data: means a slip in that escaping could still never make the
+    API server request an internal address or read a local file into a PDF (20 Nov security assessment, F6)."""
+    from weasyprint.urls import URLFetcher
+
+    return URLFetcher(allowed_protocols={"data"}, timeout=2, allow_redirects=False)
+
+
 def render_pdf(pl: dict) -> bytes:
     from weasyprint import HTML  # imported lazily: needs Pango (brew install pango; DYLD_FALLBACK_LIBRARY_PATH)
 
-    return HTML(string=render_html(pl)).write_pdf()
+    return HTML(string=render_html(pl), url_fetcher=url_fetcher()).write_pdf()

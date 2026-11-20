@@ -26,13 +26,36 @@ ROW = re.compile(
     r"^(?P<name>.+?)\s{2,}(?P<value>[<>]?\d+(?:\.\d+)?)\s*(?P<unit>[A-Za-z%/µ]+(?:/[A-Za-z]+)?)?\s*"
     r"(?P<ref>(?:[<>]\s*\d+(?:\.\d+)?)|(?:\d+(?:\.\d+)?\s*-\s*\d+(?:\.\d+)?))?\s*(?P<flag>\b[HL]\b)?\s*$"
 )
-DATE = re.compile(r"(?:sample|collection|collected|date)[^\n:]*:\s*(\d{4}-\d{2}-\d{2})", re.I)
+# The label may be up to 60 characters before its colon ("Collection date (local):"). Unbounded, every "date" on a long
+# line rescanned the rest of it.
+DATE = re.compile(r"(?:sample|collection|collected|date)[^\n:]{0,60}:\s*(\d{4}-\d{2}-\d{2})", re.I)
+
+# Bounds on what the patterns above ever see (20 Nov security assessment, F1). Python's regex engine backtracks: on one
+# crafted line, ROW, DATE and INJECTION each took time growing with the square of the line (8,000 spaces: 1.8 s), and an
+# upload may be 10 MB. The engine holds the interpreter lock while it matches, so one such upload froze every request on
+# the API. A lab result row is far shorter than MAX_LINE; a 30-page report has well under MAX_LINES lines.
+MAX_LINE = 400
+MAX_LINES = 5000
+_GAP = re.compile(r"\s{2,}")  # linear: each run of whitespace is matched once, left to right
+
+
+def _lines(text: str) -> list[str]:
+    """The upload's lines as the parser reads them. A run of two or more spaces or tabs becomes two spaces (still a
+    column gap for ROW, so aligned reports read as before), and a line still longer than MAX_LINE is skipped: it cannot
+    be a result row, and skipping it keeps every pattern's work linear in the upload."""
+    out = []
+    for raw in (text or "").splitlines()[:MAX_LINES]:
+        line = _GAP.sub("  ", raw)
+        if len(line) <= MAX_LINE:
+            out.append(line)
+    return out
 
 
 def sanitise(text: str) -> tuple[str, int]:
     kept, dropped = [], 0
-    for line in (text or "").splitlines():
-        if INJECTION.search(line):
+    for line in _lines(text):
+        # Checked with single spaces, so padding between the words ("Ignore     previous") does not hide the line.
+        if INJECTION.search(" ".join(line.split())):
             dropped += 1
             continue
         kept.append(line)
