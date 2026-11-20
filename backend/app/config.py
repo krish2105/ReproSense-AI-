@@ -57,6 +57,9 @@ class Settings(BaseSettings):
     # again" and the render finishes and is cached. No clinical meaning.
     pdf_workers: int = 2
     pdf_timeout_s: float = 12.0
+    # Start the PDF workers at boot and render each saved report as soon as it is created, so the first download after
+    # the free host wakes is not a 503 (live check, 20 Nov). Tests turn it off. No clinical meaning.
+    pdf_warm: bool = True
     log_level: str = "INFO"  # the API's JSON logs (app/observability.py); no clinical meaning
     # The demo reset rebuilds every table and anyone can press it on the public demo: one at a time, one per window.
     demo_reset_cooldown_s: int = 60

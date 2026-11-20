@@ -5,6 +5,7 @@ from __future__ import annotations
 import base64
 import binascii
 import logging
+import threading
 from contextlib import asynccontextmanager
 
 import psycopg
@@ -63,7 +64,22 @@ async def lifespan(_app: FastAPI):
         ensure_addon_tables()  # K5 and Y4: a database seeded before them gains their tables
     except Exception as e:  # the API still starts; sign-in answers 500 until the database is reachable
         log.warning("sign-in and family tables not checked: %s", type(e).__name__)
+    if s.pdf_warm and s.pdf_workers > 0:  # in the background: the API answers while the PDF workers start
+        from app.reports import render_pool
+
+        threading.Thread(target=render_pool.warm_up, args=(latest_saved_reports,), daemon=True, name="pdf-warm").start()
     yield
+
+
+def latest_saved_reports(limit: int = 20) -> list[dict]:
+    """The newest saved report of each woman, for the PDF warm-up (a saved report never changes)."""
+    with session(SYSTEM) as cur:
+        cur.execute(
+            "SELECT payload FROM (SELECT DISTINCT ON (profile_id) id, payload FROM reports ORDER BY profile_id, id DESC) r"
+            " ORDER BY id DESC LIMIT %s",
+            (limit,),
+        )
+        return [r["payload"] for r in cur.fetchall()]
 
 
 app = FastAPI(

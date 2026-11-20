@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, useTransition } from "react";
 import { Button } from "@/components/ui/Button";
 import { Dialog } from "@/components/ui/Dialog";
+import { PdfLink } from "@/components/ui/PdfLink";
 import { Tag } from "@/components/ui/Tag";
 import { useToast } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/api/client";
@@ -106,12 +107,12 @@ export function ReportActions({ report, shares, now }: { report: ReportRow; shar
   return (
     <>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }} role="group" aria-label={t("report.actions")}>
-        <a className="btn btn-a btn-sm" href={`/api/v1/reports/${report.id}.pdf`} download={`reprosense-report-${report.id}.pdf`}>
+        <PdfLink className="btn btn-a btn-sm" href={`/api/v1/reports/${report.id}.pdf`} download={`reprosense-report-${report.id}.pdf`}>
           {t("report.download")}
-        </a>
-        <a className="btn btn-o btn-sm" href={`/api/v1/reports/${report.id}.pdf`} target="_blank" rel="noopener">
+        </PdfLink>
+        <PdfLink className="btn btn-o btn-sm" href={`/api/v1/reports/${report.id}.pdf`} newTab>
           {t("report.open")}
-        </a>
+        </PdfLink>
         <Button size="sm" variant="outline" onClick={() => setShareOpen(true)}>
           {t("report.share")}
         </Button>

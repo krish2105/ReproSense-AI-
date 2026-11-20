@@ -373,7 +373,9 @@
     "notFoundTitle": "This page doesn't exist",
     "notFoundBody": "The link may be out of date. Pick a person on the demo page to continue.",
     "notFoundAction": "Open the demo people",
-    "close": "Close"
+    "close": "Close",
+    "pdfPreparing": "Preparing the PDF…",
+    "pdfFailed": "The PDF isn't ready yet. Please try again in a moment."
   },
   "regions": {
     "abu_dhabi_city": "Abu Dhabi City",

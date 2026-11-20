@@ -58,6 +58,8 @@ def create_report(actor: Actor = Depends(patient)):
         )
         r = cur.fetchone()
         audit.record(cur, actor, "create_report", actor.user_id, f"report:{r['id']}")
+    # Render it now, in the background, exactly as it was saved, so her download a moment later is ready.
+    render_pool.prefetch(json.loads(json.dumps(pl, default=str, ensure_ascii=False)))
     return {"id": r["id"], "created_at": r["created_at"], "payload": pl}
 
 

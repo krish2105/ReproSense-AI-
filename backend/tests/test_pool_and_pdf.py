@@ -99,8 +99,7 @@ def test_retrieval_is_cached_between_page_views(monkeypatch):
 def _clear_pdf_cache():
     from app.reports import render_pool
 
-    with render_pool._lock:
-        render_pool._cache.clear()
+    render_pool.clear()
 
 
 def test_pdfs_render_in_workers_and_are_cached(client, monkeypatch):
@@ -154,3 +153,99 @@ def test_pdfs_can_render_in_process(client, monkeypatch):
     h = login(client, "hessa")
     rep = client.post("/v1/reports", headers=h).json()
     assert client.get(f"/v1/reports/{rep['id']}.pdf", headers=h).content.startswith(b"%PDF")
+
+
+# ---------- cold starts (live check, 20 Nov: the first PDF after the API woke was a 503) ----------
+class _Pool:
+    """Records what is sent to the PDF workers; renders stay pending until the test finishes them."""
+
+    def __init__(self):
+        self.sent: list[tuple[str, tuple]] = []
+        self.renders: list[Future] = []
+
+    def submit(self, fn, *args):
+        self.sent.append((fn.__name__, args))
+        f: Future = Future()
+        if fn.__name__ == "warm":
+            f.set_result(True)
+        else:
+            self.renders.append(f)
+        return f
+
+
+@pytest.fixture
+def warm_pool(monkeypatch):
+    from app.reports import render_pool
+
+    pool = _Pool()
+    monkeypatch.setattr(render_pool, "_executor", lambda: pool)
+    monkeypatch.setattr(get_settings(), "pdf_warm", True)
+    _clear_pdf_cache()
+    yield pool
+    _clear_pdf_cache()
+
+
+def test_a_new_report_starts_rendering_as_soon_as_it_is_saved(client, warm_pool):
+    h = login(client, "priya")
+    rep = client.post("/v1/reports", headers=h).json()
+    assert [name for name, _ in warm_pool.sent] == ["render_pdf"]  # started before she pressed Download
+    warm_pool.renders[0].set_result(b"%PDF-1.7 ready")
+    r = client.get(f"/v1/reports/{rep['id']}.pdf", headers=h)
+    assert r.status_code == 200 and r.content == b"%PDF-1.7 ready"
+    assert len(warm_pool.sent) == 1  # the download used the render started at save time (same content key)
+
+
+def test_a_download_joins_the_render_already_running(client, warm_pool, monkeypatch):
+    monkeypatch.setattr(get_settings(), "pdf_timeout_s", 0.2)
+    h = login(client, "layla")
+    rep = client.post("/v1/reports", headers=h).json()
+    slow = client.get(f"/v1/reports/{rep['id']}.pdf", headers=h)
+    assert slow.status_code == 503 and slow.headers["retry-after"] == "5"
+    assert len(warm_pool.sent) == 1  # waited on the running render; did not start a second one
+    warm_pool.renders[0].set_result(b"%PDF-1.7 done")
+    assert client.get(f"/v1/reports/{rep['id']}.pdf", headers=h).content == b"%PDF-1.7 done"
+
+
+def test_boot_warm_up_starts_every_worker_then_renders_saved_reports(warm_pool):
+    from app.reports import render_pool
+
+    saved = {"alias": "warm-up test", "n": 1}
+    render_pool.warm_up(lambda: [saved], wait_s=1)
+    names = [name for name, _ in warm_pool.sent]
+    assert names == ["warm"] * get_settings().pdf_workers + ["render_pdf"]
+    assert warm_pool.sent[-1][1] == (saved,)
+
+
+def test_warm_up_and_prefetch_are_off_when_disabled(monkeypatch):
+    from app.reports import render_pool
+
+    def no_pool():
+        raise AssertionError("no workers expected")
+
+    monkeypatch.setattr(render_pool, "_executor", no_pool)
+    monkeypatch.setattr(get_settings(), "pdf_warm", False)
+    render_pool.warm_up(lambda: [{"x": 1}])
+    render_pool.prefetch({"x": 1})
+
+
+def test_a_warm_up_failure_never_stops_the_api(monkeypatch):
+    from app.reports import render_pool
+
+    def broken():
+        raise OSError("no Pango on this host")
+
+    monkeypatch.setattr(render_pool, "_executor", broken)
+    monkeypatch.setattr(get_settings(), "pdf_warm", True)
+    render_pool.warm_up(lambda: [{"x": 1}], wait_s=1)  # logs and returns
+    render_pool.prefetch({"x": 1})
+
+
+def test_latest_saved_reports_are_one_per_woman_newest_first(client):
+    from app.main import latest_saved_reports
+
+    h = login(client, "mariam")
+    client.post("/v1/reports", headers=h)
+    newest = client.post("/v1/reports", headers=h).json()
+    got = latest_saved_reports()
+    mine = [p for p in got if p.get("alias") == newest["payload"]["alias"]]
+    assert len(mine) == 1 and got[0]["alias"] == newest["payload"]["alias"]
