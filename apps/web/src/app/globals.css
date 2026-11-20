@@ -325,7 +325,10 @@ th{font-size:12.5px;color:var(--faint-text);font-weight:700}
 @media (max-width:760px){
   .top .wrap{border-radius:26px}
   .util{margin-inline-start:auto}
-  .nav{order:3;flex-basis:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .nav{order:3;flex-basis:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-inline-end:24px;
+    -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+  /* D5: the strip scrolls; a fade at its end edge says so (in Arabic the end is the left), instead of a cut word */
+  [dir="rtl"] .nav{-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent)}
   .nav a{white-space:nowrap}
   /* deviation: the mockup hid .fict here; the "Demo data — fictional" badge must show on every screen (CLAUDE.md rule 4) */
 }

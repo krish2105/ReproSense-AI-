@@ -217,7 +217,7 @@ REMINDER = {
     ),
     "pregnancy_glucose_screen": (
         "Your pregnancy glucose test (24–28 weeks) is due. Please call the clinic to book it. — {clinic}",
-        "حان موعد فحص سكر الحمل (الأسبوع 24–28). يرجى الاتصال بالعيادة للحجز. — {clinic}",
+        "حان موعد فحص سكر الحمل (الأسابيع 24–28). يرجى الاتصال بالعيادة للحجز. — {clinic}",
     ),
 }
 

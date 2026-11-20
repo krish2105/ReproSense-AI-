@@ -295,7 +295,7 @@ export default async function AdminPage() {
           <p className="s dim" style={{ marginTop: 4, marginBottom: 12 }}>
             {t("admin.roiIntro")}
           </p>
-          <RoiCalculator reports={m.roi_inputs.reports_shared} assumptions={m.roi_inputs.assumptions} />
+          <RoiCalculator reports={m.roi_inputs.reports_shared} assumptions={t("admin.roiAssumptions")} />
         </section>
         <section className="panel" aria-labelledby="audit-title" style={{ padding: 20 }}>
           <h2 id="audit-title" style={{ fontSize: 18 }}>
@@ -316,7 +316,7 @@ export default async function AdminPage() {
             {t("admin.auditExportHint")}
           </p>
           <p className="xs faint" lang="en" dir="auto" style={{ marginTop: 10 }}>
-            {m.cohort.note}
+            {t("admin.cohortNote")}
           </p>
         </section>
       </div>

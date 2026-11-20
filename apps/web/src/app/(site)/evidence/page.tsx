@@ -316,10 +316,10 @@ export default async function EvidencePage() {
                   {atk.attacks.map((a) => (
                     <tr key={a.id}>
                       <td lang="en" dir="auto">
-                        {a.name}
+                        {t.has(`attacks.${a.id}.name`) ? t(`attacks.${a.id}.name`) : a.name}
                       </td>
                       <td lang="en" dir="auto" className="dim">
-                        {a.layer_label}
+                        {t.has(`attacks.${a.id}.layer`) ? t(`attacks.${a.id}.layer`) : a.layer_label}
                       </td>
                       <td>
                         <Tag tone={OUTCOME_TONE[a.result]}>{t(`attackOutcome.${a.result}`)}</Tag>
