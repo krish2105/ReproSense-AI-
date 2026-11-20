@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ReportDoc } from "@/components/report/ReportDoc";
+import { PdfLink } from "@/components/ui/PdfLink";
 import { ErrorState } from "@/components/ui/States";
 import { isLocale } from "@/i18n/config";
 import { ApiError } from "@/lib/api/errors";
@@ -40,9 +41,9 @@ export default async function SharedPage({ params }: { params: Promise<{ token: 
       <p className="page-intro">{t("intro")}</p>
       <p className="s">{t("expires", { date: formatDate(view.expires_at.slice(0, 10), locale) })}</p>
       <ReportDoc p={view.payload} locale={locale} />
-      <a className="btn btn-a btn-sm" style={{ alignSelf: "flex-start" }} href={`/api/v1/shared/${encodeURIComponent(token)}.pdf`} download="reprosense-shared-report.pdf">
+      <PdfLink className="btn btn-a btn-sm" style={{ alignSelf: "flex-start" }} href={`/api/v1/shared/${encodeURIComponent(token)}.pdf`} download="reprosense-shared-report.pdf">
         {t("download")}
-      </a>
+      </PdfLink>
     </div>
   );
 }

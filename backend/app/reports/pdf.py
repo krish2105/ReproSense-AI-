@@ -194,3 +194,11 @@ def render_pdf(pl: dict) -> bytes:
     from weasyprint import HTML  # imported lazily: needs Pango (brew install pango; DYLD_FALLBACK_LIBRARY_PATH)
 
     return HTML(string=render_html(pl), url_fetcher=url_fetcher()).write_pdf()
+
+
+def warm() -> bool:
+    """Load WeasyPrint, Pango and the fonts in a PDF worker before anyone waits on it (app/reports/render_pool.py)."""
+    from weasyprint import HTML
+
+    HTML(string="<p style='font-family: sans-serif'>ReproSense</p>", url_fetcher=url_fetcher()).write_pdf()
+    return True
