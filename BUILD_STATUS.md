@@ -83,7 +83,7 @@ record (Huda, no logs) and on staff accounts with nothing to show. Offline (A6, 
 | Disclosure note of prior designs/research/AI tools; **now also the code written on 5–6 Nov** (QUESTIONS #34, #44) | 🟨 complete note drafted in docs/15 (6 Nov); Krishna: ask the organisers how earlier code is scored, tag `pre-selection-2026-11-16` |
 | Second competition (Future Health Digital Innovation Challenge, Fertility track): registration closes **10 Nov** (QUESTIONS #45) | ⬜ Krishna decides |
 | Native Arabic review of every AR-REVIEW string (landing evidence, join, trust, admin, privacy, assistant) | ⬜ |
-| Pitch deck from the real build (`pitch/deck.html`, PDF backup) | ✅ 6 Nov; fill the marked placeholders only with true facts |
+| Pitch deck: `pitch/ReproSense-submission.pptx` (3 slides, speaker notes) + PDF + MP4 | ✅ 21 Nov; the 6 Nov 10-slide deck was retired |
 | 5+ interviews (clinicians, clinic managers, women) | ⬜ |
 | Clinician reviewer for rules/clinical_rules.yaml (also #17, #27, #28, #35) | ⬜ |
 | Generate images with IMAGE_PROMPTS_CHATGPT.md | ✅ 37 images + 1 duplicate placed in public/images; see ASSET_INTEGRATION_REPORT.md |
