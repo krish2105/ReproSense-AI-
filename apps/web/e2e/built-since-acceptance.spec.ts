@@ -10,6 +10,8 @@ test("a judge sees what was built since acceptance, each pull request linked", a
   await expect(panel.getByTestId("built-per-day").locator("li")).not.toHaveCount(0);
   await panel.getByText(new RegExp(`^Show all ${buildWeek.prs.length} pull requests$`)).click();
   const first = buildWeek.prs[0];
+  expect(first, "tools/build_week.py found no pull requests").toBeTruthy();
+  if (!first) return;
   await expect(panel.getByRole("link", { name: new RegExp(`#${first.number}\\b`) })).toHaveAttribute("href", new RegExp(`/pull/${first.number}$`));
   await expectAccessible(page, "evidence, built since acceptance open");
   await expectNoSideScroll(page, "evidence, built since acceptance open");
