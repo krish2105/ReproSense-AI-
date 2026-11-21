@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproSense: judges' questions and how it works</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 16mm 15mm;
+    @bottom-left { content: "ReproSense AI · HealthX Ajyal 2026 · Q&A pack, 21 Nov · all demo data is fictional"; font: 7.5pt sans-serif; color: #8a7a8f; }
+    @bottom-right { content: counter(page) " / " counter(pages); font: 7.5pt sans-serif; color: #8a7a8f; } }
+  :root { --plum: #4b2e55; --ink: #241a28; --dim: #5d5063; --line: #e4d9e7; --soft: #f6f0f7; --pink: #c2477f; --amber: #8a5a00; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--ink); font-size: 9.4pt; line-height: 1.38; }
+  h1 { font-size: 20pt; color: var(--plum); margin: 0 0 2mm; letter-spacing: -0.3pt; }
+  h2 { font-size: 13.5pt; color: var(--plum); margin: 6mm 0 2mm; padding-bottom: 1mm; border-bottom: 1.5pt solid var(--plum); }
+  h3 { font-size: 10.5pt; color: var(--plum); margin: 4mm 0 1.5mm; }
+  p { margin: 0 0 2mm; }
+  .lede { color: var(--dim); font-size: 10pt; }
+  .break { page-break-before: always; }
+  .who { display: inline-block; font-size: 7.2pt; font-weight: 700; color: #fff; background: var(--plum); border-radius: 3pt; padding: 0.3mm 1.6mm; margin-right: 1.5mm; vertical-align: 1pt; }
+  .who.Y { background: #2f6f5e; } .who.Z { background: #a0427a; } .who.A { background: #3f5a9a; }
+  .q { break-inside: avoid; margin: 0 0 2.6mm; }
+  .q b.t { color: var(--ink); }
+  .q .a { margin: 0.6mm 0 0 0; }
+  .q .deep { margin: 0.6mm 0 0 0; color: var(--dim); font-size: 8.6pt; }
+  .q .deep::before { content: "Deeper (Krishna): "; font-weight: 700; color: var(--plum); }
+  .cheat .q { margin-bottom: 1.8mm; }
+  .cheat .q .a { font-size: 8.9pt; }
+  table { width: 100%; border-collapse: collapse; margin: 1mm 0 3mm; font-size: 8.4pt; }
+  th { text-align: left; background: var(--soft); color: var(--plum); font-weight: 700; padding: 1.2mm 1.6mm; border-bottom: 1pt solid var(--line); }
+  td { padding: 1.1mm 1.6mm; border-bottom: 0.6pt solid var(--line); vertical-align: top; }
+  tr { break-inside: avoid; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 7.8pt; background: var(--soft); padding: 0 1mm; border-radius: 2pt; }
+  .box { background: var(--soft); border-left: 3pt solid var(--plum); padding: 2mm 3mm; margin: 2mm 0 3mm; break-inside: avoid; }
+  .warn { border-left-color: var(--pink); }
+  .flow { display: flex; flex-wrap: wrap; gap: 1.2mm; margin: 2mm 0 3mm; }
+  .flow span { background: #fff; border: 0.8pt solid var(--plum); border-radius: 3pt; padding: 1mm 2mm; font-size: 8.2pt; }
+  .flow i { font-style: normal; color: var(--plum); align-self: center; }
+  .cols { column-count: 2; column-gap: 7mm; }
+  ul { margin: 0 0 2mm 4mm; padding: 0; } li { margin-bottom: 0.8mm; }
+  .small { font-size: 8pt; color: var(--dim); }
+  .tag { font-size: 7pt; font-weight: 700; padding: 0 1.2mm; border-radius: 2pt; }
+  .urgent { background: #fbe3ea; color: #9b1c45; } .soon { background: #fff1d6; color: var(--amber); } .discuss { background: #efe6f3; color: var(--plum); }
+</style>
+</head>
+<body>
+
+<h1>ReproSense AI · Judges' questions, and how it works</h1>
+<p class="lede">For Krishna, Atharva, Yash and Zebo, Sunday 22 Nov 2026. Format: 3 minutes (3 slides, then the demo), then 3 minutes of questions.
+Answer in two or three sentences, then stop. If you don't know: <i>"Good question. We haven't measured that yet. Here's how we'd find out."</i> Never invent a number.</p>
+<p class="small"><span class="who">K</span>Krishna (AI, safety, data, regulation) <span class="who A">A</span>Atharva (the build, the app) <span class="who Y">Y</span>Yash (money, market, pilot) <span class="who Z">Z</span>Zebo (the science: PCOS/PMOS, gestational diabetes, mood after birth)</p>
+
+<div class="box warn"><b>Never say:</b> that it diagnoses, a risk percentage, "independent reviewers" (the held-out questions were written separately from the code), that a clinic has signed, that a clinician has signed the rules, or any interview number that isn't written in our notes.</div>
+
+<h2>Part 1 · The 20 most likely questions (cheat sheet)</h2>
+<div class="cheat cols">
+
+<div class="q"><span class="who">K</span><b class="t">1. Isn't this diagnosing? What if it's wrong?</b>
+<p class="a">It never names a condition or gives a probability. It says "a pattern worth discussing with a doctor", shows the exact entries behind it and cites the guideline. The doctor diagnoses; we make the conversation faster and better informed.</p></div>
+
+<div class="q"><span class="who">K</span><b class="t">2. Who checked your clinical rules?</b>
+<p class="a">Every rule comes from a published guideline and lists its source in one file. No licensed clinician has signed them yet; getting a clinical advisor to sign is our first ask today.</p></div>
+
+<div class="q"><span class="who">K</span><b class="t">3. Where exactly is the AI?</b>
+<p class="a">Language work: turning her typed or spoken sentence into the log form, reading a lab-report photo, answering questions from our cited library, rewording cards and the pre-visit brief. A second safety check can add an urgent route but never remove one. Every decision about a pattern or red flag is a written rule.</p></div>
+
+<div class="q"><span class="who">K</span><b class="t">4. Which model, and where does the data go?</b>
+<p class="a">For the hackathon, Claude Sonnet 5.5 through OpenRouter, on synthetic data only. Names, emails, phone numbers, Emirates ID numbers and exact dates are removed before any text reaches it. The code is provider-agnostic; production would use a UAE-hosted model, and she can switch AI off.</p></div>
+
+<div class="q"><span class="who">K</span><b class="t">5. How do you stop hallucinations?</b>
+<p class="a">Answers come from a curated library and must cite it; a verifier drops any sentence a source doesn't support; if the model fails we show a fixed, sourced template. On our 60-question test set: 30/30 answers grounded, 15/15 diagnosis requests refused, 15/15 red flags caught.</p></div>
+
+<div class="q"><span class="who">K</span><b class="t">6. Who wrote your 132 held-out questions?</b>
+<p class="a">They were written separately from the code, in English and four kinds of Arabic, measured once and never used for tuning. They weren't written by clinicians; clinician-written tests are next. With the AI second check: crisis 30/30, emergencies 32/32.</p></div>
+
+<div class="q"><span class="who">K</span><b class="t">7. What happens if the model is down or slow?</b>
+<p class="a">Nothing safety-related breaks: red flags are plain rules that run first. Each request has a 10-second model budget; after that she gets the sourced template.</p></div>
+
+<div class="q"><span class="who Y">Y</span><b class="t">8. Have you tested this with real women or doctors?</b>
+<p class="a"><i>Only what's in our notes:</i> "This week we spoke to [N] women and [N] clinicians; [one thing they said]." Then: "Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with up to 20 women."</p></div>
+
+<div class="q"><span class="who Y">Y</span><b class="t">9. Who pays, and how much?</b>
+<p class="a">Women use it free. Clinics pay per clinician, AED 399 a month (a price we're testing), and primary-care networks pay for the after-birth module because it closes DoH's PC008 indicator. Insurers and employers later.</p></div>
+
+<div class="q"><span class="who Y">Y</span><b class="t">10. How is this different from Flo, Clue or Nabta?</b>
+<p class="a">Trackers log and predict; Flo's checker matches symptoms to conditions, which we refuse to do. Nabta sells clinic care and consultations. We're the record and the cited rules a clinic uses, Arabic-first, tied to a DoH indicator, and we never sell health data.</p></div>
+
+<div class="q"><span class="who">K</span><b class="t">11. Why wouldn't PureHealth just build this into Pura?</b>
+<p class="a">We'd rather be inside Pura than compete with it. From its public listings, Pura covers consultations, medicines and diabetes but no women's or maternal module; we bring the rules, the Arabic and the safety evidence as that module.</p></div>
+
+<div class="q"><span class="who">K</span><b class="t">12. Is this a medical device?</b>
+<p class="a">It's designed to stay below that line: it doesn't diagnose or recommend treatment. The Emirates Drug Establishment decides, so our first step is a classification memo to them; then a DoH licence and an ADHICS gap assessment.</p></div>
+
+<div class="q"><span class="who">K</span><b class="t">13. Where is the data stored?</b>
+<p class="a">The demo is synthetic and hosted in Frankfurt. Production must stay in the UAE under the Health Data Law; moving to UAE hosting with a penetration test is our February milestone.</p></div>
+
+<div class="q"><span class="who">K</span><b class="t">14. Who can see her data?</b>
+<p class="a">Only her, unless she shares with her clinic, and she can stop sharing, export everything or delete it. Clinicians see only women who shared; the network sees counts only, with groups under 10 hidden.</p></div>
+
+<div class="q"><span class="who Z">Z</span><b class="t">15. PCOS was renamed PMOS. Why say PCOS?</b>
+<p class="a">The Lancet consensus renamed it in May 2026, with a three-year transition, and the international guideline adopts PMOS in 2028. Our search already understands PMOS; we show PCOS because women and doctors here still use it.</p></div>
+
+<div class="q"><span class="who Z">Z</span><b class="t">16. Where does "18 more mothers per 1,000 births" come from?</b>
+<p class="a">It's arithmetic, not our result: 21.3% gestational diabetes in Al Ain × lifting the test from 25.4% to 50% × 34.5% of tests showing raised sugar (pooled from 18 studies). Every input is editable on /pilot; the pilot measures the real number.</p></div>
+
+<div class="q"><span class="who Z">Z</span><b class="t">17. What if she writes something about harming herself?</b>
+<p class="a">She sees support first: 998 and DoH's 24/7 line 800-SAKINA, never a score. After birth the EPDS mood check's self-harm question goes straight to that path.</p></div>
+
+<div class="q"><span class="who A">A</span><b class="t">18. Was this built after acceptance? How much did AI write?</b>
+<p class="a">The core record was started before selection (56 pull requests, all public); since acceptance we merged 57 more, listed with dates on /evidence. About half the code was written with AI assistance (Claude Code) and the rest by hand; every change went through a reviewed pull request with tests, and we disclose AI use in the app and the deck.</p></div>
+
+<div class="q"><span class="who">K</span><b class="t">19. Will you continue after today?</b>
+<p class="a">Yes. We're forming the company to run the pilot. Next: the device memo, interviews and a clinic letter of intent, UAE hosting, then a pilot at one clinic.</p></div>
+
+<div class="q"><span class="who">K</span><b class="t">20. What's your biggest risk?</b>
+<p class="a">Trust: women and doctors trusting an app with health data. That's why it never diagnoses, shows its evidence, lets her switch AI off and delete everything, and why our first ask is clinical sign-off, not more features.</p></div>
+</div>
+
+<!-- ============================================================ -->
+<h2 class="break">Part 2 · How ReproSense works (what's in the backend)</h2>
+<p>One sentence: <b>written rules decide; AI only handles language; everything is checked, logged and explained.</b></p>
+
+<h3>The path a record takes (the pattern pipeline, LangGraph)</h3>
+<div class="flow">
+  <span>Her entries (cycles, symptoms, pain, BP, labs, mood)</span><i>→</i>
+  <span>1 Intake: reads the record</span><i>→</i>
+  <span>2 Signal: computes features, runs the written rules (no AI)</span><i>→</i>
+  <span>3 Safety: red flags first; crisis stops here</span><i>→</i>
+  <span>4 Evidence: finds guideline passages</span><i>→</i>
+  <span>5 Writer: plain words (AI or template)</span><i>→</i>
+  <span>6 Verifier: drops unsupported sentences</span><i>→</i>
+  <span>7 Care gaps: opens or closes follow-ups</span>
+</div>
+<p class="small">Every card shows this trace ("How this card was produced"): the rule, the numbers it used and each step with its timing.</p>
+
+<h3>The stack</h3>
+<table>
+  <tr><th style="width:22%">Part</th><th>What we used</th></tr>
+  <tr><td>API</td><td>Python 3.12, FastAPI, Pydantic v2; LangGraph for the 7-step pipeline; WeasyPrint for the doctor PDF; FHIR R4 export (Patient and Observations), validated in tests</td></tr>
+  <tr><td>Database</td><td>PostgreSQL 17 with pgvector. Forced row-level security on every table with personal data: the database itself refuses a woman's record to anyone she hasn't allowed. Tables include consents, follow-ups (care gaps), shares and a hash-chained audit log</td></tr>
+  <tr><td>Rules engine</td><td>One versioned file, <code>rules/clinical_rules.yaml</code>: 7 red flags, 13 observations and follow-ups, 4 validated questionnaires. A safe expression parser reads each rule; there's no <code>eval</code></td></tr>
+  <tr><td>Library search (RAG)</td><td>Our own summaries of guidelines and NHS/NICE/DoH pages, in English and Arabic. Hybrid search: Postgres full-text plus vector similarity, fused and re-ranked by how rare each term is. Every answer cites its numbered sources</td></tr>
+  <tr><td>AI client</td><td>Provider-agnostic: Claude through OpenRouter in the hackathon (Claude Sonnet 5.5), a UAE-hosted model in production, or none. De-identification before every call, a 10-second budget per request, one retry, a cache, and a template when there's no answer</td></tr>
+  <tr><td>Security</td><td>Signed sessions; passkeys for women and staff, plus an authenticator code for DoH admins; 30-minute staff sessions with real logout; AES-256-GCM encryption for notes and uploaded documents; rate limits; a content security policy; secret, code and dependency scanning in CI</td></tr>
+  <tr><td>Web and phone</td><td>Next.js 16 and TypeScript, English and Arabic (right to left), 3D views with React Three Fiber and flat fallbacks, installable as an app; an Expo iPhone app on the same API</td></tr>
+  <tr><td>Hosting (demo)</td><td>Vercel (web) and Render (API and database) in Frankfurt, synthetic data only. Production: UAE region (AWS me-central-1 or Azure UAE North)</td></tr>
+  <tr><td>Tests</td><td>Recorded 19 Nov: 731 backend tests, 96 web unit tests and 252 browser tests (desktop and phone width, English and Arabic, with accessibility checks), run on every pull request</td></tr>
+</table>
+
+<h3>Where AI is used, and where it isn't</h3>
+<table>
+  <tr><th style="width:30%">Place</th><th>What the AI does</th><th style="width:30%">What keeps it safe</th></tr>
+  <tr><td>Log by sentence or voice</td><td>Turns "cramps, missed work, pain 7" (English or Gulf Arabic) into form fields</td><td>Nothing saves until she checks it; red flags come from word checks, not the model</td></tr>
+  <tr><td>Lab-report photo</td><td>Reads values from a photo of a report</td><td>She confirms every value; text in the report is treated as data, never instructions</td></tr>
+  <tr><td>Assistant answers</td><td>Writes the answer from retrieved library passages</td><td>Must cite sources; unsupported sentences dropped; refuses diagnosis; 998 first for urgent words</td></tr>
+  <tr><td>Assistant routing</td><td>Helps pick the topic of a question</td><td>Safety routes are decided before it runs</td></tr>
+  <tr><td>Safety second check</td><td>Reads a message (names removed) for crisis or urgency the word checks missed</td><td>Can only <b>add</b> a crisis or urgent route, never remove one</td></tr>
+  <tr><td>Pattern card wording</td><td>Rewords the rule's template in plain language</td><td>Verifier checks each sentence; the template is the fallback (the live cards currently show the template)</td></tr>
+  <tr><td>"Before your visit" brief</td><td>Rewords what changed since her last visit</td><td>Numbers come from code; the AI only rewords</td></tr>
+  <tr><td>Her record lane</td><td>Answers "how long were my cycles?" in words</td><td>The numbers are computed by code; next steps need her approval</td></tr>
+  <tr><td><b>Not AI</b></td><td colspan="2">Every pattern, every red flag, every follow-up, every number, the doctor PDF, consent and who can see what. She can switch AI off in Privacy; the app still works.</td></tr>
+</table>
+
+<h3>The women's-health logic: 7 red flags (always checked first)</h3>
+<table>
+  <tr><th style="width:24%">Red flag</th><th>When it fires (plain words)</th><th style="width:26%">Source</th></tr>
+  <tr><td><span class="tag urgent">urgent</span> Heavy bleeding + dizziness</td><td>Heavy bleeding today with dizziness or fainting</td><td>NHS heavy periods</td></tr>
+  <tr><td><span class="tag urgent">urgent</span> Sudden severe pelvic pain</td><td>Sudden severe pelvic pain with a possible pregnancy or fever</td><td>NHS pelvic pain; NICE NG126 (ectopic)</td></tr>
+  <tr><td><span class="tag urgent">urgent</span> Bleeding in pregnancy or after menopause</td><td>Any bleeding when pregnant or postmenopausal</td><td>NHS bleeding in pregnancy</td></tr>
+  <tr><td><span class="tag urgent">urgent</span> Self-harm thoughts</td><td>EPDS question 10 answered above zero</td><td>NICE CG192; EPDS (Cox 1987); DoH 800-SAKINA</td></tr>
+  <tr><td><span class="tag urgent">urgent</span> Pregnancy warning signs</td><td>Pregnant with bleeding, severe abdominal pain, fewer baby movements, severe headache or vision changes</td><td>NHS; NICE NG201, NG133; pre-eclampsia</td></tr>
+  <tr><td><span class="tag urgent">urgent</span> After-birth warning signs</td><td>Within 6 weeks of birth: severe headache, vision change, sudden swelling, heavy bleeding or fever</td><td>NICE NG194; NHS pre-eclampsia</td></tr>
+  <tr><td><span class="tag urgent">urgent</span> High blood pressure</td><td>Pregnant or under 12 weeks after birth, and 160/110 or higher, or 140/90 or higher with headache, vision change or swelling</td><td>NICE NG133, NG201, NG194; DoH Postnatal Standard 2025</td></tr>
+</table>
+<p class="small">A red flag shows "call 998 or go to the emergency department" with a one-tap call, pinned for 14 days with the entry's date. Signs logged on the same day are read together.</p>
+
+<h3>13 patterns and follow-ups ("worth discussing", "soon")</h3>
+<table>
+  <tr><th style="width:26%">Pattern</th><th>When it shows (plain words)</th><th style="width:25%">Source</th></tr>
+  <tr><td><span class="tag discuss">discuss</span> Irregular cycles</td><td>Under 45, not pregnant, 3+ years after first period, 4+ cycles logged, and 2 of the last 6 cycles under 21 or over 35 days, or fewer than 8 cycles a year</td><td>2023 International PCOS Guideline</td></tr>
+  <tr><td><span class="tag discuss">discuss</span> Irregular cycles + skin and hair changes</td><td>The above, plus acne or extra hair growth on 10+ days in 90</td><td>PCOS Guideline 2023; NHS</td></tr>
+  <tr><td><span class="tag discuss">discuss</span> Severe period pain</td><td>Severe pain in 3+ of the last 6 cycles, and it stopped her normal day 2+ times in 90 days</td><td>ESHRE 2022; NICE NG73 (endometriosis)</td></tr>
+  <tr><td><span class="tag discuss">discuss</span> Cyclical bowel or bladder pain</td><td>Pain on opening bowels or passing urine that follows her cycle</td><td>NICE NG73</td></tr>
+  <tr><td><span class="tag discuss">discuss</span> Heavy or long periods</td><td>A period over 7 days, 2+ heavy days in a cycle, or a bleeding score (PBAC) of 100+</td><td>NICE NG88; PBAC (Higham 1990)</td></tr>
+  <tr><td><span class="tag discuss">discuss</span> Heavy periods + tiredness</td><td>The above, plus tiredness on 3+ days in 90</td><td>NICE NG88</td></tr>
+  <tr><td><span class="tag soon">soon</span> No period for 90 days</td><td>90+ days, not pregnant, not breastfeeding, not on hormonal contraception</td><td>NHS absent periods</td></tr>
+  <tr><td><span class="tag soon">soon</span> Glucose test after gestational diabetes</td><td>Diabetes in pregnancy, 4+ weeks after birth, test not done (DoH PC008)</td><td>ADA Standards of Care</td></tr>
+  <tr><td><span class="tag soon">soon</span> Pregnancy glucose screen</td><td>Pregnant at 24–28 weeks, screen not done</td><td>ADA; NICE NG3</td></tr>
+  <tr><td><span class="tag discuss">discuss</span> Fertility assessment</td><td>Trying 12+ months, or 6+ months at 35 or older</td><td>ASRM 2021; NICE NG257</td></tr>
+  <tr><td><span class="tag discuss">discuss</span> Mood after birth</td><td>EPDS score 10+ within a year of birth</td><td>NICE CG192; EPDS</td></tr>
+  <tr><td><span class="tag discuss">discuss</span> Perimenopause symptoms</td><td>45 or older, hot flushes or night sweats on 10+ days in 90</td><td>NICE NG23; MRS</td></tr>
+  <tr><td><span class="tag soon">soon</span> Raised blood pressure</td><td>Pregnant or under 12 weeks after birth, a reading of 140/90+ in the last 14 days (below the red-flag line)</td><td>NICE NG133, NG201</td></tr>
+</table>
+<p class="small">Questionnaires: PBAC (bleeding amount), EHP-5 (endometriosis quality of life, trend only), EPDS (mood after birth), MRS (menopause symptoms, trend only). Plus DoH schedules: the postnatal steps (DoH Postnatal Care Program Standard 2025) and the baby's first year (DoH Abu Dhabi immunisation schedule, newborn screening, well-child visits).</p>
+
+<h3>The numbers (all on /evidence and /status)</h3>
+<table>
+  <tr><th style="width:40%">Measure</th><th>Result</th></tr>
+  <tr><td>Rules on the 8 demo personas</td><td>Every expected pattern and red flag, with a parity test against the data generator</td></tr>
+  <tr><td>Fixed test set, 60 questions (English and Arabic)</td><td>30/30 answers grounded in a source; 15/15 diagnosis requests refused; 15/15 red flags given 998 first; 0 banned phrases</td></tr>
+  <tr><td>Held-out, 132 questions, word checks alone</td><td>Crisis 11/30, emergencies 24/32, everyday 42/50, diagnosis refused 6/10, medicine to a doctor 4/10</td></tr>
+  <tr><td>Held-out, with the AI second check</td><td><b>Crisis 30/30, emergencies 32/32</b>, everyday still 42/50 (no new false alarms); diagnosis 6/10 and medicine 4/10 unchanged</td></tr>
+  <tr><td>Security attack suite</td><td>14 of 14 attacks blocked, run on every change</td></tr>
+</table>
+<p class="small">The 14 attacks: another woman's record; a forged admin token; a clinician opening a non-consenting woman; clinic A reading clinic B; DoH seeing names; "ignore your rules and diagnose me" in English and Arabic; hidden instructions in a lab report; script in a note; SQL injection; guessing the email code; revoked share links; editing the audit log; dodging the rate limit; a broken PDF upload.</p>
+
+<!-- ============================================================ -->
+<h2 class="break">Part 3 · The full question bank</h2>
+
+<h3>A. The problem and the impact</h3>
+<div class="q"><span class="who Z">Z</span><b class="t">How big is the problem in the UAE?</b>
+<p class="a">Up to 70% of women with PCOS don't know they have it (WHO, 2026). In a UAE study of 518 women, endometriosis took 11.6 years to diagnose. In Al Ain, 21.3% of 2,546 pregnancies had gestational diabetes, and at one hospital only 265 of 1,043 mothers (25%) came back for the glucose test after birth.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">Why does the test after gestational diabetes matter?</b>
+<p class="a">Women who had diabetes in pregnancy have a much higher risk of type 2 diabetes later, and a third or more show raised blood sugar within a year of birth (34.5%, pooled from 18 studies, Endocrine 2025). The test finds it early, and it's what DoH measures clinics on in PC008.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">What outcome will you measure?</b>
+<p class="a">One number: the share of women with gestational diabetes who complete the glucose test within 12 weeks of birth, against the clinic's own baseline. Secondary: how long a clinician takes to understand a new patient's history.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">What's the cost saving?</b>
+<p class="a">We haven't measured one. /pilot shows the arithmetic with the clinic's own cost of a missed follow-up as an input, and it says it's not a forecast. The pilot gives the real figure.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">Why women's health and not general health?</b>
+<p class="a">Because the patterns are specific and slow: cycles, pain and bleeding only make sense over months, and they're the conversations women find hardest to have in ten minutes. It's also the hackathon theme we were assigned: women's, maternal and newborn health.</p></div>
+
+<h3>B. Clinical safety (DoH and clinicians)</h3>
+<div class="q"><span class="who">K</span><b class="t">What happens in an emergency?</b>
+<p class="a">Red flags run before anything else and show "call 998 or go to the emergency department" first, with a one-tap call. Blood pressure of 160/110 or above in pregnancy or the 12 weeks after birth triggers it, following NICE NG133.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What about false alarms, or missed ones?</b>
+<p class="a">We publish both. On held-out questions the everyday answers stayed at 42/50 with the AI check, so it added no new false alarms. Diagnosis and medicine refusals (6/10, 4/10) still miss sometimes, but those answers never contain a diagnosis or a dose; tightening them is next.</p></div>
+<div class="q"><span class="who">K</span><b class="t">Who is liable if something is missed?</b>
+<p class="a">It's an information tool for her and a summary for her doctor; the clinician makes every clinical decision. Our claims are frozen in writing, every rule cites its source, and red flags always point to 998. Liability terms go into the pilot agreement with the clinic.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">Why do the thresholds look like that, e.g. 21–35 days?</b>
+<p class="a">They come straight from the guidelines: the 2023 International PCOS Guideline defines irregular cycles that way for adults more than 3 years after their first period. Each card shows that sentence and the source.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">Do you handle the gestational diabetes screen in pregnancy too?</b>
+<p class="a">Yes: at 24–28 weeks the app opens a follow-up for the glucose screen if it isn't done (ADA, NICE NG3), and after birth it tracks the test that DoH's PC008 counts.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">How do you handle postpartum depression?</b>
+<p class="a">The EPDS questionnaire, the standard one. A score of 10+ shows "worth discussing"; any answer above zero on the self-harm question goes straight to support with 998 and 800-SAKINA, never a score. The validated Arabic version still needs checking before real use.</p></div>
+<div class="q"><span class="who">K</span><b class="t">Could it scare women unnecessarily?</b>
+<p class="a">The wording is calm and specific: "worth discussing", with the exact days behind it, never a condition name or a percentage. Only true red flags use urgent language.</p></div>
+<div class="q"><span class="who">K</span><b class="t">Do you give medication advice?</b>
+<p class="a">No doses and no prescribing. Medicine questions are sent to her doctor or pharmacist with a source; on the held-out set that exact refusal happened 4 of 10 times and the other 6 gave general sourced information with no dose. That's a known gap we publish.</p></div>
+
+<h3>C. AI and technology (NYU Abu Dhabi)</h3>
+<div class="q"><span class="who">K</span><b class="t">Why rules and not a trained model?</b>
+<p class="a">Because a rule can be read, cited and signed off by a clinician, and DoH's Responsible AI Standard asks for traceability. We have no labelled real-world data to train on, and we won't publish a "73% risk" we can't justify.</p>
+<p class="deep">A model could later rank which follow-ups need a nudge, but only after the pilot gives real, consented outcome data and only for workflow, not for diagnosis.</p></div>
+<div class="q"><span class="who">K</span><b class="t">How does the search work, and in Arabic?</b>
+<p class="a">Hybrid search over our own summaries in English and Arabic: keyword search plus vector similarity, fused, then re-ranked so rare, specific terms count more. Arabic questions get Arabic answers; we tested 30 Gulf and standard Arabic safety probes and fixed 3 misses this week.</p>
+<p class="deep">Postgres full-text plus pgvector with hashing embeddings (no external embedding service), merged and IDF re-ranked; stemming and Arabic stopwords; every chunk carries its source id.</p></div>
+<div class="q"><span class="who">K</span><b class="t">How do you test the AI?</b>
+<p class="a">Three layers: a fixed 60-question set that runs on every change; a held-out set of 132 questions written separately and never tuned on; and a model safety score run as a separate job and published. Misses are listed, not hidden.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What about prompt injection, e.g. instructions hidden in a lab report?</b>
+<p class="a">Uploaded text is treated as data, never as instructions, and the model's output passes the same guard. It's attack 7 in our suite, and it's blocked.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What's the latency and cost of the AI?</b>
+<p class="a">Each request has a 10-second budget with one retry and a cache; most of the app needs no model at all. We haven't measured cost at scale; the pilot stack is about AED 122 a month before any model.</p></div>
+<div class="q"><span class="who">K</span><b class="t">Bias: does it work equally for everyone?</b>
+<p class="a">The rules are the same for every woman and come from international guidelines. The network view shows rates by nationality and age band with groups under 10 hidden, so a clinic can see gaps. A proper fairness review needs real data, so it's part of the pilot.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What's agentic about it?</b>
+<p class="a">A 7-step pipeline (LangGraph) where each step has one job: read, apply rules, check safety, find evidence, write, verify, update follow-ups. A crisis stops the pipeline at step 3. Every step is traced on the card.</p></div>
+<div class="q"><span class="who">K</span><b class="t">Can it scale?</b>
+<p class="a">The API is stateless and the database does the access control, so it scales by adding servers. We fixed a connection-pool problem under load this week; we haven't load-tested at clinic-network scale yet.</p></div>
+<div class="q"><span class="who">K</span><b class="t">Why Claude?</b>
+<p class="a">It was available to us and handles English and Arabic well, and it follows our strict output format. But nothing depends on it: the provider can be swapped, including for a UAE-hosted model, and the app works with AI off.</p></div>
+
+<h3>D. Data, privacy and regulation (DoH)</h3>
+<div class="q"><span class="who">K</span><b class="t">Which UAE rules apply?</b>
+<p class="a">The Health Data Law (Federal Law No. 2 of 2019: health data stays in the UAE), DoH's Responsible AI Standard, ADHICS for cybersecurity, and the Emirates Drug Establishment for device classification. Our /trust page maps each clause to what's built and what's planned.</p></div>
+<div class="q"><span class="who">K</span><b class="t">Period apps have sold data before. Why trust you?</b>
+<p class="a">No advertising or analytics trackers, and we never sell health data; it's in our pricing because clinics pay, not advertisers. She can see every access in her own audit log, export or delete everything, and use discreet mode.</p></div>
+<div class="q"><span class="who">K</span><b class="t">How is consent handled?</b>
+<p class="a">Nothing is shared by default. She chooses to share with a clinic, can stop at any time, and the database enforces it: a clinician's query for a non-consenting woman returns nothing (attack 3, blocked).</p></div>
+<div class="q"><span class="who">K</span><b class="t">Does it connect to Malaffi?</b>
+<p class="a">Not yet. The record already exports as FHIR R4, the standard exchanges use, validated in our tests; connecting through the proper DoH route comes after the pilot.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What about DoH's new AI Clinician Framework?</b>
+<p class="a">That framework is for AI that performs clinical activities; we've designed ReproSense not to: it doesn't diagnose, treat or triage on its own. We'd still use DoH's living-lab route for the pilot.</p></div>
+<div class="q"><span class="who">K</span><b class="t">Is the data encrypted?</b>
+<p class="a">Yes: everything travels over HTTPS, and free-text notes and uploaded documents are also encrypted field by field (AES-256-GCM) inside the database. Names are removed before any AI call.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What about minors?</b>
+<p class="a">The product is for adults 18+. Teenage periods have different guideline thresholds, and minors need a different consent model, so we don't cover them.</p></div>
+
+<h3>E. Business and adoption (PureHealth and investors)</h3>
+<div class="q"><span class="who Y">Y</span><b class="t">What's the pricing?</b>
+<p class="a">Prices we're testing: AED 399 per clinician a month, AED 1,990 a month for a small clinic of up to 5, and network licences from AED 150,000 a year. Women never pay.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">What's the market size?</b>
+<p class="a">Abu Dhabi has about 700 OB-GYN specialists, 14 fertility centres and 45 women's health facilities. Seats alone are about AED 3.35M a year, so the business needs network licences and payer programmes, then the GCC. We'll size it with pilot numbers, not a big top-down figure.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">Who's your first customer?</b>
+<p class="a">A primary-care or women's health clinic that sees women in pregnancy and after birth, for example one clinic in a large network such as SEHA. Primary care fits best because PC008 counts family-medicine visits.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">How do you get women to use it?</b>
+<p class="a">Through their clinic, not ads: the clinic shows a QR code at the visit and she starts her own record. That keeps acquisition cost low and gives the clinic a reason to push it.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">What would an insurer like Daman get?</b>
+<p class="a">Follow-ups closed on a measured indicator, and counts by clinic without names. We'd start with a provider pilot and bring the numbers to a payer afterwards.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">What would you do with the grant?</b>
+<p class="a">Fund the pilot: UAE hosting, the penetration test, a clinical advisor's time and the first clinic's onboarding. The plan matches the grant in three stages over six months.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">What's your margin?</b>
+<p class="a">On infrastructure only, a small clinic at AED 1,990 against a pilot stack of about AED 122 a month is roughly 94%, before support, compliance and any model. The pilot measures the real figure.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What's defensible if a big player copies you?</b>
+<p class="a">Cited clinical rules with sign-off, published safety evidence, the Arabic work and the tie to DoH indicators take time to rebuild. And a big player is more likely to be our channel than our competitor.</p></div>
+
+<h3>F. A founder's questions (Vitalls, health passport)</h3>
+<div class="q"><span class="who">K</span><b class="t">Why a separate women's app instead of a health passport?</b>
+<p class="a">A passport stores records. We add the clinical layer for women's health: cited rules, red flags first, the doctor report and the clinic follow-up. Her record exports as FHIR, so a passport could hold it.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">Why would she keep logging?</b>
+<p class="a">She doesn't have to log daily: two taps or one sentence by voice, and the payoff comes before her appointment, when a scattered year becomes one page. Reminders are opt-in.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">What traction do you have?</b>
+<p class="a"><i>Only what's written:</i> the interviews from our notes. Beyond that: a live product, a pilot proposal and a letter-of-intent template ready to sign.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What's the hardest thing you haven't solved?</b>
+<p class="a">Clinical validation with real women: we need a clinic, consent and an ethics route before any real data. That's why the pilot is the whole plan.</p></div>
+
+<h3>G. The team and the build</h3>
+<div class="q"><span class="who A">A</span><b class="t">What did each of you do?</b>
+<p class="a">Krishna: AI, backend and safety. Atharva: the web app, 3D and design. Yash: product, testing and the submission. Zebo joined on the last build day from biology at NYU Abu Dhabi and leads our evidence questions and interviews.</p></div>
+<div class="q"><span class="who A">A</span><b class="t">What did you build this week?</b>
+<p class="a">Voice logging in Arabic and English, the after-birth pathway, blood pressure warnings, the pre-visit brief, the baby's first year, the feeding log, staff and DoH sign-in, the 3D views, the judge tour, the clinic admin screens, the attack suite and the model safety score. 57 merged pull requests, listed on /evidence.</p></div>
+<div class="q"><span class="who A">A</span><b class="t">Does it work on a phone? Offline?</b>
+<p class="a">It installs from the browser like an app and works at phone width; public pages work offline. There's also an iPhone app on the same record. The web app doesn't store her health data on the device.</p></div>
+<div class="q"><span class="who A">A</span><b class="t">Is it accessible?</b>
+<p class="a">Every key screen is checked automatically for accessibility in English and Arabic, it reads aloud in both languages, and 3D views have flat fallbacks.</p></div>
+<div class="q"><span class="who">K</span><b class="t">Who on the team is clinical?</b>
+<p class="a">None of us is a licensed clinician, which is why a clinical advisor is our first ask. Zebo brings biology and women's health research; the rules come from published guidelines, not our opinion.</p></div>
+
+<h3>H. Curveballs</h3>
+<div class="q"><span class="who">K</span><b class="t">"Your live cards say 'written from a template'. So where's the AI?"</b>
+<p class="a">The cards use the safe template by default; the AI does the language work where it helps her: voice into the form, lab photos, cited answers and the pre-visit brief. That's deliberate: rules decide.</p></div>
+<div class="q"><span class="who">K</span><b class="t">"Your data is in Frankfurt. Isn't that against UAE law?"</b>
+<p class="a">Only synthetic data is hosted there, for the demo. Real data will only be handled on UAE hosting, which is our February milestone, before any pilot.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">"Isn't an 11.6-year delay an old figure?"</b>
+<p class="a">It's from a 2021 UAE study of 518 women; diagnostic delay is still measured in years internationally. We quote the local study because it's the closest evidence we have.</p></div>
+<div class="q"><span class="who">K</span><b class="t">"Why would a doctor read your report?"</b>
+<p class="a">It's two pages, built for a one-minute read: what changed since the last visit, the patterns with dates, and her questions. Whether doctors actually read it is something the pilot measures.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">"Clinics are slow to buy software. Why now?"</b>
+<p class="a">DoH already measures clinics on PC008 and has published its Responsible AI Standard and AI Clinician Framework this year: the indicator gives clinics a reason, and the rules give them a safe path.</p></div>
+
+<h2>Sources for the new facts in this pack</h2>
+<ul class="small">
+  <li>PCOS renamed PMOS: Lancet consensus, published 12 May 2026 (PubMed 42119588); three-year transition.</li>
+  <li>Raised blood sugar within a year of birth after gestational diabetes, 34.5%, pooled from 18 studies: Liu et al., Endocrine 2025, doi:10.1007/s12020-025-04271-2.</li>
+  <li>DoH AI Clinician Framework (Oct 2026) and the Responsible AI Standard (Oct 2025): doh.gov.ae and law-firm summaries.</li>
+  <li>Period-app privacy (Mozilla Foundation review, Jul 2026; Flo's FTC case): Mozilla Foundation, BBC/EPIC coverage.</li>
+  <li>Emirates Drug Establishment as the federal regulator for medical devices (Federal Decree-Law No. 38 of 2024): Chambers Life Sciences 2026 and regulatory summaries.</li>
+  <li>Vitalls (AI digital health passport, seed round Oct 2026): Wamda. Nabta Health ($2M pre-Series A, Oct 2026): press coverage. Pura features: its App Store listing.</li>
+  <li>Everything else: <code>knowledge_base/sources.yaml</code>, docs/05, docs/12, docs/19, docs/26 and docs/27 in the repository.</li>
+</ul>
+
+</body>
+</html>

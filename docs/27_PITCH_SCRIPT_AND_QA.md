@@ -244,6 +244,8 @@ minutes." **Only say what actually happened.** If you didn't manage it, use the 
 ---
 
 ## 9. The judges' questions, with answers
+**Printable pack:** `docs/30_JUDGE_QA_PACK.pdf` (10 pages): a 20-question cheat sheet, how the backend works (stack, the 7 red flags and 13 patterns in plain words, where AI is and isn't used, the numbers), and a 75-question bank tagged by who answers. Source: `docs/30_JUDGE_QA_PACK.html`.
+
 Answer in **two or three sentences**, then stop. The owner answers first; others add one line at most.
 
 ### Clinical safety (DoH, clinicians)
