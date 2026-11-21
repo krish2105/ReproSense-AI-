@@ -1,10 +1,18 @@
 # Pitch deck
 
+**Speaker notes:** `ReproSense-submission.pptx` carries each speaker's lines in its notes (from `speaker_notes.js`).
+Present from PowerPoint in **Presenter View** (Keynote: Presenter Display) so each of us sees our script under the slide;
+the PDF has no notes. Rebuild after editing the notes (see "The 3-slide submission deck" below).
+
 **On stage (organisers' format, 21 Nov):** the three slides in `ReproSense-submission.pdf` (problem, solution, venture
 roadmap) in 1 to 1.5 minutes, then the live demo. The script is docs/27 section 4. The 10-slide `deck.html` below is
 the older long-form deck: keep it for Q&A backup, not for the 3 minutes.
 
 ## The 10-slide deck (backup)
+
+> **Out of date, do not show or submit:** `deck.html` and `ReproSense-pitch.pdf` are from 6–7 Nov. They show the old
+> held-out safety numbers (11/30, "second check not yet scored", now 30/30 and 32/32) and a two-person team. Use the
+> 3-slide deck.
 
 `deck.html` is the deck: one self-contained page in the product's own look (E · Mauve Pro), built from the repo's data.
 It works offline (font and screenshots sit next to it). `ReproSense-pitch.pdf` is the printed backup.

@@ -2,6 +2,7 @@
 // (docs/05, docs/10, docs/19). Run: node pitch/build_submission_deck.js  ->  pitch/ReproSense-submission.pptx
 // Then the PDF: soffice --headless --convert-to pdf pitch/ReproSense-submission.pptx (see pitch/README.md).
 const path = require("path");
+const NOTES = require("./speaker_notes"); // the words each of us says (Presenter View)
 const pptxgen = require("pptxgenjs");
 
 const HERE = __dirname;
@@ -89,11 +90,7 @@ s1.addText(
 s1.addText("Arithmetic, not a result: 1,000 × 21.3% × (50% − 25.4%) × 34.5% of tests showing raised sugar (pooled from 18 studies, Endocrine 2025). Every input is editable at reprosense.vercel.app/pilot.", {
   x: 0.6, y: 6.5, w: 12.1, h: 0.35, fontSize: 10, italic: true, color: "C9BACD", margin: 0, isTextBox: true,
 });
-s1.addNotes(
-  "Up to 70% of women with PCOS don't know they have it. In a UAE study, endometriosis took 11.6 years from first symptoms to diagnosis. " +
-    "In Al Ain about one pregnancy in five has gestational diabetes, and at one hospital only one in four of those women came back for the glucose test after birth. " +
-    "The information exists; it just arrives in pieces. If a clinic lifted that follow-up from one in four to one in two, that is about 18 more mothers per 1,000 births whose raised blood sugar is found early: arithmetic from these studies, not a result we have measured. Sources: WHO 2026; Frontiers in Global Women's Health 2021; Frontiers in Endocrinology 2022; IJERPH 2022 (docs/05).",
-);
+s1.addNotes(NOTES.SLIDE_1);
 
 // ---------- 2 · The solution ----------
 pres.addSection({ title: "Solution" });
@@ -129,12 +126,7 @@ s2.addImage({
   shadow: { type: "outer", color: "4B3653", opacity: 0.25, blur: 8, offset: 3, angle: 90 }, objectName: "screenshot-patterns",
 });
 s2.addText("Noura (fictional): a pattern, its evidence and its source", { x: 8.75, y: 6.8, w: 4.0, h: 0.25, fontSize: 10, italic: true, color: C.accent5, align: "center", margin: 0, isTextBox: true });
-s2.addNotes(
-  "She logs in seconds, by voice if she likes, in Arabic or English. Written rules from published guidelines find patterns worth discussing; every card shows the entries and the guideline, never a diagnosis, and red flags come first with 998. " +
-    "The AI is checked: rules decide every pattern; the AI fills the log from her voice, reads lab photos and answers from a cited library, and sentences her data doesn't support are dropped; she can switch AI off. On 132 held-out questions written separately from the code and never used to tune it, the AI second check routed every crisis message (30 of 30) and every emergency (32 of 32) to support or 998, and an attack suite of 14 attacks, all blocked, runs on every change. " +
-    "With her consent the clinic gets a pre-visit brief and a doctor report, and follow-ups close DoH's PC008 indicator. After a birth, the same record carries DoH's postnatal steps and her baby's first year: newborn screening, well-baby visits and vaccinations, each with its source. " +
-    "Trackers like Flo and Clue print reports too; our moat is the clinic loop, cited rules, Arabic first, and no selling of health data.",
-);
+s2.addNotes(NOTES.SLIDE_2);
 
 // ---------- 3 · The roadmap ----------
 pres.addSection({ title: "Roadmap" });
@@ -176,12 +168,32 @@ s3.addText("Since acceptance (17–21 Nov): 57 merged pull requests, each listed
 s3.addText("Team: Krishna Mathur (AI, backend, safety) · Atharva Soundankar (web, design) · Yash Petkar (product, venture) · Zebo (biology, women's health evidence)", {
   x: 0.6, y: 6.63, w: 11.5, h: 0.3, fontSize: 11, color: "C9BACD", margin: 0, isTextBox: true,
 });
-s3.addNotes(
-  "In November we freeze our claims and write the device memo for the Emirates Drug Establishment. In December: ten interviews, a clinic letter of intent and the ADHICS gap assessment. " +
-    "By February the stack runs in the UAE, pen-tested, with women and clinicians testing it. From March, a consented pilot at one clinic, judged on one number: how many women with gestational diabetes complete their glucose test within 12 weeks of birth. " +
-    "Clinics pay per clinician seat; primary-care networks for the after-birth module. We need a pilot clinic, a clinical advisor and the grant (docs/19). " +
-    "Since acceptance we merged 57 pull requests, every one listed with its date on /evidence, and we are forming the company to run this pilot.",
-);
+s3.addNotes(NOTES.SLIDE_3);
+
+// pptxgenjs writes each slide's notes as one run with raw line breaks, which PowerPoint's Presenter View shows as one
+// block. Split them into real paragraphs, and bold the headings (the speaker line, IF ASKED, DEMO, TIMING, steps).
+async function splitNotes(file) {
+  const fs = require("fs");
+  const JSZip = require("jszip");
+  const zip = await JSZip.loadAsync(fs.readFileSync(file));
+  const xmlEsc = (t) => t.replace(/&(?!(amp|lt|gt|quot|apos);)/g, "&amp;");
+  const heading = (line) => /^[A-Z][A-Z &·]+(·|$)/.test(line) || /^=== /.test(line) || /^\d\. /.test(line);
+  for (const name of Object.keys(zip.files).filter((n) => /^ppt\/notesSlides\/notesSlide\d+\.xml$/.test(n))) {
+    const xml = await zip.file(name).async("string");
+    const out = xml.replace(/<a:p><a:r><a:rPr lang="en-US" dirty="0"\/><a:t>([\s\S]*?)<\/a:t><\/a:r>(<a:endParaRPr[^>]*\/>)?<\/a:p>/, (_, text) =>
+      text
+        .split(/\r?\n/)
+        .map((line) =>
+          line.trim() === ""
+            ? '<a:p><a:endParaRPr lang="en-US" sz="1200" dirty="0"/></a:p>'
+            : `<a:p><a:r><a:rPr lang="en-US" sz="1400"${heading(line) ? ' b="1"' : ""} dirty="0"/><a:t>${xmlEsc(line)}</a:t></a:r></a:p>`,
+        )
+        .join(""),
+    );
+    zip.file(name, out);
+  }
+  fs.writeFileSync(file, await zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" }));
+}
 
 (async () => {
   await pres.writeFile({ fileName: OUT });
@@ -189,5 +201,6 @@ s3.addNotes(
     const { applyTheme } = require(APPLY_THEME);
     await applyTheme(OUT, THEME);
   }
+  await splitNotes(OUT);
   console.log(OUT);
 })();
