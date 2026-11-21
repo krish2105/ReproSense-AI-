@@ -10,7 +10,7 @@ then the live demo. The script is docs/27 section 4 and the PPTX speaker notes.
 **What's in this folder (everything else was removed on 21 Nov):**
 - `ReproSense-submission.pptx`: the deck, with each speaker's lines in the notes. Present from this one.
 - `ReproSense-submission.pdf`: the same 3 slides, no notes. Upload it, and use it as the backup if PowerPoint fails.
-- `ReproSense-demo.mp4`: the 95-second demo. Upload it, and use it as the backup if the site is slow.
+- `ReproSense-demo.mp4`: the 97-second demo in 4K (3840×2160). Upload it, and use it as the backup if the site is slow.
 - `build_submission_deck.js` and `speaker_notes.js`: they build the PPTX.
 - `img/noura-insights.jpg`: the slide 2 screenshot. `apps/web/scripts/pitch-shots.mjs` can re-take it.
 
@@ -32,12 +32,13 @@ soffice --headless --convert-to pdf --outdir pitch pitch/ReproSense-submission.p
 The slide-2 picture is `img/noura-insights.jpg` (fictional persona, demo badge visible).
 
 ## The MP4 demo (build week Y5)
-`ReproSense-demo.mp4`: about 95 seconds, 1280×720, captions burned in, no sound (add a voice-over if you like). It
+`ReproSense-demo.mp4`: 97 seconds, **4K (3840×2160)**, H.264 High at 30 fps, about 36 MB, captions burned in, no sound (add a voice-over if you like). It
 follows the pitch script's demo order (docs/27 section 4), so it doubles as the stage backup: landing → Noura's home →
 a pattern with its evidence and "How this was produced" → the assistant answering "What counts as a heavy period?"
 with sources → "Before your visit" → her Arabic sentence filling the log form → the clinician books Fatima's
-after-birth glucose follow-up and opens its history → the network's loop metrics → Fatima's postnatal steps and her
-baby's first year → close. Refreshed on 20 Nov from `main` at e2e0bdb.
+after-birth glucose follow-up and opens its history → the network's loop metrics → "Built since acceptance" on /evidence → Fatima's postnatal steps and her
+baby's first year → close. Re-recorded in 4K on 21 Nov from `main` at b79a608: the page is laid out at 1280×720 and
+rendered at 3×, Chrome's screencast captures each frame at 3840×2160, and x264 encodes it at CRF 12.
 Every record is fictional. Recorded by `apps/web/scripts/demo-video.mjs` from a freshly reset local stack, so every
 number is the seeded one; re-record after any screen change:
 ```
