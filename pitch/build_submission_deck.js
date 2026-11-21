@@ -173,7 +173,7 @@ s3.addText(
 s3.addText("Since acceptance (17–21 Nov): 57 merged pull requests, each listed at reprosense.vercel.app/evidence. We are forming the company to run the pilot.", {
   x: 0.6, y: 6.33, w: 12.1, h: 0.3, fontSize: 12, bold: true, color: "EBD7F0", margin: 0, isTextBox: true,
 });
-s3.addText("Team: Krishna Mathur (AI, backend, safety) · Atharva Soundankar (web, design) · Yash Petkar (product, demo) · Dareen (mother and baby, Arabic)", {
+s3.addText("Team: Krishna Mathur (AI, backend, safety) · Atharva Soundankar (web, design) · Yash Petkar (product, venture) · Zebo (biology, women's health evidence)", {
   x: 0.6, y: 6.63, w: 11.5, h: 0.3, fontSize: 11, color: "C9BACD", margin: 0, isTextBox: true,
 });
 s3.addNotes(

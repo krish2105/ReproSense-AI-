@@ -27,6 +27,7 @@ Blockers / questions:
   - slide 2: the AI wording;
   - slide 3: 57 pull requests since acceptance, and forming the company.
   - **Re-upload both files to programs.upstartbar.com before 15:15 Sun.**
+- Team change (21 Nov): Zebo (biology, NYU Abu Dhabi) joins as the 4th member in place of Dareen. Zebo presents slide 1 and takes the science questions; the Arabic demo step uses "Try an Arabic example"; the Arabic native review is open again (AR_REVIEW note).
 - #167: the same impact line on /pilot, and "Built since acceptance" on /evidence (57 merged since 17 Nov, each linked).
 
 ---
