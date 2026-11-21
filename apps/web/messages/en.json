@@ -1908,6 +1908,16 @@
         "name": "An oversized or broken PDF upload",
         "layer": "Upload size and PDF checks"
       }
+    },
+    "built": {
+      "title": "Built since acceptance",
+      "lead": "{n} pull requests merged from {since}, the first day of build week, by {people} team members on GitHub. Each one links to its code, tests and review.",
+      "before": "Before selection on 16 Nov: {n} pull requests, also on GitHub.",
+      "show": "Show all {n} pull requests",
+      "colPr": "Pull request",
+      "colWho": "By",
+      "colDate": "Merged",
+      "when": "Listed from GitHub on {date} by tools/build_week.py; dependency-update bots left out."
     }
   },
   "postnatal": {
@@ -2311,13 +2321,14 @@
   "pilot": {
     "metaTitle": "Pilot value",
     "title": "What a pilot could be worth to your clinic",
-    "intro": "Set the numbers for your own clinic or insurer. This page multiplies them, nothing more: it is not a measured result and promises no outcome. Each default comes from an Abu Dhabi study or our price list, or is marked as an assumption.",
+    "intro": "Set the numbers for your own clinic or insurer. This page multiplies them, nothing more: it is not a measured result and promises no outcome. Each default comes from a published study (two from Abu Dhabi, one pooled from 18 studies) or our price list, or is marked as an assumption.",
     "inputsTitle": "Your numbers",
     "inputs": {
       "women": "Women who give birth during the pilot",
       "gdmPct": "Share with diabetes in pregnancy (gestational diabetes)",
       "beforePct": "After-birth glucose follow-up completed today",
       "afterPct": "Completion you aim for with ReproSense",
+      "abnormalPct": "Share of those tests that show raised blood sugar",
       "missedCostAed": "Cost of one missed follow-up",
       "priceAedMonth": "ReproSense subscription per month",
       "months": "Pilot length"
@@ -2339,13 +2350,14 @@
       "closedBefore": "Follow-ups completed at today's rate",
       "closedAfter": "Follow-ups completed at your target",
       "extraClosed": "Follow-ups closed that would otherwise be missed",
+      "foundEarly": "Of those, tests expected to show raised blood sugar",
       "value": "Value of those follow-ups",
       "subscription": "Subscription for {months, plural, one {# month} other {# months}}",
       "net": "Value minus subscription"
     },
     "aed": "AED {n}",
-    "per1000": "Per 1,000 women who give birth: {closed} more follow-ups closed, worth AED {value} at your cost per missed follow-up.",
-    "assumptions": "The target completion and the cost of a missed follow-up are yours to set; ReproSense has not measured either yet. Follow-up here means the glucose test after gestational diabetes, one part of DoH Jawda KPI PC008. This is not a forecast and not a clinical claim.",
+    "per1000": "Per 1,000 women who give birth: {closed} more follow-ups closed, about {found} of them expected to show raised blood sugar that would otherwise go unfound, worth AED {value} at your cost per missed follow-up.",
+    "assumptions": "The target completion and the cost of a missed follow-up are yours to set; ReproSense has not measured either yet. Follow-up here means the glucose test after gestational diabetes, one part of DoH Jawda KPI PC008. This is not a forecast and not a clinical claim. The share with raised sugar is a pooled average from published studies; your clinic's own rate will differ.",
     "toPricing": "See pricing",
     "toDemo": "Open the demo"
   },

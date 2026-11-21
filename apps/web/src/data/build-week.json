@@ -1,0 +1,354 @@
+{
+ "since": "2026-11-17",
+ "generated": "2026-11-21T11:25:30+04:00",
+ "before": 56,
+ "authors": [
+  "Yashpetkar7",
+  "krish2105",
+  "mercydeez"
+ ],
+ "prs": [
+  {
+   "number": 101,
+   "title": "AI: OpenRouter provider for the hackathon credits (build week)",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 102,
+   "title": "AI lab-report reader: photograph a report, the model reads it, she confirms (build week)",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 107,
+   "title": "K1 Postnatal 6-week pathway (DoH Postnatal Care Program Standard)",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 108,
+   "title": "K2 Voice logging in English and Arabic (build week)",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 109,
+   "title": "K4 Clinic onboarding API: clinic admin, single-use clinician invites, per-clinic dashboard and export (build week)",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 110,
+   "title": "K7 Model safety check: scoring workflow and status display (number pending the AI key)",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 111,
+   "title": "K3 Pre-visit AI brief: what changed since your last visit (build week)",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 112,
+   "title": "A1: 3D body pain map (build week)",
+   "author": "mercydeez",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 113,
+   "title": "K5 Her own sign-in: passkeys first, email code as backup (build week)",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 115,
+   "title": "A2: Judge guided tour, \"Show me in 3 minutes\" (build week)",
+   "author": "mercydeez",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 116,
+   "title": "K6 Blood-pressure log and urgent warning in pregnancy and after birth, NICE NG133 (build week, G2)",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 117,
+   "title": "A3: Clinic onboarding and admin screens on the K4 API (build week)",
+   "author": "mercydeez",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 118,
+   "title": "Blood-pressure warning for the 12 weeks after birth (Q62, G2)",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 119,
+   "title": "Demo path: no dead photo button, wake the live API, Fatima in the script",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 120,
+   "title": "A4: Her year in 3D on the timeline (build week)",
+   "author": "mercydeez",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 121,
+   "title": "Header Clinician and Clinic network open in one tap",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 122,
+   "title": "A5: Read aloud in Arabic and English (build week)",
+   "author": "mercydeez",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 123,
+   "title": "A6: Installable web app with offline demo pages and opt-in reminders (build week)",
+   "author": "mercydeez",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 124,
+   "title": "A7: 3D pregnancy and fourth-trimester ring (build week)",
+   "author": "mercydeez",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 125,
+   "title": "iOS app on today's main: live API, wake-up, clinician view, postnatal, BP, brief (Simulator-verified)",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 126,
+   "title": "iOS: device builds with Xcode 27 (pod deployment target plugin)",
+   "author": "krish2105",
+   "merged": "2026-11-18"
+  },
+  {
+   "number": 58,
+   "title": "Rescore (26 parameters) and the Android/iOS app roadmap (docs/21, docs/22)",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 72,
+   "title": "Next 16 (merge on 17 Nov only after 3 green e2e runs)",
+   "author": "mercydeez",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 97,
+   "title": "Trackers: G2 approvals, handoff steps 1–4 and the late-night rescore (7 Nov)",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 127,
+   "title": "A8: Polish: page transitions, state audit, clinic-admin error boundary (build week)",
+   "author": "mercydeez",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 128,
+   "title": "Judge's UI points: tour shows build week, Home draws the weeks once, trackers current",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 129,
+   "title": "PROGRESS: A6–A8 merged and the C7 e2e runs",
+   "author": "mercydeez",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 130,
+   "title": "Demo reset: retry when Postgres cancels it with a deadlock",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 131,
+   "title": "PROGRESS: C7 steps 1–3, e2e runs, Lighthouse and demo readiness",
+   "author": "mercydeez",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 132,
+   "title": "Y1: planning-a-pregnancy checklist for the Trying stage",
+   "author": "Yashpetkar7",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 133,
+   "title": "Y3: pilot value page for clinics and insurers",
+   "author": "Yashpetkar7",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 134,
+   "title": "Y4: family support view (Year of the Family 2026)",
+   "author": "Yashpetkar7",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 135,
+   "title": "Y5: 3-slide submission deck and the 98-second MP4 demo",
+   "author": "Yashpetkar7",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 136,
+   "title": "Y6: showcase-day checklist and rehearsal log",
+   "author": "Yashpetkar7",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 137,
+   "title": "Judge tour: Noura is 24, not 27 (Y2 finding)",
+   "author": "Yashpetkar7",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 138,
+   "title": "Fix the connection-pool deadlock and slow doctor PDFs under load",
+   "author": "Yashpetkar7",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 139,
+   "title": "Harden the API against abuse and bad input",
+   "author": "Yashpetkar7",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 140,
+   "title": "Request IDs and JSON access and error logs, web to API",
+   "author": "Yashpetkar7",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 141,
+   "title": "PROGRESS and BUILD_STATUS: Yash's build week (Y1–Y6, audit fixes, Y2 results)",
+   "author": "Yashpetkar7",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 142,
+   "title": "Safety (G2): clinical-gap audit, guard (#99), possible ectopic routing (#98), RF5/RF6 single signs (#49 R4)",
+   "author": "mercydeez",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 143,
+   "title": "Crisis paths: DoH's 24/7 support line 800-SAKINA after 998 (G2)",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 144,
+   "title": "Automation: live demo check every 3 hours with an alert issue; docs/28 closed-loop plan",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 145,
+   "title": "Security pack: 14-attack suite with a published score, CSP, dependency and code scanning",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 146,
+   "title": "Assistant record lane: her own numbers computed by code, plus a next-step lane she approves (G2)",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 147,
+   "title": "AI model: default to Claude Sonnet 5.5, an id the team key allows",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 148,
+   "title": "Closed loop made visible: follow-up history, event timeline, loop metrics and overdue flags",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 149,
+   "title": "Staff and DoH sign-in: passkey doors, 30-minute staff sessions, real logout, step-up for exports",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 150,
+   "title": "Model safety score: pace and retry, score the held-out round only",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 151,
+   "title": "Model safety check scored on held-out round 5: crisis 30/30, emergencies 32/32 with Claude Sonnet 5.5",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 152,
+   "title": "D1 Baby's first year: checks, vaccinations and screening from the UAE schedules (newborn half of the theme)",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 153,
+   "title": "Pilot proposal for a clinic (KPIs, 90-day plan, PDF) and a letter-of-intent template",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 154,
+   "title": "Trust: DoH and UAE compliance mapping (ADHICS, AI Clinician Framework, Health Data Law); new /evidence page",
+   "author": "krish2105",
+   "merged": "2026-11-19"
+  },
+  {
+   "number": 162,
+   "title": "Submission refreshed for the current product (deck slide 2, 95 s MP4) and trackers up to date",
+   "author": "Yashpetkar7",
+   "merged": "2026-11-20"
+  },
+  {
+   "number": 163,
+   "title": "D5: Arabic-first pass: period terms, safety replies, 30 Gulf probes (3 routing fixes, G2), 390 px RTL walk",
+   "author": "mercydeez",
+   "merged": "2026-11-20"
+  },
+  {
+   "number": 164,
+   "title": "D2: feeding log after a birth (one tap per feed, 7-day chart, sourced support lines)",
+   "author": "mercydeez",
+   "merged": "2026-11-20"
+  },
+  {
+   "number": 165,
+   "title": "Security assessment fixes: linear lab-report parser, profile column grants, DEMO_MODE off by default",
+   "author": "Yashpetkar7",
+   "merged": "2026-11-20"
+  },
+  {
+   "number": 166,
+   "title": "Doctor PDF: no 503 on the first download after the API wakes",
+   "author": "krish2105",
+   "merged": "2026-11-21"
+  }
+ ]
+}

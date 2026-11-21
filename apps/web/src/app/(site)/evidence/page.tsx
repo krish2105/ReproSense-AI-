@@ -8,7 +8,8 @@ import { Tag } from "@/components/ui/Tag";
 import { TableScroll } from "@/components/ui/TableScroll";
 import { apiServer } from "@/lib/api/server";
 import { formatDate, formatNumber } from "@/lib/format";
-import { repoCommit, repoFile } from "@/lib/repo";
+import { REPO_URL, repoCommit, repoFile } from "@/lib/repo";
+import buildWeek from "@/data/build-week.json";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("evidence");
@@ -155,7 +156,9 @@ export default async function EvidencePage() {
         </p>
       )}
 
-      <section className="panel" aria-labelledby="tests-title" style={{ padding: 22, marginTop: 22 }}>
+      <BuiltSinceAcceptance />
+
+      <section className="panel" aria-labelledby="tests-title" style={{ padding: 22, marginTop: 20 }}>
         <h2 id="tests-title" style={{ fontSize: 19 }}>
           {t("testsTitle")}
         </h2>
@@ -415,5 +418,81 @@ export default async function EvidencePage() {
         </div>
       </section>
     </>
+  );
+}
+
+/**
+ * What the jury scores the prototype on: work built after the team was accepted. Every pull request merged since
+ * build week began, listed from GitHub by tools/build_week.py (src/data/build-week.json), each linked to its code.
+ */
+async function BuiltSinceAcceptance() {
+  const t = await getTranslations("evidence.built");
+  const locale = (await getLocale()) as Locale;
+  const day = (iso: string) => formatDate(iso, locale);
+  const num = (n: number) => formatNumber(n, locale);
+  const prs = buildWeek.prs;
+  const perDay = Object.entries(
+    prs.reduce<Record<string, number>>((acc, p) => ((acc[p.merged] = (acc[p.merged] ?? 0) + 1), acc), {}),
+  );
+  const most = Math.max(1, ...perDay.map(([, n]) => n));
+  return (
+    <section id="since-acceptance" className="panel" aria-labelledby="built-title" style={{ padding: 22, marginTop: 22 }}>
+      <h2 id="built-title" style={{ fontSize: 19 }}>
+        {t("title")}
+      </h2>
+      <p className="s" style={{ marginTop: 6 }}>
+        {t("lead", { n: num(prs.length), since: day(buildWeek.since), people: num(buildWeek.authors.length) })}
+      </p>
+      <ul className="ev-days" style={{ listStyle: "none", padding: 0, margin: "12px 0 0", display: "grid", gap: 6 }} data-testid="built-per-day">
+        {perDay.map(([d, n]) => (
+          <li key={d} style={{ display: "grid", gridTemplateColumns: "minmax(90px, auto) 1fr", gap: 10, alignItems: "center" }}>
+            <span className="s dim">{day(d)}</span>
+            <div className="ev-bar">
+              <div className="bar" aria-hidden="true">
+                <i style={{ width: `${(100 * n) / most}%`, background: "var(--plum)" }} />
+              </div>
+              <span className="mono s">{num(n)}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p className="xs faint" style={{ marginTop: 10 }}>
+        {t("before", { n: num(buildWeek.before) })}
+      </p>
+      <details style={{ marginTop: 12 }}>
+        <summary className="s" style={{ cursor: "pointer", fontWeight: 600 }}>
+          {t("show", { n: num(prs.length) })}
+        </summary>
+        <TableScroll label={t("title")} style={{ marginTop: 10 }}>
+          <table style={{ minWidth: 560 }}>
+            <thead>
+              <tr>
+                <th scope="col">{t("colPr")}</th>
+                <th scope="col">{t("colWho")}</th>
+                <th scope="col">{t("colDate")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {prs.map((p) => (
+                <tr key={p.number}>
+                  <td lang="en" dir="auto">
+                    <a href={`${REPO_URL}/pull/${p.number}`} target="_blank" rel="noopener noreferrer">
+                      <span dir="ltr">#{p.number}</span> {p.title}
+                    </a>
+                  </td>
+                  <td className="mono s dim" dir="ltr">
+                    {p.author}
+                  </td>
+                  <td className="s dim">{day(p.merged)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </TableScroll>
+      </details>
+      <p className="xs faint" style={{ marginTop: 10 }}>
+        {t("when", { date: day(buildWeek.generated) })}
+      </p>
+    </section>
   );
 }

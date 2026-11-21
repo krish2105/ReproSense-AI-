@@ -12,6 +12,8 @@ describe("pilot value arithmetic", () => {
     expect(r.closedBefore).toBeCloseTo(54.102, 3);
     expect(r.closedAfter).toBeCloseTo(106.5, 6);
     expect(r.extraClosed).toBeCloseTo(52.398, 3);
+    // 34.5% of those 52.4 extra tests show raised sugar: about 18 mothers found within the follow-up window
+    expect(r.foundEarly).toBeCloseTo(18.077, 3);
     // × AED 500 = AED 26,199; subscription 1,990 × 12 = AED 23,880; net AED 2,319
     expect(r.value).toBeCloseTo(26199, 0);
     expect(r.subscription).toBe(23880);
@@ -29,6 +31,7 @@ describe("pilot value arithmetic", () => {
     const r = pilotValue({ ...defaults, afterPct: 10 });
     expect(r.extraClosed).toBe(0);
     expect(r.value).toBe(0);
+    expect(r.foundEarly).toBe(0);
     expect(r.net).toBe(-r.subscription);
   });
 
@@ -36,7 +39,7 @@ describe("pilot value arithmetic", () => {
     const s = sanitise({ ...defaults, gdmPct: 140, beforePct: -5, women: Number.NaN, months: 0, missedCostAed: -1 });
     expect(s).toMatchObject({ gdmPct: 100, beforePct: 0, women: 0, months: 1, missedCostAed: 0 });
     const r = pilotValue({ ...defaults, women: 0 });
-    expect(r.per1000).toEqual({ extraClosed: 0, value: 0 }); // no division by zero
+    expect(r.per1000).toEqual({ extraClosed: 0, value: 0, foundEarly: 0 }); // no division by zero
   });
 
   it("every default says what it rests on, and sourced ones link to the source", () => {
