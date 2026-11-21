@@ -79,13 +79,15 @@ export default async function Landing() {
         </div>
         {show?.status && isKnownCycle(show.status) ? (
           <HeroStage beads={ringBeads(show.status)} label={t("landing.phoneLabel")}>
-            {/* Noura's home screen as she sees it today (mockup #heroPhone), from the same API and components. */}
-            <div className="device mini" style={{ height: 680 }}>
+            {/* Noura's home screen as she sees it today (mockup #heroPhone), from the same API and components. The two
+                cards are anchored to the phone, not the column, so they overlap only its empty top and bottom edges. */}
+            <div className="hero-phone">
+            <div className="device mini">
               <div className="status" aria-hidden="true">
                 <span>9:41</span>
                 <span className="xs">●●●</span>
               </div>
-              <div className="dev-body" style={{ paddingBottom: 20, overflow: "hidden" }}>
+              <div className="dev-body">
                 <div className="kv" style={{ alignItems: "center" }}>
                   <div className="hello">
                     <p>{t("home.hello", { name: isolate(firstName(show.alias, locale)) })}</p>
@@ -117,6 +119,7 @@ export default async function Landing() {
               <span className="xs" style={{ color: "var(--accent-text)", fontWeight: 700 }} dir="ltr">
                 {t("landing.floatCites")}
               </span>
+            </div>
             </div>
           </HeroStage>
         ) : (

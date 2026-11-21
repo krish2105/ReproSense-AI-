@@ -15,6 +15,18 @@ Blockers / questions:
 - ...
 ```
 
+## 21 Nov 2026 (Sat night, after the freeze, Krishna approved): landing hero cards no longer cover the phone
+- The two floating cards on the landing were placed against the hero column, so on wide screens "Worth discussing"
+  covered Noura's avatar and greeting, and "AI Copilot" covered the "Next step" card. The phone also cut "Ask your
+  doctor" off at its bottom edge.
+- The fix anchors the cards to the phone itself, with an overlap of only its empty status-bar corner and bottom
+  padding (about 20px clear of any content). The phone grows to show both recommendations in full. Phones keep
+  the stacked layout.
+- Measured at 1024, 1440, 1920 and 390 px in English and Arabic: no overlaps and no sideways scroll.
+- New `e2e/landing-hero.spec.ts` (7 checks). It fails on the old live layout and passes on the fix.
+- Local runs: landing, screens (axe), tour and demo-path 97 passed / 1 skipped; fallbacks 4 passed; web unit 115 passed.
+- UI slop check: pass. No new colours, radii or shadows; the cards and the phone keep their existing styles.
+
 ## 21 Nov 2026 (Sat, freeze day): the judges' format, impact per 1,000 births, built since acceptance
 - Judges and the 3-slide-then-demo format came from the organisers. docs/27 was rewritten for it:
   - section 4 is the timed script (slides 0:00–1:20, demo 1:20–2:55, four voices);
