@@ -28,6 +28,7 @@ Blockers / questions:
   - slide 3: 57 pull requests since acceptance, and forming the company.
   - **Re-upload both files to programs.upstartbar.com before 15:15 Sun.**
 - Team change (21 Nov): Zebo (biology, NYU Abu Dhabi) joins as the 4th member in place of Dareen. Zebo presents slide 1 and takes the science questions; the Arabic demo step uses "Try an Arabic example"; the Arabic native review is open again (AR_REVIEW note).
+- Demo MP4 re-recorded in 4K (3840×2160, 97 s, about 36 MB). The old one was 1280×720 at 0.4 Mbit/s and blurry. `demo-video.mjs` now captures Chrome's screencast at 3× and encodes it with x264 at CRF 12. The caption sits above dialogs, and there's a new scene for "Built since acceptance".
 - #167: the same impact line on /pilot, and "Built since acceptance" on /evidence (57 merged since 17 Nov, each linked).
 
 ---
