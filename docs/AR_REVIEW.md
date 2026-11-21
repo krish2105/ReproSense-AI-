@@ -2021,3 +2021,23 @@ also have Arabic sections.
 | API `SUPPORT.pain` | Pain during feeds is common in the first weeks but it should not be ignored. A midwife, nurse or breastfeeding specialist can check how your baby latches. If a breast stays red, hot and painful, talk to your doctor. | الألم أثناء الرضاعة شائع في الأسابيع الأولى، لكن لا ينبغي تجاهله. تستطيع القابلة أو الممرضة أو أخصائية الرضاعة الطبيعية التحقق من طريقة التقام طفلكِ للثدي. وإذا بقي الثدي أحمر وساخناً ومؤلماً، تحدّثي مع طبيبتكِ أو طبيبكِ. | safety-adjacent: read first |
 | API `SUPPORT.few_wet_nappies` | From day 5, babies usually have at least 6 heavy wet nappies every 24 hours. If you are seeing fewer, talk to your midwife, nurse or your baby's doctor. | بدءاً من اليوم الخامس، يبلّل الطفل عادةً 6 حفاضات ثقيلة على الأقل كل 24 ساعة. إذا لاحظتِ عدداً أقل، تحدّثي مع القابلة أو الممرضة أو طبيب طفلكِ. | safety-adjacent: read first |
 | API `NOTE` | This log is for you and your care team. It does not tell whether your baby is getting enough milk; your baby's weight checks and your midwife, nurse or doctor do. | هذا السجل لكِ ولفريق رعايتكِ. وهو لا يحدد ما إذا كان طفلكِ يحصل على ما يكفيه من الحليب؛ فهذا ما يبيّنه قياس وزن طفلكِ والقابلة أو الممرضة أو الطبيب. | |
+
+## Impact per 1,000 births and "Built since acceptance" (21 Nov, draft Arabic, not native-reviewed)
+Every Arabic string below is a draft written with Claude Code (an AI review, not a native speaker's; #23 still applies).
+Clinic-facing (plural address, as on the rest of /pilot). Terms to check: «ارتفاع السكر» (raised blood sugar), «طلب دمج» (pull request), «أسبوع البناء» (build week).
+
+| Key | English | Arabic (draft) | Note |
+| --- | --- | --- | --- |
+| `pilot.inputs.abnormalPct` | Share of those tests that show raised blood sugar | نسبة هذه الفحوصات التي تُظهر ارتفاع السكر |  |
+| `pilot.out.foundEarly` | Of those, tests expected to show raised blood sugar | منها فحوصات يُتوقع أن تُظهر ارتفاع السكر |  |
+| `pilot.per1000` | Per 1,000 women who give birth: {closed} more follow-ups closed, about {found} of them expected to show raised blood sugar that would otherwise go unfound, worth AED {value} at your cost per missed follow-up. | لكل 1,000 امرأة تلد: {closed} متابعة إضافية مكتملة، يُتوقع أن يُظهر نحو {found} منها ارتفاع السكر الذي كان سيبقى غير مكتشف، قيمتها {value} درهم بحسب تكلفتكم للمتابعة الفائتة. | «ارتفاع السكر»: raised sugar, not a diagnosis |
+| `pilot.assumptions (added sentence)` | The share with raised sugar is a pooled average from published studies; your clinic's own rate will differ. | نسبة ارتفاع السكر متوسط مجمّع من دراسات منشورة، وقد تختلف نسبة عيادتكم. |  |
+| `evidence.built.title` | Built since acceptance | ما بنيناه منذ القبول |  |
+| `evidence.built.lead` | {n} pull requests merged from {since}, the first day of build week, by {people} team members on GitHub. Each one links to its code, tests and review. | {n} طلب دمج (pull request) منذ {since}، أول يوم في أسبوع البناء، من {people} أعضاء في الفريق على GitHub. كل طلب يفتح على الكود والاختبارات والمراجعة. | number agreement with {n}: 57 and 56 take «طلبَ دمج» |
+| `evidence.built.before` | Before selection on 16 Nov: {n} pull requests, also on GitHub. | قبل الاختيار في 16 نوفمبر: {n} طلب دمج، وهي أيضاً على GitHub. | number agreement with {n}: 57 and 56 take «طلبَ دمج» |
+| `evidence.built.show` | Show all {n} pull requests | عرض كل طلبات الدمج ({n}) |  |
+| `evidence.built.colPr` | Pull request | طلب الدمج |  |
+| `evidence.built.colWho` | By | من |  |
+| `evidence.built.colDate` | Merged | تاريخ الدمج |  |
+| `evidence.built.when` | Listed from GitHub on {date} by tools/build_week.py; dependency-update bots left out. | القائمة مأخوذة من GitHub في {date} عبر tools/build_week.py، من دون روبوتات تحديث المكتبات. |  |
+| `pilot.intro` (changed sentence) | Each default comes from a published study (two from Abu Dhabi, one pooled from 18 studies) or our price list, or is marked as an assumption. | كل قيمة افتراضية مأخوذة من دراسة منشورة (اثنتان من أبوظبي، وواحدة تجمع 18 دراسة) أو من قائمة أسعارنا، أو مكتوب بجانبها أنها افتراض. | |
