@@ -566,10 +566,21 @@ a.prow{text-decoration:none;color:inherit}
   .hero-vis .floatc{display:flex;position:static;transform:none;max-width:none;width:100%}
 }
 @media (prefers-reduced-motion:reduce){#hero3d svg{transition:none}.hero-vis .mini{transition:none}}
-/* Our phone has no stage pills, so its button sits higher than in the mockup: the cards overlap only the
-   status bar and the clipped bottom edge, never the arc or the button. */
-.hero-vis .floatc.a{top:-18px;right:auto;left:auto;inset-inline-end:0}
-.hero-vis .floatc.b{bottom:-16px;right:auto;left:auto;inset-inline-start:0}
+/* Landing hero: the phone shows her whole home screen (greeting, arc, button, both recommendations) at its own
+   height, and the two cards are anchored to the phone rather than to the column, so the same geometry holds at every
+   width. Each card overlaps only an empty edge: the pattern card the status-bar corner above the greeting, the
+   copilot card the bottom padding under the recommendations. The margins reserve their overhang. */
+.hero-phone{position:relative;width:360px;max-width:100%;margin:122px 0 140px;perspective:1200px}
+.hero-vis .mini{height:auto;width:100%}
+.hero-vis .mini .dev-body{padding-bottom:44px;overflow:visible}
+.hero-phone .floatc{max-width:236px;width:max-content}
+.hero-phone .floatc.a{top:auto;right:auto;left:auto;bottom:calc(100% - 20px);inset-inline-end:-58px;transform:rotate(3deg)}
+.hero-phone .floatc.b{bottom:auto;right:auto;left:auto;top:calc(100% - 20px);inset-inline-start:-58px;transform:rotate(-2deg)}
+/* Phones: no ring, no overhang; the cards stack under the phone at full width (as before). */
+@media (max-width:540px){
+  .hero-phone{margin:0;display:flex;flex-direction:column;gap:12px;width:100%}
+  .hero-phone .floatc.a,.hero-phone .floatc.b{position:static;transform:none;max-width:none;width:100%}
+}
 /* The ring's canvas reaches 40px past the stage (mockup #hero3d); only its empty edge can pass the page edge,
    so the hero clips sideways and never adds a horizontal scrollbar. The cards above stay inside it. */
 .hero{overflow-x:clip}
