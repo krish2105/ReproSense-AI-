@@ -15,6 +15,21 @@ Blockers / questions:
 - ...
 ```
 
+## 21 Nov 2026 (Sat, freeze day): the judges' format, impact per 1,000 births, built since acceptance
+- Judges and the 3-slide-then-demo format came from the organisers. docs/27 was rewritten for it:
+  - section 4 is the timed script (slides 0:00–1:20, demo 1:20–2:55, four voices);
+  - section 10 covers each judge's likely questions;
+  - wording is honest: held-out questions are "written separately from the code"; the AI does the language work, the rules decide.
+- The live demo path was walked on reprosense.vercel.app: no console errors. The patient app has no Clinician link
+  (separate roles), so the script goes through Demo people.
+- The 3-slide deck was rebuilt (PPTX + PDF):
+  - slide 1: about 18 more mothers per 1,000 births with raised sugar found early (arithmetic, 34.5% pooled, Endocrine 2025);
+  - slide 2: the AI wording;
+  - slide 3: 57 pull requests since acceptance, and forming the company.
+  - **Re-upload both files to programs.upstartbar.com before 15:15 Sun.**
+- Team change (21 Nov): Zebo (biology, NYU Abu Dhabi) joins as the 4th member in place of Dareen. Zebo presents slide 1 and takes the science questions; the Arabic demo step uses "Try an Arabic example"; the Arabic native review is open again (AR_REVIEW note).
+- #167: the same impact line on /pilot, and "Built since acceptance" on /evidence (57 merged since 17 Nov, each linked).
+
 ---
 
 ## 2026-11-20 — Submission refreshed for the current product; trackers brought up to date — Yash with Claude Code

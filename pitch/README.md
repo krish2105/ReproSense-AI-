@@ -1,4 +1,10 @@
-# Pitch deck (3 minutes, 10 slides)
+# Pitch deck
+
+**On stage (organisers' format, 21 Nov):** the three slides in `ReproSense-submission.pdf` (problem, solution, venture
+roadmap) in 1 to 1.5 minutes, then the live demo. The script is docs/27 section 4. The 10-slide `deck.html` below is
+the older long-form deck: keep it for Q&A backup, not for the 3 minutes.
+
+## The 10-slide deck (backup)
 
 `deck.html` is the deck: one self-contained page in the product's own look (E · Mauve Pro), built from the repo's data.
 It works offline (font and screenshots sit next to it). `ReproSense-pitch.pdf` is the printed backup.

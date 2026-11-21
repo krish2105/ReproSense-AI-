@@ -79,13 +79,20 @@ STATS.forEach(([big, label, src], i) => {
   s1.addText(label, { x: x + 0.25, y: 3.8, w: 2.4, h: 1.1, fontSize: 16, color: C.background1, margin: 0, valign: "top", isTextBox: true });
   s1.addText(src, { x: x + 0.25, y: 4.95, w: 2.4, h: 0.4, fontSize: 10, italic: true, color: "C9BACD", margin: 0, isTextBox: true });
 });
-s1.addText("After birth, that glucose test is part of DoH Jawda indicator PC008, the follow-up clinics in Abu Dhabi are measured on.", {
-  x: 0.6, y: 5.85, w: 12.1, h: 0.45, fontSize: 16, color: "EBD7F0", margin: 0, isTextBox: true,
+s1.addText(
+  [
+    { text: "That test is part of DoH Jawda PC008. ", options: { bold: true } },
+    { text: "Lifting it from 1 in 4 to 1 in 2 would mean about 18 more mothers per 1,000 births with raised blood sugar found early." },
+  ],
+  { x: 0.6, y: 5.75, w: 12.1, h: 0.7, fontSize: 16, color: "EBD7F0", margin: 0, valign: "top", isTextBox: true },
+);
+s1.addText("Arithmetic, not a result: 1,000 × 21.3% × (50% − 25.4%) × 34.5% of tests showing raised sugar (pooled from 18 studies, Endocrine 2025). Every input is editable at reprosense.vercel.app/pilot.", {
+  x: 0.6, y: 6.5, w: 12.1, h: 0.35, fontSize: 10, italic: true, color: "C9BACD", margin: 0, isTextBox: true,
 });
 s1.addNotes(
   "Up to 70% of women with PCOS don't know they have it. In a UAE study, endometriosis took 11.6 years from first symptoms to diagnosis. " +
     "In Al Ain about one pregnancy in five has gestational diabetes, and at one hospital only one in four of those women came back for the glucose test after birth. " +
-    "The information exists; it just arrives in pieces. Sources: WHO 2026; Frontiers in Global Women's Health 2021; Frontiers in Endocrinology 2022; IJERPH 2022 (docs/05).",
+    "The information exists; it just arrives in pieces. If a clinic lifted that follow-up from one in four to one in two, that is about 18 more mothers per 1,000 births whose raised blood sugar is found early: arithmetic from these studies, not a result we have measured. Sources: WHO 2026; Frontiers in Global Women's Health 2021; Frontiers in Endocrinology 2022; IJERPH 2022 (docs/05).",
 );
 
 // ---------- 2 · The solution ----------
@@ -95,7 +102,7 @@ s2.addText("ReproSense turns her record into a next step", { placeholder: "title
 const ROWS = [
   ["Her record in 20 seconds", "Logs by tap or voice in Arabic or English. Lab reports read from a PDF or photo, and she checks every value."],
   ["Patterns, never a diagnosis", "Written rules from published guidelines. Each pattern shows the entries behind it and its source. Red flags come first, with 998."],
-  ["AI that is checked", "Rules decide; the model only rewords. Held-out safety with the AI check: crisis 30/30, emergencies 32/32. 14 of 14 security attacks blocked."],
+  ["AI that is checked", "Rules decide. AI reads her voice and lab photos and answers from cited sources. Held-out safety: crisis 30/30, emergencies 32/32. 14 of 14 attacks blocked."],
   ["The clinic loop", "With consent: a pre-visit brief, a doctor report, follow-ups that close DoH's PC008. After birth: DoH postnatal steps and the baby's first year."],
 ];
 ROWS.forEach(([head, body], i) => {
@@ -124,7 +131,7 @@ s2.addImage({
 s2.addText("Noura (fictional): a pattern, its evidence and its source", { x: 8.75, y: 6.8, w: 4.0, h: 0.25, fontSize: 10, italic: true, color: C.accent5, align: "center", margin: 0, isTextBox: true });
 s2.addNotes(
   "She logs in seconds, by voice if she likes, in Arabic or English. Written rules from published guidelines find patterns worth discussing; every card shows the entries and the guideline, never a diagnosis, and red flags come first with 998. " +
-    "The AI is checked: rules decide, retrieval grounds, the model only rewords, and sentences her data doesn't support are dropped; she can switch AI off. On 132 held-out reviewer questions we never tuned on, the AI second check routed every crisis message (30 of 30) and every emergency (32 of 32) to support or 998, and an attack suite of 14 attacks, all blocked, runs on every change. " +
+    "The AI is checked: rules decide every pattern; the AI fills the log from her voice, reads lab photos and answers from a cited library, and sentences her data doesn't support are dropped; she can switch AI off. On 132 held-out questions written separately from the code and never used to tune it, the AI second check routed every crisis message (30 of 30) and every emergency (32 of 32) to support or 998, and an attack suite of 14 attacks, all blocked, runs on every change. " +
     "With her consent the clinic gets a pre-visit brief and a doctor report, and follow-ups close DoH's PC008 indicator. After a birth, the same record carries DoH's postnatal steps and her baby's first year: newborn screening, well-baby visits and vaccinations, each with its source. " +
     "Trackers like Flo and Clue print reports too; our moat is the clinic loop, cited rules, Arabic first, and no selling of health data.",
 );
@@ -152,24 +159,28 @@ const CARDS = [
 ];
 CARDS.forEach(([head, body], i) => {
   const x = 0.6 + i * 6.2;
-  s3.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 4.35, w: 5.9, h: 1.75, rectRadius: 0.2, fill: { color: C.accent6 }, line: { color: C.accent6 }, objectName: `card-${i + 1}` });
-  s3.addText(head, { x: x + 0.3, y: 4.5, w: 5.3, h: 0.4, fontSize: 20, bold: true, color: C.accent2, margin: 0, isTextBox: true });
-  s3.addText(body, { x: x + 0.3, y: 4.95, w: 5.3, h: 1.05, fontSize: 14, color: C.background1, margin: 0, valign: "top", isTextBox: true });
+  s3.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 4.2, w: 5.9, h: 1.65, rectRadius: 0.2, fill: { color: C.accent6 }, line: { color: C.accent6 }, objectName: `card-${i + 1}` });
+  s3.addText(head, { x: x + 0.3, y: 4.32, w: 5.3, h: 0.4, fontSize: 20, bold: true, color: C.accent2, margin: 0, isTextBox: true });
+  s3.addText(body, { x: x + 0.3, y: 4.77, w: 5.3, h: 1.0, fontSize: 14, color: C.background1, margin: 0, valign: "top", isTextBox: true });
 });
 s3.addText(
   [
     { text: "Pilot measure: ", options: { bold: true } },
     { text: "the share of women with gestational diabetes who complete the glucose test within 12 weeks of birth (draft, pending clinician review)." },
   ],
-  { x: 0.6, y: 6.25, w: 12.1, h: 0.35, fontSize: 14, color: "EBD7F0", margin: 0, isTextBox: true },
+  { x: 0.6, y: 5.98, w: 12.1, h: 0.35, fontSize: 14, color: "EBD7F0", margin: 0, isTextBox: true },
 );
-s3.addText("Team: Krishna Mathur (AI, backend, safety) · Atharva Soundankar (web, design) · Yash Petkar (product, demo) · Dareen (mother and baby, Arabic)", {
-  x: 0.6, y: 6.6, w: 12.1, h: 0.3, fontSize: 11, color: "C9BACD", margin: 0, isTextBox: true,
+s3.addText("Since acceptance (17–21 Nov): 57 merged pull requests, each listed at reprosense.vercel.app/evidence. We are forming the company to run the pilot.", {
+  x: 0.6, y: 6.33, w: 12.1, h: 0.3, fontSize: 12, bold: true, color: "EBD7F0", margin: 0, isTextBox: true,
+});
+s3.addText("Team: Krishna Mathur (AI, backend, safety) · Atharva Soundankar (web, design) · Yash Petkar (product, venture) · Zebo (biology, women's health evidence)", {
+  x: 0.6, y: 6.63, w: 11.5, h: 0.3, fontSize: 11, color: "C9BACD", margin: 0, isTextBox: true,
 });
 s3.addNotes(
   "In November we freeze our claims and write the device memo for the Emirates Drug Establishment. In December: ten interviews, a clinic letter of intent and the ADHICS gap assessment. " +
     "By February the stack runs in the UAE, pen-tested, with women and clinicians testing it. From March, a consented pilot at one clinic, judged on one number: how many women with gestational diabetes complete their glucose test within 12 weeks of birth. " +
-    "Clinics pay per clinician seat; primary-care networks for the after-birth module. We need a pilot clinic, a clinical advisor and the grant (docs/19).",
+    "Clinics pay per clinician seat; primary-care networks for the after-birth module. We need a pilot clinic, a clinical advisor and the grant (docs/19). " +
+    "Since acceptance we merged 57 pull requests, every one listed with its date on /evidence, and we are forming the company to run this pilot.",
 );
 
 (async () => {

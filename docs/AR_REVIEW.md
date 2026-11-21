@@ -1,5 +1,7 @@
 # Arabic review sheet (AR-REVIEW)
 
+> **21 Nov 2026:** Dareen, the team's native Arabic reviewer, has left the team. Every section below marked for her review is still open and needs another native speaker before any real use.
+
 Arabic strings added or changed on 5–6 Nov 2026, next to their English. A native speaker should check meaning, tone
 (warm, direct, feminine address where the screen is hers) and medical terms (Arabic term + the English abbreviation a
 doctor uses). Also check the judge panel's notes: normal period days must not be called نزيف (haemorrhage), clots must

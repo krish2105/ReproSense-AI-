@@ -2,7 +2,7 @@
 
 Legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 
-Last updated: 2026-11-19 (build week day 3: K1–K7, A1–A8, the iOS app and Next 16 are merged and live; no PRs open; senior-judge rescore 73/100, PROGRESS.md). Repo: https://github.com/krish2105/ReproSense-AI-
+Last updated: 2026-11-21 (freeze day: the judges' 3-slide format in docs/27, deck rebuilt, #167 impact + built-since-acceptance). Repo: https://github.com/krish2105/ReproSense-AI-
 Live: web https://reprosense.vercel.app (Next 16) · API https://reprosense-api.onrender.com (Render free tier, sleeps; live AI off until `OPENROUTER_API_KEY` is set).
 
 **Owners.** Krishna (`krish2105`): backend, AI, data, security, deploy. Atharva (`mercydeez`): web app (design + frontend).
