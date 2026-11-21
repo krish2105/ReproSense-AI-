@@ -85,74 +85,86 @@ Quote interviews only from the evidence log (docs/29 §4).
 Read it out loud three times with a timer. Speak to the judges, not the screen. Short sentences; pause after numbers.
 **Bold** = stress. *[Brackets]* = what Atharva clicks.
 
-### Slides (0:00–1:20)
+### The words to say (same text as the PPTX speaker notes)
+These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in PowerPoint, start the Slide Show and use Presenter View (in Keynote: Play, then Presenter Display), and each speaker sees their lines under the slide. The source is `pitch/speaker_notes.js`: edit it there and rebuild (pitch/README.md), so the deck and this page never drift. Slides take about 1:30 and the demo about 1:25. Rehearse with a timer; if you run long, the timing notes say what to skip.
 
-#### 0:00–0:25 · Slide 1, the problem · Zebo
-> "Good afternoon. A woman in Abu Dhabi with irregular periods, acne and hair growth has been noticing it for a year:
-> some in her phone, some in a lab report, some she just remembers. When she sees a gynaecologist, she has **ten
-> minutes** to tell a year-long story.
+#### Slide 1
+> ZEBO · 30 seconds · slide 1, the problem
+> (Wait a beat. Look at the judges, not the screen.)
 >
-> Up to **70 percent** of women with PCOS don't know they have it. Endometriosis took **eleven and a half years** to
-> diagnose in a UAE study. In Al Ain, one pregnancy in five has gestational diabetes, and only **one in four** of
-> those mothers came back for the glucose test after birth.
+> "Good afternoon. Imagine a woman in Abu Dhabi with a year of irregular periods and acne, and ten minutes with a gynaecologist to explain it all.
 >
-> Lift that to one in two, and that's about **18 more mothers per 1,000 births** with raised blood sugar found early."
-
-#### 0:25–0:50 · Slide 2, the solution · Krishna
-> "ReproSense is her health record, in Arabic and English. She logs in seconds: a tap, her voice, or a photo of a lab
-> report. Written rules from published guidelines find **patterns worth discussing with a doctor**, each showing the
-> exact entries behind it and its source. It **never diagnoses**, and urgent signs always come first, with 998.
+> Up to 70 percent of women with PCOS don't know they have it. In a UAE study, endometriosis took eleven and a half years to diagnose. And only one in four mums with diabetes in pregnancy came back for the glucose test after the birth.
 >
-> Rules decide; the AI handles her words and is checked. On 132 held-out questions written separately from the code,
-> it sent **all 30 crisis messages** to support and **all 32 emergencies** to 998 first."
-
-#### 0:50–1:20 · Slide 3, the venture · Yash
-> "Who pays: clinics, per clinician seat, and primary-care networks for the after-birth module, because it closes
-> DoH's own indicator, **PC008**. Women use it free.
+> Make that one in two, and about 18 more mothers in every thousand births get high blood sugar caught early."
 >
-> The route: November, a device-classification memo for the Emirates Drug Establishment. December, interviews and a
-> clinic letter of intent. February, UAE hosting and a penetration test. March to May, a consented pilot at one clinic
-> and a licensed company.
+> (Turn to Krishna: "Krishna.")
 >
-> *(Only if true, from the notes:)* This week we spoke to [N] women and [N] clinicians; [one line of what they said].
+> IF ASKED
+> - 70%: WHO PCOS fact sheet, Jan 2026.
+> - 11.6 years: 518 women in the UAE, Frontiers in Global Women's Health, 2021.
+> - 1 in 5 pregnancies with gestational diabetes: 2,546 pregnancies in Al Ain, Frontiers in Endocrinology, 2022.
+> - 1 in 4 came back: 265 of 1,043 women, one Al Ain hospital, IJERPH, 2022.
+> - 18 per 1,000 is arithmetic, not our result: 1,000 x 21.3% x (50% - 25.4%) x 34.5% (pooled from 18 studies, Endocrine, 2025). The inputs are on /pilot.
+> - Not sure? "Good question. We haven't measured that yet." Then hand to Krishna.
+
+#### Slide 2
+> KRISHNA · 30 seconds · slide 2, the solution
 >
-> Since acceptance we merged **57 pull requests**; every one is listed on our evidence page. We're forming the company
-> to run this pilot. Let us show you."
+> "So we built ReproSense: her health record, in Arabic and English. She logs in seconds, by tap, by voice, or with a photo of a lab report.
+>
+> Rules from published guidelines spot patterns worth raising with a doctor, and show the exact days and the guideline behind each one. It never diagnoses, and anything urgent comes first, with 998.
+>
+> The AI is checked. On 132 test messages it was never tuned on, it sent all 30 crises to support and all 32 emergencies to 998."
+>
+> (Turn to Yash.)
+>
+> IF ASKED
+> - Who wrote the 132? Written separately from the code, in English and four kinds of Arabic, measured once, never used for tuning. Not clinicians; clinician-written tests are next. Never say "independent reviewers".
+> - Where is the AI? Her voice and lab photos into the form, answers from a cited library, rewording. Rules make every safety decision; the AI can add an urgent route, never remove one.
+> - Model down? Red flags are plain rules and run first. Past 10 seconds she gets a fixed, sourced reply.
+> - 14 of 14 attacks blocked, on every change: /evidence.
 
-### Demo (1:20–2:55) · Atharva drives
-
-#### 1:20–1:45 · Noura's pattern · Krishna narrates
-*[Tab already on Noura's Home → **Patterns** → first card → **Why we noticed**]*
-> "Noura, a fictional 24-year-old. A pattern worth discussing: these chips are the exact days she logged, and this is
-> the 2023 international PCOS guideline it comes from. No diagnosis, just what to ask her doctor."
-
-#### 1:45–1:55 · Before the visit · Krishna
-*[**Report** → "Before your visit"]*
-> "Before her appointment: what changed since her last visit, and a two-page report her doctor reads in a minute."
-
-#### 1:55–2:15 · Her words, in Arabic · Krishna narrates
-*[**عربي** → **Calendar** → **Try an Arabic example** (no microphone on stage)]*
-> "She can say it in her own words, in Gulf Arabic. This sentence says: cramps, I missed work, pain seven out of ten.
-> The form filled itself, and nothing is saved until she checks it."
-
-#### 2:15–2:40 · The clinic closes the loop · Krishna
-*[**English** → header **Demo people** → **Open clinician view** → **Fatima K.** → glucose follow-up → **Mark booked**]*
-> "The clinic's side: a separate role that only shows women who chose to share. Fatima had gestational diabetes and is
-> nine weeks after the birth, so her glucose test is due: DoH's PC008. One tap: booked."
-
-#### 2:40–2:55 · The network · Krishna
-*[Header **Demo people** → **Open clinic network**]*
-> "And the network sees follow-ups close, counts only, never names. That's what a clinic or an insurer pays for."
-
-#### 2:55–3:00 · The ask · Krishna
-> "We're asking for one pilot clinic, a clinical advisor to sign our rules, and the grant. Thank you."
-
-**Timing guards:**
-- Behind at 1:55? Skip the Arabic step and say one line: "She can also log by voice, in Arabic."
-- Behind at 2:40? Skip the network; go straight to the ask.
-- API slow? Yash plays `pitch/ReproSense-demo.mp4` and Krishna narrates over it.
-- The patient app has no Clinician link in its header (separate roles, CLAUDE rule 9): go through **Demo people**.
-  Practise that hop; it's the one place the demo can stall.
+#### Slide 3, then the demo
+> YASH · 30 seconds · slide 3, the venture
+>
+> "Who pays? Clinics, per doctor, and primary-care networks, because the after-birth glucose test is on DoH's own scorecard, PC008. Women use it free.
+>
+> Next: a device memo for the Emirates Drug Establishment, a clinic letter of intent, UAE hosting, then a pilot at one clinic and a licensed company by May.
+>
+> Since we were accepted we've merged 57 pull requests, all on our evidence page, and we're forming the company. Let us show you."
+>
+> (Only if it's true and written down: "This week we spoke to [N] women and [N] doctors. [One thing they said.]")
+>
+> === SWITCH TO THE BROWSER: Noura's Home, English, Light ===
+>
+> DEMO · Atharva clicks, Krishna talks · 85 seconds (ends by 2:55)
+>
+> 1. Patterns, first card, Why we noticed
+> "This is Noura. She's fictional, 24, and her cycles keep running past 35 days. These chips are the days she logged, and this is the guideline behind it. No diagnosis. Just something to ask her doctor."
+>
+> 2. Report, Before your visit
+> "Before her visit: what changed since last time, on two pages her doctor reads in a minute."
+>
+> 3. عربي, Calendar, Try an Arabic example
+> "She can also just say it, in Gulf Arabic: cramps, missed work, pain seven out of ten. The form fills itself, and nothing saves until she checks it."
+>
+> 4. English, Demo people, Open clinician view, Fatima K., glucose follow-up, Mark booked
+> "Now the clinic. It only sees women who chose to share. Fatima had diabetes in pregnancy and is nine weeks after the birth, so her glucose test is due. One tap. Booked."
+>
+> 5. Demo people, Open clinic network
+> "And the network sees these follow-ups close. Counts only, never names. That's what clinics and insurers pay for."
+>
+> 6. Krishna closes
+> "We're asking for one pilot clinic, a clinical advisor to sign off our rules, and the grant. Thank you."
+>
+> TIMING
+> - Behind at step 3? Skip it. Say: "She can log by voice in Arabic too."
+> - Behind at step 5? Skip it and close.
+> - Site slow or down? Yash plays ReproSense-demo.mp4 and Krishna talks over it.
+> - There's no Clinician link inside her app. Go through Demo people.
+>
+> Q&A: answer in two sentences, then stop. Krishna: AI, safety, data, regulation. Yash: money, market, pilot. Zebo: the science (PMOS, gestational diabetes, mood after birth). Atharva: the build and the app.
 
 ---
 

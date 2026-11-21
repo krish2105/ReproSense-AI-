@@ -125,8 +125,8 @@ Atharva merged #74 and #77 on 7 Nov evening, then #83, #84, #85, #87, #88, #89 a
   - Phases 0–7, plus `/join`, `/pricing`, `/trust` (the DoH Responsible AI Standard, clause by clause) and `/status` support terms.
   - Playwright e2e in CI covers the 3-minute demo path, every key screen in EN/AR/dark through axe (WCAG 2.2 AA), safety, 3D fallbacks, join, AI switch and SaaS checks.
   - Lighthouse 100 on the landing page.
-- **Pitch:** `pitch/deck.html` (10 slides from the real data and screens) and `pitch/ReproSense-pitch.pdf`.
-  - Team and evidence lines are hidden until `TEAM` and `EVIDENCE` are set in `pitch/build_deck.py`. Fill them only with true facts.
+- **Pitch:** `pitch/ReproSense-submission.pptx` (3 slides, each speaker's lines in the notes), its PDF and
+  `pitch/ReproSense-demo.mp4`. Script and Q&A: docs/27. The 6 Nov 10-slide deck was retired on 21 Nov.
 - **Parked for build week (17–21 Nov):** clinician invites on branch `build-week/clinician-invites`, built and tested. Merge it on 17 Nov so it counts as build-week work (QUESTIONS #51).
 - **Research (6 Nov):** `research/2026-11-06/` holds five sourced notes. They have already corrected the landing evidence, docs/05, 07, 10, 12 and 15.
 - **Deployed 18 Nov:** https://reprosense.vercel.app (Vercel) with the API and a free Postgres on Render (see section 0).
