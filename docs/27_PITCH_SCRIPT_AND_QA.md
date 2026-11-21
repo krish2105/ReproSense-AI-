@@ -1,7 +1,9 @@
 # 27 · Showcase pack: what ReproSense is, the 3-minute script, the demo, and the judges' questions
 
-For Sunday 22 Nov 2026, DOH Incubator, Masdar City. Format: **3-minute pitch (with the live demo inside it), then 3
-minutes of questions.** Jury from PureHealth, NYU Abu Dhabi and the Department of Health. Submission (3-slide deck +
+For Sunday 22 Nov 2026, DOH Incubator, Masdar City. Format (organisers, 21 Nov): **three slides (problem, solution,
+venture roadmap) in 1 to 1.5 minutes, then the live demo in 1.5 to 2 minutes; 3 minutes in all, then 3 minutes of
+questions.** Judges: Hesham Abuasi (DoH), Madiha Parvez (PureHealth), Dr Osama Abdullah (NYU Abu Dhabi), Mehdi
+Bouchenak (Vitalls); section 10 has what each is likely to ask. Submission (3-slide deck +
 MP4) at programs.upstartbar.com by **15:15**: both files are in `pitch/` (Yash, #135).
 
 Live: https://reprosense.vercel.app · Every person and number in the demo is fictional.
@@ -31,7 +33,7 @@ Health**: *"How might we use AI to improve women's health and maternal, newborn 
 | --- | --- | --- |
 | **Women's health** (ours) | **Yes, core** | Periods: irregular cycles and androgen signs (PCOS guideline 2023), severe cyclical pain (endometriosis), heavy bleeding (PBAC score), iron. Red flags first with 998. Five life stages. |
 | ↳ maternal | **Yes** | Pregnancy: glucose screening window (24–28 weeks); pregnancy warning signs; **blood-pressure log with the NICE NG133 warning** (pregnancy and 12 weeks after birth). After birth: **the DoH Postnatal Care Program steps** (teleconsult, 2-week and 6-week visits, mood check with the EPDS questionnaire, glucose test after gestational diabetes). |
-| ↳ newborn and early childhood | **Yes** | **The baby's first year** (Fatima → Home): newborn screening, well-baby visits and vaccinations from DoH Abu Dhabi's immunization circular and newborn screening standard, each with its source and "I had this". The feeding log (D2) is next. |
+| ↳ newborn and early childhood | **Yes** | **The baby's first year** (Fatima → Home): newborn screening, well-baby visits and vaccinations from DoH Abu Dhabi's immunization circular and newborn screening standard, each with its source and "I had this". The feeding log after birth (D2, #164) is live too. |
 | **Fertility** (neighbouring theme) | **Yes, a slice** | "Trying to conceive" life stage: when to ask for a fertility assessment (Mariam's story); the planning-a-pregnancy checklist (Mariam → Home). |
 | **Longevity** | **A slice** | Perimenopause (Layla: hot flushes, night sweats, changing cycles) and iron levels; the record follows her across life stages. |
 | **Alzheimer's** | **No** | Not our theme. Don't claim it. |
@@ -56,84 +58,101 @@ Health**: *"How might we use AI to improve women's health and maternal, newborn 
 
 ---
 
-## 4. The 3-minute script (four voices)
+## 4. The 3-minute script: 3 slides, then the demo (organisers' format, 21 Nov)
 
-**Numbers to know by heart (all on /status and /evidence):**
-- **Safety, held-out (132 reviewer questions, never tuned on), with the AI second check:** crisis **30/30**,
-  emergencies **32/32**, everyday questions answered normally 42/50 (no new false alarms). Word checks alone: 11/30 and
-  24/32.
-- **Security:** an attack suite of 14 attacks, all blocked, runs on every change.
-- **Tests:** 800+ backend tests and about 250 browser tests on every pull request.
-- **The loop on demo data:** a median of 8 days from a follow-up opening to it being booked, and 66% of postnatal steps
+The organisers' format (WhatsApp, 21 Nov): **three slides** (the problem, the solution, the venture roadmap: how it
+becomes a company) in **1 to 1.5 minutes**, then the **demo in 1.5 to 2 minutes**. 3 minutes in all, then 3 minutes of
+questions. The slides are `pitch/ReproSense-submission.pdf`; the demo is the live site.
+
+**Numbers to know by heart** (all on /evidence, /status and /pilot):
+- **Safety, held-out:** 132 questions written separately from the code and never used to tune it. With the AI second
+  check: crisis **30/30**, emergencies **32/32**, everyday questions answered normally 42/50 (no new false alarms).
+  Word checks alone: 11/30 and 24/32.
+- **Security:** 14 of 14 attacks blocked, on every change.
+- **Built since acceptance (17–21 Nov):** **57 merged pull requests**, each listed with its date on /evidence. Before
+  selection: 56.
+- **Impact, per 1,000 births (arithmetic, not a result):** 213 with gestational diabetes; today 1 in 4 get the glucose
+  test after birth (54). At 1 in 2 (107), that is 52 more tests and **about 18 more mothers with raised blood sugar
+  found early** (34.5% pooled rate, Endocrine 2025). On /pilot every input is editable.
+- **The loop on demo data:** a median of 8 days from a follow-up opening to it being booked; 66% of postnatal steps
   done inside their DoH window.
+
+**Honesty rules for the stage.** Say "written separately from the code" for the held-out questions, never
+"independent reviewers". The pattern cards are written by rules and templates; the AI does the language work (her
+voice, lab photos, the assistant's cited answers). Say "a pilot clinic is our first ask", never that one has signed.
+Quote interviews only from the evidence log (docs/29 §4).
 
 Read it out loud three times with a timer. Speak to the judges, not the screen. Short sentences; pause after numbers.
 **Bold** = stress. *[Brackets]* = what Atharva clicks.
 
-### 0:00–0:35 · Yash: the problem
-> "Good afternoon. Think of a woman in Abu Dhabi with irregular periods, acne and hair growth. She's been noticing it
-> for a year: some in her phone notes, some in a lab report, some she just remembers.
-> When she finally sees a gynaecologist, she has **ten minutes** to tell a year-long story.
->
-> This is common. Up to **70 percent** of women with PCOS don't know they have it. In a UAE study, endometriosis took
-> **eleven and a half years** to diagnose. And in Al Ain, one pregnancy in five has gestational diabetes, but only
-> **one in four** of those mothers came back for the glucose test after the birth.
->
-> The information exists. It just arrives in pieces."
+### Slides (0:00–1:20)
 
-### 0:35–1:05 · Krishna: what we built
-> "We built ReproSense: her health record, in Arabic and English, that turns those pieces into a next step.
+#### 0:00–0:25 · Slide 1, the problem · Yash
+> "Good afternoon. A woman in Abu Dhabi with irregular periods, acne and hair growth has been noticing it for a year:
+> some in her phone, some in a lab report, some she just remembers. When she sees a gynaecologist, she has **ten
+> minutes** to tell a year-long story.
 >
-> She logs in seconds: a tap, her voice, or a photo of a lab report. Written rules from published guidelines find
-> **patterns worth discussing with a doctor**. Every pattern shows the exact entries behind it and its source.
+> Up to **70 percent** of women with PCOS don't know they have it. Endometriosis took **eleven and a half years** to
+> diagnose in a UAE study. In Al Ain, one pregnancy in five has gestational diabetes, and only **one in four** of
+> those mothers came back for the glucose test after birth.
 >
-> It **never diagnoses** and never gives a fake percentage. Urgent signs always come first, with a call to 998.
->
-> The AI is checked, not trusted: rules decide, sources ground every answer, and the model only rewords.
->
-> And it is safe. On 132 questions written by independent reviewers, and never used to tune it, our safety layer sent
-> **all 30 crisis messages** to support and **all 32 emergencies** to 998 first, with no new false alarms. Let me show
-> you."
+> Lift that to one in two, and that's about **18 more mothers per 1,000 births** with raised blood sugar found early."
 
-### 1:05–2:20 · Atharva drives, Krishna narrates: the live demo
-*[Demo people → **Open Noura's record**]*
-> "This is Noura, a fictional 24-year-old. Her whole cycle on one ring, built only from her own entries."
+#### 0:25–0:50 · Slide 2, the solution · Krishna
+> "ReproSense is her health record, in Arabic and English. She logs in seconds: a tap, her voice, or a photo of a lab
+> report. Written rules from published guidelines find **patterns worth discussing with a doctor**, each showing the
+> exact entries behind it and its source. It **never diagnoses**, and urgent signs always come first, with 998.
+>
+> Rules decide; the AI handles her words and is checked. On 132 held-out questions written separately from the code,
+> it sent **all 30 crisis messages** to support and **all 32 emergencies** to 998 first."
 
-*[**Patterns** tab → open the "irregular cycles with skin and hair changes" card → **Why we noticed**]*
-> "A pattern worth discussing. These chips are the exact days she logged, and this is the 2023 international PCOS
-> guideline it comes from. No diagnosis, just what to ask her doctor."
+#### 0:50–1:20 · Slide 3, the venture · Krishna
+> "Who pays: clinics, per clinician seat, and primary-care networks for the after-birth module, because it closes
+> DoH's own indicator, **PC008**. Women use it free.
+>
+> The route: November, a device-classification memo for the Emirates Drug Establishment. December, interviews and a
+> clinic letter of intent. February, UAE hosting and a penetration test. March to May, a consented pilot at one clinic
+> and a licensed company.
+>
+> *(Only if true, from the notes:)* This week we spoke to [N] women and [N] clinicians; [one line of what they said].
+>
+> Since acceptance we merged **57 pull requests**; every one is listed on our evidence page. We're forming the company
+> to run this pilot. Let us show you."
 
-*[**Report** → scroll to "Before your visit"]*
+### Demo (1:20–2:55) · Atharva drives
+
+#### 1:20–1:45 · Noura's pattern · Krishna narrates
+*[Tab already on Noura's Home → **Patterns** → first card → **Why we noticed**]*
+> "Noura, a fictional 24-year-old. A pattern worth discussing: these chips are the exact days she logged, and this is
+> the 2023 international PCOS guideline it comes from. No diagnosis, just what to ask her doctor."
+
+#### 1:45–1:55 · Before the visit · Krishna
+*[**Report** → "Before your visit"]*
 > "Before her appointment: what changed since her last visit, and a two-page report her doctor reads in a minute."
 
-*[Header **Clinician** (one tap) → **Fatima** → glucose follow-up → **Mark booked**]*
-> "Now the clinic's side: a separate role, and it only shows women who chose to share. Fatima had gestational diabetes
-> and is nine weeks after the birth, so her glucose test is due. That is DoH's PC008 indicator.
-> One tap: booked."
-
-*[Header **Clinic network**]*
-> "And the network sees those follow-ups close, counts only, never names. This is what a clinic or an insurer pays
-> for."
-
-### 2:20–2:50 · Dareen: the Arabic moment and the mother
-*[Atharva: **عربي** → back to Noura → **Calendar** → **Say it instead** (or **Try an Arabic example** if the mic is
-slow)]*
-> "And she can tell it in her own words."
+#### 1:55–2:15 · Her voice, in Arabic · Dareen
+*[**عربي** → **Calendar** → **Say it instead** (or **Try an Arabic example** if the mic is slow)]*
 > *(In Arabic, to the laptop:)* «عندي مغص وما رحت الدوام اليوم، الألم سبعة من عشرة»
-> "I just said: I have cramps, I missed work, pain seven out of ten. The form filled itself. Nothing is saved until
-> she checks it.
->
-> For a mother, the same record carries her through pregnancy and the first weeks after birth, with the DoH postnatal
-> steps, blood pressure warnings and the mood check. And now her baby's first year too: the DoH checks and
-> vaccinations, each with its source."
+> "I said: cramps, I missed work, pain seven out of ten. The form filled itself; nothing is saved until she checks it."
 
-### 2:50–3:00 · Krishna: the ask
-> "We're asking for one pilot clinic, a clinical advisor to sign our rules, and the HealthX Ajyal grant to become a
-> licensed company in six months. Thank you."
+#### 2:15–2:40 · The clinic closes the loop · Krishna
+*[**English** → header **Demo people** → **Open clinician view** → **Fatima K.** → glucose follow-up → **Mark booked**]*
+> "The clinic's side: a separate role that only shows women who chose to share. Fatima had gestational diabetes and is
+> nine weeks after the birth, so her glucose test is due: DoH's PC008. One tap: booked."
+
+#### 2:40–2:55 · The network · Krishna
+*[Header **Demo people** → **Open clinic network**]*
+> "And the network sees follow-ups close, counts only, never names. That's what a clinic or an insurer pays for."
+
+#### 2:55–3:00 · The ask · Krishna
+> "We're asking for one pilot clinic, a clinical advisor to sign our rules, and the grant. Thank you."
 
 **Timing guards:**
-- If you're behind at 2:20, Dareen uses **Try an Arabic example** instead of speaking.
-- If the API is slow, Yash switches to the MP4 (`pitch/ReproSense-demo.mp4`) and Krishna narrates over it.
+- Behind at 1:55? Dareen uses **Try an Arabic example** instead of speaking.
+- Behind at 2:40? Skip the network; go straight to the ask.
+- API slow? Yash plays `pitch/ReproSense-demo.mp4` and Krishna narrates over it.
+- The patient app has no Clinician link in its header (separate roles, CLAUDE rule 9): go through **Demo people**.
+  Practise that hop; it's the one place the demo can stall.
 
 ---
 
@@ -143,7 +162,9 @@ slow)]*
 2. **Before 15:15 (submission):** `pitch/ReproSense-submission.pdf` and `pitch/ReproSense-demo.mp4` are uploaded.
 3. **10 min before:**
    - Demo people → **Reset demo data**, so every number is the seeded one.
-   - Then open Noura once, and then the clinician view once.
+   - Then open the clinician view once and the clinic network once (wakes those pages).
+   - End on **Noura's Home** in English, **Light** theme: the demo starts there.
+   - Open `pitch/ReproSense-submission.pdf` full screen in a second window for the three slides.
 4. **2 min before:** reload the landing page (keeps the API awake). Chrome, 100% zoom, light theme, sound off.
    - **Microphone:** allowed for reprosense.vercel.app if Dareen speaks.
    - **Wi-Fi:** venue Wi-Fi or a phone hotspot as backup.
@@ -155,7 +176,7 @@ slow)]*
 
 ## 6. Today's validation sprint (do it before Sunday; 30% of the score is venture potential)
 Goal: **5 women and 1 clinician**, 10 minutes each, in person or by phone. Ask permission to quote **without names**.
-Write answers in `docs/VALIDATION_NOTES.md` (no names, no phone numbers).
+Write answers in the evidence log (docs/29 §4) (no names, no phone numbers).
 
 **Women (18–45, Abu Dhabi):**
 1. "When did you last see a gynaecologist? How did you explain what was going on?"
@@ -179,23 +200,33 @@ minutes." **Only say what actually happened.** If you didn't manage it, use the 
 ## 7. Where it is missing, and the line to use
 | Gap | What a judge sees | What to say |
 | --- | --- | --- |
-| **No real users or clinic yet** | Venture (30) and impact | Section 6 today. Otherwise Q4. |
-| **Newborn**: the baby's schedule is live, the feeding log isn't | Theme fit | "Her baby's first year is in the record now; feeding support is next, led by Dareen." |
+| **No signed clinic yet; interviews only partly written up** | Venture (30) and impact | Quote only the evidence log (docs/29 §4). Otherwise Q4. |
+| **Impact is arithmetic, not measured** | Impact (20) | "About 18 more mothers per 1,000 births, from published rates; the pilot measures the real number." |
+| **Half the pull requests predate acceptance** | Prototype (20) | Section 10, "Was this built after you were accepted?": 57 since, each dated on /evidence. |
+| **Newborn**: the baby's schedule and a feeding log are live; no growth charts | Theme fit | "Her baby's first year and a feeding log are in the record; growth and development checks are next, led by Dareen." |
 | **Clinical sign-off** is pending (rules reviewed by AI agents and us, not yet by a licensed clinician) | Safety | "Every rule cites its guideline and is logged for sign-off; a clinical advisor is our first ask." |
 | **Diagnosis and medicine questions**: on the held-out set, 6 of 10 diagnosis requests and 4 of 10 medicine questions got the exact refusal; the rest got a sourced answer, never a diagnosis or a dose | Safety | "Crisis and emergencies are 30 of 30 and 32 of 32. The rest still never get a diagnosis or a dose; tightening those refusals is next, and we publish every miss on /status." |
 | **Free hosting** sleeps, and the data is in Frankfurt for the demo | Tech and regulation | "Demo data is synthetic. Production runs on UAE-hosted infrastructure, as the Health Data Law requires; the code is ready to move." |
 
-## 8. How likely we are to win (honest)
-- **Score today:** about **79/100** on the official rubric (rescored 19 Nov evening, AI live, safety 30/30 and 32/32).
-  Strong on prototype, safety and evidence; weakest on validation.
-- **With 5 interviews plus a doctor, a letter of intent, and a clean 3-minute run:** about **85**. That's a **top-3
-  contender**.
-- **Winning first place** depends on the other teams, which we can't see. What separates us:
-  - It's a working product with safety evidence, not a slide.
-  - It ties directly to a DoH indicator (PC008) and DoH's Postnatal Care Program Standard.
-  - It's Arabic-first.
-- **The biggest risks are on the day:** a slow free server (use the MP4), an over-long demo (rehearse to 2:55), and a
-  validation question with no answer (do section 6).
+## 8. How likely we are to win (honest, rescored 21 Nov against the organisers' matrix)
+- **Strict read today:** about **70/100**.
+  - Venture ~18/30: a clear customer and route, but no validated customer yet.
+  - Impact ~14/20.
+  - Innovation ~15/20.
+  - Prototype ~16/20: strong, but the judges weigh what was built after acceptance.
+  - Pitch ~6/10: the format changed on 21 Nov.
+- **With the interview notes on slide 3, the per-1,000-births line, the "built since acceptance" record and a clean,
+  rehearsed run:** about **78–83**, a **top-3 contender**. A signed letter of intent or a clinician's written interest
+  adds the most on top.
+- **What separates us:**
+  - A working product with published safety evidence, not a slide.
+  - Tied to a DoH indicator (PC008) and DoH's Postnatal Care Program Standard.
+  - Arabic-first, with the Gulf dialect by voice.
+- **The biggest risks on the day:**
+  - A slow free server: use the MP4.
+  - Running over: rehearse to 2:55.
+  - The hop to the clinician view through **Demo people**.
+  - A validation question with no written answer.
 
 ---
 
@@ -227,7 +258,7 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 **Q5. Mental health: what if she writes something worrying?** *(Dareen)*
 > If her words suggest crisis, the app shows support and 998, never a score. After birth, the mood check uses the
 > EPDS questionnaire, and its self-harm question goes straight to support, with 998 and DoH's 24/7 line 800-SAKINA.
-> On held-out messages written by independent reviewers, our safety layer caught all 30 crisis messages.
+> On 132 held-out messages written separately from the code, our safety layer caught all 30 crisis messages.
 
 ### AI (NYU Abu Dhabi)
 **Q6. Where is the AI, if rules decide everything?** *(Krishna)*
@@ -239,7 +270,7 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 **Q7. How do you stop hallucinations?** *(Krishna)*
 > Retrieval from a curated library with citations, a check that every sentence is supported, and a fixed template
 > fallback. On our 60-question test set every answer was grounded, every diagnosis request was refused, and every red
-> flag was caught. On 132 held-out questions written by independent reviewers, the safety layer with the AI second
+> flag was caught. On 132 held-out questions written separately from the code and never used to tune it, the safety layer with the AI second
 > check routed 30 of 30 crisis messages and 32 of 32 emergencies correctly, and we publish every miss on /status.
 
 **Q8. Which model, and where does the data go?** *(Krishna)*
@@ -305,9 +336,10 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 > record. Her health data is never stored on the device by the web app.
 
 **Q21. How did you build this much in a week?** *(Atharva)*
-> Part of the core was built before selection. This week we added the features you saw: voice, the postnatal
-> pathway, blood pressure, the pre-visit brief, sign-in, 3D, the tour and the clinic admin. Every one landed as a
-> tested pull request on GitHub, and we used AI coding tools openly, as the rules require.
+> The core record was started before selection: 56 pull requests, all public. Since acceptance we merged 57 more,
+> including what you saw today: Arabic voice, the postnatal pathway, blood pressure, the pre-visit brief, the baby's
+> first year, the feeding log, staff sign-in, the attack suite and the model safety score. /evidence lists every one
+> with its date, and we used AI coding tools openly, as the rules require.
 
 **Q22. What did each of you do?** *(each, one line)*
 > Krishna: AI and safety. Atharva: the web app, 3D and design. Yash: product, testing and the submission. Dareen:
@@ -325,8 +357,84 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 
 ---
 
+
+---
+
+## 10. The four judges: what each one is likely to ask (21 Nov)
+From the organisers' "Meet your judges" and their scoring matrix. Public facts only; check anything you quote.
+Matrix reminders:
+- Venture 4 needs a "clear customer and credible UAE route; good grasp of regulation and data; realistic milestones".
+- Prototype 4 needs "the full core journey works reliably, built after acceptance".
+- Pitch 5 needs "a concrete plan to continue".
+
+### Hesham Abuasi · Senior Analyst, Incubation and Acceleration, DoH
+He scores whether this becomes a real company inside Abu Dhabi's rules.
+- **"Will you continue after today?"** *(Krishna)* "Yes. We're forming the company to run the pilot. The next 90 days
+  are fixed: the device-classification memo, ten interviews and a clinic letter of intent, then UAE hosting and a
+  penetration test."
+- **"What licences do you need?"** *(Krishna)* Q12: the EDE classification memo first (it doesn't diagnose, so we
+  expect it to sit below the medical-device line, and we'll confirm that with EDE). Then a DoH licence for the
+  company, an ADHICS gap assessment, and the Health Data Law (data stays in the UAE).
+- **"Why the incubator?"** *(Yash)* "We need a pilot clinic and regulatory guidance more than money: the incubator
+  opens both."
+
+### Madiha Parvez · Group Innovation Manager, PureHealth
+PureHealth's group includes SEHA's clinics, the Daman insurer and the Pura app. She'll test fit and adoption.
+- **"Why not build this into Pura?"** *(Krishna)* Q16. "We'd rather be inside Pura than compete with it. From its public
+  listings Pura covers teleconsults, medicines and diabetes; we couldn't see a women's or maternal module. We bring
+  the clinical rules, the Arabic and the safety evidence as that module."
+- **"What would a pilot look like for us?"** *(Yash)* "One primary-care clinic, up to 20 consenting women in late
+  pregnancy or after birth, 3 clinicians, 90 days. Measured on one number DoH already asks for: the glucose test after
+  gestational diabetes (PC008). The proposal is on /pilot."
+- **"What's it worth to a payer?"** *(Yash)* "On /pilot, per 1,000 births: about 52 more completed follow-ups and about
+  18 more mothers with raised sugar found early, at the inputs you choose. That's arithmetic, not a result; the pilot
+  measures the real number."
+- **"Malaffi?"** *(Krishna)* Q13: FHIR export today; connecting through the proper DoH route comes after the pilot.
+
+### Dr Osama Abdullah · Director, Core Technology Platforms, NYU Abu Dhabi
+He'll test the method behind the numbers.
+- **"Who wrote your held-out questions?"** *(Krishna)* Answer exactly how they were made: "Written separately from the
+  code, by writers who never saw it, in English and four Arabic varieties. We measured them once and never tuned on
+  them. Clinician-written questions are the next step." Never call them clinicians or independent reviewers.
+- **"What if the model is wrong or down?"** *(Krishna)* "The safety decisions don't depend on it. Red flags are
+  written rules that run first. The model can only *add* a crisis or urgent route, never remove one. Each request has
+  a 10-second model budget; past it, she gets a fixed, sourced template."
+- **"How do you know answers are grounded?"** *(Krishna)* Q7: retrieval from a curated library, a check that drops any
+  sentence a source doesn't support, and the 60-question test set on /evidence.
+- **"Where does the data live?"** *(Krishna)* Q10: the demo is synthetic and hosted in Frankfurt. Production is
+  UAE-hosted (February milestone), with row-level security and a tamper-evident access log.
+
+### Mehdi Bouchenak · Founder and CEO, Vitalls
+Vitalls builds an AI digital health passport for individuals and families (seed round, Oct 2026). He'll look at it as
+a founder.
+- **"Why a separate women's app, and not a health passport?"** *(Krishna)* "A passport stores records. We add the
+  clinical layer for women's health: cited rules, red flags first, the doctor report, and the clinic follow-up. Her
+  record exports as standard FHIR, so a passport could hold it."
+- **"How do you get users?"** *(Yash)* "Through clinics, not ads. The clinic invites her with a QR code at the visit.
+  The clinic pays, and she uses it free. That's why the pilot comes first."
+- **"Why would she keep logging?"** *(Dareen)* Q19: two taps or one sentence by voice, and the payoff comes before her
+  appointment.
+- **"What's defensible?"** *(Krishna)* "Clinical rules with sources, published safety evidence, Arabic first, and a
+  DoH indicator to tie to. Flo and Nabta are consumer and service plays. We're the record a clinic uses."
+
+### New questions this week
+- **"PCOS was renamed PMOS in May. Why does your app say PCOS?"** *(Krishna)* "The Lancet consensus renamed it, with a
+  three-year transition; the international guideline adopts PMOS in 2028. Our search and library already know PMOS.
+  We show PCOS because women and doctors here still use it, and we'll switch with the guideline (QUESTIONS #58)."
+- **"Was this built after you were accepted?"** *(Atharva)* "The core record was started before selection: 56 pull
+  requests, all public. Since acceptance we merged 57 more, including everything new you saw today. Our evidence page
+  lists each one with its date."
+- **"Nabta just raised money for women's health in the UAE. Why you?"** *(Yash)* "Nabta runs clinics and
+  consultations. We're software for any clinic's women: the record, the rules and the follow-up. A Nabta clinic could
+  use ReproSense."
+
 Sources for new facts in this pack (others are in `knowledge_base/sources.yaml` and docs/05):
-- The four themes and the format: organisers' information session, 17 Nov 2026.
+- The four themes and the format: organisers' information session, 17 Nov 2026; the 3-slide format, 21 Nov 2026.
+- Raised sugar after gestational diabetes, 34.5% within a year (pooled, 18 studies): Liu et al., Endocrine 2025,
+  doi:10.1007/s12020-025-04271-2.
+- PCOS renamed PMOS: Lancet consensus, 12 May 2026 (PubMed 42119588); three-year transition.
+- Vitalls (AI health passport, seed Oct 2026): Wamda, Oct 2026. Nabta Health ($2M pre-Series A, Oct 2026; data in
+  Frankfurt): its own privacy notice and press coverage. Pura features: its App Store listing.
 - UAE health data: Federal Law No. 2 of 2019, summarised by Simmons & Simmons and PwC Middle East.
 - DoH AI rules: the DoH Responsible AI Standard; the AI Clinician Framework (WAM, Oct 2026).
 - PureHealth's Pura app: Abu Dhabi Media Office.
