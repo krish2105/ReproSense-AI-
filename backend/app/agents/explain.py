@@ -502,6 +502,7 @@ def answer(question: str, lang: str, bundle: dict | None, ref: date, *, mode: st
     red = False
     cid = condition(question) if mode != "body" else None
     pages: list[str] = []
+    related: list[str] = []
     if mode == "body":
         pats, red = _her_patterns(bundle, ref, lang)
         if refuse:  # "what is wrong with me?" read as a diagnosis request: the refusal first
@@ -513,14 +514,15 @@ def answer(question: str, lang: str, bundle: dict | None, ref: date, *, mode: st
             personal = pats[:5]
             lines.extend({"text": p["text"], "cite": p["cite"]} for p in personal)
             lines.append({"text": LEADS["close"][lang], "cite": None})
-            for p in personal:  # the related condition pages, so she can read more
-                for c in CONDITIONS.values():
+            for p in personal:  # the related condition pages and videos, so she can read and watch more
+                for rcid, c in CONDITIONS.items():
                     if p["rule_id"] in c["rules"]:
                         pages.extend(c["pages"][:1])
+                        related.append(rcid)
         else:
             lines.append({"text": LEADS["body_none"][lang], "cite": None})
         return {"lines": lines, "condition": None, "personal": personal, "red_flag": red, "refused": refuse,
-                "pages": list(dict.fromkeys(pages))}
+                "pages": list(dict.fromkeys(pages)), "related": list(dict.fromkeys(related))}
 
     c = CONDITIONS[cid]
     name = c["name"][lang]
@@ -543,4 +545,4 @@ def answer(question: str, lang: str, bundle: dict | None, ref: date, *, mode: st
         elif mode == "diagnosis":
             lines.append({"text": LEADS["yours_none"][lang].format(name=name), "cite": None})
     return {"lines": lines, "condition": cid, "personal": personal, "red_flag": red, "refused": mode == "diagnosis",
-            "pages": list(c["pages"])}
+            "pages": list(c["pages"]), "related": [cid]}

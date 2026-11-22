@@ -54,6 +54,7 @@ def test_what_is_happening_with_my_body_is_her_own_patterns_not_a_diagnosis(clie
     assert a["lane"] == "explain" and a["explain"]["mode"] == "body"
     assert "not a diagnosis" in a["answer"] and "42–56" in a["answer"]
     assert "Menopause Rating Scale" not in a["answer"] and "glucose" not in a["answer"]
+    assert any(x["kind"] == "video" for x in a["learn_more"])  # her patterns' condition video (PCOS, NHS)
 
 
 def test_her_red_flag_leads_with_998(client, reseed):

@@ -465,10 +465,10 @@ def explain_lane(state: State) -> dict:
         if sid in srcs
     ]
     cid = res["condition"]
-    if cid:
-        if state["lang"] == "ar" and cid in explain.AR_PAGES:
-            learn.insert(0, explain.AR_PAGES[cid])
-        learn.extend(explain.VIDEOS.get(cid, []))
+    for i, rc in enumerate(res["related"][:2]):  # the named condition, or her patterns' conditions (body question)
+        if state["lang"] == "ar" and rc in explain.AR_PAGES:
+            learn.insert(i, explain.AR_PAGES[rc])
+        learn.extend(explain.VIDEOS.get(rc, []))
     out = _base(state)
     detail = f"{mode}: {len(res['lines'])} sentences" + (f" on {cid}" if cid else "")
     detail += f"; {len(res['personal'])} from her own patterns" if res["personal"] else ""
