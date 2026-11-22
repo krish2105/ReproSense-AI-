@@ -512,6 +512,16 @@ export interface InsightsResponse {
   change_point: { index: number; before: number; after: number } | null;
   days_logged: number;
   rules_version: string;
+  checked: CheckedItem[]; // period checks that did not become a card (backend/app/services/checked.py)
+}
+
+export interface CheckedItem {
+  id: "cycles" | "skin_hair" | "pain" | "bleeding";
+  rule_id: string;
+  label: string;
+  text: string;
+  sources: string[];
+  source_links: Source[];
 }
 
 export interface Citation {
