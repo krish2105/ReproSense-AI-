@@ -266,6 +266,9 @@ def route(state: State) -> dict:
     if explain.asks_medicine(q):  # 22 Nov (G2: Krishna): "what medicine for PCOS?" missed by the word checks
         return {"lane": "explain", "topic": "medicine",
                 "trace": _step(state, "router", "medicine question about a named condition: fixed medicine reply first, never a medicine (explain lane)", t0)}
+    if explain.asks_diagnosis(q):  # 22 Nov (G2: Krishna): "am I suffering from PCOS?": refusal first, then facts
+        return {"lane": "explain", "topic": "diagnosis",
+                "trace": _step(state, "router", "asks whether she has a named condition: refusal first, then cited facts (explain lane)", t0)}
     if food.is_food_question(q, state.get("bundle")):  # 22 Nov (G2: Krishna): food, never medicine
         return {"lane": "food", "topic": None, "trace": _step(state, "router", "food question: food lane (code, NHS)", t0)}
     if explain.is_explain_question(q):  # 22 Nov (G2: Krishna): what a condition is, cited, plus her own patterns
@@ -484,6 +487,8 @@ def explain_lane(state: State) -> dict:
         explain={"condition": cid, "mode": mode, "personal": [p["text"] for p in res["personal"]]},
         trace=[*_step(state, "explain", detail, t0), {"agent": "writer", "detail": "code's own sentences (no model)"}],
     )
+    if res.get("urgent_text"):  # pre-eclampsia warning signs named in the question: urgent, 998 first
+        out["urgent"] = {"kind": "pregnancy", "message": res["urgent_text"], "number": "998"}
     if res["red_flag"]:  # red flags first (CLAUDE.md rule 5): her urgent pattern leads, with 998
         first = next(p for p in res["personal"] if p["kind"] == "red_flag")
         out["urgent"] = {"kind": "record", "message": first["text"], "number": "998"}

@@ -172,9 +172,9 @@ def answer(question: str, lang: str, bundle: dict | None, ref: date) -> dict:
             "cite": "water",
         },
         {
-            "text": "لتخفيف التقلصات بلا أدوية: حمّام أو دش دافئ، ووسادة تدفئة أو قِربة ماء دافئ على البطن، وتدليك خفيف للبطن والظهر، ونشاط خفيف كالمشي أو السباحة أو اليوغا. وقد يساعد أيضاً تقليل الكحول وعدم التدخين."
+            "text": "لتخفيف التقلصات بلا أدوية: حمّام أو دش دافئ، ووسادة تدفئة أو قِربة ماء دافئ على البطن، وتدليك خفيف للبطن والظهر، ونشاط خفيف كالمشي أو السباحة أو اليوغا. وقد يساعد أيضاً عدم التدخين."
             if ar
-            else "For cramps without medicine: a warm bath or shower, a heat pad or hot water bottle on your tummy, a gentle tummy and back massage, and gentle exercise like walking, swimming or yoga. Cutting down on alcohol and not smoking may also help.",
+            else "For cramps without medicine: a warm bath or shower, a heat pad or hot water bottle on your tummy, a gentle tummy and back massage, and gentle exercise like walking, swimming or yoga. Not smoking may also help.",
             "cite": "pain",
         },
     ]
