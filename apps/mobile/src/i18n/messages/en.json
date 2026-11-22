@@ -6,7 +6,6 @@
   },
   "chrome": {
     "brand": "ReproSense",
-    "brandDiscreet": "My notes",
     "brandHome": "ReproSense, home",
     "skip": "Skip to content",
     "badge": "Demo data — fictional",
@@ -1064,7 +1063,7 @@
     "fhirDownload": "Download the FHIR bundle",
     "fhirFailed": "The FHIR export didn't load: {detail}",
     "discreetTitle": "Discreet mode",
-    "discreetBody": "Shows “My notes” instead of the app name and hides your name and initial on screen.",
+    "discreetBody": "Hides your name and initial on screen, for a shared phone.",
     "discreetOn": "Turn on discreet mode",
     "discreetOff": "Turn off discreet mode",
     "discreetSavedOn": "Discreet mode on.",
