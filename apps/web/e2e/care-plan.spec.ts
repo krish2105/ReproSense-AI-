@@ -19,7 +19,7 @@ test("Salma ticks today's dose of the plan her doctor set, and can undo it", asy
   await expect(tick).not.toBeChecked();
   await tick.check();
   await expect(tick).toBeChecked();
-  await expect(page.getByText(en.carePlan.saved)).toBeVisible();
+  await expect(page.getByText(en.carePlan.saved).first()).toBeVisible();
   await tick.uncheck(); // put the demo back as it was
   await expect(tick).not.toBeChecked();
   await expectAccessible(page, "care plan on Home");
