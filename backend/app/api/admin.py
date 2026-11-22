@@ -6,7 +6,8 @@ import csv
 import io
 from datetime import date
 
-from fastapi import APIRouter, Depends, Query, Response
+from fastapi import APIRouter, Depends, Query
+from fastapi.responses import StreamingResponse
 
 from app.config import get_settings
 from app.db import SYSTEM, Actor, session
@@ -157,13 +158,12 @@ def _pc008_glucose(c: dict, live_pp: dict) -> dict:
 
 @router.get("/audit/verify")
 def verify_audit(actor: Actor = Depends(admin)):
-    from app.security.audit import verify_chain
-
+    """Walks the whole hash chain in batches (docs/31 §H, M7: it used to load the entire log into memory)."""
     with session(actor) as cur:
-        cur.execute("SELECT * FROM audit_log ORDER BY id")
-        rows = cur.fetchall()
-    ok, bad = verify_chain(rows)
-    return {"entries": len(rows), "chain_ok": ok, "first_bad_id": bad}
+        cur.execute("SELECT count(*) AS n FROM audit_log")
+        total = cur.fetchone()["n"]
+        ok, bad, _ = audit.verify_stream(cur)
+    return {"entries": total, "chain_ok": ok, "first_bad_id": bad}
 
 
 @router.get("/events")
@@ -193,17 +193,25 @@ def export_audit(actor: Actor = Depends(admin), _fresh: None = Depends(fresh_ste
     """The hash-chained audit log as CSV for a compliance review (SaaS scorecard; DoH privacy standard: access logs).
     Who did what to which pseudonymous record, and when; the free-text detail column is left out. The export is logged.
     Needs a fresh passkey check (step-up), or the one-tap confirm in a demo session."""
-    with session(actor) as cur:
+    with session(actor) as cur:  # the export is recorded first, in its own transaction, whatever happens next
         audit.record(cur, actor, "export_audit_log", None, "admin")
-        cur.execute(f"SELECT {', '.join(AUDIT_COLUMNS)} FROM audit_log ORDER BY id")  # noqa: S608 (fixed column list)
-        rows = cur.fetchall()
-    buf = io.StringIO()
-    w = csv.writer(buf)
-    w.writerow(AUDIT_COLUMNS)
-    for r in rows:
-        w.writerow([r["at"].isoformat() if k == "at" else r[k] for k in AUDIT_COLUMNS])
-    return Response(
-        buf.getvalue(),
+
+    def lines():  # docs/31 §H, M7: streamed in batches, never the whole log in memory
+        buf = io.StringIO()
+        w = csv.writer(buf)
+        w.writerow(AUDIT_COLUMNS)
+        with session(actor) as cur:
+            sql = f"SELECT {', '.join(AUDIT_COLUMNS)} FROM audit_log ORDER BY id"  # noqa: S608 (fixed column list)
+            for r in audit.batches(cur, sql, "audit_export"):
+                w.writerow([r["at"].isoformat() if k == "at" else r[k] for k in AUDIT_COLUMNS])
+                if buf.tell() > 64_000:
+                    yield buf.getvalue()
+                    buf.seek(0)
+                    buf.truncate()
+        yield buf.getvalue()
+
+    return StreamingResponse(
+        lines(),
         media_type="text/csv; charset=utf-8",
         headers={"Content-Disposition": 'attachment; filename="reprosense-audit-log.csv"', "Cache-Control": "no-store"},
     )
