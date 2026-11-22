@@ -21,6 +21,7 @@ from app.api import (
     auth,
     clinic,
     clinic_admin,
+    csp,
     demo,
     family,
     patient,
@@ -123,6 +124,7 @@ for r in (
     clinic_admin.invites_router,
     quality.router,
     pilot.router,
+    csp.router,  # docs/31 §H: content-security-policy violation reports
 ):
     app.include_router(r)
 

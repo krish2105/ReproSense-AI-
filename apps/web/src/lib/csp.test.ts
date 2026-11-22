@@ -50,3 +50,13 @@ describe("content security policy", () => {
     expect(originOf(undefined)).toBeNull();
   });
 });
+
+describe("violation reports (docs/31 §H)", () => {
+  it("asks the browser to report what it blocked, in both formats", async () => {
+    const { contentSecurityPolicy: build, CSP_REPORT_PATH, REPORTING_ENDPOINTS } = await import("./csp");
+    const p = build({ nonce: "n" });
+    expect(p).toContain(`report-uri ${CSP_REPORT_PATH}`);
+    expect(p).toContain("report-to csp");
+    expect(REPORTING_ENDPOINTS).toBe('csp="/api/v1/csp-report"');
+  });
+});

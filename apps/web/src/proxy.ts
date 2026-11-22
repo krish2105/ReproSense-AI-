@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { contentSecurityPolicy, newNonce, originOf } from "@/lib/csp";
+import { REPORTING_ENDPOINTS, contentSecurityPolicy, newNonce, originOf } from "@/lib/csp";
 
 /**
  * Next 16's request proxy (formerly middleware.ts). Two jobs:
@@ -41,7 +41,10 @@ export function proxy(req: NextRequest) {
   }
   const res = NextResponse.next({ request: { headers } });
   if (!isApi) res.headers.set("x-request-id", requestId); // the API sets its own
-  if (policy) res.headers.set("Content-Security-Policy", policy);
+  if (policy) {
+    res.headers.set("Content-Security-Policy", policy);
+    res.headers.set("Reporting-Endpoints", REPORTING_ENDPOINTS);
+  }
   return res;
 }
 
