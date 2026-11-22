@@ -127,7 +127,7 @@ export function FhirCheck() {
 
 const DISCREET = "rs_discreet";
 
-/** Discreet mode: "My notes" instead of the app name, her name and initial hidden (docs/06 v4). */
+/** Discreet mode: her name and initial hidden on screen, for a shared phone (docs/06 v4). The app name never changes. */
 export function DiscreetToggle({ initial }: { initial: boolean }) {
   const t = useTranslations("privacy");
   const toast = useToast();

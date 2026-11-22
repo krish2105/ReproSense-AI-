@@ -6,7 +6,6 @@
   },
   "chrome": {
     "brand": "ReproSense",
-    "brandDiscreet": "ملاحظاتي",
     "brandHome": "ReproSense، الصفحة الرئيسية",
     "skip": "الانتقال إلى المحتوى",
     "badge": "بيانات العرض خيالية",
@@ -1064,7 +1063,7 @@
     "fhirDownload": "تنزيل حزمة FHIR",
     "fhirFailed": "تعذّر تحميل تصدير FHIR: {detail}",
     "discreetTitle": "الوضع المتحفّظ",
-    "discreetBody": "يعرض «ملاحظاتي» بدلاً من اسم التطبيق ويخفي اسمكِ وحرفكِ الأول على الشاشة.",
+    "discreetBody": "يخفي اسمكِ وحرفكِ الأول على الشاشة، عند مشاركة الهاتف.",
     "discreetOn": "تشغيل الوضع المتحفّظ",
     "discreetOff": "إيقاف الوضع المتحفّظ",
     "discreetSavedOn": "الوضع المتحفّظ مفعّل.",
