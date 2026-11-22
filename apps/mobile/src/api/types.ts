@@ -856,6 +856,22 @@ export interface AdminMetricsFull extends AdminMetrics {
   roi_inputs: { postpartum_gaps: number; reports_shared: number; assumptions: string };
   live_demo_gaps: Partial<Record<"open" | "in_progress" | "closed", number>>;
   loop: LoopMetrics;
+  population: PopulationView;
+}
+/** A group's women with a pattern, split by whether they shared a report; all null when any part is under 10. */
+export interface PatternSplit {
+  with_pattern: number | null;
+  shared: number | null;
+  not_shared: number | null;
+  shared_pct: number | null;
+}
+/** Counts a health department would see, from the synthetic cohort (backend/app/api/admin.py `_population`). */
+export interface PopulationView {
+  overall: PatternSplit;
+  regions: ({ region: string; n: number | null } & PatternSplit)[];
+  age_bands: { age_band: string; n: number | null; cycles: number | null; pain: number | null; heavy: number | null }[];
+  trying: { trying: number | null; due: number | null; shared: number | null; not_shared: number | null };
+  note: string;
 }
 export interface FairnessRow {
   g: string;
