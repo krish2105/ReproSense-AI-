@@ -106,7 +106,7 @@ export function ReportActions({ report, shares, now }: { report: ReportRow; shar
 
   return (
     <>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }} role="group" aria-label={t("report.actions")}>
+      <div className="report-acts" role="group" aria-label={t("report.actions")}>
         <PdfLink className="btn btn-a btn-sm" href={`/api/v1/reports/${report.id}.pdf`} download={`reprosense-report-${report.id}.pdf`}>
           {t("report.download")}
         </PdfLink>
@@ -121,7 +121,7 @@ export function ReportActions({ report, shares, now }: { report: ReportRow; shar
         </Button>
       </div>
 
-      <section className="box" aria-labelledby="shares-title" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <section className="box report-shares" aria-labelledby="shares-title" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         <h2 id="shares-title" style={{ fontSize: 16 }}>
           {t("report.sharesTitle")}
         </h2>

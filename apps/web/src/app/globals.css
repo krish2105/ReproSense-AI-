@@ -785,3 +785,46 @@ ul.feed-legend{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:12px;ma
 ul.feed-support{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:10px}
 .feed-support li{background:var(--tint);border-radius:16px;padding:12px}
 .feed-table{margin-top:6px}
+
+/* ---- Doctor report (/app/report) only: every rule below is scoped to .report-page, so no other page changes. ----
+   Phones: one 480px column in reading order (brief, preview, actions, sharing); the four actions fill two even rows.
+   Tablets (>=768px): a wider 720px column; the actions sit in one row.
+   Desktops (>=1024px): the full 1180px width. Brief and preview on the left; actions and sharing in a sticky column
+   on the right (inline-start/end, so Arabic mirrors it). A record without a report puts the prepare step there. */
+.report-head{display:flex;flex-direction:column;gap:6px;text-align:center}
+.report-head h1{font-size:22px}
+.report-layout,.report-main,.report-side{display:flex;flex-direction:column;gap:14px;min-width:0}
+.report-meta{align-items:center;flex-wrap:wrap}
+.report-acts{display:flex;flex-wrap:wrap;gap:8px}
+.report-acts > *{flex:1 1 auto;white-space:nowrap}
+/* PdfLink wraps its link in an inline-flex span (with a live status line): let the link fill it, and keep the gap only
+   while the status line has text, so all four buttons line up. An empty status line takes no space (still announced). */
+.report-acts > span{gap:0 !important}
+.report-acts > span > a{flex:1 1 auto}
+.report-acts > span > [role="status"]:empty{position:absolute}
+.report-acts > span > [role="status"]:not(:empty){margin-inline-start:8px}
+@media (min-width:768px){
+  .app-col.report-page{max-width:720px}
+}
+@media (min-width:1024px){
+  .app-col.report-page{max-width:none;gap:22px;padding-block:32px 8px}
+  .report-head{text-align:start;gap:8px}
+  .report-head h1{font-size:clamp(28px,2.6vw,36px);letter-spacing:-.025em}
+  [dir="rtl"] .report-head h1{letter-spacing:0}
+  .report-head p{font-size:16px;max-width:46em}
+  .report-layout{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:32px;align-items:start}
+  .report-main{gap:18px}
+  .report-page [data-testid="previsit-brief"]{padding:22px 26px}
+  .report-page .doc{padding:26px 30px;font-size:14px}
+  .report-meta{padding-inline:4px}
+  .report-side{gap:16px}
+  .report-side .report-acts{flex-direction:column;flex-wrap:nowrap;gap:10px;padding:18px;background:var(--sheet);border:1px solid var(--rule);border-radius:22px;box-shadow:var(--shadow-s)}
+  .report-side .report-acts > *{flex:none;width:100%}
+  .report-side .report-acts > :first-child > a{padding-block:13px;font-size:15px}
+  .report-shares{padding:18px}
+  .report-side > .box{padding:18px}
+}
+/* Sticky only where the column fits under the header on screen; on short windows it scrolls with the page. */
+@media (min-width:1024px) and (min-height:640px){
+  .report-side{position:sticky;top:96px}
+}
