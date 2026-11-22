@@ -25,6 +25,9 @@ from app.config import get_settings
 from app.db import SYSTEM, Actor, session
 
 COOKIE = "rs_token"
+# docs/31 §B: which fictional demo woman this browser last opened (her public persona id, never a joined record), so the
+# web can sign her back in when Back returns to her app after a staff view replaced her sign-in. Holds no secret.
+DEMO_PERSONA_COOKIE = "rs_demo_persona"
 ALG = "HS256"
 AUD = "reprosense-demo"
 ROLES = ("patient", "clinician", "admin", "clinic_admin")
@@ -127,6 +130,25 @@ def set_session(
         path="/",
     )
     return token
+
+
+def remember_demo_persona(response: Response, persona_id: str) -> None:
+    """Demo only: the hint lives as long as her session (12 hours), httpOnly like the session cookie."""
+    s = get_settings()
+    response.set_cookie(
+        DEMO_PERSONA_COOKIE,
+        persona_id,
+        httponly=True,
+        samesite="lax",
+        secure=s.cookie_secure,
+        max_age=int(lifetime("patient").total_seconds()),
+        path="/",
+    )
+
+
+def forget_demo_persona(response: Response) -> None:
+    """Every sign-out and every new record of her own clears the hint: Back must never reopen a woman she left."""
+    response.delete_cookie(DEMO_PERSONA_COOKIE, path="/")
 
 
 @dataclass(frozen=True)

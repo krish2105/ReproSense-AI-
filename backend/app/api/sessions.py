@@ -16,7 +16,16 @@ from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from app.db import SYSTEM, Actor, session
 from app.security import audit
 from app.security import auth as sessions
-from app.security.auth import COOKIE, SessionInfo, current_session, jti_of, peek, presented, shared_account
+from app.security.auth import (
+    COOKIE,
+    SessionInfo,
+    current_session,
+    forget_demo_persona,
+    jti_of,
+    peek,
+    presented,
+    shared_account,
+)
 
 router = APIRouter(prefix="/v1/sessions", tags=["sessions"])
 
@@ -47,6 +56,7 @@ def sign_out(request: Request, response: Response) -> dict:
             if sessions.revoke(cur, jti_of(claims, token), actor.user_id, exp, "sign_out") and _audited(actor, how):
                 audit.record(cur, actor, "sign_out", _subject(actor), "this_device", {"how": how})
     response.delete_cookie(COOKIE, path="/")
+    forget_demo_persona(response)
     return {"ok": True}
 
 
@@ -110,6 +120,7 @@ def sign_out_everywhere(
             n += sessions.revoke(cur, sess.jti, actor.user_id, sess.expires_at, "sign_out_everywhere")
         audit.record(cur, actor, "sign_out_everywhere", _subject(actor), "all_devices", {"sessions": n})
     response.delete_cookie(COOKIE, path="/")
+    forget_demo_persona(response)
     return {"ok": True, "signed_out": n}
 
 
@@ -131,4 +142,5 @@ def sign_out_device(
         raise HTTPException(404, "That session has already ended.")
     if row["jti"] == sess.jti:
         response.delete_cookie(COOKIE, path="/")
+        forget_demo_persona(response)
     return {"ok": True}

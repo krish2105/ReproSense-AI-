@@ -589,6 +589,9 @@ a.prow{text-decoration:none;color:inherit}
   .top-site .wrap{border-radius:26px}
   .top-site .util{margin-inline-start:auto}
   .top-site .nav{order:3;flex-basis:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  /* Staff areas: Account sits beside the logo, so on a phone the badge, language and theme still fit one row */
+  .top-site .acct{margin-inline-start:auto}
+  .top-site .wrap:has(.acct) .util{margin-inline-start:0}
 }
 @media (min-width:981px){.hero-vis.has-phone{min-height:760px}}
 .cite-target{display:inline-flex;align-items:center;justify-content:center;min-width:28px;min-height:28px;margin-inline-end:6px;font-weight:700;text-decoration:none}

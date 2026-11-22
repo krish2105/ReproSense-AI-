@@ -39,8 +39,8 @@ export function SiteHeader({ variant, extra }: { variant: HeaderVariant; extra?:
         <nav className="nav" aria-label={t("navLabel")}>
           <NavLinks groups={[about, views]} />
         </nav>
+        {mine && <AccountMenu href={mine.href} door={mine.door} />}
         <div className="util">
-          {mine && <AccountMenu href={mine.href} door={mine.door} />}
           <DemoBadge />
           {extra}
           <LangToggle />

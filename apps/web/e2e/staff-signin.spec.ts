@@ -87,6 +87,7 @@ test("a clinic admin adds a passkey in Your sign-in, signs out for real, and com
 
   // Sign out revokes the session on the server: the old cookie gets 401 even if someone copied it.
   const before = await cookieToken(page);
+  await header(page).getByRole("button", { name: en.chrome.account, exact: true }).click(); // Sign out lives in the Account menu
   await header(page).getByRole("button", { name: en.chrome.signOut, exact: true }).click();
   await expect(page).toHaveURL(/\/staff\/signin\?signed_out=1$/);
   await expect(page.getByText(sa.ended.signedOut)).toBeVisible();
@@ -123,6 +124,8 @@ test("an invited clinician adds a passkey right after joining and signs in with 
   await expect(doc.getByText(en.clinicInvite.passkeyAdded)).toBeVisible();
   await doc.getByRole("button", { name: en.clinicInvite.open }).click();
   await expect(doc).toHaveURL(/\/clinic$/);
+
+  await header(doc).getByRole("button", { name: en.chrome.account, exact: true }).click(); // Sign out lives in the Account menu
 
   await header(doc).getByRole("button", { name: en.chrome.signOut, exact: true }).click();
   await expect(doc).toHaveURL(/\/staff\/signin\?signed_out=1$/);
@@ -162,6 +165,7 @@ test("the DoH admin sets up a passkey and an authenticator app from the operator
   // Sign out, then the DoH door: the passkey, then the next code from the app.
   await page.goto("/admin/sign-in");
   await expect(page.getByText(sa.panel.how.passkey_code).first()).toBeVisible();
+  await header(page).getByRole("button", { name: en.chrome.account, exact: true }).click(); // Sign out lives in the Account menu
   await header(page).getByRole("button", { name: en.chrome.signOut, exact: true }).click();
   await expect(page).toHaveURL(/\/doh\/signin\?signed_out=1$/);
   await page.getByRole("button", { name: sa.doh.passkeyButton }).click();

@@ -16,6 +16,9 @@ export function proxy(req: NextRequest) {
   const requestId = crypto.randomUUID();
   const headers = new Headers(req.headers);
   headers.set("x-request-id", requestId);
+  // docs/31 §B: the page asked for, so a signed-in area can send a re-entry back to exactly this page. Always set here
+  // (a visitor-sent value is overwritten), and still checked against an allow-list before any redirect uses it.
+  headers.set("x-pathname", req.nextUrl.pathname + req.nextUrl.search);
   const { pathname } = req.nextUrl;
   const isApi = pathname.startsWith("/api/");
   const isPrefetch = req.headers.has("next-router-prefetch") || req.headers.get("purpose") === "prefetch";
