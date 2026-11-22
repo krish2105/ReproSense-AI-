@@ -15,6 +15,20 @@ Blockers / questions:
 - ...
 ```
 
+
+## 22 Nov 2026 (Sun, showcase day, Atharva): "What the Department of Health would see" on the network dashboard
+- The jury is DoH. The dashboard answered "what does a clinic get"; it did not answer "what does the department learn
+  that Malaffi cannot show". New panel on /admin, after PC008: women whose entries match a pattern worth discussing
+  and how many of them have shared a report with a clinic (overall and by region), patterns by age band, and women who
+  have reached the guideline timing for a fertility assessment.
+- Synthetic cohort only (`cohort_members`): no schema change, no new data, no rule change. Counts, never rows; a
+  split is hidden when any part is under 10, so a small part cannot be worked out by subtraction.
+- Wording: "entries match a pattern", never a condition, "detected", "screened" or "prevalence". The panel says what
+  it is not: a register, a list of names or a count of diagnoses.
+- docs/27 Q18b: the answer to "what does DoH get from this, apart from a product?".
+- Tests: backend 6 new in `tests/test_population_view.py` plus `test_api.py` green locally, full suite in CI; web lint, typecheck, 117 unit;
+  `e2e/population.spec.ts` 6/6 (desktop and mobile, EN and AR at 390 px, axe-clean).
+
 ## 22 Nov 2026 (showcase day): no prices anywhere, and the Sahatna answers
 - The team asked for every price to come out, because ReproSense is a hackathon prototype:
   - /pricing became "How ReproSense will be paid for": women free, clinics and networks on a subscription, insurers
