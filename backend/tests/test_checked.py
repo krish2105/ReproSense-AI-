@@ -82,6 +82,20 @@ def test_too_few_cycles_says_so_instead_of_staying_silent():
     assert "Complete cycles logged so far: 2" in got["cycles"]["text"] and "from 4 cycles" in got["cycles"]["text"]
 
 
+def test_a_first_period_still_in_progress_gets_the_pain_line():
+    """The pain rule reads the period in progress too, so the list explains it even with no complete cycle."""
+    b = bundle(lengths=())
+    b["daily_logs"] = [
+        {"id": "p-now", "date": REF.isoformat(), "flow": "medium", "pain": 5, "symptoms": [], "impact": None}
+    ]
+    ev, got = run(b)
+    assert ev.features.values["cycles_logged"] == 0 and not ev.observations
+    assert "in 0 of the 1 period logged so far" in got["pain"]["text"]
+    assert "الدورة الوحيدة" in run(b, "ar")[1]["pain"]["text"]
+    assert "آخر دورتين" in run(bundle(lengths=(28,)), "ar")[1]["pain"]["text"]  # one complete cycle + the open one
+    assert "of your last 6 periods" in run(bundle())[1]["pain"]["text"]
+
+
 def test_not_shown_in_pregnancy_breastfeeding_the_year_after_birth_or_on_the_crisis_path():
     assert run(bundle(acne_days=12, pregnant=True, pregnancy_weeks=20))[1] == {}
     assert run(bundle(acne_days=12, breastfeeding=True))[1] == {}

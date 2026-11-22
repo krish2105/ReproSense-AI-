@@ -86,14 +86,20 @@ def _lines(f: dict, fired: set[str], ar: bool) -> dict[str, str]:
                 " and only a doctor can assess them."
             )
 
-    if "OBS_SEVERE_CYCLICAL_PAIN" not in fired and lens:
+    # The pain rule reads her last 6 periods, the one in progress included, so the line counts the same ones.
+    k = len(f.get("pbac_by_cycle_6") or [])
+    if "OBS_SEVERE_CYCLICAL_PAIN" not in fired and k:
         n, d = int(f.get("severe_pain_cycles_6") or 0), int(f.get("pain_impact_days_90") or 0)
+        span_ar = (
+            "الدورة الوحيدة المسجّلة حتى الآن" if k == 1 else "آخر دورتين" if k == 2 else f"آخر {k} دورات"
+        )
+        span_en = "the 1 period logged so far" if k == 1 else f"your last {k} periods"
         out["pain"] = (
-            f"وصل ألم الدورة إلى 7 من 10 أو أكثر في {n} من آخر 6 دورات، وسجّلتِ الغياب عن العمل أو الدراسة أو البقاء في"
+            f"وصل ألم الدورة إلى 7 من 10 أو أكثر في {n} من {span_ar}، وسجّلتِ الغياب عن العمل أو الدراسة أو البقاء في"
             f" السرير في {d} من آخر 90 يوماً. يُعرض النمط ابتداءً من {SEVERE_CYCLES_FROM} دورات من هذا النوع مع يومين"
             " من هذه الأيام."
             if ar
-            else f"Period pain reached 7 out of 10 or more in {n} of your last 6 periods, and you logged missed work or"
+            else f"Period pain reached 7 out of 10 or more in {n} of {span_en}, and you logged missed work or"
             f" study or a day in bed on {d} of the last 90 days. A pattern is shown from {SEVERE_CYCLES_FROM} such"
             f" periods together with {IMPACT_DAYS_FROM} such days."
         )
