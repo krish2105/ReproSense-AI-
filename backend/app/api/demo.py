@@ -28,7 +28,7 @@ from app.security.auth import set_session as _set_session
 from app.services.patient_data import apply_period_log
 
 router = APIRouter(prefix="/v1/demo", tags=["demo"])
-ORDER = ["noura", "hessa", "fatima", "priya", "sara", "mariam", "layla", "amina"]  # demo story first (MASTER §13)
+ORDER = ["noura", "hessa", "fatima", "salma", "priya", "sara", "mariam", "layla", "amina"]  # demo story first (MASTER §13)
 
 
 def _demo_only() -> None:

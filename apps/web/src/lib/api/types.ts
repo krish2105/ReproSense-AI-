@@ -304,6 +304,42 @@ export interface BabySchedule {
   total: number;
 }
 
+/** Her care plan after a diagnosis (GET /v1/me/home .care_plan, POST /v1/care-plan/medicines/{id}; 22 Nov). Her
+ *  doctor's plan, stored as an event: the app never diagnoses or chooses a medicine. */
+export interface CarePlanSource {
+  source_id: string;
+  title: string;
+  url: string;
+}
+export interface CarePlanMedicine {
+  id: string;
+  name: string;
+  dose: string;
+  when: string;
+  reminder: string | null;
+  since: string | null;
+  taken_today: boolean;
+  taken_last_7: number;
+}
+export interface CarePlanCheck {
+  id: "review" | "glucose" | "bp" | string;
+  due: string;
+  last: string | null;
+  every_months: number | null;
+  status: "overdue" | "due_soon" | "planned";
+  source_links: CarePlanSource[];
+}
+export interface CarePlan {
+  condition: string;
+  recorded_by: string;
+  since: string;
+  medicines: CarePlanMedicine[];
+  checks: CarePlanCheck[];
+  checkin: { last: string; next: string; due: boolean } | null;
+  watch: { id: "no_period_90" | "checks_matter" | "emergency" | string; source_links: CarePlanSource[] }[];
+  sources: CarePlanSource[];
+}
+
 /** Planning a pregnancy (GET /v1/me/home .preconception, POST /v1/preconception/{id}; build week Y1, Trying stage). */
 export type PreconceptionItemId = "folic_acid" | "premarital_results" | "rubella" | "cycle_checkup" | "fertility_check";
 export interface PreconceptionItem {
@@ -396,6 +432,7 @@ export interface HomeResponse {
   postnatal: Postnatal | null;
   baby: BabySchedule | null;
   preconception: Preconception | null;
+  care_plan: CarePlan | null;
   blood_pressure: BpSummary;
   feeding: FeedingSummary | null;
 }
@@ -531,6 +568,16 @@ export interface InsightsResponse {
   change_point: { index: number; before: number; after: number } | null;
   days_logged: number;
   rules_version: string;
+  checked: CheckedItem[]; // period checks that did not become a card (backend/app/services/checked.py)
+}
+
+export interface CheckedItem {
+  id: "cycles" | "skin_hair" | "pain" | "bleeding";
+  rule_id: string;
+  label: string;
+  text: string;
+  sources: string[];
+  source_links: Source[];
 }
 
 export interface Citation {
@@ -552,10 +599,19 @@ export interface AskResponse {
   grounded: boolean;
   trace?: TraceStep[];
   /** Which lane answered (section 7): the cited knowledge answer, a safety reply, her own record, or her next steps. */
-  lane?: "knowledge" | "safety" | "record" | "next_step";
+  lane?: "knowledge" | "safety" | "record" | "next_step" | "food" | "explain";
   record?: HerRecord; // lane "record": her own numbers, computed by code
   next_steps?: NextStepItem[]; // lane "next_step": a short list she approves
   lead?: string; // lane "next_step": the sentence before the list
+  learn_more?: LearnMoreLink[]; // lane "explain": the cited pages and checked official videos, opened in a new tab
+  explain?: { condition: string | null; mode: "explain" | "diagnosis" | "medicine" | "body"; personal: string[] };
+}
+/** Lane "explain": a page or an official-body video (each checked to exist on 22 Nov 2026). */
+export interface LearnMoreLink {
+  kind: "page" | "video";
+  url: string;
+  title: string;
+  publisher: string;
 }
 /** Lane (b): every line is computed by code from her entries; each chip opens that day in her calendar. */
 export interface HerRecord {
@@ -781,6 +837,7 @@ export interface ClinicRecord {
   her_questions: string[];
   postnatal: Postnatal | null;
   baby: BabySchedule | null; // D1, read-only for the clinician
+  care_plan?: CarePlan | null; // 22 Nov: her doctor's plan and how she keeps to it, read-only
   bp_readings: BpReading[]; // newest first
   days_logged: number;
   visit_note_draft: string;
@@ -855,6 +912,22 @@ export interface AdminMetricsFull extends AdminMetrics {
   roi_inputs: { postpartum_gaps: number; reports_shared: number; assumptions: string };
   live_demo_gaps: Partial<Record<"open" | "in_progress" | "closed", number>>;
   loop: LoopMetrics;
+  population: PopulationView;
+}
+/** A group's women with a pattern, split by whether they shared a report; all null when any part is under 10. */
+export interface PatternSplit {
+  with_pattern: number | null;
+  shared: number | null;
+  not_shared: number | null;
+  shared_pct: number | null;
+}
+/** Counts a health department would see, from the synthetic cohort (backend/app/api/admin.py `_population`). */
+export interface PopulationView {
+  overall: PatternSplit;
+  regions: ({ region: string; n: number | null } & PatternSplit)[];
+  age_bands: { age_band: string; n: number | null; cycles: number | null; pain: number | null; heavy: number | null }[];
+  trying: { trying: number | null; due: number | null; shared: number | null; not_shared: number | null };
+  note: string;
 }
 export interface FairnessRow {
   g: string;

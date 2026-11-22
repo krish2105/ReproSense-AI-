@@ -183,6 +183,24 @@
   url: "https://www.nhs.uk/conditions/period-pain/"
   accessed: "2026-11-06"
   topics: [period pain, self-care, when to see a doctor]
+- id: nhs_iron_deficiency_anaemia
+  answers: false  # cite-only: Nura's food lane (iron-rich foods; what reduces iron absorption), 22 Nov 2026
+  title: "Iron deficiency anaemia — NHS"
+  url: "https://www.nhs.uk/conditions/iron-deficiency-anaemia/"
+  accessed: "2026-11-22"
+  topics: [iron, food, heavy periods, anaemia]
+- id: nhs_water_drinks
+  answers: false  # cite-only: Nura's food lane (6 to 8 cups or glasses of fluid a day), 22 Nov 2026
+  title: "Water, drinks and your health — NHS"
+  url: "https://www.nhs.uk/live-well/eat-well/food-guidelines-and-food-labels/water-drinks-nutrition/"
+  accessed: "2026-11-22"
+  topics: [water, drinks, hydration]
+- id: nhs_food_allergy
+  answers: false  # cite-only: Nura's food lane (avoid the food, check labels, emergency signs), 22 Nov 2026
+  title: "Food allergy — NHS"
+  url: "https://www.nhs.uk/conditions/food-allergy/"
+  accessed: "2026-11-22"
+  topics: [food allergy, labels, emergency]
 - id: doh_postnatal_standard_2025
   answers: false  # cite-only: backs the postnatal pathway's steps; not quoted in general answers
   title: "Postnatal Care Program Standard — DoH Abu Dhabi (DoH/ST/HQS/PCP/V1/2025, May 2025)"
@@ -288,3 +306,38 @@
   url: "https://www.nhs.uk/baby/breastfeeding-and-bottle-feeding/breastfeeding-problems/common-problems/"
   accessed: "2026-11-20"
   topics: [breastfeeding, latch, sore nipples, mastitis, feeding]
+- id: nhs_endometriosis
+  answers: false  # cite-only: backs Nura's explain lane (22 Nov); not quoted in general answers, so the eval set is unchanged
+  title: "Endometriosis — NHS"
+  publisher: "NHS (UK)"
+  url: "https://www.nhs.uk/conditions/endometriosis/"
+  accessed: "2026-11-22"
+  topics: [endometriosis, what it is, symptoms, tests]
+- id: nhs_menopause
+  answers: false  # cite-only: backs Nura's explain lane (22 Nov); not quoted in general answers, so the eval set is unchanged
+  title: "Menopause and perimenopause — NHS"
+  publisher: "NHS (UK)"
+  url: "https://www.nhs.uk/conditions/menopause-and-perimenopause/"
+  accessed: "2026-11-22"
+  topics: [menopause, perimenopause, what it is, symptoms]
+- id: nhs_gestational_diabetes
+  answers: false  # cite-only: backs Nura's explain lane (22 Nov); not quoted in general answers, so the eval set is unchanged
+  title: "Gestational diabetes — NHS"
+  publisher: "NHS (UK)"
+  url: "https://www.nhs.uk/conditions/gestational-diabetes/"
+  accessed: "2026-11-22"
+  topics: [gestational diabetes, what it is, insulin, risk factors, after birth]
+- id: nhs_postnatal_depression
+  answers: false  # cite-only: backs Nura's explain lane (22 Nov); not quoted in general answers, so the eval set is unchanged
+  title: "Postnatal depression — NHS"
+  publisher: "NHS (UK)"
+  url: "https://www.nhs.uk/mental-health/conditions/postnatal-depression/"
+  accessed: "2026-11-22"
+  topics: [postnatal depression, baby blues, symptoms, getting help]
+- id: nhs_infertility
+  answers: false  # cite-only: backs Nura's explain lane (22 Nov); not quoted in general answers, so the eval set is unchanged
+  title: "Infertility — NHS"
+  publisher: "NHS (UK)"
+  url: "https://www.nhs.uk/conditions/infertility/"
+  accessed: "2026-11-22"
+  topics: [infertility, trying to conceive, when to see a doctor]

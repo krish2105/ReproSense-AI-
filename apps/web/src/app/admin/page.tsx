@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { AutoRefresh } from "@/components/admin/AutoRefresh";
 import { EventTimeline } from "@/components/admin/EventTimeline";
 import { LoopMetrics } from "@/components/admin/LoopMetrics";
+import { PopulationView } from "@/components/admin/PopulationView";
 import { RegionSection } from "@/components/admin/RegionSection";
 import { RoiCalculator } from "@/components/admin/RoiCalculator";
 import { StepUpExport } from "@/components/staff/StepUpExport";
@@ -157,6 +158,8 @@ export default async function AdminPage() {
           </a>
         </p>
       </section>
+
+      <PopulationView p={m.population} locale={locale} regionNames={Object.fromEntries(m.regions.map((r) => [r.region, region(r.region)]))} />
 
       <LoopMetrics m={m.loop} locale={locale} scope="network" />
 

@@ -26,4 +26,4 @@ def test_export_is_a_valid_fhir_bundle(path: Path):
 
 
 def test_every_demo_woman_is_checked():
-    assert len(PERSONAS) == 8
+    assert len(PERSONAS) == 9

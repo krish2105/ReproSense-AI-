@@ -61,46 +61,44 @@ for (const [name, dark] of [
 // ---------- 1 · The problem ----------
 pres.addSection({ title: "Problem" });
 const s1 = pres.addSlide({ masterName: "DARK_TITLE_ONLY", sectionTitle: "Problem" });
-s1.addText("The story exists. It arrives in pieces", { placeholder: "title" });
-s1.addText("Women in Abu Dhabi reach a gynaecologist with months of scattered period logs, symptoms and lab results, and no clear record of the pattern.", {
-  x: 0.6, y: 1.35, w: 11.5, h: 0.7, fontSize: 18, color: "EBD7F0", margin: 0, isTextBox: true,
+s1.addText("Noura knows something is wrong. She can't explain it", { placeholder: "title" });
+s1.addText("Noura, 24, Al Ain (fictional). For a year her periods have come every six to eight weeks, with acne and extra hair. In a ten-minute visit she can't remember the dates, feels embarrassed, and is told to come back if it gets worse.", {
+  x: 0.6, y: 1.3, w: 12.1, h: 0.95, fontSize: 18, color: "EBD7F0", margin: 0, isTextBox: true,
 });
 const STATS = [
-  ["Up to 70%", "of women with PCOS are unaware of it", "WHO fact sheet, Jan 2026"],
+  ["Up to 70%", "of women with PCOS don't know they have it", "WHO fact sheet, Jan 2026"],
   ["11.6 years", "from first symptoms to an endometriosis diagnosis (518 women, UAE)", "Frontiers in Global Women's Health, 2021"],
-  ["1 in 5", "pregnancies in Al Ain had gestational diabetes (21.3% of 2,546)", "Frontiers in Endocrinology, 2022"],
-  ["1 in 4", "came back for the glucose test after it (265 of 1,043, one Al Ain hospital)", "IJERPH, 2022"],
 ];
 STATS.forEach(([big, label, src], i) => {
-  const x = 0.6 + i * 3.08;
+  const x = 0.6 + i * 6.2;
   s1.addShape(pres.shapes.ROUNDED_RECTANGLE, {
-    x, y: 2.45, w: 2.85, h: 3.0, rectRadius: 0.2, fill: { color: C.accent6 }, line: { color: C.accent6 }, objectName: `stat-card-${i + 1}`,
+    x, y: 2.5, w: 5.9, h: 2.45, rectRadius: 0.2, fill: { color: C.accent6 }, line: { color: C.accent6 }, objectName: `stat-card-${i + 1}`,
   });
-  s1.addText(big, { x: x + 0.25, y: 2.7, w: 2.4, h: 1.0, fontSize: 40, bold: true, color: C.accent2, margin: 0, isTextBox: true, fit: "shrink" });
-  s1.addText(label, { x: x + 0.25, y: 3.8, w: 2.4, h: 1.1, fontSize: 16, color: C.background1, margin: 0, valign: "top", isTextBox: true });
-  s1.addText(src, { x: x + 0.25, y: 4.95, w: 2.4, h: 0.4, fontSize: 10, italic: true, color: "C9BACD", margin: 0, isTextBox: true });
+  s1.addText(big, { x: x + 0.35, y: 2.7, w: 5.2, h: 1.0, fontSize: 48, bold: true, color: C.accent2, margin: 0, isTextBox: true, fit: "shrink" });
+  s1.addText(label, { x: x + 0.35, y: 3.75, w: 5.2, h: 0.75, fontSize: 18, color: C.background1, margin: 0, valign: "top", isTextBox: true });
+  s1.addText(src, { x: x + 0.35, y: 4.5, w: 5.2, h: 0.35, fontSize: 11, italic: true, color: "C9BACD", margin: 0, isTextBox: true });
 });
 s1.addText(
   [
-    { text: "That test is part of DoH Jawda PC008. ", options: { bold: true } },
-    { text: "Lifting it from 1 in 4 to 1 in 2 would mean about 18 more mothers per 1,000 births with raised blood sugar found early." },
+    { text: "The problem isn't tracking. It's explaining. ", options: { bold: true, color: C.accent2 } },
+    { text: "Women hesitate, forget the details, or worry about being judged, so what her body has been telling her for months never reaches her doctor clearly." },
   ],
-  { x: 0.6, y: 5.75, w: 12.1, h: 0.7, fontSize: 16, color: "EBD7F0", margin: 0, valign: "top", isTextBox: true },
+  { x: 0.6, y: 5.25, w: 12.1, h: 1.05, fontSize: 20, color: "EBD7F0", margin: 0, valign: "top", isTextBox: true },
 );
-s1.addText("Arithmetic, not a result: 1,000 × 21.3% × (50% − 25.4%) × 34.5% of tests showing raised sugar (pooled from 18 studies, Endocrine 2025). Every input is editable at reprosense.vercel.app/pilot.", {
-  x: 0.6, y: 6.5, w: 12.1, h: 0.35, fontSize: 10, italic: true, color: "C9BACD", margin: 0, isTextBox: true,
+s1.addText("Noura and every person in this deck and demo are fictional.", {
+  x: 0.6, y: 6.45, w: 12.1, h: 0.35, fontSize: 11, italic: true, color: "C9BACD", margin: 0, isTextBox: true,
 });
 s1.addNotes(NOTES.SLIDE_1);
 
 // ---------- 2 · The solution ----------
 pres.addSection({ title: "Solution" });
 const s2 = pres.addSlide({ masterName: "LIGHT_TITLE_ONLY", sectionTitle: "Solution" });
-s2.addText("ReproSense turns her record into a next step", { placeholder: "title" });
+s2.addText("ReproSense does the explaining for her", { placeholder: "title" });
 const ROWS = [
-  ["Her record in 20 seconds", "Logs by tap or voice in Arabic or English. Lab reports read from a PDF or photo, and she checks every value."],
-  ["Patterns, never a diagnosis", "Written rules from published guidelines. Each pattern shows the entries behind it and its source. Red flags come first, with 998."],
-  ["AI that is checked", "Rules decide. AI reads her voice and lab photos and answers from cited sources. Held-out safety: crisis 30/30, emergencies 32/32. 14 of 14 attacks blocked."],
-  ["The clinic loop", "With consent: a pre-visit brief, a doctor report, follow-ups that close DoH's PC008. After birth: DoH postnatal steps and the baby's first year."],
+  ["She logs in seconds", "A tap, or a sentence in Gulf Arabic or English. A year of her days, pain, flow and lab results in one private record."],
+  ["Her evidence, never a diagnosis", "Rules from published guidelines show the pattern, the exact days behind it and its source. Red flags come first, with 998."],
+  ["Nura explains her body", "Plain words from NHS and guideline sources, with her own numbers. Never a diagnosis or a medicine. Held-out safety: crisis 30/30, emergencies 32/32."],
+  ["Her doctor reads it in a minute", "With her consent: a two-page report and a pre-visit brief. No forgetting, no judging: her record speaks for her."],
 ];
 ROWS.forEach(([head, body], i) => {
   const y = 1.55 + i * 1.12;
@@ -114,8 +112,8 @@ s2.addShape(pres.shapes.ROUNDED_RECTANGLE, {
 });
 s2.addText(
   [
-    { text: "Why not a period tracker? ", options: { bold: true, color: C.text2 } },
-    { text: "Trackers now print reports too. Our edge is the clinic loop, rules that cite their source, Arabic first, and we never sell health data.", options: { color: C.text1 } },
+    { text: "Why not a tracker or ChatGPT? ", options: { bold: true, color: C.text2 } },
+    { text: "Trackers log; chatbots don't know her record. We turn her year into evidence her doctor can act on, Arabic first, and never sell health data.", options: { color: C.text1 } },
   ],
   { x: 0.8, y: 6.1, w: 7.1, h: 0.7, fontSize: 14, valign: "middle", margin: 0, isTextBox: true },
 );
@@ -135,8 +133,8 @@ s3.addText("One clinic pilot, then a licensed company", { placeholder: "title" }
 const STEPS = [
   ["Nov", "Claims frozen; device-classification memo for EDE; regulatory register"],
   ["Dec", "10 interviews; a clinic letter of intent; EDE enquiry; ADHICS gap assessment"],
-  ["Feb", "UAE-hosted stack live; penetration test; 15–20 women and 3 clinicians test"],
-  ["Mar–May", "Consented pilot: up to 20 women, 3 clinicians, one clinic; licensed company"],
+  ["Feb", "UAE hosting and UAE PASS sign-in; penetration test; 15–20 women and 3 clinicians test"],
+  ["Mar–May", "Consented pilot at one clinic, up to 20 women; licensed company; Malaffi link, ready for Sahatna"],
 ];
 s3.addShape(pres.shapes.LINE, { x: 1.0, y: 1.95, w: 11.3, h: 0, line: { color: "C9BACD", width: 1.5 }, objectName: "timeline" });
 STEPS.forEach(([when, what], i) => {
@@ -146,7 +144,7 @@ STEPS.forEach(([when, what], i) => {
   s3.addText(what, { x, y: 2.8, w: 2.85, h: 1.3, fontSize: 14, color: C.background1, margin: 0, valign: "top", isTextBox: true });
 });
 const CARDS = [
-  ["Who pays", "Women's health and IVF clinics: AED 399 per clinician a month (a price we are testing). Primary-care networks for the after-birth module (PC008). Payers and employers later. Women use it free."],
+  ["Users, and who pays", "Women like Noura use it free; their doctors read her report. Clinics and primary-care networks pay a subscription, because it closes DoH's PC008 follow-up; insurers later, per follow-up closed. Price set with our pilot clinic."],
   ["What we need", "A pilot clinic. A clinical advisor to sign the rules. The HealthX Ajyal grant to reach a licensed company by month 6."],
 ];
 CARDS.forEach(([head, body], i) => {
@@ -169,6 +167,37 @@ s3.addText("Team: Krishna Mathur (AI, backend, safety) · Atharva Soundankar (we
   x: 0.6, y: 6.63, w: 11.5, h: 0.3, fontSize: 11, color: "C9BACD", margin: 0, isTextBox: true,
 });
 s3.addNotes(NOTES.SLIDE_3);
+
+// ---------- 4 · The demo (organisers' format, 22 Nov: 3 to 4 slides, the 4th is the demo) ----------
+pres.addSection({ title: "Demo" });
+const s4 = pres.addSlide({ masterName: "LIGHT_TITLE_ONLY", sectionTitle: "Demo" });
+s4.addText("The demo: her record, her clinic, the network", { placeholder: "title" });
+const DEMO = [
+  ["Her record", "Noura (fictional, 24): a pattern with the days behind it and its guideline. Nura explains what is happening in her body, with NHS sources. She logs by voice in Arabic."],
+  ["Her clinic", "Fatima had diabetes in pregnancy. Her after-birth glucose test is due (DoH PC008); the clinician books it in one tap, with consent."],
+  ["The network", "Follow-ups closing across clinics, counts only, never names: what a clinic or an insurer pays for."],
+];
+DEMO.forEach(([head, body], i) => {
+  const x = 0.6 + i * 3.0;
+  s4.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 1.6, w: 2.8, h: 3.1, rectRadius: 0.2, fill: { color: "F4EDF4" }, line: { color: "E6D9E8" }, objectName: `demo-card-${i + 1}` });
+  s4.addShape(pres.shapes.OVAL, { x: x + 0.25, y: 1.85, w: 0.5, h: 0.5, fill: { color: C.accent1 }, line: { color: C.accent1 }, objectName: `demo-dot-${i + 1}` });
+  s4.addText(String(i + 1), { x: x + 0.25, y: 1.85, w: 0.5, h: 0.5, fontSize: 16, bold: true, color: C.background1, align: "center", valign: "middle", margin: 0, isTextBox: true });
+  s4.addText(head, { x: x + 0.25, y: 2.5, w: 2.35, h: 0.4, fontSize: 18, bold: true, color: C.text2, margin: 0, isTextBox: true });
+  s4.addText(body, { x: x + 0.25, y: 2.95, w: 2.35, h: 1.65, fontSize: 13, color: C.text1, margin: 0, valign: "top", isTextBox: true });
+});
+s4.addImage({ path: path.join(HERE, "img", "qr-live.png"), x: 10.05, y: 1.6, w: 2.4, h: 2.4, altText: "QR code to reprosense.vercel.app", objectName: "qr-live" });
+s4.addText("reprosense.vercel.app", { x: 9.75, y: 4.05, w: 3.0, h: 0.35, fontSize: 14, bold: true, color: C.text2, align: "center", margin: 0, isTextBox: true });
+s4.addText("Live now. Recorded backup: ReproSense-demo.mp4", { x: 9.75, y: 4.4, w: 3.0, h: 0.3, fontSize: 10, italic: true, color: C.accent5, align: "center", margin: 0, isTextBox: true });
+s4.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.6, y: 5.05, w: 12.1, h: 1.15, rectRadius: 0.15, fill: { color: "FFFFFF" }, line: { color: "E6D9E8" }, objectName: "life-course" });
+s4.addText(
+  [
+    { text: "One record for her whole reproductive life. ", options: { bold: true, color: C.text2 } },
+    { text: "Periods and women's health, fertility and trying to conceive, pregnancy, after birth with her baby's first year, and perimenopause. For longevity, the follow-ups that protect her later health close: after diabetes in pregnancy, type 2 diabetes is about ten times more likely (BMJ, 2020).", options: { color: C.text1 } },
+  ],
+  { x: 0.85, y: 5.12, w: 11.6, h: 1.0, fontSize: 14, valign: "middle", margin: 0, isTextBox: true },
+);
+s4.addText("All people and data in the demo are fictional. AI use is disclosed in the app.", { x: 0.6, y: 6.45, w: 12.1, h: 0.3, fontSize: 11, italic: true, color: C.accent5, margin: 0, isTextBox: true });
+s4.addNotes(NOTES.SLIDE_4);
 
 // pptxgenjs writes each slide's notes as one run with raw line breaks, which PowerPoint's Presenter View shows as one
 // block. Split them into real paragraphs, and bold the headings (the speaker line, IF ASKED, DEMO, TIMING, steps).

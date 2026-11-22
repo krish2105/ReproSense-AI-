@@ -54,7 +54,7 @@ class Settings(BaseSettings):
     pdf_parse_timeout_s: float = 10.0
     cookie_secure: bool = False  # true when served over HTTPS (Render/Vercel); local http stays false
     seed_if_empty: bool = False  # first boot on a fresh hosted database: load the synthetic demo data (DEMO_MODE only)
-    rate_limit_per_min: int = 120
+    rate_limit_per_min: int = 400  # 22 Nov (Krishna): raised from 120 for showcase day so fast-clicking judges don't hit error pages
     rate_limit_sensitive_per_min: int = 20  # assistant + uploads
     red_flag_window_days: int = 14  # QUESTIONS #17 default (needs clinician sign-off)
     # Connection pool. Wait less than the web's 15 s API timeout, so a saturated pool answers 503 + Retry-After instead

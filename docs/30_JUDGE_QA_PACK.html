@@ -5,7 +5,7 @@
 <title>ReproSense: judges' questions and how it works</title>
 <style>
   @page { size: A4; margin: 16mm 15mm 16mm 15mm;
-    @bottom-left { content: "ReproSense AI · HealthX Ajyal 2026 · Q&A pack, 21 Nov · all demo data is fictional"; font: 7.5pt sans-serif; color: #8a7a8f; }
+    @bottom-left { content: "ReproSense AI · HealthX Ajyal 2026 · Q&A pack, 22 Nov · all demo data is fictional"; font: 7.5pt sans-serif; color: #8a7a8f; }
     @bottom-right { content: counter(page) " / " counter(pages); font: 7.5pt sans-serif; color: #8a7a8f; } }
   :root { --plum: #4b2e55; --ink: #241a28; --dim: #5d5063; --line: #e4d9e7; --soft: #f6f0f7; --pink: #c2477f; --amber: #8a5a00; }
   body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--ink); font-size: 9.4pt; line-height: 1.38; }
@@ -78,7 +78,7 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <p class="a">Not yet with real women or a clinic: everything you saw runs on fictional data, by design. Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with up to 20 women at one clinic, measured on one number: the glucose test after gestational diabetes.</p></div>
 
 <div class="q"><span class="who Y">Y</span><b class="t">9. Who pays, and how much?</b>
-<p class="a">Women use it free. Clinics pay per clinician, AED 399 a month (a price we're testing), and primary-care networks pay for the after-birth module because it closes DoH's PC008 indicator. Insurers and employers later.</p></div>
+<p class="a">Women use it free, always. Clinics and primary-care networks will pay a subscription for the clinic's side, because it closes DoH's PC008 follow-up; insurers later, per follow-up closed. There's no price yet on purpose: we set it with our first pilot clinic, from what the pilot measures.</p></div>
 
 <div class="q"><span class="who Y">Y</span><b class="t">10. How is this different from Flo, Clue or Nabta?</b>
 <p class="a">Trackers log and predict; Flo's checker matches symptoms to conditions, which we refuse to do. Nabta sells clinic care and consultations. We're the record and the cited rules a clinic uses, Arabic-first, tied to a DoH indicator, and we never sell health data.</p></div>
@@ -86,14 +86,17 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <div class="q"><span class="who">K</span><b class="t">11. Why wouldn't PureHealth just build this into Pura?</b>
 <p class="a">We'd rather be inside Pura than compete with it. From its public listings, Pura covers consultations, medicines and diabetes but no women's or maternal module; we bring the rules, the Arabic and the safety evidence as that module.</p></div>
 
+<div class="q"><span class="who">K</span><b class="t">11b. Why not just use Sahatna? (our mentor flagged this)</b>
+<p class="a">Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module.</p></div>
+
 <div class="q"><span class="who">K</span><b class="t">12. Is this a medical device?</b>
 <p class="a">It's designed to stay below that line: it doesn't diagnose or recommend treatment. The Emirates Drug Establishment decides, so our first step is a classification memo to them; then a DoH licence and an ADHICS gap assessment.</p></div>
 
 <div class="q"><span class="who">K</span><b class="t">13. Where is the data stored?</b>
-<p class="a">The demo is synthetic and hosted in Frankfurt. Production must stay in the UAE under the Health Data Law; moving to UAE hosting with a penetration test is our February milestone.</p></div>
+<p class="a">The demo is synthetic and hosted in Frankfurt. Production must stay in the UAE under the Health Data Law; moving to UAE hosting with a penetration test is our February milestone. Not done yet, and we say so: UAE hosting, backups, the penetration test and a privacy impact assessment.</p></div>
 
 <div class="q"><span class="who">K</span><b class="t">14. Who can see her data?</b>
-<p class="a">Only her, unless she shares with her clinic, and she can stop sharing, export everything or delete it. Clinicians see only women who shared; the network sees counts only, with groups under 10 hidden.</p></div>
+<p class="a">Only her, unless she shares with her clinic, and she can stop sharing, export everything or delete it. Clinicians see only women who shared; the network sees counts only, with groups under 10 hidden. Names are removed before any AI call, and with AI off nothing is sent. Every access is in a tamper-evident log she can read.</p></div>
 
 <div class="q"><span class="who Z">Z</span><b class="t">15. PCOS was renamed PMOS. Why say PCOS?</b>
 <p class="a">The Lancet consensus renamed it in May 2026, with a three-year transition, and the international guideline adopts PMOS in 2028. Our search already understands PMOS; we show PCOS because women and doctors here still use it.</p></div>
@@ -247,7 +250,7 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <div class="q"><span class="who">K</span><b class="t">What about prompt injection, e.g. instructions hidden in a lab report?</b>
 <p class="a">Uploaded text is treated as data, never as instructions, and the model's output passes the same guard. It's attack 7 in our suite, and it's blocked.</p></div>
 <div class="q"><span class="who">K</span><b class="t">What's the latency and cost of the AI?</b>
-<p class="a">Each request has a 10-second budget with one retry and a cache; most of the app needs no model at all. We haven't measured cost at scale; the pilot stack is about AED 122 a month before any model.</p></div>
+<p class="a">Each request has a 10-second budget with one retry and a cache; most of the app needs no model at all. We haven't measured cost at scale yet; the pilot will.</p></div>
 <div class="q"><span class="who">K</span><b class="t">Bias: does it work equally for everyone?</b>
 <p class="a">The rules are the same for every woman and come from international guidelines. The network view shows rates by nationality and age band with groups under 10 hidden, so a clinic can see gaps. A proper fairness review needs real data, so it's part of the pilot.</p></div>
 <div class="q"><span class="who">K</span><b class="t">What's agentic about it?</b>
@@ -270,14 +273,20 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <p class="a">That framework is for AI that performs clinical activities; we've designed ReproSense not to: it doesn't diagnose, treat or triage on its own. We'd still use DoH's living-lab route for the pilot.</p></div>
 <div class="q"><span class="who">K</span><b class="t">Is the data encrypted?</b>
 <p class="a">Yes: everything travels over HTTPS, and free-text notes and uploaded documents are also encrypted field by field (AES-256-GCM) inside the database. Names are removed before any AI call.</p></div>
+<div class="q"><span class="who">K</span><b class="t">How do you protect her privacy? (20 seconds)</b>
+<p class="a">Hers by default: her clinic sees her record only if she shares, and she can stop sharing, export or delete it. The network sees counts, never names, with groups under 10 hidden. Names are removed before any text reaches a model; with AI off, nothing is sent. Every access is in a tamper-evident log she can read, and we never sell health data.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What about a shared family phone?</b>
+<p class="a">Discreet mode shows "My notes" instead of the app name and hides her name on screen. She can give someone she trusts a read-only family link, choose whether it shows details, and revoke it at any time.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What isn't done yet on privacy?</b>
+<p class="a">Said plainly: the demo runs on fictional data on free hosting in Frankfurt, with no backups, no penetration test and no privacy impact assessment yet. The ADHICS gap assessment is in December; UAE hosting and the penetration test are the February milestone, before any real record.</p></div>
 <div class="q"><span class="who">K</span><b class="t">What about minors?</b>
 <p class="a">The product is for adults 18+. Teenage periods have different guideline thresholds, and minors need a different consent model, so we don't cover them.</p></div>
 
 <h3>E. Business and adoption (PureHealth and investors)</h3>
-<div class="q"><span class="who Y">Y</span><b class="t">What's the pricing?</b>
-<p class="a">Prices we're testing: AED 399 per clinician a month, AED 1,990 a month for a small clinic of up to 5, and network licences from AED 150,000 a year. Women never pay.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">Why is there no price?</b>
+<p class="a">Because it's a prototype and any number now would be a guess. Health buyers increasingly pay for measured outcomes, so we'll agree the price with our first pilot clinic once the pilot has measured the follow-ups closed. Women never pay.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">What's the market size?</b>
-<p class="a">Abu Dhabi has about 700 OB-GYN specialists, 14 fertility centres and 45 women's health facilities. Seats alone are about AED 3.35M a year, so the business needs network licences and payer programmes, then the GCC. We'll size it with pilot numbers, not a big top-down figure.</p></div>
+<p class="a">Abu Dhabi has about 700 OB-GYN specialists, 14 fertility centres and 45 women's health facilities. We start with clinics, then networks and payers, then the GCC, and we'll size the revenue with pilot numbers, not a big top-down figure.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">Who's your first customer?</b>
 <p class="a">A primary-care or women's health clinic that sees women in pregnancy and after birth, for example one clinic in a large network such as SEHA. Primary care fits best because PC008 counts family-medicine visits.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">How do you get women to use it?</b>
@@ -286,8 +295,8 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <p class="a">Follow-ups closed on a measured indicator, and counts by clinic without names. We'd start with a provider pilot and bring the numbers to a payer afterwards.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">What would you do with the grant?</b>
 <p class="a">Fund the pilot: UAE hosting, the penetration test, a clinical advisor's time and the first clinic's onboarding. The plan matches the grant in three stages over six months.</p></div>
-<div class="q"><span class="who Y">Y</span><b class="t">What's your margin?</b>
-<p class="a">On infrastructure only, a small clinic at AED 1,990 against a pilot stack of about AED 122 a month is roughly 94%, before support, compliance and any model. The pilot measures the real figure.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">Is it expensive to run?</b>
+<p class="a">No: most of the app needs no AI model at all, and a small UAE-hosted pilot server is a modest monthly cost. The margin depends on the price we set after the pilot.</p></div>
 <div class="q"><span class="who">K</span><b class="t">What's defensible if a big player copies you?</b>
 <p class="a">Cited clinical rules with sign-off, published safety evidence, the Arabic work and the tie to DoH indicators take time to rebuild. And a big player is more likely to be our channel than our competitor.</p></div>
 
@@ -313,7 +322,42 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <div class="q"><span class="who">K</span><b class="t">Who on the team is clinical?</b>
 <p class="a">None of us is a licensed clinician, which is why a clinical advisor is our first ask. Zebo brings biology and women's health research; the rules come from published guidelines, not our opinion.</p></div>
 
-<h3>H. Curveballs</h3>
+<h3>H. Sahatna, DoH's own app (our mentor flagged it)</h3>
+<p class="small">Sahatna (صحتنا) is the Department of Health's official app: UAE PASS sign-in, Malaffi records, booking, teleconsults, prescriptions, insurance, dependents, an AI symptom checker and a report-reading chatbot; 500K+ installs, over a million users in its first year. Its services are moving into "Sahatna Space" on TAMM, which lists maternity care features now and IVF, AI health assistance and personalised recommendations as upcoming. Its public pages don't mention cycle tracking or women's health. Never criticise it on stage: DoH is on the jury.</p>
+<div class="q"><span class="who">K</span><b class="t">Why not just use Sahatna?</b>
+<p class="a">Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module.</p></div>
+<div class="q"><span class="who">K</span><b class="t">DoH is adding maternity and IVF to Sahatna. Won't you be redundant?</b>
+<p class="a">That's where we fit. Sahatna lists maternity care and IVF as next; we've already built the women's record, the DoH postnatal steps, the PC008 follow-up loop and published safety evidence. We'd rather be that module than a second app.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">So are you competing with DoH?</b>
+<p class="a">In women's health we go deeper than any app today, Sahatna included: months of cycle and pregnancy data, cited patterns, a doctor report and follow-ups tracked until they close. But as a business, Sahatna is our best route to every woman in Abu Dhabi, not our rival.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What would connecting to Sahatna look like?</b>
+<p class="a">UAE PASS sign-in; with her consent, lab results and diagnoses read from Malaffi instead of typed in; her record sent back as FHIR; and an entry point from Sahatna Space so a woman opens her women's-health record there. Booking stays in Sahatna: our follow-up would hand off to it.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">Sahatna has an AI symptom checker. Isn't that the same?</b>
+<p class="a">It's different by design. A symptom checker looks at one moment and suggests probable causes; its results can't be saved or shared. We look at months of her own entries, never name a condition, and keep each pattern with its evidence for her doctor.</p></div>
+<div class="q"><span class="who A">A</span><b class="t">What will you build next?</b>
+<p class="a">UAE PASS sign-in; lab results from Malaffi with her consent; a Sahatna Space entry point; Apple Health and Health Connect for cycle and blood-pressure data; time-limited sharing with her doctor or family (one week to one year); a booking hand-off from each follow-up; IVF-cycle support; and opt-in reminders for tests, not only appointments.</p></div>
+
+<h3>I. Nura, personalisation, longevity and fertility (added 22 Nov)</h3>
+<div class="q"><span class="who">K</span><b class="t">Who is Nura?</b>
+<p class="a">Our AI assistant, named in Arabic (نورا). She answers only from our cited library or from her own numbers computed by code, never diagnoses, and a verifier drops any sentence a source doesn't support. The name is shown with "AI assistant", so AI use is always disclosed.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What does Nura say to "What is PCOS?" or "What is happening with my body?"</b>
+<p class="a">For 10 conditions (PCOS, endometriosis, heavy periods, period pain, irregular periods, menopause, gestational diabetes, postnatal depression, pre-eclampsia, fertility) she explains what it is in plain words, each sentence checked against its NHS or guideline page and cited, then adds her own patterns with her numbers (Noura: cycles of 42 to 56 days), and links the NHS page and an official NHS video; in Arabic, the WHO Arabic fact sheet. "What is happening with my body?" lists her own patterns, red flags first with 998.</p></div>
+<div class="q"><span class="who">K</span><b class="t">Can Nura hallucinate, diagnose or prescribe?</b>
+<p class="a">Not in these answers. The explanations are fixed sentences we wrote and checked against the cited pages, put together by code, so the model can't invent one. "Do I have PCOS?" starts with "I can't tell; only a doctor can", then gives the cited facts and what her record shows. "What medicine for PCOS?" gets the fixed reply to ask a doctor or pharmacist, never a medicine name. Crisis and emergency checks run first and are unchanged: 30/30 and 32/32 on the held-out set.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What does Nura say to "what should I eat on my period?"</b>
+<p class="a">Food and drink from NHS pages, never a medicine: iron-rich foods if her periods are heavy, what blocks iron, 6 to 8 cups of fluid a day, and drug-free cramp relief. If she names an allergy, those foods are left out, she's told to check labels, and 998 is given for a serious reaction. It's written by code, so it can't invent anything.</p></div>
+<div class="q"><span class="who">K</span><b class="t">How is it personalised?</b>
+<p class="a">From her own entries, not guesses: her patterns, her due follow-ups, her life stage, and in Nura's answers her own numbers (if she logged heavy days, iron comes first). Next: allergies and food preferences saved to her profile, reminders timed to her plan, and Apple Health or Health Connect data with her consent.</p></div>
+<div class="q"><span class="who">K</span><b class="t">Can Nura be wrong? Zero hallucinations?</b>
+<p class="a">Nobody can promise zero, so we design so an unsupported sentence never reaches her: answers come only from retrieved, cited passages or code; a verifier drops anything a source doesn't support; red flags and crisis replies are fixed text; and when there's no source, Nura says so instead of guessing. Every miss on our held-out set is published on /status.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">The judges asked us to focus on longevity. Where is it?</b>
+<p class="a">In the follow-ups that protect her later health. After diabetes in pregnancy, type 2 diabetes is about ten times more likely (Vounzoulaki et al., BMJ 2020), so the after-birth glucose test matters for life; PCOS raises cardiometabolic risk, so the 2023 guideline asks for regular glucose and blood-pressure checks; and the record carries her into perimenopause.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">And fertility?</b>
+<p class="a">The Trying stage tells her when to ask for a fertility assessment (after 12 months, or 6 months at 35 or over, per NICE NG257 and ASRM) and gives a sourced planning checklist (folic acid, rubella immunity). Her cycle record helps the fertility doctor from day one. IVF-cycle support is on our roadmap.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">Where do insurers fit?</b>
+<p class="a">Later, and paid for results. With her consent her insurance type would sit on her profile so follow-ups point to clinics her plan covers, and when a follow-up needs prior approval the clinic gets the evidence in one place. We'd agree what's covered with an insurer after the pilot, not before.</p></div>
+
+<h3>I. Curveballs</h3>
 <div class="q"><span class="who">K</span><b class="t">"Your live cards say 'written from a template'. So where's the AI?"</b>
 <p class="a">The cards use the safe template by default; the AI does the language work where it helps her: voice into the form, lab photos, cited answers and the pre-visit brief. That's deliberate: rules decide.</p></div>
 <div class="q"><span class="who">K</span><b class="t">"Your data is in Frankfurt. Isn't that against UAE law?"</b>

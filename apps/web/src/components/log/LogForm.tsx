@@ -17,6 +17,7 @@ import type { Card, Flow, Impact, LogBody, LogResult, PainSite, ParseResult, Pba
 import type { Locale } from "@/i18n/config";
 import { ALL_SYMPTOMS, COMMON_SYMPTOMS, FLOWS, IMPACTS, MORE_SYMPTOMS, PBAC_WEIGHTS, pbacScore, slug } from "@/lib/vocab";
 import { BodyMap } from "./BodyMap";
+import { painBand } from "@/lib/pain-band";
 import type { siteHeat } from "./bodyHeat";
 import { VoiceButton } from "./VoiceButton";
 
@@ -180,6 +181,9 @@ export function LogForm({
       <div className="field">
         <span className="label">{t("log.flow")}</span>
         <Seg label={t("log.flow")} options={FLOWS.map((f) => ({ value: f, label: t(`flows.${f}`) }))} selected={[flow]} onToggle={(v) => setFlow(v)} />
+        <p className="xs dim" style={{ margin: "4px 0 0" }} data-testid="flow-hint">
+          {t(`log.flowHint.${flow}`)}
+        </p>
       </div>
 
       {flow !== "none" && (
@@ -215,8 +219,21 @@ export function LogForm({
       )}
 
       <div className="field">
-        <label htmlFor="pain-range">{t("log.pain", { pain })}</label>
-        <input id="pain-range" type="range" min={0} max={10} step={1} value={pain} onChange={(e) => setPain(Number(e.target.value))} aria-valuetext={t("log.painValue", { pain })} />
+        <label htmlFor="pain-range">{t("log.pain", { pain, band: t(`log.painLevel.${painBand(pain)}`) })}</label>
+        <input
+          id="pain-range"
+          type="range"
+          min={0}
+          max={10}
+          step={1}
+          value={pain}
+          onChange={(e) => setPain(Number(e.target.value))}
+          aria-valuetext={`${t("log.painValue", { pain })}, ${t(`log.painLevel.${painBand(pain)}`)}`}
+          aria-describedby="pain-hint"
+        />
+        <p id="pain-hint" className="xs dim" style={{ margin: "4px 0 0" }} data-testid="pain-hint">
+          {t(`log.painHint.${painBand(pain)}`)} {t("log.painScale")}
+        </p>
       </div>
 
       <BodyMap selected={sites} onToggle={(s) => setSites((x) => toggle(x, s))} yearCounts={yearCounts} heat={heat} />
@@ -242,6 +259,9 @@ export function LogForm({
 
       <div className="field">
         <span className="label">{t("log.impactTitle")}</span>
+        <p className="xs dim" style={{ margin: "0 0 6px" }}>
+          {t("log.impactHint")}
+        </p>
         <Seg label={t("log.impactTitle")} options={IMPACTS.map((i) => ({ value: i, label: t(`impacts.${slug(i)}`) }))} selected={[impact]} onToggle={(v) => setImpact(v)} />
       </div>
 

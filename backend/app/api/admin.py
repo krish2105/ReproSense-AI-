@@ -70,6 +70,7 @@ def metrics(actor: Actor = Depends(admin)):
         if cur.fetchone()["ok"]:
             cur.execute("SELECT status, n FROM care_gap_counts_by_type() WHERE type = 'postpartum_glucose_test'")
             live_pp = {r["status"]: r["n"] for r in cur.fetchall()}
+        population = _population(cur)
         loop_rows, loop_steps = followups.cohort_rows(cur)
         loop_rows += followups.live_rows(cur)
         audit.record(cur, actor, "view_admin_metrics", None, "admin")
@@ -132,9 +133,77 @@ def metrics(actor: Actor = Depends(admin)):
         },
         "live_demo_gaps": live,
         "pc008_glucose": _pc008_glucose(c, live_pp),
+        # What a health department would see and cannot see in clinic records: patterns that have not reached care.
+        "population": population,
         # The loop, measured (network-wide): days between its steps, follow-ups done inside their window, overdue
         # follow-ups, postnatal steps done inside their DoH window, records opened by a clinician before the visit.
         "loop": followups.loop_metrics(loop_rows, loop_steps, ref),
+    }
+
+
+PATTERN = "(obs_irregular_cycles OR obs_severe_cyclical_pain OR obs_heavy_periods OR obs_ttc_fertility_assessment)"
+
+
+def _split(total: int, shared: int) -> dict:
+    """A group's women with a pattern, split into shared and not shared. Hidden when any part is under 10, so a small
+    part cannot be worked out by subtraction."""
+    if min(total, shared, total - shared) < K_MIN:
+        return {"with_pattern": None, "shared": None, "not_shared": None, "shared_pct": None}
+    return {
+        "with_pattern": total,
+        "shared": shared,
+        "not_shared": total - shared,
+        "shared_pct": round(100.0 * shared / total, 1),
+    }
+
+
+def _population(cur) -> dict:
+    """Counts for a health department, from the synthetic cohort only: how many women's entries match a pattern worth
+    discussing, how many of them have shared a report with a clinic, by region; patterns by age band; and women who
+    meet the guideline timing for a fertility assessment. Counts, never rows; every group under 10 is hidden. These
+    are rule matches on logged entries, not diagnoses and not prevalence."""
+    cur.execute(
+        f"SELECT count(*) FILTER (WHERE {PATTERN}) total,"  # noqa: S608 (fixed text)
+        f" count(*) FILTER (WHERE {PATTERN} AND report_shared) shared,"
+        " count(*) FILTER (WHERE trying_to_conceive) trying,"
+        " count(*) FILTER (WHERE obs_ttc_fertility_assessment) ttc_due,"
+        " count(*) FILTER (WHERE obs_ttc_fertility_assessment AND report_shared) ttc_shared"
+        " FROM cohort_members"
+    )
+    o = cur.fetchone()
+    cur.execute(
+        f"SELECT region, count(*) n, count(*) FILTER (WHERE {PATTERN}) total,"  # noqa: S608
+        f" count(*) FILTER (WHERE {PATTERN} AND report_shared) shared"
+        " FROM cohort_members GROUP BY region ORDER BY count(*) DESC"
+    )
+    regions = [{"region": r["region"], "n": _k(r["n"]), **_split(r["total"], r["shared"])} for r in cur.fetchall()]
+    cur.execute(
+        "SELECT age_band, count(*) n, count(*) FILTER (WHERE obs_irregular_cycles) cycles,"
+        " count(*) FILTER (WHERE obs_severe_cyclical_pain) pain, count(*) FILTER (WHERE obs_heavy_periods) heavy"
+        " FROM cohort_members GROUP BY age_band ORDER BY age_band"
+    )
+    ages = []
+    for r in cur.fetchall():
+        ok = r["n"] >= K_MIN
+        ages.append(
+            {
+                "age_band": r["age_band"],
+                "n": _k(r["n"]),
+                **{k: round(100.0 * r[k] / r["n"], 1) if ok else None for k in ("cycles", "pain", "heavy")},
+            }
+        )
+    ttc = _split(o["ttc_due"], o["ttc_shared"])
+    return {
+        "overall": _split(o["total"], o["shared"]),
+        "regions": regions,
+        "age_bands": ages,
+        "trying": {
+            "trying": _k(o["trying"]),
+            "due": ttc["with_pattern"],
+            "shared": ttc["shared"],
+            "not_shared": ttc["not_shared"],
+        },
+        "note": "Synthetic cohort. Rule matches on logged entries, not diagnoses and not prevalence estimates.",
     }
 
 

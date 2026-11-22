@@ -15,6 +15,45 @@ Blockers / questions:
 - ...
 ```
 
+
+## 22 Nov 2026 (Sun, showcase day, Atharva): "What the Department of Health would see" on the network dashboard
+- The jury is DoH. The dashboard answered "what does a clinic get"; it did not answer "what does the department learn
+  that Malaffi cannot show". New panel on /admin, after PC008: women whose entries match a pattern worth discussing
+  and how many of them have shared a report with a clinic (overall and by region), patterns by age band, and women who
+  have reached the guideline timing for a fertility assessment.
+- Synthetic cohort only (`cohort_members`): no schema change, no new data, no rule change. Counts, never rows; a
+  split is hidden when any part is under 10, so a small part cannot be worked out by subtraction.
+- Wording: "entries match a pattern", never a condition, "detected", "screened" or "prevalence". The panel says what
+  it is not: a register, a list of names or a count of diagnoses.
+- docs/27 Q18b: the answer to "what does DoH get from this, apart from a product?".
+- Tests: backend 6 new in `tests/test_population_view.py` plus `test_api.py` green locally, full suite in CI; web lint, typecheck, 117 unit;
+  `e2e/population.spec.ts` 6/6 (desktop and mobile, EN and AR at 390 px, axe-clean).
+
+## 22 Nov 2026 (showcase day): no prices anywhere, and the Sahatna answers
+- The team asked for every price to come out, because ReproSense is a hackathon prototype:
+  - /pricing became "How ReproSense will be paid for": women free, clinics and networks on a subscription, insurers
+    later paid for results, and the price set with the first pilot clinic from what the pilot measures;
+  - removed from the landing page, the /pilot calculator (no subscription or net lines) and the pilot proposal (web
+    and PDF);
+  - removed from slide 3, the speaker notes, docs/27 and the Q&A pack.
+- Our mentor flagged Sahatna, DoH's own app. Research summary:
+  - official DoH app; UAE PASS sign-in, Malaffi records, booking, teleconsults;
+  - moving to Sahatna Space on TAMM, which lists maternity care now and IVF next;
+  - its public pages show no cycle or women's-health tracking.
+- What we added for Sahatna:
+  - the answer (its front door, our women's-health specialist behind it, through Malaffi and FHIR) in the notes,
+    docs/27 Q14b and Q&A pack section H;
+  - roadmap features: UAE PASS sign-in, Malaffi lab import, a Sahatna Space entry point, Apple Health and Health
+    Connect, time-limited sharing, booking hand-off, IVF-cycle support, test reminders;
+  - slide 3 timeline: UAE PASS in February, a Malaffi link ready for Sahatna by May.
+- Checks: web unit 115, backend pilot-proposal 13, e2e (pilot, proposal, screens, hero, demo path) 110 passed / 8 skipped.
+
+## 22 Nov 2026 (Sun, showcase day, Atharva): what we checked and did not show; Sahatna and acne answers
+- Patterns: "What we checked and did not show". Her own numbers next to each period rule's threshold, with its source, so an absent card is explained too (acne without irregular cycles never becomes a pattern). No rule changed; a test reads the thresholds against rules/clinical_rules.yaml. Not shown in pregnancy, while breastfeeding, in the year after a birth or on the crisis path. Health wording needs Krishna's G2 read; Arabic is a draft (docs/AR_REVIEW.md).
+- docs/27: answers for "DoH already has Sahatna" (Q15b, with sourced facts) and "won't acne be called PCOS?" (Q15c).
+Tests: backend 884 pass (9 new) · web lint, typecheck, unit pass · e2e checked.spec 4/4 on desktop and mobile
+Next: clinician decision on asking once about hormonal contraception, medicines and thyroid conditions, and on holding the cycle card on hormonal contraception (changes when a rule fires).
+
 ## 21 Nov 2026 (Sat night, after the freeze, Krishna approved): landing hero cards no longer cover the phone
 - The two floating cards on the landing were placed against the hero column, so on wide screens "Worth discussing"
   covered Noura's avatar and greeting, and "AI Copilot" covered the "Next step" card. The phone also cut "Ask your

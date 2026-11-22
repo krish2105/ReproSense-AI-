@@ -2043,3 +2043,150 @@ Clinic-facing (plural address, as on the rest of /pilot). Terms to check: «ار
 | `evidence.built.colDate` | Merged | تاريخ الدمج |  |
 | `evidence.built.when` | Listed from GitHub on {date} by tools/build_week.py; dependency-update bots left out. | القائمة مأخوذة من GitHub في {date} عبر tools/build_week.py، من دون روبوتات تحديث المكتبات. |  |
 | `pilot.intro` (changed sentence) | Each default comes from a published study (two from Abu Dhabi, one pooled from 18 studies) or our price list, or is marked as an assumption. | كل قيمة افتراضية مأخوذة من دراسة منشورة (اثنتان من أبوظبي، وواحدة تجمع 18 دراسة) أو من قائمة أسعارنا، أو مكتوب بجانبها أنها افتراض. | |
+
+## No prices: "How ReproSense will be paid for" (22 Nov, draft Arabic, not native-reviewed)
+Every Arabic string below is a draft written with Claude Code; the native review is still open (see the note at the top).
+
+| Key | English | Arabic (draft) | Note |
+| --- | --- | --- | --- |
+| `pricing.metaTitle` | How ReproSense will be paid for | كيف سيُدفع مقابل ReproSense | |
+| `pricing.title` | How ReproSense will be paid for | كيف سيُدفع مقابل ReproSense | |
+| `pricing.intro` | ReproSense is a prototype built for the HealthX Ajyal hackathon, so it has no price yet. We will set the price with our first pilot clinic, from what the pilot measures. | ReproSense نموذج أولي بُني لهاكاثون HealthX أجيال، لذلك لا سعر له بعد. سنحدّد السعر مع أول عيادة تجريبية، بناءً على ما تقيسه التجربة. | |
+| `pricing.whoTitle` | Who pays | من يدفع | |
+| `pricing.who.women.name` | Women | النساء | |
+| `pricing.who.women.tag` | Free, always | مجاناً دائماً | |
+| `pricing.who.women.body` | Her record, her patterns and her doctor report. No ads, and we never sell health data. | سجلّها وأنماطها وتقرير طبيبها. بلا إعلانات، ولا نبيع البيانات الصحية أبداً. | |
+| `pricing.who.clinics.name` | Clinics and primary-care networks | العيادات وشبكات الرعاية الأولية | |
+| `pricing.who.clinics.tag` | Subscription | اشتراك | |
+| `pricing.who.clinics.body` | For the clinic's side: the pre-visit brief, the doctor report, the follow-up list and the network view. The price is agreed in the pilot. | لجانب العيادة: ملخّص ما قبل الزيارة، وتقرير الطبيب، وقائمة المتابعات، وعرض الشبكة. يُتّفق على السعر خلال التجربة. | |
+| `pricing.who.insurers.name` | Insurers, later | شركات التأمين لاحقاً | |
+| `pricing.who.insurers.tag` | Paid for results | الدفع مقابل النتائج | |
+| `pricing.who.insurers.body` | Per follow-up closed, starting with the glucose test after gestational diabetes (DoH PC008), and only once the pilot has measured it. | عن كل متابعة مكتملة، بدءاً بفحص السكر بعد سكري الحمل (مؤشر PC008 لدى دائرة الصحة)، وفقط بعد أن تقيسه التجربة. | |
+| `pricing.howTitle` | How we will set the price | كيف سنحدّد السعر | |
+| `pricing.how.s1` | Run a 90-day pilot at one clinic, free for the clinic and for the women taking part. | تجربة لمدة 90 يوماً في عيادة واحدة، مجانية للعيادة وللنساء المشاركات. | |
+| `pricing.how.s2` | Measure one number DoH already asks for: how many women with gestational diabetes complete the glucose test within 12 weeks of the birth. | قياس رقم واحد تطلبه دائرة الصحة أصلاً: عدد النساء المصابات بسكري الحمل اللواتي يُكملن فحص السكر خلال 12 أسبوعاً من الولادة. | |
+| `pricing.how.s3` | Agree the price with the clinic from what changed, not before. | الاتفاق على السعر مع العيادة بناءً على ما تغيّر، لا قبل ذلك. | |
+| `pricing.actionPilot` | Read the pilot proposal | قراءة مقترح التجربة | |
+| `pricing.actionDemo` | Open the demo | فتح العرض التجريبي | |
+| `pricing.whyTitle` | Why there's no number yet | لماذا لا يوجد رقم بعد | |
+| `pricing.whyBody` | Health buyers increasingly pay for measured outcomes rather than for every enrolled person, so a price set before any measurement would be a guess. Until then, the pilot page shows the arithmetic a clinic can check with its own figures. | يتجه مشترو الخدمات الصحية بشكل متزايد إلى الدفع مقابل نتائج مُقاسة بدلاً من الدفع عن كل شخص مسجّل، لذلك يكون أي سعر قبل القياس مجرّد تخمين. حتى ذلك الحين، تعرض صفحة التجربة الحساب الذي يمكن للعيادة التحقق منه بأرقامها. | |
+| `pricing.sourcesTitle` | Sources | المصادر | |
+| `pricing.note` | Prototype: no clinic has signed, and no price has been agreed. | نموذج أولي: لم توقّع أي عيادة، ولم يُتّفق على أي سعر. | |
+| `landing.clinicPrice` | Price set with our first pilot clinic, from what the pilot measures. | يُحدَّد السعر مع أول عيادة تجريبية، بناءً على ما تقيسه التجربة. | |
+| `landing.pricingLink` | How ReproSense will be paid for | كيف سيُدفع مقابل ReproSense | |
+| `chrome.footerPricing` | Business model | نموذج العمل | |
+| `pilot.toPricing` | How it will be paid for | نموذج العمل | |
+| `pilot.intro` | Set the numbers for your own clinic or insurer. This page multiplies them, nothing more: it is not a measured result and promises no outcome. Each default comes from a published study (two from Abu Dhabi, one pooled from 18 studies) or is marked as an assumption. ReproSense's own price is not here: it is set in the pilot. | أدخلوا أرقام عيادتكم أو شركة التأمين. هذه الصفحة تضرب الأرقام فقط: ليست نتيجة مُقاسة ولا تَعِد بأي نتيجة. كل قيمة افتراضية مأخوذة من دراسة منشورة (اثنتان من أبوظبي، وواحدة تجمع 18 دراسة)، أو مكتوب بجانبها أنها افتراض. سعر ReproSense نفسه ليس هنا: يُحدَّد خلال التجربة. | |
+| `pilotProposal.price.after` | After it, the price is agreed with the clinic from what the pilot measured. No price has been set yet. | بعدها، يُتّفق على السعر مع العيادة بناءً على ما قاسته التجربة. لم يُحدَّد أي سعر بعد. | |
+| `pilotProposal.pdf.footer` | Draft offer: no clinic has signed it, no partnership exists, and no price has been set. | مسودة عرض: لم توقّعها أي عيادة، ولا توجد أي شراكة، ولم يُحدَّد أي سعر. | |
+
+## Pain words, flow hints, the assistant named Nura (22 Nov, draft Arabic, not native-reviewed)
+Drafts written with Claude Code; the native review is still open. Feminine address to her. «كتل دموية» for clots and «نزول» for ordinary flow, per QUESTIONS #49 R6.
+
+| Key | English | Arabic (draft) |
+| --- | --- | --- |
+| `log.pain` | Pain: {pain} out of 10 · {band} | الألم: {pain} من 10 · {band} |
+| `log.painLevel.none` | none | لا ألم |
+| `log.painLevel.mild` | mild | خفيف |
+| `log.painLevel.moderate` | moderate | متوسط |
+| `log.painLevel.severe` | severe | شديد |
+| `log.painHint.none` | No pain today. | لا ألم اليوم. |
+| `log.painHint.mild` | Mild: you can still do your usual day. | خفيف: تستطيعين القيام بيومك المعتاد. |
+| `log.painHint.moderate` | Moderate: it gets in the way of what you do. | متوسط: يعيق ما تقومين به. |
+| `log.painHint.severe` | Severe: it's hard to do anything else. | شديد: يصعب معه فعل أي شيء آخر. |
+| `log.painScale` | Scale: 1–3 mild, 4–6 moderate, 7–10 severe. | المقياس: 1–3 خفيف، 4–6 متوسط، 7–10 شديد. |
+| `log.impactHint` | How much did your period or symptoms change your day? | إلى أي حد غيّرت دورتك أو أعراضك يومك؟ |
+| `log.flowHint.none` | No bleeding today. | لا يوجد نزول اليوم. |
+| `log.flowHint.spotting` | A few drops; a liner is enough. | قطرات قليلة؛ تكفي فوطة يومية رقيقة. |
+| `log.flowHint.light` | Light bleeding; a pad or tampon lasts several hours. | نزول خفيف؛ تدوم الفوطة أو السدادة عدة ساعات. |
+| `log.flowHint.medium` | Steady bleeding; you change a pad or tampon regularly through the day. | نزول منتظم؛ تغيّرين الفوطة أو السدادة بانتظام خلال اليوم. |
+| `log.flowHint.heavy` | Changing a pad or tampon every 1–2 hours, bleeding through your clothes, or clots bigger than 2.5 cm (NHS). | تغيير الفوطة أو السدادة كل ساعة إلى ساعتين، أو تسرّب الدم إلى الملابس، أو كتل دموية أكبر من 2.5 سم (NHS). |
+| `tabs.assistant` | Ask Nura | اسألي نورا |
+| `assistant.metaTitle` | Nura | نورا |
+| `assistant.title` | Nura | نورا |
+| `assistant.copilot` | Nura | نورا |
+| `assistant.subtitle` | Your AI health assistant: answers from curated guidelines, with sources | مساعدتك الصحية بالذكاء الاصطناعي: إجابات من إرشادات موثوقة مع مصادرها |
+| `landing.floatCopilot` | Nura, AI assistant · cites guidelines | نورا، مساعدة بالذكاء الاصطناعي · تستشهد بالإرشادات |
+
+## Nura's explain lane (22 Nov 2026)
+
+New Arabic text for native review: the explainer sentences for 10 conditions and the leads in `backend/app/agents/explain.py` (`CONDITIONS[*].lines`, `LEADS`), the 5 new summaries (`knowledge_base/summaries/nhs_endometriosis.md`, `nhs_menopause.md`, `nhs_gestational_diabetes.md`, `nhs_postnatal_depression.md`, `nhs_infertility.md`), and the chat labels `assistant.learnMore` (اعرفي المزيد), `assistant.watch` (شاهدي), `assistant.read` (اقرئي), `assistant.newTab`. Terms used: متلازمة تكيّس المبايض، بطانة الرحم المهاجرة، الدورة الغزيرة، انقطاع الطمث، سكري الحمل، اكتئاب ما بعد الولادة، تسمّم الحمل (مقدّمات الارتعاج).
+
+## Salma's care plan, nine women (22 Nov, draft Arabic, not native-reviewed)
+Drafts written with Claude Code; the native review is still open. Feminine address to her; the clinician panel speaks about her.
+
+| Key | English | Arabic (draft) |
+| --- | --- | --- |
+| `carePlan.eyebrow` | Living with {condition} | التعايش مع {condition} |
+| `carePlan.title` | My care plan | خطة رعايتي |
+| `carePlan.intro` | Set by {by} on {date}. ReproSense doesn't diagnose or choose medicines: this is your doctor's plan, kept in your record. | وضعها {by} في {date}. ReproSense لا يشخّص ولا يختار الأدوية: هذه خطة طبيبك، محفوظة في سجلك. |
+| `carePlan.conditions.pcos` | PCOS | تكيّس المبايض (PCOS) |
+| `carePlan.conditions.endometriosis` | endometriosis | بطانة الرحم المهاجرة |
+| `carePlan.medicinesTitle` | Today | اليوم |
+| `carePlan.takenToday` | taken today | أُخذ اليوم |
+| `carePlan.reminder` | reminder at {time} | تذكير الساعة {time} |
+| `carePlan.last7` | {n, plural, =0 {Not ticked in the last 7 days} one {Ticked on # of the last 7 days} other {Ticked on # of the last 7 days}} | {n, plural, =0 {لم تؤشّري خلال آخر 7 أيام} one {أشّرتِ في يوم واحد من آخر 7 أيام} two {أشّرتِ في يومين من آخر 7 أيام} few {أشّرتِ في # أيام من آخر 7 أيام} many {أشّرتِ في # يوماً من آخر 7 أيام} other {أشّرتِ في # يوم من آخر 7 أيام}} |
+| `carePlan.checksTitle` | Next checks | الفحوصات القادمة |
+| `carePlan.checks.review` | Follow-up with your doctor | متابعة مع طبيبك |
+| `carePlan.checks.glucose` | Blood sugar check (HbA1c or glucose test) | فحص السكر (HbA1c أو اختبار تحمّل الغلوكوز) |
+| `carePlan.checks.bp` | Blood pressure check | فحص ضغط الدم |
+| `carePlan.status.overdue` | Overdue since {date} | متأخر منذ {date} |
+| `carePlan.status.due_soon` | Due {date} | موعده {date} |
+| `carePlan.status.planned` | Planned for {date} | مخطط في {date} |
+| `carePlan.checkinDue` | Your monthly symptom check-in is due. | حان موعد تسجيل أعراضك الشهري. |
+| `carePlan.checkinNext` | Next monthly check-in: {date}. | التسجيل الشهري القادم: {date}. |
+| `carePlan.checkinAction` | Log this month's symptoms | سجّلي أعراض هذا الشهر |
+| `carePlan.watchTitle` | Tell your doctor or get help | أخبري طبيبك أو اطلبي المساعدة |
+| `carePlan.watch.no_period_90` | If you go 3 months without a period, tell your doctor. | إذا مرّت 3 أشهر دون دورة، فأخبري طبيبك. |
+| `carePlan.watch.checks_matter` | PCOS raises the chance of diabetes and high blood pressure later, so keep your yearly checks. | يرفع تكيّس المبايض احتمال السكري وارتفاع ضغط الدم لاحقاً، لذا حافظي على فحوصاتك السنوية. |
+| `carePlan.watch.emergency` | In an emergency, call 998. | في حالة الطوارئ، اتصلي بالرقم 998. |
+| `carePlan.saved` | Ticked for today. | تم التأشير لليوم. |
+| `carePlan.removed` | Tick removed. | أُزيل التأشير. |
+| `carePlan.saveFailed` | Couldn't save: {detail} | تعذّر الحفظ: {detail} |
+| `carePlan.note` | Your ticks are your own notes in your record; your clinic sees them only if you share. The reminder time comes from your doctor's plan. | تأشيراتك ملاحظاتك أنت في سجلك؛ لا تراها عيادتك إلا إذا شاركتِ. وقت التذكير من خطة طبيبك. |
+| `carePlan.clinic.title` | Her care plan: {condition} | خطة رعايتها: {condition} |
+| `carePlan.clinic.intro` | Recorded by {by} on {date}. Her ticks are her own notes; read-only here. | سجّلها {by} في {date}. تأشيراتها ملاحظاتها هي؛ للعرض فقط هنا. |
+| `demo.title` | Nine fictional women, five life stages, one clinic network. | تسع نساء خياليات، وخمس مراحل حياة، وشبكة عيادات واحدة. |
+| `tour.steps.people.title` | Nine fictional women | تسع نساء خياليات |
+| `demo.stories.salma` | Diagnosed with PCOS by her gynaecologist in September; keeps using the app for her doctor's plan: a daily medicine, a monthly symptom check-in and yearly checks. | شخّصتها طبيبتها النسائية بتكيّس المبايض في سبتمبر؛ وتواصل استخدام التطبيق لخطة طبيبتها: دواء يومي، وتسجيل شهري للأعراض، وفحوصات سنوية. |
+
+## What we checked and did not show (22 Nov, draft Arabic, not native-reviewed)
+Every Arabic string below is a draft written with Claude Code (an AI review, not a native speaker's; #23 still applies).
+Health text on the Patterns screen: read first. Terms to check: «الحدّ» (threshold), «تغيّرات البشرة والشعر» (skin and
+hair changes), «النزيف الغزير جداً» (flooding), «مجموع فقدان الدم (PBAC)».
+
+| Key | English | Arabic (draft) | Note |
+| --- | --- | --- | --- |
+| `insights.checkedTitle` | What we checked and did not show | ما فحصناه ولم نعرضه | |
+| `insights.checkedIntro` | Your own numbers next to the threshold each rule uses. This is why a card did or did not appear. | أرقامكِ بجانب الحدّ الذي تستخدمه كل قاعدة. هذا سبب ظهور بطاقة أو عدم ظهورها. | |
+| `insights.checkedNote` | Not being shown here is not a sign that nothing is wrong, and it is not a diagnosis. These checks use only what you logged. If something worries you, talk to your doctor. In an emergency call 998. | عدم ظهور شيء هنا لا يعني أنّ كل شيء على ما يرام، وليس تشخيصاً. تعتمد هذه الفحوصات على ما سجّلتِه فقط. إذا كان هناك ما يقلقكِ، تحدّثي مع طبيبتكِ أو طبيبكِ. في حالات الطوارئ، يُرجى الاتصال بالرقم 998. | safety-adjacent: read first |
+| API `checked` labels | Cycle length · Skin and hair changes · Period pain · Bleeding | طول الدورة · تغيّرات البشرة والشعر · ألم الدورة · النزيف | |
+| API `checked.cycles` (too few) | Complete cycles logged so far: {n}. Cycle length is checked from 4 cycles, so no cycle pattern can be shown yet. | عدد الدورات المكتملة المسجّلة حتى الآن: {n}. يُفحص طول الدورة ابتداءً من 4 دورات، لذا لا يمكن عرض نمط لطول الدورة بعد. | |
+| API `checked.cycles` | {n} of your last {k} cycles were shorter than 21 or longer than 35 days (they ranged from {a}–{b} days). A pattern is shown from 2 such cycles, or with fewer than 8 cycles a year. | {n} من آخر {k} دورات كانت أقصر من 21 يوماً أو أطول من 35 يوماً (تراوحت بين {a}–{b} يوماً). يُعرض النمط ابتداءً من دورتين من هذا النوع، أو عند أقل من 8 دورات في السنة. | |
+| API `checked.skin_hair` (alone) | You logged acne or hair changes on {d} of the last 90 days. On their own they are not shown as a pattern: the 2023 international PCOS guideline looks at them together with irregular cycles, and only a doctor can assess them. | سجّلتِ حب الشباب أو تغيّرات الشعر في {d} من آخر 90 يوماً. لا تُعرض هذه التغيّرات كنمط بمفردها: الإرشاد الدولي لمتلازمة تكيس المبايض لعام 2023 ينظر إليها مع الدورات غير المنتظمة، ولا يستطيع تقييمها إلا الطبيب. | names PCOS only as the guideline's title |
+| API `checked.skin_hair` (few days) | You logged acne or hair changes on {d} of the last 90 days. They are shown together with irregular cycles from 10 days. | سجّلتِ حب الشباب أو تغيّرات الشعر في {d} من آخر 90 يوماً. تُعرض مع الدورات غير المنتظمة ابتداءً من 10 أيام. | |
+| API `checked.pain` | Period pain reached 7 out of 10 or more in {n} of your last {k} periods (or "the 1 period logged so far"), and you logged missed work or study or a day in bed on {d} of the last 90 days. A pattern is shown from 3 such periods together with 2 such days. | وصل ألم الدورة إلى 7 من 10 أو أكثر في {n} من آخر {k} دورات (أو «آخر دورتين»، أو «الدورة الوحيدة المسجّلة حتى الآن»)، وسجّلتِ الغياب عن العمل أو الدراسة أو البقاء في السرير في {d} من آخر 90 يوماً. يُعرض النمط ابتداءً من 3 دورات من هذا النوع مع يومين من هذه الأيام. | |
+| API `checked.bleeding` | Your longest recent period lasted {n} days, and your highest bleeding score (PBAC) was {p}. A pattern is shown above 7 days, from a score of 100, or with 2 or more days of flooding or large clots in one period. | أطول دورة حديثة استمرت {n} أيام، وأعلى مجموع لفقدان الدم (PBAC) كان {p}. يُعرض النمط إذا زادت المدة على 7 أيام، أو بلغ المجموع 100، أو سُجّل يومان أو أكثر من النزيف الغزير جداً أو الجلطات الكبيرة في دورة واحدة. | |
+
+## What the Department of Health would see (22 Nov, draft Arabic, not native-reviewed)
+Every Arabic string below is a draft written with Claude Code (an AI review, not a native speaker's; #23 still applies).
+Staff-facing (the network dashboard). Terms to check: «دائرة الصحة» (Department of Health), «تطابقت مدخلاتهن مع نمط»
+(entries match a pattern), «مجموعة مُصطنعة» (synthetic cohort, as in `admin.cohortNote`), «معدلات الانتشار» (prevalence).
+
+| Key | English | Arabic (draft) | Note |
+| --- | --- | --- | --- |
+| `admin.population.title` | What the Department of Health would see | ما الذي ستراه دائرة الصحة | |
+| `admin.population.body` | Clinic records show what happened at a visit. This shows what women log between visits, as counts only: how many women's entries match a pattern worth discussing with a doctor, and how many of them have shared a report with a clinic. | سجلات العيادات تُظهر ما حدث في الزيارة. أما هذا القسم فيُظهر ما تسجّله النساء بين الزيارات، كأعداد فقط: كم امرأة تطابقت مدخلاتها مع نمط يستحق النقاش مع الطبيب، وكم منهن شاركن تقريراً مع عيادة. | |
+| `admin.population.matched` | Women whose entries match a pattern worth discussing | نساء تطابقت مدخلاتهن مع نمط يستحق النقاش | never "women with a condition" |
+| `admin.population.shared` | Have shared a report with a clinic | شاركن تقريراً مع عيادة | |
+| `admin.population.notShared` | Have not shared one yet | لم يشاركن تقريراً بعد | |
+| `admin.population.regionTitle` | From pattern to clinic, by region | من النمط إلى العيادة، بحسب المنطقة | |
+| `admin.population.regionRow` | {shared} of {total} shared ({pct}%) | {shared} من {total} شاركن ({pct}%) | |
+| `admin.population.ageTitle` | Patterns by age band | الأنماط بحسب الفئة العمرية | |
+| `admin.population.ageNote` | Share of women in each age band whose entries match each pattern. | نسبة النساء في كل فئة عمرية اللواتي تطابقت مدخلاتهن مع كل نمط. | |
+| `admin.population.colAge` · `colCycles` · `colPain` · `colHeavy` | Age band · Cycle length · Period pain · Heavy or long periods | الفئة العمرية · طول الدورة · ألم الدورة · دورات غزيرة أو طويلة | |
+| `admin.population.tryingTitle` | Trying to conceive | محاولة الحمل | |
+| `admin.population.tryingBody` | {due} of {trying} women who are trying to conceive have reached the timing at which guidelines suggest asking about a fertility assessment. {shared} of them have shared a report with a clinic; {not_shared} have not yet. | {due} من {trying} امرأة يحاولن الحمل بلغن التوقيت الذي تقترح فيه الإرشادات السؤال عن تقييم الخصوبة. {shared} منهن شاركن تقريراً مع عيادة، و{not_shared} لم يشاركن بعد. | number agreement with {trying} |
+| `admin.population.use` | What it is for: planning services and awareness by region and age, and seeing where patterns are not reaching a clinic. What it is not: a register, a list of names or a count of diagnoses. A pattern is a rule match on a woman's own entries, and only a doctor can assess it. | الغرض منه: تخطيط الخدمات والتوعية بحسب المنطقة والعمر، ومعرفة أين لا تصل الأنماط إلى العيادة. وليس سجلاً ولا قائمة أسماء ولا عدداً للتشخيصات. النمط هو تطابق قاعدة مع مدخلات المرأة نفسها، ولا يستطيع تقييمه إلا الطبيب. | read first |
+| `admin.population.note` | Synthetic cohort. These are not prevalence estimates. Groups of fewer than 10 women are hidden. | مجموعة مُصطنعة. هذه ليست تقديرات لمعدلات الانتشار. تُخفى المجموعات التي تقل عن 10 نساء. | |
+

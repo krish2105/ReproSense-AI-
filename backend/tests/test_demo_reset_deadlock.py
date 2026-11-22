@@ -25,7 +25,7 @@ def test_a_reset_cancelled_by_a_deadlock_is_retried(monkeypatch):
     monkeypatch.setattr(seed_mod, "RETRY_PAUSE_S", 0)
     out = seed_mod.seed()
     assert len(calls) == 2
-    assert out["personas"] == 8
+    assert out["personas"] == 9
 
 
 def test_a_reset_gives_up_after_its_last_try(monkeypatch):

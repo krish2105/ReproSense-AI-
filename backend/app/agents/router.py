@@ -27,12 +27,12 @@ from typing import Any, TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
-from app.agents import assistant, record, safety
+from app.agents import assistant, explain, food, record, safety
 from app.ai.llm import NoLLM, get_llm
 from app.ai.redact import redact
 from app.rag.kb import sources as kb_sources
 
-LANES = ("knowledge", "record", "next_step")
+LANES = ("knowledge", "record", "next_step", "food", "explain")
 
 # ---------------- the deterministic router (EN and Gulf Arabic, after the assistant's folding) ----------------
 # A record question is short and asks for her own data: a first-person marker, a data-question shape and a topic.
@@ -248,12 +248,34 @@ def route(state: State) -> dict:
     w = state["words"]
     if w["crisis"] or w["urgent"] or w["medicine"]:
         return {"lane": "safety", "topic": None, "trace": _step(state, "router", "safety route first", t0)}
+    q = state["question"]
     if w["diagnosis"]:
+        # 22 Nov (G2: Krishna): a named condition or "what is wrong with me" gets the refusal FIRST, then cited facts and
+        # what her own record shows (explain lane, code only); anything else is refused with sources, as before.
+        if explain.condition(q):
+            return {"lane": "explain", "topic": "diagnosis",
+                    "trace": _step(state, "router", "diagnosis request about a named condition: refusal first, then cited facts (explain lane)", t0)}
+        if explain.is_body_question(q) and state.get("bundle") is not None:
+            return {"lane": "explain", "topic": "body_refuse",
+                    "trace": _step(state, "router", "diagnosis request about her body: refusal first, then her own patterns (explain lane)", t0)}
         return {
             "lane": "knowledge",
             "topic": None,
             "trace": _step(state, "router", "diagnosis request: refused with sources", t0),
         }
+    if explain.asks_medicine(q):  # 22 Nov (G2: Krishna): "what medicine for PCOS?" missed by the word checks
+        return {"lane": "explain", "topic": "medicine",
+                "trace": _step(state, "router", "medicine question about a named condition: fixed medicine reply first, never a medicine (explain lane)", t0)}
+    if explain.asks_diagnosis(q):  # 22 Nov (G2: Krishna): "am I suffering from PCOS?": refusal first, then facts
+        return {"lane": "explain", "topic": "diagnosis",
+                "trace": _step(state, "router", "asks whether she has a named condition: refusal first, then cited facts (explain lane)", t0)}
+    if food.is_food_question(q, state.get("bundle")):  # 22 Nov (G2: Krishna): food, never medicine
+        return {"lane": "food", "topic": None, "trace": _step(state, "router", "food question: food lane (code, NHS)", t0)}
+    if explain.is_explain_question(q):  # 22 Nov (G2: Krishna): what a condition is, cited, plus her own patterns
+        return {"lane": "explain", "topic": "explain",
+                "trace": _step(state, "router", f"condition question ({explain.condition(q)}): explain lane (code, NHS and guidelines)", t0)}
+    if explain.is_body_question(q) and state.get("bundle") is not None:
+        return {"lane": "explain", "topic": "body", "trace": _step(state, "router", "her body: her own patterns (explain lane, code)", t0)}
     if state.get("bundle") is None:
         return {"lane": "knowledge", "topic": None, "trace": _step(state, "router", "no record loaded: knowledge", t0)}
     got = classify(state["question"])
@@ -280,7 +302,7 @@ def second_check(state: State) -> dict:
     """With a model, her record lanes get the same second safety check as the knowledge answer (it only adds routes)."""
     t0 = time.perf_counter()
     llm = _model(state)
-    if state["lane"] not in ("record", "next_step") or not llm:
+    if state["lane"] not in ("record", "next_step", "food", "explain") or not llm:
         return {}
     second = safety.model_check(state["question"], llm, state.get("names"))
     if second and (second["crisis"] or second["urgent"]):
@@ -400,12 +422,87 @@ def next_step_lane(state: State) -> dict:
     return {"out": out}
 
 
+def food_lane(state: State) -> dict:
+    """Food and drink for periods from the NHS, written by code; never a medicine (22 Nov, G2: Krishna)."""
+    t0 = time.perf_counter()
+    res = food.answer(state["question"], state["lang"], state.get("bundle"), state["ref"])
+    ids = list(dict.fromkeys(food.SOURCES[ln["cite"]] for ln in res["lines"]))
+    cites = _cite_list(ids)
+    num = {c["source_id"]: c["n"] for c in cites}
+    parts = [res["lead"], *(f"{ln['text']} [{num[food.SOURCES[ln['cite']]]}]" for ln in res["lines"])]
+    detail = f"{len(res['lines'])} sentences from NHS pages, no medicines"
+    if res["allergens"]:
+        detail += f"; she can't eat: {', '.join(res['allergens'])} ({len(res['dropped'])} foods left out)"
+    if res["heavy_days"]:
+        detail += f"; personalised: {res['heavy_days']} heavy days in 90"
+    out = _base(state)
+    out.update(
+        lane="food",
+        answer=" ".join(parts),
+        citations=cites,
+        food={"allergens": res["allergens"], "left_out": res["dropped"], "heavy_days": res["heavy_days"]},
+        trace=[*_step(state, "food", detail, t0), {"agent": "writer", "detail": "code's own sentences (no model)"}],
+    )
+    return {"out": out}
+
+
+def explain_lane(state: State) -> dict:
+    """What a condition is, or what her body's entries show; fixed sentences with sources, never a model (22 Nov, G2)."""
+    t0 = time.perf_counter()
+    topic = state.get("topic") or "explain"
+    mode = {"diagnosis": "diagnosis", "medicine": "medicine", "body": "body", "body_refuse": "body"}.get(topic, "explain")
+    if not state.get("ai_on") and mode != "medicine":  # her AI switch closes Nura's answers, as for the knowledge answer
+        return {"out": {"lane": "ai_off"}}
+    res = explain.answer(
+        state["question"], state["lang"], state.get("bundle"), state["ref"], mode=mode, refuse=topic == "body_refuse"
+    )
+    ids = list(dict.fromkeys(ln["cite"] for ln in res["lines"] if ln["cite"]))
+    cites = _cite_list(ids)
+    num = {c["source_id"]: c["n"] for c in cites}
+    parts = [ln["text"] + (f" [{num[ln['cite']]}]" if ln["cite"] in num else "") for ln in res["lines"]]
+    sentences = [{"text": ln["text"], "cite": num[ln["cite"]]} for ln in res["lines"] if ln["cite"] in num]
+    srcs = kb_sources()
+    learn = [
+        {"kind": "page", "url": srcs[sid].url, "title": srcs[sid].title, "publisher": srcs[sid].publisher}
+        for sid in res["pages"]
+        if sid in srcs
+    ]
+    cid = res["condition"]
+    for i, rc in enumerate(res["related"][:2]):  # the named condition, or her patterns' conditions (body question)
+        if state["lang"] == "ar" and rc in explain.AR_PAGES:
+            learn.insert(i, explain.AR_PAGES[rc])
+        learn.extend(explain.VIDEOS.get(rc, []))
+    out = _base(state)
+    detail = f"{mode}: {len(res['lines'])} sentences" + (f" on {cid}" if cid else "")
+    detail += f"; {len(res['personal'])} from her own patterns" if res["personal"] else ""
+    if res["refused"]:
+        detail += "; refused first (no diagnosis)"
+    out.update(
+        lane="explain",
+        answer="\n".join(parts),  # one sentence per line on screen (the card keeps the line breaks)
+        sentences=sentences,
+        citations=cites,
+        refused=res["refused"],
+        learn_more=learn,
+        explain={"condition": cid, "mode": mode, "personal": [p["text"] for p in res["personal"]]},
+        trace=[*_step(state, "explain", detail, t0), {"agent": "writer", "detail": "code's own sentences (no model)"}],
+    )
+    if res.get("urgent_text"):  # pre-eclampsia warning signs named in the question: urgent, 998 first
+        out["urgent"] = {"kind": "pregnancy", "message": res["urgent_text"], "number": "998"}
+    if res["red_flag"]:  # red flags first (CLAUDE.md rule 5): her urgent pattern leads, with 998
+        first = next(p for p in res["personal"] if p["kind"] == "red_flag")
+        out["urgent"] = {"kind": "record", "message": first["text"], "number": "998"}
+    return {"out": out}
+
+
 def _after_route(state: State) -> str:
-    return {"record": "second_check", "next_step": "second_check"}.get(state["lane"], "knowledge")
+    return {"record": "second_check", "next_step": "second_check", "food": "second_check", "explain": "second_check"}.get(
+        state["lane"], "knowledge"
+    )
 
 
 def _after_second(state: State) -> str:
-    return {"record": "record", "next_step": "next_step"}.get(state["lane"], "knowledge")
+    return {"record": "record", "next_step": "next_step", "food": "food", "explain": "explain"}.get(state["lane"], "knowledge")
 
 
 def build_graph():
@@ -418,6 +515,8 @@ def build_graph():
         ("knowledge", knowledge),
         ("record", record_lane),
         ("next_step", next_step_lane),
+        ("food", food_lane),
+        ("explain", explain_lane),
     ]:
         g.add_node(name, fn)
     g.add_edge(START, "intake")
@@ -425,9 +524,11 @@ def build_graph():
     g.add_edge("safety", "route")
     g.add_conditional_edges("route", _after_route, {"second_check": "second_check", "knowledge": "knowledge"})
     g.add_conditional_edges(
-        "second_check", _after_second, {"record": "record", "next_step": "next_step", "knowledge": "knowledge"}
+        "second_check",
+        _after_second,
+        {"record": "record", "next_step": "next_step", "food": "food", "explain": "explain", "knowledge": "knowledge"},
     )
-    for lane in ("knowledge", "record", "next_step"):
+    for lane in ("knowledge", "record", "next_step", "food", "explain"):
         g.add_edge(lane, END)
     return g.compile()
 

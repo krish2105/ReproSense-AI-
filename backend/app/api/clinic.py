@@ -17,7 +17,7 @@ from app.rules.engine import evaluate
 from app.security import audit
 from app.security.auth import require
 from app.security.crypto import decrypt, encrypt
-from app.services import baby, blood_pressure, followups, postnatal, previsit, views
+from app.services import baby, blood_pressure, care_plan, followups, postnatal, previsit, views
 from app.services.patient_data import load_bundle
 
 router = APIRouter(prefix="/v1/clinic", tags=["clinic"])
@@ -113,6 +113,7 @@ def patient_view(pid: str, actor: Actor = Depends(clinician)):
         "her_questions": list(dict.fromkeys(q for c in cards for q in c.get("questions_for_doctor", [])))[:5],
         "postnatal": postnatal.pathway(b, ref),
         "baby": baby.schedule(b, ref, "en"),  # D1: read-only here; only she records a step
+        "care_plan": care_plan.summary(b, ref, "en"),  # 22 Nov: her doctor's plan and how she's keeping to it
         "bp_readings": blood_pressure.ordered(b)[::-1],  # K6: newest first, every reading she logged
         "visit_note_draft": note or copilot.visit_note_draft(b, ev, ref),
         "previsit_brief": previsit.build_brief(b, cards, crisis, visit, inputs["gaps"], ref, "en", "clinician"),
