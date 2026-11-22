@@ -50,6 +50,8 @@ class Settings(BaseSettings):
     edge_secret: str = ""
     # docs/31 §H, L3: the interactive API docs and the OpenAPI schema, off unless asked for (local development).
     expose_api_docs: bool = False
+    # docs/31 §H, M6: an uploaded PDF is read in its own process and stopped after this many seconds
+    pdf_parse_timeout_s: float = 10.0
     cookie_secure: bool = False  # true when served over HTTPS (Render/Vercel); local http stays false
     seed_if_empty: bool = False  # first boot on a fresh hosted database: load the synthetic demo data (DEMO_MODE only)
     rate_limit_per_min: int = 120

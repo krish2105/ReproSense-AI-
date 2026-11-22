@@ -175,7 +175,70 @@ class UnreadablePdf(ValueError):
     """The upload is not a PDF we can read (damaged, password-protected, or far longer than a lab report)."""
 
 
-def pdf_text(data: bytes, max_pages: int = 30) -> str:
+TOO_SLOW = "This PDF took too long to read. Please upload just the lab report pages, or a clearer copy."
+DAMAGED = "We could not read this PDF. It may be damaged; please try another copy."
+
+
+def _child(conn, target, data: bytes, max_pages: int) -> None:
+    try:
+        conn.send(("ok", target(data, max_pages)))
+    except UnreadablePdf as e:
+        conn.send(("unreadable", str(e)))
+    except Exception:  # noqa: BLE001 - anything else in the parser is a damaged file to her
+        conn.send(("unreadable", DAMAGED))
+    finally:
+        conn.close()
+
+
+_CTX = None
+
+
+def _context():
+    """A forkserver: a clean single-threaded process forks each reader, so forking never copies the API's threads
+    (fork() from a threaded process can deadlock). Spawn where forkserver does not exist (Windows)."""
+    global _CTX
+    if _CTX is None:
+        import multiprocessing as mp
+
+        method = "forkserver" if "forkserver" in mp.get_all_start_methods() else "spawn"
+        _CTX = mp.get_context(method)
+        if method == "forkserver":
+            _CTX.set_forkserver_preload(["app.services.documents"])  # each reader starts with the parser loaded
+    return _CTX
+
+
+def pdf_text(data: bytes, max_pages: int = 30, timeout_s: float | None = None, _target=None) -> str:
+    """The text of an uploaded PDF, read in a separate process with a time limit (docs/31 §H, M6). A parse that runs
+    past PDF_PARSE_TIMEOUT_S is stopped and becomes a clear 422, so one file can never hold up the API. In-process
+    parsing (the old way) held the request thread for as long as the file took."""
+    from app.config import get_settings
+
+    timeout = get_settings().pdf_parse_timeout_s if timeout_s is None else timeout_s
+    target = _target or _pdf_text_inner  # looked up now, so a test can stand a slow parser in
+    ctx = _context()
+    parent, child = ctx.Pipe(duplex=False)
+    proc = ctx.Process(target=_child, args=(child, target, data, max_pages), daemon=True)
+    proc.start()
+    child.close()
+    try:
+        if not parent.poll(timeout):
+            proc.terminate()
+            proc.join(1)
+            if proc.is_alive():
+                proc.kill()
+            raise UnreadablePdf(TOO_SLOW)
+        kind, value = parent.recv()
+    except EOFError as e:  # the reader died without answering
+        raise UnreadablePdf(DAMAGED) from e
+    finally:
+        parent.close()
+        proc.join(1)
+    if kind == "ok":
+        return value
+    raise UnreadablePdf(value)
+
+
+def _pdf_text_inner(data: bytes, max_pages: int = 30) -> str:
     try:
         from pypdf import PdfReader
         from pypdf.errors import PyPdfError
@@ -193,4 +256,4 @@ def pdf_text(data: bytes, max_pages: int = 30) -> str:
     except UnreadablePdf:
         raise
     except (PyPdfError, ValueError, KeyError, TypeError, OSError) as e:  # pypdf raises several kinds on damaged files
-        raise UnreadablePdf("We could not read this PDF. It may be damaged; please try another copy.") from e
+        raise UnreadablePdf(DAMAGED) from e
