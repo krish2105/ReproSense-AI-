@@ -336,7 +336,7 @@ CONDITIONS: dict[str, dict] = {
                 "asrm_2021_infertile_eval",
             ),
         ],
-        "rules": ["OBS_TTC_FERTILITY_ASSESSMENT", "OBS_IRREGULAR_CYCLES"],
+        "rules": ["OBS_TTC_FERTILITY_ASSESSMENT"],  # only when she is trying to conceive, never for irregular cycles alone
         "pages": ["nhs_infertility", "asrm_2021_infertile_eval"],
     },
 }
