@@ -73,6 +73,7 @@ test("a clinic admin adds a passkey in Your sign-in, signs out for real, and com
   await virtualAuthenticator(page);
   await signIn(page, { role: "clinic_admin" }); // the judges' one tap, unchanged
   await page.goto("/clinic-admin");
+  await header(page).getByRole("button", { name: en.chrome.account, exact: true }).click(); // the Account menu (docs/31 §A)
   await header(page).getByRole("link", { name: en.chrome.nav.signIn, exact: true }).click();
   await expect(page).toHaveURL(/\/clinic-admin\/sign-in$/);
   await expect(page.getByRole("heading", { level: 1, name: sa.panel.title })).toBeVisible();
@@ -188,7 +189,7 @@ test("the judges' one tap stays beside the staff doors, and an ended session say
   await expect(page.getByText(sa.ended.idle.replace("{minutes}", "30"))).toBeVisible();
   await page.getByRole("link", { name: sa.demoArea.clinician }).click(); // still one tap
   await expect(page).toHaveURL(/\/clinic$/);
-  await expect(header(page).getByRole("link", { name: en.chrome.nav.signIn, exact: true })).toBeVisible();
+  await expect(header(page).getByRole("button", { name: en.chrome.account, exact: true })).toBeVisible();
 });
 
 test("the DoH door in Arabic", async ({ page }) => {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { CheckinForm } from "@/components/checkin/CheckinForm";
 import { requireRole } from "@/lib/session";
+import { Crumbs } from "@/components/chrome/Crumbs";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("checkin");
@@ -14,6 +15,7 @@ export default async function CheckinPage() {
   const t = await getTranslations("checkin");
   return (
     <div className="app-col">
+      <Crumbs items={[{ href: "/app", label: (await getTranslations("tabs"))("home") }, { label: t("title") }]} />
       <h1 style={{ fontSize: 22, textAlign: "center" }}>{t("title")}</h1>
       <p className="s dim" style={{ textAlign: "center" }}>
         {t("intro")}

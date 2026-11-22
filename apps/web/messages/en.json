@@ -19,7 +19,7 @@
       "admin": "Clinic network",
       "status": "Team scorecard",
       "clinicAdmin": "Clinic admin",
-      "signIn": "Your sign-in"
+      "signIn": "Account & security"
     },
     "lang": {
       "toggle": "عربي",
@@ -48,7 +48,9 @@
     },
     "footerPilot": "Pilot value",
     "footerEvidence": "Evidence",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "account": "Account",
+    "crumbsLabel": "You are here"
   },
   "tabs": {
     "home": "Home",

@@ -19,7 +19,7 @@
       "admin": "شبكة العيادات",
       "status": "تقييم الفريق",
       "clinicAdmin": "إدارة العيادة",
-      "signIn": "بيانات الدخول"
+      "signIn": "الحساب والأمان"
     },
     "lang": {
       "toggle": "English",
@@ -48,7 +48,9 @@
     },
     "footerPilot": "قيمة البرنامج التجريبي",
     "footerEvidence": "الأدلة",
-    "signOut": "تسجيل الخروج"
+    "signOut": "تسجيل الخروج",
+    "account": "الحساب",
+    "crumbsLabel": "موقعك في التطبيق"
   },
   "tabs": {
     "home": "الرئيسية",

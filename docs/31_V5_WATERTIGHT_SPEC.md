@@ -27,16 +27,17 @@ Same product, same safety rules, made **easy**, **precise** and **watertight**.
 **Today:** five different headers (site, her app, clinician, network admin, clinic admin). Inside Clinician the public
 links vanish and "Your sign-in" and "Sign out" appear as nav links. Nothing says clearly where you are.
 
-**Build:** one header with the same order in every area:
-`[ReproSense → home] [Where you are ▾] [up to 3 links for this area] … [Account ▾] [Demo badge] [عربي] [Dark]`
-- **Where you are ▾**: a pill naming the area (Her app, Clinician, Clinic network, Clinic admin). In demo mode it opens
-  a "Switch view" menu that lists the other areas. Outside demo mode it is a plain label.
-- **Account ▾** (signed-in areas only):
-  - staff: "Account & security" and "Sign out";
-  - her app: "Privacy" and "Choose another woman" (demo).
-- **Public site links:** Product, Demo people, Evidence. Team scorecard moves under Evidence.
-- **Deep pages show a path:** `Clinician › Fatima K.`, `Clinician › Account & security`. The last part is the page;
-  the others are links.
+**Build:** one header, identical on every page (built 22 Nov):
+`[ReproSense → home] [Product · Demo people · Team scorecard | Her app · Clinician · Clinic admin · Clinic network] … [Account ▾] [Demo badge] [عربي] [Dark]`
+- **The same seven links in the same order everywhere.** A quiet divider separates the product pages from the four
+  views. The view you are in is the plum pill, so "where am I" is always answered.
+- **Every view stays one tap away.** That keeps Krishna's 18 Nov fix ("when clicked nothing works"). A hidden "switch
+  view" menu was considered and dropped: two taps, and harder to find.
+- **Account ▾, staff areas only:** "Account & security" and "Sign out". These two were nav links before. Her app keeps
+  Privacy on her Home and sign-out in Privacy.
+- **Deep pages show a path:** `All patients › Fatima K.`, `Home › Privacy` (also Documents and Check-in), and
+  `Clinician › Account & security` (§D). Every part but the last is a link.
+- Below 1380 px the links take their own scrolling row, as below 760 px before.
 
 **Done when:**
 - The header component and order are identical in all five areas.

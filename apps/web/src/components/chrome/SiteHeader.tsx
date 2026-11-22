@@ -1,49 +1,46 @@
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
+import { AccountMenu } from "./AccountMenu";
 import { BrandMark } from "./BrandMark";
 import { DemoBadge } from "./DemoBadge";
 import { LangToggle } from "./LangToggle";
 import { NavLinks, type NavItem } from "./NavLinks";
-import { SignOutButton } from "./SignOutButton";
 import { ThemeToggle } from "./ThemeToggle";
 
 export type HeaderVariant = "site" | "patient" | "clinic" | "admin" | "clinicAdmin";
 
-/** Glass pill header from the mockup (.top / .brand / .nav / .util). Each area gets its own nav (CLAUDE.md rule 9). */
+/** One header on every page (docs/31 §A). The same links in the same order everywhere, so a visitor always sees where
+ *  she is (the plum pill) and every view is one tap away: about the product on the left, then the four views. The
+ *  areas stay separate routes, layouts and roles (CLAUDE.md rule 9); only the way between them is the same. Staff
+ *  areas add the Account menu (their sign-in settings and a Sign out that revokes the session). */
 export function SiteHeader({ variant, extra }: { variant: HeaderVariant; extra?: ReactNode }) {
   const t = useTranslations("chrome");
-  const all: Record<string, NavItem> = {
-    product: { href: "/", label: t("nav.product") },
-    status: { href: "/status", label: t("nav.status") },
-    demo: { href: "/demo", label: t("nav.demo") },
-    app: { href: "/app", label: t("nav.app") },
-    clinic: { href: "/clinic", label: t("nav.clinic") },
-    admin: { href: "/admin", label: t("nav.admin") },
-    clinicAdmin: { href: "/clinic-admin", label: t("nav.clinicAdmin") },
-  };
-  // Staff areas: their own "Your sign-in" page and a Sign out that revokes the session (plan section 5).
+  const about: NavItem[] = [
+    { href: "/", label: t("nav.product") },
+    { href: "/demo", label: t("nav.demo") },
+    { href: "/status", label: t("nav.status") },
+  ];
+  const views: NavItem[] = [
+    { href: "/app", label: t("nav.app") },
+    { href: "/clinic", label: t("nav.clinic") },
+    { href: "/clinic-admin", label: t("nav.clinicAdmin") },
+    { href: "/admin", label: t("nav.admin") },
+  ];
   const account: Partial<Record<HeaderVariant, { href: string; door: string }>> = {
     clinic: { href: "/clinic/sign-in", door: "/staff/signin" },
     clinicAdmin: { href: "/clinic-admin/sign-in", door: "/staff/signin" },
     admin: { href: "/admin/sign-in", door: "/doh/signin" },
   };
   const mine = account[variant];
-  const byVariant: Record<HeaderVariant, NavItem[]> = {
-    site: [all.product!, all.demo!, all.app!, all.clinic!, all.admin!, all.status!],
-    patient: [all.demo!, all.app!],
-    clinic: [all.demo!, all.clinic!],
-    admin: [all.demo!, all.admin!],
-    clinicAdmin: [all.demo!, all.clinicAdmin!],
-  };
   return (
-    <header className={variant === "site" ? "top top-site" : "top"}>
+    <header className="top top-site">
       <div className="wrap">
         <BrandMark />
         <nav className="nav" aria-label={t("navLabel")}>
-          <NavLinks items={mine ? [...byVariant[variant], { href: mine.href, label: t("nav.signIn") }] : byVariant[variant]} />
-          {mine && <SignOutButton door={mine.door} />}
+          <NavLinks groups={[about, views]} />
         </nav>
         <div className="util">
+          {mine && <AccountMenu href={mine.href} door={mine.door} />}
           <DemoBadge />
           {extra}
           <LangToggle />

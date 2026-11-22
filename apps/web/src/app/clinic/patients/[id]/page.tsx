@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
+import { Crumbs } from "@/components/chrome/Crumbs";
 import { PatientList } from "@/components/clinic/PatientList";
 import { RecordDetail } from "@/components/clinic/RecordDetail";
-import { Icon } from "@/components/ui/Icon";
 import { EmptyState } from "@/components/ui/States";
 import { isLocale } from "@/i18n/config";
 import { ApiError } from "@/lib/api/errors";
@@ -37,11 +36,8 @@ export default async function PatientRecordPage({ params }: { params: Promise<{ 
   const { patients } = await list;
   return (
     <>
-      <Link href="/clinic" className="link s clinic-back">
-        <Icon name="chevron" size={16} className="-scale-x-100 rtl:scale-x-100" />
-        {t("back")}
-      </Link>
-      <div className="clinic" style={{ marginTop: 12 }}>
+      <Crumbs items={[{ href: "/clinic", label: t("back") }, { label: displayName(patients.find((p) => p.id === id)?.alias ?? id) }]} />
+      <div className="clinic">
         <div className="panel plist clinic-side">
           <PatientList patients={patients} selected={id} />
         </div>

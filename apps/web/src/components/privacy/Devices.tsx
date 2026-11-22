@@ -10,6 +10,7 @@ import { useToast } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/api/client";
 import type { SessionRow, SessionsList } from "@/lib/api/types";
 import { enterAs } from "@/lib/enter";
+import { forgetThisTab } from "@/lib/signout";
 
 /**
  * Her signed-in devices (plan section 5): where her own record is open, sign one device out, sign out everywhere,
@@ -29,6 +30,7 @@ export function Devices({ sessions, ownRecord, lastActive }: { sessions: Session
 
   const signOutHere = async () => {
     setBusy("out");
+    forgetThisTab();
     await fetch("/api/v1/sessions/sign-out", { method: "POST", credentials: "same-origin" }).catch(() => undefined);
     enterAs(after);
   };
@@ -48,6 +50,7 @@ export function Devices({ sessions, ownRecord, lastActive }: { sessions: Session
     setBusy("everywhere");
     try {
       await apiClient("/sessions/sign-out-everywhere", { method: "POST" });
+      forgetThisTab();
       enterAs(after);
     } catch (e) {
       setError(problemText(e));

@@ -8,6 +8,7 @@ import { apiServer } from "@/lib/api/server";
 import type { DocumentRow, PhotoReading } from "@/lib/api/types";
 import { formatDate } from "@/lib/format";
 import { requireRole } from "@/lib/session";
+import { Crumbs } from "@/components/chrome/Crumbs";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("documents");
@@ -24,6 +25,7 @@ export default async function DocumentsPage() {
   const [docs, photo] = await Promise.all([apiServer<DocumentRow[]>("/documents"), apiServer<PhotoReading>("/documents/photo")]);
   return (
     <div className="app-col">
+      <Crumbs items={[{ href: "/app", label: (await getTranslations("tabs"))("home") }, { label: t("title") }]} />
       <h1 style={{ fontSize: 22, textAlign: "center" }}>{t("title")}</h1>
       <p className="s dim" style={{ textAlign: "center" }}>
         {t(photo.available ? "intro" : "introNoPhoto")}
