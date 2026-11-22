@@ -55,8 +55,8 @@ CONDITIONS: dict[str, dict] = {
                 "pcos_guideline_2023",
             ),
             (
-                "There is no cure, but treatment and lifestyle changes help, and regular check-ups lower the risk of later problems such as type 2 diabetes and high blood pressure.",
-                "لا يوجد علاج شافٍ، لكن العلاج وتغييرات نمط الحياة تساعد، والفحوصات المنتظمة تقلّل خطر مشكلات لاحقة مثل السكري من النوع الثاني وارتفاع ضغط الدم.",
+                "Treatment and lifestyle changes can help with symptoms, and regular check-ups lower the risk of later problems such as type 2 diabetes and high blood pressure.",
+                "يمكن للعلاج وتغييرات نمط الحياة أن تساعد في الأعراض، والفحوصات المنتظمة تقلّل خطر مشكلات لاحقة مثل السكري من النوع الثاني وارتفاع ضغط الدم.",
                 "nhs_pcos",
             ),
         ],
@@ -84,8 +84,8 @@ CONDITIONS: dict[str, dict] = {
                 "nhs_endometriosis",
             ),
             (
-                "A doctor may examine you and arrange an ultrasound or MRI scan, and a keyhole operation (laparoscopy) can confirm it. There is no cure, but treatment can help manage symptoms such as pain.",
-                "قد يفحصكِ الطبيب ويطلب أشعة صوتية أو رنيناً مغناطيسياً، ويمكن لعملية المنظار تأكيدها. لا يوجد علاج شافٍ، لكن العلاج يساعد في التحكم بالأعراض مثل الألم.",
+                "A doctor may examine you and arrange an ultrasound or MRI scan, and a keyhole operation (laparoscopy) can confirm it. Treatment can help manage symptoms such as pain.",
+                "قد يفحصكِ الطبيب ويطلب أشعة صوتية أو رنيناً مغناطيسياً، ويمكن لعملية المنظار تأكيدها. ويساعد العلاج في التحكم بالأعراض مثل الألم.",
                 "nhs_endometriosis",
             ),
             (
@@ -118,7 +118,7 @@ CONDITIONS: dict[str, dict] = {
                 "nhs_heavy_periods",
             ),
             (
-                "See a doctor if heavy periods affect your life, if you have severe pain, or if you bleed between periods or after sex. Feeling very tired can be a sign of low iron.",
+                "See a doctor if heavy periods affect your life, if the pain is severe, or if you bleed between periods or after sex. Feeling very tired can be a sign of low iron.",
                 "راجعي الطبيب إذا كانت الدورة الغزيرة تؤثر على حياتك، أو إذا كان الألم شديداً، أو إذا حدث نزيف بين الدورات أو بعد العلاقة الزوجية. والتعب الشديد قد يكون علامة على نقص الحديد.",
                 "nhs_heavy_periods",
             ),
@@ -278,12 +278,12 @@ CONDITIONS: dict[str, dict] = {
                 "nhs_postnatal_depression",
             ),
             (
-                "Speak to your doctor or midwife even if you have only some of the signs: you are more likely to get better with treatment. The EPDS mood check in your app is a screen, not a diagnosis.",
+                "Speak to your doctor or midwife even with only some of the signs: treatment makes getting better more likely. The EPDS mood check in your app is a screen, not a diagnosis.",
                 "تحدّثي مع طبيبتك أو القابلة حتى لو كانت لديكِ بعض العلامات فقط، فالتحسّن أرجح مع العلاج. وفحص المزاج EPDS في تطبيقك أداة فحص وليس تشخيصاً.",
                 "nhs_postnatal_depression",
             ),
             (
-                "If you have thoughts of harming yourself or your baby, call 998 now, or 800-SAKINA (800 725462) for support.",
+                "Thoughts of harming yourself or your baby need help now: call 998, or 800-SAKINA (800 725462) for support.",
                 "إذا راودتكِ أفكار بإيذاء نفسك أو طفلك، اتصلي الآن بالرقم 998، أو بخط الدعم 800-SAKINA (800725462).",
                 "doh_800_sakina",
             ),

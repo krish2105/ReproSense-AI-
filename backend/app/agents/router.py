@@ -448,6 +448,8 @@ def explain_lane(state: State) -> dict:
     t0 = time.perf_counter()
     topic = state.get("topic") or "explain"
     mode = {"diagnosis": "diagnosis", "medicine": "medicine", "body": "body", "body_refuse": "body"}.get(topic, "explain")
+    if not state.get("ai_on") and mode != "medicine":  # her AI switch closes Nura's answers, as for the knowledge answer
+        return {"out": {"lane": "ai_off"}}
     res = explain.answer(
         state["question"], state["lang"], state.get("bundle"), state["ref"], mode=mode, refuse=topic == "body_refuse"
     )
@@ -455,6 +457,7 @@ def explain_lane(state: State) -> dict:
     cites = _cite_list(ids)
     num = {c["source_id"]: c["n"] for c in cites}
     parts = [ln["text"] + (f" [{num[ln['cite']]}]" if ln["cite"] in num else "") for ln in res["lines"]]
+    sentences = [{"text": ln["text"], "cite": num[ln["cite"]]} for ln in res["lines"] if ln["cite"] in num]
     srcs = kb_sources()
     learn = [
         {"kind": "page", "url": srcs[sid].url, "title": srcs[sid].title, "publisher": srcs[sid].publisher}
@@ -474,6 +477,7 @@ def explain_lane(state: State) -> dict:
     out.update(
         lane="explain",
         answer="\n".join(parts),  # one sentence per line on screen (the card keeps the line breaks)
+        sentences=sentences,
         citations=cites,
         refused=res["refused"],
         learn_more=learn,

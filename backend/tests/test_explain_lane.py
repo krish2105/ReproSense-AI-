@@ -101,6 +101,8 @@ def test_record_and_food_questions_keep_their_lanes(client):
 
 
 def test_every_sentence_cites_a_known_source_and_every_condition_has_both_languages():
+    from app.ai.guards import violations
+
     known = sources()
     for cid, c in explain.CONDITIONS.items():
         assert c["lines"], cid
@@ -108,6 +110,7 @@ def test_every_sentence_cites_a_known_source_and_every_condition_has_both_langua
             assert src in known, (cid, src)
             assert en.strip() and ar.strip()
             assert not DRUGS.search(en) and not DRUGS.search(ar), (cid, en)
+            assert not violations(en) and not violations(ar), (cid, en, violations(en), violations(ar))
         for sid in c["pages"]:
             assert sid in known
         for v in explain.VIDEOS.get(cid, []):
