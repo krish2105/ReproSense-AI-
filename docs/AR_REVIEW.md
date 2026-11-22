@@ -2107,3 +2107,26 @@ Drafts written with Claude Code; the native review is still open. Feminine addre
 | `assistant.copilot` | Nura | نورا |
 | `assistant.subtitle` | Your AI health assistant: answers from curated guidelines, with sources | مساعدتك الصحية بالذكاء الاصطناعي: إجابات من إرشادات موثوقة مع مصادرها |
 | `landing.floatCopilot` | Nura, AI assistant · cites guidelines | نورا، مساعدة بالذكاء الاصطناعي · تستشهد بالإرشادات |
+
+## What the Department of Health would see (22 Nov, draft Arabic, not native-reviewed)
+Every Arabic string below is a draft written with Claude Code (an AI review, not a native speaker's; #23 still applies).
+Staff-facing (the network dashboard). Terms to check: «دائرة الصحة» (Department of Health), «تطابقت مدخلاتهن مع نمط»
+(entries match a pattern), «مجموعة مُصطنعة» (synthetic cohort, as in `admin.cohortNote`), «معدلات الانتشار» (prevalence).
+
+| Key | English | Arabic (draft) | Note |
+| --- | --- | --- | --- |
+| `admin.population.title` | What the Department of Health would see | ما الذي ستراه دائرة الصحة | |
+| `admin.population.body` | Clinic records show what happened at a visit. This shows what women log between visits, as counts only: how many women's entries match a pattern worth discussing with a doctor, and how many of them have shared a report with a clinic. | سجلات العيادات تُظهر ما حدث في الزيارة. أما هذا القسم فيُظهر ما تسجّله النساء بين الزيارات، كأعداد فقط: كم امرأة تطابقت مدخلاتها مع نمط يستحق النقاش مع الطبيب، وكم منهن شاركن تقريراً مع عيادة. | |
+| `admin.population.matched` | Women whose entries match a pattern worth discussing | نساء تطابقت مدخلاتهن مع نمط يستحق النقاش | never "women with a condition" |
+| `admin.population.shared` | Have shared a report with a clinic | شاركن تقريراً مع عيادة | |
+| `admin.population.notShared` | Have not shared one yet | لم يشاركن تقريراً بعد | |
+| `admin.population.regionTitle` | From pattern to clinic, by region | من النمط إلى العيادة، بحسب المنطقة | |
+| `admin.population.regionRow` | {shared} of {total} shared ({pct}%) | {shared} من {total} شاركن ({pct}%) | |
+| `admin.population.ageTitle` | Patterns by age band | الأنماط بحسب الفئة العمرية | |
+| `admin.population.ageNote` | Share of women in each age band whose entries match each pattern. | نسبة النساء في كل فئة عمرية اللواتي تطابقت مدخلاتهن مع كل نمط. | |
+| `admin.population.colAge` · `colCycles` · `colPain` · `colHeavy` | Age band · Cycle length · Period pain · Heavy or long periods | الفئة العمرية · طول الدورة · ألم الدورة · دورات غزيرة أو طويلة | |
+| `admin.population.tryingTitle` | Trying to conceive | محاولة الحمل | |
+| `admin.population.tryingBody` | {due} of {trying} women who are trying to conceive have reached the timing at which guidelines suggest asking about a fertility assessment. {shared} of them have shared a report with a clinic; {not_shared} have not yet. | {due} من {trying} امرأة يحاولن الحمل بلغن التوقيت الذي تقترح فيه الإرشادات السؤال عن تقييم الخصوبة. {shared} منهن شاركن تقريراً مع عيادة، و{not_shared} لم يشاركن بعد. | number agreement with {trying} |
+| `admin.population.use` | What it is for: planning services and awareness by region and age, and seeing where patterns are not reaching a clinic. What it is not: a register, a list of names or a count of diagnoses. A pattern is a rule match on a woman's own entries, and only a doctor can assess it. | الغرض منه: تخطيط الخدمات والتوعية بحسب المنطقة والعمر، ومعرفة أين لا تصل الأنماط إلى العيادة. وليس سجلاً ولا قائمة أسماء ولا عدداً للتشخيصات. النمط هو تطابق قاعدة مع مدخلات المرأة نفسها، ولا يستطيع تقييمه إلا الطبيب. | read first |
+| `admin.population.note` | Synthetic cohort. These are not prevalence estimates. Groups of fewer than 10 women are hidden. | مجموعة مُصطنعة. هذه ليست تقديرات لمعدلات الانتشار. تُخفى المجموعات التي تقل عن 10 نساء. | |
+

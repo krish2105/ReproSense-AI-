@@ -375,6 +375,22 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 > - **February:** the system runs on UAE hosting with a penetration test.
 > - **March to May:** a consented pilot and a licensed company.
 
+**Q18b. What does the Department of Health get from this, apart from a product?** *(Krishna or Atharva)*
+> Sight of the months between visits. Malaffi shows what happened in a clinic. With her consent, and as counts only,
+> ReproSense shows what women are logging before they ever book: how many women's entries match a pattern worth
+> discussing, and how many of them have shared a report with a clinic, by region and age. On our synthetic network,
+> 496 of 1,200 women match a pattern and 220 of them have not shared with a clinic yet. That is where DoH would aim
+> services and awareness.
+
+Behind Q18b (Clinic network → "What the Department of Health would see"):
+- Counts from the synthetic cohort only, never names; every group under 10 is hidden. Say "on our synthetic network",
+  never "in Abu Dhabi".
+- Say "entries match a pattern worth discussing". Never "women with PCOS", "detected", "screened" or "prevalence".
+- Other things DoH gets, already on the dashboard: PC008 follow-ups week by week instead of once a quarter, the
+  postnatal steps done inside their DoH window, and a fairness check by nationality group and age band.
+- Roadmap, not built: a consented research cohort, an aggregate export for programme reporting, counts of the topics
+  women ask Nura about, and reminders for DoH's cervical and breast screening programmes.
+
 ### Product and team
 **Q19. Why would a woman log every day?** *(Zebo)*
 > She doesn't have to: two taps, or one sentence by voice in Arabic. The value comes before the appointment, when her
