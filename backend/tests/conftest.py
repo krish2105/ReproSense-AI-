@@ -41,7 +41,8 @@ def reseed():
 def client(seeded):
     from app.main import app
 
-    return TestClient(app)
+    # Most tests sign in through login() and use the token as a bearer header, as the phone app does (docs/31 §H, L6)
+    return TestClient(app, headers={"x-rs-client": "mobile"})
 
 
 def login(client, persona=None, role="patient"):

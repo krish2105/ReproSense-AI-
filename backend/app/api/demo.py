@@ -16,7 +16,14 @@ from pydantic import BaseModel, Field
 from app.config import get_settings
 from app.db import SYSTEM, Actor, session
 from app.security import audit
-from app.security.auth import current_actor, device_label, forget_demo_persona, remember_demo_persona, require
+from app.security.auth import (
+    current_actor,
+    device_label,
+    forget_demo_persona,
+    remember_demo_persona,
+    require,
+    token_for_client,
+)
 from app.security.auth import set_session as _set_session
 from app.services.patient_data import apply_period_log
 
@@ -90,7 +97,7 @@ def login(body: LoginIn, request: Request, response: Response):
     token = _set_session(response, row["id"], body.role, row["clinic_id"] or "", how="demo", device=device)
     if body.role == "patient":  # docs/31 §B: Back to her app after a staff view signs her back in
         remember_demo_persona(response, row["id"])
-    return {"role": body.role, "user_id": row["id"], "token": token}
+    return {"role": body.role, "user_id": row["id"], **token_for_client(request, token)}
 
 
 @router.get("/clinics")
@@ -204,7 +211,7 @@ def signup(body: SignupIn, request: Request, response: Response):
     token = _set_session(response, pid, "patient", body.clinic_id or "", how="signup", device=device)
     forget_demo_persona(response)  # her own record now: Back must never open a demo woman in its place
     # The token in the body, as /login returns it, lets the phone app keep the session in its Keychain or Keystore.
-    return {"role": "patient", "user_id": pid, "token": token}
+    return {"role": "patient", "user_id": pid, **token_for_client(request, token)}
 
 
 @router.post("/logout")

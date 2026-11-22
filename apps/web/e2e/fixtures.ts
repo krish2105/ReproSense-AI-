@@ -51,7 +51,7 @@ export async function signIn(page: Page, who: { persona: string } | { role: "cli
 /** Restores the seeded demo data (admin only), so every file starts from the same record. */
 export async function resetDemo() {
   const ctx = await request.newContext({ baseURL: API });
-  const login = await ctx.post("/v1/demo/login", { data: { role: "admin" } });
+  const login = await ctx.post("/v1/demo/login", { data: { role: "admin" }, headers: { "x-rs-client": "mobile" } }); // L6: a body token for scripts
   expect(login.ok(), "admin demo login").toBeTruthy();
   const { token } = (await login.json()) as { token: string };
   const reset = await ctx.post("/v1/demo/reset", { headers: { cookie: `rs_token=${token}` } });

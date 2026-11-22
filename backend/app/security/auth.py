@@ -152,6 +152,13 @@ def set_session(
     return token
 
 
+def token_for_client(request: Request, token: str) -> dict:
+    """docs/31 §H, L6: the session token in a JSON body only for the phone app, which keeps it in the Keychain or
+    Keystore (it sends X-RS-Client: mobile). The web has the httpOnly cookie, so a script injected into a page can
+    never read a token from a sign-in response."""
+    return {"token": token} if request.headers.get("x-rs-client") == "mobile" else {}
+
+
 def remember_demo_persona(response: Response, persona_id: str) -> None:
     """Demo only: the hint lives as long as her session (12 hours), httpOnly like the session cookie."""
     s = get_settings()

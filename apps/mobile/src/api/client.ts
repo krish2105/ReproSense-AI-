@@ -23,7 +23,7 @@ export interface Call {
 export async function api<T>(path: string, call: Call = {}): Promise<T> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), call.timeoutMs ?? API_TIMEOUT_MS);
-  const headers: Record<string, string> = { accept: "application/json" };
+  const headers: Record<string, string> = { accept: "application/json", "x-rs-client": "mobile" }; // L6: tokens in bodies are for the app only
   if (call.body !== undefined) headers["content-type"] = "application/json";
   if (call.token) headers.authorization = `Bearer ${call.token}`;
   try {
@@ -54,7 +54,7 @@ export async function api<T>(path: string, call: Call = {}): Promise<T> {
 export async function apiUpload<T>(path: string, form: FormData, token: string | null, timeoutMs = 30_000): Promise<T> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
-  const headers: Record<string, string> = { accept: "application/json" };
+  const headers: Record<string, string> = { accept: "application/json", "x-rs-client": "mobile" }; // L6: tokens in bodies are for the app only
   if (token) headers.authorization = `Bearer ${token}`;
   try {
     const res = await fetch(`${API_URL}/v1${path}`, { method: "POST", headers, body: form, signal: controller.signal, credentials: "omit" });

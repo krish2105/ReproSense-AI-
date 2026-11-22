@@ -20,7 +20,7 @@ from pydantic import BaseModel, Field
 from app.config import get_settings
 from app.db import SYSTEM, Actor, session
 from app.security import audit
-from app.security.auth import device_label, fresh_step_up, require, set_session
+from app.security.auth import device_label, fresh_step_up, require, set_session, token_for_client
 from app.services import followups, timeline
 
 router = APIRouter(prefix="/v1/clinic-admin", tags=["clinic-admin"])
@@ -226,7 +226,7 @@ def accept_invite(token: str, body: AcceptIn, request: Request, response: Respon
         "alias": alias,
         "clinic_id": clinic,
         "clinic": info,
-        "token": token_out,
+        **token_for_client(request, token_out),
     }
 
 
