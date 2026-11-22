@@ -12,6 +12,9 @@ import { PAIN_SITES, type siteHeat } from "./bodyHeat";
 
 // The canvas code is fetched only when 3D will be shown (mauve-3d §1).
 const BodyMap3D = dynamic(() => import("./BodyMap3D"), { ssr: false });
+// 22 Nov (team decision): the drawn front/back figure reads better than the 3D one, so the 3D map is switched off.
+// The 3D code stays for later; set this to true to bring it back.
+const USE_3D = false;
 
 /**
  * Body map (docs/06 v4, ASSET_INTEGRATION_REPORT.md §5): a 3:4 box with the mannequin art (object-fit: contain, so
@@ -42,7 +45,7 @@ export function BodyMap({
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (!heat) return;
+    if (!heat || !USE_3D) return;
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReduced(mq.matches);
     const onChange = () => setReduced(mq.matches);
@@ -64,7 +67,7 @@ export function BodyMap({
     };
   }, [heat]);
 
-  const show3d = !!heat && can3d && !reduced;
+  const show3d = USE_3D && !!heat && can3d && !reduced;
   const max = Math.max(1, ...Object.values(yearCounts));
   const yearLines = Object.entries(yearCounts)
     .filter(([, n]) => n > 0)

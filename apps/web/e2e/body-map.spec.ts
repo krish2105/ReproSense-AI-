@@ -1,48 +1,36 @@
 import { en, expect, signIn, test } from "./fixtures";
 
-// A1 · 3D body pain map: with WebGL and motion allowed she taps a region on the figure (or its toggle in the list) and
-// it is marked in the log form; with reduced motion the 2D map stays. No WebGL is covered in no-webgl.spec.ts.
-// Read-only: nothing is saved, so the demo data is unchanged.
+// Body pain map (22 Nov): the drawn front/back figure is used everywhere (the 3D figure is switched off in BodyMap.tsx).
+// With motion allowed she taps a point on the drawing (or its toggle in the list) and it is marked in the log form; the
+// pain slider says its number in words. Read-only: nothing is saved, so the demo data is unchanged.
 
 test.describe("motion allowed", () => {
   test.use({ reducedMotion: "no-preference" });
 
-  test("the 3D figure marks a tapped region, and the list carries the same choices", async ({ page }) => {
+  test("the drawn figure marks a tapped region, the list carries the same choices, and pain has words", async ({ page }) => {
     await signIn(page, { persona: "noura" });
     await page.goto("/app/log");
-    const webgl = await page.evaluate(() => {
-      const c = document.createElement("canvas");
-      return Boolean(c.getContext("webgl2") ?? c.getContext("webgl"));
-    });
-    test.skip(!webgl, "this browser has no WebGL; no-webgl.spec.ts covers the 2D map");
-
     const map = page.getByRole("group", { name: en.log.bodyTitle });
     await map.scrollIntoViewIfNeeded();
-    const canvas = map.locator(".bodymap canvas");
-    await expect(canvas).toBeVisible();
-    await expect(map.locator('.bodymap[data-3d="ready"]')).toBeVisible({ timeout: 30_000 }); // first frame drawn, poster gone
-    await expect(map.locator(".bm-pt")).toHaveCount(0); // the 2D tap points are replaced, not doubled
-    await expect(map).toContainText(en.log.heat3d);
+    await expect(map.locator("canvas")).toHaveCount(0); // no 3D figure
+    await expect(map.locator(".bodymap img")).toBeVisible(); // the drawing
+    await expect(map.locator(".bm-pt").first()).toBeVisible();
 
-    const list = map.getByRole("group", { name: en.log.sitesList });
-    await expect(list.getByRole("button")).toHaveCount(5); // front and back sites, always reachable by keyboard
-    const lowerAbdomen = list.getByRole("button", { name: "Lower abdomen" });
+    // Tap a point on the front drawing, then turn to the back.
+    const lowerAbdomen = map.locator(".bm-pt").first();
     await expect(lowerAbdomen).toHaveAttribute("aria-pressed", "false");
-
-    // Tap the lower abdomen on the figure: centre, just above the middle of the canvas (R3F aims the camera at the origin).
-    const box = (await canvas.boundingBox())!;
-    await page.mouse.click(box.x + box.width * 0.5, box.y + box.height * 0.465);
+    await lowerAbdomen.click();
     await expect(lowerAbdomen).toHaveAttribute("aria-pressed", "true");
-    await expect(map).toContainText("Marked: Lower abdomen");
-
-    // The list toggles too (keyboard and screen-reader path).
-    const lowerBack = list.getByRole("button", { name: "Lower back" });
-    await lowerBack.focus();
-    await page.keyboard.press("Enter");
-    await expect(lowerBack).toHaveAttribute("aria-pressed", "true");
-
     await map.getByRole("button", { name: en.log.back, exact: true }).click();
     await expect(map.getByRole("button", { name: en.log.back, exact: true })).toHaveAttribute("aria-pressed", "true");
+    await expect(map.locator(".bodymap img")).toBeVisible();
+
+    // Pain in words: 0 none, 1-3 mild, 4-6 moderate, 7-10 severe.
+    const slider = page.locator("#pain-range");
+    await slider.fill("7");
+    await expect(page.getByTestId("pain-hint")).toContainText(en.log.painHint.severe);
+    await slider.fill("2");
+    await expect(page.getByTestId("pain-hint")).toContainText(en.log.painHint.mild);
   });
 });
 

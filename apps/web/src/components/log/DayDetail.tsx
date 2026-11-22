@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import type { TimelineDay } from "@/lib/api/types";
+import { painBand } from "@/lib/pain-band";
 import { slug } from "@/lib/vocab";
 
 /** The logged-data tiles for one day (mockup calBox "Last logged"), with the clay icons cut from E9. */
@@ -21,7 +22,7 @@ export async function DayDetail({ entry, dateLabel }: { entry: TimelineDay | und
   const impact = t.has(`impacts.${slug(entry.impact)}`) ? t(`impacts.${slug(entry.impact)}`) : entry.impact;
   const tiles = [
     { icon: "flow", label: t("log.tileFlow"), value: t(`flows.${entry.flow}`) },
-    { icon: "pain", label: t("log.tilePain"), value: t("log.painValue", { pain: entry.pain }) },
+    { icon: "pain", label: t("log.tilePain"), value: `${t("log.painValue", { pain: entry.pain })} · ${t(`log.painLevel.${painBand(entry.pain)}`)}` },
     { icon: "symptoms", label: t("log.tileSymptoms"), value: sym },
     { icon: "energy", label: t("log.tileImpact"), value: impact },
   ];
