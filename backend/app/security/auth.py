@@ -111,7 +111,27 @@ def create_token(user_id: str, role: str, clinic_id: str = "", how: str = "demo"
         "jti": jti,
         "amr": how,
     }
-    return jwt.encode(claims, get_settings().demo_token_secret, algorithm=ALG)
+    secret = get_settings().demo_token_secret
+    return jwt.encode(claims, secret, algorithm=ALG, headers={"kid": key_id(secret)})
+
+
+def key_id(secret: str) -> str:
+    """A short public name for a signing secret (JWT "kid"), so a rotation can keep the previous one (M3)."""
+    return hashlib.sha256(b"reprosense-kid:" + secret.encode()).hexdigest()[:12]
+
+
+def verifying_secret(token: str) -> str:
+    """The secret to check this token with: the one its kid names, if it is the current or the previous secret;
+    otherwise the current one (an unknown kid, or a token from before kids, never selects anything else)."""
+    s = get_settings()
+    try:
+        kid = jwt.get_unverified_header(token).get("kid")
+    except jwt.PyJWTError:
+        return s.demo_token_secret
+    prev = s.demo_token_secret_previous
+    if prev and kid == key_id(prev) and kid != key_id(s.demo_token_secret):
+        return prev
+    return s.demo_token_secret
 
 
 def set_session(
@@ -188,13 +208,13 @@ def ended(reason: str) -> HTTPException:
 def peek(token: str) -> dict | None:
     """The claims of a token with a good signature that has not expired, or None. No session checks (sign-out)."""
     try:
-        return jwt.decode(token, get_settings().demo_token_secret, algorithms=[ALG], audience=AUD)
+        return jwt.decode(token, verifying_secret(token), algorithms=[ALG], audience=AUD)
     except jwt.PyJWTError:
         return None
 
 
 def _claims(token: str) -> dict:
-    secret = get_settings().demo_token_secret
+    secret = verifying_secret(token)
     try:
         c = jwt.decode(token, secret, algorithms=[ALG], audience=AUD)
     except jwt.ExpiredSignatureError as e:

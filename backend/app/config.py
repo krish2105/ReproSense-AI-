@@ -21,8 +21,10 @@ class Settings(BaseSettings):
     demo_ref_date: date = date(2026, 11, 22)  # "today" inside the demo (showcase day), see QUESTIONS #16
     database_url: str = "postgresql:///reprosense?host=/tmp"
     allowed_origins: str = "http://localhost:3000"
-    demo_token_secret: str = ""  # HMAC key for demo role tokens; random per process if unset
+    demo_token_secret: str = ""  # HMAC key for session tokens; required outside demo mode (M3), random in demo mode
+    demo_token_secret_previous: str = ""  # M3: during a rotation, tokens signed with the old secret still verify
     notes_key: str = ""  # base64 32-byte AES-GCM key for field-level encryption
+    notes_key_previous: str = ""  # M4: during a rotation, data under the old key still decrypts
     token_ttl_minutes: int = 720  # her session (and a demo person's): 12 hours, no idle rule
     # Staff and DoH sessions (clinician, clinic_admin, admin; the team's plan section 5): end after this many minutes
     # without a request, and after the maximum however busy. A one-tap demo staff session follows the same rules.
@@ -95,12 +97,19 @@ class Settings(BaseSettings):
         return self.webauthn_rp_id or urlparse(self.passkey_origins[0]).hostname or "localhost"
 
 
+def finalise(s: Settings) -> Settings:
+    """Checks the settings once at start-up. docs/31 §H, M3: outside demo mode a missing signing secret stops the API;
+    a random per-process secret signed everyone out on every restart and two instances rejected each other's tokens."""
+    if not s.demo_token_secret:
+        if not s.demo_mode:
+            raise RuntimeError("DEMO_TOKEN_SECRET must be set when DEMO_MODE is off (see .env.example).")
+        s.demo_token_secret = secrets.token_urlsafe(48)  # demo and development only
+    return s
+
+
 @lru_cache
 def get_settings() -> Settings:
-    s = Settings()
-    if not s.demo_token_secret:
-        s.demo_token_secret = secrets.token_urlsafe(48)
-    return s
+    return finalise(Settings())
 
 
 RULES_PATH = ROOT / "rules" / "clinical_rules.yaml"

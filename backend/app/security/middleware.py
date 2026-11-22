@@ -60,7 +60,7 @@ def client_key(request: Request) -> str:
     cookie let a client send a fresh random cookie with every request and never be limited (18 Nov audit). A verified
     token gets its own bucket (judges sharing one persona are not throttled together); anything else counts against
     the client address."""
-    from app.security.auth import ALG
+    from app.security.auth import ALG, verifying_secret
 
     if request.url.path.startswith(ADDRESS_ONLY):
         return "ip:" + client_ip(request)
@@ -68,7 +68,7 @@ def client_key(request: Request) -> str:
     token = auth[7:] if auth.lower().startswith("bearer ") else request.cookies.get("rs_token", "")
     if token:
         try:
-            jwt.decode(token, get_settings().demo_token_secret, algorithms=[ALG], audience="reprosense-demo")
+            jwt.decode(token, verifying_secret(token), algorithms=[ALG], audience="reprosense-demo")
             return "t:" + hashlib.sha256(token.encode()).hexdigest()[:24]
         except jwt.PyJWTError:
             pass
