@@ -25,6 +25,7 @@ from app.services import (
     baby,
     blood_pressure,
     care_plan,
+    checked,
     feeding,
     fhir,
     followups,
@@ -561,6 +562,7 @@ def insights(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         "change_point": ev.features.values.get("cycle_change_point"),
         "days_logged": views.days_logged(b),
         "rules_version": load_rules().version,
+        "checked": checked.checked(ev, lang, crisis),  # what the period rules checked and did not show
     }
 
 

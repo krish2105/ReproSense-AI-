@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
+import { CheckedList } from "@/components/insights/CheckedList";
 import { PatternCard } from "@/components/insights/PatternCard";
 import { CrisisCard } from "@/components/safety/CrisisCard";
 import { RedFlagCard } from "@/components/safety/RedFlagCard";
@@ -75,6 +76,7 @@ export default async function InsightsPage() {
               />
             ))
           )}
+          <CheckedList items={ins.checked ?? []} open={rest.length === 0} />
         </>
       )}
     </div>
