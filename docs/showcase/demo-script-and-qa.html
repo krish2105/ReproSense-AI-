@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>ReproSense demo script and questions</title>
+<style>
+@page { size: A4; margin: 15mm 15mm 18mm; @bottom-center { content: "ReproSense AI · Team Nova · live demo: reprosense.vercel.app · all people and data are fictional · page " counter(page); font: 8pt sans-serif; color: #8a7a8f; } }
+body { font-family: "Helvetica Neue", Arial, sans-serif; color: #2b1630; font-size: 10.5pt; line-height: 1.45; }
+h1 { font-size: 21pt; margin: 0 0 2mm; color: #4b2a55; }
+.sub { color: #7a6380; margin: 0 0 5mm; }
+h2 { font-size: 13.5pt; color: #4b2a55; border-bottom: 2px solid #ead7ef; padding-bottom: 1.5mm; margin: 6mm 0 3mm; }
+h2.part { font-size: 15pt; margin-top: 8mm; }
+table { width: 100%; border-collapse: collapse; margin: 2mm 0 3mm; }
+th, td { text-align: left; padding: 2.2mm 2.5mm; border-bottom: 1px solid #eee3f0; vertical-align: top; }
+th { background: #f6eef8; color: #4b2a55; font-size: 9.5pt; }
+td.n { width: 6mm; font-weight: 700; color: #c9559f; }
+td.click { width: 38%; font-size: 9.5pt; color: #4b2a55; background: #fbf7fc; }
+td.say { font-size: 11.5pt; line-height: 1.55; }
+.who { display: inline-block; font-weight: 700; font-size: 8.5pt; letter-spacing: .04em; text-transform: uppercase; color: #fff; background: #8b4a8f; border-radius: 4px; padding: .4mm 1.8mm; margin-right: 1.5mm; }
+.who.k { background: #4b2a55; } .who.y { background: #2f7a6b; } .who.a { background: #b5702a; } .who.z { background: #c9559f; }
+.box { border: 1px solid #ead7ef; border-radius: 8px; padding: 3mm 4mm; margin: 3mm 0; }
+.box h3 { margin: 0 0 1.5mm; font-size: 11pt; color: #4b2a55; }
+ul { margin: 1mm 0 0 5mm; padding: 0; } li { margin: .7mm 0; }
+.say-k { font-size: 12.5pt; background: #fbf7fc; border-left: 4px solid #4b2a55; padding: 3mm 4mm; border-radius: 0 6px 6px 0; }
+.q { page-break-inside: avoid; margin: 0 0 3.2mm; }
+.q b.t { display: block; color: #4b2a55; font-size: 10.8pt; margin-bottom: .6mm; }
+.q p { margin: 0; }
+.keep { page-break-inside: avoid; }
+.ar { font-family: "Geeza Pro", "Noto Naskh Arabic", "Arial", sans-serif; direction: rtl; unicode-bidi: embed; }
+.small { font-size: 9pt; color: #7a6380; }
+</style></head><body>
+
+<h1>Live demo script and judges' questions</h1>
+<p class="sub"><span class="who y">Yash</span> talks · <span class="who a">Atharva</span> clicks · <span class="who k">Krishna</span> closes and leads the questions. About 85 seconds of demo, right after Zebo's slide 4 ("Here it is, live. Yash, Atharva.").</p>
+
+<div class="box keep"><h3><span class="who a">Atharva</span> Before you go on stage (5 minutes before)</h3>
+<ul><li>Open <b>reprosense.vercel.app/demo</b> in Chrome, English, <b>Light</b> theme, browser zoom 110 to 125% so the back row can read it. Close every other tab.</li>
+<li>Open one doctor PDF from Noura's Report once, to warm the server, then go back to <b>/demo</b>.</li>
+<li><b>Never press "Reset demo data"</b> during judging. Keep <b>ReproSense-demo-2min30-4K.mp4</b> ready on the desktop as the fallback.</li></ul></div>
+
+<h2 class="part">Part A · The demo, step by step</h2>
+<table>
+<tr><th></th><th><span class="who a">Atharva</span> clicks</th><th><span class="who y">Yash</span> says</th></tr>
+<tr class="keep"><td class="n">1</td><td class="click">Demo people &gt; <b>Open Noura's record</b> &gt; tab <b>Patterns</b> &gt; first card &gt; <b>Why we noticed</b></td>
+<td class="say">"This is Noura's record. These chips are the days she actually logged: cycles of 42 to 56 days. And this is the guideline behind the pattern. It doesn't say PCOS. It says: worth discussing with a doctor."</td></tr>
+<tr class="keep"><td class="n">2</td><td class="click">Tab <b>Ask Nura</b> &gt; tap the first suggested question <b>"What is happening with my body?"</b> &gt; scroll to <b>Learn more</b></td>
+<td class="say">"If she's worried, she asks Nura. Nura answers from her own record, with the source, and NHS pages and an NHS video if she wants to learn more. No diagnosis. No guessing."</td></tr>
+<tr class="keep"><td class="n">3</td><td class="click"><i>Only if on time:</i> tap <b><bdi dir="rtl" class="ar">عربي</bdi></b> (Arabic), then the first suggested question “<bdi dir="rtl" class="ar">ماذا يحدث في جسمي؟</bdi>”, then <b>English</b></td>
+<td class="say">"And she can ask in Arabic, too."</td></tr>
+<tr class="keep"><td class="n">4</td><td class="click">Tab <b>Report</b> (if it says "No report yet", tap <b>Prepare my report</b>)</td>
+<td class="say">"Before her visit, this is what her doctor gets: what changed, and the days behind each pattern, on two pages she reads in a minute."</td></tr>
+<tr class="keep"><td class="n">5</td><td class="click"><b>Demo people</b> &gt; <b>Open clinician view</b> &gt; <b>Fatima K.</b> &gt; glucose follow-up &gt; <b>Mark booked</b></td>
+<td class="say">"Now the clinic. It only sees women who chose to share. Fatima had diabetes in pregnancy and gave birth nine weeks ago, so her glucose test is due. One tap: booked. It stays open until the test is done."</td></tr>
+<tr class="keep"><td class="n">6</td><td class="click"><b>Demo people</b> &gt; <b>Open clinic network</b></td>
+<td class="say">"And the network sees each follow-up move from due, to booked, to done. Counts only, never names."</td></tr>
+</table>
+
+<div class="keep"><h2><span class="who k">Krishna</span> Closing · 10 seconds</h2>
+<div class="say-k">"So Noura doesn't have to explain. Her record does. We're asking for one pilot clinic, a clinical advisor to sign off our rules, and the grant. Thank you. We'd love your questions."</div></div>
+
+<div class="box keep"><h3>If something goes wrong</h3>
+<ul><li><b>Behind on time:</b> skip step 3 (Arabic). Still behind? Skip step 6 and Krishna closes.</li>
+<li><b>Page slow:</b> Yash keeps talking ("While it loads: everything here is fictional demo data…"). Don't click twice.</li>
+<li><b>Site down:</b> play <b>ReproSense-demo-2min30-4K.mp4</b>; Yash talks over it.</li>
+<li><b>Fatima already booked:</b> say "a colleague already booked it; it stays open until the test is done".</li>
+<li>There's no clinician link inside her app: always go through <b>Demo people</b>.</li></ul></div>
+
+<h2 class="part">Part B · Who answers what</h2>
+<table class="keep">
+<tr><th>Topic</th><th>First answer</th></tr>
+<tr><td>AI, Nura, safety, privacy, technology</td><td><span class="who k">Krishna</span></td></tr>
+<tr><td>Women's health evidence, the numbers on slide 1</td><td><span class="who z">Zebo</span></td></tr>
+<tr><td>Business, price, pilot, roadmap, competitors</td><td><span class="who y">Yash</span></td></tr>
+<tr><td>Product, design, Arabic, the DoH panel, the demo</td><td><span class="who a">Atharva</span></td></tr>
+</table>
+<p class="small">Rule: answer in two or three sentences, then stop. If you don't know: "Good question. We haven't measured that yet." Never invent a number.</p>
+
+<h2 class="part">Part C · Likely questions, with answers</h2>
+
+<div class="q"><b class="t">1. How is this different from Flo or other period apps? <span class="who y">Yash</span></b>
+<p>"Flo and others are good at logging and predicting, and some now have symptom checks. We're built for the step after: turning her year into evidence her doctor can act on, with the exact days and the guideline behind each pattern, in Arabic and English, and following the care steps until they're done. And we never sell health data."</p></div>
+
+<div class="q"><b class="t">2. Why not just use Sahatna? <span class="who y">Yash</span></b>
+<p>"Sahatna is Abu Dhabi's front door to care: records, booking, teleconsults, and it already has maternity features. ReproSense is the women's-health specialist behind that door: it follows her cycles and pregnancy over months and explains each pattern with its guideline. We'd like to be that module, not a second app."</p></div>
+
+<div class="q"><b class="t">3. Do you diagnose? What if a pattern is wrong? <span class="who k">Krishna</span></b>
+<p>"No, never. A pattern means 'worth discussing with a doctor', and it shows the days behind it, so the doctor can check it in seconds. If she asks 'Do I have PCOS?', Nura says first that it can't tell, only a doctor can, and then gives cited facts to take to her doctor."</p></div>
+
+<div class="q"><b class="t">4. Where is the AI, and can it make things up? <span class="who k">Krishna</span></b>
+<p>"Rules decide the patterns, not the AI. The AI reads her voice and lab photos into fields she confirms, rewords text, and runs a second safety check that can only add an urgent route, never remove one. Nura's explanations are fixed sentences we wrote and checked against NHS and guideline pages, so they can't be invented, and every answer shows its source."</p></div>
+
+<div class="q"><b class="t">5. How do you know it's safe? <span class="who k">Krishna</span></b>
+<p>"Urgent signs are checked first, every time, and point to 998; a crisis message also gives DoH's 800-SAKINA line. We tested 132 messages, in English and four kinds of Arabic, written separately from the code and never used to tune it: all 30 crisis messages went to support and all 32 emergencies to 998."</p></div>
+
+<div class="q"><b class="t">6. What happens in an emergency? <span class="who k">Krishna</span></b>
+<p>"If she writes about heavy bleeding with dizziness, a severe headache in pregnancy or thoughts of harming herself, she sees 998 first, with a call button, before anything else. Red flags always come first."</p></div>
+
+<div class="q"><b class="t">7. Where is the data, and who can see it? <span class="who k">Krishna</span></b>
+<p>"It's hers by default. Her clinic sees it only if she shares, and she can stop sharing, export or delete. The network sees counts only, never names, and groups under ten are hidden. Names are removed before any text reaches a model. The demo is fictional and hosted in Frankfurt; production moves to UAE hosting, as UAE law requires."</p></div>
+
+<div class="q"><b class="t">8. How much will it cost? <span class="who y">Yash</span></b>
+<p>"There isn't a price yet, on purpose. Women always use it free. Clinics and primary-care networks subscribe, and insurers could later pay per follow-up completed. We'll set the number with our first pilot clinic, from what the pilot measures."</p></div>
+
+<div class="q"><b class="t">9. Have you tested it with real women or doctors? <span class="who y">Yash</span></b>
+<p>"Not yet. Everything you see runs on fictional data, by design. Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with up to 20 women at one clinic."</p></div>
+
+<div class="q"><b class="t">10. Is this a medical device? How will you get approval? <span class="who k">Krishna</span></b>
+<p>"It's built not to diagnose or treat, and our claims are frozen to information and organisation. We're preparing a device-classification memo for the Emirates Drug Establishment and an ADHICS gap assessment, before any real data."</p></div>
+
+<div class="q"><b class="t">11. What does the clinic gain? Is this a DoH measure? <span class="who y">Yash</span></b>
+<p>"The glucose test after diabetes in pregnancy is recommended 4 to 12 weeks after birth (American Diabetes Association), and many women miss it. Our clinic view follows each one from due to booked to done. DoH used to measure it as Jawda PC008; that indicator was retired in 2025, so our pilot clinic will confirm which current measure applies."</p></div>
+
+<div class="q"><b class="t">12. What's the impact? <span class="who z">Zebo</span></b>
+<p>"At one Al Ain hospital, on 2013 to 2014 data, only about 1 in 4 mothers with diabetes in pregnancy came back for that glucose test. We haven't measured our own effect yet. As a scenario only: if 100 eligible women went from 25% to 50%, that's 25 more completed follow-ups."</p></div>
+
+<div class="q"><b class="t">13. How good is the Arabic? <span class="who a">Atharva</span></b>
+<p>"Every screen and Nura's answers work in Arabic, right to left, and she can log in Gulf Arabic. A native medical reviewer still needs to check the wording; that's on our list before the pilot."</p></div>
+
+<div class="q"><b class="t">14. What is "What the Department of Health would see"? <span class="who a">Atharva</span></b>
+<p>"It shows, on our synthetic network, how many women's own entries match a pattern worth discussing, and how many have shared with a clinic, by region and age, counts only. It's for planning services, not a register or a count of diagnoses."</p></div>
+
+<div class="q"><b class="t">15. Does it connect to Malaffi or clinic systems? <span class="who k">Krishna</span></b>
+<p>"Not yet. Today she can export her record in a standard health format (FHIR). Connecting to Malaffi, with her consent, is on the roadmap with UAE PASS sign-in."</p></div>
+
+<div class="q"><b class="t">16. Isn't it too much in one app? <span class="who y">Yash</span></b>
+<p>"We start with one woman's problem: she can't explain what's been happening. The same record follows her as life changes, trying to conceive, pregnancy, after birth, but the pilot focuses on one clinic and one follow-up."</p></div>
+
+<div class="q"><b class="t">17. Longevity and fertility: how do you cover them? <span class="who z">Zebo</span></b>
+<p>"After diabetes in pregnancy, type 2 diabetes is about ten times more likely, so closing that follow-up protects her later health. For fertility, the app tells her when guidelines suggest asking for a fertility check: after 12 months of trying, or sooner from age 35 or with irregular periods."</p></div>
+
+<div class="q"><b class="t">18. What did each of you build? <span class="who k">Krishna</span></b>
+<p>"Krishna: the AI, backend and safety. Atharva: the web app and design. Yash: product and the venture side. Zebo: the women's-health evidence behind it."</p></div>
+
+<div class="q"><b class="t">19. What's next in six months? <span class="who y">Yash</span></b>
+<p>"December: interviews, a clinic letter of intent, the device enquiry. February: UAE hosting, UAE PASS and a penetration test. March to May: a consented pilot at one clinic and a licensed company."</p></div>
+
+<div class="q"><b class="t">20. Why should we believe the numbers on screen? <span class="who a">Atharva</span></b>
+<p>"Every person and number in the demo is fictional, generated by our synthetic data tool, and it says so on every screen. The real-world numbers on our slides each come with their published source."</p></div>
+
+</body></html>

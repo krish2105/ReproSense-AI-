@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>ReproSense stage script</title>
+<style>
+@page { size: A4; margin: 16mm 16mm 18mm; @bottom-center { content: "ReproSense AI · Team Nova · HealthX Ajyal, 22 Nov 2026 · all people and data in the demo are fictional · page " counter(page); font: 8pt sans-serif; color: #8a7a8f; } }
+body { font-family: "Helvetica Neue", Arial, sans-serif; color: #2b1630; font-size: 11pt; line-height: 1.5; }
+h1 { font-size: 22pt; margin: 0 0 2mm; color: #4b2a55; }
+.sub { color: #7a6380; margin: 0 0 6mm; }
+h2 { font-size: 14pt; color: #4b2a55; border-bottom: 2px solid #ead7ef; padding-bottom: 1.5mm; margin: 7mm 0 3mm; }
+table { width: 100%; border-collapse: collapse; margin: 2mm 0 4mm; font-size: 10pt; }
+th, td { text-align: left; padding: 2mm 2.5mm; border-bottom: 1px solid #eee3f0; vertical-align: top; }
+th { background: #f6eef8; color: #4b2a55; }
+.who { display: inline-block; font-weight: 700; font-size: 9pt; letter-spacing: .04em; text-transform: uppercase; color: #fff; background: #8b4a8f; border-radius: 4px; padding: .5mm 2mm; margin-right: 2mm; }
+.who.k { background: #4b2a55; } .who.z { background: #c9559f; }
+.cue { color: #8a7a8f; font-style: italic; font-size: 9.5pt; margin: 1mm 0; }
+.say { font-size: 13pt; line-height: 1.6; background: #fbf7fc; border-left: 4px solid #c9559f; padding: 3mm 4mm; margin: 2mm 0 3mm; border-radius: 0 6px 6px 0; }
+.say.k { border-left-color: #4b2a55; }
+.say p { margin: 0 0 2.5mm; } .say p:last-child { margin-bottom: 0; }
+.pause { color: #c9559f; font-weight: 700; }
+.box { border: 1px solid #ead7ef; border-radius: 8px; padding: 3mm 4mm; margin: 3mm 0; background: #fff; }
+.box h3 { margin: 0 0 1.5mm; font-size: 11pt; color: #4b2a55; }
+ul { margin: 1mm 0 0 5mm; padding: 0; } li { margin: .8mm 0; }
+.never li { color: #8a1f3a; }
+.keep { page-break-inside: avoid; }
+.time { float: right; font-size: 9pt; color: #8a7a8f; }
+</style></head><body>
+
+<h1>Stage script: Krishna and Zebo</h1>
+<p class="sub">ReproSense AI · 3 minutes in all. Zebo presents the four slides; Yash and Atharva run the live demo; Krishna opens, closes and leads the questions. The same words are in the PPTX speaker notes (Presenter View).</p>
+
+<table>
+<tr><th>When</th><th>Who</th><th>What</th><th>Time</th></tr>
+<tr><td>0:00</td><td>Krishna</td><td>Opening: who we are</td><td>15 s</td></tr>
+<tr><td>0:15</td><td>Zebo</td><td>Slide 1: Noura can't explain it</td><td>25 s</td></tr>
+<tr><td>0:40</td><td>Zebo</td><td>Slide 2: ReproSense does the explaining</td><td>30 s</td></tr>
+<tr><td>1:10</td><td>Zebo</td><td>Slide 3: who uses it, what's next</td><td>20 s</td></tr>
+<tr><td>1:30</td><td>Zebo</td><td>Slide 4: hand over to the live demo</td><td>5 s</td></tr>
+<tr><td>1:35</td><td>Yash and Atharva</td><td>Live demo on reprosense.vercel.app (see the demo script)</td><td>85 s</td></tr>
+<tr><td>3:00</td><td>Krishna</td><td>Closing ask, then leads the questions</td><td>10 s</td></tr>
+</table>
+
+<div class="keep">
+<h2><span class="who k">Krishna</span> Opening <span class="time">15 seconds</span></h2>
+<p class="cue">Stand next to Zebo, smile, wait until the room is quiet.</p>
+<div class="say k"><p>"Good afternoon. We're Team Nova. I'm Krishna, and with me are Zebo, Yash and Atharva.</p>
+<p>We built ReproSense. Zebo will tell you why, and Yash and Atharva will show you, live."</p></div>
+<p class="cue">Nod to Zebo and step half a pace back.</p>
+</div>
+
+<div class="keep">
+<h2><span class="who z">Zebo</span> Slide 1 · The problem <span class="time">25 seconds</span></h2>
+<p class="cue">Wait one beat. Look at the judges, not the screen. Slow down: this is a story, not a list.</p>
+<div class="say"><p>"Meet Noura. She's 24, from Al Ain. <span class="pause">(pause)</span> She's fictional, but her story isn't.</p>
+<p>For a year, her periods have come every six to eight weeks, with acne and extra hair. She knows something is wrong.</p>
+<p>But in a ten-minute appointment she can't remember the dates, she feels embarrassed, and she leaves with 'come back if it gets worse'.</p>
+<p>That's how up to seventy percent of women with PCOS end up not knowing they have it. And in a UAE study, endometriosis took eleven and a half years to diagnose.</p>
+<p><span class="pause">(pause)</span> So the problem isn't tracking. <b>It's explaining.</b>"</p></div>
+<p class="cue">Click to slide 2.</p>
+</div>
+
+<div class="keep">
+<h2><span class="who z">Zebo</span> Slide 2 · The solution <span class="time">30 seconds</span></h2>
+<div class="say"><p>"So ReproSense does the explaining for her.</p>
+<p>She logs in seconds: a tap, or one sentence in Gulf Arabic.</p>
+<p>Over the year, rules written from published guidelines spot patterns worth discussing with a doctor, and show the exact days behind each one, with the guideline. It never diagnoses. Urgent signs come first, with 998.</p>
+<p>She can ask Nura, our assistant, what's happening in her body, and get plain words from NHS sources, with her own numbers.</p>
+<p>And with her consent, her doctor gets a two-page report to read in a minute.</p>
+<p><span class="pause">(pause)</span> Noura doesn't have to explain any more. <b>Her record does it for her.</b>"</p></div>
+<p class="cue">Click to slide 3.</p>
+</div>
+
+<div class="keep">
+<h2><span class="who z">Zebo</span> Slide 3 · Who uses it, what's next <span class="time">20 seconds</span></h2>
+<div class="say"><p>"Women like Noura use it free, always. Clinics and primary-care networks subscribe, because the follow-ups that guidelines recommend actually get done, and they can see it. We'll set the price with our first pilot clinic.</p>
+<p>Next: one clinic pilot, UAE hosting with UAE PASS sign-in, and a licensed company by May."</p></div>
+<p class="cue">Click to slide 4.</p>
+</div>
+
+<div class="keep">
+<h2><span class="who z">Zebo</span> Slide 4 · Hand over <span class="time">5 seconds</span></h2>
+<div class="say"><p>"Here it is, live. Yash, Atharva."</p></div>
+<p class="cue">Atharva switches to the browser. Zebo steps aside so the screen is clear.</p>
+</div>
+
+<div class="keep">
+<h2><span class="who k">Krishna</span> Closing <span class="time">10 seconds, right after the demo</span></h2>
+<div class="say k"><p>"So Noura doesn't have to explain. Her record does.</p>
+<p>We're asking for one pilot clinic, a clinical advisor to sign off our rules, and the grant. <span class="pause">(pause)</span> Thank you."</p></div>
+<p class="cue">Then: "We'd love your questions." Take each question yourself or hand it on (see the demo script, Part C).</p>
+</div>
+
+<div class="box keep"><h3>Zebo: if you get lost</h3>
+<ul><li>Come back to one line: <b>"The problem isn't tracking. It's explaining. ReproSense does the explaining for her."</b></li>
+<li>Breathe before each slide. It's fine to be slower than you think.</li>
+<li>A question you're unsure of: "Good question. Krishna, could you take that?"</li></ul></div>
+
+<div class="box keep"><h3>Numbers to know (only these)</h3>
+<ul><li><b>Up to 70%</b> of women with PCOS don't know they have it: WHO fact sheet, 2026.</li>
+<li><b>11.6 years</b> from first symptoms to an endometriosis diagnosis: 518 women in the UAE, Frontiers in Global Women's Health, 2021.</li>
+<li><b>Safety:</b> on 132 test messages written separately from the code and never used to tune it, all <b>30 crisis</b> messages went to support and all <b>32 emergencies</b> to 998.</li>
+<li>Glucose test after diabetes in pregnancy: recommended <b>4 to 12 weeks</b> after birth (American Diabetes Association).</li></ul></div>
+
+<div class="box keep never"><h3>Never say</h3>
+<ul><li>"You have PCOS", or any diagnosis, risk or percentage for a person.</li>
+<li>A price, or an AED number.</li>
+<li>That a clinic or clinician has signed, or that we interviewed women (not yet).</li>
+<li>"Independent reviewers" (the test messages were written separately from the code, not by outside reviewers).</li>
+<li>That PC008 is a current DoH scorecard (it was retired in 2025).</li></ul></div>
+
+</body></html>
