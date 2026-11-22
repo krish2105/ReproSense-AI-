@@ -143,3 +143,24 @@ def test_audit_22nov_questions_reach_the_explain_lane(client):
     i = ask(client, "noura", "Why are my periods irregular?")
     assert i["lane"] == "explain" and "42–56" in i["answer"]  # her own cycles
     assert not h["answer"].startswith("Here is what")  # 'About heavy periods, in plain words:'
+
+
+def test_wide_phrasings_reach_the_right_explainer_and_warning_signs_are_urgent(client):
+    cases = [
+        ("noura", "Am I suffering from PCOS?", "pcos", True),
+        ("layla", "Am I going through menopause?", "menopause", True),
+        ("noura", "Why is my period late?", "irregular_periods", False),
+        ("noura", "Why are my cycles so long?", "irregular_periods", False),
+        ("priya", "Why are my periods so painful?", "period_pain", False),
+        ("sara", "How do I know if my period is heavy?", "heavy_periods", False),
+        ("mariam", "How long does it take to conceive?", "infertility", False),
+    ]
+    for who, q, cid, refused in cases:
+        a = ask(client, who, q)
+        assert a["lane"] == "explain" and a["explain"]["condition"] == cid and a["refused"] is refused, q
+    ar = ask(client, "noura", "ليش دورتي غير منتظمة؟", "ar")
+    assert ar["lane"] == "explain" and ar["explain"]["condition"] == "irregular_periods"
+    pe = ask(client, "hessa", "Is this pre-eclampsia? I have a bad headache and swollen face")
+    assert pe["urgent"] and pe["urgent"]["number"] == "998" and pe["answer"].startswith("Get help now")
+    plain = ask(client, "hessa", "What is pre-eclampsia?")
+    assert not plain["urgent"]  # a plain question is not alarmed
