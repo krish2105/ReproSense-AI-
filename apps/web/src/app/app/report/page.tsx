@@ -32,25 +32,39 @@ export default async function ReportPage() {
   const forThis = report ? shares.filter((s) => s.report_id === report.id || !s.revoked_at) : shares;
 
   return (
-    <div className="app-col">
-      <h1 style={{ fontSize: 22, textAlign: "center" }}>{t("title")}</h1>
-      <p className="s dim" style={{ textAlign: "center" }}>
-        {t("intro")}
-      </p>
-      <BriefSection brief={brief} locale={locale} audience="patient" />
+    <div className="app-col report-page">
+      <div className="report-head">
+        <h1>{t("title")}</h1>
+        <p className="s dim">{t("intro")}</p>
+      </div>
       {report ? (
-        <>
-          <div className="kv" style={{ alignItems: "center", flexWrap: "wrap" }}>
-            <span className="xs faint">{t("generated", { date: formatDate(report.payload.generated, locale) })}</span>
-            <PrepareReport label={t("update")} />
+        // Phones and tablets: one column in reading order. From 1024px the actions and sharing sit in a sticky column
+        // beside the brief and the preview, so the PDF and share buttons stay in reach while she reads.
+        <div className="report-layout">
+          <div className="report-main">
+            <BriefSection brief={brief} locale={locale} audience="patient" />
+            <div className="kv report-meta">
+              <span className="xs faint">{t("generated", { date: formatDate(report.payload.generated, locale) })}</span>
+              <PrepareReport label={t("update")} />
+            </div>
+            <ReportDoc p={report.payload} locale={locale} />
           </div>
-          <ReportDoc p={report.payload} locale={locale} />
-          <ReportActions report={report} shares={forThis} now={now} />
-        </>
+          <div className="report-side">
+            <ReportActions report={report} shares={forThis} now={now} />
+          </div>
+        </div>
       ) : (
-        <Box>
-          <EmptyState title={t("noneTitle")} body={t("noneBody")} headingLevel={2} action={<PrepareReport label={t("prepare")} />} />
-        </Box>
+        // No report yet (a new record): the brief and the prepare step sit side by side on wide screens.
+        <div className="report-layout is-empty">
+          <div className="report-main">
+            <BriefSection brief={brief} locale={locale} audience="patient" />
+          </div>
+          <div className="report-side">
+            <Box>
+              <EmptyState title={t("noneTitle")} body={t("noneBody")} headingLevel={2} action={<PrepareReport label={t("prepare")} />} />
+            </Box>
+          </div>
+        </div>
       )}
     </div>
   );
