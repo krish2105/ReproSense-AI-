@@ -47,7 +47,7 @@ def test_unhandled_errors_are_logged_with_their_request_id(client, monkeypatch, 
 
     monkeypatch.setattr(patient_api, "load_bundle", boom)
     monkeypatch.setattr(logging.getLogger("reprosense"), "propagate", True)
-    c = TestClient(app, raise_server_exceptions=False)
+    c = TestClient(app, raise_server_exceptions=False, headers={"x-rs-client": "mobile"})  # login() reads the body token (L6)
     with caplog.at_level(logging.ERROR, logger="reprosense.access"):
         r = c.get("/v1/timeline", headers={**login(c, "noura"), "x-request-id": "crash-0001-xyz"})
     assert r.status_code == 500
