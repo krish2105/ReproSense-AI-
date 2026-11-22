@@ -5,7 +5,7 @@
 <title>ReproSense: judges' questions and how it works</title>
 <style>
   @page { size: A4; margin: 16mm 15mm 16mm 15mm;
-    @bottom-left { content: "ReproSense AI · HealthX Ajyal 2026 · Q&A pack, 21 Nov · all demo data is fictional"; font: 7.5pt sans-serif; color: #8a7a8f; }
+    @bottom-left { content: "ReproSense AI · HealthX Ajyal 2026 · Q&A pack, 22 Nov · all demo data is fictional"; font: 7.5pt sans-serif; color: #8a7a8f; }
     @bottom-right { content: counter(page) " / " counter(pages); font: 7.5pt sans-serif; color: #8a7a8f; } }
   :root { --plum: #4b2e55; --ink: #241a28; --dim: #5d5063; --line: #e4d9e7; --soft: #f6f0f7; --pink: #c2477f; --amber: #8a5a00; }
   body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--ink); font-size: 9.4pt; line-height: 1.38; }
@@ -90,10 +90,10 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <p class="a">It's designed to stay below that line: it doesn't diagnose or recommend treatment. The Emirates Drug Establishment decides, so our first step is a classification memo to them; then a DoH licence and an ADHICS gap assessment.</p></div>
 
 <div class="q"><span class="who">K</span><b class="t">13. Where is the data stored?</b>
-<p class="a">The demo is synthetic and hosted in Frankfurt. Production must stay in the UAE under the Health Data Law; moving to UAE hosting with a penetration test is our February milestone.</p></div>
+<p class="a">The demo is synthetic and hosted in Frankfurt. Production must stay in the UAE under the Health Data Law; moving to UAE hosting with a penetration test is our February milestone. Not done yet, and we say so: UAE hosting, backups, the penetration test and a privacy impact assessment.</p></div>
 
 <div class="q"><span class="who">K</span><b class="t">14. Who can see her data?</b>
-<p class="a">Only her, unless she shares with her clinic, and she can stop sharing, export everything or delete it. Clinicians see only women who shared; the network sees counts only, with groups under 10 hidden.</p></div>
+<p class="a">Only her, unless she shares with her clinic, and she can stop sharing, export everything or delete it. Clinicians see only women who shared; the network sees counts only, with groups under 10 hidden. Names are removed before any AI call, and with AI off nothing is sent. Every access is in a tamper-evident log she can read.</p></div>
 
 <div class="q"><span class="who Z">Z</span><b class="t">15. PCOS was renamed PMOS. Why say PCOS?</b>
 <p class="a">The Lancet consensus renamed it in May 2026, with a three-year transition, and the international guideline adopts PMOS in 2028. Our search already understands PMOS; we show PCOS because women and doctors here still use it.</p></div>
@@ -270,6 +270,12 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <p class="a">That framework is for AI that performs clinical activities; we've designed ReproSense not to: it doesn't diagnose, treat or triage on its own. We'd still use DoH's living-lab route for the pilot.</p></div>
 <div class="q"><span class="who">K</span><b class="t">Is the data encrypted?</b>
 <p class="a">Yes: everything travels over HTTPS, and free-text notes and uploaded documents are also encrypted field by field (AES-256-GCM) inside the database. Names are removed before any AI call.</p></div>
+<div class="q"><span class="who">K</span><b class="t">How do you protect her privacy? (20 seconds)</b>
+<p class="a">Hers by default: her clinic sees her record only if she shares, and she can stop sharing, export or delete it. The network sees counts, never names, with groups under 10 hidden. Names are removed before any text reaches a model; with AI off, nothing is sent. Every access is in a tamper-evident log she can read, and we never sell health data.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What about a shared family phone?</b>
+<p class="a">Discreet mode shows "My notes" instead of the app name and hides her name on screen. She can give someone she trusts a read-only family link, choose whether it shows details, and revoke it at any time.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What isn't done yet on privacy?</b>
+<p class="a">Said plainly: the demo runs on fictional data on free hosting in Frankfurt, with no backups, no penetration test and no privacy impact assessment yet. The ADHICS gap assessment is in December; UAE hosting and the penetration test are the February milestone, before any real record.</p></div>
 <div class="q"><span class="who">K</span><b class="t">What about minors?</b>
 <p class="a">The product is for adults 18+. Teenage periods have different guideline thresholds, and minors need a different consent model, so we don't cover them.</p></div>
 
