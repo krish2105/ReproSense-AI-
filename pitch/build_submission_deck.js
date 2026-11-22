@@ -135,8 +135,8 @@ s3.addText("One clinic pilot, then a licensed company", { placeholder: "title" }
 const STEPS = [
   ["Nov", "Claims frozen; device-classification memo for EDE; regulatory register"],
   ["Dec", "10 interviews; a clinic letter of intent; EDE enquiry; ADHICS gap assessment"],
-  ["Feb", "UAE-hosted stack live; penetration test; 15–20 women and 3 clinicians test"],
-  ["Mar–May", "Consented pilot: up to 20 women, 3 clinicians, one clinic; licensed company"],
+  ["Feb", "UAE hosting and UAE PASS sign-in; penetration test; 15–20 women and 3 clinicians test"],
+  ["Mar–May", "Consented pilot at one clinic, up to 20 women; licensed company; Malaffi link, ready for Sahatna"],
 ];
 s3.addShape(pres.shapes.LINE, { x: 1.0, y: 1.95, w: 11.3, h: 0, line: { color: "C9BACD", width: 1.5 }, objectName: "timeline" });
 STEPS.forEach(([when, what], i) => {
@@ -146,7 +146,7 @@ STEPS.forEach(([when, what], i) => {
   s3.addText(what, { x, y: 2.8, w: 2.85, h: 1.3, fontSize: 14, color: C.background1, margin: 0, valign: "top", isTextBox: true });
 });
 const CARDS = [
-  ["Who pays", "Women's health and IVF clinics: AED 399 per clinician a month (a price we are testing). Primary-care networks for the after-birth module (PC008). Payers and employers later. Women use it free."],
+  ["Who pays", "Women use it free, always. Clinics and primary-care networks pay a subscription, because it closes DoH's PC008 follow-up; insurers later, per follow-up closed. We set the price with our pilot clinic, from what it measures."],
   ["What we need", "A pilot clinic. A clinical advisor to sign the rules. The HealthX Ajyal grant to reach a licensed company by month 6."],
 ];
 CARDS.forEach(([head, body], i) => {

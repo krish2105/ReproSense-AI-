@@ -35,7 +35,7 @@
     "footer": "ReproSense gives information, not a diagnosis. In an emergency call 998. Demo data is fictional. Built with AI tools.",
     "tabsLabel": "Sections of her app",
     "footerTrust": "Trust centre",
-    "footerPricing": "Pricing",
+    "footerPricing": "Business model",
     "footerLinks": "More about ReproSense",
     "read": {
       "play": "Read aloud",
@@ -1276,7 +1276,7 @@
     "womenPrice": "Free for women. No advertising. Health data is never sold.",
     "clinicTitle": "The clinic acts on it",
     "clinicBody": "Before the visit the clinician receives a structured history in a standard handover format, the evidence behind each pattern, and extracted lab values. The clinic dashboard lists follow-ups that are due, such as glucose tests after gestational diabetes, and shows them closing.",
-    "clinicPrice": "From AED 399 per clinician per month, a hypothesis we are testing in clinic interviews.",
+    "clinicPrice": "Price set with our first pilot clinic, from what the pilot measures.",
     "promisesTitle": "What we promise about her data.",
     "p1t": "No name needed",
     "p1b": "In production she signs in with a passkey under an alias. This demo uses fictional people.",
@@ -1289,7 +1289,7 @@
     "p5t": "AI never decides",
     "p5b": "Observations come from written rules with sources. The model only explains and is blocked from diagnostic wording.",
     "finalCta": "Open the demo people",
-    "pricingLink": "See pricing and how we sized the market"
+    "pricingLink": "How ReproSense will be paid for"
   },
   "status": {
     "metaTitle": "Team scorecard",
@@ -1425,67 +1425,39 @@
     "useAi": "Use AI features: the assistant answers my questions and AI words my pattern cards. I can turn this off in Privacy."
   },
   "pricing": {
-    "metaTitle": "Pricing",
-    "title": "Free for women. Clinics pay for follow-ups that get done.",
-    "intro": "Women use ReproSense free. Clinics pay for a history that arrives before the visit and follow-ups that are tracked until they close. Every price on this page is a hypothesis we are testing in clinic interviews, not a quote.",
-    "per": "per clinician per month",
-    "perYear": "AED 349 if paid yearly",
-    "perMonth": "per month",
-    "tiers": {
+    "metaTitle": "How ReproSense will be paid for",
+    "title": "How ReproSense will be paid for",
+    "intro": "ReproSense is a prototype built for the HealthX Ajyal hackathon, so it has no price yet. We will set the price with our first pilot clinic, from what the pilot measures.",
+    "whoTitle": "Who pays",
+    "who": {
       "women": {
         "name": "Women",
-        "price": "Free",
-        "b1": "Her record: cycles, pain, symptoms and lab results",
-        "b2": "A doctor report as a PDF, and sharing she can stop at any time",
-        "b3": "Arabic and English. No advertising. Health data is never sold."
+        "tag": "Free, always",
+        "body": "Her record, her patterns and her doctor report. No ads, and we never sell health data."
       },
-      "seat": {
-        "name": "Clinician seat",
-        "price": "AED 399",
-        "b1": "Consented patients, most urgent first",
-        "b2": "A handover summary (SBAR) with the evidence behind each pattern",
-        "b3": "Follow-ups due, with reminder drafts that staff approve",
-        "b4": "A patient invite QR for the clinic"
+      "clinics": {
+        "name": "Clinics and primary-care networks",
+        "tag": "Subscription",
+        "body": "For the clinic's side: the pre-visit brief, the doctor report, the follow-up list and the network view. The price is agreed in the pilot."
       },
-      "clinic": {
-        "name": "Small clinic",
-        "price": "AED 1,990",
-        "sub": "up to 5 clinicians",
-        "b1": "Everything in a clinician seat, for up to five clinicians",
-        "b2": "The clinic's own patient invite",
-        "b3": "Planned: a monthly report of follow-ups closed"
-      },
-      "network": {
-        "name": "Clinic network",
-        "price": "From AED 150,000",
-        "sub": "a year",
-        "b1": "The network dashboard across clinics, with the fairness check",
-        "b2": "FHIR R4 export into the clinic's own record system",
-        "b3": "Planned: single sign-on for staff"
+      "insurers": {
+        "name": "Insurers, later",
+        "tag": "Paid for results",
+        "body": "Per follow-up closed, starting with the glucose test after gestational diabetes (DoH PC008), and only once the pilot has measured it."
       }
     },
-    "pilotTitle": "Start with a paid pilot",
-    "pilotBody": "Three months for AED 5,000–10,000, credited to the first year: up to 3 clinicians and 20 consenting patients, with setup, training and a weekly review of follow-ups with our team.",
-    "payerTitle": "Payers and employers",
-    "payerBody": "Priced after the pilot, per enrolled woman or per follow-up closed, starting with the glucose test after gestational diabetes.",
-    "whyTitle": "Why these numbers",
-    "whyIntro": "A seat sits between what UAE clinics pay for practice software and what clinicians pay for AI tools.",
-    "colWhat": "What clinics buy today",
-    "colPrice": "Price",
-    "colSource": "Source",
-    "rowPractice": "Practice software in the UAE",
-    "rowPracticePrice": "AED 89–249 per practitioner per month (vendor pages, not fully verified)",
-    "rowScribe": "AI clinical tools (scribes)",
-    "rowScribePrice": "About USD 150 (AED 550) per clinician per month",
-    "rowPortal": "Doctor booking portal, UAE (2019)",
-    "rowPortalPrice": "About AED 500 per doctor per month",
-    "marketTitle": "The market we are sizing",
-    "market1": "Abu Dhabi has 14 specialised fertility centres, 45 women's health facilities, about 700 OB-GYN specialists and consultants and 375 midwives, and ran more than 6,180 IVF cycles in 2024.",
-    "market2": "Seats alone come to about AED 5.2 million a year in Abu Dhabi (1,075 seats × AED 399 × 12). The path to scale is network licences and payer programmes for closed follow-ups.",
-    "market3": "Since July 2025 the Department of Health's Rewarding Exceptional Quality programme rewards fertility providers that meet quality goals. ReproSense records which recommended follow-ups were closed, the kind of evidence such programmes look for.",
+    "howTitle": "How we will set the price",
+    "how": {
+      "s1": "Run a 90-day pilot at one clinic, free for the clinic and for the women taking part.",
+      "s2": "Measure one number DoH already asks for: how many women with gestational diabetes complete the glucose test within 12 weeks of the birth.",
+      "s3": "Agree the price with the clinic from what changed, not before."
+    },
+    "actionPilot": "Read the pilot proposal",
+    "actionDemo": "Open the demo",
+    "whyTitle": "Why there's no number yet",
+    "whyBody": "Health buyers increasingly pay for measured outcomes rather than for every enrolled person, so a price set before any measurement would be a guess. Until then, the pilot page shows the arithmetic a clinic can check with its own figures.",
     "sourcesTitle": "Sources",
-    "note": "Prices are hypotheses until clinic interviews and a letter of intent back them (docs/12). Market figures come from the Department of Health via the Abu Dhabi Media Office.",
-    "pilotAction": "Open the demo"
+    "note": "Prototype: no clinic has signed, and no price has been agreed."
   },
   "trust": {
     "metaTitle": "Trust centre",
@@ -2321,7 +2293,7 @@
   "pilot": {
     "metaTitle": "Pilot value",
     "title": "What a pilot could be worth to your clinic",
-    "intro": "Set the numbers for your own clinic or insurer. This page multiplies them, nothing more: it is not a measured result and promises no outcome. Each default comes from a published study (two from Abu Dhabi, one pooled from 18 studies) or our price list, or is marked as an assumption.",
+    "intro": "Set the numbers for your own clinic or insurer. This page multiplies them, nothing more: it is not a measured result and promises no outcome. Each default comes from a published study (two from Abu Dhabi, one pooled from 18 studies) or is marked as an assumption. ReproSense's own price is not here: it is set in the pilot.",
     "inputsTitle": "Your numbers",
     "inputs": {
       "women": "Women who give birth during the pilot",
@@ -2329,19 +2301,15 @@
       "beforePct": "After-birth glucose follow-up completed today",
       "afterPct": "Completion you aim for with ReproSense",
       "abnormalPct": "Share of those tests that show raised blood sugar",
-      "missedCostAed": "Cost of one missed follow-up",
-      "priceAedMonth": "ReproSense subscription per month",
-      "months": "Pilot length"
+      "missedCostAed": "Cost of one missed follow-up"
     },
     "units": {
       "count": "women",
       "pct": "%",
-      "aed": "AED",
-      "months": "months"
+      "aed": "AED"
     },
     "basis": {
       "source": "Source",
-      "price": "Our price list",
       "assumption": "Assumption: replace it with your own figure"
     },
     "resultTitle": "The arithmetic",
@@ -2351,14 +2319,12 @@
       "closedAfter": "Follow-ups completed at your target",
       "extraClosed": "Follow-ups closed that would otherwise be missed",
       "foundEarly": "Of those, tests expected to show raised blood sugar",
-      "value": "Value of those follow-ups",
-      "subscription": "Subscription for {months, plural, one {# month} other {# months}}",
-      "net": "Value minus subscription"
+      "value": "Value of those follow-ups"
     },
     "aed": "AED {n}",
     "per1000": "Per 1,000 women who give birth: {closed} more follow-ups closed, about {found} of them expected to show raised blood sugar that would otherwise go unfound, worth AED {value} at your cost per missed follow-up.",
     "assumptions": "The target completion and the cost of a missed follow-up are yours to set; ReproSense has not measured either yet. Follow-up here means the glucose test after gestational diabetes, one part of DoH Jawda KPI PC008. This is not a forecast and not a clinical claim. The share with raised sugar is a pooled average from published studies; your clinic's own rate will differ.",
-    "toPricing": "See pricing",
+    "toPricing": "How it will be paid for",
     "toDemo": "Open the demo"
   },
   "pilotProposal": {
@@ -2488,7 +2454,7 @@
     "price": {
       "title": "Price",
       "pilot": "Free during the pilot.",
-      "after": "After it, AED 399 per clinician per month. This is a price hypothesis we are testing, not a quote."
+      "after": "After it, the price is agreed with the clinic from what the pilot measured. No price has been set yet."
     },
     "exit": {
       "title": "Continue or stop at day 90",
@@ -2509,7 +2475,7 @@
     "sourcesTitle": "Sources",
     "pdf": {
       "subtitle": "ReproSense: her health record in Arabic and English, with patterns worth discussing with a doctor and follow-ups tracked until they close.",
-      "footer": "Draft offer: no clinic has signed it, and no partnership exists. Prices are hypotheses."
+      "footer": "Draft offer: no clinic has signed it, no partnership exists, and no price has been set."
     }
   },
   "followups": {
