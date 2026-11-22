@@ -28,7 +28,7 @@ jobs:
           for attempt in 1 2 3; do
             if body=$(curl -fsS --max-time 70 "$API/readyz"); then
               echo "$body"
-              echo "$body" | jq -e '.db == true and .personas >= 8 and .kb_chunks > 0' >/dev/null && exit 0
+              echo "$body" | jq -e '.db == true and .data_ready == true' >/dev/null && exit 0  # docs/31 L4: counts only for the web's own server
               echo "::error::API answered but the demo data is not ready: $body"
               exit 1
             fi

@@ -39,7 +39,8 @@ STALE = "This sign-in request has expired or was already used. Try again."
 def store_challenge(purpose: str, pid: str | None) -> bytes:
     challenge = secrets.token_bytes(32)
     with session(SYSTEM) as cur:
-        cur.execute("DELETE FROM auth_challenges WHERE expires_at < now() - interval '1 day'")
+        # H2b: an expired challenge can never be used, so it goes at once (it used to linger a day per request)
+        cur.execute("DELETE FROM auth_challenges WHERE expires_at < now()")
         cur.execute(
             "INSERT INTO auth_challenges (challenge, purpose, profile_id, expires_at) VALUES (%s,%s,%s, now() + %s)",
             (bytes_to_base64url(challenge), purpose, pid, CHALLENGE_TTL),

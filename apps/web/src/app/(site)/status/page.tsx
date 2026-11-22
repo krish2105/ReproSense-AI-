@@ -7,6 +7,7 @@ import { isLocale } from "@/i18n/config";
 import { API_URL, apiServer } from "@/lib/api/server";
 import { formatDate } from "@/lib/format";
 import { TableScroll } from "@/components/ui/TableScroll";
+import { edgeHeaders } from "@/lib/api/edge";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("status");
@@ -45,7 +46,7 @@ const RESULT_TONE: Record<AttackResult, "ok" | "urgent" | "info"> = { blocked: "
 /** One live check of the API's readiness (database reachable) each time the page opens (issue #30). */
 async function checkApi(): Promise<{ up: boolean; ms: number; at: Date }> {
   const t0 = Date.now();
-  const up = await fetch(new URL("/readyz", API_URL), { cache: "no-store", signal: AbortSignal.timeout(10_000) })
+  const up = await fetch(new URL("/readyz", API_URL), { headers: edgeHeaders(null), cache: "no-store", signal: AbortSignal.timeout(10_000) })
     .then((r) => r.ok)
     .catch(() => false);
   return { up, ms: Date.now() - t0, at: new Date() };

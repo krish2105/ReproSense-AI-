@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { edgeHeaders } from "@/lib/api/edge";
 import { API_URL } from "@/lib/api/server";
 import { AREA_HOME, isDemoPersonaId, safeReturnPath, type DemoRole } from "@/lib/return-path";
 
@@ -39,7 +40,7 @@ export async function GET(req: NextRequest) {
   try {
     const login = await fetch(new URL("/v1/demo/login", API_URL), {
       method: "POST",
-      headers: { "content-type": "application/json", accept: "application/json" },
+      headers: { "content-type": "application/json", accept: "application/json", ...edgeHeaders(req.headers.get("x-forwarded-for")) },
       body: JSON.stringify(role === "patient" ? { role, persona } : { role }),
       cache: "no-store",
       signal: AbortSignal.timeout(20_000),

@@ -43,6 +43,11 @@ class Settings(BaseSettings):
     llm_timeout_s: float = 8.0  # one call, outside a request too (make safety-eval)
     llm_max_retries: int = 1
     embeddings_provider: str = "hashing"  # hashing (built in) — see QUESTIONS #14
+    # docs/31 §H, H2: a secret the web app's own server sends as x-rs-edge. With it set, only that server may name the
+    # visitor's address in X-Forwarded-For; direct callers count against the address the nearest proxy saw. Empty: as before.
+    edge_secret: str = ""
+    # docs/31 §H, L3: the interactive API docs and the OpenAPI schema, off unless asked for (local development).
+    expose_api_docs: bool = False
     cookie_secure: bool = False  # true when served over HTTPS (Render/Vercel); local http stays false
     seed_if_empty: bool = False  # first boot on a fresh hosted database: load the synthetic demo data (DEMO_MODE only)
     rate_limit_per_min: int = 120
@@ -63,6 +68,8 @@ class Settings(BaseSettings):
     log_level: str = "INFO"  # the API's JSON logs (app/observability.py); no clinical meaning
     # The demo reset rebuilds every table and anyone can press it on the public demo: one at a time, one per window.
     demo_reset_cooldown_s: int = 60
+    # docs/31 §H, H3: when set, the demo reset also needs this operator key (the one-tap admin is public on the demo)
+    demo_reset_key: str = ""
     max_pdf_pages: int = 30  # an uploaded lab report longer than this is refused (and would cost CPU to parse)
     # Her own sign-in (K5). Passkeys: the relying party is the web app's host. Empty = the host of the first
     # ALLOWED_ORIGINS entry, and the accepted origins = ALLOWED_ORIGINS. No clinical meaning.

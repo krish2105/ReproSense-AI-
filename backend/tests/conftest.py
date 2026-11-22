@@ -19,6 +19,16 @@ def seeded():
     return seed()
 
 
+@pytest.fixture(autouse=True)
+def fresh_rate_limits():
+    """Every test starts with an empty rate-limit window: sign-ins count against the address (H2b), so one test's
+    sign-ins must not use up the next test's allowance."""
+    from app.security.middleware import reset_limits
+
+    reset_limits()
+    yield
+
+
 @pytest.fixture
 def reseed():
     from app.db.seed import seed

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import hmac
 import time
 from collections import defaultdict, deque
 
@@ -24,7 +25,34 @@ SENSITIVE = (
     "/v1/auth/",
     "/v1/staff-auth/",
     "/v1/demo/reset",
+    "/v1/demo/login",  # H2b: every one-tap sign-in writes a session row
 )
+
+# Sign-ins count against the client address, never a session token: a token comes from signing in, so keying on it
+# gave every next sign-in a fresh allowance and the session and challenge tables could grow without limit (H2b).
+ADDRESS_ONLY = ("/v1/demo/login", "/v1/demo/signup", "/v1/auth/", "/v1/staff-auth/")
+
+
+def client_ip(request: Request) -> str:
+    """The address a request counts against (docs/31 §H, H2). uvicorn takes the leftmost X-Forwarded-For entry, which
+    the caller writes. Through the web app that is right: Vercel overwrites the header with the visitor's address. But
+    the API's own address is public too, and Render appends to the header instead of replacing it. With EDGE_SECRET
+    set, the leftmost entry counts only when the web app's server vouches for it (x-rs-edge, constant-time compare);
+    anyone else counts against the entry the nearest proxy appended. Never "always the rightmost": through Vercel that
+    is a shared egress address, and the whole showcase would share one allowance."""
+    edge = get_settings().edge_secret
+    if edge:
+        xff = [p.strip() for p in request.headers.get("x-forwarded-for", "").split(",") if p.strip()]
+        if xff:
+            vouched = hmac.compare_digest(request.headers.get("x-rs-edge", "").encode(), edge.encode())
+            return xff[0] if vouched else xff[-1]
+    return request.client.host if request.client else "anon"
+
+
+def from_edge(request: Request) -> bool:
+    """True when the web app's own server sent this request (or no edge secret is configured, as in development)."""
+    edge = get_settings().edge_secret
+    return not edge or hmac.compare_digest(request.headers.get("x-rs-edge", "").encode(), edge.encode())
 
 
 def client_key(request: Request) -> str:
@@ -34,6 +62,8 @@ def client_key(request: Request) -> str:
     the client address."""
     from app.security.auth import ALG
 
+    if request.url.path.startswith(ADDRESS_ONLY):
+        return "ip:" + client_ip(request)
     auth = request.headers.get("authorization", "")
     token = auth[7:] if auth.lower().startswith("bearer ") else request.cookies.get("rs_token", "")
     if token:
@@ -42,7 +72,7 @@ def client_key(request: Request) -> str:
             return "t:" + hashlib.sha256(token.encode()).hexdigest()[:24]
         except jwt.PyJWTError:
             pass
-    return "ip:" + (request.client.host if request.client else "anon")
+    return "ip:" + client_ip(request)
 
 
 class SecurityHeaders(BaseHTTPMiddleware):
@@ -61,6 +91,15 @@ class SecurityHeaders(BaseHTTPMiddleware):
         return resp
 
 
+# The limiter's memory, per (client, group). Module level so tests can start each case from an empty window.
+_HITS: dict[tuple[str, str], deque] = defaultdict(deque)
+
+
+def reset_limits() -> None:
+    """Forget every window (tests: each case starts as if a fresh minute began)."""
+    _HITS.clear()
+
+
 class RateLimit(BaseHTTPMiddleware):
     """Sliding one-minute window per client and route group. In-memory (single instance); Redis in production."""
 
@@ -68,7 +107,7 @@ class RateLimit(BaseHTTPMiddleware):
 
     def __init__(self, app):
         super().__init__(app)
-        self.hits: dict[tuple[str, str], deque] = defaultdict(deque)
+        self.hits = _HITS
         self._seen = 0
 
     def _sweep(self, now: float) -> None:

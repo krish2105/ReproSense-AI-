@@ -109,7 +109,10 @@
     "openClinicAdmin": "Open clinic admin",
     "dohSignin": "DoH sign-in",
     "staffSignin": "Staff sign-in",
-    "staffSigninBody": "Staff with a passkey sign in at their own door. The one-tap buttons above stay for judges."
+    "staffSigninBody": "Staff with a passkey sign in at their own door. The one-tap buttons above stay for judges.",
+    "resetKeyLabel": "Operator key",
+    "resetKeyHint": "The live demo asks for the team's operator key before a reset, so a visitor cannot wipe it.",
+    "resetWithKey": "Reset demo data with the key"
   },
   "app": {
     "metaTitle": "Her app",

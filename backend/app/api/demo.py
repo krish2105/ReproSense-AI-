@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hmac
 import math
 import secrets
 import threading
@@ -223,11 +224,21 @@ _reset_lock = threading.Lock()
 _last_reset = {"at": float("-inf")}
 
 
+class ResetIn(BaseModel):
+    operator_key: str | None = Field(None, max_length=200)
+
+
 @router.post("/reset")
-def reset(actor: Actor = Depends(require("admin"))):
+def reset(body: ResetIn | None = None, actor: Actor = Depends(require("admin"))):
     """Rebuild the demo. The admin role is one click away on the public demo, so one reset runs at a time and at most
-    one per DEMO_RESET_COOLDOWN_S: back-to-back resets kept every table locked and wiped visitors' new records."""
+    one per DEMO_RESET_COOLDOWN_S: back-to-back resets kept every table locked and wiped visitors' new records. With
+    DEMO_RESET_KEY set it also needs the operator key (docs/31 §H, H3), compared in constant time."""
     _demo_only()
+    want = get_settings().demo_reset_key
+    if want:
+        given = (body.operator_key if body else None) or ""
+        if not hmac.compare_digest(given.encode(), want.encode()):
+            raise HTTPException(403, "The demo reset needs the operator key.")
     from app.db.seed import seed
 
     if not _reset_lock.acquire(blocking=False):

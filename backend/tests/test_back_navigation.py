@@ -10,6 +10,13 @@ from fastapi.testclient import TestClient
 from app.security.auth import DEMO_PERSONA_COOKIE
 
 
+def _fresh() -> TestClient:
+    """Its own client: these tests sign in, and the shared session client must stay signed out for later tests."""
+    from app.main import app
+
+    return TestClient(app)
+
+
 def _set_cookie_headers(r) -> list[str]:
     return [v for k, v in r.headers.multi_items() if k.lower() == "set-cookie"]
 
@@ -21,7 +28,8 @@ def _hint(r) -> str | None:
     return None
 
 
-def test_a_patient_demo_sign_in_remembers_the_woman(client):
+def test_a_patient_demo_sign_in_remembers_the_woman():
+    client = _fresh()
     r = client.post("/v1/demo/login", json={"persona": "noura", "role": "patient"})
     assert r.status_code == 200, r.text
     h = _hint(r)
@@ -31,7 +39,8 @@ def test_a_patient_demo_sign_in_remembers_the_woman(client):
     assert "max-age=43200" in low  # her session's 12 hours, no longer
 
 
-def test_a_staff_demo_sign_in_leaves_the_hint_alone(client):
+def test_a_staff_demo_sign_in_leaves_the_hint_alone():
+    client = _fresh()
     for role in ("clinician", "admin", "clinic_admin"):
         r = client.post("/v1/demo/login", json={"role": role})
         assert r.status_code == 200, r.text
@@ -72,7 +81,8 @@ def test_signing_up_clears_the_hint(reseed):
     assert h is not None and ("max-age=0" in h.lower() or "expires=" in h.lower())
 
 
-def test_a_joined_record_cannot_be_named_as_a_demo_persona(client):
+def test_a_joined_record_cannot_be_named_as_a_demo_persona():
+    client = _fresh()
     r = client.post("/v1/demo/login", json={"persona": "guest-anything", "role": "patient"})
     assert r.status_code == 404
     assert _hint(r) is None
