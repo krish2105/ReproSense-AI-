@@ -54,4 +54,16 @@ describe("messages", () => {
     expect(AR["chrome.footer"]).toContain("998");
     expect(EN["chrome.badge"]).toBe("Demo data — fictional");
   });
+
+  // DoH retired Jawda PC008 in the 2025 update (docs/CLAIMS_REGISTER.md). The app may name it only as history.
+  it("PC008 is never presented as a current DoH indicator", () => {
+    for (const [key, text] of Object.entries(EN)) {
+      if (/PC008/.test(text)) expect(text, key).toMatch(/retired/);
+      expect(text, key).not.toMatch(/DoH already asks|report this quality indicator to DoH|moves the DoH Jawda measure|Counts toward DoH Jawda/);
+    }
+    for (const [key, text] of Object.entries(AR)) {
+      if (/PC008/.test(text)) expect(text, key).toMatch(/أُلغي/);
+      expect(text, key).not.toMatch(/تطلبه دائرة الصحة|كل ربع سنة/);
+    }
+  });
 });
