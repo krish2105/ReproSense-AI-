@@ -1408,7 +1408,7 @@
     "stage": "What fits you best right now?",
     "detailsTitle": "One more question",
     "lastPeriod": "When did your last period start?",
-    "lastPeriodHint": "Leave it empty if you don't remember. You can log it later.",
+    "lastPeriodHint": "Tap to open the calendar. Not sure? Choose \"I don't remember\" and log it later.",
     "weeksPregnant": "How many weeks pregnant are you?",
     "weeksSinceBirth": "How many weeks ago was your baby born?",
     "gdm": "Was diabetes found during this pregnancy (gestational diabetes)?",
@@ -1424,7 +1424,8 @@
     "tryTitle": "Try it as yourself",
     "tryBody": "Start a new record in two minutes, with made-up details. A clinic's QR code opens the same page.",
     "tryAction": "Start your own record",
-    "useAi": "Use AI features: the assistant answers my questions and AI words my pattern cards. I can turn this off in Privacy."
+    "useAi": "Use AI features: the assistant answers my questions and AI words my pattern cards. I can turn this off in Privacy.",
+    "dayN": "Today is day {n} since your period started."
   },
   "pricing": {
     "metaTitle": "Pricing",
@@ -2817,5 +2818,16 @@
       "failed": "The export did not download: {detail}",
       "downloaded": "Download started."
     }
+  },
+  "dateField": {
+    "pick": "Pick a date",
+    "choose": "Choose a date: {label}",
+    "prev": "Previous month",
+    "next": "Next month",
+    "today": "Today",
+    "weekAgo": "About a week ago",
+    "twoWeeksAgo": "About 2 weeks ago",
+    "monthAgo": "About a month ago",
+    "dontRemember": "I don't remember"
   }
 }

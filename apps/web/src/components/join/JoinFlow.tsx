@@ -4,9 +4,11 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/Button";
+import { DateField } from "@/components/ui/DateField";
 import { useToast } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
+import { daysBetween } from "@/lib/dates";
 import { enterAs } from "@/lib/enter";
 
 export interface Clinic {
@@ -36,6 +38,7 @@ function shift(iso: string, days: number): string {
  */
 export function JoinFlow({ inviter, refDate }: { inviter: Clinic | null; refDate: string }) {
   const t = useTranslations("join");
+  const td = useTranslations("dateField");
   const ts = useTranslations("stages");
   const tr = useTranslations("regions");
   const toast = useToast();
@@ -192,12 +195,29 @@ export function JoinFlow({ inviter, refDate }: { inviter: Clinic | null; refDate
               {t("detailsTitle")}
             </h1>
             {ASKS_PERIOD.includes(stage as Stage) && (
-              <div className="field">
-                <label htmlFor="join-period">{t("lastPeriod")}</label>
-                <input id="join-period" type="date" min={shift(refDate, -120)} max={refDate} value={lastPeriod} onChange={(e) => setLastPeriod(e.target.value)} aria-describedby="join-period-hint" />
-                <span id="join-period-hint" className="xs faint">
-                  {t("lastPeriodHint")}
-                </span>
+              <div>
+                <DateField
+                  id="join-period"
+                  label={t("lastPeriod")}
+                  value={lastPeriod}
+                  onChange={setLastPeriod}
+                  min={shift(refDate, -120)}
+                  max={refDate}
+                  today={refDate}
+                  hint={t("lastPeriodHint")}
+                  quick={[
+                    { label: td("today"), value: refDate },
+                    { label: td("weekAgo"), value: shift(refDate, -7) },
+                    { label: td("twoWeeksAgo"), value: shift(refDate, -14) },
+                    { label: td("monthAgo"), value: shift(refDate, -30) },
+                    { label: td("dontRemember"), value: null },
+                  ]}
+                />
+                {lastPeriod && (
+                  <p className="s" aria-live="polite" style={{ marginTop: 6 }}>
+                    {t("dayN", { n: daysBetween(lastPeriod, refDate) + 1 })}
+                  </p>
+                )}
               </div>
             )}
             {stage === "pregnancy" && (

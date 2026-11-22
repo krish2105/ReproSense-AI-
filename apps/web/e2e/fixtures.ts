@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { request, test as base, expect, type Page } from "@playwright/test";
+import { request, test as base, expect, type Locator, type Page } from "@playwright/test";
 import ar from "../messages/ar.json" with { type: "json" };
 import en from "../messages/en.json" with { type: "json" };
 
@@ -64,4 +64,24 @@ export async function resetDemo() {
 export async function useLanguage(page: Page, lang: "en" | "ar") {
   const url = new URL(page.url() === "about:blank" ? (process.env.E2E_BASE_URL ?? "http://localhost:3100") : page.url());
   await page.context().addCookies([{ name: "NEXT_LOCALE", value: lang, domain: url.hostname, path: "/" }]);
+}
+
+/** Picks a day in a DateField the way a person does (docs/31 §C): open the calendar under the field, step to the
+ *  month, tap the day. `scope` is the page or a dialog holding the field. */
+export async function pickDate(scope: Page | Locator, label: string, day: string) {
+  const esc = (t: string) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  await scope.getByRole("button", { name: new RegExp(`^${esc(label)}`) }).click();
+  const calendar = scope.getByRole("dialog", { name: new RegExp(esc(label)) });
+  await expect(calendar).toBeVisible();
+  for (let i = 0; i < 24; i++) {
+    const cell = calendar.locator(`button[data-day="${day}"]`);
+    if (await cell.count()) {
+      await cell.click();
+      await expect(calendar).toBeHidden();
+      return;
+    }
+    const shown = (await calendar.locator("button[data-day]").first().getAttribute("data-day")) ?? day;
+    await calendar.getByRole("button", { name: shown < day ? en.dateField.next : en.dateField.prev, exact: true }).click();
+  }
+  throw new Error(`${day} is not reachable in the calendar for "${label}"`);
 }

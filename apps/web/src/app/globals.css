@@ -658,8 +658,7 @@ a.prow{text-decoration:none;color:inherit}
 .join-set{border:0;padding:0;margin:0;min-width:0}
 .join-share{display:flex;gap:10px;align-items:flex-start}
 .join-share input{width:20px;height:20px;margin-top:2px;accent-color:var(--plum);flex:none}
-.join input[type=number],.join input[type=date]{border:1px solid var(--rule-2);background:var(--sheet);border-radius:16px;padding:10px 12px}
-.join input[type=date]{width:min(240px,100%)}
+.join input[type=number]{border:1px solid var(--rule-2);background:var(--sheet);border-radius:16px;padding:10px 12px}
 /* Her own sign-in (K5): /signin and the sign-in box in Privacy */
 .signin-part{display:flex;flex-direction:column;gap:8px}
 .signin-h{font-size:16px}
@@ -690,6 +689,30 @@ input.signin-code{font-variant-numeric:tabular-nums;letter-spacing:.3em;width:mi
 .crumbs a{color:var(--accent-text);font-weight:600;text-decoration:none}
 .crumbs a:hover{text-decoration:underline}
 .crumbs [aria-current="page"]{color:var(--ink);font-weight:600}
+/* docs/31 §C: DateField. The calendar opens in the page flow under its button (never clipped in a dialog). */
+.datef-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;width:min(260px,100%);padding:10px 14px;border:1px solid var(--rule-2);background:var(--sheet);border-radius:16px;font:inherit;color:var(--ink);cursor:pointer;text-align:start}
+.datef-btn:hover{background:var(--tint)}
+.datef-btn[aria-expanded="true"]{border-color:var(--plum)}
+.datef-pop{margin-top:8px;padding:12px;width:min(320px,100%);background:var(--sheet);border:1px solid var(--rule);border-radius:22px;box-shadow:var(--shadow-s)}
+.datef-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.datef-head strong{font-size:15px}
+.datef-nav{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid var(--rule-2);border-radius:999px;background:var(--sheet);color:var(--ink);cursor:pointer}
+.datef-nav:hover:not(:disabled){background:var(--tint)}
+.datef-nav:disabled{opacity:.4;cursor:not-allowed}
+.datef-grid{width:100%;border-collapse:collapse;table-layout:fixed}
+.datef-grid th{padding:4px 0;font-size:11.5px;font-weight:600;color:var(--faint-text);text-align:center}
+.datef-grid td{padding:2px;text-align:center}
+.datef-grid th,.datef-grid td{border:0}
+.datef-day{width:100%;max-width:40px;min-height:36px;border:0;border-radius:999px;background:none;font:inherit;font-size:14px;color:var(--ink);cursor:pointer}
+.datef-day:hover:not(:disabled){background:var(--tint)}
+/* today is underlined, so a ring always means keyboard focus */
+.datef-day[aria-current="date"]{text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:4px;font-weight:700}
+.datef-grid td[aria-selected="true"] .datef-day{background:var(--plum);color:var(--plum-ink);font-weight:700}
+.datef-day:disabled{color:var(--ink-3);opacity:.55;cursor:not-allowed}
+.datef-quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.datef-quick button{min-height:36px;padding:6px 12px;border:1px solid var(--rule-2);border-radius:999px;background:var(--sheet);font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer}
+.datef-quick button:hover:not(:disabled){background:var(--tint)}
+.datef-quick button:disabled{opacity:.45;cursor:not-allowed}
 /* Staff and DoH sign-in steps */
 .step-done{display:inline-flex;align-items:center;gap:6px}
 .totp-qr{background:#fff;padding:12px;border-radius:18px;align-self:flex-start;line-height:0}
@@ -777,8 +800,11 @@ html.touring body{padding-bottom:min(60vh,520px)}
 .loop-ratios{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media (max-width:860px){.loop-ratios{grid-template-columns:1fr}}
 .loop-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px;align-items:end}
-.loop-filters input[type=date]{border:1px solid var(--rule-2);background:var(--sheet);border-radius:16px;padding:0 12px;width:100%}
-.loop-filters select,.loop-filters input[type=date]{height:44px}
+.loop-filters select{height:44px}
+.loop-filters .datef{position:relative}
+.loop-filters .datef-btn{width:100%}
+/* filter cells are narrow: here the calendar floats over the page instead of opening in the flow */
+.loop-filters .datef-pop{position:absolute;z-index:30;top:100%;inset-inline-start:0;width:300px;max-width:calc(100vw - 32px)}
 .loop-filter-actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
 .loop-pages{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
 /* Baby's first year (D1): what is due first on a tint, then the rest of the year as compact rows that open */

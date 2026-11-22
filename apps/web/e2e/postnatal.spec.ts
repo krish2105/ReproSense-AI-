@@ -1,4 +1,4 @@
-import { ar, en, expect, expectAccessible, expectNoSideScroll, resetDemo, signIn, test, useLanguage } from "./fixtures";
+import { ar, en, expect, expectAccessible, expectNoSideScroll, pickDate, resetDemo, signIn, test, useLanguage } from "./fixtures";
 
 // Build week K1: her first 6 weeks after a birth, following DoH Abu Dhabi's Postnatal Care Program Standard.
 // Fatima gave birth on 20 Sep (9 weeks before the demo date): her mood check is done, the glucose test after
@@ -28,7 +28,7 @@ test.describe("postnatal pathway", () => {
     const step = page.getByTestId("postnatal-card").locator('[data-step="visit_6w"]');
     await step.getByRole("button", { name: en.postnatal.record }).click();
     const dialog = page.getByRole("dialog", { name: en.postnatal.recordTitle });
-    await dialog.getByLabel(en.postnatal.dateLabel).fill("2026-11-02");
+    await pickDate(dialog, en.postnatal.dateLabel, "2026-11-02");
     await dialog.getByRole("button", { name: en.postnatal.save }).click();
     await expect(step.getByText(en.postnatal.status.done, { exact: true })).toBeVisible();
 
