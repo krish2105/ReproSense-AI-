@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { type CSSProperties, type MouseEvent, type ReactNode, useState } from "react";
-import { fetchPdf } from "@/lib/pdf";
+import { fetchPdf, PdfNotReady } from "@/lib/pdf";
 
 // A PDF link that still works without JavaScript, but with it waits while the API is rendering the PDF instead of
 // saving the 503 error as a file (src/lib/pdf.ts). Ctrl/Cmd/middle clicks keep the browser's own behaviour.
@@ -22,7 +22,7 @@ export function PdfLink({
   children: ReactNode;
 }) {
   const t = useTranslations("states");
-  const [state, setState] = useState<"idle" | "busy" | "failed">("idle");
+  const [state, setState] = useState<"idle" | "busy" | "failed" | "gone">("idle");
 
   const onClick = async (e: MouseEvent<HTMLAnchorElement>) => {
     if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -47,9 +47,11 @@ export function PdfLink({
       }
       setTimeout(() => URL.revokeObjectURL(url), 60_000);
       setState("idle");
-    } catch {
+    } catch (err) {
       win?.close();
-      setState("failed");
+      // 404/401/403: the report or her record no longer exists (e.g. after a demo reset), so waiting won't help.
+      const status = err instanceof PdfNotReady ? err.status : 0;
+      setState(status === 404 || status === 401 || status === 403 ? "gone" : "failed");
     }
   };
 
@@ -67,7 +69,7 @@ export function PdfLink({
         {children}
       </a>
       <span role="status" className="xs dim">
-        {state === "busy" ? t("pdfPreparing") : state === "failed" ? t("pdfFailed") : ""}
+        {state === "busy" ? t("pdfPreparing") : state === "failed" ? t("pdfFailed") : state === "gone" ? t("pdfGone") : ""}
       </span>
     </span>
   );
