@@ -1,23 +1,23 @@
 {
   "data": "fictional personas only (data/synthetic/output/personas)",
-  "method": "each cycle from the third on predicted from the cycles before it with app/services/forecast.py",
+  "method": "each cycle predicted on the first day of the cycle before it, from the lengths known then (app/services/forecast.py)",
   "all": {
-    "predictions": 55,
-    "mean_error_days": 2.1,
-    "inside_range": "53 of 55",
-    "mean_width_days": 7.1
+    "predictions": 48,
+    "mean_error_days": 2.9,
+    "inside_range": "38 of 48",
+    "mean_width_days": 6.9
   },
   "regular": {
-    "predictions": 49,
-    "mean_error_days": 1.2,
-    "inside_range": "47 of 49",
-    "mean_width_days": 4.7
+    "predictions": 39,
+    "mean_error_days": 1.5,
+    "inside_range": "34 of 39",
+    "mean_width_days": 4.3
   },
   "varied": {
-    "predictions": 6,
-    "mean_error_days": 10,
-    "inside_range": "6 of 6",
-    "mean_width_days": 26.7
+    "predictions": 9,
+    "mean_error_days": 9.1,
+    "inside_range": "4 of 9",
+    "mean_width_days": 18.2
   },
   "personas": [
     "amina",

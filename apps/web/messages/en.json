@@ -435,7 +435,7 @@
     "phase": "{phase} phase",
     "phaseEstimate": "{phase} phase · estimate",
     "longer": "Longer than your usual {length} days",
-    "estimateNote": "Your cycles vary, so phases are estimates, not predictions.",
+    "estimateNote": "Your cycles vary, so phases are rough estimates.",
     "estimateNotePeri": "Cycles often change in perimenopause, so phases are estimates.",
     "summaryCycle": "Day {day} of a cycle that usually lasts about {length} days. Phase: {phase}.",
     "phases": {
@@ -461,9 +461,13 @@
     "noCycleAction": "Log your period",
     "notContraception": "Phase estimates are not contraception.",
     "estimateNoteNew": "Fewer than two full cycles are logged, so phases are rough estimates.",
-    "forecastRegular": "Next period expected {from} to {to}, worked out from your last {n} cycles.",
-    "forecastVaried": "Your cycles have varied ({shortest} to {longest} days), so your next period could start any time from {from} to {to}.",
-    "forecastNone": "Log one more period to see when the next one may start."
+    "forecastRegular": "Your next period may start between {from} and {to}, based on your last {n} cycles.",
+    "forecastVaried": "Your recent cycles were {shortest} to {longest} days long, so your next period may start between {from} and {to}. It could also come earlier or later.",
+    "forecastNone": "Log the first day of each period to see when your next one may start.",
+    "forecastPast": "Your period hasn't started by {to}. Periods can come late. If you miss 3 periods in a row, consider seeing a doctor.",
+    "forecastPeri": "Your recent cycles were {shortest} to {longest} days long, so no next-period date is shown.",
+    "forecastHow": "How this was worked out",
+    "forecastHowBody": "From the lengths of your last cycles, in days: {lengths}."
   },
   "safety": {
     "pregTitle": "Call 998 or go to your maternity unit now if you notice",

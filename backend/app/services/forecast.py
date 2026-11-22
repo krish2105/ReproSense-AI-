@@ -6,7 +6,11 @@ A transparent statistical model on her own record, not a fixed 28 days and never
   without letting one odd cycle stretch the range;
 - cycles that vary (the rules' irregular-cycles pattern, a spread over 7 days, or perimenopause): the range runs from
   her shortest to her longest recent cycle, and the screen says her cycles have varied;
-- fewer than 2 complete cycles: no date at all ("log one more period").
+- fewer than 2 complete cycles: no date at all;
+- perimenopause: no date, only how long her recent cycles were (gaps lengthen near the end, so a range from past cycles
+  runs short, and a date could make irregular bleeding look "just early"; chief healthcare officer review, 22 Nov).
+Back-test (forecast_eval.json, fictional data): regular cycles 34 of 39 real starts inside a ~4-day range; varied
+cycles only 4 of 9 inside an ~18-day range, so the varied wording says it may come earlier or later.
 Phases and the fertile window are unchanged and stay in app/services/views.py (never contraceptive advice).
 Back-tested on the fictional personas by app/services/forecast_eval.py.
 """
@@ -23,10 +27,13 @@ MIN_HALF_WIDTH = 2
 MAX_HALF_WIDTH = 7
 
 
-def forecast(lengths: list[int | None], last_start: date, varied: bool) -> dict | None:
+def forecast(lengths: list[int | None], last_start: date, varied: bool, peri: bool = False) -> dict | None:
     lens = [int(x) for x in lengths if x][-LOOKBACK:]
     if len(lens) < MIN_CYCLES:
         return None
+    if peri:  # gaps lengthen near the end of perimenopause: no date, only how long her recent cycles were (CHO, 22 Nov)
+        return {"from": None, "to": None, "kind": "peri", "cycles_used": len(lens), "shortest": min(lens),
+                "longest": max(lens), "lengths": lens}  # fmt: skip
     if varied:
         lo, hi, kind = min(lens), max(lens), "varied"
     else:
@@ -42,4 +49,5 @@ def forecast(lengths: list[int | None], last_start: date, varied: bool) -> dict 
         "cycles_used": len(lens),
         "shortest": min(lens),
         "longest": max(lens),
+        "lengths": lens,  # "How this was worked out" lists them
     }

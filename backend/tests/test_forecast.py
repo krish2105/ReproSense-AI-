@@ -48,5 +48,11 @@ def test_only_her_last_six_cycles_count():
 
 def test_never_a_percentage():
     f = forecast([28, 29, 30], START, varied=False)
-    assert set(f) == {"from", "to", "kind", "cycles_used", "shortest", "longest"}
+    assert set(f) == {"from", "to", "kind", "cycles_used", "shortest", "longest", "lengths"}
     assert not any("%" in str(v) for v in f.values())
+
+
+def test_perimenopause_gets_no_date_only_her_recent_lengths():
+    f = forecast([43, 54, 33, 30, 60, 49], START, varied=True, peri=True)
+    assert f["kind"] == "peri" and f["from"] is None and f["to"] is None
+    assert (f["shortest"], f["longest"]) == (30, 60) and f["lengths"] == [43, 54, 33, 30, 60, 49]

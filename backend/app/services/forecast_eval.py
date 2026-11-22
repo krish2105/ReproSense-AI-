@@ -3,8 +3,9 @@
     cd backend && uv run python -m app.services.forecast_eval            # prints the result and writes the JSON
     cd backend && uv run python -m app.services.forecast_eval --no-write
 
-For every persona with at least 4 complete cycles, each cycle from the third on is predicted from the cycles before it
-(the same function the app uses, app/services/forecast.py), then compared with when it really started:
+For every persona with at least 4 complete cycles, each cycle from the fourth on is predicted from the cycles whose
+length was known on the first day of the cycle before it (the same function the app uses, app/services/forecast.py),
+then compared with when it really started:
 - error: days between the middle of the range and the real start;
 - inside: whether the real start fell inside the range.
 "Varied" here is a spread over 7 days in the cycles before, or perimenopause (the app also uses the rules' irregular
@@ -34,9 +35,19 @@ def run() -> dict:
         cycles = [c for c in p.get("cycles", []) if c.get("length_days")]
         if len(cycles) < 4:
             continue
-        for k in range(2, len(cycles)):
-            before = [c["length_days"] for c in cycles[:k]]
-            varied = stage == "perimenopause" or (len(before) > 1 and statistics.pstdev(before[-6:]) > 7)
+        for k in range(3, len(cycles)):
+            # Predicting when cycle k starts, standing on the first day of cycle k-1: only cycles before k-1 have a
+            # known length then (cycle k-1's length IS the answer). An earlier version used cycles[:k] and so leaked
+            # the answer into the prediction; its numbers were too good (chief healthcare officer review, 22 Nov).
+            before = [c["length_days"] for c in cycles[: k - 1]]
+            recent = before[-6:]
+            # The app's "varied" uses the rules' irregular pattern (cycles under 21 or over 35 days), a spread over
+            # 7 days, or perimenopause; the same three here, from the cycles known at the time.
+            varied = (
+                stage == "perimenopause"
+                or any(x < 21 or x > 35 for x in recent)
+                or (len(recent) > 1 and statistics.pstdev(recent) > 7)
+            )
             last_start = date.fromisoformat(cycles[k - 1]["start"])
             real = date.fromisoformat(cycles[k]["start"])
             got = forecast(before, last_start, varied=varied)
@@ -66,7 +77,7 @@ def run() -> dict:
 
     return {
         "data": "fictional personas only (data/synthetic/output/personas)",
-        "method": "each cycle from the third on predicted from the cycles before it with app/services/forecast.py",
+        "method": "each cycle predicted on the first day of the cycle before it, from the lengths known then (app/services/forecast.py)",
         "all": summary(rows),
         "regular": summary([r for r in rows if r["kind"] == "regular"]),
         "varied": summary([r for r in rows if r["kind"] == "varied"]),

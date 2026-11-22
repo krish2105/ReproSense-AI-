@@ -105,9 +105,24 @@ WORRY = re.compile(
 )
 
 
+# Red-flag symptoms are never dropped on a "no": a misread "no" would leave them out of the saved entry and the red-flag
+# rules (RF1) would not see them. They stay ticked for her to check (chief healthcare officer review, 22 Nov).
+NEVER_DROP = {"dizziness", "fainting", "flooding", "fever"}
+NOT_A_NO = re.compile(
+    r"\bnever\b.*\b(so|this|that|such|ever|before)\b|\b(can'?t|couldn'?t|cannot) (stop|help)\b|غير|إلا|الا|طبيعي|عادي|\bnormal\b"
+)
+
+
 def _negated(clause: str, start: int) -> bool:
     before = WORD.findall(clause[:start])[-3:]
-    return any(w in NEGATORS for w in before)
+    hits = [i for i, w in enumerate(before) if w in NEGATORS]
+    if not hits:
+        return False
+    if NOT_A_NO.search(clause):  # "never felt so dizzy", "can't stop feeling sick", «ما عندي غير مغص», «مو طبيعي التعب»
+        return False
+    if before[hits[-1]] == "without" and len(before) - hits[-1] > 2:  # "without painkillers the cramps…" is not a no
+        return False
+    return True
 
 
 def _clauses(t: str) -> list[str]:
@@ -129,13 +144,15 @@ def _found(pattern: str, t: str) -> tuple[bool, bool]:
 def rule_parse(text: str) -> dict:
     """The rule-based reader. Returns flow, pain, symptoms, impact (None or [] when not said), what it matched, what she
     said she does not have, which day she means, what to ask her, and whether she asked something instead."""
-    t = (text or "").lower().translate(AR_DIGITS)
+    t = (text or "").lower().translate(AR_DIGITS).replace("’", "'").replace("‘", "'")  # phone keyboards' curly ’
     out: dict = {
         "symptoms": [], "flow": None, "impact": None, "pain": None, "matched": [], "negated": [],
         "day_offset": 0, "asks": [], "intent": "log", "offer_assistant": False,
     }  # fmt: skip
     for pat, field, value in NL:
         said, said_not = _found(pat, t)
+        if said_not and value in NEVER_DROP:  # logged anyway, for her to check: never silently dropped
+            said, said_not = True, False
         if said:
             out["matched"].append(value)
             if field == "symptoms":

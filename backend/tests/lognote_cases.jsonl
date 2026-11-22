@@ -43,9 +43,9 @@
 {"text": "no cramps today", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": ["cramps"], "day_offset": 0, "asks": [], "intent": "log"}
 {"text": "not bloated at all", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": ["bloating"], "day_offset": 0, "asks": [], "intent": "log"}
 {"text": "no headache, just tired", "symptoms": ["fatigue"], "flow": null, "impact": null, "pain": null, "negated": ["headache"], "day_offset": 0, "asks": [], "intent": "log"}
-{"text": "I didn't feel dizzy", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": ["dizziness"], "day_offset": 0, "asks": [], "intent": "log"}
-{"text": "never fainted", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": ["fainting"], "day_offset": 0, "asks": [], "intent": "log"}
-{"text": "no fever", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": ["fever"], "day_offset": 0, "asks": [], "intent": "log"}
+{"text": "I didn't feel dizzy", "symptoms": ["dizziness"], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": [], "intent": "log"}
+{"text": "never fainted", "symptoms": ["fainting"], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": [], "intent": "log"}
+{"text": "no fever", "symptoms": ["fever"], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": [], "intent": "log"}
 {"text": "no cramps but my back aches", "symptoms": ["back pain"], "flow": null, "impact": null, "pain": null, "negated": ["cramps"], "day_offset": 0, "asks": ["pain"], "intent": "log"}
 {"text": "without any nausea", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": ["nausea"], "day_offset": 0, "asks": [], "intent": "log"}
 {"text": "haven't had spotting", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": ["spotting"], "day_offset": 0, "asks": [], "intent": "log"}
@@ -117,7 +117,7 @@
 {"text": "ما فيني صداع", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": ["headache"], "day_offset": 0, "asks": [], "intent": "log"}
 {"text": "مو تعبانة", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": ["fatigue"], "day_offset": 0, "asks": [], "intent": "log"}
 {"text": "بدون غثيان", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": ["nausea"], "day_offset": 0, "asks": [], "intent": "log"}
-{"text": "ما عندي حرارة بس دايخة", "symptoms": ["dizziness"], "flow": null, "impact": null, "pain": null, "negated": ["fever"], "day_offset": 0, "asks": [], "intent": "log"}
+{"text": "ما عندي حرارة بس دايخة", "symptoms": ["dizziness", "fever"], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": [], "intent": "log"}
 {"text": "لا يوجد نزيف غزير", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": ["heavy"], "day_offset": 0, "asks": [], "intent": "log"}
 {"text": "مش منفوخة", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": ["bloating"], "day_offset": 0, "asks": [], "intent": "log"}
 {"text": "ما عندي صداع بس تعبانة", "symptoms": ["fatigue"], "flow": null, "impact": null, "pain": null, "negated": ["headache"], "day_offset": 0, "asks": [], "intent": "log"}
@@ -132,3 +132,11 @@
 {"text": "كيف أعرف إذا الدم كثير؟", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": [], "intent": "question"}
 {"text": "هل هذا طبيعي", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": [], "intent": "question"}
 {"text": "خايفة من الألم", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": ["pain"], "intent": "log"}
+{"text": "never felt so dizzy", "symptoms": ["dizziness"], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": [], "intent": "log"}
+{"text": "never had cramps this bad", "symptoms": ["cramps"], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": ["pain"], "intent": "log"}
+{"text": "can't stop feeling sick", "symptoms": ["nausea"], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": [], "intent": "log"}
+{"text": "without painkillers the cramps are awful", "symptoms": ["cramps"], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": ["pain"], "intent": "log"}
+{"text": "ما عندي غير مغص", "symptoms": ["cramps"], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": ["pain"], "intent": "log"}
+{"text": "مو طبيعي التعب", "symptoms": ["fatigue"], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": [], "intent": "log"}
+{"text": "I don’t have cramps", "symptoms": [], "flow": null, "impact": null, "pain": null, "negated": ["cramps"], "day_offset": 0, "asks": [], "intent": "log"}
+{"text": "no dizziness, no flooding", "symptoms": ["dizziness", "flooding"], "flow": null, "impact": null, "pain": null, "negated": [], "day_offset": 0, "asks": [], "intent": "log"}
