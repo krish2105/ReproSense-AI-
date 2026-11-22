@@ -201,7 +201,7 @@
     "inviteCopied": "Invite link copied.",
     "inviteOpen": "Open the invite page",
     "inviteQrLabel": "QR code of the patient invite link",
-    "gapPc008": "Counts toward DoH Jawda indicator PC008 (after-birth follow-up).",
+    "gapPc008": "A follow-up that guidelines recommend after gestational diabetes (ADA: 4 to 12 weeks after birth).",
     "moreEntries": "and {n} more in her record",
     "overdue": "Overdue",
     "overdueNote": "Its window ended on {date} and it has not been booked.",
@@ -322,14 +322,14 @@
     "auditTitle": "Audit log",
     "auditOk": "{n, plural, one {# entry} other {# entries}}, hash chain intact",
     "auditBad": "Hash chain broken at entry {id}",
-    "pc008Title": "DoH Jawda PC008: after-birth follow-up",
-    "pc008Body": "Primary-care providers report this quality indicator to DoH every quarter: women seen 7 to 84 days after birth who had breastfeeding support, a depression screen and, after gestational diabetes, a glucose test. ReproSense supports two of those parts: the EPDS mood check in her app and the glucose-test follow-up on the clinic worklist.",
+    "pc008Title": "After-birth glucose follow-up after gestational diabetes",
+    "pc008Body": "The American Diabetes Association recommends a glucose test 4 to 12 weeks after gestational diabetes. This panel counts those follow-ups as due, booked and done. DoH measured this follow-up as Jawda indicator PC008 until that indicator was retired in the 2025 update, so it is shown here as a care step, not as a current reporting measure. Done means a clinician marked it done or her result is in her record.",
     "pc008Glucose": "Glucose test after gestational diabetes",
     "pc008Value": "{done} of {due} done",
     "pc008Detail": "{pct}% done · {booked} booked · {open} open",
     "pc008Hidden": "Fewer than 10 women: hidden.",
-    "pc008Note": "Synthetic cohort plus the live demo. A real PC008 rate comes from the clinic's own claims and records.",
-    "pc008Source": "DoH Jawda primary-care quality indicators, version 7 (PDF)",
+    "pc008Note": "Synthetic cohort plus the live demo. A real completion rate comes from the clinic's own records, against the quality framework that applies to it.",
+    "pc008Source": "DoH Jawda primary-care indicators, version 7 (2023; PC008 since retired) (PDF)",
     "population": {
       "title": "What the Department of Health would see",
       "body": "Clinic records show what happened at a visit. This shows what women log between visits, as counts only: how many women's entries match a pattern worth discussing with a doctor, and how many of them have shared a report with a clinic.",
@@ -1303,7 +1303,7 @@
     "evidenceTitle": "The history exists. It arrives at the appointment in pieces.",
     "ev1": "Up to 70% of women with PCOS are not aware of it, the World Health Organization estimates. In the UAE Healthy Future Study, 25.9% of 1,040 Emirati women aged 25 to 67 reported PCOS; in one Dubai hospital's records, it was coded for 1.6% of women aged 15 to 45. The two studies count different groups in different ways.",
     "ev2": "Endometriosis takes years to name. Across 23 studies worldwide, the average delay from first symptoms was 6.8 years. In a UAE study of 518 women with confirmed endometriosis, it was 11.6 years.",
-    "ev3": "About 1 in 5 pregnancies in Al Ain's Mutaba'ah study had gestational diabetes (21.3%). After the birth, the glucose test that catches type 2 diabetes early is easy to miss: at one Al Ain hospital (2013–14 data), only 265 of 1,043 women who had gestational diabetes (25.4%) came back for it.",
+    "ev3": "About 1 in 5 pregnancies in Al Ain's Mutaba'ah study had gestational diabetes (21.3%). After the birth, the glucose test that catches type 2 diabetes early is easy to miss: at one Al Ain hospital (2013–14 data), only 265 of 1,043 women who had gestational diabetes (25.4%) came back for it within 4 to 6 weeks.",
     "ev4": "Abu Dhabi is already moving: in September 2026 the Department of Health launched its Programme for the Future of Reproductive Health, built on prevention and early screening, with a goal of raising IVF success from 59% to 80% by 2030.",
     "sources": "Sources",
     "traceTitle": "Follow one observation from her phone to the clinic.",
@@ -1493,13 +1493,13 @@
       "insurers": {
         "name": "Insurers, later",
         "tag": "Paid for results",
-        "body": "Per follow-up closed, starting with the glucose test after gestational diabetes (DoH PC008), and only once the pilot has measured it."
+        "body": "Per follow-up completed, starting with the glucose test after gestational diabetes, and only once the pilot has measured it."
       }
     },
     "howTitle": "How we will set the price",
     "how": {
       "s1": "Run a 90-day pilot at one clinic, free for the clinic and for the women taking part.",
-      "s2": "Measure one number DoH already asks for: how many women with gestational diabetes complete the glucose test within 12 weeks of the birth.",
+      "s2": "Measure one number: how many women with gestational diabetes complete the glucose test in the window their clinic's protocol sets (the ADA recommends 4 to 12 weeks after the birth).",
       "s3": "Agree the price with the clinic from what changed, not before."
     },
     "actionPilot": "Read the pilot proposal",
@@ -2246,13 +2246,13 @@
       },
       "network": {
         "title": "The clinic network",
-        "body": "The follow-up you closed moves the DoH Jawda measure PC008 for the whole network, live. Only counts, never names."
+        "body": "The follow-up you marked done moves the network's after-birth follow-up count, live. Only counts, never names."
       }
     }
   },
   "clinicAdmin": {
     "metaTitle": "Clinic admin",
-    "intro": "Your clinic's own view ({region}): follow-ups, the after-birth glucose part of PC008, your team and clinician invites. Counts only, never names.",
+    "intro": "Your clinic's own view ({region}): follow-ups, the after-birth glucose follow-up, your team and clinician invites. Counts only, never names.",
     "figsLabel": "This clinic's follow-ups",
     "open": "Follow-ups open",
     "booked": "Booked",
@@ -2261,10 +2261,10 @@
     "donePct": "{pct}% of all follow-ups",
     "fewer": "fewer than {k}",
     "figsNote": "Any group under {k} is hidden to protect small groups, and shown as “fewer than {k}”.",
-    "pc008Title": "After-birth glucose test (part of DoH Jawda PC008)",
+    "pc008Title": "After-birth glucose test after gestational diabetes",
     "pc008Suppressed": "Fewer than {k} after-birth glucose follow-ups at this clinic, so no rate is shown yet.",
     "pc008Counts": "Done {done} · booked {booked} · open {open}",
-    "pc008Note": "A real PC008 rate needs the clinic's own claims and records; these are demo counts.",
+    "pc008Note": "A real completion rate needs the clinic's own records; these are demo counts.",
     "inviteTitle": "Invite a clinician",
     "inviteBody": "Each invite is a single-use link and QR for one clinician, who joins this clinic and sees only the women who chose to share with it.",
     "inviteNew": "Create an invite",
@@ -2373,7 +2373,7 @@
     },
     "aed": "AED {n}",
     "per1000": "Per 1,000 women who give birth: {closed} more follow-ups closed, about {found} of them expected to show raised blood sugar that would otherwise go unfound, worth AED {value} at your cost per missed follow-up.",
-    "assumptions": "The target completion and the cost of a missed follow-up are yours to set; ReproSense has not measured either yet. Follow-up here means the glucose test after gestational diabetes, one part of DoH Jawda KPI PC008. This is not a forecast and not a clinical claim. The share with raised sugar is a pooled average from published studies; your clinic's own rate will differ.",
+    "assumptions": "The target completion and the cost of a missed follow-up are yours to set; ReproSense has not measured either yet. Follow-up here means the glucose test the American Diabetes Association recommends 4 to 12 weeks after gestational diabetes. This is not a forecast and not a clinical claim. The share with raised sugar is a pooled average from published studies; your clinic's own rate will differ.",
     "toPricing": "How it will be paid for",
     "toDemo": "Open the demo"
   },
@@ -2381,14 +2381,14 @@
     "jump": "Read the pilot proposal for a clinic",
     "eyebrow": "Pilot proposal · draft",
     "title": "A 90-day pilot for one clinic",
-    "intro": "A pilot at one Abu Dhabi clinic, with up to 20 women who choose to take part and 3 of its clinicians. It is measured on one number DoH already asks clinics for: how many women who had gestational diabetes complete the glucose test within 12 weeks of the birth.",
+    "intro": "A pilot at one Abu Dhabi clinic, with up to 20 women who choose to take part and 3 of its clinicians. It is measured on one number: how many women who had gestational diabetes complete the glucose test within 12 weeks of the birth.",
     "draftNote": "This is a draft offer. No clinic has signed it, and we have no partnership with any clinic or network. The pilot's size, length and thresholds are our proposal, to agree with the clinic.",
     "download": "Download the one-page proposal (PDF)",
     "downloadOther": "Arabic version (PDF)",
     "loi": "Read the letter-of-intent template",
     "who": {
       "title": "Who it is for",
-      "body": "A women's health or primary-care clinic in Abu Dhabi that sees women in pregnancy and after birth, for example one clinic in a large network such as SEHA (PureHealth). Primary care fits best, because DoH's Jawda indicator PC008 counts family-medicine and GP visits."
+      "body": "A women's health or primary-care clinic in Abu Dhabi that sees women in pregnancy and after birth, for example one clinic in a large network such as SEHA (PureHealth). Primary care fits best, because that is where women are followed after birth."
     },
     "scope": {
       "title": "What the clinic gets",
@@ -2418,7 +2418,7 @@
       "k1": {
         "name": "Glucose test after gestational diabetes, within 12 weeks of birth (primary)",
         "how": "Of the pilot women who had gestational diabetes and gave birth during the pilot: how many have the glucose test result in their record, or the follow-up marked done by the clinic, within 84 days of the birth.",
-        "basis": "The glucose part of DoH Jawda indicator PC008. A local reference, not a baseline: 265 of 1,043 women (25.4%) came back at one Al Ain hospital in 2013–14."
+        "basis": "Completion within 12 weeks of the birth. The American Diabetes Association recommends the test at 4 to 12 weeks; the clinic's protocol decides whether an earlier test counts. A historical reference, not a baseline: 265 of 1,043 women (25.4%) came back within 4 to 6 weeks at one Al Ain hospital in 2013–14."
       },
       "k2": {
         "name": "Postnatal steps done on time",

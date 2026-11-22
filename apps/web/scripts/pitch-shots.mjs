@@ -63,7 +63,7 @@ const desk = { width: 1280, height: 860 };
   const { ctx, page } = await as({ role: "admin" }, { width: 860, height: 1000 }); // narrow: the panel text stays readable on a slide
   await page.goto("/admin");
   await settle(page);
-  const panel = page.locator("section").filter({ has: page.getByRole("heading", { name: /PC008/ }) });
+  const panel = page.locator("section").filter({ has: page.getByRole("heading", { name: /After-birth glucose follow-up/ }) });
   await panel.screenshot({ path: `${OUT}/admin-pc008.png` });
   await ctx.close();
 }

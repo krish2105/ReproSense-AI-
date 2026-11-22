@@ -328,8 +328,8 @@ def dashboard(actor: Actor = Depends(clinic_admin)):
         "pc008_glucose": {
             **pc,
             "suppressed": pc_hidden,
-            "note": "The after-birth glucose test, one part of DoH Jawda KPI PC008. A real rate needs the clinic's own "
-            "claims and records.",
+            "note": "The glucose test recommended 4 to 12 weeks after gestational diabetes (ADA). A real rate needs the "
+            "clinic's own records.",
         },
         "shared_records": _k(shared),
         "team": {"clinicians": clinicians, "pending_invites": pending},

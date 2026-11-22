@@ -16,6 +16,20 @@ Blockers / questions:
 ```
 
 
+
+## 22 Nov 2026 (Sun, showcase day, Atharva): PC008 is historical in the app
+- DoH retired Jawda PC008 in the 2025 update (Primary Care guidance V9, printed page 41), and the 2026 sets have no
+  after-birth follow-up indicator. The app said providers report it "every quarter" and that closing a follow-up "moves
+  the DoH Jawda measure PC008". Display text only is changed: /admin, /clinic, /clinic-admin, /pricing, /pilot, the pilot
+  proposal and the judge tour now describe the glucose test as the ADA recommendation (4 to 12 weeks after birth) and
+  name PC008 only as history. Keys and code identifiers stay.
+- The knowledge-base summary for the Jawda v7 source is marked historical. Two helper scripts that looked for the old
+  heading are updated.
+- New unit test: a message may mention PC008 only together with "retired".
+- Tests: web lint, typecheck, 118 unit; backend test_api, test_pilot_proposal (still one A4 page), test_clinic_onboarding,
+  test_kb_sources: 68 pass. Full suites in CI.
+- Not in this change: the /pilot calculator still chains published rates; its replacement is the next pull request.
+
 ## 22 Nov 2026 (Sun, showcase day, Atharva): "What the Department of Health would see" on the network dashboard
 - The jury is DoH. The dashboard answered "what does a clinic get"; it did not answer "what does the department learn
   that Malaffi cannot show". New panel on /admin, after PC008: women whose entries match a pattern worth discussing

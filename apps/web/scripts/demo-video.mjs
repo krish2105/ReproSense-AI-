@@ -160,7 +160,7 @@ await say("The form fills itself; nothing is saved until she checks it.", 3500);
 // 7 · The clinic acts: Fatima's follow-up, and its history (0:44)
 await page.request.post("/api/v1/demo/login", { data: { role: "clinician" } });
 await load("/clinic/patients/fatima");
-await say("The clinic sees only women who chose to share. Fatima had gestational diabetes; 9 weeks after the birth her glucose test is due (DoH PC008).", 1000);
+await say("The clinic sees only women who chose to share. Fatima had gestational diabetes; 9 weeks after the birth her glucose test is due (recommended 4 to 12 weeks after birth).", 1000);
 const gaps = page.getByRole("region", { name: en.clinic.gapsTitle });
 await scrollTo(gaps);
 await pause(4500);
