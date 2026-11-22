@@ -11,6 +11,7 @@ import { NavigatorCard } from "@/components/home/NavigatorCard";
 import { PatternSummary } from "@/components/home/PatternSummary";
 import { PostnatalCard } from "@/components/home/PostnatalCard";
 import { PreconceptionCard } from "@/components/home/PreconceptionCard";
+import { CarePlanCard } from "@/components/home/CarePlanCard";
 import { Recommendations } from "@/components/home/Recommendations";
 import { StageSwitch } from "@/components/home/StageSwitch";
 import { isTabReady } from "@/components/chrome/tabs";
@@ -126,6 +127,8 @@ export default async function Home() {
             </ButtonLink>
           </Box>
         )}
+
+        {h.care_plan && !h.crisis && <CarePlanCard key={h.profile.id} initial={h.care_plan} />}
 
         {h.postnatal && !h.crisis && <PostnatalCard p={h.postnatal} refDate={h.ref_date} />}
 

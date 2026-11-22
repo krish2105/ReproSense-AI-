@@ -73,7 +73,7 @@
   },
   "demo": {
     "metaTitle": "Demo people",
-    "title": "Eight fictional women, five life stages, one clinic network.",
+    "title": "Nine fictional women, five life stages, one clinic network.",
     "intro": "Each woman has twelve months of generated daily logs, lab reports and events. Every number in this demo comes from the build kit's synthetic data generator.",
     "rosterLabel": "Fictional women in the demo",
     "open": "Open {name}'s record",
@@ -102,7 +102,8 @@
       "mariam": "Trying to conceive for 7 months with regular cycles; wants to know when to ask for help.",
       "noura": "Long and irregular cycles with acne and excess hair growth logged often.",
       "priya": "Severe period pain each month, missing work, pain with bowel movements during periods.",
-      "sara": "Long, very heavy periods with clots; one recent day of dizziness (red-flag demo)."
+      "sara": "Long, very heavy periods with clots; one recent day of dizziness (red-flag demo).",
+      "salma": "Diagnosed with PCOS by her gynaecologist in September; keeps using the app for her doctor's plan: a daily medicine, a monthly symptom check-in and yearly checks."
     },
     "openClinicAdmin": "Open clinic admin",
     "dohSignin": "DoH sign-in",
@@ -2159,7 +2160,7 @@
     "done": "Tour finished. Everything you saw runs on fictional demo data.",
     "steps": {
       "people": {
-        "title": "Eight fictional women",
+        "title": "Nine fictional women",
         "body": "Every record here is synthetic. Next, we open Noura (24), who has logged irregular cycles and skin changes for a year."
       },
       "home": {
@@ -2780,6 +2781,47 @@
       "cancel": "Cancel",
       "failed": "The export did not download: {detail}",
       "downloaded": "Download started."
+    }
+  },
+  "carePlan": {
+    "eyebrow": "Living with {condition}",
+    "title": "My care plan",
+    "intro": "Set by {by} on {date}. ReproSense doesn't diagnose or choose medicines: this is your doctor's plan, kept in your record.",
+    "conditions": {
+      "pcos": "PCOS",
+      "endometriosis": "endometriosis"
+    },
+    "medicinesTitle": "Today",
+    "takenToday": "taken today",
+    "reminder": "reminder at {time}",
+    "last7": "{n, plural, =0 {Not ticked in the last 7 days} one {Ticked on # of the last 7 days} other {Ticked on # of the last 7 days}}",
+    "checksTitle": "Next checks",
+    "checks": {
+      "review": "Follow-up with your doctor",
+      "glucose": "Blood sugar check (HbA1c or glucose test)",
+      "bp": "Blood pressure check"
+    },
+    "status": {
+      "overdue": "Overdue since {date}",
+      "due_soon": "Due {date}",
+      "planned": "Planned for {date}"
+    },
+    "checkinDue": "Your monthly symptom check-in is due.",
+    "checkinNext": "Next monthly check-in: {date}.",
+    "checkinAction": "Log this month's symptoms",
+    "watchTitle": "Tell your doctor or get help",
+    "watch": {
+      "no_period_90": "If you go 3 months without a period, tell your doctor.",
+      "checks_matter": "PCOS raises the chance of diabetes and high blood pressure later, so keep your yearly checks.",
+      "emergency": "In an emergency, call 998."
+    },
+    "saved": "Ticked for today.",
+    "removed": "Tick removed.",
+    "saveFailed": "Couldn't save: {detail}",
+    "note": "Your ticks are your own notes in your record; your clinic sees them only if you share. The reminder time comes from your doctor's plan.",
+    "clinic": {
+      "title": "Her care plan: {condition}",
+      "intro": "Recorded by {by} on {date}. Her ticks are her own notes; read-only here."
     }
   }
 }

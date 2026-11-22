@@ -121,6 +121,36 @@ export async function RecordDetail({ r, locale }: { r: ClinicRecord; locale: Loc
         </section>
       )}
 
+      {r.care_plan && (
+        <section aria-labelledby="careplan-c" data-testid="clinic-care-plan">
+          <h2 id="careplan-c" style={{ fontSize: 17 }}>
+            {t("carePlan.clinic.title", {
+              condition: t.has(`carePlan.conditions.${r.care_plan.condition}`) ? t(`carePlan.conditions.${r.care_plan.condition}`) : r.care_plan.condition,
+            })}
+          </h2>
+          <p className="xs dim" style={{ margin: "4px 0 8px" }}>
+            {t("carePlan.clinic.intro", { by: r.care_plan.recorded_by, date: formatDayMonth(r.care_plan.since, locale) })}
+          </p>
+          <ul className="tier-list" style={{ marginTop: 0 }}>
+            {r.care_plan.medicines.map((m) => (
+              <li key={m.id}>
+                <span dir="ltr">
+                  {m.name} {m.dose}
+                </span>{" "}
+                · {m.when} · {t("carePlan.last7", { n: m.taken_last_7 })}
+              </li>
+            ))}
+            {r.care_plan.checks.map((c) => (
+              <li key={c.id}>
+                {t.has(`carePlan.checks.${c.id}`) ? t(`carePlan.checks.${c.id}`) : c.id}:{" "}
+                {t(`carePlan.status.${c.status}`, { date: formatDayMonth(c.due, locale) })}
+              </li>
+            ))}
+          </ul>
+          <SourceLinks sources={r.care_plan.sources} />
+        </section>
+      )}
+
       {r.baby && (
         <section aria-labelledby="baby-c" data-testid="clinic-baby">
           <h2 id="baby-c" style={{ fontSize: 17 }}>
