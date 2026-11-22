@@ -99,7 +99,7 @@ s2.addText("ReproSense turns her record into a next step", { placeholder: "title
 const ROWS = [
   ["Her record in 20 seconds", "Logs by tap or voice in Arabic or English. Lab reports read from a PDF or photo, and she checks every value."],
   ["Patterns, never a diagnosis", "Written rules from published guidelines. Each pattern shows the entries behind it and its source. Red flags come first, with 998."],
-  ["AI that is checked", "Rules decide. AI reads her voice and lab photos and answers from cited sources. Held-out safety: crisis 30/30, emergencies 32/32. 14 of 14 attacks blocked."],
+  ["Human knowledge first, AI that is checked", "Rules decide. AI reads her voice and lab photos and answers from cited sources. Held-out safety: crisis 30/30, emergencies 32/32. 14 of 14 attacks blocked."],
   ["The clinic loop", "With consent: a pre-visit brief, a doctor report, follow-ups that close DoH's PC008. After birth: DoH postnatal steps and the baby's first year."],
 ];
 ROWS.forEach(([head, body], i) => {
@@ -114,8 +114,8 @@ s2.addShape(pres.shapes.ROUNDED_RECTANGLE, {
 });
 s2.addText(
   [
-    { text: "Why not a period tracker? ", options: { bold: true, color: C.text2 } },
-    { text: "Trackers now print reports too. Our edge is the clinic loop, rules that cite their source, Arabic first, and we never sell health data.", options: { color: C.text1 } },
+    { text: "Why not a tracker or ChatGPT? ", options: { bold: true, color: C.text2 } },
+    { text: "Trackers log; chatbots don't know her record. Our edge: the clinic loop, cited rules, Arabic first, and we never sell health data.", options: { color: C.text1 } },
   ],
   { x: 0.8, y: 6.1, w: 7.1, h: 0.7, fontSize: 14, valign: "middle", margin: 0, isTextBox: true },
 );
@@ -146,7 +146,7 @@ STEPS.forEach(([when, what], i) => {
   s3.addText(what, { x, y: 2.8, w: 2.85, h: 1.3, fontSize: 14, color: C.background1, margin: 0, valign: "top", isTextBox: true });
 });
 const CARDS = [
-  ["Who pays", "Women use it free, always. Clinics and primary-care networks pay a subscription, because it closes DoH's PC008 follow-up; insurers later, per follow-up closed. We set the price with our pilot clinic, from what it measures."],
+  ["Users, and who pays", "Women in Abu Dhabi use it free; their clinicians read her report. Clinics and primary-care networks pay a subscription, because it closes DoH's PC008 follow-up; insurers later, per follow-up closed. Price set with our pilot clinic."],
   ["What we need", "A pilot clinic. A clinical advisor to sign the rules. The HealthX Ajyal grant to reach a licensed company by month 6."],
 ];
 CARDS.forEach(([head, body], i) => {
