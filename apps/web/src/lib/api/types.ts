@@ -426,6 +426,14 @@ export interface ParseResult {
   /** from the word checks on her own words, never from the model; shown before she saves */
   urgent?: { kind: string; message: string; number: "998"; sources: string[] } | null;
   crisis?: boolean;
+  /** docs/31 §F: values she said she does NOT have ("no cramps"); never logged */
+  negated?: string[];
+  /** 0 today, -1 yesterday, -2 the day before (her words) */
+  day_offset?: number;
+  /** fields to ask her about instead of guessing */
+  asks?: ("flow" | "pain")[];
+  intent?: "log" | "question" | "urgent" | "crisis";
+  offer_assistant?: boolean;
 }
 
 /** GET /v1/analytics?months=3|6|12 */

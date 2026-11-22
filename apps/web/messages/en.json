@@ -647,7 +647,13 @@
     "saved": "Entry saved.",
     "saveFailed": "The entry wasn't saved: {detail}",
     "urgentHeading": "This entry needs urgent attention",
-    "noteSaved": "Notes are encrypted before they are stored."
+    "noteSaved": "Notes are encrypted before they are stored.",
+    "notLogged": "Not logged, because you said you don't have it: {items}.",
+    "askFlow": "How heavy is the flow today? Choose it under Flow above.",
+    "askPain": "How bad is the pain, from 0 to 10? Set it on the pain scale above.",
+    "otherDay": "You said this was on another day. Log it for {date} instead",
+    "askAssistant": "Ask AI Chat about this",
+    "looksLikeQuestion": "That sounds like a question. AI Chat can answer it, with its sources."
   },
   "analytics": {
     "metaTitle": "Analytics",

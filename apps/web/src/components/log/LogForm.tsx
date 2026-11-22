@@ -6,11 +6,13 @@ import { useRef, useState, useTransition, type FormEvent } from "react";
 import { CrisisCard } from "@/components/safety/CrisisCard";
 import { RedFlagCard } from "@/components/safety/RedFlagCard";
 import { UrgentCard } from "@/components/ui/UrgentCard";
-import { Button } from "@/components/ui/Button";
+import { Button, ButtonLink } from "@/components/ui/Button";
 import { Seg } from "@/components/ui/Pills";
 import { useToast } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
+import { addDays } from "@/lib/dates";
+import { formatDate } from "@/lib/format";
 import type { Card, Flow, Impact, LogBody, LogResult, PainSite, ParseResult, PbacItems, TimelineDay } from "@/lib/api/types";
 import type { Locale } from "@/i18n/config";
 import { ALL_SYMPTOMS, COMMON_SYMPTOMS, FLOWS, IMPACTS, MORE_SYMPTOMS, PBAC_WEIGHTS, pbacScore, slug } from "@/lib/vocab";
@@ -78,6 +80,9 @@ export function LogForm({
   const [sleep, setSleep] = useState(saved?.sleep_h == null ? "" : String(saved.sleep_h));
   const [note, setNote] = useState(saved?.note ?? "");
   const [parsed, setParsed] = useState<string | null>(null);
+  // docs/31 §F: what the reader heard beyond the fields: what she said she does not have, which day she meant, what to
+  // ask her instead of guessing, and whether her words were a question for the assistant.
+  const [heard, setHeard] = useState<{ negated: string[]; asks: string[]; dayOffset: number; offer: boolean; text: string } | null>(null);
   const [result, setResult] = useState<{ flags: Card[]; crisis: boolean; urgent?: string | null } | null>(null);
   const [saving, startSave] = useTransition();
   const [reading, startRead] = useTransition();
@@ -86,6 +91,9 @@ export function LogForm({
   const items = toItems(counts);
   const score = pbacScore(items);
   const toggle = <T,>(list: T[], v: T) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
+  /** A logged value in her language: a symptom, a flow or an impact. */
+  const valueLabel = (v: string) =>
+    ALL_SYMPTOMS.includes(v) ? t(`symptoms.${slug(v)}`) : (FLOWS as readonly string[]).includes(v) ? t(`flows.${v}`) : (IMPACTS as readonly string[]).includes(v) ? t(`impacts.${slug(v)}`) : v;
 
   const readSentence = (text: string = note) =>
     startRead(async () => {
@@ -107,7 +115,9 @@ export function LogForm({
           ...(r.pain !== null ? [t("log.painValue", { pain: r.pain })] : []),
         ];
         const how = r.read_by === "model" ? `${t("log.readByAi")} ` : "";
-        setParsed(words.length ? how + t("log.parsed", { items: words.join(", ") }) : t("log.parsedNone"));
+        const none = r.intent === "question" ? t("log.looksLikeQuestion") : t("log.parsedNone");
+        setParsed(words.length ? how + t("log.parsed", { items: words.join(", ") }) : none);
+        setHeard({ negated: r.negated ?? [], asks: r.asks ?? [], dayOffset: r.day_offset ?? 0, offer: Boolean(r.offer_assistant), text });
       } catch (e) {
         setParsed(t("log.parseFailed", { detail: e instanceof ApiError ? e.detail : String(e) }));
       }
@@ -265,6 +275,26 @@ export function LogForm({
         <p className="extract" role="status">
           {parsed}
         </p>
+      )}
+      {heard && (heard.negated.length > 0 || heard.asks.length > 0 || heard.dayOffset < 0 || heard.offer) && (
+        <div className="heard" aria-live="polite">
+          {heard.negated.length > 0 && <p className="xs dim">{t("log.notLogged", { items: heard.negated.map(valueLabel).join(", ") })}</p>}
+          {heard.asks.map((a) => (
+            <p key={a} className="s">
+              {t(a === "flow" ? "log.askFlow" : "log.askPain")}
+            </p>
+          ))}
+          {heard.dayOffset < 0 && isToday && (
+            <a className="link s" href={`/app/log?date=${addDays(date, heard.dayOffset)}`}>
+              {t("log.otherDay", { date: formatDate(addDays(date, heard.dayOffset), locale) })}
+            </a>
+          )}
+          {heard.offer && (
+            <ButtonLink href={`/app/assistant?q=${encodeURIComponent(heard.text.slice(0, 600))}`} variant="outline" size="sm" className="self-start">
+              {t("log.askAssistant")}
+            </ButtonLink>
+          )}
+        </div>
       )}
 
       <Button type="submit" size="wide" pending={saving}>
