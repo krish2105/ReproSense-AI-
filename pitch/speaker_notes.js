@@ -5,11 +5,13 @@
 const SLIDE_1 = `ZEBO · 30 seconds · slide 1, the problem
 (Wait a beat. Look at the judges, not the screen.)
 
-"Good afternoon. Imagine a woman in Abu Dhabi with a year of irregular periods and acne, and ten minutes with a gynaecologist to explain it all.
+"Good afternoon. Meet Noura. She's 24, from Al Ain. She's fictional, but her story isn't.
 
-Up to 70 percent of women with PCOS don't know they have it. In a UAE study, endometriosis took eleven and a half years to diagnose. And only one in four mums with diabetes in pregnancy came back for the glucose test after the birth.
+For a year her periods have come every six to eight weeks, with acne and extra hair. She knows something is wrong. But in a ten-minute appointment she can't remember the dates, she feels embarrassed, and she leaves with 'come back if it gets worse'.
 
-Make that one in two, and about 18 more mothers in every thousand births get high blood sugar caught early."
+That's how up to 70 percent of women with PCOS end up not knowing they have it, and why, in a UAE study, endometriosis took eleven and a half years to diagnose.
+
+The problem isn't tracking. It's explaining."
 
 (Turn to Krishna: "Krishna.")
 
@@ -18,20 +20,20 @@ IF ASKED
 - 11.6 years: 518 women in the UAE, Frontiers in Global Women's Health, 2021.
 - 1 in 5 pregnancies with gestational diabetes: 2,546 pregnancies in Al Ain, Frontiers in Endocrinology, 2022.
 - 1 in 4 came back: 265 of 1,043 women, one Al Ain hospital, IJERPH, 2022.
-- 18 per 1,000 is arithmetic, not our result: 1,000 x 21.3% x (50% - 25.4%) x 34.5% (pooled from 18 studies, Endocrine, 2025). The inputs are on /pilot.
+- PC008 (if asked about impact): only 1 in 4 mums with diabetes in pregnancy came back for the glucose test (IJERPH, 2022). 18 per 1,000 is arithmetic, not our result: 1,000 x 21.3% x (50% - 25.4%) x 34.5% (pooled from 18 studies, Endocrine, 2025). The inputs are on /pilot.
 - Not sure? "Good question. We haven't measured that yet." Then hand to Krishna.
 - Longevity? After diabetes in pregnancy, type 2 diabetes is about ten times more likely (Vounzoulaki et al., BMJ 2020), so the after-birth glucose test protects her later health. The 2023 PCOS guideline also asks for regular glucose and blood-pressure checks, because PCOS raises cardiometabolic risk.
 - Fertility? The Trying stage says when to ask for a fertility assessment (after 12 months, or 6 months at 35 or over: NICE NG257, ASRM 2021) and gives a sourced planning checklist (folic acid, rubella). IVF support is on the roadmap.`;
 
 const SLIDE_2 = `KRISHNA · 30 seconds · slide 2, the solution
 
-"So we built ReproSense: her record in Arabic and English, by tap, voice or a lab-report photo.
+"So ReproSense does the explaining for her. She logs in seconds, by tap or by voice in Gulf Arabic.
 
-Human knowledge decides: rules from published guidelines spot patterns worth raising with a doctor, with the days and guideline behind each. It never diagnoses; urgent signs come first, with 998.
+Over the year, rules from published guidelines show the pattern, with the exact days behind it and the guideline. Never a diagnosis; urgent signs come first, with 998. And she can ask Nura, our assistant, what's happening in her body, in plain words from NHS sources, with her own numbers.
 
-The AI does the language, and it's checked: on 132 messages it was never tuned on, all 30 crises went to support and all 32 emergencies to 998.
+With her consent, her doctor gets a two-page report to read in a minute. Noura doesn't have to explain. Her record does.
 
-Trackers log. Chatbots don't know her record. We give her doctor the evidence."
+And it's safe: on 132 messages it was never tuned on, all 30 crises went to support and all 32 emergencies to 998."
 
 (Turn to Yash.)
 
@@ -54,7 +56,7 @@ IF ASKED
 
 const SLIDE_3 = `YASH · 30 seconds · slide 3, the venture
 
-"Our users: women in Abu Dhabi, free, and their doctors. Who pays? Clinics and primary-care networks, on a subscription, because the after-birth glucose test is on DoH's own scorecard, PC008. We'll set the price with our pilot clinic, from what the pilot measures.
+"Our users: women like Noura, free, and their doctors. Who pays? Clinics and primary-care networks, on a subscription, because the after-birth glucose test is on DoH's own scorecard, PC008. We'll set the price with our pilot clinic, from what the pilot measures.
 
 Next: a device memo for the Emirates Drug Establishment, a clinic letter of intent, UAE hosting with UAE PASS sign-in, then a pilot at one clinic and a licensed company by May.
 
