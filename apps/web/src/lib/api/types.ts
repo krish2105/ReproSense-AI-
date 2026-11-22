@@ -293,6 +293,42 @@ export interface BabySchedule {
   total: number;
 }
 
+/** Her care plan after a diagnosis (GET /v1/me/home .care_plan, POST /v1/care-plan/medicines/{id}; 22 Nov). Her
+ *  doctor's plan, stored as an event: the app never diagnoses or chooses a medicine. */
+export interface CarePlanSource {
+  source_id: string;
+  title: string;
+  url: string;
+}
+export interface CarePlanMedicine {
+  id: string;
+  name: string;
+  dose: string;
+  when: string;
+  reminder: string | null;
+  since: string | null;
+  taken_today: boolean;
+  taken_last_7: number;
+}
+export interface CarePlanCheck {
+  id: "review" | "glucose" | "bp" | string;
+  due: string;
+  last: string | null;
+  every_months: number | null;
+  status: "overdue" | "due_soon" | "planned";
+  source_links: CarePlanSource[];
+}
+export interface CarePlan {
+  condition: string;
+  recorded_by: string;
+  since: string;
+  medicines: CarePlanMedicine[];
+  checks: CarePlanCheck[];
+  checkin: { last: string; next: string; due: boolean } | null;
+  watch: { id: "no_period_90" | "checks_matter" | "emergency" | string; source_links: CarePlanSource[] }[];
+  sources: CarePlanSource[];
+}
+
 /** Planning a pregnancy (GET /v1/me/home .preconception, POST /v1/preconception/{id}; build week Y1, Trying stage). */
 export type PreconceptionItemId = "folic_acid" | "premarital_results" | "rubella" | "cycle_checkup" | "fertility_check";
 export interface PreconceptionItem {
@@ -385,6 +421,7 @@ export interface HomeResponse {
   postnatal: Postnatal | null;
   baby: BabySchedule | null;
   preconception: Preconception | null;
+  care_plan: CarePlan | null;
   blood_pressure: BpSummary;
   feeding: FeedingSummary | null;
 }
@@ -772,6 +809,7 @@ export interface ClinicRecord {
   her_questions: string[];
   postnatal: Postnatal | null;
   baby: BabySchedule | null; // D1, read-only for the clinician
+  care_plan?: CarePlan | null; // 22 Nov: her doctor's plan and how she keeps to it, read-only
   bp_readings: BpReading[]; // newest first
   days_logged: number;
   visit_note_draft: string;

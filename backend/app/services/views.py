@@ -133,7 +133,7 @@ def timeline(bundle: dict, ref: date, months: int = 12) -> dict:
         "events": [
             e
             for e in bundle["events"]
-            if _d(e["date"]) >= start and e["type"] not in ("lab_test", "preconception_item", "baby_check")
+            if _d(e["date"]) >= start and e["type"] not in ("lab_test", "preconception_item", "baby_check", "care_plan", "medicine_taken")
         ],
         "labs": [lab for lab in bundle["labs"] if _d(lab["date"]) >= start],
         # K6: blood-pressure readings in range, oldest first, and whether she can log one now

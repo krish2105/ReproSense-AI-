@@ -21,7 +21,7 @@ def _counts() -> tuple[int, int]:
 
 def test_a_reader_never_sees_an_empty_demo_during_a_reset():
     people, chunks = _counts()
-    assert people == 8 and chunks > 0
+    assert people == 9 and chunks > 0
     seen, errors = [], []
     t = threading.Thread(target=seed)
     t.start()

@@ -12,12 +12,12 @@ ROOT = Path(__file__).resolve().parents[2]
 def test_health(client):
     assert client.get("/healthz").json() == {"ok": True}
     r = client.get("/readyz").json()
-    assert r["personas"] == 8 and r["kb_chunks"] > 50 and r["demo_mode"] is True
+    assert r["personas"] == 9 and r["kb_chunks"] > 50 and r["demo_mode"] is True
 
 
 def test_demo_personas_story_order(client):
     ids = [p["id"] for p in client.get("/v1/demo/personas").json()["personas"]]
-    assert ids[:3] == ["noura", "hessa", "fatima"] and len(ids) == 8
+    assert ids[:4] == ["noura", "hessa", "fatima", "salma"] and len(ids) == 9
 
 
 def test_auth_required_and_roles_enforced(client):
