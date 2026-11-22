@@ -19,7 +19,9 @@ IF ASKED
 - 1 in 5 pregnancies with gestational diabetes: 2,546 pregnancies in Al Ain, Frontiers in Endocrinology, 2022.
 - 1 in 4 came back: 265 of 1,043 women, one Al Ain hospital, IJERPH, 2022.
 - 18 per 1,000 is arithmetic, not our result: 1,000 x 21.3% x (50% - 25.4%) x 34.5% (pooled from 18 studies, Endocrine, 2025). The inputs are on /pilot.
-- Not sure? "Good question. We haven't measured that yet." Then hand to Krishna.`;
+- Not sure? "Good question. We haven't measured that yet." Then hand to Krishna.
+- Longevity? After diabetes in pregnancy, type 2 diabetes is about ten times more likely (Vounzoulaki et al., BMJ 2020), so the after-birth glucose test protects her later health. The 2023 PCOS guideline also asks for regular glucose and blood-pressure checks, because PCOS raises cardiometabolic risk.
+- Fertility? The Trying stage says when to ask for a fertility assessment (after 12 months, or 6 months at 35 or over: NICE NG257, ASRM 2021) and gives a sourced planning checklist (folic acid, rubella). IVF support is on the roadmap.`;
 
 const SLIDE_2 = `KRISHNA · 30 seconds · slide 2, the solution
 
@@ -43,7 +45,9 @@ IF ASKED
 - Model down? Red flags are plain rules and run first. Past 10 seconds she gets a fixed, sourced reply.
 - 14 of 14 attacks blocked, on every change: /evidence.
 - "Why not just Sahatna?" (our mentor says expect it; DoH owns Sahatna): "Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module."
-- "DoH is adding maternity and IVF to Sahatna. Aren't you redundant?": "That's exactly where we fit. Sahatna lists maternity care and IVF as next; we've already built the women's record, the DoH postnatal steps and the PC008 follow-up loop, with safety evidence. We'd like to be that module rather than a second app."`;
+- "DoH is adding maternity and IVF to Sahatna. Aren't you redundant?": "That's exactly where we fit. Sahatna lists maternity care and IVF as next; we've already built the women's record, the DoH postnatal steps and the PC008 follow-up loop, with safety evidence. We'd like to be that module rather than a second app."
+- Who is Nura? Our AI assistant, named in Arabic (نورا). She answers only from our cited library or from her own numbers computed by code, never diagnoses, and a verifier drops any sentence a source doesn't support.
+- "What should I eat on my period?" Nura answers with food and drink from NHS pages (iron-rich foods if her periods are heavy, fluids, drug-free cramp relief), never a medicine; if she names an allergy, those foods are left out and 998 is given for a serious reaction.`;
 
 const SLIDE_3 = `YASH · 30 seconds · slide 3, the venture
 
@@ -53,9 +57,16 @@ Next: a device memo for the Emirates Drug Establishment, a clinic letter of inte
 
 Since acceptance: 57 merged pull requests, all on our evidence page. We're forming the company. Let us show you."
 
-=== SWITCH TO THE BROWSER: Noura's Home, English, Light ===
+IF ASKED
+- Price: "There isn't one yet, on purpose. Women will always use it free; clinics and networks will subscribe, insurers later pay per follow-up closed. We set the number with our first pilot clinic, from what the pilot measures."
 
-DEMO · Atharva clicks, Krishna talks · 85 seconds (ends by 2:55)
+- Tested with real women or doctors? "Not yet. Everything you saw runs on fictional data, by design. Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with up to 20 women at one clinic." If we spoke to anyone today, say exactly that, from the evidence log (docs/29 section 4). Never invent a number.
+`;
+
+const SLIDE_4 = `KRISHNA talks, ATHARVA clicks · slide 4, the demo · 85 seconds (ends by 2:55)
+(Stay on this slide for one breath: "Here it is, live." Then switch to the browser.)
+
+=== SWITCH TO THE BROWSER: Noura's Home, English, Light ===
 
 1. Patterns, first card, Why we noticed
 "This is Noura. She's fictional, 24, and her cycles keep running past 35 days. These chips are the days she logged, and this is the guideline behind it. No diagnosis. Just something to ask her doctor."
@@ -81,10 +92,6 @@ TIMING
 - Site slow or down? Yash plays ReproSense-demo.mp4 and Krishna talks over it.
 - There's no Clinician link inside her app. Go through Demo people.
 
-If a judge asks the price (Yash): "There isn't one yet, on purpose. Women will always use it free; clinics and networks will subscribe, insurers later pay per follow-up closed. We set the number with our first pilot clinic, from what the pilot measures."
-
-If a judge asks "Have you tested this with real women or doctors?" (Yash): "Not yet. Everything you saw runs on fictional data, by design. Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with up to 20 women at one clinic." If we spoke to anyone today, say exactly that, from the evidence log (docs/29 section 4). Never invent a number.
-
 Q&A: answer in two sentences, then stop. Krishna: AI, safety, data, regulation. Yash: money, market, pilot. Zebo: the science (PMOS, gestational diabetes, mood after birth). Atharva: the build and the app.`;
 
-module.exports = { SLIDE_1, SLIDE_2, SLIDE_3 };
+module.exports = { SLIDE_1, SLIDE_2, SLIDE_3, SLIDE_4 };
