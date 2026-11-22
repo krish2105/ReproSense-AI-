@@ -24,7 +24,7 @@ jobs:
       LIVE_API_URL: ${{ vars.LIVE_API_URL }}
       LIVE_WEB_URL: ${{ vars.LIVE_WEB_URL }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Run the demo path against the live site
         id: smoke
         run: python3 scripts/live_smoke.py | tee "$RUNNER_TEMP/smoke.txt"
