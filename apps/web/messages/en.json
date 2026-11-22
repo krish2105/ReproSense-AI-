@@ -400,7 +400,8 @@
     "notFoundAction": "Open the demo people",
     "close": "Close",
     "pdfPreparing": "Preparing the PDF…",
-    "pdfFailed": "The PDF isn't ready yet. Please try again in a moment."
+    "pdfFailed": "The PDF isn't ready yet. Please try again in a moment.",
+    "pdfGone": "This report isn't available any more, perhaps because the demo was reset. Press Update report, or open Demo people."
   },
   "regions": {
     "abu_dhabi_city": "Abu Dhabi City",
@@ -845,6 +846,7 @@
     "update": "Update report",
     "prepared": "Report prepared.",
     "prepareFailed": "The report wasn't prepared: {detail}",
+    "recordGone": "This demo record was reset, so there is nothing to update. Taking you to the demo people to pick a person or start again.",
     "generated": "Prepared on {date}",
     "noneTitle": "No report yet",
     "noneBody": "Prepare a report to see the two-page summary, download the PDF and share it with your clinic.",
