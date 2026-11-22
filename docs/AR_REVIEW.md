@@ -2108,6 +2108,10 @@ Drafts written with Claude Code; the native review is still open. Feminine addre
 | `assistant.subtitle` | Your AI health assistant: answers from curated guidelines, with sources | مساعدتك الصحية بالذكاء الاصطناعي: إجابات من إرشادات موثوقة مع مصادرها |
 | `landing.floatCopilot` | Nura, AI assistant · cites guidelines | نورا، مساعدة بالذكاء الاصطناعي · تستشهد بالإرشادات |
 
+## Nura's explain lane (22 Nov 2026)
+
+New Arabic text for native review: the explainer sentences for 10 conditions and the leads in `backend/app/agents/explain.py` (`CONDITIONS[*].lines`, `LEADS`), the 5 new summaries (`knowledge_base/summaries/nhs_endometriosis.md`, `nhs_menopause.md`, `nhs_gestational_diabetes.md`, `nhs_postnatal_depression.md`, `nhs_infertility.md`), and the chat labels `assistant.learnMore` (اعرفي المزيد), `assistant.watch` (شاهدي), `assistant.read` (اقرئي), `assistant.newTab`. Terms used: متلازمة تكيّس المبايض، بطانة الرحم المهاجرة، الدورة الغزيرة، انقطاع الطمث، سكري الحمل، اكتئاب ما بعد الولادة، تسمّم الحمل (مقدّمات الارتعاج).
+
 ## Salma's care plan, nine women (22 Nov, draft Arabic, not native-reviewed)
 Drafts written with Claude Code; the native review is still open. Feminine address to her; the clinician panel speaks about her.
 

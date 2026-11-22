@@ -775,6 +775,10 @@
     "crisisIntro": "Patterns are hidden while you get support."
   },
   "assistant": {
+    "learnMore": "Learn more",
+    "watch": "Watch",
+    "read": "Read",
+    "newTab": "opens in a new tab",
     "metaTitle": "Nura",
     "title": "Nura",
     "subtitle": "Your AI health assistant: answers from curated guidelines, with sources",

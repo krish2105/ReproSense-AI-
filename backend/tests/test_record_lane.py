@@ -205,7 +205,9 @@ def test_safety_routing_runs_first_even_for_record_questions(q, route):
 
     out = router.ask(q, None, bundle=persona("noura"), ref=REF, ai_on=True)
     assert route_of(out) == route == route_of(assistant.answer(q)), q
-    assert out["lane"] in ("safety", "knowledge") and "record" not in out
+    assert out["lane"] in ("safety", "knowledge", "explain") and "record" not in out
+    if out["lane"] == "explain":  # 22 Nov (G2): a named condition gets the refusal first, then cited facts
+        assert out["refused"] and out["answer"].startswith("I can't tell whether any condition is present")
     assert out["trace"][0]["agent"] == "intake" and any(s["agent"] == "safety" for s in out["trace"])
 
 

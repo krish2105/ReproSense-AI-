@@ -580,10 +580,19 @@ export interface AskResponse {
   grounded: boolean;
   trace?: TraceStep[];
   /** Which lane answered (section 7): the cited knowledge answer, a safety reply, her own record, or her next steps. */
-  lane?: "knowledge" | "safety" | "record" | "next_step" | "food";
+  lane?: "knowledge" | "safety" | "record" | "next_step" | "food" | "explain";
   record?: HerRecord; // lane "record": her own numbers, computed by code
   next_steps?: NextStepItem[]; // lane "next_step": a short list she approves
   lead?: string; // lane "next_step": the sentence before the list
+  learn_more?: LearnMoreLink[]; // lane "explain": the cited pages and checked official videos, opened in a new tab
+  explain?: { condition: string | null; mode: "explain" | "diagnosis" | "medicine" | "body"; personal: string[] };
+}
+/** Lane "explain": a page or an official-body video (each checked to exist on 22 Nov 2026). */
+export interface LearnMoreLink {
+  kind: "page" | "video";
+  url: string;
+  title: string;
+  publisher: string;
 }
 /** Lane (b): every line is computed by code from her entries; each chip opens that day in her calendar. */
 export interface HerRecord {
