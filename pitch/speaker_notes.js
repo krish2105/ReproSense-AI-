@@ -47,6 +47,9 @@ IF ASKED
 - "Why not just Sahatna?" (our mentor says expect it; DoH owns Sahatna): "Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module."
 - "DoH is adding maternity and IVF to Sahatna. Aren't you redundant?": "That's exactly where we fit. Sahatna lists maternity care and IVF as next; we've already built the women's record, the DoH postnatal steps and the PC008 follow-up loop, with safety evidence. We'd like to be that module rather than a second app."
 - Who is Nura? Our AI assistant, named in Arabic (نورا). She answers only from our cited library or from her own numbers computed by code, never diagnoses, and a verifier drops any sentence a source doesn't support.
+- "What is PCOS?" / "What is happening with my body?" Nura explains 10 conditions in plain words (PCOS, endometriosis, heavy periods, period pain, irregular periods, menopause, gestational diabetes, postnatal depression, pre-eclampsia, fertility), each sentence checked against its NHS or guideline page, then adds her own patterns with her numbers, and links the NHS page and an official NHS video. In Arabic it adds the WHO Arabic fact sheet.
+- Can Nura make things up? Not in these answers: the explanations are fixed sentences written and checked by us and assembled by code, so the model can't invent one. Video links come only from official health bodies and were checked to exist.
+- "Do I have PCOS?" Nura says first that it can't tell and only a doctor can, then gives the cited facts and what her own record shows, to take to her doctor. "What medicine for PCOS?" gets the fixed reply: ask your doctor or pharmacist, never a medicine name.
 - "What should I eat on my period?" Nura answers with food and drink from NHS pages (iron-rich foods if her periods are heavy, fluids, drug-free cramp relief), never a medicine; if she names an allergy, those foods are left out and 998 is given for a serious reaction.`;
 
 const SLIDE_3 = `YASH · 30 seconds · slide 3, the venture
@@ -71,24 +74,28 @@ const SLIDE_4 = `KRISHNA talks, ATHARVA clicks · slide 4, the demo · 85 second
 1. Patterns, first card, Why we noticed
 "This is Noura. She's fictional, 24, and her cycles keep running past 35 days. These chips are the days she logged, and this is the guideline behind it. No diagnosis. Just something to ask her doctor."
 
-2. Report, Before your visit
+2. Ask Nura, tap "What is happening with my body?"
+"She can ask Nura what's happening in her body. It answers from her own record: cycles of 42 to 56 days, the guideline behind it, an NHS page and an NHS video. Never a diagnosis."
+
+3. Report, Before your visit
 "Before her visit: what changed since last time, on two pages her doctor reads in a minute."
 
-3. عربي, Calendar, Try an Arabic example
+4. عربي, Calendar, Try an Arabic example
 "She can also just say it, in Gulf Arabic: cramps, missed work, pain seven out of ten. The form fills itself, and nothing saves until she checks it."
 
-4. English, Demo people, Open clinician view, Fatima K., glucose follow-up, Mark booked
+5. English, Demo people, Open clinician view, Fatima K., glucose follow-up, Mark booked
 "Now the clinic. It only sees women who chose to share. Fatima had diabetes in pregnancy and is nine weeks after the birth, so her glucose test is due. One tap. Booked."
 
-5. Demo people, Open clinic network
+6. Demo people, Open clinic network
 "And the network sees these follow-ups close. Counts only, never names. That's what clinics and insurers pay for."
 
-6. Krishna closes
+7. Krishna closes
 "We're asking for one pilot clinic, a clinical advisor to sign off our rules, and the grant. Thank you."
 
 TIMING
-- Behind at step 3? Skip it. Say: "She can log by voice in Arabic too."
-- Behind at step 5? Skip it and close.
+- Behind at step 2? Skip it: judges can try Nura themselves after.
+- Behind at step 4? Skip it. Say: "She can log by voice in Arabic too."
+- Behind at step 6? Skip it and close.
 - Site slow or down? Yash plays ReproSense-demo.mp4 and Krishna talks over it.
 - There's no Clinician link inside her app. Go through Demo people.
 

@@ -447,6 +447,7 @@ def answer(
 
 SUGGESTED = {
     "en": [
+        "What is happening with my body?",  # 22 Nov: her own patterns, explained (app/agents/explain.py)
         "What is PCOS?",
         "How long were my last cycles?",  # her record: computed by code from her entries (app/agents/record.py)
         "When should I get a glucose test after gestational diabetes?",
@@ -455,6 +456,7 @@ SUGGESTED = {
         "What does an EPDS score mean?",
     ],
     "ar": [
+        "ماذا يحدث في جسمي؟",
         "ما هي متلازمة تكيّس المبايض؟",
         "كم كان طول دوراتي الأخيرة؟",
         "متى أحتاج فحص السكر بعد سكري الحمل؟",

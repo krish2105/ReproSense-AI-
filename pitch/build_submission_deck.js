@@ -99,7 +99,7 @@ s2.addText("ReproSense turns her record into a next step", { placeholder: "title
 const ROWS = [
   ["Her record in 20 seconds", "Logs by tap or voice in Arabic or English. Lab reports read from a PDF or photo, and she checks every value."],
   ["Patterns, never a diagnosis", "Written rules from published guidelines. Each pattern shows the entries behind it and its source. Red flags come first, with 998."],
-  ["Human knowledge first, AI that is checked", "Rules decide. Nura, our AI assistant, reads her voice and lab photos and answers only from cited sources. Held-out safety: crisis 30/30, emergencies 32/32."],
+  ["Human knowledge first, AI that is checked", "Rules decide. Nura, our AI assistant, explains conditions from NHS sources with her own numbers, never a diagnosis. Held-out safety: crisis 30/30, emergencies 32/32."],
   ["The clinic loop", "With consent: a pre-visit brief, a doctor report, follow-ups that close DoH's PC008. After birth: DoH postnatal steps and the baby's first year."],
 ];
 ROWS.forEach(([head, body], i) => {
@@ -175,7 +175,7 @@ pres.addSection({ title: "Demo" });
 const s4 = pres.addSlide({ masterName: "LIGHT_TITLE_ONLY", sectionTitle: "Demo" });
 s4.addText("The demo: her record, her clinic, the network", { placeholder: "title" });
 const DEMO = [
-  ["Her record", "Noura (fictional, 24): a pattern with the exact days behind it and its guideline. She logs in Arabic by voice. Nura answers with sources, never a diagnosis."],
+  ["Her record", "Noura (fictional, 24): a pattern with the days behind it and its guideline. Nura explains what is happening in her body, with NHS sources. She logs by voice in Arabic."],
   ["Her clinic", "Fatima had diabetes in pregnancy. Her after-birth glucose test is due (DoH PC008); the clinician books it in one tap, with consent."],
   ["The network", "Follow-ups closing across clinics, counts only, never names: what a clinic or an insurer pays for."],
 ];
