@@ -2416,7 +2416,7 @@
       "k1": {
         "name": "Glucose test after gestational diabetes, within 12 weeks of birth (primary)",
         "how": "Of the pilot women who had gestational diabetes and gave birth during the pilot: how many have the glucose test result in their record, or the follow-up marked done by the clinic, within 84 days of the birth.",
-        "basis": "The glucose test the American Diabetes Association recommends 4 to 12 weeks after gestational diabetes. A historical reference, not a baseline: 265 of 1,043 women (25.4%) came back within 4 to 6 weeks at one Al Ain hospital in 2013–14."
+        "basis": "Completion within 12 weeks of the birth. The American Diabetes Association recommends the test at 4 to 12 weeks; the clinic's protocol decides whether an earlier test counts. A historical reference, not a baseline: 265 of 1,043 women (25.4%) came back within 4 to 6 weeks at one Al Ain hospital in 2013–14."
       },
       "k2": {
         "name": "Postnatal steps done on time",
