@@ -134,8 +134,6 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 >
 > Since we were accepted we've merged 57 pull requests, all on our evidence page, and we're forming the company. Let us show you."
 >
-> (Only if it's true and written down: "This week we spoke to [N] women and [N] doctors. [One thing they said.]")
->
 > === SWITCH TO THE BROWSER: Noura's Home, English, Light ===
 >
 > DEMO · Atharva clicks, Krishna talks · 85 seconds (ends by 2:55)
@@ -163,6 +161,8 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 > - Behind at step 5? Skip it and close.
 > - Site slow or down? Yash plays ReproSense-demo.mp4 and Krishna talks over it.
 > - There's no Clinician link inside her app. Go through Demo people.
+>
+> If a judge asks "Have you tested this with real women or doctors?" (Yash): "Not yet. Everything you saw runs on fictional data, by design. Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with up to 20 women at one clinic." Never invent a number.
 >
 > Q&A: answer in two sentences, then stop. Krishna: AI, safety, data, regulation. Yash: money, market, pilot. Zebo: the science (PMOS, gestational diabetes, mood after birth). Atharva: the build and the app.
 
