@@ -11,7 +11,7 @@ import { Tag } from "@/components/ui/Tag";
 import { useToast } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
-import type { AskResponse, Citation, Evidence, NavigatorDecision, NextStepItem } from "@/lib/api/types";
+import type { AskResponse, Citation, Evidence, LearnMoreLink, NavigatorDecision, NextStepItem } from "@/lib/api/types";
 import { parseAnswer } from "@/lib/answer";
 import { ReadAloud } from "@/components/ui/ReadAloud";
 import { answerText } from "@/lib/readAloud";
@@ -225,6 +225,38 @@ function Cites({ citations, anchor }: { citations: Citation[]; anchor: string })
   );
 }
 
+/** Explain lane: the cited pages and checked official-body videos (links only, never embedded). */
+function LearnMore({ links }: { links: LearnMoreLink[] }) {
+  const t = useTranslations("assistant");
+  return (
+    <div style={{ marginTop: 10 }}>
+      <p className="xs" style={{ fontWeight: 700, margin: "0 0 6px" }}>
+        {t("learnMore")}
+      </p>
+      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+        {links.map((l) => (
+          <li key={l.url}>
+            <a
+              href={l.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-o btn-sm"
+              style={{ justifyContent: "flex-start", textAlign: "start", whiteSpace: "normal", height: "auto", paddingBlock: 8 }}
+            >
+              <span aria-hidden="true">{l.kind === "video" ? "▶" : "📄"}</span>
+              <span>
+                {l.kind === "video" ? t("watch") : t("read")}: <bdi dir="auto">{l.title}</bdi>
+                {l.publisher ? <span className="faint"> · {l.publisher}</span> : null}
+                <span className="sr-only"> ({t("newTab")})</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 /** Dated chips for the entries behind a line; each opens that day in her calendar. */
 function EntryChips({ evidence, total, label }: { evidence: Evidence[]; total?: number; label: string }) {
   const t = useTranslations("assistant");
@@ -408,7 +440,7 @@ function KnowledgeAnswer({ a, anchor }: { a: AskResponse; anchor: string }) {
   return (
     <div className={`msg ai${urgent ? " urg" : ""}`}>
       <span className="sr-only">{t("copilot")}: </span>
-      <p dir="auto">
+      <p dir="auto" style={a.lane === "explain" ? { whiteSpace: "pre-line" } : undefined}>
         {parts.map((p, i) =>
           p.kind === "text" ? (
             <span key={i}>{p.text}</span>
@@ -434,6 +466,7 @@ function KnowledgeAnswer({ a, anchor }: { a: AskResponse; anchor: string }) {
         </div>
       )}
       <Cites citations={a.citations} anchor={anchor} />
+      {a.learn_more && a.learn_more.length > 0 && <LearnMore links={a.learn_more} />}
       {!a.grounded && a.citations.length > 0 && <p className="xs faint">{t("notGrounded")}</p>}
       {!urgent && <ReadAloud text={answerText(a, t("sources"))} what={t("copilot")} />}
     </div>

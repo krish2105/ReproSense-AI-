@@ -2108,6 +2108,48 @@ Drafts written with Claude Code; the native review is still open. Feminine addre
 | `assistant.subtitle` | Your AI health assistant: answers from curated guidelines, with sources | مساعدتك الصحية بالذكاء الاصطناعي: إجابات من إرشادات موثوقة مع مصادرها |
 | `landing.floatCopilot` | Nura, AI assistant · cites guidelines | نورا، مساعدة بالذكاء الاصطناعي · تستشهد بالإرشادات |
 
+## Nura's explain lane (22 Nov 2026)
+
+New Arabic text for native review: the explainer sentences for 10 conditions and the leads in `backend/app/agents/explain.py` (`CONDITIONS[*].lines`, `LEADS`), the 5 new summaries (`knowledge_base/summaries/nhs_endometriosis.md`, `nhs_menopause.md`, `nhs_gestational_diabetes.md`, `nhs_postnatal_depression.md`, `nhs_infertility.md`), and the chat labels `assistant.learnMore` (اعرفي المزيد), `assistant.watch` (شاهدي), `assistant.read` (اقرئي), `assistant.newTab`. Terms used: متلازمة تكيّس المبايض، بطانة الرحم المهاجرة، الدورة الغزيرة، انقطاع الطمث، سكري الحمل، اكتئاب ما بعد الولادة، تسمّم الحمل (مقدّمات الارتعاج).
+
+## Salma's care plan, nine women (22 Nov, draft Arabic, not native-reviewed)
+Drafts written with Claude Code; the native review is still open. Feminine address to her; the clinician panel speaks about her.
+
+| Key | English | Arabic (draft) |
+| --- | --- | --- |
+| `carePlan.eyebrow` | Living with {condition} | التعايش مع {condition} |
+| `carePlan.title` | My care plan | خطة رعايتي |
+| `carePlan.intro` | Set by {by} on {date}. ReproSense doesn't diagnose or choose medicines: this is your doctor's plan, kept in your record. | وضعها {by} في {date}. ReproSense لا يشخّص ولا يختار الأدوية: هذه خطة طبيبك، محفوظة في سجلك. |
+| `carePlan.conditions.pcos` | PCOS | تكيّس المبايض (PCOS) |
+| `carePlan.conditions.endometriosis` | endometriosis | بطانة الرحم المهاجرة |
+| `carePlan.medicinesTitle` | Today | اليوم |
+| `carePlan.takenToday` | taken today | أُخذ اليوم |
+| `carePlan.reminder` | reminder at {time} | تذكير الساعة {time} |
+| `carePlan.last7` | {n, plural, =0 {Not ticked in the last 7 days} one {Ticked on # of the last 7 days} other {Ticked on # of the last 7 days}} | {n, plural, =0 {لم تؤشّري خلال آخر 7 أيام} one {أشّرتِ في يوم واحد من آخر 7 أيام} two {أشّرتِ في يومين من آخر 7 أيام} few {أشّرتِ في # أيام من آخر 7 أيام} many {أشّرتِ في # يوماً من آخر 7 أيام} other {أشّرتِ في # يوم من آخر 7 أيام}} |
+| `carePlan.checksTitle` | Next checks | الفحوصات القادمة |
+| `carePlan.checks.review` | Follow-up with your doctor | متابعة مع طبيبك |
+| `carePlan.checks.glucose` | Blood sugar check (HbA1c or glucose test) | فحص السكر (HbA1c أو اختبار تحمّل الغلوكوز) |
+| `carePlan.checks.bp` | Blood pressure check | فحص ضغط الدم |
+| `carePlan.status.overdue` | Overdue since {date} | متأخر منذ {date} |
+| `carePlan.status.due_soon` | Due {date} | موعده {date} |
+| `carePlan.status.planned` | Planned for {date} | مخطط في {date} |
+| `carePlan.checkinDue` | Your monthly symptom check-in is due. | حان موعد تسجيل أعراضك الشهري. |
+| `carePlan.checkinNext` | Next monthly check-in: {date}. | التسجيل الشهري القادم: {date}. |
+| `carePlan.checkinAction` | Log this month's symptoms | سجّلي أعراض هذا الشهر |
+| `carePlan.watchTitle` | Tell your doctor or get help | أخبري طبيبك أو اطلبي المساعدة |
+| `carePlan.watch.no_period_90` | If you go 3 months without a period, tell your doctor. | إذا مرّت 3 أشهر دون دورة، فأخبري طبيبك. |
+| `carePlan.watch.checks_matter` | PCOS raises the chance of diabetes and high blood pressure later, so keep your yearly checks. | يرفع تكيّس المبايض احتمال السكري وارتفاع ضغط الدم لاحقاً، لذا حافظي على فحوصاتك السنوية. |
+| `carePlan.watch.emergency` | In an emergency, call 998. | في حالة الطوارئ، اتصلي بالرقم 998. |
+| `carePlan.saved` | Ticked for today. | تم التأشير لليوم. |
+| `carePlan.removed` | Tick removed. | أُزيل التأشير. |
+| `carePlan.saveFailed` | Couldn't save: {detail} | تعذّر الحفظ: {detail} |
+| `carePlan.note` | Your ticks are your own notes in your record; your clinic sees them only if you share. The reminder time comes from your doctor's plan. | تأشيراتك ملاحظاتك أنت في سجلك؛ لا تراها عيادتك إلا إذا شاركتِ. وقت التذكير من خطة طبيبك. |
+| `carePlan.clinic.title` | Her care plan: {condition} | خطة رعايتها: {condition} |
+| `carePlan.clinic.intro` | Recorded by {by} on {date}. Her ticks are her own notes; read-only here. | سجّلها {by} في {date}. تأشيراتها ملاحظاتها هي؛ للعرض فقط هنا. |
+| `demo.title` | Nine fictional women, five life stages, one clinic network. | تسع نساء خياليات، وخمس مراحل حياة، وشبكة عيادات واحدة. |
+| `tour.steps.people.title` | Nine fictional women | تسع نساء خياليات |
+| `demo.stories.salma` | Diagnosed with PCOS by her gynaecologist in September; keeps using the app for her doctor's plan: a daily medicine, a monthly symptom check-in and yearly checks. | شخّصتها طبيبتها النسائية بتكيّس المبايض في سبتمبر؛ وتواصل استخدام التطبيق لخطة طبيبتها: دواء يومي، وتسجيل شهري للأعراض، وفحوصات سنوية. |
+
 ## What we checked and did not show (22 Nov, draft Arabic, not native-reviewed)
 Every Arabic string below is a draft written with Claude Code (an AI review, not a native speaker's; #23 still applies).
 Health text on the Patterns screen: read first. Terms to check: «الحدّ» (threshold), «تغيّرات البشرة والشعر» (skin and

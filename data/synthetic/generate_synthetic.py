@@ -81,6 +81,10 @@ PERSONAS = [
                 (27, 30), (4, 6), (2, 4), 0.0, 0.01, 0.0, 0.0,
                 "24 weeks pregnant with her first baby; the glucose screening window (24-28 weeks) is open and not yet booked.",
                 pregnant_weeks=24),
+    PersonaSpec("salma", "Salma K. (fictional)", 28, "Abu Dhabi City", "en", 12,
+                (36, 52), (4, 6), (2, 4), 0.0, 0.03, 0.0, 0.0,
+                "Diagnosed with PCOS by her gynaecologist in September; keeps using the app for her doctor's plan: a daily "
+                "medicine, a monthly symptom check-in and yearly checks."),
     PersonaSpec("layla", "Layla M. (fictional)", 47, "Al Ain", "en", 12,
                 (21, 60), (3, 7), (2, 4), 0.0, 0.0, 0.0, 0.0,
                 "Periods have become unpredictable over the past year, with hot flushes and night sweats most weeks.",
@@ -263,6 +267,7 @@ def simulate_persona(spec: PersonaSpec, ref: date, rng: random.Random) -> dict:
         for m in (3, 2, 1):
             events.append({"id": new_id(), "type": "questionnaire", "date": iso(ref - timedelta(days=30 * m - 3)),
                            "details": {"tool": "MRS", "total": 17 + (3 - m) * 2, "note": "Menopause Rating Scale; synthetic"}})
+    events.extend(care_plan_events(spec, ref))
     if spec.ttc_months:
         events.append({"id": new_id(), "type": "ttc_started",
                        "date": iso(ref - timedelta(days=round(spec.ttc_months * 30.4))),
@@ -286,6 +291,42 @@ def simulate_persona(spec: PersonaSpec, ref: date, rng: random.Random) -> dict:
     data["features"] = compute_features(data, ref)
     data["expected_observations"] = evaluate_rules(data["features"])
     return data
+
+
+def care_plan_events(spec: PersonaSpec, ref: date) -> list[dict]:
+    """Salma's care plan after her PCOS diagnosis (22 Nov, backend/app/services/care_plan.py). Her doctor recorded the
+    diagnosis and the plan; ReproSense never diagnoses. Fixed dates and ids, no random draws, so every other number in
+    the demo stays the same; no rule reads these events. She ticked her medicine on 12 of the last 14 days (not today,
+    so the demo can tick it live)."""
+    if spec.id != "salma":
+        return []
+    dx = ref - timedelta(days=73)  # 10 Sep 2026
+    plan = {
+        "id": "salma-care-plan", "type": "care_plan", "date": iso(dx),
+        "details": {
+            "condition": "pcos",
+            "recorded_by": "Dr. Example, Seaside Women's Clinic (fictional)",
+            "medicines": [{
+                "id": "metformin", "name": "Metformin", "dose": "500 mg",
+                "when": {"en": "once a day with the evening meal", "ar": "مرة يومياً مع وجبة العشاء"},
+                "reminder": "20:00", "since": iso(dx),
+            }],
+            "monitoring": [
+                {"id": "review", "due": iso(dx + timedelta(days=91)), "source_id": None},
+                {"id": "glucose", "every_months": 12, "last": iso(dx), "source_id": "pcos_guideline_2023"},
+                {"id": "bp", "every_months": 12, "last": iso(dx), "source_id": "pcos_guideline_2023"},
+            ],
+            "checkin": {"every_days": 30, "last": iso(ref - timedelta(days=28))},
+            "note": "recorded by her doctor; synthetic",
+        },
+    }
+    missed = {4, 9}
+    taken = [
+        {"id": f"salma-med-{k:02d}", "type": "medicine_taken", "date": iso(ref - timedelta(days=k)),
+         "details": {"medicine": "metformin"}}
+        for k in range(1, 15) if k not in missed
+    ]
+    return [plan, *taken]
 
 
 def baby_checks(spec: PersonaSpec, birth: date) -> list[dict]:
@@ -499,6 +540,7 @@ EXPECTED = {
     "mariam": {"OBS_TTC_FERTILITY_ASSESSMENT"},
     "hessa": {"CARE_PREGNANCY_GLUCOSE_SCREEN"},
     "layla": {"OBS_PERIMENOPAUSE_SYMPTOMS"},
+    "salma": {"OBS_IRREGULAR_CYCLES"},
 }
 
 

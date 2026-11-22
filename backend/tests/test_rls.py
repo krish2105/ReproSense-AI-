@@ -67,7 +67,7 @@ def test_schema_works_under_a_non_superuser_owner():
     url = conninfo.make_conninfo(base, dbname=owner_db, user="rs_owner_test", password="rs_owner_test")
     try:
         first = seed_if_empty(url)
-        assert first and first["personas"] == 8
+        assert first and first["personas"] == 9
         assert seed_if_empty(url) is None  # a restart never reseeds
         with session(Actor("clinician", "clin-01", "clinic_corniche")) as cur:  # no recursion through consents
             cur.execute("SELECT count(*) AS n FROM profiles WHERE role = 'patient'")

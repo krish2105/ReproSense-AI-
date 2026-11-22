@@ -24,6 +24,7 @@ from app.security.crypto import decrypt, encrypt
 from app.services import (
     baby,
     blood_pressure,
+    care_plan,
     checked,
     feeding,
     fhir,
@@ -150,6 +151,7 @@ def home(lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)):
         "preconception": preconception.checklist(b, {h.rule_id for h in ev.all_hits}),
         "blood_pressure": blood_pressure.summary(b, ref()),  # K6: pregnancy and the 12 weeks after birth
         "feeding": feeding.summary(b, ref(), lang),  # D2: her feeding log, the 12 months after a birth
+        "care_plan": care_plan.summary(b, ref(), lang),  # 22 Nov: her doctor's plan after a diagnosis (Salma, PCOS)
     }
 
 
@@ -263,6 +265,38 @@ def tick_preconception(item: str, body: PreconceptionTickIn, actor: Actor = Depe
         b = _bundle(cur, actor)
     ev = evaluate(b, ref(), get_settings().red_flag_window_days)
     return preconception.checklist(b, {h.rule_id for h in ev.all_hits})
+
+
+class MedicineTakenIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    taken: bool
+
+
+@router.post("/care-plan/medicines/{medicine}")
+def tick_medicine(
+    medicine: str, body: MedicineTakenIn, lang: Literal["en", "ar"] = "en", actor: Actor = Depends(patient)
+):
+    """She ticks (or unticks) today's dose of a medicine her doctor's plan lists. Her own note; nothing is sent."""
+    with session(actor) as cur:
+        b = _bundle(cur, actor)
+        if medicine not in care_plan.medicine_ids(b):
+            raise HTTPException(404, "That medicine is not in her doctor's plan.")
+        today = ref()
+        eid = f"{actor.user_id}-med-{medicine}-{today.isoformat()}"
+        if body.taken:
+            cur.execute(
+                "INSERT INTO events (id, profile_id, type, date, details) VALUES (%s,%s,%s,%s,%s)"
+                " ON CONFLICT (id) DO NOTHING",
+                (eid, actor.user_id, care_plan.TAKEN_EVENT, today, json.dumps({"medicine": medicine})),
+            )
+        else:
+            cur.execute(
+                "DELETE FROM events WHERE profile_id=%s AND type=%s AND date=%s AND details->>'medicine'=%s",
+                (actor.user_id, care_plan.TAKEN_EVENT, today, medicine),
+            )
+        audit.record(cur, actor, "medicine_" + ("taken" if body.taken else "untaken"), actor.user_id, f"care_plan:{medicine}")
+        b = _bundle(cur, actor)
+    return care_plan.summary(b, ref(), lang)
 
 
 @router.get("/timeline")
