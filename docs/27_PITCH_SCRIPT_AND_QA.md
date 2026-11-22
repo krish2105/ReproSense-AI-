@@ -107,38 +107,56 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 > - 1 in 4 came back: 265 of 1,043 women, one Al Ain hospital, IJERPH, 2022.
 > - 18 per 1,000 is arithmetic, not our result: 1,000 x 21.3% x (50% - 25.4%) x 34.5% (pooled from 18 studies, Endocrine, 2025). The inputs are on /pilot.
 > - Not sure? "Good question. We haven't measured that yet." Then hand to Krishna.
+> - Longevity? After diabetes in pregnancy, type 2 diabetes is about ten times more likely (Vounzoulaki et al., BMJ 2020), so the after-birth glucose test protects her later health. The 2023 PCOS guideline also asks for regular glucose and blood-pressure checks, because PCOS raises cardiometabolic risk.
+> - Fertility? The Trying stage says when to ask for a fertility assessment (after 12 months, or 6 months at 35 or over: NICE NG257, ASRM 2021) and gives a sourced planning checklist (folic acid, rubella). IVF support is on the roadmap.
 
 #### Slide 2
 > KRISHNA · 30 seconds · slide 2, the solution
 >
-> "So we built ReproSense: her health record, in Arabic and English. She logs in seconds, by tap, by voice, or with a photo of a lab report.
+> "So we built ReproSense: her record in Arabic and English, by tap, voice or a lab-report photo.
 >
-> Rules from published guidelines spot patterns worth raising with a doctor, and show the exact days and the guideline behind each one. It never diagnoses, and anything urgent comes first, with 998.
+> Human knowledge decides: rules from published guidelines spot patterns worth raising with a doctor, with the days and guideline behind each. It never diagnoses; urgent signs come first, with 998.
 >
-> The AI is checked. On 132 test messages it was never tuned on, it sent all 30 crises to support and all 32 emergencies to 998."
+> The AI does the language, and it's checked: on 132 messages it was never tuned on, all 30 crises went to support and all 32 emergencies to 998.
+>
+> Trackers log. Chatbots don't know her record. We give her doctor the evidence."
 >
 > (Turn to Yash.)
 >
 > IF ASKED
+> - Human plus technology? Clinical knowledge sits in the rules, taken from published guidelines. The AI only does language. She checks every value before it saves, the care navigator only drafts, and the doctor makes every decision.
+> - Privacy in one breath: hers by default. Her clinic sees it only if she shares, and she can revoke, export or delete everything. The network sees counts, never names (groups under 10 are hidden). Names are removed before any text reaches a model, and with AI off nothing is sent. She can read every access in a tamper-evident log. We never sell health data.
+> - Where is the data? The demo is fictional and hosted in Frankfurt. Production stays in the UAE, as the Health Data Law requires (February milestone).
+> - Privacy not done yet (say it if pushed): UAE hosting, backups, penetration test, privacy impact assessment. ADHICS gap assessment in December; UAE hosting and the penetration test in February.
 > - Who wrote the 132? Written separately from the code, in English and four kinds of Arabic, measured once, never used for tuning. Not clinicians; clinician-written tests are next. Never say "independent reviewers".
 > - Where is the AI? Her voice and lab photos into the form, answers from a cited library, rewording. Rules make every safety decision; the AI can add an urgent route, never remove one.
 > - Model down? Red flags are plain rules and run first. Past 10 seconds she gets a fixed, sourced reply.
 > - 14 of 14 attacks blocked, on every change: /evidence.
 > - "Why not just Sahatna?" (our mentor says expect it; DoH owns Sahatna): "Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module."
 > - "DoH is adding maternity and IVF to Sahatna. Aren't you redundant?": "That's exactly where we fit. Sahatna lists maternity care and IVF as next; we've already built the women's record, the DoH postnatal steps and the PC008 follow-up loop, with safety evidence. We'd like to be that module rather than a second app."
+> - Who is Nura? Our AI assistant, named in Arabic (نورا). She answers only from our cited library or from her own numbers computed by code, never diagnoses, and a verifier drops any sentence a source doesn't support.
+> - "What should I eat on my period?" Nura answers with food and drink from NHS pages (iron-rich foods if her periods are heavy, fluids, drug-free cramp relief), never a medicine; if she names an allergy, those foods are left out and 998 is given for a serious reaction.
 
-#### Slide 3, then the demo
+#### Slide 3
 > YASH · 30 seconds · slide 3, the venture
 >
-> "Who pays? Women never do. Clinics and primary-care networks pay a subscription, because the after-birth glucose test is on DoH's own scorecard, PC008. We'll set the price with our pilot clinic, from what the pilot measures.
+> "Our users: women in Abu Dhabi, free, and their doctors. Who pays? Clinics and primary-care networks, on a subscription, because the after-birth glucose test is on DoH's own scorecard, PC008. We'll set the price with our pilot clinic, from what the pilot measures.
 >
 > Next: a device memo for the Emirates Drug Establishment, a clinic letter of intent, UAE hosting with UAE PASS sign-in, then a pilot at one clinic and a licensed company by May.
 >
-> Since we were accepted we've merged 57 pull requests, all on our evidence page, and we're forming the company. Let us show you."
+> Since acceptance: 57 merged pull requests, all on our evidence page. We're forming the company. Let us show you."
+>
+> IF ASKED
+> - Price: "There isn't one yet, on purpose. Women will always use it free; clinics and networks will subscribe, insurers later pay per follow-up closed. We set the number with our first pilot clinic, from what the pilot measures."
+>
+> - Tested with real women or doctors? "Not yet. Everything you saw runs on fictional data, by design. Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with up to 20 women at one clinic." If we spoke to anyone today, say exactly that, from the evidence log (docs/29 section 4). Never invent a number.
+>
+
+#### Slide 4, the demo
+> KRISHNA talks, ATHARVA clicks · slide 4, the demo · 85 seconds (ends by 2:55)
+> (Stay on this slide for one breath: "Here it is, live." Then switch to the browser.)
 >
 > === SWITCH TO THE BROWSER: Noura's Home, English, Light ===
->
-> DEMO · Atharva clicks, Krishna talks · 85 seconds (ends by 2:55)
 >
 > 1. Patterns, first card, Why we noticed
 > "This is Noura. She's fictional, 24, and her cycles keep running past 35 days. These chips are the days she logged, and this is the guideline behind it. No diagnosis. Just something to ask her doctor."
@@ -163,10 +181,6 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 > - Behind at step 5? Skip it and close.
 > - Site slow or down? Yash plays ReproSense-demo.mp4 and Krishna talks over it.
 > - There's no Clinician link inside her app. Go through Demo people.
->
-> If a judge asks the price (Yash): "There isn't one yet, on purpose. Women will always use it free; clinics and networks will subscribe, insurers later pay per follow-up closed. We set the number with our first pilot clinic, from what the pilot measures."
->
-> If a judge asks "Have you tested this with real women or doctors?" (Yash): "Not yet. Everything you saw runs on fictional data, by design. Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with up to 20 women at one clinic." Never invent a number.
 >
 > Q&A: answer in two sentences, then stop. Krishna: AI, safety, data, regulation. Yash: money, market, pilot. Zebo: the science (PMOS, gestational diabetes, mood after birth). Atharva: the build and the app.
 
@@ -309,6 +323,18 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 **Q11. Who can see her data?** *(Krishna)*
 > Only her, unless she chooses to share with her clinic, and she can revoke that, export everything, or delete it.
 > Clinicians see only women who shared with their clinic; the network sees counts, never names.
+
+**Q11b. Privacy in 20 seconds (for "How do you protect her privacy?")** *(Krishna)*
+> Hers by default: her clinic sees her record only if she shares, and she can revoke, export or delete it. The network
+> sees counts, never names, and groups under 10 are hidden. Names are removed before any text reaches a model; with AI
+> off, nothing is sent. Every access is in a tamper-evident log she can read, and we never sell health data. On a shared
+> family phone, discreet mode shows "My notes" instead of the app name and hides her name. She can give someone she
+> trusts a read-only family link, choose whether it shows details, and revoke it.
+
+**Q11c. What isn't done yet on privacy?** *(Krishna, only if pushed; say it plainly)*
+> The demo runs on fictional data in Frankfurt on free hosting: no UAE hosting, no backups, no penetration test and no
+> privacy impact assessment yet. The ADHICS gap assessment is in December; UAE hosting and the penetration test are the
+> February milestone, before any real record.
 
 **Q12. Is this a medical device? What approvals do you need?** *(Krishna)*
 > Because it doesn't diagnose, it's designed to sit below the software-as-a-medical-device line. Our November step is

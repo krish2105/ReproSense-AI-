@@ -4,7 +4,7 @@
 Present from PowerPoint in **Presenter View** (Keynote: Presenter Display) so each of us sees our script under the slide;
 the PDF has no notes. Rebuild after editing the notes (see "The 3-slide submission deck" below).
 
-**On stage (organisers' format, 21 Nov):** the three slides (problem, solution, venture roadmap) in 1 to 1.5 minutes,
+**On stage (organisers' format, 21 Nov):** the four slides (problem, solution, roadmap, demo; the organisers allow 3 to 4) in 1 to 1.5 minutes,
 then the live demo. The script is docs/27 section 4 and the PPTX speaker notes.
 
 **What's in this folder (everything else was removed on 21 Nov):**

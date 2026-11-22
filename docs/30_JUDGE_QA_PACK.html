@@ -5,7 +5,7 @@
 <title>ReproSense: judges' questions and how it works</title>
 <style>
   @page { size: A4; margin: 16mm 15mm 16mm 15mm;
-    @bottom-left { content: "ReproSense AI · HealthX Ajyal 2026 · Q&A pack, 21 Nov · all demo data is fictional"; font: 7.5pt sans-serif; color: #8a7a8f; }
+    @bottom-left { content: "ReproSense AI · HealthX Ajyal 2026 · Q&A pack, 22 Nov · all demo data is fictional"; font: 7.5pt sans-serif; color: #8a7a8f; }
     @bottom-right { content: counter(page) " / " counter(pages); font: 7.5pt sans-serif; color: #8a7a8f; } }
   :root { --plum: #4b2e55; --ink: #241a28; --dim: #5d5063; --line: #e4d9e7; --soft: #f6f0f7; --pink: #c2477f; --amber: #8a5a00; }
   body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--ink); font-size: 9.4pt; line-height: 1.38; }
@@ -93,10 +93,10 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <p class="a">It's designed to stay below that line: it doesn't diagnose or recommend treatment. The Emirates Drug Establishment decides, so our first step is a classification memo to them; then a DoH licence and an ADHICS gap assessment.</p></div>
 
 <div class="q"><span class="who">K</span><b class="t">13. Where is the data stored?</b>
-<p class="a">The demo is synthetic and hosted in Frankfurt. Production must stay in the UAE under the Health Data Law; moving to UAE hosting with a penetration test is our February milestone.</p></div>
+<p class="a">The demo is synthetic and hosted in Frankfurt. Production must stay in the UAE under the Health Data Law; moving to UAE hosting with a penetration test is our February milestone. Not done yet, and we say so: UAE hosting, backups, the penetration test and a privacy impact assessment.</p></div>
 
 <div class="q"><span class="who">K</span><b class="t">14. Who can see her data?</b>
-<p class="a">Only her, unless she shares with her clinic, and she can stop sharing, export everything or delete it. Clinicians see only women who shared; the network sees counts only, with groups under 10 hidden.</p></div>
+<p class="a">Only her, unless she shares with her clinic, and she can stop sharing, export everything or delete it. Clinicians see only women who shared; the network sees counts only, with groups under 10 hidden. Names are removed before any AI call, and with AI off nothing is sent. Every access is in a tamper-evident log she can read.</p></div>
 
 <div class="q"><span class="who Z">Z</span><b class="t">15. PCOS was renamed PMOS. Why say PCOS?</b>
 <p class="a">The Lancet consensus renamed it in May 2026, with a three-year transition, and the international guideline adopts PMOS in 2028. Our search already understands PMOS; we show PCOS because women and doctors here still use it.</p></div>
@@ -273,6 +273,12 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <p class="a">That framework is for AI that performs clinical activities; we've designed ReproSense not to: it doesn't diagnose, treat or triage on its own. We'd still use DoH's living-lab route for the pilot.</p></div>
 <div class="q"><span class="who">K</span><b class="t">Is the data encrypted?</b>
 <p class="a">Yes: everything travels over HTTPS, and free-text notes and uploaded documents are also encrypted field by field (AES-256-GCM) inside the database. Names are removed before any AI call.</p></div>
+<div class="q"><span class="who">K</span><b class="t">How do you protect her privacy? (20 seconds)</b>
+<p class="a">Hers by default: her clinic sees her record only if she shares, and she can stop sharing, export or delete it. The network sees counts, never names, with groups under 10 hidden. Names are removed before any text reaches a model; with AI off, nothing is sent. Every access is in a tamper-evident log she can read, and we never sell health data.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What about a shared family phone?</b>
+<p class="a">Discreet mode shows "My notes" instead of the app name and hides her name on screen. She can give someone she trusts a read-only family link, choose whether it shows details, and revoke it at any time.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What isn't done yet on privacy?</b>
+<p class="a">Said plainly: the demo runs on fictional data on free hosting in Frankfurt, with no backups, no penetration test and no privacy impact assessment yet. The ADHICS gap assessment is in December; UAE hosting and the penetration test are the February milestone, before any real record.</p></div>
 <div class="q"><span class="who">K</span><b class="t">What about minors?</b>
 <p class="a">The product is for adults 18+. Teenage periods have different guideline thresholds, and minors need a different consent model, so we don't cover them.</p></div>
 
@@ -330,6 +336,22 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <p class="a">It's different by design. A symptom checker looks at one moment and suggests probable causes; its results can't be saved or shared. We look at months of her own entries, never name a condition, and keep each pattern with its evidence for her doctor.</p></div>
 <div class="q"><span class="who A">A</span><b class="t">What will you build next?</b>
 <p class="a">UAE PASS sign-in; lab results from Malaffi with her consent; a Sahatna Space entry point; Apple Health and Health Connect for cycle and blood-pressure data; time-limited sharing with her doctor or family (one week to one year); a booking hand-off from each follow-up; IVF-cycle support; and opt-in reminders for tests, not only appointments.</p></div>
+
+<h3>I. Nura, personalisation, longevity and fertility (added 22 Nov)</h3>
+<div class="q"><span class="who">K</span><b class="t">Who is Nura?</b>
+<p class="a">Our AI assistant, named in Arabic (نورا). She answers only from our cited library or from her own numbers computed by code, never diagnoses, and a verifier drops any sentence a source doesn't support. The name is shown with "AI assistant", so AI use is always disclosed.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What does Nura say to "what should I eat on my period?"</b>
+<p class="a">Food and drink from NHS pages, never a medicine: iron-rich foods if her periods are heavy, what blocks iron, 6 to 8 cups of fluid a day, and drug-free cramp relief. If she names an allergy, those foods are left out, she's told to check labels, and 998 is given for a serious reaction. It's written by code, so it can't invent anything.</p></div>
+<div class="q"><span class="who">K</span><b class="t">How is it personalised?</b>
+<p class="a">From her own entries, not guesses: her patterns, her due follow-ups, her life stage, and in Nura's answers her own numbers (if she logged heavy days, iron comes first). Next: allergies and food preferences saved to her profile, reminders timed to her plan, and Apple Health or Health Connect data with her consent.</p></div>
+<div class="q"><span class="who">K</span><b class="t">Can Nura be wrong? Zero hallucinations?</b>
+<p class="a">Nobody can promise zero, so we design so an unsupported sentence never reaches her: answers come only from retrieved, cited passages or code; a verifier drops anything a source doesn't support; red flags and crisis replies are fixed text; and when there's no source, Nura says so instead of guessing. Every miss on our held-out set is published on /status.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">The judges asked us to focus on longevity. Where is it?</b>
+<p class="a">In the follow-ups that protect her later health. After diabetes in pregnancy, type 2 diabetes is about ten times more likely (Vounzoulaki et al., BMJ 2020), so the after-birth glucose test matters for life; PCOS raises cardiometabolic risk, so the 2023 guideline asks for regular glucose and blood-pressure checks; and the record carries her into perimenopause.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">And fertility?</b>
+<p class="a">The Trying stage tells her when to ask for a fertility assessment (after 12 months, or 6 months at 35 or over, per NICE NG257 and ASRM) and gives a sourced planning checklist (folic acid, rubella immunity). Her cycle record helps the fertility doctor from day one. IVF-cycle support is on our roadmap.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">Where do insurers fit?</b>
+<p class="a">Later, and paid for results. With her consent her insurance type would sit on her profile so follow-ups point to clinics her plan covers, and when a follow-up needs prior approval the clinic gets the evidence in one place. We'd agree what's covered with an insurer after the pilot, not before.</p></div>
 
 <h3>I. Curveballs</h3>
 <div class="q"><span class="who">K</span><b class="t">"Your live cards say 'written from a template'. So where's the AI?"</b>
