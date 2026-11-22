@@ -55,7 +55,7 @@
     "log": "Calendar",
     "timeline": "Analytics",
     "insights": "Patterns",
-    "assistant": "AI Chat",
+    "assistant": "Ask Nura",
     "report": "Report"
   },
   "stages": {
@@ -602,7 +602,7 @@
     "pbacWeight": "×{n}",
     "fewer": "One fewer: {item}",
     "more": "One more: {item}",
-    "pain": "Pain: {pain} out of 10",
+    "pain": "Pain: {pain} out of 10 · {band}",
     "bodyTitle": "Where does it hurt?",
     "bodyHint": "Tap to mark. The glow shows your painful days this year.",
     "front": "Front",
@@ -642,7 +642,28 @@
     "saved": "Entry saved.",
     "saveFailed": "The entry wasn't saved: {detail}",
     "urgentHeading": "This entry needs urgent attention",
-    "noteSaved": "Notes are encrypted before they are stored."
+    "noteSaved": "Notes are encrypted before they are stored.",
+    "painLevel": {
+      "none": "none",
+      "mild": "mild",
+      "moderate": "moderate",
+      "severe": "severe"
+    },
+    "painHint": {
+      "none": "No pain today.",
+      "mild": "Mild: you can still do your usual day.",
+      "moderate": "Moderate: it gets in the way of what you do.",
+      "severe": "Severe: it's hard to do anything else."
+    },
+    "painScale": "Scale: 1–3 mild, 4–6 moderate, 7–10 severe.",
+    "impactHint": "How much did your period or symptoms change your day?",
+    "flowHint": {
+      "none": "No bleeding today.",
+      "spotting": "A few drops; a liner is enough.",
+      "light": "Light bleeding; a pad or tampon lasts several hours.",
+      "medium": "Steady bleeding; you change a pad or tampon regularly through the day.",
+      "heavy": "Changing a pad or tampon every 1–2 hours, bleeding through your clothes, or clots bigger than 2.5 cm (NHS)."
+    }
   },
   "analytics": {
     "metaTitle": "Analytics",
@@ -731,9 +752,9 @@
     "crisisIntro": "Patterns are hidden while you get support."
   },
   "assistant": {
-    "metaTitle": "AI Chat",
-    "title": "AI Copilot",
-    "subtitle": "Answers from curated guidelines, with sources",
+    "metaTitle": "Nura",
+    "title": "Nura",
+    "subtitle": "Your AI health assistant: answers from curated guidelines, with sources",
     "intro": "Ask about periods, pain, pregnancy, tests or your report. Answers quote trusted sources and never diagnose. Questions about your own entries, like your cycle lengths, are counted from your record.",
     "suggested": "Suggested questions",
     "inputLabel": "Your question",
@@ -763,7 +784,7 @@
     "nextDraftOnly": "Drafts only. Nothing is sent: after you approve, copy the message or show it at the clinic.",
     "decideFailed": "That didn't save: {detail}",
     "you": "You",
-    "copilot": "AI Copilot",
+    "copilot": "Nura",
     "clear": "Clear conversation",
     "disclaimer": "Information, not a diagnosis. In an emergency call 998.",
     "empty": "Pick a suggested question or type your own.",
@@ -1222,7 +1243,7 @@
     "chartRow": "Cycle starting {date}: {length} days, {bleed} bleeding days",
     "chartAxis": "Day of cycle",
     "floatFrom": "From {count} of her entries",
-    "floatCopilot": "AI Copilot · cites guidelines",
+    "floatCopilot": "Nura, AI assistant · cites guidelines",
     "floatQuestion": "“How do I know if my bleeding is heavy?”",
     "floatCites": "[1] NICE NG88 · [2] PBAC chart · [3] NHS",
     "noData": "Noura's live record shows here when the demo server is running.",

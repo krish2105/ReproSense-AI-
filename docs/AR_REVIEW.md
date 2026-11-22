@@ -2079,3 +2079,31 @@ Every Arabic string below is a draft written with Claude Code; the native review
 | `pilot.intro` | Set the numbers for your own clinic or insurer. This page multiplies them, nothing more: it is not a measured result and promises no outcome. Each default comes from a published study (two from Abu Dhabi, one pooled from 18 studies) or is marked as an assumption. ReproSense's own price is not here: it is set in the pilot. | أدخلوا أرقام عيادتكم أو شركة التأمين. هذه الصفحة تضرب الأرقام فقط: ليست نتيجة مُقاسة ولا تَعِد بأي نتيجة. كل قيمة افتراضية مأخوذة من دراسة منشورة (اثنتان من أبوظبي، وواحدة تجمع 18 دراسة)، أو مكتوب بجانبها أنها افتراض. سعر ReproSense نفسه ليس هنا: يُحدَّد خلال التجربة. | |
 | `pilotProposal.price.after` | After it, the price is agreed with the clinic from what the pilot measured. No price has been set yet. | بعدها، يُتّفق على السعر مع العيادة بناءً على ما قاسته التجربة. لم يُحدَّد أي سعر بعد. | |
 | `pilotProposal.pdf.footer` | Draft offer: no clinic has signed it, no partnership exists, and no price has been set. | مسودة عرض: لم توقّعها أي عيادة، ولا توجد أي شراكة، ولم يُحدَّد أي سعر. | |
+
+## Pain words, flow hints, the assistant named Nura (22 Nov, draft Arabic, not native-reviewed)
+Drafts written with Claude Code; the native review is still open. Feminine address to her. «كتل دموية» for clots and «نزول» for ordinary flow, per QUESTIONS #49 R6.
+
+| Key | English | Arabic (draft) |
+| --- | --- | --- |
+| `log.pain` | Pain: {pain} out of 10 · {band} | الألم: {pain} من 10 · {band} |
+| `log.painLevel.none` | none | لا ألم |
+| `log.painLevel.mild` | mild | خفيف |
+| `log.painLevel.moderate` | moderate | متوسط |
+| `log.painLevel.severe` | severe | شديد |
+| `log.painHint.none` | No pain today. | لا ألم اليوم. |
+| `log.painHint.mild` | Mild: you can still do your usual day. | خفيف: تستطيعين القيام بيومك المعتاد. |
+| `log.painHint.moderate` | Moderate: it gets in the way of what you do. | متوسط: يعيق ما تقومين به. |
+| `log.painHint.severe` | Severe: it's hard to do anything else. | شديد: يصعب معه فعل أي شيء آخر. |
+| `log.painScale` | Scale: 1–3 mild, 4–6 moderate, 7–10 severe. | المقياس: 1–3 خفيف، 4–6 متوسط، 7–10 شديد. |
+| `log.impactHint` | How much did your period or symptoms change your day? | إلى أي حد غيّرت دورتك أو أعراضك يومك؟ |
+| `log.flowHint.none` | No bleeding today. | لا يوجد نزول اليوم. |
+| `log.flowHint.spotting` | A few drops; a liner is enough. | قطرات قليلة؛ تكفي فوطة يومية رقيقة. |
+| `log.flowHint.light` | Light bleeding; a pad or tampon lasts several hours. | نزول خفيف؛ تدوم الفوطة أو السدادة عدة ساعات. |
+| `log.flowHint.medium` | Steady bleeding; you change a pad or tampon regularly through the day. | نزول منتظم؛ تغيّرين الفوطة أو السدادة بانتظام خلال اليوم. |
+| `log.flowHint.heavy` | Changing a pad or tampon every 1–2 hours, bleeding through your clothes, or clots bigger than 2.5 cm (NHS). | تغيير الفوطة أو السدادة كل ساعة إلى ساعتين، أو تسرّب الدم إلى الملابس، أو كتل دموية أكبر من 2.5 سم (NHS). |
+| `tabs.assistant` | Ask Nura | اسألي نورا |
+| `assistant.metaTitle` | Nura | نورا |
+| `assistant.title` | Nura | نورا |
+| `assistant.copilot` | Nura | نورا |
+| `assistant.subtitle` | Your AI health assistant: answers from curated guidelines, with sources | مساعدتك الصحية بالذكاء الاصطناعي: إجابات من إرشادات موثوقة مع مصادرها |
+| `landing.floatCopilot` | Nura, AI assistant · cites guidelines | نورا، مساعدة بالذكاء الاصطناعي · تستشهد بالإرشادات |
