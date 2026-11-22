@@ -4,15 +4,13 @@ import { useLocale, useTranslations } from "next-intl";
 import { useId, useMemo, useState } from "react";
 import { DEFAULTS, pilotValue, SOURCES, type PilotInputs } from "@/lib/pilot-roi";
 
-const FIELDS: { key: keyof PilotInputs; step: number; min: number; max?: number; unit: "count" | "pct" | "aed" | "months" }[] = [
+const FIELDS: { key: keyof PilotInputs; step: number; min: number; max?: number; unit: "count" | "pct" | "aed" }[] = [
   { key: "women", step: 50, min: 0, unit: "count" },
   { key: "gdmPct", step: 0.1, min: 0, max: 100, unit: "pct" },
   { key: "beforePct", step: 0.1, min: 0, max: 100, unit: "pct" },
   { key: "afterPct", step: 1, min: 0, max: 100, unit: "pct" },
   { key: "abnormalPct", step: 0.1, min: 0, max: 100, unit: "pct" },
   { key: "missedCostAed", step: 50, min: 0, unit: "aed" },
-  { key: "priceAedMonth", step: 10, min: 0, unit: "aed" },
-  { key: "months", step: 1, min: 1, max: 36, unit: "months" },
 ];
 
 /**
@@ -88,8 +86,6 @@ export function PilotValue() {
           <Fig label={t("out.extraClosed")} value={n0.format(r.extraClosed)} strong testid="extra-closed" />
           <Fig label={t("out.foundEarly")} value={n0.format(r.foundEarly)} strong testid="found-early" />
           <Fig label={t("out.value")} value={t("aed", { n: n0.format(r.value) })} />
-          <Fig label={t("out.subscription", { months: inputs.months })} value={t("aed", { n: n0.format(r.subscription) })} />
-          <Fig label={t("out.net")} value={t("aed", { n: n0.format(r.net) })} strong testid="net" />
         </dl>
         <p className="s" style={{ margin: 0 }} data-testid="per-1000">
           {t("per1000", { closed: n1.format(r.per1000.extraClosed), found: n0.format(r.per1000.foundEarly), value: n0.format(r.per1000.value) })}

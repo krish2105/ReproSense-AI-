@@ -124,13 +124,15 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 > - Where is the AI? Her voice and lab photos into the form, answers from a cited library, rewording. Rules make every safety decision; the AI can add an urgent route, never remove one.
 > - Model down? Red flags are plain rules and run first. Past 10 seconds she gets a fixed, sourced reply.
 > - 14 of 14 attacks blocked, on every change: /evidence.
+> - "Why not just Sahatna?" (our mentor says expect it; DoH owns Sahatna): "Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module."
+> - "DoH is adding maternity and IVF to Sahatna. Aren't you redundant?": "That's exactly where we fit. Sahatna lists maternity care and IVF as next; we've already built the women's record, the DoH postnatal steps and the PC008 follow-up loop, with safety evidence. We'd like to be that module rather than a second app."
 
 #### Slide 3, then the demo
 > YASH · 30 seconds · slide 3, the venture
 >
-> "Who pays? Clinics, per doctor, and primary-care networks, because the after-birth glucose test is on DoH's own scorecard, PC008. Women use it free.
+> "Who pays? Women never do. Clinics and primary-care networks pay a subscription, because the after-birth glucose test is on DoH's own scorecard, PC008. We'll set the price with our pilot clinic, from what the pilot measures.
 >
-> Next: a device memo for the Emirates Drug Establishment, a clinic letter of intent, UAE hosting, then a pilot at one clinic and a licensed company by May.
+> Next: a device memo for the Emirates Drug Establishment, a clinic letter of intent, UAE hosting with UAE PASS sign-in, then a pilot at one clinic and a licensed company by May.
 >
 > Since we were accepted we've merged 57 pull requests, all on our evidence page, and we're forming the company. Let us show you."
 >
@@ -161,6 +163,8 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 > - Behind at step 5? Skip it and close.
 > - Site slow or down? Yash plays ReproSense-demo.mp4 and Krishna talks over it.
 > - There's no Clinician link inside her app. Go through Demo people.
+>
+> If a judge asks the price (Yash): "There isn't one yet, on purpose. Women will always use it free; clinics and networks will subscribe, insurers later pay per follow-up closed. We set the number with our first pilot clinic, from what the pilot measures."
 >
 > If a judge asks "Have you tested this with real women or doctors?" (Yash): "Not yet. Everything you saw runs on fictional data, by design. Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with up to 20 women at one clinic." Never invent a number.
 >
@@ -317,23 +321,19 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 
 ### Business (PureHealth, investors)
 **Q14. Who pays?** *(Yash)*
-> Women use it free. Clinics pay per clinician seat; we're testing AED 399 a month. Primary-care networks pay for the
-> after-birth module because it closes a measured indicator, PC008. Insurers and employers come later.
+> Women use it free, always. Clinics and primary-care networks pay a subscription because it closes a measured
+> indicator, PC008; insurers later, per follow-up closed. There is no price yet on purpose: we set it with our first
+> pilot clinic, from what the pilot measures.
+
+**Q14b. Why not just use Sahatna, DoH's own app?** *(Krishna; our mentor flagged it)*
+> Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module.
 
 **Q15. How is this different from Flo, Clue or Nabta?** *(Yash)*
 > Trackers log and predict periods; Nabta sells consultations and services. We are the clinical record and rules
 > underneath care: cited patterns, a doctor-ready report, and follow-ups a clinic is measured on, Arabic-first. A
 > Nabta-style service could plug into us.
 
-**Q15b. DoH already has Sahatna. Why would anyone need this?** *(Yash)*
-> Sahatna is the front door to care: built by DoH with Abu Dhabi Health Data Services, over a million users in its
-> first year, it shows the records her clinics already hold in Malaffi and lets her book and consult. We cover the
-> months between those visits, which its public listings don't describe: her own cycle, symptom and blood-pressure
-> entries, turned into patterns worth discussing with a doctor and a follow-up her clinic tracks. We're a
-> complement: DoH has announced maternity and IVF services for Sahatna, and we'd welcome being a women's-health
-> module alongside them.
-
-Facts behind Q15b, checked 22 Nov 2026 (say only these; a DoH judge may know more than is published):
+**Facts behind Q14b (Sahatna), checked 22 Nov 2026.** Say only these; a DoH judge may know more than is published:
 - Launched 15 Oct 2024 at GITEX by DoH with ADHDS, the operator of Malaffi
   ([WAM](https://www.wam.ae/en/article/b5p217f-department-health-abu-dhabi-launches-sahatna)).
 - Over 1 million users in its first year; "Sahatna Space" opened inside TAMM on 16 Oct 2025, with maternity care

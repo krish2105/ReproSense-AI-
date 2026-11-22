@@ -78,13 +78,16 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <p class="a">Not yet with real women or a clinic: everything you saw runs on fictional data, by design. Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with up to 20 women at one clinic, measured on one number: the glucose test after gestational diabetes.</p></div>
 
 <div class="q"><span class="who Y">Y</span><b class="t">9. Who pays, and how much?</b>
-<p class="a">Women use it free. Clinics pay per clinician, AED 399 a month (a price we're testing), and primary-care networks pay for the after-birth module because it closes DoH's PC008 indicator. Insurers and employers later.</p></div>
+<p class="a">Women use it free, always. Clinics and primary-care networks will pay a subscription for the clinic's side, because it closes DoH's PC008 follow-up; insurers later, per follow-up closed. There's no price yet on purpose: we set it with our first pilot clinic, from what the pilot measures.</p></div>
 
 <div class="q"><span class="who Y">Y</span><b class="t">10. How is this different from Flo, Clue or Nabta?</b>
 <p class="a">Trackers log and predict; Flo's checker matches symptoms to conditions, which we refuse to do. Nabta sells clinic care and consultations. We're the record and the cited rules a clinic uses, Arabic-first, tied to a DoH indicator, and we never sell health data.</p></div>
 
 <div class="q"><span class="who">K</span><b class="t">11. Why wouldn't PureHealth just build this into Pura?</b>
 <p class="a">We'd rather be inside Pura than compete with it. From its public listings, Pura covers consultations, medicines and diabetes but no women's or maternal module; we bring the rules, the Arabic and the safety evidence as that module.</p></div>
+
+<div class="q"><span class="who">K</span><b class="t">11b. Why not just use Sahatna? (our mentor flagged this)</b>
+<p class="a">Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module.</p></div>
 
 <div class="q"><span class="who">K</span><b class="t">12. Is this a medical device?</b>
 <p class="a">It's designed to stay below that line: it doesn't diagnose or recommend treatment. The Emirates Drug Establishment decides, so our first step is a classification memo to them; then a DoH licence and an ADHICS gap assessment.</p></div>
@@ -247,7 +250,7 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <div class="q"><span class="who">K</span><b class="t">What about prompt injection, e.g. instructions hidden in a lab report?</b>
 <p class="a">Uploaded text is treated as data, never as instructions, and the model's output passes the same guard. It's attack 7 in our suite, and it's blocked.</p></div>
 <div class="q"><span class="who">K</span><b class="t">What's the latency and cost of the AI?</b>
-<p class="a">Each request has a 10-second budget with one retry and a cache; most of the app needs no model at all. We haven't measured cost at scale; the pilot stack is about AED 122 a month before any model.</p></div>
+<p class="a">Each request has a 10-second budget with one retry and a cache; most of the app needs no model at all. We haven't measured cost at scale yet; the pilot will.</p></div>
 <div class="q"><span class="who">K</span><b class="t">Bias: does it work equally for everyone?</b>
 <p class="a">The rules are the same for every woman and come from international guidelines. The network view shows rates by nationality and age band with groups under 10 hidden, so a clinic can see gaps. A proper fairness review needs real data, so it's part of the pilot.</p></div>
 <div class="q"><span class="who">K</span><b class="t">What's agentic about it?</b>
@@ -274,10 +277,10 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <p class="a">The product is for adults 18+. Teenage periods have different guideline thresholds, and minors need a different consent model, so we don't cover them.</p></div>
 
 <h3>E. Business and adoption (PureHealth and investors)</h3>
-<div class="q"><span class="who Y">Y</span><b class="t">What's the pricing?</b>
-<p class="a">Prices we're testing: AED 399 per clinician a month, AED 1,990 a month for a small clinic of up to 5, and network licences from AED 150,000 a year. Women never pay.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">Why is there no price?</b>
+<p class="a">Because it's a prototype and any number now would be a guess. Health buyers increasingly pay for measured outcomes, so we'll agree the price with our first pilot clinic once the pilot has measured the follow-ups closed. Women never pay.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">What's the market size?</b>
-<p class="a">Abu Dhabi has about 700 OB-GYN specialists, 14 fertility centres and 45 women's health facilities. Seats alone are about AED 3.35M a year, so the business needs network licences and payer programmes, then the GCC. We'll size it with pilot numbers, not a big top-down figure.</p></div>
+<p class="a">Abu Dhabi has about 700 OB-GYN specialists, 14 fertility centres and 45 women's health facilities. We start with clinics, then networks and payers, then the GCC, and we'll size the revenue with pilot numbers, not a big top-down figure.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">Who's your first customer?</b>
 <p class="a">A primary-care or women's health clinic that sees women in pregnancy and after birth, for example one clinic in a large network such as SEHA. Primary care fits best because PC008 counts family-medicine visits.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">How do you get women to use it?</b>
@@ -286,8 +289,8 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <p class="a">Follow-ups closed on a measured indicator, and counts by clinic without names. We'd start with a provider pilot and bring the numbers to a payer afterwards.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">What would you do with the grant?</b>
 <p class="a">Fund the pilot: UAE hosting, the penetration test, a clinical advisor's time and the first clinic's onboarding. The plan matches the grant in three stages over six months.</p></div>
-<div class="q"><span class="who Y">Y</span><b class="t">What's your margin?</b>
-<p class="a">On infrastructure only, a small clinic at AED 1,990 against a pilot stack of about AED 122 a month is roughly 94%, before support, compliance and any model. The pilot measures the real figure.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">Is it expensive to run?</b>
+<p class="a">No: most of the app needs no AI model at all, and a small UAE-hosted pilot server is a modest monthly cost. The margin depends on the price we set after the pilot.</p></div>
 <div class="q"><span class="who">K</span><b class="t">What's defensible if a big player copies you?</b>
 <p class="a">Cited clinical rules with sign-off, published safety evidence, the Arabic work and the tie to DoH indicators take time to rebuild. And a big player is more likely to be our channel than our competitor.</p></div>
 
@@ -313,7 +316,22 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <div class="q"><span class="who">K</span><b class="t">Who on the team is clinical?</b>
 <p class="a">None of us is a licensed clinician, which is why a clinical advisor is our first ask. Zebo brings biology and women's health research; the rules come from published guidelines, not our opinion.</p></div>
 
-<h3>H. Curveballs</h3>
+<h3>H. Sahatna, DoH's own app (our mentor flagged it)</h3>
+<p class="small">Sahatna (صحتنا) is the Department of Health's official app: UAE PASS sign-in, Malaffi records, booking, teleconsults, prescriptions, insurance, dependents, an AI symptom checker and a report-reading chatbot; 500K+ installs, over a million users in its first year. Its services are moving into "Sahatna Space" on TAMM, which lists maternity care features now and IVF, AI health assistance and personalised recommendations as upcoming. Its public pages don't mention cycle tracking or women's health. Never criticise it on stage: DoH is on the jury.</p>
+<div class="q"><span class="who">K</span><b class="t">Why not just use Sahatna?</b>
+<p class="a">Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module.</p></div>
+<div class="q"><span class="who">K</span><b class="t">DoH is adding maternity and IVF to Sahatna. Won't you be redundant?</b>
+<p class="a">That's where we fit. Sahatna lists maternity care and IVF as next; we've already built the women's record, the DoH postnatal steps, the PC008 follow-up loop and published safety evidence. We'd rather be that module than a second app.</p></div>
+<div class="q"><span class="who Y">Y</span><b class="t">So are you competing with DoH?</b>
+<p class="a">In women's health we go deeper than any app today, Sahatna included: months of cycle and pregnancy data, cited patterns, a doctor report and follow-ups tracked until they close. But as a business, Sahatna is our best route to every woman in Abu Dhabi, not our rival.</p></div>
+<div class="q"><span class="who">K</span><b class="t">What would connecting to Sahatna look like?</b>
+<p class="a">UAE PASS sign-in; with her consent, lab results and diagnoses read from Malaffi instead of typed in; her record sent back as FHIR; and an entry point from Sahatna Space so a woman opens her women's-health record there. Booking stays in Sahatna: our follow-up would hand off to it.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">Sahatna has an AI symptom checker. Isn't that the same?</b>
+<p class="a">It's different by design. A symptom checker looks at one moment and suggests probable causes; its results can't be saved or shared. We look at months of her own entries, never name a condition, and keep each pattern with its evidence for her doctor.</p></div>
+<div class="q"><span class="who A">A</span><b class="t">What will you build next?</b>
+<p class="a">UAE PASS sign-in; lab results from Malaffi with her consent; a Sahatna Space entry point; Apple Health and Health Connect for cycle and blood-pressure data; time-limited sharing with her doctor or family (one week to one year); a booking hand-off from each follow-up; IVF-cycle support; and opt-in reminders for tests, not only appointments.</p></div>
+
+<h3>I. Curveballs</h3>
 <div class="q"><span class="who">K</span><b class="t">"Your live cards say 'written from a template'. So where's the AI?"</b>
 <p class="a">The cards use the safe template by default; the AI does the language work where it helps her: voice into the form, lab photos, cited answers and the pre-visit brief. That's deliberate: rules decide.</p></div>
 <div class="q"><span class="who">K</span><b class="t">"Your data is in Frankfurt. Isn't that against UAE law?"</b>

@@ -81,8 +81,8 @@ def test_every_kpi_and_every_cited_source_is_in_it():
     for sid in pilot_proposal.SOURCE_IDS:
         assert sid in src, sid
         assert escape(src[sid].url) in html
-    # the price is labelled a hypothesis, and the measures say where their numbers come from
-    assert "AED 399" in html and "hypothesis" in html
+    # no price before the pilot (22 Nov): the offer says the price is agreed from what the pilot measured
+    assert "AED" not in html and escape(m["price"]["after"]) in html
     assert escape(m["basis"]["app"]) in html and escape(m["basis"]["source"]) in html
 
 
