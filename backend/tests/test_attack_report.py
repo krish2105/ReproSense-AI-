@@ -14,7 +14,7 @@ from tests import test_attack_suite as suite
 
 def test_each_attack_has_exactly_one_named_test():
     tests = {n for n, f in inspect.getmembers(suite, inspect.isfunction) if n.startswith("test_")}
-    assert [a["id"] for a in ar.ATTACKS] == list(range(1, 15))
+    assert [a["id"] for a in ar.ATTACKS] == list(range(1, 17))
     assert {a["test"] for a in ar.ATTACKS} == tests  # no attack without a test, no test outside the catalogue
     assert all(a["test"].startswith(f"test_attack_{a['id']:02d}_") for a in ar.ATTACKS)
     assert all(a["layer"] in ar.LAYERS for a in ar.ATTACKS)
@@ -25,7 +25,7 @@ def test_the_score_counts_only_passing_tests_as_blocked():
     outcomes[ar.ATTACKS[12]["test"]] = "not_run"
     outcomes[ar.ATTACKS[13]["test"]] = "not_blocked"
     r = ar.build(outcomes, "abc1234", datetime(2026, 11, 19, tzinfo=UTC))
-    assert (r["total"], r["blocked"], r["not_run"], r["not_blocked"]) == (14, 12, 1, 1)
+    assert (r["total"], r["blocked"], r["not_run"], r["not_blocked"]) == (16, 14, 1, 1)
     del outcomes[ar.ATTACKS[0]["test"]]  # a test that never ran is not counted as blocked
     assert ar.build(outcomes, "abc1234", datetime(2026, 11, 19, tzinfo=UTC))["attacks"][0]["result"] == "not_blocked"
 
@@ -48,7 +48,7 @@ def test_the_committed_results_match_the_catalogue():
     assert [(a["id"], a["name"], a["layer"], a["test"]) for a in r["attacks"]] == [
         (a["id"], a["name"], a["layer"], a["test"]) for a in ar.ATTACKS
     ]
-    assert r["total"] == 14 and r["blocked"] == sum(a["result"] == "blocked" for a in r["attacks"])
+    assert r["total"] == 16 and r["blocked"] == sum(a["result"] == "blocked" for a in r["attacks"])
     assert r["commit"] and r["date"]
 
 

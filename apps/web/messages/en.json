@@ -1355,7 +1355,9 @@
       "links": "Hashed, expiring, revocable links",
       "audit": "Hash-chained, append-only audit log",
       "rate_limit": "Rate limit by verified session or address",
-      "upload_limits": "Upload size and PDF checks"
+      "upload_limits": "Upload size and PDF checks",
+      "parser_bounds": "Bounded parsing: no upload can stall the API",
+      "edge": "Client address vouched for by the web app's own server"
     },
     "yes": "Yes",
     "no": "No",
@@ -1913,6 +1915,14 @@
       "14": {
         "name": "An oversized or broken PDF upload",
         "layer": "Upload size and PDF checks"
+      },
+      "15": {
+        "name": "A crafted lab-report text that would freeze the API for everyone",
+        "layer": "Bounded parsing: no upload can stall the API"
+      },
+      "16": {
+        "name": "Calling the API directly with a made-up client address to dodge the rate limit",
+        "layer": "Client address vouched for by the web app's own server"
       }
     },
     "built": {

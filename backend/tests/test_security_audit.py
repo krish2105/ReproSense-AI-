@@ -45,14 +45,7 @@ def test_the_lab_parser_stays_fast_on_a_large_hostile_upload():
     assert [(r["code"], r["value"]) for r in out["rows"]][:1] == [("FERR", 9.0)]
 
 
-def test_a_hostile_upload_answers_at_once(client, reseed):
-    h = login(client, "fatima")
-    blob = "\n".join(["Sample date: 2026-11-01", *HOSTILE.values(), "Ferritin   9 ng/mL 15-150 L"]).encode()
-    t0 = time.perf_counter()
-    r = client.post("/v1/documents", headers=h, files={"file": ("lab.txt", blob, "text/plain")})
-    assert time.perf_counter() - t0 < 3.0
-    assert r.status_code == 200, r.text
-    assert [(row["code"], row["value"], row["flag"]) for row in r.json()["rows"]] == [("FERR", 9.0, "L")]
+# test_a_hostile_upload_answers_at_once moved to the attack suite as attack 15 (docs/31 §H): one test per attack.
 
 
 def test_aligned_columns_still_parse_after_the_fix():
