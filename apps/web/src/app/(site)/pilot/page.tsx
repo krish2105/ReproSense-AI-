@@ -9,8 +9,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("metaTitle"), description: t("intro") };
 }
 
-// Pilot value for a clinic or an insurer (build week Y3). Public, like /pricing: a buyer sets the inputs and sees the
-// arithmetic. No measured outcome and no clinical claim; the defaults cite Abu Dhabi evidence or say "assumption".
+// A pilot scenario for a clinic (rewritten 22 Nov). Public, like /pricing: the clinic sets its own numbers and sees the
+// additional completed follow-ups. No measured outcome, no cases found, no money; defaults are examples or an assumed target.
 // Below it, the pilot proposal (#proposal, docs/29): scope, KPIs, data protection, the 90 days, and its one-page PDF.
 export default async function PilotPage() {
   const t = await getTranslations("pilot");

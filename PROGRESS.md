@@ -17,6 +17,17 @@ Blockers / questions:
 
 
 
+
+## 22 Nov 2026 (Sun, showcase day, Atharva): /pilot is a plain scenario
+- The calculator multiplied a 2017 to 2021 prevalence, a 2013 to 2014 attendance rate (4 to 6 week window), an assumed
+  target and a pooled international abnormal-result rate, then printed "tests expected to show raised blood sugar"
+  and an AED value. Those cannot be chained into a result (docs/CLAIMS_REGISTER.md).
+- Now: eligible women (clinician-documented gestational diabetes), completion today and a target the clinic sets give
+  the additional completed follow-ups. Example: 100 women, 25% to 50%, 25 more. No cases found, no money, no
+  per-1,000 line. The Al Ain figure is shown as a historical reference with its limits, never as a default.
+- Tests: `pilot-roi.test.ts` rewritten (5), web 118 unit, `e2e/pilot.spec.ts` and `pilot-proposal.spec.ts` 10/10 on
+  desktop and mobile, EN and AR, axe-clean.
+
 ## 22 Nov 2026 (Sun, showcase day, Atharva): PC008 is historical in the app
 - DoH retired Jawda PC008 in the 2025 update (Primary Care guidance V9, printed page 41), and the 2026 sets have no
   after-birth follow-up indicator. The app said providers report it "every quarter" and that closing a follow-up "moves

@@ -2214,3 +2214,28 @@ DoH retired Jawda PC008 in the 2025 update, so the app no longer calls it a curr
 | `landing.ev3` | About 1 in 5 pregnancies in Al Ain's Mutaba'ah study had gestational diabetes (21.3%). After the birth, the glucose test that catches type 2 diabetes early is easy to miss: at one Al Ain hospital (2013–14 data), only 265 of 1,043 women who had gestational diabetes (25.4%) came back for it within 4 to 6 weeks. | في دراسة «مُتابعة» في العين، أُصيبت نحو حالة حمل من كل خمس بسكري الحمل (21.3%). وبعد الولادة يسهل أن يُفوَّت اختبار الجلوكوز الذي يكشف السكري من النوع الثاني مبكراً: في أحد مستشفيات العين (بيانات 2013–2014) عادت 265 فقط من أصل 1,043 امرأة أُصبن بسكري الحمل لإجرائه خلال 4 إلى 6 أسابيع (25.4%). | |
 | `pricing.how.s2` | Measure one number: how many women with gestational diabetes complete the glucose test in the window their clinic's protocol sets (the ADA recommends 4 to 12 weeks after the birth). | قياس رقم واحد: عدد النساء المصابات بسكري الحمل اللواتي يُكملن فحص السكر في المدة التي يحددها بروتوكول العيادة (توصي الجمعية الأمريكية للسكري بـ4 إلى 12 أسبوعاً بعد الولادة). | |
 | `pilotProposal.intro` | A pilot at one Abu Dhabi clinic, with up to 20 women who choose to take part and 3 of its clinicians. It is measured on one number: how many women who had gestational diabetes complete the glucose test within 12 weeks of the birth. | برنامج تجريبي في عيادة واحدة في أبوظبي، تشارك فيه حتى 20 امرأة باختيارهن و3 من الطاقم الطبي في العيادة. ويُقاس برقم واحد: عدد النساء اللواتي كان لديهن سكري الحمل وأكملن فحص السكر خلال 12 أسبوعاً من الولادة. | |
+
+## /pilot as a plain scenario (22 Nov, draft Arabic, not native-reviewed)
+Every Arabic string below is a draft written with Claude Code (an AI review, not a native speaker's; #23 still applies).
+The calculator no longer chains published rates or shows money. Terms to check: «سيناريو» (scenario), «المؤهَّلات للمتابعة»
+(eligible for the follow-up), «خط أساس» (baseline), «حالة تم تجنّبها» (a case prevented).
+
+| Key | English | Arabic (draft) | Note |
+| --- | --- | --- | --- |
+| `pilot.metaTitle` | Pilot scenario | سيناريو البرنامج التجريبي | |
+| `pilot.title` | A pilot scenario for your clinic | سيناريو برنامج تجريبي لعيادتكم | |
+| `pilot.intro` | Put in your own clinic's numbers. This page does one subtraction, nothing more. It is a scenario, not a measured result: it does not count cases found, diagnoses or money saved, and it promises no outcome. ReproSense's own price is not here: it is set in the pilot. | أدخلوا أرقام عيادتكم. هذه الصفحة تُجري عملية طرح واحدة فقط. وهي سيناريو لا نتيجة مُقاسة: لا تحسب حالات مكتشفة ولا تشخيصات ولا مبالغ موفَّرة، ولا تَعِد بأي نتيجة. سعر ReproSense نفسه ليس هنا: يُحدَّد خلال التجربة. | |
+| `pilot.inputsTitle` | Your numbers | أرقامكم | |
+| `pilot.inputs.eligible` | Women eligible for the follow-up (clinician-documented gestational diabetes) | النساء المؤهَّلات للمتابعة (سكري حمل موثَّق من الطبيب) | |
+| `pilot.inputs.beforePct` | Glucose follow-up completed at your clinic today | نسبة إكمال فحص السكر بعد الولادة في عيادتكم حالياً | |
+| `pilot.inputs.afterPct` | Completion you aim for in the pilot | نسبة الإكمال التي تستهدفونها في البرنامج | |
+| `pilot.basis.example` | Example: replace it with your clinic's own figure | مثال: استبدلوه برقم عيادتكم | |
+| `pilot.basis.assumption` | Assumption: a target you set, not a result | افتراض: هدف تحددونه أنتم وليس نتيجة | |
+| `pilot.reference` | A historical reference, not your baseline: | مرجع تاريخي وليس خط أساس لعيادتكم: | |
+| `pilot.resultTitle` | The scenario | السيناريو | |
+| `pilot.out.completedBefore` | Follow-ups completed at today's rate | المتابعات المكتملة بالنسبة الحالية | |
+| `pilot.out.completedAfter` | Follow-ups completed at your target | المتابعات المكتملة بالنسبة المستهدفة | |
+| `pilot.out.extraCompleted` | Additional completed follow-ups | متابعات مكتملة إضافية | |
+| `pilot.notOutcome` | A completed follow-up is a test that was done. It is not a case found or a case prevented. | المتابعة المكتملة هي فحص أُجري فعلاً، وليست حالة مكتشفة أو حالة تم تجنّبها. | |
+| `pilot.assumptions` | Both rates are yours to set; ReproSense has not measured either. Follow-up here means the glucose test the American Diabetes Association recommends 4 to 12 weeks after gestational diabetes, in the window your clinic's protocol sets. Use the same time window for today's rate and for the target. This is not a forecast and not a clinical claim. | النسبتان تحددونهما أنتم، ولم تقِس ReproSense أياً منهما. المتابعة هنا هي فحص السكر الذي توصي به الجمعية الأمريكية للسكري بعد 4 إلى 12 أسبوعاً من الولادة لمن كان لديهن سكري الحمل، ضمن المدة التي يحددها بروتوكول عيادتكم. استخدموا المدة الزمنية نفسها للنسبة الحالية والنسبة المستهدفة. هذا ليس توقعاً ولا ادعاءً طبياً. | |
+| removed | `pilot.inputs.women/gdmPct/abnormalPct/missedCostAed`, `pilot.out.gdm/closedBefore/closedAfter/extraClosed/foundEarly/value`, `pilot.aed`, `pilot.per1000`, `pilot.units.aed`, `pilot.basis.source` | | withdrawn with the chained arithmetic |

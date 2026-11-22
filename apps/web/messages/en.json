@@ -2339,39 +2339,32 @@
     "remindersOpen": "Reminders are on, but this browser cannot send them while ReproSense is closed. Installed on an Android phone, it reminds you daily."
   },
   "pilot": {
-    "metaTitle": "Pilot value",
-    "title": "What a pilot could be worth to your clinic",
-    "intro": "Set the numbers for your own clinic or insurer. This page multiplies them, nothing more: it is not a measured result and promises no outcome. Each default comes from a published study (two from Abu Dhabi, one pooled from 18 studies) or is marked as an assumption. ReproSense's own price is not here: it is set in the pilot.",
+    "metaTitle": "Pilot scenario",
+    "title": "A pilot scenario for your clinic",
+    "intro": "Put in your own clinic's numbers. This page does one subtraction, nothing more. It is a scenario, not a measured result: it does not count cases found, diagnoses or money saved, and it promises no outcome. ReproSense's own price is not here: it is set in the pilot.",
     "inputsTitle": "Your numbers",
     "inputs": {
-      "women": "Women who give birth during the pilot",
-      "gdmPct": "Share with diabetes in pregnancy (gestational diabetes)",
-      "beforePct": "After-birth glucose follow-up completed today",
-      "afterPct": "Completion you aim for with ReproSense",
-      "abnormalPct": "Share of those tests that show raised blood sugar",
-      "missedCostAed": "Cost of one missed follow-up"
+      "eligible": "Women eligible for the follow-up (clinician-documented gestational diabetes)",
+      "beforePct": "Glucose follow-up completed at your clinic today",
+      "afterPct": "Completion you aim for in the pilot"
     },
     "units": {
       "count": "women",
-      "pct": "%",
-      "aed": "AED"
+      "pct": "%"
     },
     "basis": {
-      "source": "Source",
-      "assumption": "Assumption: replace it with your own figure"
+      "example": "Example: replace it with your clinic's own figure",
+      "assumption": "Assumption: a target you set, not a result"
     },
-    "resultTitle": "The arithmetic",
+    "reference": "A historical reference, not your baseline:",
+    "resultTitle": "The scenario",
     "out": {
-      "gdm": "Women with gestational diabetes",
-      "closedBefore": "Follow-ups completed at today's rate",
-      "closedAfter": "Follow-ups completed at your target",
-      "extraClosed": "Follow-ups closed that would otherwise be missed",
-      "foundEarly": "Of those, tests expected to show raised blood sugar",
-      "value": "Value of those follow-ups"
+      "completedBefore": "Follow-ups completed at today's rate",
+      "completedAfter": "Follow-ups completed at your target",
+      "extraCompleted": "Additional completed follow-ups"
     },
-    "aed": "AED {n}",
-    "per1000": "Per 1,000 women who give birth: {closed} more follow-ups closed, about {found} of them expected to show raised blood sugar that would otherwise go unfound, worth AED {value} at your cost per missed follow-up.",
-    "assumptions": "The target completion and the cost of a missed follow-up are yours to set; ReproSense has not measured either yet. Follow-up here means the glucose test the American Diabetes Association recommends 4 to 12 weeks after gestational diabetes. This is not a forecast and not a clinical claim. The share with raised sugar is a pooled average from published studies; your clinic's own rate will differ.",
+    "notOutcome": "A completed follow-up is a test that was done. It is not a case found or a case prevented.",
+    "assumptions": "Both rates are yours to set; ReproSense has not measured either. Follow-up here means the glucose test the American Diabetes Association recommends 4 to 12 weeks after gestational diabetes, in the window your clinic's protocol sets. Use the same time window for today's rate and for the target. This is not a forecast and not a clinical claim.",
     "toPricing": "How it will be paid for",
     "toDemo": "Open the demo"
   },
