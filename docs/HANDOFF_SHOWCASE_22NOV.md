@@ -54,13 +54,16 @@ conditions are found late and follow-ups are missed.
   signs are there in her own days, but spread over months and apps, and a visit is about ten minutes.
 - **Missed follow-ups after birth.** In Al Ain, **21.3% of 2,546 pregnancies** had gestational diabetes (Frontiers in
   Endocrinology, 2022), and at one hospital only **265 of 1,043** of those mothers (1 in 4) came back for the glucose
-  test after the birth (IJERPH, 2022). That test is part of DoH's own Jawda indicator **PC008**.
+  test after the birth (IJERPH, 2022; 2013 to 2014 data, a 4 to 6 week window). DoH measured this follow-up as Jawda
+  **PC008** until the indicator was retired in the 2025 update; the clinical recommendation stands (ADA 2026: 4 to 12
+  weeks).
 - **Why it matters for life (longevity).** After diabetes in pregnancy, type 2 diabetes is about **ten times** more
   likely (BMJ, 2020). PCOS raises later cardiometabolic risk, so the 2023 guideline asks for regular glucose and
   blood-pressure checks. Missing these follow-ups costs years of healthy life and money later.
-- **Today's options don't close the loop.** Period trackers log and predict; chatbots don't know her record; Sahatna
-  (DoH's own app) is the front door for records, booking and teleconsults but has no cycle or women's-health tracking.
-  Nothing follows her across her reproductive life and hands her doctor a clear, cited picture.
+- **Today's options don't close the loop.** Trackers such as Flo offer logging, predictions and symptom checks;
+  chatbots don't know her record; Sahatna (DoH's own app) is the front door for records, booking and teleconsults and
+  has maternity features, and Malaffi gives clinicians AI summaries. None of them hands her clinic her own logged
+  observations with the evidence and follows the recommended follow-up until it is done.
 
 **What we built (ReproSense)**
 - Her health record in Arabic and English; she logs in seconds by tap, voice (Gulf Arabic) or a lab-report photo.
@@ -70,7 +73,7 @@ conditions are found late and follow-ups are missed.
 - **Nura**, the AI assistant, answers only from a cited library or from her own numbers computed by code; a verifier
   drops unsupported sentences. Food questions get NHS food guidance, never a medicine.
 - **For the doctor:** a pre-visit brief and a two-page report read in a minute.
-- **For the clinic and network:** the follow-ups DoH measures (PC008, the postnatal steps), tracked from opened to
+- **For the clinic and network:** the recommended follow-ups (the after-birth glucose test, the postnatal steps), tracked from opened to
   booked to done. Counts only at network level.
 - **Across life stages:** periods, trying to conceive (when to ask for a fertility assessment), pregnancy (glucose
   screen at 24–28 weeks), after birth (DoH postnatal steps, baby's first year, feeding), perimenopause, and living
@@ -83,8 +86,8 @@ conditions are found late and follow-ups are missed.
 - **No price yet:** it's set with the first pilot clinic, from what the pilot measures.
 
 **The measure of success.** In a 90-day pilot at one clinic: the share of women with gestational diabetes who complete
-the glucose test within 12 weeks of birth. Lifting it from 1 in 4 to 1 in 2 would mean about 18 more mothers per
-1,000 births with raised blood sugar found early (arithmetic: 21.3% × (50% − 25.4%) × 34.5% pooled rate).
+the glucose test in the window their clinician sets. As a scenario only: if 100 eligible women went from 25% to 50%,
+that is 25 more completed follow-ups. It is not a count of cases found or prevented.
 
 **Proof it works (all on /evidence and /status)**
 - **Safety, held-out:** 132 questions written separately from the code, never tuned on. With the AI check: crisis

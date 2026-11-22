@@ -54,11 +54,13 @@ The information exists. It reaches the doctor in pieces, so conditions are recog
 | Up to 70% of women with polycystic ovary syndrome (PCOS) do not know they have it. | [WHO, 2026](https://www.who.int/news-room/fact-sheets/detail/polycystic-ovary-syndrome) |
 | In a UAE study of 518 women, endometriosis took 11.6 years on average from first symptoms to diagnosis. | [Frontiers in Global Women's Health, 2021](https://doi.org/10.3389/fgwh.2021.708410) |
 | In Al Ain, 21.3% of 2,546 pregnancies had gestational diabetes, about 1 in 5. | [Frontiers in Endocrinology, 2022](https://doi.org/10.3389/fendo.2022.1069477) |
-| At one Al Ain hospital, only 265 of 1,043 of those mothers came back for the glucose test after the birth, about 1 in 4. | [IJERPH, 2022](https://doi.org/10.3390/ijerph192113946) |
+| At one Al Ain hospital, on 2013 to 2014 data, only 265 of 1,043 of those mothers came back for the glucose test within 4 to 6 weeks of the birth, about 1 in 4. | [IJERPH, 2022](https://doi.org/10.3390/ijerph192113946) |
 
-That last follow-up matters to the health system as well as to her. The Department of Health already measures it in
-its primary-care quality indicator, Jawda PC008. More evidence, with links, is in
-[docs/05](docs/05_EVIDENCE_AND_RESEARCH.md).
+That last follow-up matters to her later health: the American Diabetes Association recommends a glucose test 4 to 12
+weeks after gestational diabetes. The Department of Health measured this follow-up as its primary-care indicator Jawda
+PC008 until that indicator was retired in the 2025 update, so we do not present it as a current reporting duty. The
+clinical recommendation stands. More evidence, with links, is in [docs/05](docs/05_EVIDENCE_AND_RESEARCH.md), and every
+claim we make is listed with its source and limits in [docs/CLAIMS_REGISTER.md](docs/CLAIMS_REGISTER.md).
 
 ## The solution
 
@@ -88,25 +90,27 @@ perimenopause. After a birth it also carries her baby's first-year checks and va
 | **Her, before a visit** | A care navigator drafts her appointment request, her questions and a what-to-bring list. It only drafts. Nothing is sent or booked until she approves. |
 | **Her doctor** | A two-page PDF report, a pre-visit brief, and an export in FHIR R4, the standard format that health record systems use. |
 | **Her clinician** (with her consent) | A one-minute handover summary, the same evidence she sees, follow-ups that are due, and a way to ask questions that are answered only from her entries. |
-| **The clinic network** | Follow-ups opening and closing, the PC008 glucose follow-up, timings for each step, a fairness check across groups, and a tamper-evident log of who opened what. Counts only, never names. |
+| **The clinic network** | Follow-ups moving from due, to booked, to done, the after-birth glucose follow-up, timings for each step, a fairness check across groups, and a tamper-evident log of who opened what. Counts only, never names. |
 
 Everything works in English and Arabic (right to left), in light and dark mode, on a phone or a laptop. It can be
 installed from the browser like an app.
 
 ## How it is different
 
-### Compared with period and symptom trackers
+### Compared with period and women's health apps
 
-Trackers such as Flo and Clue are good at recording periods and predicting the next one. ReproSense is built for a
-different job: getting her history to a doctor in a form the doctor can use.
+Other products already do valuable parts of this, and we do not claim otherwise.
 
-| | Period trackers | ReproSense |
+| Product | What it offers | Where ReproSense is different |
 | --- | --- | --- |
-| Main purpose | Record and predict cycles | Prepare her and her doctor for a visit, and track follow-ups |
-| What it tells her | Predictions and general tips | Patterns worth discussing, each with her own entries and its guideline source |
-| Connection to her clinic | A report she can export | A consented share, a clinician view, and follow-ups tracked until closed |
-| Life stages | Mostly periods and pregnancy | Periods, trying to conceive, pregnancy, after birth, baby's first year, perimenopause |
-| Language and place | Global, usually English first | Arabic and English from the start, written around Abu Dhabi's guidelines and health data law |
+| Flo, Clue | Cycle tracking and predictions. Flo also offers informational symptom checks, including for PCOS. | Each pattern shows her own dated entries and its guideline source, and goes to her clinic with consent. |
+| Ovia | Support across life stages, sold to health plans, employers and health systems. | Built around one clinic workflow in Abu Dhabi, in Arabic and English. |
+| Nabta Health | AI-supported women's healthcare delivered locally. | We are software a clinic adopts, not a care provider. A service like Nabta could use it. |
+| A nurse's phone call, or a reminder in the clinic's own system | A prompt that a test is due. | The follow-up is tracked from due, to booked, to done, alongside her own history, and the clinic can see who is still open. |
+
+Our intended specialty is narrow: what a woman observes and logs herself, connected to evidence, handed to her clinic
+with her consent, and followed until the recommended care is completed. Whether that works better than the
+alternatives is what a pilot has to show.
 
 ### Compared with general AI assistants such as ChatGPT, Claude and Gemini
 
@@ -128,15 +132,18 @@ it a much narrower job.
 In short: an AI assistant answers a question. ReproSense keeps her record, shows its evidence, knows when something
 cannot wait, and carries the result to her clinic.
 
-### Compared with Sahatna, the Department of Health's own app
+### Compared with Sahatna and Malaffi, the Department of Health's own services
 
-Sahatna is Abu Dhabi's front door to care: medical records from Malaffi, appointments, teleconsultations and
-prescriptions, used by more than a million people. ReproSense is not a second front door. It covers the months between
-visits, which Sahatna's public listings do not describe: what a woman notices and logs herself, explained with its
-guideline source and followed up with her clinic.
+Sahatna is Abu Dhabi's front door to care: medical records, appointments, teleconsultations, prescriptions, wellness
+tools and maternity care features, used by more than a million people. Malaffi, the health information exchange behind
+it, gives clinicians AI summaries of the record and a patient wellness view. ReproSense does not replace either one.
 
-The two fit together. The Department of Health has announced maternity care and IVF services for Sahatna. ReproSense
-would like to be a women's health module alongside them, not a competing app.
+What it adds is the part she writes herself between visits: her cycle, symptoms and readings, explained with their
+guideline source, shared with her clinic by her choice, and a recommended follow-up tracked until it is done.
+
+To be exact about integration: ReproSense exports in FHIR, the standard format. That is not a Malaffi integration.
+A link to Malaffi or Sahatna would need a partnership with the Department of Health, which we do not have and do not
+claim.
 
 ## What the Department of Health gains
 
@@ -146,7 +153,7 @@ what happens before she ever books.
 | Benefit | What it means | Status |
 | --- | --- | --- |
 | Sight of the months between visits | How many women's entries match a pattern worth discussing, and how many of them have shared a report with a clinic, by region and age band. This shows where services and awareness are needed. | Built, on the network dashboard, with fictional data |
-| Faster programme numbers | The after-birth indicator (PC008) is reported once a quarter. Here, follow-ups can be seen opening and closing week by week. | Built, with fictional data |
+| Follow-up seen as it happens | After-birth follow-ups can be seen moving from due, to booked, to done, week by week. (The former indicator for this, PC008, was retired in 2025; the pilot clinic confirms which current measure applies.) | Built, with fictional data |
 | Where follow-up is slow | Days from a follow-up opening to being booked, and postnatal steps completed inside their recommended window. | Built, with fictional data |
 | Fairness evidence | Whether women in different age bands and nationality groups are flagged and followed up at similar rates. | Built, with fictional data |
 | A working example of responsible AI | Rules that explain themselves, human approval before any action, an AI off switch, and an access log she can read. These match what the Department's Responsible AI Standard asks for. | Built |
@@ -212,8 +219,10 @@ flowchart LR
 
 The design choices that matter ([docs/02](docs/02_ARCHITECTURE.md), [docs/03](docs/03_AI_PIPELINE.md)):
 
-- **Rules decide, sources ground, the model only rewords.** The insights pipeline is a fixed sequence of steps. The
-  rules step uses no AI. A verifier removes any sentence the facts do not support. With no model configured the app
+- **Rules decide the patterns. The model does language work, and each part is checked.** The model turns her spoken
+  sentence or a lab photo into fields that she confirms before anything is saved, rewords text, and gives a second
+  safety classification of chat messages. The rules step that decides patterns uses no AI. A verifier removes any
+  sentence the facts do not support. With no model configured the app
   still works in full, using fixed wording, so the demo never depends on an AI key.
 - **Safety checks look for combinations of ideas,** such as heavy bleeding together with fainting, in English and in
   Gulf, Egyptian, Levantine and standard Arabic. When a model is configured, it gives a second opinion that can add
@@ -272,8 +281,8 @@ produces identical output for its seed.
 
 Women use ReproSense free, always. There is no advertising and health data is never sold.
 
-Clinics and primary-care networks would pay a subscription, because the product closes follow-ups they are already
-measured on. Insurers could later pay per follow-up closed. There is no price yet, on purpose: it will be set with
+Clinics and primary-care networks would pay a subscription, because follow-ups that guidelines recommend get done and
+they can see it. Insurers could later pay per follow-up closed. There is no price yet, on purpose: it will be set with
 the first pilot clinic, from what the pilot measures. The live site has a page where a clinic can enter its own
 numbers and see how many more follow-ups would close ([/pilot](https://reprosense.vercel.app/pilot)). The pilot
 proposal is in [docs/29](docs/29_PILOT_PROPOSAL_AND_LOI.md).
