@@ -15,6 +15,12 @@ Blockers / questions:
 - ...
 ```
 
+## 22 Nov 2026 (Sun, showcase day, Atharva): what we checked and did not show; Sahatna and acne answers
+- Patterns: "What we checked and did not show". Her own numbers next to each period rule's threshold, with its source, so an absent card is explained too (acne without irregular cycles never becomes a pattern). No rule changed; a test reads the thresholds against rules/clinical_rules.yaml. Not shown in pregnancy, while breastfeeding, in the year after a birth or on the crisis path. Health wording needs Krishna's G2 read; Arabic is a draft (docs/AR_REVIEW.md).
+- docs/27: answers for "DoH already has Sahatna" (Q15b, with sourced facts) and "won't acne be called PCOS?" (Q15c).
+Tests: backend 884 pass (9 new) · web lint, typecheck, unit pass · e2e checked.spec 4/4 on desktop and mobile
+Next: clinician decision on asking once about hormonal contraception, medicines and thyroid conditions, and on holding the cycle card on hormonal contraception (changes when a rule fires).
+
 ## 21 Nov 2026 (Sat night, after the freeze, Krishna approved): landing hero cards no longer cover the phone
 - The two floating cards on the landing were placed against the hero column, so on wide screens "Worth discussing"
   covered Noura's avatar and greeting, and "AI Copilot" covered the "Next step" card. The phone also cut "Ask your
