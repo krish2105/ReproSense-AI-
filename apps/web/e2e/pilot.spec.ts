@@ -1,25 +1,35 @@
 import { ar, en, expect, expectAccessible, expectNoSideScroll, test, useLanguage } from "./fixtures";
 
-// Build week Y3: the public pilot value page. Defaults cite Abu Dhabi studies (21.3% gestational diabetes, 25.4%
-// follow-up) or say "assumption"; the result is arithmetic on the inputs (see src/lib/pilot-roi.test.ts).
-test("a clinic manager sees the arithmetic, changes an input and the result follows", async ({ page }) => {
+// The public pilot scenario page (rewritten 22 Nov 2026). The clinic supplies its eligible women and today's completion,
+// sets a target, and sees the additional completed follow-ups: one subtraction (see src/lib/pilot-roi.test.ts). The page
+// shows no cases found, no money and no per-1,000 projection; the Al Ain figure is a historical reference with its limits.
+test("a clinic manager sees the scenario, changes an input and the result follows", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("link", { name: en.chrome.footerPilot }).click();
   await expect(page).toHaveURL(/\/pilot$/);
   await expect(page.getByRole("heading", { level: 1, name: en.pilot.title })).toBeVisible();
-  await expect(page.getByRole("link", { name: /21\.3% of 2,546 pregnancies/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: /265 of 1,043 women/ })).toBeVisible();
-  await expect(page.getByText(en.pilot.basis.assumption).first()).toBeVisible();
-  await expect(page.getByTestId("extra-closed")).toHaveText("52");
-  await expect(page.getByTestId("found-early")).toHaveText("18"); // 34.5% of the 52 extra tests (pooled, 18 studies)
-  await expect(page.getByRole("link", { name: /34\.5%, pooled from 18 studies/ })).toBeVisible();
-  await expect(page.getByTestId("pilot-result")).not.toContainText("subscription"); // no ReproSense price (22 Nov)
-  await expectAccessible(page, "pilot value");
-  await expectNoSideScroll(page, "pilot value");
+  await expect(page.getByText(en.pilot.basis.example).first()).toBeVisible();
+  await expect(page.getByText(en.pilot.basis.assumption)).toBeVisible();
+  await expect(page.getByTestId("extra-completed")).toHaveText("25"); // 100 eligible women, 25% to 50%
+  await expect(page.getByText(en.pilot.notOutcome)).toBeVisible();
 
-  await page.getByLabel(en.pilot.inputs.afterPct).fill("20"); // a target below today's 25.4%
-  await expect(page.getByTestId("extra-closed")).toHaveText("0"); // never a negative number of follow-ups
-  await expect(page.getByTestId("found-early")).toHaveText("0");
+  const reference = page.getByTestId("pilot-reference");
+  await expect(reference).toContainText(en.pilot.reference);
+  await expect(reference.getByRole("link", { name: /265 of 1,043 women.*4 to 6 weeks.*one Al Ain hospital, 2013 to 2014 data/ })).toHaveAttribute(
+    "href",
+    "https://doi.org/10.3390/ijerph192113946",
+  );
+
+  const result = page.getByTestId("pilot-result");
+  await expect(result).not.toContainText("AED"); // no money value, and no ReproSense price
+  await expect(result).not.toContainText(/raised blood sugar|found early|per 1,000/i); // completed tests only, never cases
+  await expectAccessible(page, "pilot scenario");
+  await expectNoSideScroll(page, "pilot scenario");
+
+  await page.getByLabel(en.pilot.inputs.eligible).fill("20"); // the pilot's own size
+  await expect(page.getByTestId("extra-completed")).toHaveText("5");
+  await page.getByLabel(en.pilot.inputs.afterPct).fill("20"); // a target below today's 25%
+  await expect(page.getByTestId("extra-completed")).toHaveText("0"); // never a negative number of follow-ups
 });
 
 test("the pilot page reads right to left in Arabic", async ({ page }) => {
@@ -28,7 +38,8 @@ test("the pilot page reads right to left in Arabic", async ({ page }) => {
   await page.goto("/pilot");
   await expect(page.getByRole("heading", { level: 1, name: ar.pilot.title })).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
-  await expect(page.getByTestId("found-early")).toHaveText("18");
-  await expectAccessible(page, "pilot value, Arabic");
-  await expectNoSideScroll(page, "pilot value, Arabic");
+  await expect(page.getByTestId("extra-completed")).toHaveText("25");
+  await expect(page.getByText(ar.pilot.notOutcome)).toBeVisible();
+  await expectAccessible(page, "pilot scenario, Arabic");
+  await expectNoSideScroll(page, "pilot scenario, Arabic");
 });
