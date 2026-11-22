@@ -359,6 +359,33 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 > underneath care: cited patterns, a doctor-ready report, and follow-ups a clinic is measured on, Arabic-first. A
 > Nabta-style service could plug into us.
 
+**Facts behind Q14b (Sahatna), checked 22 Nov 2026.** Say only these; a DoH judge may know more than is published:
+- Launched 15 Oct 2024 at GITEX by DoH with ADHDS, the operator of Malaffi
+  ([WAM](https://www.wam.ae/en/article/b5p217f-department-health-abu-dhabi-launches-sahatna)).
+- Over 1 million users in its first year; "Sahatna Space" opened inside TAMM on 16 Oct 2025, with maternity care
+  features named and IVF services listed as coming
+  ([DoH](https://www.doh.gov.ae/en/news/abu-dhabi-advances-smart-and-intelligent-health-system-with-launch-of-sahatna-space-on-tamm)).
+- Its App Store listing describes appointments, records, prescriptions, dependents, wearables, an AI patient
+  assistant and self-assessments for mental health and child autism. We found no cycle, symptom or home
+  blood-pressure logging and no doctor summary from her own entries in it
+  ([App Store](https://apps.apple.com/us/app/id6472413092)). Say "its public listings don't describe", never
+  "Sahatna has nothing for women".
+- We found no public API or developer programme for Sahatna or Malaffi. Our route is the clinic: the report and the
+  FHIR export land in the clinic's own record system, which is already connected to Malaffi. A direct link would be
+  a DoH or ADHDS partnership we would ask for.
+
+**Q15c. She has acne. Won't your app tell her she has PCOS?** *(Krishna or Atharva)*
+> No. Acne on its own never creates a pattern: the rule needs irregular cycles first, as the 2023 international PCOS
+> guideline describes, and even then it says "ask your doctor whether an assessment is appropriate". On the Patterns
+> screen, "What we checked and did not show" lists her own numbers next to each rule's threshold, so she can see
+> why no card appeared. It never says nothing is wrong.
+
+Behind Q15c: the guideline calls acne and hair loss without excess hair growth relatively weak predictors of raised
+androgens (recommendation 1.3.2), and lists what a doctor rules out first (thyroid, prolactin, 17-OH progesterone).
+Not built yet, and say so if asked: asking once about hormonal contraception, medicines and thyroid conditions, and
+holding the cycle card while she is on hormonal contraception. That changes when a rule fires, so it waits for the
+clinical advisor.
+
 **Q16. Why would PureHealth or SEHA use this instead of building it into Pura?** *(Krishna)*
 > We'd rather be inside Pura than compete with it: a women's-health module with its own rules and safety evidence,
 > connected to SEHA clinics. We bring the clinical logic, the Arabic and the validation; they bring the reach.
