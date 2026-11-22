@@ -19,8 +19,9 @@ IF ASKED
 - 70%: WHO PCOS fact sheet, Jan 2026.
 - 11.6 years: 518 women in the UAE, Frontiers in Global Women's Health, 2021.
 - 1 in 5 pregnancies with gestational diabetes: 2,546 pregnancies in Al Ain, Frontiers in Endocrinology, 2022.
-- 1 in 4 came back: 265 of 1,043 women, one Al Ain hospital, IJERPH, 2022.
-- PC008 (if asked about impact): only 1 in 4 mums with diabetes in pregnancy came back for the glucose test (IJERPH, 2022). 18 per 1,000 is arithmetic, not our result: 1,000 x 21.3% x (50% - 25.4%) x 34.5% (pooled from 18 studies, Endocrine, 2025). The inputs are on /pilot.
+- 1 in 4 came back: 265 of 1,043 women, one Al Ain hospital, 2013 to 2014 data, within 4 to 6 weeks, IJERPH, 2022.
+- Impact (if asked): at one Al Ain hospital, on 2013 to 2014 data, 1 in 4 mums with diabetes in pregnancy came back for the glucose test within 4 to 6 weeks (IJERPH, 2022). We have not measured our own effect. Scenario only: if 100 eligible women go from 25% to 50%, that is 25 more completed follow-ups. Never say "18 per 1,000" or "cases found".
+- PC008 (if a DoH judge raises it): DoH measured this follow-up as Jawda PC008 until the indicator was retired in the 2025 update (V8); the 2026 sets have no after-birth follow-up indicator. The clinical recommendation stands (ADA 2026: a glucose test 4 to 12 weeks after birth). Our pilot clinic confirms which current quality measure applies.
 - Not sure? "Good question. We haven't measured that yet." Then hand to Krishna.
 - Longevity? After diabetes in pregnancy, type 2 diabetes is about ten times more likely (Vounzoulaki et al., BMJ 2020), so the after-birth glucose test protects her later health. The 2023 PCOS guideline also asks for regular glucose and blood-pressure checks, because PCOS raises cardiometabolic risk.
 - Fertility? The Trying stage says when to ask for a fertility assessment (after 12 months, or 6 months at 35 or over: NICE NG257, ASRM 2021) and gives a sourced planning checklist (folic acid, rubella). IVF support is on the roadmap.`;
@@ -38,7 +39,7 @@ And it's safe: on 132 messages it was never tuned on, all 30 crises went to supp
 (Turn to Yash.)
 
 IF ASKED
-- Human plus technology? Clinical knowledge sits in the rules, taken from published guidelines. The AI only does language. She checks every value before it saves, the care navigator only drafts, and the doctor makes every decision.
+- Human plus technology? Clinical knowledge sits in the rules, taken from published guidelines. The AI does language work: it turns her voice and lab photos into fields she confirms, rewords text, and gives a second safety check. She checks every value before it saves, the care navigator only drafts, and the doctor makes every decision.
 - Privacy in one breath: hers by default. Her clinic sees it only if she shares, and she can revoke, export or delete everything. The network sees counts, never names (groups under 10 are hidden). Names are removed before any text reaches a model, and with AI off nothing is sent. She can read every access in a tamper-evident log. We never sell health data.
 - Where is the data? The demo is fictional and hosted in Frankfurt. Production stays in the UAE, as the Health Data Law requires (February milestone).
 - Privacy not done yet (say it if pushed): UAE hosting, backups, penetration test, privacy impact assessment. ADHICS gap assessment in December; UAE hosting and the penetration test in February.
@@ -46,8 +47,8 @@ IF ASKED
 - Where is the AI? Her voice and lab photos into the form, answers from a cited library, rewording. Rules make every safety decision; the AI can add an urgent route, never remove one.
 - Model down? Red flags are plain rules and run first. Past 10 seconds she gets a fixed, sourced reply.
 - 14 of 14 attacks blocked, on every change: /evidence.
-- "Why not just Sahatna?" (our mentor says expect it; DoH owns Sahatna): "Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module."
-- "DoH is adding maternity and IVF to Sahatna. Aren't you redundant?": "That's exactly where we fit. Sahatna lists maternity care and IVF as next; we've already built the women's record, the DoH postnatal steps and the PC008 follow-up loop, with safety evidence. We'd like to be that module rather than a second app."
+- "Why not just Sahatna?" (our mentor says expect it; DoH owns Sahatna): "Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and follows each recommended follow-up until it is done. Sahatna already has maternity features and Malaffi gives clinicians AI summaries; our specialty is what she logs herself between visits, handed to her clinic with the evidence. We export in FHIR, the standard format; a link to Malaffi or Sahatna would be a partnership we'd ask DoH for."
+- "DoH is adding maternity and IVF to Sahatna. Aren't you redundant?": "That's exactly where we fit. Sahatna has maternity care features today and lists IVF as next; we've already built the women's record, the postnatal steps and the after-birth glucose follow-up loop, with safety evidence. We'd like to be that module rather than a second app."
 - Who is Nura? Our AI assistant, named in Arabic (نورا). She answers only from our cited library or from her own numbers computed by code, never diagnoses, and a verifier drops any sentence a source doesn't support.
 - "What is PCOS?" / "What is happening with my body?" Nura explains 10 conditions in plain words (PCOS, endometriosis, heavy periods, period pain, irregular periods, menopause, gestational diabetes, postnatal depression, pre-eclampsia, fertility), each sentence checked against its NHS or guideline page, then adds her own patterns with her numbers, and links the NHS page and an official NHS video. In Arabic it adds the WHO Arabic fact sheet.
 - Can Nura make things up? Not in these answers: the explanations are fixed sentences written and checked by us and assembled by code, so the model can't invent one. Video links come only from official health bodies and were checked to exist.
@@ -56,7 +57,7 @@ IF ASKED
 
 const SLIDE_3 = `YASH · 30 seconds · slide 3, the venture
 
-"Our users: women like Noura, free, and their doctors. Who pays? Clinics and primary-care networks, on a subscription, because the after-birth glucose test is on DoH's own scorecard, PC008. We'll set the price with our pilot clinic, from what the pilot measures.
+"Our users: women like Noura, free, and their doctors. Who pays? Clinics and primary-care networks, on a subscription, because follow-ups that guidelines recommend, like the glucose test after diabetes in pregnancy, get done and they can see it. We'll set the price with our pilot clinic, from what the pilot measures.
 
 Next: a device memo for the Emirates Drug Establishment, a clinic letter of intent, UAE hosting with UAE PASS sign-in, then a pilot at one clinic and a licensed company by May.
 
@@ -86,10 +87,10 @@ const SLIDE_4 = `KRISHNA talks, ATHARVA clicks · slide 4, the demo · 85 second
 "She can also just say it, in Gulf Arabic: cramps, missed work, pain seven out of ten. The form fills itself, and nothing saves until she checks it."
 
 5. English, Demo people, Open clinician view, Fatima K., glucose follow-up, Mark booked
-"Now the clinic. It only sees women who chose to share. Fatima had diabetes in pregnancy and is nine weeks after the birth, so her glucose test is due. One tap. Booked."
+"Now the clinic. It only sees women who chose to share. Fatima had diabetes in pregnancy and is nine weeks after the birth, so her glucose test is due. One tap. Booked. It stays open until the test is done."
 
 6. Demo people, Open clinic network
-"And the network sees these follow-ups close. Counts only, never names. That's what clinics and insurers pay for."
+"And the network sees each follow-up move from due, to booked, to done. Counts only, never names. That's what clinics and insurers pay for."
 
 7. Krishna closes
 "We're asking for one pilot clinic, a clinical advisor to sign off our rules, and the grant. Thank you."

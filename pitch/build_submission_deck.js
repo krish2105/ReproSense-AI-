@@ -144,7 +144,7 @@ STEPS.forEach(([when, what], i) => {
   s3.addText(what, { x, y: 2.8, w: 2.85, h: 1.3, fontSize: 14, color: C.background1, margin: 0, valign: "top", isTextBox: true });
 });
 const CARDS = [
-  ["Users, and who pays", "Women like Noura use it free; their doctors read her report. Clinics and primary-care networks pay a subscription, because it closes DoH's PC008 follow-up; insurers later, per follow-up closed. Price set with our pilot clinic."],
+  ["Users, and who pays", "Women like Noura use it free; their doctors read her report. Clinics and primary-care networks pay a subscription, because recommended follow-ups get done and can be seen; insurers later, per follow-up closed. Price set with our pilot clinic."],
   ["What we need", "A pilot clinic. A clinical advisor to sign the rules. The HealthX Ajyal grant to reach a licensed company by month 6."],
 ];
 CARDS.forEach(([head, body], i) => {
@@ -174,7 +174,7 @@ const s4 = pres.addSlide({ masterName: "LIGHT_TITLE_ONLY", sectionTitle: "Demo" 
 s4.addText("The demo: her record, her clinic, the network", { placeholder: "title" });
 const DEMO = [
   ["Her record", "Noura (fictional, 24): a pattern with the days behind it and its guideline. Nura explains what is happening in her body, with NHS sources. She logs by voice in Arabic."],
-  ["Her clinic", "Fatima had diabetes in pregnancy. Her after-birth glucose test is due (DoH PC008); the clinician books it in one tap, with consent."],
+  ["Her clinic", "Fatima had diabetes in pregnancy. Her after-birth glucose test is due (ADA: 4 to 12 weeks after birth); the clinician books it in one tap, with consent."],
   ["The network", "Follow-ups closing across clinics, counts only, never names: what a clinic or an insurer pays for."],
 ];
 DEMO.forEach(([head, body], i) => {
