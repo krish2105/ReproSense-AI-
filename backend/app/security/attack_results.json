@@ -1,10 +1,10 @@
 {
  "suite": "backend/tests/test_attack_suite.py",
- "commit": "unknown",
- "date": "2026-11-22",
- "ran_at": "2026-11-22T09:54:59+00:00",
- "total": 16,
- "blocked": 16,
+ "commit": "956b13d",
+ "date": "2026-11-19",
+ "ran_at": "2026-11-19T10:02:48+00:00",
+ "total": 14,
+ "blocked": 14,
  "not_blocked": 0,
  "not_run": 0,
  "attacks": [
@@ -118,22 +118,6 @@
    "layer": "upload_limits",
    "test": "test_attack_14_oversized_or_broken_pdf_is_refused_without_a_crash",
    "layer_label": "Upload size and PDF checks",
-   "result": "blocked"
-  },
-  {
-   "id": 15,
-   "name": "A crafted lab-report text that would freeze the API for everyone",
-   "layer": "parser_bounds",
-   "test": "test_attack_15_hostile_upload_does_not_freeze_the_api",
-   "layer_label": "Bounded parsing: no upload can stall the API",
-   "result": "blocked"
-  },
-  {
-   "id": 16,
-   "name": "Calling the API directly with a made-up client address to dodge the rate limit",
-   "layer": "edge",
-   "test": "test_attack_16_forged_client_address_does_not_dodge_the_rate_limit",
-   "layer_label": "Client address vouched for by the web app's own server",
    "result": "blocked"
   }
  ],

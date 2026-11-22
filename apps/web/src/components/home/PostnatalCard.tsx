@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useId, useState, useTransition } from "react";
 import { SourceLinks } from "@/components/safety/SourceLinks";
 import { Button, ButtonLink } from "@/components/ui/Button";
-import { DateField } from "@/components/ui/DateField";
 import { Dialog } from "@/components/ui/Dialog";
 import { Tag } from "@/components/ui/Tag";
 import { useToast } from "@/components/ui/Toast";
@@ -105,8 +104,9 @@ function RecordDialog({ step, min, max, onClose }: { step: PostnatalStep; min: s
   return (
     <Dialog open onClose={onClose} title={t("recordTitle")}>
       <p className="s">{t(`steps.${step.id}`)}</p>
-      <div style={{ marginTop: 10 }}>
-        <DateField id={inputId} label={t("dateLabel")} value={day} onChange={setDay} min={min} max={max} today={max} />
+      <div className="field" style={{ marginTop: 10 }}>
+        <label htmlFor={inputId}>{t("dateLabel")}</label>
+        <input id={inputId} type="date" dir="ltr" min={min} max={max} value={day} onChange={(e) => setDay(e.target.value)} />
       </div>
       {error && (
         <p className="state err s" role="alert">

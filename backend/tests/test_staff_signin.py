@@ -51,7 +51,7 @@ def restore_demo(seeded):
 @pytest.fixture
 def web(client) -> TestClient:
     """A browser of its own: its own cookie jar, so sessions here never touch the shared client's."""
-    return TestClient(client.app, headers={"x-rs-client": "mobile"})  # reads body tokens like the phone app (L6)
+    return TestClient(client.app)
 
 
 @pytest.fixture
@@ -516,7 +516,7 @@ def test_sign_out_everywhere_for_her_and_her_devices_list(web, client):
 def test_shared_demo_accounts_cannot_sign_everyone_out(web, client):
     for who in ({"role": "clinician"}, {"role": "admin"}, {"role": "clinic_admin"}, {"persona": "noura"}):
         token = web.post("/v1/demo/login", json=who).json()["token"]
-        judge = TestClient(client.app, headers={"x-rs-client": "mobile"})
+        judge = TestClient(client.app)
         judge_token = judge.post("/v1/demo/login", json=who).json()["token"]
         r = web.post("/v1/sessions/sign-out-everywhere")
         assert r.status_code == 403 and "demo" in r.json()["detail"].lower()

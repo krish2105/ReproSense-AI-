@@ -25,9 +25,6 @@ from app.config import get_settings
 from app.db import SYSTEM, Actor, session
 
 COOKIE = "rs_token"
-# docs/31 §B: which fictional demo woman this browser last opened (her public persona id, never a joined record), so the
-# web can sign her back in when Back returns to her app after a staff view replaced her sign-in. Holds no secret.
-DEMO_PERSONA_COOKIE = "rs_demo_persona"
 ALG = "HS256"
 AUD = "reprosense-demo"
 ROLES = ("patient", "clinician", "admin", "clinic_admin")
@@ -111,27 +108,7 @@ def create_token(user_id: str, role: str, clinic_id: str = "", how: str = "demo"
         "jti": jti,
         "amr": how,
     }
-    secret = get_settings().demo_token_secret
-    return jwt.encode(claims, secret, algorithm=ALG, headers={"kid": key_id(secret)})
-
-
-def key_id(secret: str) -> str:
-    """A short public name for a signing secret (JWT "kid"), so a rotation can keep the previous one (M3)."""
-    return hashlib.sha256(b"reprosense-kid:" + secret.encode()).hexdigest()[:12]
-
-
-def verifying_secret(token: str) -> str:
-    """The secret to check this token with: the one its kid names, if it is the current or the previous secret;
-    otherwise the current one (an unknown kid, or a token from before kids, never selects anything else)."""
-    s = get_settings()
-    try:
-        kid = jwt.get_unverified_header(token).get("kid")
-    except jwt.PyJWTError:
-        return s.demo_token_secret
-    prev = s.demo_token_secret_previous
-    if prev and kid == key_id(prev) and kid != key_id(s.demo_token_secret):
-        return prev
-    return s.demo_token_secret
+    return jwt.encode(claims, get_settings().demo_token_secret, algorithm=ALG)
 
 
 def set_session(
@@ -150,32 +127,6 @@ def set_session(
         path="/",
     )
     return token
-
-
-def token_for_client(request: Request, token: str) -> dict:
-    """docs/31 §H, L6: the session token in a JSON body only for the phone app, which keeps it in the Keychain or
-    Keystore (it sends X-RS-Client: mobile). The web has the httpOnly cookie, so a script injected into a page can
-    never read a token from a sign-in response."""
-    return {"token": token} if request.headers.get("x-rs-client") == "mobile" else {}
-
-
-def remember_demo_persona(response: Response, persona_id: str) -> None:
-    """Demo only: the hint lives as long as her session (12 hours), httpOnly like the session cookie."""
-    s = get_settings()
-    response.set_cookie(
-        DEMO_PERSONA_COOKIE,
-        persona_id,
-        httponly=True,
-        samesite="lax",
-        secure=s.cookie_secure,
-        max_age=int(lifetime("patient").total_seconds()),
-        path="/",
-    )
-
-
-def forget_demo_persona(response: Response) -> None:
-    """Every sign-out and every new record of her own clears the hint: Back must never reopen a woman she left."""
-    response.delete_cookie(DEMO_PERSONA_COOKIE, path="/")
 
 
 @dataclass(frozen=True)
@@ -215,13 +166,13 @@ def ended(reason: str) -> HTTPException:
 def peek(token: str) -> dict | None:
     """The claims of a token with a good signature that has not expired, or None. No session checks (sign-out)."""
     try:
-        return jwt.decode(token, verifying_secret(token), algorithms=[ALG], audience=AUD)
+        return jwt.decode(token, get_settings().demo_token_secret, algorithms=[ALG], audience=AUD)
     except jwt.PyJWTError:
         return None
 
 
 def _claims(token: str) -> dict:
-    secret = verifying_secret(token)
+    secret = get_settings().demo_token_secret
     try:
         c = jwt.decode(token, secret, algorithms=[ALG], audience=AUD)
     except jwt.ExpiredSignatureError as e:

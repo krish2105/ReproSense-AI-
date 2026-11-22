@@ -237,13 +237,6 @@ export function PrepareReport({ label }: { label: string }) {
             toast(t("prepared"));
             router.refresh();
           } catch (e) {
-            if (e instanceof ApiError && e.status === 404) {
-              // Her record no longer exists (a demo reset removes records made with "Try it as yourself"): say so and
-              // take her back to the demo people instead of showing "Record not found" (22 Nov).
-              toast(t("recordGone"));
-              setTimeout(() => router.push("/demo"), 2500);
-              return;
-            }
             toast(t("prepareFailed", { detail: e instanceof ApiError ? e.detail : String(e) }));
           }
         })

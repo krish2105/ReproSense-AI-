@@ -18,7 +18,6 @@ export function ThemeToggle() {
   const t = useTranslations("chrome.theme");
   return (
     <button
-      data-global-toggle
       type="button"
       className="tb"
       onClick={() => {

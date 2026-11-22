@@ -21,10 +21,8 @@ class Settings(BaseSettings):
     demo_ref_date: date = date(2026, 11, 22)  # "today" inside the demo (showcase day), see QUESTIONS #16
     database_url: str = "postgresql:///reprosense?host=/tmp"
     allowed_origins: str = "http://localhost:3000"
-    demo_token_secret: str = ""  # HMAC key for session tokens; required outside demo mode (M3), random in demo mode
-    demo_token_secret_previous: str = ""  # M3: during a rotation, tokens signed with the old secret still verify
+    demo_token_secret: str = ""  # HMAC key for demo role tokens; random per process if unset
     notes_key: str = ""  # base64 32-byte AES-GCM key for field-level encryption
-    notes_key_previous: str = ""  # M4: during a rotation, data under the old key still decrypts
     token_ttl_minutes: int = 720  # her session (and a demo person's): 12 hours, no idle rule
     # Staff and DoH sessions (clinician, clinic_admin, admin; the team's plan section 5): end after this many minutes
     # without a request, and after the maximum however busy. A one-tap demo staff session follows the same rules.
@@ -45,13 +43,6 @@ class Settings(BaseSettings):
     llm_timeout_s: float = 8.0  # one call, outside a request too (make safety-eval)
     llm_max_retries: int = 1
     embeddings_provider: str = "hashing"  # hashing (built in) — see QUESTIONS #14
-    # docs/31 §H, H2: a secret the web app's own server sends as x-rs-edge. With it set, only that server may name the
-    # visitor's address in X-Forwarded-For; direct callers count against the address the nearest proxy saw. Empty: as before.
-    edge_secret: str = ""
-    # docs/31 §H, L3: the interactive API docs and the OpenAPI schema, off unless asked for (local development).
-    expose_api_docs: bool = False
-    # docs/31 §H, M6: an uploaded PDF is read in its own process and stopped after this many seconds
-    pdf_parse_timeout_s: float = 10.0
     cookie_secure: bool = False  # true when served over HTTPS (Render/Vercel); local http stays false
     seed_if_empty: bool = False  # first boot on a fresh hosted database: load the synthetic demo data (DEMO_MODE only)
     rate_limit_per_min: int = 400  # 22 Nov (Krishna): raised from 120 for showcase day so fast-clicking judges don't hit error pages
@@ -72,8 +63,6 @@ class Settings(BaseSettings):
     log_level: str = "INFO"  # the API's JSON logs (app/observability.py); no clinical meaning
     # The demo reset rebuilds every table and anyone can press it on the public demo: one at a time, one per window.
     demo_reset_cooldown_s: int = 60
-    # docs/31 §H, H3: when set, the demo reset also needs this operator key (the one-tap admin is public on the demo)
-    demo_reset_key: str = ""
     max_pdf_pages: int = 30  # an uploaded lab report longer than this is refused (and would cost CPU to parse)
     # Her own sign-in (K5). Passkeys: the relying party is the web app's host. Empty = the host of the first
     # ALLOWED_ORIGINS entry, and the accepted origins = ALLOWED_ORIGINS. No clinical meaning.
@@ -99,19 +88,12 @@ class Settings(BaseSettings):
         return self.webauthn_rp_id or urlparse(self.passkey_origins[0]).hostname or "localhost"
 
 
-def finalise(s: Settings) -> Settings:
-    """Checks the settings once at start-up. docs/31 §H, M3: outside demo mode a missing signing secret stops the API;
-    a random per-process secret signed everyone out on every restart and two instances rejected each other's tokens."""
-    if not s.demo_token_secret:
-        if not s.demo_mode:
-            raise RuntimeError("DEMO_TOKEN_SECRET must be set when DEMO_MODE is off (see .env.example).")
-        s.demo_token_secret = secrets.token_urlsafe(48)  # demo and development only
-    return s
-
-
 @lru_cache
 def get_settings() -> Settings:
-    return finalise(Settings())
+    s = Settings()
+    if not s.demo_token_secret:
+        s.demo_token_secret = secrets.token_urlsafe(48)
+    return s
 
 
 RULES_PATH = ROOT / "rules" / "clinical_rules.yaml"

@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { ar, en, expect, expectAccessible, expectNoSideScroll, pickDate, resetDemo, signIn, test, useLanguage } from "./fixtures";
+import { ar, en, expect, expectAccessible, expectNoSideScroll, resetDemo, signIn, test, useLanguage } from "./fixtures";
 
 // Build week D1: her baby's first 12 months from DoH Abu Dhabi's own schedules (newborn screening standard, the ADPHC
 // immunisation schedule of April 2026, the well-child visits standard). Fatima's baby was born on 20 Sep, 9 weeks
@@ -43,7 +43,7 @@ test.describe("baby's first year", () => {
     const card = page.getByTestId("baby-card");
     await card.getByTestId("baby-next").locator('[data-item="vaccines_2m"]').getByRole("button", { name: RECORD }).click();
     const dialog = page.getByRole("dialog", { name: en.baby.recordTitle });
-    await pickDate(dialog, en.baby.dateLabel, "2026-11-21");
+    await dialog.getByLabel(en.baby.dateLabel).fill("2026-11-21");
     await dialog.getByRole("button", { name: en.baby.save }).click();
     await expect(page.getByText(en.baby.saved).first()).toBeVisible();
     await expect(card.getByText("8 of 14 recorded")).toBeVisible();

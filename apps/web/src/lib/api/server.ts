@@ -1,7 +1,6 @@
 import "server-only";
 import { cookies, headers as incomingHeaders } from "next/headers";
 import { apiError } from "./errors";
-import { edgeHeaders } from "./edge";
 
 export const API_URL = process.env.API_URL ?? "http://127.0.0.1:8010";
 // A hung API (a sleeping free instance can take ~30-60 s to wake) shows the error screen with Retry, not a spinner.
@@ -36,10 +35,8 @@ export async function apiServer<T>(path: string, call: ServerCall = {}): Promise
   if (jar.get(BACKGROUND_COOKIE)?.value === "1") headers["x-rs-background"] = "1";
   if (call.body !== undefined) headers["content-type"] = "application/json";
   // The page view's request ID (proxy.ts), so the API's log lines for this page carry the same ID.
-  const incoming = await incomingHeaders();
-  const requestId = incoming.get("x-request-id");
+  const requestId = (await incomingHeaders()).get("x-request-id");
   if (requestId) headers["x-request-id"] = requestId;
-  Object.assign(headers, edgeHeaders(incoming.get("x-forwarded-for"))); // H2: rate limits count against the visitor
   const res = await fetch(apiUrl(path, call.query), {
     method: call.method ?? "GET",
     headers,

@@ -1,5 +1,5 @@
 import type { CDPSession, Page } from "@playwright/test";
-import { en, expect, expectAccessible, expectNoSideScroll, pickDate, resetDemo, signIn, test } from "./fixtures";
+import { en, expect, expectAccessible, expectNoSideScroll, resetDemo, signIn, test } from "./fixtures";
 
 // Her own sign-in (K5): she starts a record, adds a passkey, and opens the same record on another device that holds
 // the passkey (a synced passkey). Chromium's virtual authenticator (CDP WebAuthn domain) stands in for Face ID or a
@@ -35,7 +35,7 @@ async function joinAsNewRecord(page: Page, name: string) {
   await page.getByRole("group", { name: en.join.region }).getByRole("radio", { name: "Abu Dhabi City", exact: true }).check();
   await page.getByRole("group", { name: en.join.stage }).getByRole("radio", { name: en.stages.periods, exact: true }).check();
   await page.getByRole("button", { name: en.join.continue }).click();
-  await pickDate(page, en.join.lastPeriod, "2026-11-12");
+  await page.getByLabel(en.join.lastPeriod).fill("2026-11-12");
   await page.getByRole("button", { name: en.join.create }).click();
   await expect(page).toHaveURL(/\/app$/);
   await expect(page.getByText(hello(name))).toBeVisible();

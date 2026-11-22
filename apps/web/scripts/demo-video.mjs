@@ -27,7 +27,7 @@ const SCALE = 3;
 
 if (RESET) {
   const ctx = await (await import("@playwright/test")).request.newContext({ baseURL: API });
-  const { token } = await (await ctx.post("/v1/demo/login", { data: { role: "admin" }, headers: { "x-rs-client": "mobile" } })).json();
+  const { token } = await (await ctx.post("/v1/demo/login", { data: { role: "admin" } })).json();
   const r = await ctx.post("/v1/demo/reset", { headers: { cookie: `rs_token=${token}` } });
   if (!r.ok()) throw new Error(`demo reset failed: ${r.status()}`);
   await ctx.dispose();

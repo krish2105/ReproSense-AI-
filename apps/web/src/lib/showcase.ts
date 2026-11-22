@@ -19,8 +19,7 @@ export interface Showcase {
 async function load(locale: string): Promise<Showcase> {
   const login = await fetch(`${API_URL}/v1/demo/login`, {
     method: "POST",
-    // A server-side reader of the token, like the phone app: the API returns it in the body only on request (docs/31 L6)
-    headers: { "content-type": "application/json", "x-rs-client": "mobile" },
+    headers: { "content-type": "application/json" },
     body: JSON.stringify({ persona: "noura" }),
     cache: "no-store",
   });

@@ -8,7 +8,6 @@ from datetime import date, timedelta
 from app.agents import copy as cp
 from app.rules.engine import Evaluation
 from app.services import blood_pressure
-from app.services.forecast import forecast
 
 
 def _d(s) -> date:
@@ -76,24 +75,7 @@ def cycle_status(bundle: dict, ev: Evaluation, ref: date) -> dict:
         "phase": cur,
         "phases": phases,
         "next_period_from": (_d(last["start"]) + timedelta(days=usual)).isoformat() if not estimate else None,
-        # docs/31 §G: a date range from her own last 6 cycles (none with fewer than 2); varied cycles say so
-        "forecast": _late(
-            forecast(
-                [c.get("length_days") for c in cycles],
-                _d(last["start"]),
-                varied=irregular,
-                peri=stage == "perimenopause",
-            ),
-            ref,
-        ),
     }
-
-
-def _late(f: dict | None, ref: date) -> dict | None:
-    """Marks a range whose last day has passed, so the screen says her period has not started yet (not 'expected')."""
-    if f is not None:
-        f["late"] = bool(f["to"]) and ref > _d(f["to"])
-    return f
 
 
 def day_pills(bundle: dict, ref: date) -> list[dict]:

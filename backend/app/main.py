@@ -21,7 +21,6 @@ from app.api import (
     auth,
     clinic,
     clinic_admin,
-    csp,
     demo,
     family,
     patient,
@@ -34,7 +33,7 @@ from app.api import (
 from app.config import get_settings
 from app.db import SYSTEM, session
 from app.observability import RequestContext, setup_logging
-from app.security.middleware import ModelBudget, RateLimit, SecurityHeaders, from_edge
+from app.security.middleware import ModelBudget, RateLimit, SecurityHeaders
 
 s = get_settings()
 setup_logging(s.log_level)
@@ -83,19 +82,11 @@ def latest_saved_reports(limit: int = 20) -> list[dict]:
         return [r["payload"] for r in cur.fetchall()]
 
 
-def docs_settings(expose: bool) -> dict:
-    """docs/31 §H, L3: a map of every route helps an attacker and nobody else on a live site; on only when asked."""
-    if expose:
-        return {"docs_url": "/docs", "redoc_url": "/redoc", "openapi_url": "/openapi.json"}
-    return {"docs_url": None, "redoc_url": None, "openapi_url": None}
-
-
 app = FastAPI(
     title="ReproSense API",
     version="0.4.0",
     description="Non-diagnostic reproductive health record. Synthetic demo data only.",
     lifespan=lifespan,
-    **docs_settings(s.expose_api_docs),
 )
 app.add_middleware(ModelBudget)  # one model time budget per request (step 4b)
 app.add_middleware(RateLimit)
@@ -124,7 +115,6 @@ for r in (
     clinic_admin.invites_router,
     quality.router,
     pilot.router,
-    csp.router,  # docs/31 §H: content-security-policy violation reports
 ):
     app.include_router(r)
 
@@ -161,22 +151,14 @@ def ping():
 
 
 @app.get("/readyz")
-def readyz(request: Request):
-    """Ready when the database answers and the demo data and knowledge base are loaded. docs/31 §H, L4: a direct
-    caller learns only that; the counts, the model provider and the demo flag go to the web app's own server (x-rs-edge)
-    or to anyone when no edge secret is configured (development, tests)."""
+def readyz():
     with session(SYSTEM) as cur:
         cur.execute("SELECT count(*) AS n FROM kb_chunks")
         kb = cur.fetchone()["n"]
         cur.execute("SELECT count(*) AS n FROM profiles WHERE role='patient'")
         people = cur.fetchone()["n"]
-    ready = people >= 8 and kb > 0
-    if not from_edge(request):
-        return {"ok": True, "db": True, "data_ready": ready}
     return {
-        "ok": True,
         "db": True,
-        "data_ready": ready,
         "kb_chunks": kb,
         "personas": people,
         "llm": get_llm().name,

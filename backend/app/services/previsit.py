@@ -72,8 +72,7 @@ def visit_inputs(cur, profile_id: str) -> dict:
         (profile_id,),
     )
     gaps = cur.fetchall()
-    # one row per clinic (L8): her latest review at any clinic; a clinician sees only her own clinic's row (RLS)
-    cur.execute("SELECT max(reviewed_at) AS reviewed_at FROM clinic_reviews WHERE profile_id=%s", (profile_id,))
+    cur.execute("SELECT reviewed_at FROM clinic_reviews WHERE profile_id=%s", (profile_id,))
     row = cur.fetchone()
     return {"gaps": gaps, "reviewed_at": row["reviewed_at"] if row else None}
 

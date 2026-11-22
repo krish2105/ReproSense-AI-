@@ -2,8 +2,7 @@
 # and the synthetic data at runtime:
 #   docker build -f backend/Dockerfile -t reprosense-api .
 # Synthetic demo data only (DEMO_MODE=true); secrets come from the environment, never from the image.
-# docs/31 §H, L9: base images pinned by digest (the tag stays as a comment for Dependabot and people)
-FROM python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy UV_PYTHON_DOWNLOADS=never
 
@@ -12,7 +11,7 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b fonts-dejavu-core fonts-noto-core \
  && rm -rf /var/lib/apt/lists/*
 
-COPY --from=ghcr.io/astral-sh/uv:0.11.18@sha256:78bc42400d77b0678ba95765305c826652ed5431f399257271dda681d0318f03 /uv /bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.11.18 /uv /bin/uv
 
 WORKDIR /srv/backend
 COPY backend/pyproject.toml backend/uv.lock ./

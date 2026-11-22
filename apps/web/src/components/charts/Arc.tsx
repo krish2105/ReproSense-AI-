@@ -86,14 +86,6 @@ function Legend({ items }: { items: { label: string; swatch: string; hatch?: boo
 
 export async function CycleArc({ status, locale, peri = false }: { status: CycleStatus; locale: Locale; peri?: boolean }) {
   const t = await getTranslations("arc");
-  const forecastLine = (f: NonNullable<CycleStatus["forecast"]>) => {
-    if (f.kind === "peri" || !f.from || !f.to) return t("forecastPeri", { shortest: f.shortest, longest: f.longest });
-    const from = formatDayMonth(f.from, locale);
-    const to = formatDayMonth(f.to, locale);
-    if (f.late) return t("forecastPast", { to });
-    if (f.kind === "varied") return t("forecastVaried", { shortest: f.shortest, longest: f.longest, from, to });
-    return t("forecastRegular", { from, to, n: f.cycles_used });
-  };
   if (!isKnownCycle(status)) {
     // A new record: nothing to estimate yet, so say what will appear and how to start (web-screen §6 empty states).
     return (
@@ -136,23 +128,10 @@ export async function CycleArc({ status, locale, peri = false }: { status: Cycle
             {peri ? t("estimateNotePeri") : status.estimate_reason === "little_data" ? t("estimateNoteNew") : t("estimateNote")}
           </p>
         )}
-        {/* docs/31 §G: a date range worked out from her own cycles, never a fixed 28 days and never a percentage.
-            Wording reviewed by the chief healthcare officer agent (22 Nov): "may", earlier-or-later for varied cycles,
-            no date in perimenopause, and a late period said as it is. */}
-        {status.forecast ? (
-          <div style={{ marginTop: 6, textAlign: "center" }}>
-            <p className="xs dim">{forecastLine(status.forecast)}</p>
-            <details className="si-what xs">
-              <summary>{t("forecastHow")}</summary>
-              <p className="xs dim">{t("forecastHowBody", { lengths: status.forecast.lengths.join(", ") })}</p>
-            </details>
-          </div>
-        ) : (
-          status.estimate_reason === "little_data" && (
-            <p className="xs dim" style={{ marginTop: 6, textAlign: "center" }}>
-              {t("forecastNone")}
-            </p>
-          )
+        {status.next_period_from && !status.estimate && (
+          <p className="xs dim" style={{ marginTop: 6, textAlign: "center" }}>
+            {t("nextPeriod", { date: formatDayMonth(status.next_period_from, locale) })}
+          </p>
         )}
         {/* Intended use (research/2026-11-06/03 §1.5): phase estimates are never contraceptive advice */}
         <p className="xs faint" style={{ marginTop: 4, textAlign: "center" }}>

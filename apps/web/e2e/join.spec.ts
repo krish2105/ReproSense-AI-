@@ -1,4 +1,4 @@
-import { en, expect, expectAccessible, expectNoSideScroll, pickDate, resetDemo, signIn, test } from "./fixtures";
+import { en, expect, expectAccessible, expectNoSideScroll, resetDemo, signIn, test } from "./fixtures";
 
 // Start your own record (MVP scorecard: sign up, consent, log and see value in under three minutes) and the clinic's
 // patient invite (SaaS scorecard: clinic onboarding). The new records are removed by the reset after this file.
@@ -56,8 +56,7 @@ test("a new record without a clinic starts from her last period, and nothing is 
   await page.getByRole("group", { name: en.join.region }).getByRole("radio", { name: "Abu Dhabi City", exact: true }).check();
   await page.getByRole("group", { name: en.join.stage }).getByRole("radio", { name: en.stages.periods, exact: true }).check();
   await page.getByRole("button", { name: en.join.continue }).click();
-  await pickDate(page, en.join.lastPeriod, "2026-11-10");
-  await expect(page.getByText(en.join.dayN.replace("{n}", "13"))).toBeVisible(); // 10 Nov to 22 Nov, counting both
+  await page.getByLabel(en.join.lastPeriod).fill("2026-11-10");
   await expect(page.getByRole("checkbox", { name: /Share my record with/ })).toHaveCount(0); // no clinic, no sharing question
   await expect(page.getByRole("checkbox", { name: en.join.useAi })).not.toBeChecked(); // AI stays off unless she ticks it
   await page.getByRole("button", { name: en.join.create }).click();

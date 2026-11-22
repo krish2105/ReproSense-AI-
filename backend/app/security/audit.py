@@ -36,36 +36,10 @@ def record(
     )
 
 
-BATCH = 1000  # rows read per round trip when walking or exporting the log (docs/31 §H, M7)
-
-
-def batches(cur, sql: str, name: str):
-    """The rows of `sql` in batches through a server-side cursor on the caller's transaction (RLS and grants apply),
-    so the whole log is never in memory at once."""
-    from psycopg.rows import dict_row
-
-    with cur.connection.cursor(name=name, row_factory=dict_row) as named:
-        named.execute(sql)
-        while rows := named.fetchmany(BATCH):
-            yield from rows
-
-
-def verify_chain(rows) -> tuple[bool, int | None]:
-    """rows (any iterable) ordered by id. Returns (ok, first_bad_id)."""
-    ok, bad, _ = _walk(rows)
-    return ok, bad
-
-
-def verify_stream(cur) -> tuple[bool, int | None, int]:
-    """The whole chain, walked in batches: (ok, first_bad_id, rows seen). Always every row, never a shortcut."""
-    return _walk(batches(cur, "SELECT * FROM audit_log ORDER BY id", "audit_verify"))
-
-
-def _walk(rows) -> tuple[bool, int | None, int]:
+def verify_chain(rows: list[dict]) -> tuple[bool, int | None]:
+    """rows ordered by id. Returns (ok, first_bad_id)."""
     prev = "GENESIS"
-    n = 0
     for r in rows:
-        n += 1
         at = r["at"].astimezone(UTC).isoformat() if hasattr(r["at"], "astimezone") else r["at"]
         row = {
             "actor_id": r["actor_id"],
@@ -77,6 +51,6 @@ def _walk(rows) -> tuple[bool, int | None, int]:
             "at": at,
         }
         if r["prev_hash"] != prev or r["hash"] != _digest(prev, row):
-            return False, r["id"], n
+            return False, r["id"]
         prev = r["hash"]
-    return True, None, n
+    return True, None

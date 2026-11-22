@@ -18,7 +18,7 @@
       "admin": "Clinic network",
       "status": "Team scorecard",
       "clinicAdmin": "Clinic admin",
-      "signIn": "Account & security"
+      "signIn": "Your sign-in"
     },
     "lang": {
       "toggle": "عربي",
@@ -47,9 +47,7 @@
     },
     "footerPilot": "Pilot value",
     "footerEvidence": "Evidence",
-    "signOut": "Sign out",
-    "account": "Account",
-    "crumbsLabel": "You are here"
+    "signOut": "Sign out"
   },
   "tabs": {
     "home": "Home",
@@ -109,10 +107,7 @@
     "openClinicAdmin": "Open clinic admin",
     "dohSignin": "DoH sign-in",
     "staffSignin": "Staff sign-in",
-    "staffSigninBody": "Staff with a passkey sign in at their own door. The one-tap buttons above stay for judges.",
-    "resetKeyLabel": "Operator key",
-    "resetKeyHint": "The live demo asks for the team's operator key before a reset, so a visitor cannot wipe it.",
-    "resetWithKey": "Reset demo data with the key"
+    "staffSigninBody": "Staff with a passkey sign in at their own door. The one-tap buttons above stay for judges."
   },
   "app": {
     "metaTitle": "Her app",
@@ -400,8 +395,7 @@
     "notFoundAction": "Open the demo people",
     "close": "Close",
     "pdfPreparing": "Preparing the PDF…",
-    "pdfFailed": "The PDF isn't ready yet. Please try again in a moment.",
-    "pdfGone": "This report isn't available any more, perhaps because the demo was reset. Press Update report, or open Demo people."
+    "pdfFailed": "The PDF isn't ready yet. Please try again in a moment."
   },
   "regions": {
     "abu_dhabi_city": "Abu Dhabi City",
@@ -456,8 +450,9 @@
     "phase": "{phase} phase",
     "phaseEstimate": "{phase} phase · estimate",
     "longer": "Longer than your usual {length} days",
-    "estimateNote": "Your cycles vary, so phases are rough estimates.",
+    "estimateNote": "Your cycles vary, so phases are estimates, not predictions.",
     "estimateNotePeri": "Cycles often change in perimenopause, so phases are estimates.",
+    "nextPeriod": "Next period estimated from {date}",
     "summaryCycle": "Day {day} of a cycle that usually lasts about {length} days. Phase: {phase}.",
     "phases": {
       "period": "Period",
@@ -481,14 +476,7 @@
     "noCycleBody": "Log the day your period starts and ReproSense estimates where you are in your cycle. Everything stays in your record.",
     "noCycleAction": "Log your period",
     "notContraception": "Phase estimates are not contraception.",
-    "estimateNoteNew": "Fewer than two full cycles are logged, so phases are rough estimates.",
-    "forecastRegular": "Your next period may start between {from} and {to}, based on your last {n} cycles.",
-    "forecastVaried": "Your recent cycles were {shortest} to {longest} days long, so your next period may start between {from} and {to}. It could also come earlier or later.",
-    "forecastNone": "Log the first day of each period to see when your next one may start.",
-    "forecastPast": "Your period hasn't started by {to}. Periods can come late. If you miss 3 periods in a row, consider seeing a doctor.",
-    "forecastPeri": "Your recent cycles were {shortest} to {longest} days long, so no next-period date is shown.",
-    "forecastHow": "How this was worked out",
-    "forecastHowBody": "From the lengths of your last cycles, in days: {lengths}."
+    "estimateNoteNew": "Fewer than two full cycles are logged, so phases are rough estimates."
   },
   "safety": {
     "pregTitle": "Call 998 or go to your maternity unit now if you notice",
@@ -695,13 +683,7 @@
       "light": "Light bleeding; a pad or tampon lasts several hours.",
       "medium": "Steady bleeding; you change a pad or tampon regularly through the day.",
       "heavy": "Changing a pad or tampon every 1–2 hours, bleeding through your clothes, or clots bigger than 2.5 cm (NHS)."
-    },
-    "notLogged": "Not logged, because you said you don't have it: {items}.",
-    "askFlow": "How heavy is the flow today? Choose it under Flow above.",
-    "askPain": "How bad is the pain, from 0 to 10? Set it on the pain scale above.",
-    "otherDay": "You said this was on another day. Log it for {date} instead",
-    "askAssistant": "Ask AI Chat about this",
-    "looksLikeQuestion": "That sounds like a question. AI Chat can answer it, with its sources."
+    }
   },
   "analytics": {
     "metaTitle": "Analytics",
@@ -846,7 +828,6 @@
     "update": "Update report",
     "prepared": "Report prepared.",
     "prepareFailed": "The report wasn't prepared: {detail}",
-    "recordGone": "This demo record was reset, so there is nothing to update. Taking you to the demo people to pick a person or start again.",
     "generated": "Prepared on {date}",
     "noneTitle": "No report yet",
     "noneBody": "Prepare a report to see the two-page summary, download the PDF and share it with your clinic.",
@@ -1417,9 +1398,7 @@
       "links": "Hashed, expiring, revocable links",
       "audit": "Hash-chained, append-only audit log",
       "rate_limit": "Rate limit by verified session or address",
-      "upload_limits": "Upload size and PDF checks",
-      "parser_bounds": "Bounded parsing: no upload can stall the API",
-      "edge": "Client address vouched for by the web app's own server"
+      "upload_limits": "Upload size and PDF checks"
     },
     "yes": "Yes",
     "no": "No",
@@ -1475,7 +1454,7 @@
     "stage": "What fits you best right now?",
     "detailsTitle": "One more question",
     "lastPeriod": "When did your last period start?",
-    "lastPeriodHint": "Tap to open the calendar. Not sure? Choose \"I don't remember\" and log it later.",
+    "lastPeriodHint": "Leave it empty if you don't remember. You can log it later.",
     "weeksPregnant": "How many weeks pregnant are you?",
     "weeksSinceBirth": "How many weeks ago was your baby born?",
     "gdm": "Was diabetes found during this pregnancy (gestational diabetes)?",
@@ -1491,8 +1470,7 @@
     "tryTitle": "Try it as yourself",
     "tryBody": "Start a new record in two minutes, with made-up details. A clinic's QR code opens the same page.",
     "tryAction": "Start your own record",
-    "useAi": "Use AI features: the assistant answers my questions and AI words my pattern cards. I can turn this off in Privacy.",
-    "dayN": "Today is day {n} since your period started."
+    "useAi": "Use AI features: the assistant answers my questions and AI words my pattern cards. I can turn this off in Privacy."
   },
   "pricing": {
     "metaTitle": "How ReproSense will be paid for",
@@ -1949,14 +1927,6 @@
       "14": {
         "name": "An oversized or broken PDF upload",
         "layer": "Upload size and PDF checks"
-      },
-      "15": {
-        "name": "A crafted lab-report text that would freeze the API for everyone",
-        "layer": "Bounded parsing: no upload can stall the API"
-      },
-      "16": {
-        "name": "Calling the API directly with a made-up client address to dodge the rate limit",
-        "layer": "Client address vouched for by the web app's own server"
       }
     },
     "built": {
@@ -2723,8 +2693,8 @@
     "staff": {
       "metaTitle": "Staff sign-in",
       "title": "Staff sign-in",
-      "lede": "For clinicians and clinic admins. Trying the demo? Open a fictional staff view in one tap, no account needed.",
-      "passkeyTitle": "Have a staff account?",
+      "lede": "For clinicians and clinic admins. Sign in with the passkey you added after joining your clinic.",
+      "passkeyTitle": "Use your passkey",
       "passkeyBody": "Your phone or laptop asks for Face ID, a fingerprint or its PIN. Staff sign in with a passkey only: no password and no code to type.",
       "passkeyButton": "Sign in with a passkey",
       "pending": "Waiting for your device…",
@@ -2786,7 +2756,7 @@
       "expired": "Your session has ended. Sign in again to carry on.",
       "signedOut": "You are signed out. This browser now needs your passkey to get back in."
     },
-    "demoTitle": "Trying the demo?",
+    "demoTitle": "Judges and visitors",
     "demoBody": "The fictional demo staff still open with one tap, without a passkey.",
     "demoArea": {
       "clinician": "Open the demo clinician view",
@@ -2802,9 +2772,9 @@
       "failed": "That didn't work: {detail}"
     },
     "panel": {
-      "metaTitle": "Account & security",
-      "title": "Account & security",
-      "intro": "Who is signed in, how to sign in faster next time, and where this account is open.",
+      "metaTitle": "Your sign-in",
+      "title": "Your sign-in",
+      "intro": "How this account is signed in, the passkeys that open it, and the devices it is signed in on.",
       "shared": "This is a shared fictional demo account: anyone can open it with one tap from the demo page. Passkeys added here are deleted at the next demo reset.",
       "sessionTitle": "This session",
       "how": {
@@ -2847,14 +2817,7 @@
       "everywhereConfirm": "Sign out everywhere",
       "stay": "Stay signed in",
       "sharedEverywhere": "Sign out everywhere is off for shared demo accounts: it would sign out every judge using the account.",
-      "signOut": "Sign out of this device",
-      "signedInAs": "Signed in as {name}.",
-      "demoNothing": "Nothing to do here for the demo.",
-      "back": "Back to {area}",
-      "canTitle": "What you can do here",
-      "canPasskey": "Add a passkey, to sign in next time with Face ID, a fingerprint or your device PIN",
-      "canDevices": "See every device this account is signed in on",
-      "canEverywhere": "Sign out on every device at once"
+      "signOut": "Sign out of this device"
     },
     "stepUp": {
       "title": "Confirm it is you",
@@ -2865,9 +2828,7 @@
       "cancel": "Cancel",
       "failed": "The export did not download: {detail}",
       "downloaded": "Download started."
-    },
-    "passkeyWhat": "What's a passkey?",
-    "passkeyWhatBody": "It is your phone's or laptop's screen lock (Face ID, a fingerprint or a PIN) used as your key. There is nothing to remember or type, and it only works on the real ReproSense site, so a fake site cannot trick you into using it."
+    }
   },
   "carePlan": {
     "eyebrow": "Living with {condition}",
@@ -2909,16 +2870,5 @@
       "title": "Her care plan: {condition}",
       "intro": "Recorded by {by} on {date}. Her ticks are her own notes; read-only here."
     }
-  },
-  "dateField": {
-    "pick": "Pick a date",
-    "choose": "Choose a date: {label}",
-    "prev": "Previous month",
-    "next": "Next month",
-    "today": "Today",
-    "weekAgo": "About a week ago",
-    "twoWeeksAgo": "About 2 weeks ago",
-    "monthAgo": "About a month ago",
-    "dontRemember": "I don't remember"
   }
 }

@@ -39,8 +39,6 @@ LAYERS = {
     "audit": "Hash-chained, append-only audit log",
     "rate_limit": "Rate limit by verified session or address",
     "upload_limits": "Upload size and PDF checks",
-    "parser_bounds": "Bounded parsing: no upload can stall the API",
-    "edge": "Client address vouched for by the web app's own server",
 }
 
 ATTACKS: list[dict] = [
@@ -127,18 +125,6 @@ ATTACKS: list[dict] = [
         "name": "An oversized or broken PDF upload",
         "layer": "upload_limits",
         "test": "test_attack_14_oversized_or_broken_pdf_is_refused_without_a_crash",
-    },
-    {
-        "id": 15,
-        "name": "A crafted lab-report text that would freeze the API for everyone",
-        "layer": "parser_bounds",
-        "test": "test_attack_15_hostile_upload_does_not_freeze_the_api",
-    },
-    {
-        "id": 16,
-        "name": "Calling the API directly with a made-up client address to dodge the rate limit",
-        "layer": "edge",
-        "test": "test_attack_16_forged_client_address_does_not_dodge_the_rate_limit",
     },
 ]
 

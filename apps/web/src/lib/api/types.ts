@@ -127,17 +127,6 @@ export interface CycleStatus {
   phase: PhaseKey;
   phases: { key: PhaseKey; from: number; to: number }[];
   next_period_from: string | null;
-  /** docs/31 §G: her next period as a date range from her own last 6 cycles; null with fewer than 2 */
-  forecast?: {
-    from: string | null; // null in perimenopause: no date is shown
-    to: string | null;
-    kind: "regular" | "varied" | "peri";
-    cycles_used: number;
-    shortest: number;
-    longest: number;
-    lengths: number[];
-    late?: boolean; // today is past the last day of the range
-  } | null;
 }
 /** A cycle with a known day: a new record has none until her first period is logged. */
 export type KnownCycle = CycleStatus & { day: number; length: number };
@@ -474,14 +463,6 @@ export interface ParseResult {
   /** from the word checks on her own words, never from the model; shown before she saves */
   urgent?: { kind: string; message: string; number: "998"; sources: string[] } | null;
   crisis?: boolean;
-  /** docs/31 §F: values she said she does NOT have ("no cramps"); never logged */
-  negated?: string[];
-  /** 0 today, -1 yesterday, -2 the day before (her words) */
-  day_offset?: number;
-  /** fields to ask her about instead of guessing */
-  asks?: ("flow" | "pain")[];
-  intent?: "log" | "question" | "urgent" | "crisis";
-  offer_assistant?: boolean;
 }
 
 /** GET /v1/analytics?months=3|6|12 */

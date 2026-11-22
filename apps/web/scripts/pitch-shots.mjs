@@ -27,7 +27,7 @@ async function settle(page) {
 // Start from the seeded demo, so every number in the shots is the one the demo shows.
 {
   const ctx = await (await import("@playwright/test")).request.newContext({ baseURL: API });
-  const { token } = await (await ctx.post("/v1/demo/login", { data: { role: "admin" }, headers: { "x-rs-client": "mobile" } })).json();
+  const { token } = await (await ctx.post("/v1/demo/login", { data: { role: "admin" } })).json();
   const r = await ctx.post("/v1/demo/reset", { headers: { cookie: `rs_token=${token}` } });
   if (!r.ok()) throw new Error("reset failed");
   await ctx.dispose();

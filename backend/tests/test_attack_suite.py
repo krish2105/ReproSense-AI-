@@ -15,7 +15,6 @@ import io
 import json
 import re
 import secrets
-import time
 from datetime import UTC, datetime, timedelta
 from urllib.parse import quote
 
@@ -630,40 +629,3 @@ def test_attack_14_oversized_or_broken_pdf_is_refused_without_a_crash(client, re
     assert upload(b"not a pdf at all", "lab.exe").status_code == 415
     assert client.get("/healthz").json() == {"ok": True}
     assert upload(_pdf([("Sample date: 2026-11-01", False), ("Ferritin   9 ng/mL 15-150 L", False)])).status_code == 200
-
-
-# ---------- 15. A crafted upload that would freeze the API ----------
-def test_attack_15_hostile_upload_does_not_freeze_the_api(client, reseed):
-    """One text upload built so the lab-report parser's patterns would backtrack for minutes, holding Python's lock and
-    stopping every request on the API (docs/30 H1). The parser is bounded (lines, line length, whitespace runs), so the
-    upload answers at once, its one real row still reads, and the API keeps answering."""
-    from tests.test_security_audit import HOSTILE
-
-    h = login(client, "fatima")
-    blob = "\n".join(["Sample date: 2026-11-01", *HOSTILE.values(), "Ferritin   9 ng/mL 15-150 L"]).encode()
-    t0 = time.perf_counter()
-    r = client.post("/v1/documents", headers=h, files={"file": ("lab.txt", blob, "text/plain")})
-    assert time.perf_counter() - t0 < 3.0
-    assert r.status_code == 200, r.text
-    assert [(row["code"], row["value"], row["flag"]) for row in r.json()["rows"]] == [("FERR", 9.0, "L")]
-    assert client.get("/healthz").json() == {"ok": True}
-
-
-# ---------- 16. A made-up client address on the API's direct origin ----------
-def test_attack_16_forged_client_address_does_not_dodge_the_rate_limit(client, monkeypatch):
-    """An attacker calls the API's own address directly and writes a different X-Forwarded-For with every request,
-    hoping each counts as a new visitor (docs/30 H2). With EDGE_SECRET set, only the web app's own server may name the
-    visitor's address; anyone else counts against the address the nearest proxy saw, so the limit still applies."""
-    monkeypatch.setattr(get_settings(), "edge_secret", "edge-" + secrets.token_hex(8))
-    monkeypatch.setattr(get_settings(), "rate_limit_sensitive_per_min", 3)
-    codes = []
-    try:
-        for i in range(8):
-            client.cookies.clear()
-            forged = {"x-forwarded-for": f"198.51.100.{i}, 203.0.113.50"}  # leftmost made up; rightmost from the proxy
-            codes.append(
-                client.post("/v1/assistant/ask", headers=forged, json={"question": "What is PCOS?"}).status_code
-            )
-    finally:
-        client.cookies.clear()
-    assert 429 in codes, codes

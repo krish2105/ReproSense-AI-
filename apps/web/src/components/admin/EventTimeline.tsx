@@ -9,7 +9,6 @@ import { Tag } from "@/components/ui/Tag";
 import { apiClient } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
 import type { EventsResponse } from "@/lib/api/types";
-import { DateField } from "@/components/ui/DateField";
 
 type Filters = { role: string; action: string; from: string; to: string; clinic: string };
 const EMPTY: Filters = { role: "", action: "", from: "", to: "", clinic: "" };
@@ -26,8 +25,6 @@ export function EventTimeline({ endpoint, scope, clinics = [] }: { endpoint: "/a
   const locale = useLocale() === "ar" ? "ar" : "en";
   const id = useId();
   const [draft, setDraft] = useState<Filters>(EMPTY);
-  // The audit log holds real timestamps (sign-ins happen now), so its filter uses the real date, not the demo ref_date.
-  const [today] = useState(() => new Date().toISOString().slice(0, 10));
   const [applied, setApplied] = useState<Filters>(EMPTY);
   const [page, setPage] = useState(1);
   const [snapshot, setSnapshot] = useState<number | null>(null);
@@ -141,8 +138,14 @@ export function EventTimeline({ endpoint, scope, clinics = [] }: { endpoint: "/a
             </select>
           </div>
         )}
-        <DateField id={`${id}-from`} label={t("filterFrom")} value={draft.from} max={draft.to || today} today={today} onChange={(v) => setDraft((d) => ({ ...d, from: v }))} />
-        <DateField id={`${id}-to`} label={t("filterTo")} value={draft.to} min={draft.from || undefined} max={today} today={today} onChange={(v) => setDraft((d) => ({ ...d, to: v }))} />
+        <div className="field">
+          <label htmlFor={`${id}-from`}>{t("filterFrom")}</label>
+          <input id={`${id}-from`} type="date" value={draft.from} max={draft.to || undefined} onChange={set("from")} />
+        </div>
+        <div className="field">
+          <label htmlFor={`${id}-to`}>{t("filterTo")}</label>
+          <input id={`${id}-to`} type="date" value={draft.to} min={draft.from || undefined} onChange={set("to")} />
+        </div>
         <div className="loop-filter-actions">
           <Button type="submit" size="sm" pending={loading}>
             {t("apply")}

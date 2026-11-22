@@ -2,11 +2,6 @@
 // a fresh nonce: Next.js reads the nonce from the request's policy and puts it on its own scripts, and 'strict-dynamic'
 // lets those scripts load the page's chunks. Any other script, including one typed into a note, is refused.
 
-/** Where violation reports go: the API through this origin's /api/v1 (backend/app/api/csp.py). */
-export const CSP_REPORT_PATH = "/api/v1/csp-report";
-/** The Reporting API endpoint named "csp" in the policy (Reporting-Endpoints response header, set by src/proxy.ts). */
-export const REPORTING_ENDPOINTS = `csp="${CSP_REPORT_PATH}"`;
-
 export interface CspOptions {
   nonce: string;
   /** Development only: React and Next use eval for debugging there (never in production). */
@@ -45,9 +40,6 @@ export function contentSecurityPolicy({ nonce, dev = false, apiOrigin = null }: 
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",
-    // docs/31 §H: the browser reports what it blocked (the API logs only the directive and the blocked host)
-    `report-uri ${CSP_REPORT_PATH}`,
-    "report-to csp",
   ].join("; ");
 }
 

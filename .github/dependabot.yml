@@ -32,10 +32,3 @@ updates:
     groups:
       actions:
         patterns: ["*"]
-
-  # docs/31 §H, L9: the API image's base images are pinned by digest; Dependabot proposes the new digest each week
-  - package-ecosystem: docker
-    directory: /backend
-    schedule:
-      interval: weekly
-      day: monday

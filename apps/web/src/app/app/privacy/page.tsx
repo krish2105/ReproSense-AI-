@@ -13,7 +13,6 @@ import type { AuthMe, FamilyLink, PrivacyResponse, SessionsList } from "@/lib/ap
 import { formatDate } from "@/lib/format";
 import { requireRole } from "@/lib/session";
 import { lastActive } from "@/lib/when";
-import { Crumbs } from "@/components/chrome/Crumbs";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("privacy");
@@ -36,7 +35,6 @@ export default async function PrivacyPage() {
   const time = new Intl.DateTimeFormat(locale === "ar" ? "ar-AE-u-nu-latn" : "en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Dubai" });
   return (
     <div className="app-col">
-      <Crumbs items={[{ href: "/app", label: (await getTranslations("tabs"))("home") }, { label: t("title") }]} />
       <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
         <Image src="/images/sections/privacy-vault.png" alt="" width={72} height={72} />
         <div>

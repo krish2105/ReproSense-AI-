@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { REPORTING_ENDPOINTS, contentSecurityPolicy, newNonce, originOf } from "@/lib/csp";
+import { contentSecurityPolicy, newNonce, originOf } from "@/lib/csp";
 
 /**
  * Next 16's request proxy (formerly middleware.ts). Two jobs:
@@ -16,13 +16,6 @@ export function proxy(req: NextRequest) {
   const requestId = crypto.randomUUID();
   const headers = new Headers(req.headers);
   headers.set("x-request-id", requestId);
-  // docs/31 §B: the page asked for, so a signed-in area can send a re-entry back to exactly this page. Always set here
-  // (a visitor-sent value is overwritten), and still checked against an allow-list before any redirect uses it.
-  headers.set("x-pathname", req.nextUrl.pathname + req.nextUrl.search);
-  // docs/31 §H, H2: only this server may vouch for the visitor's address to the API (lib/api/edge.ts). A header a visitor
-  // sent is dropped; the platform's X-Forwarded-For (Vercel puts the visitor first) is passed through unchanged.
-  headers.delete("x-rs-edge");
-  if (req.nextUrl.pathname.startsWith("/api/") && process.env.EDGE_SECRET) headers.set("x-rs-edge", process.env.EDGE_SECRET);
   const { pathname } = req.nextUrl;
   const isApi = pathname.startsWith("/api/");
   const isPrefetch = req.headers.has("next-router-prefetch") || req.headers.get("purpose") === "prefetch";
@@ -41,10 +34,7 @@ export function proxy(req: NextRequest) {
   }
   const res = NextResponse.next({ request: { headers } });
   if (!isApi) res.headers.set("x-request-id", requestId); // the API sets its own
-  if (policy) {
-    res.headers.set("Content-Security-Policy", policy);
-    res.headers.set("Reporting-Endpoints", REPORTING_ENDPOINTS);
-  }
+  if (policy) res.headers.set("Content-Security-Policy", policy);
   return res;
 }
 

@@ -26,9 +26,8 @@ export default async function StaffSignInPage({ searchParams }: { searchParams: 
             {notice}
           </p>
         )}
-        {/* docs/31 §D: most visitors are judges, so the one-tap demo comes first, then the real staff door */}
-        <DemoOneTap roles={roles} />
         <StaffDoor />
+        <DemoOneTap roles={roles} />
         <p className="notice" role="note">
           {t("demoNote")}
         </p>
