@@ -2043,3 +2043,39 @@ Clinic-facing (plural address, as on the rest of /pilot). Terms to check: «ار
 | `evidence.built.colDate` | Merged | تاريخ الدمج |  |
 | `evidence.built.when` | Listed from GitHub on {date} by tools/build_week.py; dependency-update bots left out. | القائمة مأخوذة من GitHub في {date} عبر tools/build_week.py، من دون روبوتات تحديث المكتبات. |  |
 | `pilot.intro` (changed sentence) | Each default comes from a published study (two from Abu Dhabi, one pooled from 18 studies) or our price list, or is marked as an assumption. | كل قيمة افتراضية مأخوذة من دراسة منشورة (اثنتان من أبوظبي، وواحدة تجمع 18 دراسة) أو من قائمة أسعارنا، أو مكتوب بجانبها أنها افتراض. | |
+
+## No prices: "How ReproSense will be paid for" (22 Nov, draft Arabic, not native-reviewed)
+Every Arabic string below is a draft written with Claude Code; the native review is still open (see the note at the top).
+
+| Key | English | Arabic (draft) | Note |
+| --- | --- | --- | --- |
+| `pricing.metaTitle` | How ReproSense will be paid for | كيف سيُدفع مقابل ReproSense | |
+| `pricing.title` | How ReproSense will be paid for | كيف سيُدفع مقابل ReproSense | |
+| `pricing.intro` | ReproSense is a prototype built for the HealthX Ajyal hackathon, so it has no price yet. We will set the price with our first pilot clinic, from what the pilot measures. | ReproSense نموذج أولي بُني لهاكاثون HealthX أجيال، لذلك لا سعر له بعد. سنحدّد السعر مع أول عيادة تجريبية، بناءً على ما تقيسه التجربة. | |
+| `pricing.whoTitle` | Who pays | من يدفع | |
+| `pricing.who.women.name` | Women | النساء | |
+| `pricing.who.women.tag` | Free, always | مجاناً دائماً | |
+| `pricing.who.women.body` | Her record, her patterns and her doctor report. No ads, and we never sell health data. | سجلّها وأنماطها وتقرير طبيبها. بلا إعلانات، ولا نبيع البيانات الصحية أبداً. | |
+| `pricing.who.clinics.name` | Clinics and primary-care networks | العيادات وشبكات الرعاية الأولية | |
+| `pricing.who.clinics.tag` | Subscription | اشتراك | |
+| `pricing.who.clinics.body` | For the clinic's side: the pre-visit brief, the doctor report, the follow-up list and the network view. The price is agreed in the pilot. | لجانب العيادة: ملخّص ما قبل الزيارة، وتقرير الطبيب، وقائمة المتابعات، وعرض الشبكة. يُتّفق على السعر خلال التجربة. | |
+| `pricing.who.insurers.name` | Insurers, later | شركات التأمين لاحقاً | |
+| `pricing.who.insurers.tag` | Paid for results | الدفع مقابل النتائج | |
+| `pricing.who.insurers.body` | Per follow-up closed, starting with the glucose test after gestational diabetes (DoH PC008), and only once the pilot has measured it. | عن كل متابعة مكتملة، بدءاً بفحص السكر بعد سكري الحمل (مؤشر PC008 لدى دائرة الصحة)، وفقط بعد أن تقيسه التجربة. | |
+| `pricing.howTitle` | How we will set the price | كيف سنحدّد السعر | |
+| `pricing.how.s1` | Run a 90-day pilot at one clinic, free for the clinic and for the women taking part. | تجربة لمدة 90 يوماً في عيادة واحدة، مجانية للعيادة وللنساء المشاركات. | |
+| `pricing.how.s2` | Measure one number DoH already asks for: how many women with gestational diabetes complete the glucose test within 12 weeks of the birth. | قياس رقم واحد تطلبه دائرة الصحة أصلاً: عدد النساء المصابات بسكري الحمل اللواتي يُكملن فحص السكر خلال 12 أسبوعاً من الولادة. | |
+| `pricing.how.s3` | Agree the price with the clinic from what changed, not before. | الاتفاق على السعر مع العيادة بناءً على ما تغيّر، لا قبل ذلك. | |
+| `pricing.actionPilot` | Read the pilot proposal | قراءة مقترح التجربة | |
+| `pricing.actionDemo` | Open the demo | فتح العرض التجريبي | |
+| `pricing.whyTitle` | Why there's no number yet | لماذا لا يوجد رقم بعد | |
+| `pricing.whyBody` | Health buyers increasingly pay for measured outcomes rather than for every enrolled person, so a price set before any measurement would be a guess. Until then, the pilot page shows the arithmetic a clinic can check with its own figures. | يتجه مشترو الخدمات الصحية بشكل متزايد إلى الدفع مقابل نتائج مُقاسة بدلاً من الدفع عن كل شخص مسجّل، لذلك يكون أي سعر قبل القياس مجرّد تخمين. حتى ذلك الحين، تعرض صفحة التجربة الحساب الذي يمكن للعيادة التحقق منه بأرقامها. | |
+| `pricing.sourcesTitle` | Sources | المصادر | |
+| `pricing.note` | Prototype: no clinic has signed, and no price has been agreed. | نموذج أولي: لم توقّع أي عيادة، ولم يُتّفق على أي سعر. | |
+| `landing.clinicPrice` | Price set with our first pilot clinic, from what the pilot measures. | يُحدَّد السعر مع أول عيادة تجريبية، بناءً على ما تقيسه التجربة. | |
+| `landing.pricingLink` | How ReproSense will be paid for | كيف سيُدفع مقابل ReproSense | |
+| `chrome.footerPricing` | Business model | نموذج العمل | |
+| `pilot.toPricing` | How it will be paid for | نموذج العمل | |
+| `pilot.intro` | Set the numbers for your own clinic or insurer. This page multiplies them, nothing more: it is not a measured result and promises no outcome. Each default comes from a published study (two from Abu Dhabi, one pooled from 18 studies) or is marked as an assumption. ReproSense's own price is not here: it is set in the pilot. | أدخلوا أرقام عيادتكم أو شركة التأمين. هذه الصفحة تضرب الأرقام فقط: ليست نتيجة مُقاسة ولا تَعِد بأي نتيجة. كل قيمة افتراضية مأخوذة من دراسة منشورة (اثنتان من أبوظبي، وواحدة تجمع 18 دراسة)، أو مكتوب بجانبها أنها افتراض. سعر ReproSense نفسه ليس هنا: يُحدَّد خلال التجربة. | |
+| `pilotProposal.price.after` | After it, the price is agreed with the clinic from what the pilot measured. No price has been set yet. | بعدها، يُتّفق على السعر مع العيادة بناءً على ما قاسته التجربة. لم يُحدَّد أي سعر بعد. | |
+| `pilotProposal.pdf.footer` | Draft offer: no clinic has signed it, no partnership exists, and no price has been set. | مسودة عرض: لم توقّعها أي عيادة، ولا توجد أي شراكة، ولم يُحدَّد أي سعر. | |

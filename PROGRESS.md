@@ -15,6 +15,25 @@ Blockers / questions:
 - ...
 ```
 
+## 22 Nov 2026 (showcase day): no prices anywhere, and the Sahatna answers
+- The team asked for every price to come out, because ReproSense is a hackathon prototype:
+  - /pricing became "How ReproSense will be paid for": women free, clinics and networks on a subscription, insurers
+    later paid for results, and the price set with the first pilot clinic from what the pilot measures;
+  - removed from the landing page, the /pilot calculator (no subscription or net lines) and the pilot proposal (web
+    and PDF);
+  - removed from slide 3, the speaker notes, docs/27 and the Q&A pack.
+- Our mentor flagged Sahatna, DoH's own app. Research summary:
+  - official DoH app; UAE PASS sign-in, Malaffi records, booking, teleconsults;
+  - moving to Sahatna Space on TAMM, which lists maternity care now and IVF next;
+  - its public pages show no cycle or women's-health tracking.
+- What we added for Sahatna:
+  - the answer (its front door, our women's-health specialist behind it, through Malaffi and FHIR) in the notes,
+    docs/27 Q14b and Q&A pack section H;
+  - roadmap features: UAE PASS sign-in, Malaffi lab import, a Sahatna Space entry point, Apple Health and Health
+    Connect, time-limited sharing, booking hand-off, IVF-cycle support, test reminders;
+  - slide 3 timeline: UAE PASS in February, a Malaffi link ready for Sahatna by May.
+- Checks: web unit 115, backend pilot-proposal 13, e2e (pilot, proposal, screens, hero, demo path) 110 passed / 8 skipped.
+
 ## 21 Nov 2026 (Sat night, after the freeze, Krishna approved): landing hero cards no longer cover the phone
 - The two floating cards on the landing were placed against the hero column, so on wide screens "Worth discussing"
   covered Noura's avatar and greeting, and "AI Copilot" covered the "Next step" card. The phone also cut "Ask your

@@ -14,10 +14,10 @@ describe("pilot value arithmetic", () => {
     expect(r.extraClosed).toBeCloseTo(52.398, 3);
     // 34.5% of those 52.4 extra tests show raised sugar: about 18 mothers found within the follow-up window
     expect(r.foundEarly).toBeCloseTo(18.077, 3);
-    // × AED 500 = AED 26,199; subscription 1,990 × 12 = AED 23,880; net AED 2,319
+    // × the clinic's own AED 500 per missed follow-up = AED 26,199 (no ReproSense price: it is set in the pilot)
     expect(r.value).toBeCloseTo(26199, 0);
-    expect(r.subscription).toBe(23880);
-    expect(r.net).toBeCloseTo(2319, 0);
+    expect(r).not.toHaveProperty("subscription");
+    expect(r).not.toHaveProperty("net");
   });
 
   it("scales to 1,000 women whatever the pilot size", () => {
@@ -32,19 +32,18 @@ describe("pilot value arithmetic", () => {
     expect(r.extraClosed).toBe(0);
     expect(r.value).toBe(0);
     expect(r.foundEarly).toBe(0);
-    expect(r.net).toBe(-r.subscription);
   });
 
   it("holds out-of-range inputs at the edge and survives empty fields", () => {
-    const s = sanitise({ ...defaults, gdmPct: 140, beforePct: -5, women: Number.NaN, months: 0, missedCostAed: -1 });
-    expect(s).toMatchObject({ gdmPct: 100, beforePct: 0, women: 0, months: 1, missedCostAed: 0 });
+    const s = sanitise({ ...defaults, gdmPct: 140, beforePct: -5, women: Number.NaN, missedCostAed: -1 });
+    expect(s).toMatchObject({ gdmPct: 100, beforePct: 0, women: 0, missedCostAed: 0 });
     const r = pilotValue({ ...defaults, women: 0 });
     expect(r.per1000).toEqual({ extraClosed: 0, value: 0, foundEarly: 0 }); // no division by zero
   });
 
   it("every default says what it rests on, and sourced ones link to the source", () => {
     for (const [key, d] of Object.entries(DEFAULTS)) {
-      expect(["source", "assumption", "price"], key).toContain(d.basis);
+      expect(["source", "assumption"], key).toContain(d.basis);
       if (d.basis === "source") expect(d.ref && SOURCES[d.ref].url.startsWith("https://doi.org/"), key).toBeTruthy();
       if (d.basis === "assumption") expect(d.ref, key).toBeNull();
     }

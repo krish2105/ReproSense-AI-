@@ -13,14 +13,13 @@ test("a clinic manager sees the arithmetic, changes an input and the result foll
   await expect(page.getByTestId("extra-closed")).toHaveText("52");
   await expect(page.getByTestId("found-early")).toHaveText("18"); // 34.5% of the 52 extra tests (pooled, 18 studies)
   await expect(page.getByRole("link", { name: /34\.5%, pooled from 18 studies/ })).toBeVisible();
-  await expect(page.getByTestId("net")).toHaveText("AED 2,319");
+  await expect(page.getByTestId("pilot-result")).not.toContainText("subscription"); // no ReproSense price (22 Nov)
   await expectAccessible(page, "pilot value");
   await expectNoSideScroll(page, "pilot value");
 
   await page.getByLabel(en.pilot.inputs.afterPct).fill("20"); // a target below today's 25.4%
   await expect(page.getByTestId("extra-closed")).toHaveText("0"); // never a negative number of follow-ups
   await expect(page.getByTestId("found-early")).toHaveText("0");
-  await expect(page.getByTestId("net")).toHaveText("AED -23,880");
 });
 
 test("the pilot page reads right to left in Arabic", async ({ page }) => {
@@ -29,7 +28,7 @@ test("the pilot page reads right to left in Arabic", async ({ page }) => {
   await page.goto("/pilot");
   await expect(page.getByRole("heading", { level: 1, name: ar.pilot.title })).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
-  await expect(page.getByTestId("net")).toHaveText("2,319 درهم");
+  await expect(page.getByTestId("found-early")).toHaveText("18");
   await expectAccessible(page, "pilot value, Arabic");
   await expectNoSideScroll(page, "pilot value, Arabic");
 });

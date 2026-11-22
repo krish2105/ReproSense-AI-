@@ -28,7 +28,8 @@ test("a clinic manager reads the proposal and downloads the one-page PDF", async
   await expect(proposal.getByRole("link", { name: /PC008 Post-Partum Follow-Up/ })).toBeVisible();
   const price = proposal.getByTestId("proposal-price");
   await expect(price).toContainText(en.pilotProposal.price.pilot);
-  await expect(price).toContainText("AED 399");
+  await expect(price).not.toContainText("AED"); // no price before the pilot (22 Nov)
+  await expect(price).toContainText(en.pilotProposal.price.after);
   await expect(price.getByText(en.pilotProposal.basis.hypothesis, { exact: true })).toBeVisible();
   await expect(proposal.getByRole("heading", { name: en.pilotProposal.exit.title })).toBeVisible();
 
