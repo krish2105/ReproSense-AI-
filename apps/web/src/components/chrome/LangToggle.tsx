@@ -18,6 +18,7 @@ export function LangToggle() {
   const next = locale === "ar" ? "en" : "ar";
   return (
     <button
+      data-global-toggle
       type="button"
       className="tb"
       lang={next}

@@ -53,7 +53,7 @@ export function StaffActions({ disabled }: { disabled?: boolean }) {
       <Button variant="outline" pending={busy === "clinicAdmin"} disabled={disabled} onClick={() => run("clinicAdmin")}>
         {t("openClinicAdmin")}
       </Button>
-      <Button variant="outline" pending={busy === "reset"} disabled={disabled} onClick={() => run("reset")}>
+      <Button variant="outline" pending={busy === "reset"} disabled={disabled} onClick={() => run("reset")} data-destructive="reset">
         {t("reset")}
       </Button>
     </div>
