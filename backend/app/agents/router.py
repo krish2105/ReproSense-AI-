@@ -27,12 +27,12 @@ from typing import Any, TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
-from app.agents import assistant, record, safety
+from app.agents import assistant, food, record, safety
 from app.ai.llm import NoLLM, get_llm
 from app.ai.redact import redact
 from app.rag.kb import sources as kb_sources
 
-LANES = ("knowledge", "record", "next_step")
+LANES = ("knowledge", "record", "next_step", "food")
 
 # ---------------- the deterministic router (EN and Gulf Arabic, after the assistant's folding) ----------------
 # A record question is short and asks for her own data: a first-person marker, a data-question shape and a topic.
@@ -254,6 +254,8 @@ def route(state: State) -> dict:
             "topic": None,
             "trace": _step(state, "router", "diagnosis request: refused with sources", t0),
         }
+    if food.is_food_question(state["question"], state.get("bundle")):  # 22 Nov (G2: Krishna): food, never medicine
+        return {"lane": "food", "topic": None, "trace": _step(state, "router", "food question: food lane (code, NHS)", t0)}
     if state.get("bundle") is None:
         return {"lane": "knowledge", "topic": None, "trace": _step(state, "router", "no record loaded: knowledge", t0)}
     got = classify(state["question"])
@@ -280,7 +282,7 @@ def second_check(state: State) -> dict:
     """With a model, her record lanes get the same second safety check as the knowledge answer (it only adds routes)."""
     t0 = time.perf_counter()
     llm = _model(state)
-    if state["lane"] not in ("record", "next_step") or not llm:
+    if state["lane"] not in ("record", "next_step", "food") or not llm:
         return {}
     second = safety.model_check(state["question"], llm, state.get("names"))
     if second and (second["crisis"] or second["urgent"]):
@@ -400,12 +402,36 @@ def next_step_lane(state: State) -> dict:
     return {"out": out}
 
 
+def food_lane(state: State) -> dict:
+    """Food and drink for periods from the NHS, written by code; never a medicine (22 Nov, G2: Krishna)."""
+    t0 = time.perf_counter()
+    res = food.answer(state["question"], state["lang"], state.get("bundle"), state["ref"])
+    ids = list(dict.fromkeys(food.SOURCES[ln["cite"]] for ln in res["lines"]))
+    cites = _cite_list(ids)
+    num = {c["source_id"]: c["n"] for c in cites}
+    parts = [res["lead"], *(f"{ln['text']} [{num[food.SOURCES[ln['cite']]]}]" for ln in res["lines"])]
+    detail = f"{len(res['lines'])} sentences from NHS pages, no medicines"
+    if res["allergens"]:
+        detail += f"; she can't eat: {', '.join(res['allergens'])} ({len(res['dropped'])} foods left out)"
+    if res["heavy_days"]:
+        detail += f"; personalised: {res['heavy_days']} heavy days in 90"
+    out = _base(state)
+    out.update(
+        lane="food",
+        answer=" ".join(parts),
+        citations=cites,
+        food={"allergens": res["allergens"], "left_out": res["dropped"], "heavy_days": res["heavy_days"]},
+        trace=[*_step(state, "food", detail, t0), {"agent": "writer", "detail": "code's own sentences (no model)"}],
+    )
+    return {"out": out}
+
+
 def _after_route(state: State) -> str:
-    return {"record": "second_check", "next_step": "second_check"}.get(state["lane"], "knowledge")
+    return {"record": "second_check", "next_step": "second_check", "food": "second_check"}.get(state["lane"], "knowledge")
 
 
 def _after_second(state: State) -> str:
-    return {"record": "record", "next_step": "next_step"}.get(state["lane"], "knowledge")
+    return {"record": "record", "next_step": "next_step", "food": "food"}.get(state["lane"], "knowledge")
 
 
 def build_graph():
@@ -418,6 +444,7 @@ def build_graph():
         ("knowledge", knowledge),
         ("record", record_lane),
         ("next_step", next_step_lane),
+        ("food", food_lane),
     ]:
         g.add_node(name, fn)
     g.add_edge(START, "intake")
@@ -425,9 +452,9 @@ def build_graph():
     g.add_edge("safety", "route")
     g.add_conditional_edges("route", _after_route, {"second_check": "second_check", "knowledge": "knowledge"})
     g.add_conditional_edges(
-        "second_check", _after_second, {"record": "record", "next_step": "next_step", "knowledge": "knowledge"}
+        "second_check", _after_second, {"record": "record", "next_step": "next_step", "food": "food", "knowledge": "knowledge"}
     )
-    for lane in ("knowledge", "record", "next_step"):
+    for lane in ("knowledge", "record", "next_step", "food"):
         g.add_edge(lane, END)
     return g.compile()
 

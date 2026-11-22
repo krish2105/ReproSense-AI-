@@ -533,7 +533,7 @@ export interface AskResponse {
   grounded: boolean;
   trace?: TraceStep[];
   /** Which lane answered (section 7): the cited knowledge answer, a safety reply, her own record, or her next steps. */
-  lane?: "knowledge" | "safety" | "record" | "next_step";
+  lane?: "knowledge" | "safety" | "record" | "next_step" | "food";
   record?: HerRecord; // lane "record": her own numbers, computed by code
   next_steps?: NextStepItem[]; // lane "next_step": a short list she approves
   lead?: string; // lane "next_step": the sentence before the list
