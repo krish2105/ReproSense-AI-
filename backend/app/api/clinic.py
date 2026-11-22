@@ -16,6 +16,7 @@ from app.db import Actor, session
 from app.rules.engine import evaluate
 from app.security import audit
 from app.security.auth import require
+from app.security.crypto import decrypt, encrypt
 from app.services import baby, blood_pressure, followups, postnatal, previsit, views
 from app.services.patient_data import load_bundle
 
@@ -41,7 +42,7 @@ def patients(actor: Actor = Depends(clinician)):
             # past its window with no booking (followups.is_overdue, in SQL)
             " (SELECT count(*) FROM care_gaps g WHERE g.profile_id=p.id AND g.status='open' AND g.window_end < %s)"
             " AS overdue_gaps,"
-            " (SELECT reviewed_at FROM clinic_reviews cr WHERE cr.profile_id=p.id) AS reviewed_at"
+            " (SELECT max(reviewed_at) FROM clinic_reviews cr WHERE cr.profile_id=p.id) AS reviewed_at"  # RLS: own clinic
             " FROM profiles p WHERE p.role='patient'",
             (_ref(),),
         )
@@ -71,8 +72,12 @@ def patient_view(pid: str, actor: Actor = Depends(clinician)):
         )
         ref = _ref()
         gaps = cur.fetchall()
-        cur.execute("SELECT reviewed_at, visit_note FROM clinic_reviews WHERE profile_id=%s", (pid,))
+        cur.execute(
+            "SELECT reviewed_at, visit_note_enc FROM clinic_reviews WHERE profile_id=%s AND clinic_id=%s",
+            (pid, actor.clinic_id),
+        )
         review = cur.fetchone()
+        note = decrypt(review["visit_note_enc"]) if review else ""  # M2: stored encrypted
         cur.execute("SELECT id, created_at FROM reports WHERE profile_id=%s ORDER BY id DESC LIMIT 1", (pid,))
         report = cur.fetchone()
         inputs = previsit.visit_inputs(cur, pid)
@@ -100,7 +105,7 @@ def patient_view(pid: str, actor: Actor = Depends(clinician)):
         "trace": trace,
         "labs": b["labs"],
         "care_gaps": gaps,
-        "review": review,
+        "review": {"reviewed_at": review["reviewed_at"], "visit_note": note or None} if review else None,  # contract unchanged
         "latest_report": report,
         "analytics": views.analytics(b, ev, ref, 12),
         "timeline": views.timeline(b, ref, 12),
@@ -109,7 +114,7 @@ def patient_view(pid: str, actor: Actor = Depends(clinician)):
         "postnatal": postnatal.pathway(b, ref),
         "baby": baby.schedule(b, ref, "en"),  # D1: read-only here; only she records a step
         "bp_readings": blood_pressure.ordered(b)[::-1],  # K6: newest first, every reading she logged
-        "visit_note_draft": (review or {}).get("visit_note") or copilot.visit_note_draft(b, ev, ref),
+        "visit_note_draft": note or copilot.visit_note_draft(b, ev, ref),
         "previsit_brief": previsit.build_brief(b, cards, crisis, visit, inputs["gaps"], ref, "en", "clinician"),
     }
 
@@ -140,9 +145,10 @@ def mark_reviewed(pid: str, actor: Actor = Depends(clinician)):
     with session(actor) as cur:
         _require_shared(cur, pid)
         cur.execute(
-            "INSERT INTO clinic_reviews (profile_id, clinician_id, reviewed_at) VALUES (%s,%s,now())"
-            " ON CONFLICT (profile_id) DO UPDATE SET reviewed_at=now(), clinician_id=EXCLUDED.clinician_id RETURNING reviewed_at",
-            (pid, actor.user_id),
+            "INSERT INTO clinic_reviews (profile_id, clinic_id, clinician_id, reviewed_at) VALUES (%s,%s,%s,now())"
+            " ON CONFLICT (profile_id, clinic_id) DO UPDATE SET reviewed_at=now(), clinician_id=EXCLUDED.clinician_id"
+            " RETURNING reviewed_at",
+            (pid, actor.clinic_id, actor.user_id),
         )
         r = cur.fetchone()
         cur.execute("UPDATE observations SET status='reviewed' WHERE profile_id=%s AND kind<>'red_flag'", (pid,))
@@ -159,9 +165,9 @@ def save_note(pid: str, body: NoteIn, actor: Actor = Depends(clinician)):
     with session(actor) as cur:
         _require_shared(cur, pid)
         cur.execute(
-            "INSERT INTO clinic_reviews (profile_id, clinician_id, visit_note) VALUES (%s,%s,%s)"
-            " ON CONFLICT (profile_id) DO UPDATE SET visit_note=EXCLUDED.visit_note, updated_at=now()",
-            (pid, actor.user_id, body.text),
+            "INSERT INTO clinic_reviews (profile_id, clinic_id, clinician_id, visit_note_enc) VALUES (%s,%s,%s,%s)"
+            " ON CONFLICT (profile_id, clinic_id) DO UPDATE SET visit_note_enc=EXCLUDED.visit_note_enc, updated_at=now()",
+            (pid, actor.clinic_id, actor.user_id, encrypt(body.text)),  # M2: AES-256-GCM, like her own notes
         )
         audit.record(cur, actor, "save_visit_note", pid, "visit_note")
     return {"ok": True}

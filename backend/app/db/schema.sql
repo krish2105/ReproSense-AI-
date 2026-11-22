@@ -139,9 +139,13 @@ CREATE TABLE care_gaps (
   window_end date, UNIQUE (profile_id, type)
 );
 
+-- docs/31 §H: one row per (patient, clinic) so a new clinic never reads an old clinic's note (L8); the clinician's
+-- visit note is AES-256-GCM in the application like her own notes (M2), never plain text here.
 CREATE TABLE clinic_reviews (
-  profile_id text PRIMARY KEY REFERENCES profiles(id) ON DELETE CASCADE,
-  clinician_id text NOT NULL, reviewed_at timestamptz, visit_note text, updated_at timestamptz NOT NULL DEFAULT now()
+  profile_id text NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  clinic_id text NOT NULL REFERENCES clinics(id),
+  clinician_id text NOT NULL, reviewed_at timestamptz, visit_note_enc bytea, updated_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (profile_id, clinic_id)
 );
 
 -- origin 'patient': her own appointment request. origin 'clinic': a reminder her clinician drafted for an open follow-up
@@ -231,6 +235,10 @@ BEGIN
   EXECUTE $p$CREATE POLICY clinician_update ON observations FOR UPDATE USING (clinician_can_see(profile_id)) WITH CHECK (clinician_can_see(profile_id))$p$;
   EXECUTE $p$CREATE POLICY clinician_write ON clinic_reviews FOR INSERT WITH CHECK (clinician_can_see(profile_id))$p$;
   EXECUTE $p$CREATE POLICY clinician_rewrite ON clinic_reviews FOR UPDATE USING (clinician_can_see(profile_id)) WITH CHECK (clinician_can_see(profile_id))$p$;
+  -- L8: whatever else a clinician may see, a clinic_reviews row is visible and writable only for her own clinic
+  EXECUTE $p$CREATE POLICY own_clinic_only ON clinic_reviews AS RESTRICTIVE
+             USING (app_role() <> 'clinician' OR clinic_id = app_clinic())
+             WITH CHECK (app_role() <> 'clinician' OR clinic_id = app_clinic())$p$;
   -- a clinician drafts (and approves or discards) reminders for a consented patient; she never edits her requests
   EXECUTE $p$CREATE POLICY clinician_draft ON navigator_drafts FOR INSERT WITH CHECK (origin = 'clinic' AND clinician_can_see(profile_id))$p$;
   EXECUTE $p$CREATE POLICY clinician_decide ON navigator_drafts FOR UPDATE USING (origin = 'clinic' AND clinician_can_see(profile_id))
