@@ -122,7 +122,7 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 >
 > With her consent, her doctor gets a two-page report to read in a minute. Noura doesn't have to explain. Her record does.
 >
-> And it's safe: on 132 messages it was never tuned on, all 30 crises went to support and all 32 emergencies to 998."
+> And we test its safety: on 132 messages it was never tuned on, with the AI second check all 30 crises went to support and all 32 emergencies to 998."
 >
 > (Turn to Yash.)
 >
@@ -302,7 +302,7 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 **Q5. Mental health: what if she writes something worrying?** *(Zebo)*
 > If her words suggest crisis, the app shows support and 998, never a score. After birth, the mood check uses the
 > EPDS questionnaire, and its self-harm question goes straight to support, with 998 and DoH's 24/7 line 800-SAKINA.
-> On 132 held-out messages written separately from the code, our safety layer caught all 30 crisis messages.
+> On 132 held-out messages written separately from the code, our safety layer, with the AI second check, caught all 30 crisis messages (11 of 30 with word checks alone).
 
 ### AI (NYU Abu Dhabi)
 **Q6. Where is the AI, if rules decide everything?** *(Krishna)*
@@ -348,7 +348,7 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 > February milestone, before any real record.
 
 **Q12. Is this a medical device? What approvals do you need?** *(Krishna)*
-> Because it doesn't diagnose, it's designed to sit below the software-as-a-medical-device line. Our November step is
+> It is designed to inform a conversation with a doctor, not to diagnose; whether it is a medical device is for the regulator to decide. Our November step is
 > a classification memo for the Emirates Drug Establishment, plus a DoH licence for the company and an ADHICS
 > (cybersecurity) gap assessment.
 

@@ -34,7 +34,7 @@ Over the year, rules from published guidelines show the pattern, with the exact 
 
 With her consent, her doctor gets a two-page report to read in a minute. Noura doesn't have to explain. Her record does.
 
-And it's safe: on 132 messages it was never tuned on, all 30 crises went to support and all 32 emergencies to 998."
+And we test its safety: on 132 messages it was never tuned on, with the AI second check all 30 crises went to support and all 32 emergencies to 998."
 
 (Turn to Yash.)
 
