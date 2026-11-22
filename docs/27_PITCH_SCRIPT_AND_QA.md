@@ -506,9 +506,10 @@ PureHealth's group includes SEHA's clinics, the Daman insurer and the Pura app. 
 - **"What would a pilot look like for us?"** *(Yash)* "One primary-care clinic, up to 20 consenting women in late
   pregnancy or after birth, 3 clinicians, 90 days. Measured on one number: the glucose test after gestational diabetes,
   in the window the clinic's own protocol sets. The proposal is on /pilot."
-- **"What's it worth to a payer?"** *(Yash)* "We have not measured that. /pilot shows a scenario from your own numbers: eligible
-  women, completion today and a target give the extra completed follow-ups. It is not cases found or money saved; the
-  pilot measures the real number."
+- **"What's it worth to a payer?"** *(Yash)* "We have not measured that. As a scenario from your own numbers: 100 eligible
+  women going from 25% to 50% completion is 25 more completed follow-ups. That is not cases found or money saved; the
+  pilot measures the real number." (Do not send a judge to /pilot until the plain-scenario calculator is live: the
+  old page still shows the chained figures.)
 - **"Malaffi?"** *(Krishna)* Q13: FHIR export today; connecting through the proper DoH route comes after the pilot.
 
 ### Dr Osama Abdullah · Director, Core Technology Platforms, NYU Abu Dhabi
