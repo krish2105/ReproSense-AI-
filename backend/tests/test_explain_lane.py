@@ -126,3 +126,20 @@ def test_new_sources_are_cite_only_nhs_pages_with_summaries_in_both_languages():
         assert s.answers is False and s.url.startswith("https://www.nhs.uk/")
         text = (KB / f"{sid}.md").read_text()
         assert "## en" in text and "## ar" in text
+
+
+def test_audit_22nov_questions_reach_the_explain_lane(client):
+    """The senior audit (22 Nov, 14:03) found these answered by the general lane; each now gets its explainer."""
+    m = ask(client, "mariam", "When should I see a doctor about fertility?")
+    assert m["lane"] == "explain" and m["explain"]["condition"] == "infertility" and "36" in m["answer"]
+    m_ar = ask(client, "mariam", "متى أراجع الطبيب بخصوص الخصوبة؟", "ar")
+    assert m_ar["lane"] == "explain" and m_ar["explain"]["condition"] == "infertility"
+    f_ar = ask(client, "fatima", "ما هو اكتئاب ما بعد الولادة؟", "ar")
+    assert f_ar["lane"] == "explain" and "998" in f_ar["answer"] and "800" in f_ar["answer"]
+    h = ask(client, "noura", "What counts as a heavy period?")
+    assert h["lane"] == "explain" and "every 1 to 2 hours" in h["answer"]
+    p = ask(client, "hessa", "What is pre-eclampsia?")
+    assert p["lane"] == "explain" and "high blood pressure" in p["answer"]
+    i = ask(client, "noura", "Why are my periods irregular?")
+    assert i["lane"] == "explain" and "42–56" in i["answer"]  # her own cycles
+    assert not h["answer"].startswith("Here is what")  # 'About heavy periods, in plain words:'
