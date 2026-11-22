@@ -175,7 +175,7 @@ s4.addText("The demo: her record, her clinic, the network", { placeholder: "titl
 const DEMO = [
   ["Her record", "Noura (fictional, 24): a pattern with the days behind it and its guideline. Nura explains what is happening in her body, with NHS sources. She logs by voice in Arabic."],
   ["Her clinic", "Fatima had diabetes in pregnancy. Her after-birth glucose test is due (ADA: 4 to 12 weeks after birth); the clinician books it in one tap, with consent."],
-  ["The network", "Follow-ups closing across clinics, counts only, never names: what a clinic or an insurer pays for."],
+  ["The network", "Each follow-up moves from due, to booked, to done, across clinics. Counts only, never names: what a clinic or an insurer pays for."],
 ];
 DEMO.forEach(([head, body], i) => {
   const x = 0.6 + i * 3.0;
@@ -187,7 +187,7 @@ DEMO.forEach(([head, body], i) => {
 });
 s4.addImage({ path: path.join(HERE, "img", "qr-live.png"), x: 10.05, y: 1.6, w: 2.4, h: 2.4, altText: "QR code to reprosense.vercel.app", objectName: "qr-live" });
 s4.addText("reprosense.vercel.app", { x: 9.75, y: 4.05, w: 3.0, h: 0.35, fontSize: 14, bold: true, color: C.text2, align: "center", margin: 0, isTextBox: true });
-s4.addText("Live now. Recorded backup: ReproSense-demo.mp4", { x: 9.75, y: 4.4, w: 3.0, h: 0.3, fontSize: 10, italic: true, color: C.accent5, align: "center", margin: 0, isTextBox: true });
+s4.addText("Live now. Recorded demo (2:30, 4K): ReproSense-demo-2min30-4K.mp4", { x: 9.75, y: 4.4, w: 3.0, h: 0.3, fontSize: 10, italic: true, color: C.accent5, align: "center", margin: 0, isTextBox: true });
 s4.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.6, y: 5.05, w: 12.1, h: 1.15, rectRadius: 0.15, fill: { color: "FFFFFF" }, line: { color: "E6D9E8" }, objectName: "life-course" });
 s4.addText(
   [
