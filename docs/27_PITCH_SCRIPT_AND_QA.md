@@ -111,15 +111,21 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 #### Slide 2
 > KRISHNA · 30 seconds · slide 2, the solution
 >
-> "So we built ReproSense: her health record, in Arabic and English. She logs in seconds, by tap, by voice, or with a photo of a lab report.
+> "So we built ReproSense: her record in Arabic and English, by tap, voice or a lab-report photo.
 >
-> Rules from published guidelines spot patterns worth raising with a doctor, and show the exact days and the guideline behind each one. It never diagnoses, and anything urgent comes first, with 998.
+> Human knowledge decides: rules from published guidelines spot patterns worth raising with a doctor, with the days and guideline behind each. It never diagnoses; urgent signs come first, with 998.
 >
-> The AI is checked. On 132 test messages it was never tuned on, it sent all 30 crises to support and all 32 emergencies to 998."
+> The AI does the language, and it's checked: on 132 messages it was never tuned on, all 30 crises went to support and all 32 emergencies to 998.
+>
+> Trackers log. Chatbots don't know her record. We give her doctor the evidence."
 >
 > (Turn to Yash.)
 >
 > IF ASKED
+> - Human plus technology? Clinical knowledge sits in the rules, taken from published guidelines. The AI only does language. She checks every value before it saves, the care navigator only drafts, and the doctor makes every decision.
+> - Privacy in one breath: hers by default. Her clinic sees it only if she shares, and she can revoke, export or delete everything. The network sees counts, never names (groups under 10 are hidden). Names are removed before any text reaches a model, and with AI off nothing is sent. She can read every access in a tamper-evident log. We never sell health data.
+> - Where is the data? The demo is fictional and hosted in Frankfurt. Production stays in the UAE, as the Health Data Law requires (February milestone).
+> - Privacy not done yet (say it if pushed): UAE hosting, backups, penetration test, privacy impact assessment. ADHICS gap assessment in December; UAE hosting and the penetration test in February.
 > - Who wrote the 132? Written separately from the code, in English and four kinds of Arabic, measured once, never used for tuning. Not clinicians; clinician-written tests are next. Never say "independent reviewers".
 > - Where is the AI? Her voice and lab photos into the form, answers from a cited library, rewording. Rules make every safety decision; the AI can add an urgent route, never remove one.
 > - Model down? Red flags are plain rules and run first. Past 10 seconds she gets a fixed, sourced reply.
@@ -128,11 +134,11 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 #### Slide 3, then the demo
 > YASH · 30 seconds · slide 3, the venture
 >
-> "Who pays? Clinics, per doctor, and primary-care networks, because the after-birth glucose test is on DoH's own scorecard, PC008. Women use it free.
+> "Our users: women in Abu Dhabi, free, and their doctors. Who pays? Clinics, per doctor, and primary-care networks, because the after-birth glucose test is on DoH's own scorecard, PC008.
 >
 > Next: a device memo for the Emirates Drug Establishment, a clinic letter of intent, UAE hosting, then a pilot at one clinic and a licensed company by May.
 >
-> Since we were accepted we've merged 57 pull requests, all on our evidence page, and we're forming the company. Let us show you."
+> Since acceptance: 57 merged pull requests, all on our evidence page. We're forming the company. Let us show you."
 >
 > === SWITCH TO THE BROWSER: Noura's Home, English, Light ===
 >
@@ -162,7 +168,7 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 > - Site slow or down? Yash plays ReproSense-demo.mp4 and Krishna talks over it.
 > - There's no Clinician link inside her app. Go through Demo people.
 >
-> If a judge asks "Have you tested this with real women or doctors?" (Yash): "Not yet. Everything you saw runs on fictional data, by design. Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with up to 20 women at one clinic." Never invent a number.
+> If a judge asks "Have you tested this with real women or doctors?" (Yash): "Not yet. Everything you saw runs on fictional data, by design. Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with up to 20 women at one clinic." If we spoke to anyone today, say exactly that, from the evidence log (docs/29 section 4). Never invent a number.
 >
 > Q&A: answer in two sentences, then stop. Krishna: AI, safety, data, regulation. Yash: money, market, pilot. Zebo: the science (PMOS, gestational diabetes, mood after birth). Atharva: the build and the app.
 
@@ -305,6 +311,18 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 **Q11. Who can see her data?** *(Krishna)*
 > Only her, unless she chooses to share with her clinic, and she can revoke that, export everything, or delete it.
 > Clinicians see only women who shared with their clinic; the network sees counts, never names.
+
+**Q11b. Privacy in 20 seconds (for "How do you protect her privacy?")** *(Krishna)*
+> Hers by default: her clinic sees her record only if she shares, and she can revoke, export or delete it. The network
+> sees counts, never names, and groups under 10 are hidden. Names are removed before any text reaches a model; with AI
+> off, nothing is sent. Every access is in a tamper-evident log she can read, and we never sell health data. On a shared
+> family phone, discreet mode shows "My notes" instead of the app name and hides her name. She can give someone she
+> trusts a read-only family link, choose whether it shows details, and revoke it.
+
+**Q11c. What isn't done yet on privacy?** *(Krishna, only if pushed; say it plainly)*
+> The demo runs on fictional data in Frankfurt on free hosting: no UAE hosting, no backups, no penetration test and no
+> privacy impact assessment yet. The ADHICS gap assessment is in December; UAE hosting and the penetration test are the
+> February milestone, before any real record.
 
 **Q12. Is this a medical device? What approvals do you need?** *(Krishna)*
 > Because it doesn't diagnose, it's designed to sit below the software-as-a-medical-device line. Our November step is
