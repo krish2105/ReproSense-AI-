@@ -1,0 +1,31 @@
+{
+  "data": "fictional personas only (data/synthetic/output/personas)",
+  "method": "each cycle from the third on predicted from the cycles before it with app/services/forecast.py",
+  "all": {
+    "predictions": 55,
+    "mean_error_days": 2.1,
+    "inside_range": "53 of 55",
+    "mean_width_days": 7.1
+  },
+  "regular": {
+    "predictions": 49,
+    "mean_error_days": 1.2,
+    "inside_range": "47 of 49",
+    "mean_width_days": 4.7
+  },
+  "varied": {
+    "predictions": 6,
+    "mean_error_days": 10,
+    "inside_range": "6 of 6",
+    "mean_width_days": 26.7
+  },
+  "personas": [
+    "amina",
+    "hessa",
+    "layla",
+    "mariam",
+    "noura",
+    "priya",
+    "sara"
+  ]
+}

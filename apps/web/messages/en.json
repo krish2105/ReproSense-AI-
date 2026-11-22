@@ -437,7 +437,6 @@
     "longer": "Longer than your usual {length} days",
     "estimateNote": "Your cycles vary, so phases are estimates, not predictions.",
     "estimateNotePeri": "Cycles often change in perimenopause, so phases are estimates.",
-    "nextPeriod": "Next period estimated from {date}",
     "summaryCycle": "Day {day} of a cycle that usually lasts about {length} days. Phase: {phase}.",
     "phases": {
       "period": "Period",
@@ -461,7 +460,10 @@
     "noCycleBody": "Log the day your period starts and ReproSense estimates where you are in your cycle. Everything stays in your record.",
     "noCycleAction": "Log your period",
     "notContraception": "Phase estimates are not contraception.",
-    "estimateNoteNew": "Fewer than two full cycles are logged, so phases are rough estimates."
+    "estimateNoteNew": "Fewer than two full cycles are logged, so phases are rough estimates.",
+    "forecastRegular": "Next period expected {from} to {to}, worked out from your last {n} cycles.",
+    "forecastVaried": "Your cycles have varied ({shortest} to {longest} days), so your next period could start any time from {from} to {to}.",
+    "forecastNone": "Log one more period to see when the next one may start."
   },
   "safety": {
     "pregTitle": "Call 998 or go to your maternity unit now if you notice",

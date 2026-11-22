@@ -127,6 +127,8 @@ export interface CycleStatus {
   phase: PhaseKey;
   phases: { key: PhaseKey; from: number; to: number }[];
   next_period_from: string | null;
+  /** docs/31 §G: her next period as a date range from her own last 6 cycles; null with fewer than 2 */
+  forecast?: { from: string; to: string; kind: "regular" | "varied"; cycles_used: number; shortest: number; longest: number } | null;
 }
 /** A cycle with a known day: a new record has none until her first period is logged. */
 export type KnownCycle = CycleStatus & { day: number; length: number };

@@ -8,6 +8,7 @@ from datetime import date, timedelta
 from app.agents import copy as cp
 from app.rules.engine import Evaluation
 from app.services import blood_pressure
+from app.services.forecast import forecast
 
 
 def _d(s) -> date:
@@ -75,6 +76,8 @@ def cycle_status(bundle: dict, ev: Evaluation, ref: date) -> dict:
         "phase": cur,
         "phases": phases,
         "next_period_from": (_d(last["start"]) + timedelta(days=usual)).isoformat() if not estimate else None,
+        # docs/31 §G: a date range from her own last 6 cycles (none with fewer than 2); varied cycles say so
+        "forecast": forecast([c.get("length_days") for c in cycles], _d(last["start"]), varied=irregular),
     }
 
 

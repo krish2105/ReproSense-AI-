@@ -128,10 +128,28 @@ export async function CycleArc({ status, locale, peri = false }: { status: Cycle
             {peri ? t("estimateNotePeri") : status.estimate_reason === "little_data" ? t("estimateNoteNew") : t("estimateNote")}
           </p>
         )}
-        {status.next_period_from && !status.estimate && (
+        {/* docs/31 §G: a date range worked out from her own cycles, never a fixed 28 days and never a percentage */}
+        {status.forecast ? (
           <p className="xs dim" style={{ marginTop: 6, textAlign: "center" }}>
-            {t("nextPeriod", { date: formatDayMonth(status.next_period_from, locale) })}
+            {status.forecast.kind === "varied"
+              ? t("forecastVaried", {
+                  shortest: status.forecast.shortest,
+                  longest: status.forecast.longest,
+                  from: formatDayMonth(status.forecast.from, locale),
+                  to: formatDayMonth(status.forecast.to, locale),
+                })
+              : t("forecastRegular", {
+                  from: formatDayMonth(status.forecast.from, locale),
+                  to: formatDayMonth(status.forecast.to, locale),
+                  n: status.forecast.cycles_used,
+                })}
           </p>
+        ) : (
+          status.estimate_reason === "little_data" && (
+            <p className="xs dim" style={{ marginTop: 6, textAlign: "center" }}>
+              {t("forecastNone")}
+            </p>
+          )
         )}
         {/* Intended use (research/2026-11-06/03 §1.5): phase estimates are never contraceptive advice */}
         <p className="xs faint" style={{ marginTop: 4, textAlign: "center" }}>
