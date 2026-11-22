@@ -75,10 +75,10 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <p class="a">Nothing safety-related breaks: red flags are plain rules that run first. Each request has a 10-second model budget; after that she gets the sourced template.</p></div>
 
 <div class="q"><span class="who Y">Y</span><b class="t">8. Have you tested this with real women or doctors?</b>
-<p class="a">Not yet with real women or a clinic: everything you saw runs on fictional data, by design. Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with up to 20 women at one clinic, measured on one number: the glucose test after gestational diabetes.</p></div>
+<p class="a">Not yet with real women or a clinic: everything you saw runs on fictional data, by design. Our first 90 days are ten interviews, a clinic letter of intent and a consented pilot with about 20 adults with clinician-documented gestational diabetes at one clinic, measured on one number: the glucose test in the window their clinician sets.</p></div>
 
 <div class="q"><span class="who Y">Y</span><b class="t">9. Who pays, and how much?</b>
-<p class="a">Women use it free, always. Clinics and primary-care networks will pay a subscription for the clinic's side, because it closes DoH's PC008 follow-up; insurers later, per follow-up closed. There's no price yet on purpose: we set it with our first pilot clinic, from what the pilot measures.</p></div>
+<p class="a">Women use it free, always. Clinics and primary-care networks will pay a subscription for the clinic's side, because follow-ups that guidelines recommend get done and they can see it; insurers later, per follow-up completed. There's no price yet on purpose: we set it with our first pilot clinic, from what the pilot measures.</p></div>
 
 <div class="q"><span class="who Y">Y</span><b class="t">10. How is this different from Flo, Clue or Nabta?</b>
 <p class="a">Trackers log and predict; Flo's checker matches symptoms to conditions, which we refuse to do. Nabta sells clinic care and consultations. We're the record and the cited rules a clinic uses, Arabic-first, tied to a DoH indicator, and we never sell health data.</p></div>
@@ -87,10 +87,10 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <p class="a">We'd rather be inside Pura than compete with it. From its public listings, Pura covers consultations, medicines and diabetes but no women's or maternal module; we bring the rules, the Arabic and the safety evidence as that module.</p></div>
 
 <div class="q"><span class="who">K</span><b class="t">11b. Why not just use Sahatna? (our mentor flagged this)</b>
-<p class="a">Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module.</p></div>
+<p class="a">Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and follows each recommended follow-up until it is done. Sahatna already has maternity features and Malaffi gives clinicians AI summaries; our specialty is what she logs herself between visits, handed to her clinic with the evidence. We export in FHIR, the standard format; a link to Malaffi or Sahatna would be a partnership we'd ask DoH for.</p></div>
 
 <div class="q"><span class="who">K</span><b class="t">12. Is this a medical device?</b>
-<p class="a">It's designed to stay below that line: it doesn't diagnose or recommend treatment. The Emirates Drug Establishment decides, so our first step is a classification memo to them; then a DoH licence and an ADHICS gap assessment.</p></div>
+<p class="a">It's designed to inform, not to diagnose or recommend treatment; we don't claim a device status. The Emirates Drug Establishment decides, so our first step is a classification memo to them; then a DoH licence and an ADHICS gap assessment.</p></div>
 
 <div class="q"><span class="who">K</span><b class="t">13. Where is the data stored?</b>
 <p class="a">The demo is synthetic and hosted in Frankfurt. Production must stay in the UAE under the Health Data Law; moving to UAE hosting with a penetration test is our February milestone. Not done yet, and we say so: UAE hosting, backups, the penetration test and a privacy impact assessment.</p></div>
@@ -101,8 +101,8 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <div class="q"><span class="who Z">Z</span><b class="t">15. PCOS was renamed PMOS. Why say PCOS?</b>
 <p class="a">The Lancet consensus renamed it in May 2026, with a three-year transition, and the international guideline adopts PMOS in 2028. Our search already understands PMOS; we show PCOS because women and doctors here still use it.</p></div>
 
-<div class="q"><span class="who Z">Z</span><b class="t">16. Where does "18 more mothers per 1,000 births" come from?</b>
-<p class="a">It's arithmetic, not our result: 21.3% gestational diabetes in Al Ain × lifting the test from 25.4% to 50% × 34.5% of tests showing raised sugar (pooled from 18 studies). Every input is editable on /pilot; the pilot measures the real number.</p></div>
+<div class="q"><span class="who Z">Z</span><b class="t">16. What impact have you measured?</b>
+<p class="a">None yet, and we say so. As a scenario only: if 100 eligible women went from 25% to 50% completion, that is 25 more completed follow-ups. It is not cases found or money saved. We stopped using "18 per 1,000" on 22 Nov because it mixed rates from different populations and time windows. The pilot measures the real number.</p></div>
 
 <div class="q"><span class="who Z">Z</span><b class="t">17. What if she writes something about harming herself?</b>
 <p class="a">She sees support first: 998 and DoH's 24/7 line 800-SAKINA, never a score. After birth the EPDS mood check's self-harm question goes straight to that path.</p></div>
@@ -157,7 +157,7 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
   <tr><td>Assistant routing</td><td>Helps pick the topic of a question</td><td>Safety routes are decided before it runs</td></tr>
   <tr><td>Safety second check</td><td>Reads a message (names removed) for crisis or urgency the word checks missed</td><td>Can only <b>add</b> a crisis or urgent route, never remove one</td></tr>
   <tr><td>Pattern card wording</td><td>Rewords the rule's template in plain language</td><td>Verifier checks each sentence; the template is the fallback (the live cards currently show the template)</td></tr>
-  <tr><td>"Before your visit" brief</td><td>Rewords what changed since her last visit</td><td>Numbers come from code; the AI only rewords</td></tr>
+  <tr><td>"Before your visit" brief</td><td>Rewords what changed since her last visit</td><td>Numbers come from code; here the AI rewords and a checker keeps the numbers unchanged</td></tr>
   <tr><td>Her record lane</td><td>Answers "how long were my cycles?" in words</td><td>The numbers are computed by code; next steps need her approval</td></tr>
   <tr><td><b>Not AI</b></td><td colspan="2">Every pattern, every red flag, every follow-up, every number, the doctor PDF, consent and who can see what. She can switch AI off in Privacy; the app still works.</td></tr>
 </table>
@@ -185,14 +185,14 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
   <tr><td><span class="tag discuss">discuss</span> Heavy or long periods</td><td>A period over 7 days, 2+ heavy days in a cycle, or a bleeding score (PBAC) of 100+</td><td>NICE NG88; PBAC (Higham 1990)</td></tr>
   <tr><td><span class="tag discuss">discuss</span> Heavy periods + tiredness</td><td>The above, plus tiredness on 3+ days in 90</td><td>NICE NG88</td></tr>
   <tr><td><span class="tag soon">soon</span> No period for 90 days</td><td>90+ days, not pregnant, not breastfeeding, not on hormonal contraception</td><td>NHS absent periods</td></tr>
-  <tr><td><span class="tag soon">soon</span> Glucose test after gestational diabetes</td><td>Diabetes in pregnancy, 4+ weeks after birth, test not done (DoH PC008)</td><td>ADA Standards of Care</td></tr>
+  <tr><td><span class="tag soon">soon</span> Glucose test after gestational diabetes</td><td>Diabetes in pregnancy, 4+ weeks after birth, test not done</td><td>ADA Standards of Care</td></tr>
   <tr><td><span class="tag soon">soon</span> Pregnancy glucose screen</td><td>Pregnant at 24–28 weeks, screen not done</td><td>ADA; NICE NG3</td></tr>
   <tr><td><span class="tag discuss">discuss</span> Fertility assessment</td><td>Trying 12+ months, or 6+ months at 35 or older</td><td>ASRM 2021; NICE NG257</td></tr>
   <tr><td><span class="tag discuss">discuss</span> Mood after birth</td><td>EPDS score 10+ within a year of birth</td><td>NICE CG192; EPDS</td></tr>
   <tr><td><span class="tag discuss">discuss</span> Perimenopause symptoms</td><td>45 or older, hot flushes or night sweats on 10+ days in 90</td><td>NICE NG23; MRS</td></tr>
   <tr><td><span class="tag soon">soon</span> Raised blood pressure</td><td>Pregnant or under 12 weeks after birth, a reading of 140/90+ in the last 14 days (below the red-flag line)</td><td>NICE NG133, NG201</td></tr>
 </table>
-<p class="small">Questionnaires: PBAC (bleeding amount), EHP-5 (endometriosis quality of life, trend only), EPDS (mood after birth), MRS (menopause symptoms, trend only). Plus DoH schedules: the postnatal steps (DoH Postnatal Care Program Standard 2025) and the baby's first year (DoH Abu Dhabi immunisation schedule, newborn screening, well-child visits).</p>
+<p class="small">Questionnaires: PBAC (bleeding amount), EHP-5 (endometriosis quality of life, trend only), EPDS (mood after birth), MRS (menopause symptoms, trend only). Plus DoH schedules: the postnatal visits (DoH Postnatal Care Program Standard 2025; the EPDS questionnaire and the glucose test come from NICE and the ADA, the standard itself names neither) and the baby's first year (DoH Abu Dhabi immunisation schedule, newborn screening, well-child visits).</p>
 
 <h3>The numbers (all on /evidence and /status)</h3>
 <table>
@@ -212,11 +212,11 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <div class="q"><span class="who Z">Z</span><b class="t">How big is the problem in the UAE?</b>
 <p class="a">Up to 70% of women with PCOS don't know they have it (WHO, 2026). In a UAE study of 518 women, endometriosis took 11.6 years to diagnose. In Al Ain, 21.3% of 2,546 pregnancies had gestational diabetes, and at one hospital only 265 of 1,043 mothers (25%) came back for the glucose test after birth.</p></div>
 <div class="q"><span class="who Z">Z</span><b class="t">Why does the test after gestational diabetes matter?</b>
-<p class="a">Women who had diabetes in pregnancy have a much higher risk of type 2 diabetes later, and a third or more show raised blood sugar within a year of birth (34.5%, pooled from 18 studies, Endocrine 2025). The test finds it early, and it's what DoH measures clinics on in PC008.</p></div>
+<p class="a">Women who had diabetes in pregnancy have a much higher risk of type 2 diabetes later, and a third or more show raised blood sugar within a year of birth (34.5%, pooled from 18 studies, Endocrine 2025). The ADA recommends the test 4 to 12 weeks after birth. DoH measured this follow-up as PC008 until the indicator was retired in 2025; we don't call it a current measure.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">What outcome will you measure?</b>
 <p class="a">One number: the share of women with gestational diabetes who complete the glucose test within 12 weeks of birth, against the clinic's own baseline. Secondary: how long a clinician takes to understand a new patient's history.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">What's the cost saving?</b>
-<p class="a">We haven't measured one. /pilot shows the arithmetic with the clinic's own cost of a missed follow-up as an input, and it says it's not a forecast. The pilot gives the real figure.</p></div>
+<p class="a">We haven't measured one. As a scenario from the clinic's own numbers: 100 eligible women going from 25% to 50% completion is 25 more completed follow-ups, which is not a forecast. The pilot gives the real figure.</p></div>
 <div class="q"><span class="who Z">Z</span><b class="t">Why women's health and not general health?</b>
 <p class="a">Because the patterns are specific and slow: cycles, pain and bleeding only make sense over months, and they're the conversations women find hardest to have in ten minutes. It's also the hackathon theme we were assigned: women's, maternal and newborn health.</p></div>
 
@@ -230,7 +230,7 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <div class="q"><span class="who Z">Z</span><b class="t">Why do the thresholds look like that, e.g. 21–35 days?</b>
 <p class="a">They come straight from the guidelines: the 2023 International PCOS Guideline defines irregular cycles that way for adults more than 3 years after their first period. Each card shows that sentence and the source.</p></div>
 <div class="q"><span class="who Z">Z</span><b class="t">Do you handle the gestational diabetes screen in pregnancy too?</b>
-<p class="a">Yes: at 24–28 weeks the app opens a follow-up for the glucose screen if it isn't done (ADA, NICE NG3), and after birth it tracks the test that DoH's PC008 counts.</p></div>
+<p class="a">Yes: at 24–28 weeks the app opens a follow-up for the glucose screen if it isn't done (ADA, NICE NG3), and after birth it tracks the glucose test the ADA recommends at 4 to 12 weeks.</p></div>
 <div class="q"><span class="who Z">Z</span><b class="t">How do you handle postpartum depression?</b>
 <p class="a">The EPDS questionnaire, the standard one. A score of 10+ shows "worth discussing"; any answer above zero on the self-harm question goes straight to support with 998 and 800-SAKINA, never a score. The validated Arabic version still needs checking before real use.</p></div>
 <div class="q"><span class="who">K</span><b class="t">Could it scare women unnecessarily?</b>
@@ -288,11 +288,11 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <div class="q"><span class="who Y">Y</span><b class="t">What's the market size?</b>
 <p class="a">Abu Dhabi has about 700 OB-GYN specialists, 14 fertility centres and 45 women's health facilities. We start with clinics, then networks and payers, then the GCC, and we'll size the revenue with pilot numbers, not a big top-down figure.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">Who's your first customer?</b>
-<p class="a">A primary-care or women's health clinic that sees women in pregnancy and after birth, for example one clinic in a large network such as SEHA. Primary care fits best because PC008 counts family-medicine visits.</p></div>
+<p class="a">A primary-care or women's health clinic that sees women in pregnancy and after birth, for example one clinic in a large network such as SEHA. Primary care fits best because that is where women are followed after birth.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">How do you get women to use it?</b>
 <p class="a">Through their clinic, not ads: the clinic shows a QR code at the visit and she starts her own record. That keeps acquisition cost low and gives the clinic a reason to push it.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">What would an insurer like Daman get?</b>
-<p class="a">Follow-ups closed on a measured indicator, and counts by clinic without names. We'd start with a provider pilot and bring the numbers to a payer afterwards.</p></div>
+<p class="a">Recommended follow-ups completed, and counts by clinic without names. We'd start with a provider pilot and bring the numbers to a payer afterwards.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">What would you do with the grant?</b>
 <p class="a">Fund the pilot: UAE hosting, the penetration test, a clinical advisor's time and the first clinic's onboarding. The plan matches the grant in three stages over six months.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">Is it expensive to run?</b>
@@ -325,9 +325,9 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <h3>H. Sahatna, DoH's own app (our mentor flagged it)</h3>
 <p class="small">Sahatna (صحتنا) is the Department of Health's official app: UAE PASS sign-in, Malaffi records, booking, teleconsults, prescriptions, insurance, dependents, an AI symptom checker and a report-reading chatbot; 500K+ installs, over a million users in its first year. Its services are moving into "Sahatna Space" on TAMM, which lists maternity care features now and IVF, AI health assistance and personalised recommendations as upcoming. Its public pages don't mention cycle tracking or women's health. Never criticise it on stage: DoH is on the jury.</p>
 <div class="q"><span class="who">K</span><b class="t">Why not just use Sahatna?</b>
-<p class="a">Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module.</p></div>
+<p class="a">Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and follows each recommended follow-up until it is done. Sahatna already has maternity features and Malaffi gives clinicians AI summaries; our specialty is what she logs herself between visits, handed to her clinic with the evidence. We export in FHIR, the standard format; a link to Malaffi or Sahatna would be a partnership we'd ask DoH for.</p></div>
 <div class="q"><span class="who">K</span><b class="t">DoH is adding maternity and IVF to Sahatna. Won't you be redundant?</b>
-<p class="a">That's where we fit. Sahatna lists maternity care and IVF as next; we've already built the women's record, the DoH postnatal steps, the PC008 follow-up loop and published safety evidence. We'd rather be that module than a second app.</p></div>
+<p class="a">That's where we fit. Sahatna has maternity care features today and lists IVF as next; we've already built the women's record, the postnatal steps, the after-birth glucose follow-up loop and published safety evidence. We'd rather be that module than a second app.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">So are you competing with DoH?</b>
 <p class="a">In women's health we go deeper than any app today, Sahatna included: months of cycle and pregnancy data, cited patterns, a doctor report and follow-ups tracked until they close. But as a business, Sahatna is our best route to every woman in Abu Dhabi, not our rival.</p></div>
 <div class="q"><span class="who">K</span><b class="t">What would connecting to Sahatna look like?</b>
@@ -367,7 +367,7 @@ Answer in two or three sentences, then stop. If you don't know: <i>"Good questio
 <div class="q"><span class="who">K</span><b class="t">"Why would a doctor read your report?"</b>
 <p class="a">It's two pages, built for a one-minute read: what changed since the last visit, the patterns with dates, and her questions. Whether doctors actually read it is something the pilot measures.</p></div>
 <div class="q"><span class="who Y">Y</span><b class="t">"Clinics are slow to buy software. Why now?"</b>
-<p class="a">DoH already measures clinics on PC008 and has published its Responsible AI Standard and AI Clinician Framework this year: the indicator gives clinics a reason, and the rules give them a safe path.</p></div>
+<p class="a">DoH's reproductive health programme runs to 2030, its Postnatal Care Program Standard took effect in 2025, and it has published a Responsible AI Standard: the programme gives clinics a reason, and the standard gives them a safe path.</p></div>
 
 <h2>Sources for the new facts in this pack</h2>
 <ul class="small">

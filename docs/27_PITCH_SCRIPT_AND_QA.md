@@ -16,14 +16,14 @@ symptoms, blood pressure and lab results in seconds, by tap, voice or a photo of
 published guidelines turn months of entries into **patterns worth discussing with a doctor**. Each pattern shows the
 exact entries behind it and its source, and it **never gives a diagnosis or a risk percentage**. Urgent signs always
 come first, with a one-tap call to **998**. With her consent, her clinic gets a two-page doctor report and a
-"since your last visit" brief, and the follow-ups DoH measures clinics on (Jawda PC008: the glucose test after
-gestational diabetes) are tracked until they close.
+"since your last visit" brief, and the follow-ups that guidelines recommend (for example the glucose test 4 to 12
+weeks after gestational diabetes, ADA 2026) are tracked from due, to booked, to done.
 
 **The outcome**
 - **For her:** she walks into the appointment with her story in order, in her language, and knows when something can't
   wait.
 - **For the doctor:** a one-minute read instead of a 15-minute history, with the evidence attached.
-- **For the clinic and payer:** fewer missed follow-ups, measured on DoH's own indicator. That is who pays.
+- **For the clinic and payer:** fewer missed follow-ups, counted in a way they can check. That is who pays.
 
 ## 2. The four hackathon themes, and what we cover
 The organisers set four themes: **longevity, women's health, fertility and Alzheimer's**. We were assigned **Women's
@@ -32,7 +32,7 @@ Health**: *"How might we use AI to improve women's health and maternal, newborn 
 | Theme | Covered? | Where in the product |
 | --- | --- | --- |
 | **Women's health** (ours) | **Yes, core** | Periods: irregular cycles and androgen signs (PCOS guideline 2023), severe cyclical pain (endometriosis), heavy bleeding (PBAC score), iron. Red flags first with 998. Five life stages. |
-| ↳ maternal | **Yes** | Pregnancy: glucose screening window (24–28 weeks); pregnancy warning signs; **blood-pressure log with the NICE NG133 warning** (pregnancy and 12 weeks after birth). After birth: **the DoH Postnatal Care Program steps** (teleconsult, 2-week and 6-week visits, mood check with the EPDS questionnaire, glucose test after gestational diabetes). |
+| ↳ maternal | **Yes** | Pregnancy: glucose screening window (24–28 weeks); pregnancy warning signs; **blood-pressure log with the NICE NG133 warning** (pregnancy and 12 weeks after birth). After birth: **the DoH Postnatal Care Program visits** (the check in the first days, at 1 to 2 weeks and at 6 weeks, with depression screening), plus two steps from clinical guidelines: the EPDS mood questionnaire (NICE) and the glucose test after gestational diabetes (ADA). |
 | ↳ newborn and early childhood | **Yes** | **The baby's first year** (Fatima → Home): newborn screening, well-baby visits and vaccinations from DoH Abu Dhabi's immunization circular and newborn screening standard, each with its source and "I had this". The feeding log after birth (D2, #164) is live too. |
 | **Fertility** (neighbouring theme) | **Yes, a slice** | "Trying to conceive" life stage: when to ask for a fertility assessment (Mariam's story); the planning-a-pregnancy checklist (Mariam → Home). |
 | **Longevity** | **A slice** | Perimenopause (Layla: hot flushes, night sweats, changing cycles) and iron levels; the record follows her across life stages. |
@@ -71,9 +71,9 @@ questions. The slides are `pitch/ReproSense-submission.pdf`; the demo is the liv
 - **Security:** 14 of 14 attacks blocked, on every change.
 - **Built since acceptance (17–21 Nov):** **57 merged pull requests**, each listed with its date on /evidence. Before
   selection: 56.
-- **Impact, per 1,000 births (arithmetic, not a result):** 213 with gestational diabetes; today 1 in 4 get the glucose
-  test after birth (54). At 1 in 2 (107), that is 52 more tests and **about 18 more mothers with raised blood sugar
-  found early** (34.5% pooled rate, Endocrine 2025). On /pilot every input is editable.
+- **Impact (a scenario, not a result):** we have not measured our effect. If 100 eligible women went from 25% to 50%
+  completion, that is **25 more completed follow-ups**. Never "18 per 1,000", "cases found" or "money saved": those
+  mixed rates from different populations and time windows (corrected 22 Nov).
 - **The loop on demo data:** a median of 8 days from a follow-up opening to it being booked; 66% of postnatal steps
   done inside their DoH window.
 
@@ -106,8 +106,9 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 > - 70%: WHO PCOS fact sheet, Jan 2026.
 > - 11.6 years: 518 women in the UAE, Frontiers in Global Women's Health, 2021.
 > - 1 in 5 pregnancies with gestational diabetes: 2,546 pregnancies in Al Ain, Frontiers in Endocrinology, 2022.
-> - 1 in 4 came back: 265 of 1,043 women, one Al Ain hospital, IJERPH, 2022.
-> - PC008 (if asked about impact): only 1 in 4 mums with diabetes in pregnancy came back for the glucose test (IJERPH, 2022). 18 per 1,000 is arithmetic, not our result: 1,000 x 21.3% x (50% - 25.4%) x 34.5% (pooled from 18 studies, Endocrine, 2025). The inputs are on /pilot.
+> - 1 in 4 came back: 265 of 1,043 women, one Al Ain hospital, 2013 to 2014 data, within 4 to 6 weeks, IJERPH, 2022.
+> - Impact (if asked): at one Al Ain hospital, on 2013 to 2014 data, 1 in 4 mums with diabetes in pregnancy came back for the glucose test within 4 to 6 weeks (IJERPH, 2022). We have not measured our own effect. Scenario only: if 100 eligible women go from 25% to 50%, that is 25 more completed follow-ups. Never say "18 per 1,000" or "cases found".
+> - PC008 (if a DoH judge raises it): DoH measured this follow-up as Jawda PC008 until the indicator was retired in the 2025 update (V8); the 2026 sets have no after-birth follow-up indicator. The clinical recommendation stands (ADA 2026: a glucose test 4 to 12 weeks after birth). Our pilot clinic confirms which current quality measure applies.
 > - Not sure? "Good question. We haven't measured that yet." Then hand to Krishna.
 > - Longevity? After diabetes in pregnancy, type 2 diabetes is about ten times more likely (Vounzoulaki et al., BMJ 2020), so the after-birth glucose test protects her later health. The 2023 PCOS guideline also asks for regular glucose and blood-pressure checks, because PCOS raises cardiometabolic risk.
 > - Fertility? The Trying stage says when to ask for a fertility assessment (after 12 months, or 6 months at 35 or over: NICE NG257, ASRM 2021) and gives a sourced planning checklist (folic acid, rubella). IVF support is on the roadmap.
@@ -121,12 +122,12 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 >
 > With her consent, her doctor gets a two-page report to read in a minute. Noura doesn't have to explain. Her record does.
 >
-> And it's safe: on 132 messages it was never tuned on, all 30 crises went to support and all 32 emergencies to 998."
+> And we test its safety: on 132 messages it was never tuned on, with the AI second check all 30 crises went to support and all 32 emergencies to 998."
 >
 > (Turn to Yash.)
 >
 > IF ASKED
-> - Human plus technology? Clinical knowledge sits in the rules, taken from published guidelines. The AI only does language. She checks every value before it saves, the care navigator only drafts, and the doctor makes every decision.
+> - Human plus technology? Clinical knowledge sits in the rules, taken from published guidelines. The AI does language work: it turns her voice and lab photos into fields she confirms, rewords text, and gives a second safety check. She checks every value before it saves, the care navigator only drafts, and the doctor makes every decision.
 > - Privacy in one breath: hers by default. Her clinic sees it only if she shares, and she can revoke, export or delete everything. The network sees counts, never names (groups under 10 are hidden). Names are removed before any text reaches a model, and with AI off nothing is sent. She can read every access in a tamper-evident log. We never sell health data.
 > - Where is the data? The demo is fictional and hosted in Frankfurt. Production stays in the UAE, as the Health Data Law requires (February milestone).
 > - Privacy not done yet (say it if pushed): UAE hosting, backups, penetration test, privacy impact assessment. ADHICS gap assessment in December; UAE hosting and the penetration test in February.
@@ -134,8 +135,8 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 > - Where is the AI? Her voice and lab photos into the form, answers from a cited library, rewording. Rules make every safety decision; the AI can add an urgent route, never remove one.
 > - Model down? Red flags are plain rules and run first. Past 10 seconds she gets a fixed, sourced reply.
 > - 14 of 14 attacks blocked, on every change: /evidence.
-> - "Why not just Sahatna?" (our mentor says expect it; DoH owns Sahatna): "Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module."
-> - "DoH is adding maternity and IVF to Sahatna. Aren't you redundant?": "That's exactly where we fit. Sahatna lists maternity care and IVF as next; we've already built the women's record, the DoH postnatal steps and the PC008 follow-up loop, with safety evidence. We'd like to be that module rather than a second app."
+> - "Why not just Sahatna?" (our mentor says expect it; DoH owns Sahatna): "Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and follows each recommended follow-up until it is done. Sahatna already has maternity features and Malaffi gives clinicians AI summaries; our specialty is what she logs herself between visits, handed to her clinic with the evidence. We export in FHIR, the standard format; a link to Malaffi or Sahatna would be a partnership we'd ask DoH for."
+> - "DoH is adding maternity and IVF to Sahatna. Aren't you redundant?": "That's exactly where we fit. Sahatna has maternity care features today and lists IVF as next; we've already built the women's record, the postnatal steps and the after-birth glucose follow-up loop, with safety evidence. We'd like to be that module rather than a second app."
 > - Who is Nura? Our AI assistant, named in Arabic (نورا). She answers only from our cited library or from her own numbers computed by code, never diagnoses, and a verifier drops any sentence a source doesn't support.
 > - "What is PCOS?" / "What is happening with my body?" Nura explains 10 conditions in plain words (PCOS, endometriosis, heavy periods, period pain, irregular periods, menopause, gestational diabetes, postnatal depression, pre-eclampsia, fertility), each sentence checked against its NHS or guideline page, then adds her own patterns with her numbers, and links the NHS page and an official NHS video. In Arabic it adds the WHO Arabic fact sheet.
 > - Can Nura make things up? Not in these answers: the explanations are fixed sentences written and checked by us and assembled by code, so the model can't invent one. Video links come only from official health bodies and were checked to exist.
@@ -145,7 +146,7 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 #### Slide 3
 > YASH · 30 seconds · slide 3, the venture
 >
-> "Our users: women like Noura, free, and their doctors. Who pays? Clinics and primary-care networks, on a subscription, because the after-birth glucose test is on DoH's own scorecard, PC008. We'll set the price with our pilot clinic, from what the pilot measures.
+> "Our users: women like Noura, free, and their doctors. Who pays? Clinics and primary-care networks, on a subscription, because follow-ups that guidelines recommend, like the glucose test after diabetes in pregnancy, get done and they can see it. We'll set the price with our pilot clinic, from what the pilot measures.
 >
 > Next: a device memo for the Emirates Drug Establishment, a clinic letter of intent, UAE hosting with UAE PASS sign-in, then a pilot at one clinic and a licensed company by May.
 >
@@ -176,10 +177,10 @@ These are the speaker notes in `pitch/ReproSense-submission.pptx`. Open it in Po
 > "She can also just say it, in Gulf Arabic: cramps, missed work, pain seven out of ten. The form fills itself, and nothing saves until she checks it."
 >
 > 5. English, Demo people, Open clinician view, Fatima K., glucose follow-up, Mark booked
-> "Now the clinic. It only sees women who chose to share. Fatima had diabetes in pregnancy and is nine weeks after the birth, so her glucose test is due. One tap. Booked."
+> "Now the clinic. It only sees women who chose to share. Fatima had diabetes in pregnancy and is nine weeks after the birth, so her glucose test is due. One tap. Booked. It stays open until the test is done."
 >
 > 6. Demo people, Open clinic network
-> "And the network sees these follow-ups close. Counts only, never names. That's what clinics and insurers pay for."
+> "And the network sees each follow-up move from due, to booked, to done. Counts only, never names. That's what clinics and insurers pay for."
 >
 > 7. Krishna closes
 > "We're asking for one pilot clinic, a clinical advisor to sign off our rules, and the grant. Thank you."
@@ -240,7 +241,7 @@ minutes." **Only say what actually happened.** If you didn't manage it, use the 
 | Gap | What a judge sees | What to say |
 | --- | --- | --- |
 | **No signed clinic yet; interviews only partly written up** | Venture (30) and impact | Quote only the evidence log (docs/29 §4). Otherwise Q4. |
-| **Impact is arithmetic, not measured** | Impact (20) | "About 18 more mothers per 1,000 births, from published rates; the pilot measures the real number." |
+| **Impact is not measured yet** | Impact (20) | "We have not measured it. As a scenario, 100 eligible women going from 25% to 50% is 25 more completed follow-ups; the pilot measures the real number." |
 | **Half the pull requests predate acceptance** | Prototype (20) | Section 10, "Was this built after you were accepted?": 57 since, each dated on /evidence. |
 | **Newborn**: the baby's schedule and a feeding log are live; no growth charts | Theme fit | "Her baby's first year and a feeding log are in the record; growth and development checks are next." |
 | **Clinical sign-off** is pending (rules reviewed by AI agents and us, not yet by a licensed clinician) | Safety | "Every rule cites its guideline and is logged for sign-off; a clinical advisor is our first ask." |
@@ -260,7 +261,7 @@ minutes." **Only say what actually happened.** If you didn't manage it, use the 
   adds the most on top.
 - **What separates us:**
   - A working product with published safety evidence, not a slide.
-  - Tied to a DoH indicator (PC008) and DoH's Postnatal Care Program Standard.
+  - Follows DoH's Postnatal Care Program Standard and the ADA after-birth glucose recommendation (PC008 was retired in 2025: never call it current).
   - Arabic-first, with the Gulf dialect by voice.
 - **The biggest risks on the day:**
   - A slow free server: use the MP4.
@@ -294,13 +295,14 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 **Q4. Have you tested this with real women or doctors?** *(Yash)*
 > *If you did section 6:* say exactly what they said.
 > *If not:* "Not yet with a clinic; everything you've seen runs on fictional data, by design. Our first 90 days are
-> ten interviews, a clinic letter of intent and a consented pilot with 20 women at one clinic, measured on one number:
-> how many complete the glucose test after gestational diabetes."
+> ten interviews, a clinic letter of intent and a consented pilot with about 20 adults with clinician-documented
+> gestational diabetes at one clinic, measured on one number: how many complete the glucose test in the window their
+> clinician sets."
 
 **Q5. Mental health: what if she writes something worrying?** *(Zebo)*
 > If her words suggest crisis, the app shows support and 998, never a score. After birth, the mood check uses the
 > EPDS questionnaire, and its self-harm question goes straight to support, with 998 and DoH's 24/7 line 800-SAKINA.
-> On 132 held-out messages written separately from the code, our safety layer caught all 30 crisis messages.
+> On 132 held-out messages written separately from the code, our safety layer, with the AI second check, caught all 30 crisis messages (11 of 30 with word checks alone).
 
 ### AI (NYU Abu Dhabi)
 **Q6. Where is the AI, if rules decide everything?** *(Krishna)*
@@ -346,7 +348,7 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 > February milestone, before any real record.
 
 **Q12. Is this a medical device? What approvals do you need?** *(Krishna)*
-> Because it doesn't diagnose, it's designed to sit below the software-as-a-medical-device line. Our November step is
+> It is designed to inform a conversation with a doctor, not to diagnose; whether it is a medical device is for the regulator to decide. Our November step is
 > a classification memo for the Emirates Drug Establishment, plus a DoH licence for the company and an ADHICS
 > (cybersecurity) gap assessment.
 
@@ -356,17 +358,18 @@ Answer in **two or three sentences**, then stop. The owner answers first; others
 
 ### Business (PureHealth, investors)
 **Q14. Who pays?** *(Yash)*
-> Women use it free, always. Clinics and primary-care networks pay a subscription because it closes a measured
-> indicator, PC008; insurers later, per follow-up closed. There is no price yet on purpose: we set it with our first
+> Women use it free, always. Clinics and primary-care networks pay a subscription because recommended follow-ups get
+> done and they can see it; insurers later, per follow-up completed. There is no price yet on purpose: we set it with our first
 > pilot clinic, from what the pilot measures.
 
 **Q14b. Why not just use Sahatna, DoH's own app?** *(Krishna; our mentor flagged it)*
-> Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and closes the follow-ups DoH measures. In women's health we go deeper than any app today, Sahatna included; as a company we'd plug into it through Malaffi and FHIR, as its women's-health module.
+> Sahatna is Abu Dhabi's front door to care for everyone: records, booking, teleconsults. ReproSense is the specialist for women behind that door: it follows her cycle and pregnancy over months, explains each pattern with its guideline, and follows each recommended follow-up until it is done. Sahatna already has maternity features and Malaffi gives clinicians AI summaries; our specialty is what she logs herself between visits, handed to her clinic with the evidence. We export in FHIR, the standard format; a link to Malaffi or Sahatna would be a partnership we'd ask DoH for.
 
 **Q15. How is this different from Flo, Clue or Nabta?** *(Yash)*
-> Trackers log and predict periods; Nabta sells consultations and services. We are the clinical record and rules
-> underneath care: cited patterns, a doctor-ready report, and follow-ups a clinic is measured on, Arabic-first. A
-> Nabta-style service could plug into us.
+> Flo and Clue track cycles and Flo offers symptom checks, including for PCOS; Ovia covers life stages and sells to
+> health plans and employers; Nabta runs AI-supported women's care locally. Our specialty is narrower: what she logs
+> herself, linked to its evidence, handed to her clinic with consent, and a follow-up tracked until it is done,
+> Arabic-first. The real alternatives are also a nurse's phone call and a reminder in the clinic's own system.
 
 **Facts behind Q14b (Sahatna), checked 22 Nov 2026.** Say only these; a DoH judge may know more than is published:
 - Launched 15 Oct 2024 at GITEX by DoH with ADHDS, the operator of Malaffi
@@ -400,7 +403,7 @@ clinical advisor.
 > connected to SEHA clinics. We bring the clinical logic, the Arabic and the validation; they bring the reach.
 
 **Q17. What is the market?** *(Yash)*
-> Start narrow: women's health and IVF clinics and primary-care networks in Abu Dhabi, where PC008 is measured. Then
+> Start narrow: women's health and primary-care clinics in Abu Dhabi that follow women after gestational diabetes. Then
 > the UAE and the GCC, where the same Arabic-first record applies. We'll size it with the pilot's real numbers rather
 > than a big top-down figure.
 
@@ -422,10 +425,26 @@ Behind Q18b (Clinic network → "What the Department of Health would see"):
 - Counts from the synthetic cohort only, never names; every group under 10 is hidden. Say "on our synthetic network",
   never "in Abu Dhabi".
 - Say "entries match a pattern worth discussing". Never "women with PCOS", "detected", "screened" or "prevalence".
-- Other things DoH gets, already on the dashboard: PC008 follow-ups week by week instead of once a quarter, the
-  postnatal steps done inside their DoH window, and a fairness check by nationality group and age band.
+- Other things DoH gets, already on the dashboard: after-birth glucose follow-ups week by week, the
+  postnatal steps done inside their window, and a fairness check by nationality group and age band.
 - Roadmap, not built: a consented research cohort, an aggregate export for programme reporting, counts of the topics
   women ask Nura about, and reminders for DoH's cervical and breast screening programmes.
+
+**Q18c. Isn't PC008 retired? Why is it in your product?** *(Krishna or Yash)*
+> You're right, and we corrected it on 22 Nov. DoH measured this follow-up as Jawda PC008 until the indicator was
+> retired in the 2025 update; the 2026 sets have no after-birth follow-up indicator. The clinical reason has not
+> changed: the ADA recommends a glucose test 4 to 12 weeks after gestational diabetes. Our pilot clinic tells us which
+> current quality measure applies; we don't claim one.
+
+**Q18d. Why not an ordinary reminder, or a nurse's phone call?** *(Yash)*
+> Those are the real alternatives, and a pilot should compare against them. A reminder tells her a test is due. It
+> doesn't carry her own history to the visit, show the clinic who is still open, or tell booked apart from done. We
+> track the follow-up from due, to booked, to done, with the evidence she and her clinician can both see.
+
+**Q18e. What happens when the AI model is down?** *(Krishna)*
+> Urgent signs on her record are plain rules and still run first, and the 998 strip stays on screen. The second safety
+> check by the model is what lifted crisis messages from 11 of 30 to 30 of 30 on our held-out set, so without it the
+> chat is weaker, and we say so: a limited mode that tells her the assistant is restricted is our next safety change.
 
 ### Product and team
 **Q19. Why would a woman log every day?** *(Zebo)*
@@ -485,11 +504,12 @@ PureHealth's group includes SEHA's clinics, the Daman insurer and the Pura app. 
   listings Pura covers teleconsults, medicines and diabetes; we couldn't see a women's or maternal module. We bring
   the clinical rules, the Arabic and the safety evidence as that module."
 - **"What would a pilot look like for us?"** *(Yash)* "One primary-care clinic, up to 20 consenting women in late
-  pregnancy or after birth, 3 clinicians, 90 days. Measured on one number DoH already asks for: the glucose test after
-  gestational diabetes (PC008). The proposal is on /pilot."
-- **"What's it worth to a payer?"** *(Yash)* "On /pilot, per 1,000 births: about 52 more completed follow-ups and about
-  18 more mothers with raised sugar found early, at the inputs you choose. That's arithmetic, not a result; the pilot
-  measures the real number."
+  pregnancy or after birth, 3 clinicians, 90 days. Measured on one number: the glucose test after gestational diabetes,
+  in the window the clinic's own protocol sets. The proposal is on /pilot."
+- **"What's it worth to a payer?"** *(Yash)* "We have not measured that. As a scenario from your own numbers: 100 eligible
+  women going from 25% to 50% completion is 25 more completed follow-ups. That is not cases found or money saved; the
+  pilot measures the real number." (Do not send a judge to /pilot until the plain-scenario calculator is live: the
+  old page still shows the chained figures.)
 - **"Malaffi?"** *(Krishna)* Q13: FHIR export today; connecting through the proper DoH route comes after the pilot.
 
 ### Dr Osama Abdullah · Director, Core Technology Platforms, NYU Abu Dhabi
@@ -524,9 +544,10 @@ Zebo presents slide 1 and takes the science questions. What to know cold, all in
    - up to 70%: WHO, 2026;
    - 11.6 years: a UAE study of 518 women, 2021;
    - 1 in 5 pregnancies in Al Ain had gestational diabetes: 2022;
-   - 1 in 4 mothers came back for the glucose test: one Al Ain hospital, 2022.
-2. **The per-1,000-births line**: 213 → 54 tested today → 107 at half → 52 more tests → about 18 mothers with raised
-   sugar found early, at a 34.5% pooled rate. It's arithmetic, not a result.
+   - 1 in 4 mothers came back for the glucose test: one Al Ain hospital, 2013 to 2014 data, a 4 to 6 week window
+     (published 2022).
+2. **The scenario line**: 100 eligible women, 25% to 50% completion, 25 more completed follow-ups. A scenario, not a
+   result, and never "cases found".
 3. **What the product never does**: diagnose, give a percentage, or name a condition she "has". It says "a pattern worth
    discussing with a doctor". Urgent signs come first, with 998.
 4. **Q5** (mood after birth: the EPDS check, and its self-harm question goes straight to support, 998 and 800-SAKINA),

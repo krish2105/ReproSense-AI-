@@ -99,7 +99,7 @@ CONDITIONS: dict[str, dict] = {
     },
     "heavy_periods": {
         "name": {"en": "heavy periods", "ar": "الدورة الغزيرة"},
-        "en": r"\b(heavy (periods?|bleeding|menstrual bleeding|flow)|menorrhagia)\b",
+        "en": r"\b(heavy (periods?|bleeding|menstrual bleeding|flow)|(periods?|bleeding|flow) (is |are )?(so |very |really |too )?heavy|menorrhagia)\b",
         "ar": r"(الدوره الغزيره|دوره غزيره|النزيف الغزير|نزيف غزير|غزاره الدوره)",
         "lines": [
             (
@@ -133,7 +133,7 @@ CONDITIONS: dict[str, dict] = {
     },
     "period_pain": {
         "name": {"en": "period pain", "ar": "ألم الدورة"},
-        "en": r"\b(period pain|painful periods?|menstrual (pain|cramps?)|period cramps?|dysmenorrh\w*)\b",
+        "en": r"\b(period pain|painful periods?|(periods?|cramps?) (are |is )?(so |very |really )?painful|menstrual (pain|cramps?)|period cramps?|dysmenorrh\w*)\b",
         "ar": r"(الم الدوره|الام الدوره|وجع الدوره|اوجاع الدوره|مغص الدوره|تقلصات الدوره)",
         "lines": [
             (
@@ -167,8 +167,8 @@ CONDITIONS: dict[str, dict] = {
     },
     "irregular_periods": {
         "name": {"en": "irregular or missed periods", "ar": "الدورة غير المنتظمة أو الغائبة"},
-        "en": r"\b(irregular (periods?|cycles?|menstruation)|missed (a )?periods?|late periods?|no periods?|absent periods?|amenorrh\w*)\b",
-        "ar": r"(دوره غير منتظمه|الدوره غير منتظمه|دورات غير منتظمه|عدم انتظام الدوره|غياب الدوره|تاخر الدوره|انقطاع الدوره)",
+        "en": r"\b(irregular (periods?|cycles?|menstruation)|(periods?|cycles?) (are |is |have been |been |keep being )?(so |very |really )?(irregular|late|long|far apart)|periods? (is )?missing|long cycles?|missed (a )?periods?|late periods?|no periods?|absent periods?|amenorrh\w*)\b",
+        "ar": r"(غير منتظمه|غير منتظم|عدم انتظام الدوره|غياب الدوره|تاخر الدوره|تاخر دورتي|انقطاع الدوره)",
         "lines": [
             (
                 "More than three years after the first period, cycles shorter than 21 days or longer than 35 days, or fewer than eight periods a year, are described as irregular.",
@@ -293,7 +293,7 @@ CONDITIONS: dict[str, dict] = {
     },
     "pre_eclampsia": {
         "name": {"en": "pre-eclampsia", "ar": "تسمّم الحمل (مقدّمات الارتعاج)"},
-        "en": r"\b(pre ?eclampsia|preeclampsia)\b",
+        "en": r"\b(pre[\s-]?eclampsia)\b",
         "ar": r"(تسمم الحمل|مقدمات الارتعاج|ما قبل الارتعاج)",
         "lines": [
             (
@@ -317,8 +317,8 @@ CONDITIONS: dict[str, dict] = {
     },
     "infertility": {
         "name": {"en": "trying to conceive and fertility checks", "ar": "محاولة الحمل وفحوصات الخصوبة"},
-        "en": r"\b(infertil\w*|fertility (check|test|assessment|problems?)|can'?t get pregnant|trouble (getting|conceiving)|trying to conceive|ttc)\b",
-        "ar": r"(العقم|تاخر الحمل|تاخر الانجاب|فحوصات الخصوبه|فحص الخصوبه|مشاكل الخصوبه|محاوله الحمل)",
+        "en": r"\b(infertil\w*|fertility|getting pregnant|get pregnant|conceiv\w*|ttc)\b",
+        "ar": r"(العقم|تاخر الحمل|تاخر الانجاب|الخصوبه|محاوله الحمل)",
         "lines": [
             (
                 "Many couples take time to conceive: more than 8 in 10 couples where the woman is under 40 conceive within a year of regular unprotected sex.",
@@ -374,9 +374,9 @@ AR_PAGES: dict[str, dict] = {  # WHO Arabic fact sheets, each returned 200 on 22
 _ASK_EN = (
     r"\b(what('s| is| are| was)|whats|tell me|explain|define|definition|meaning|mean by|what causes|causes?|why|"
     r"symptoms?|signs?|how (do|does|is|are|can)|which hormones?|what hormones?|hormones?|learn|info|information|about|"
-    r"understand)\b"
+    r"understand|what counts|counts as|when is|how do i know|how can i tell|when should|what does|mean|how long)\b"
 )
-_ASK_AR = r"(ما هو|ما هي|ماهو|ماهي|ما |وش|ايش|شو|شنو|اشرحي|اشرح|فسري|عرفيني|عرفني|حدثيني|كلميني|معني|سبب|اسباب|اعراض|علامات|هرمون|عن )"
+_ASK_AR = r"(ما هو|ما هي|ماهو|ماهي|ما |وش|ايش|شو|شنو|اشرحي|اشرح|فسري|عرفيني|عرفني|حدثيني|كلميني|معني|سبب|اسباب|اعراض|علامات|هرمون|عن |متى|بخصوص|كيف|لماذا|ليش)"
 _BODY_EN = (
     r"\b(what('s| is) (happening|going on|wrong|up) (with|to|in) (my body|me)|what('s| is) happening to my body|"
     r"(explain|describe|summari[sz]e) (my )?(body|patterns|record|entries|symptoms)|what do my (patterns|entries|symptoms|records?) (mean|show|say)|"
@@ -395,7 +395,7 @@ def condition(question: str) -> str | None:
         return None
     ar = bool(assistant.AR.search(question or ""))
     for cid, c in CONDITIONS.items():
-        if re.search(c["en"], t) or (ar and re.search(c["ar"], t)):
+        if re.search(c["en"], t) or (ar and assistant._pat(c["ar"]).search(t)):
             return cid
     return None
 
@@ -408,7 +408,7 @@ def is_explain_question(question: str) -> str | None:
     t = record.clean(question)
     ar = bool(assistant.AR.search(question or ""))
     short = len(t.split()) <= 4  # "PCOS?" or "endometriosis" on its own
-    return cid if short or re.search(_ASK_EN, t) or (ar and re.search(_ASK_AR, t)) else None
+    return cid if short or re.search(_ASK_EN, t) or (ar and assistant._pat(_ASK_AR).search(t)) else None
 
 
 _MED_EN = r"\b(medicines?|medications?|meds|drugs?|pills?|tablets?|prescription|prescribe\w*|dose|dosage|supplements?)\b"
@@ -422,7 +422,21 @@ def asks_medicine(question: str) -> bool:
         return False
     t = record.clean(question)
     ar = bool(assistant.AR.search(question or ""))
-    return bool(re.search(_MED_EN, t) or (ar and re.search(_MED_AR, t)))
+    return bool(re.search(_MED_EN, t) or (ar and assistant._pat(_MED_AR).search(t)))
+
+
+_DX_EN = r"\b(am i|do i suffer|could i|might i|have i got|is (it|this))\b"
+_DX_AR = r"(هل انا|هل عندي|هل لدي|هل انا مصابه)"
+
+
+def asks_diagnosis(question: str) -> bool:
+    """'Am I suffering from PCOS?', 'Am I going through menopause?': a named condition asked about herself, which the
+    word checks may miss; it gets the refusal first, then the cited facts (CLAUDE.md rule 1)."""
+    if not condition(question):
+        return False
+    t = record.clean(question)
+    ar = bool(assistant.AR.search(question or ""))
+    return bool(re.search(_DX_EN, t) or (ar and assistant._pat(_DX_AR).search(t)))
 
 
 def is_body_question(question: str) -> bool:
@@ -430,7 +444,7 @@ def is_body_question(question: str) -> bool:
     if len(t.split()) > MAX_WORDS:
         return False
     ar = bool(assistant.AR.search(question or ""))
-    return bool(re.search(_BODY_EN, t) or (ar and re.search(_BODY_AR, t)))
+    return bool(re.search(_BODY_EN, t) or (ar and assistant._pat(_BODY_AR).search(t)))
 
 
 # ---------------- her own record ----------------
@@ -458,7 +472,7 @@ def _her_patterns(bundle: dict | None, ref: date, lang: str, only: list[str] | N
 
 
 LEADS = {
-    "explain": {"en": "Here is what {name} is, in plain words.", "ar": "إليكِ شرح {name} بكلمات بسيطة."},
+    "explain": {"en": "About {name}, in plain words:", "ar": "إليكِ شرح {name} بكلمات بسيطة."},
     "yours": {
         "en": "In your own record: your Patterns page shows a related pattern. It is not a diagnosis; it is worth discussing with a doctor.",
         "ar": "في سجلّكِ: تُظهر صفحة الأنماط نمطاً مرتبطاً. هذا ليس تشخيصاً، ومن المفيد مناقشته مع طبيبة.",
@@ -484,6 +498,11 @@ LEADS = {
         "ar": "سجّلي الدخول إلى سجلّكِ لأعرض لكِ أيضاً ما تقوله تسجيلاتكِ.",
     },
 }
+
+
+# Pre-eclampsia warning signs named in the question (NHS): the "get help now, 998" line goes first and the answer is urgent.
+_PE_SIGNS_EN = r"\b(headaches?|vision|blurr\w*|flashing|swell\w*|swollen|puff\w*|ribs|vomit\w*|being sick|very unwell)\b"
+_PE_SIGNS_AR = r"(صداع|زغلله|مغبش|ضبابيه|تشوش|تورم|انتفاخ|الاضلاع|تقيو|استفراغ)"
 
 
 def refusal(lang: str) -> str:
@@ -535,6 +554,13 @@ def answer(question: str, lang: str, bundle: dict | None, ref: date, *, mode: st
         lines.append({"text": assistant.MEDICINE_TEXT[lang], "cite": None})
     else:
         lines.append({"text": LEADS["explain"][lang].format(name=name), "cite": None})
+    urgent_text = None
+    t = record.clean(question)
+    if cid == "pre_eclampsia" and (re.search(_PE_SIGNS_EN, t) or assistant._pat(_PE_SIGNS_AR).search(t)):
+        en, ar, src = c["lines"][2]  # "Get help now, call 998 or your maternity unit, if ..."
+        urgent_text = en if lang == "en" else ar
+        lines.insert(0, {"text": urgent_text, "cite": src})  # red flags first (CLAUDE.md rule 5)
+        facts = [f for f in facts if f[0] != en]
     lines.extend({"text": (en if lang == "en" else ar), "cite": src} for en, ar, src in facts)
     if bundle is not None:
         pats, red = _her_patterns(bundle, ref, lang, only=c["rules"])
@@ -545,4 +571,4 @@ def answer(question: str, lang: str, bundle: dict | None, ref: date, *, mode: st
         elif mode == "diagnosis":
             lines.append({"text": LEADS["yours_none"][lang].format(name=name), "cite": None})
     return {"lines": lines, "condition": cid, "personal": personal, "red_flag": red, "refused": mode == "diagnosis",
-            "pages": list(c["pages"]), "related": [cid]}
+            "pages": list(c["pages"]), "related": [cid], "urgent_text": urgent_text}
