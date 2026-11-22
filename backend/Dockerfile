@@ -3,7 +3,7 @@
 #   docker build -f backend/Dockerfile -t reprosense-api .
 # Synthetic demo data only (DEMO_MODE=true); secrets come from the environment, never from the image.
 # docs/31 §H, L9: base images pinned by digest (the tag stays as a comment for Dependabot and people)
-FROM python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+FROM python:3.15-slim@sha256:65a65fc7b30b06cb6df4930fd4650697cb23f4c2698ab81fc87e4b031bc36928
 
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy UV_PYTHON_DOWNLOADS=never
 
