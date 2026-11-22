@@ -2682,8 +2682,8 @@
     "staff": {
       "metaTitle": "Staff sign-in",
       "title": "Staff sign-in",
-      "lede": "For clinicians and clinic admins. Sign in with the passkey you added after joining your clinic.",
-      "passkeyTitle": "Use your passkey",
+      "lede": "For clinicians and clinic admins. Trying the demo? Open a fictional staff view in one tap, no account needed.",
+      "passkeyTitle": "Have a staff account?",
       "passkeyBody": "Your phone or laptop asks for Face ID, a fingerprint or its PIN. Staff sign in with a passkey only: no password and no code to type.",
       "passkeyButton": "Sign in with a passkey",
       "pending": "Waiting for your device…",
@@ -2745,7 +2745,7 @@
       "expired": "Your session has ended. Sign in again to carry on.",
       "signedOut": "You are signed out. This browser now needs your passkey to get back in."
     },
-    "demoTitle": "Judges and visitors",
+    "demoTitle": "Trying the demo?",
     "demoBody": "The fictional demo staff still open with one tap, without a passkey.",
     "demoArea": {
       "clinician": "Open the demo clinician view",
@@ -2761,9 +2761,9 @@
       "failed": "That didn't work: {detail}"
     },
     "panel": {
-      "metaTitle": "Your sign-in",
-      "title": "Your sign-in",
-      "intro": "How this account is signed in, the passkeys that open it, and the devices it is signed in on.",
+      "metaTitle": "Account & security",
+      "title": "Account & security",
+      "intro": "Who is signed in, how to sign in faster next time, and where this account is open.",
       "shared": "This is a shared fictional demo account: anyone can open it with one tap from the demo page. Passkeys added here are deleted at the next demo reset.",
       "sessionTitle": "This session",
       "how": {
@@ -2806,7 +2806,14 @@
       "everywhereConfirm": "Sign out everywhere",
       "stay": "Stay signed in",
       "sharedEverywhere": "Sign out everywhere is off for shared demo accounts: it would sign out every judge using the account.",
-      "signOut": "Sign out of this device"
+      "signOut": "Sign out of this device",
+      "signedInAs": "Signed in as {name}.",
+      "demoNothing": "Nothing to do here for the demo.",
+      "back": "Back to {area}",
+      "canTitle": "What you can do here",
+      "canPasskey": "Add a passkey, to sign in next time with Face ID, a fingerprint or your device PIN",
+      "canDevices": "See every device this account is signed in on",
+      "canEverywhere": "Sign out on every device at once"
     },
     "stepUp": {
       "title": "Confirm it is you",
@@ -2817,7 +2824,9 @@
       "cancel": "Cancel",
       "failed": "The export did not download: {detail}",
       "downloaded": "Download started."
-    }
+    },
+    "passkeyWhat": "What's a passkey?",
+    "passkeyWhatBody": "It is your phone's or laptop's screen lock (Face ID, a fingerprint or a PIN) used as your key. There is nothing to remember or type, and it only works on the real ReproSense site, so a fake site cannot trick you into using it."
   },
   "dateField": {
     "pick": "Pick a date",

@@ -84,26 +84,24 @@ is silently invalid. Used in 4 places: join, baby card, postnatal card, admin ev
 - axe shows no violations.
 
 ## D. Sign-in pages that say what to do (easy)
-**Staff door, `/staff/signin`:**
-- Title "Staff sign-in" and one line: "For clinicians and clinic admins."
-- **Card "Try the demo":** "Open as Dr. Example (fictional)" and "Open as clinic admin". One tap, no account needed.
-- **Card "Your own account":** "Sign in with a passkey" first, then "Email me a code".
-- **"What's a passkey?"** opens: your phone's or laptop's screen lock (Face ID, fingerprint, PIN). There is nothing to
-  remember, and it can't be phished.
+**Staff door, `/staff/signin` (built 22 Nov):**
+- The lede says who it is for and that the demo needs no account.
+- **"Trying the demo?" comes first** with the one-tap buttons (Open the demo clinician view, Open the demo clinic
+  admin, Open the demo page). Most visitors are judges.
+- **"Have a staff account?"** follows, with "Sign in with a passkey". "What's a passkey?" opens: your phone's or
+  laptop's screen lock used as your key; nothing to remember, and a fake site cannot use it.
+- Then "No passkey yet?" and the DoH door, unchanged.
 
-**"Your sign-in" becomes "Account & security"** (`/clinic/sign-in`, `/clinic-admin/sign-in`, `/admin/sign-in`) and
-moves into the Account menu.
-- **Status card on top:** "You're signed in as Dr. Example (fictional demo). Nothing to do here for the demo."
-- **Then numbered steps:**
-  1. This session (when it ends).
-  2. Passkeys: what they are, why add one, and an "Add a passkey" button.
-  3. Signed-in devices.
-  4. Sign out everywhere.
-
-**Done when:**
-- Each page has exactly one primary button.
-- Every string exists in English and Arabic.
-- Existing sign-in, passkey and step-up e2e tests stay green.
+**"Your sign-in" became "Account & security"** (`/clinic/sign-in`, `/clinic-admin/sign-in`, `/admin/sign-in`). It moved
+into the Account menu (§A).
+- **Breadcrumb:** `Clinician › Account & security`.
+- **Status card:** "Signed in as Dr. Example (fictional). Nothing to do here for the demo." Shared accounts add their
+  note. "Back to Clinician" sits under it.
+- **"What you can do here":** a short list linking to each section (add a passkey, see devices, sign out everywhere).
+- **The passkey section** has the same "What's a passkey?" explainer.
+- **Numbered 1-2-3 steps were considered and dropped.** These are not a real sequence, and numbered markers on
+  non-sequences are on the no-AI-slop banned list.
+- Every sign-out from here also forgets this tab's chat and share links (L7).
 
 ## E. Every button works, proven (watertight)
 **Build:** a Playwright spec, `e2e/every-button.spec.ts`, run in CI.

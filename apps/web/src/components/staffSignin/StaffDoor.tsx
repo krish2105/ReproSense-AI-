@@ -11,6 +11,7 @@ import { useStaffProblem } from "./useStaffProblem";
  *  area opens with a full page load (a new identity, see enterAs). */
 export function StaffDoor() {
   const t = useTranslations("staffAuth.staff");
+  const ts = useTranslations("staffAuth");
   const problem = useStaffProblem();
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
@@ -36,6 +37,10 @@ export function StaffDoor() {
           {t("passkeyTitle")}
         </h2>
         <p className="s dim">{t("passkeyBody")}</p>
+        <details className="si-what">
+          <summary>{ts("passkeyWhat")}</summary>
+          <p className="s dim">{ts("passkeyWhatBody")}</p>
+        </details>
         <Button onClick={go} pending={busy || done} className="self-start">
           {busy && !done ? t("pending") : t("passkeyButton")}
         </Button>
